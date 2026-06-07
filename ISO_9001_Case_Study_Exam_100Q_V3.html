@@ -2008,7 +2008,7 @@ updateHud();
 <div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
   <div class="chml-name-card">
     <h2>Begin Exam Mode</h2>
-    <p>Enter the name to print on your Certificate of Completion. The exam will keep its original question count and format.</p>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
     <label for="chmlExamNameInput">Learner name</label>
     <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
     <div class="chml-name-actions">
@@ -2088,10 +2088,49 @@ updateHud();
     cert.classList.add('show');
   };
 
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var all=document.body?document.body.textContent:'';
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText=duration ? ('You have '+duration+' once you click Start Exam.') : 'This exam is untimed once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
   window.chmlExamLearnerName = '';
   window.chmlPendingExamStart = null;
   window.chmlOpenNameModal=function(startFn){
     window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
     var modal=document.getElementById('chmlNameModal');
     var input=document.getElementById('chmlExamNameInput');
     if(input) input.value=window.chmlExamLearnerName||'';
