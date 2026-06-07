@@ -246,6 +246,7 @@ footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid v
 .chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
 .chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
 @media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
 </style>
 </head>
 <body>
@@ -2003,6 +2004,20 @@ build();
 updateHud();
 </script>
 
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p>Enter the name to print on your Certificate of Completion. The exam will keep its original question count and format.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
 <div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
   <div class="chml-cert-toolbar">
     <label for="chmlCertNameInput">Certificate name</label>
@@ -2062,7 +2077,7 @@ updateHud();
     var cert=document.getElementById('chmlCertificate');if(!cert)return;
     var title=examTitle();
     var nameInput=document.getElementById('chmlCertNameInput');
-    var learner=(nameInput&&nameInput.value.trim())||'Learner';
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
     var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
     document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
     document.getElementById('chmlCertExamName').textContent=title;
@@ -2072,6 +2087,45 @@ updateHud();
     document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
     cert.classList.add('show');
   };
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
   function renderFromArgs(args){
     var correct=(typeof args[0]==='number')?args[0]:null;
     var total=totalFromBreakdown(args[1]);
