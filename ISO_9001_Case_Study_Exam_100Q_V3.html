@@ -2107,6 +2107,13 @@ updateHud();
     var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
     return cards||0;
   }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
   function chmlExamDurationText(){
     try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
     var all=document.body?document.body.textContent:'';
@@ -2122,7 +2129,7 @@ updateHud();
     var count=chmlQuestionCount();
     var duration=chmlExamDurationText();
     var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
-    var timeText=duration ? ('You have '+duration+' once you click Start Exam.') : 'This exam is untimed once you click Start Exam.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
     sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
   }
 
