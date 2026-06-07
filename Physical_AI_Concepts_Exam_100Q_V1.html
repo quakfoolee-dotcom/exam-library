@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physical AI Concepts — Mock Exam · 100Q</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  --ros:#1d3b7d;
+  --cv:#0e6b6a;
+  --slam:#a8590e;
+  --ctrl:#5a2585;
+  --rl:#226b2d;
+  --vla:#9b2c3a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(29,59,125,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(155,44,58,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.6rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--ros),var(--vla));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-ros{background:linear-gradient(100deg,var(--ros),#0c2349)}
+.sec-cv{background:linear-gradient(100deg,var(--cv),#06403f)}
+.sec-slam{background:linear-gradient(100deg,var(--slam),#5f3406)}
+.sec-ctrl{background:linear-gradient(100deg,var(--ctrl),#311148)}
+.sec-rl{background:linear-gradient(100deg,var(--rl),#0e3d18)}
+.sec-vla{background:linear-gradient(100deg,var(--vla),#5b181f)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.06rem;line-height:1.62;margin-bottom:18px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:12px 14px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.55);transition:all .18s ease;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.08);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s;margin-top:1px}
+.opt .otext{flex:1;font-size:1.0rem;line-height:1.55;word-break:break-word;padding-top:2px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.12)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center;font-family:'JetBrains Mono',monospace}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:180px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 16px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:.98rem}
+  .opt .otext{font-size:.92rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Concepts & Case Studies &middot; Physical AI</div>
+    <h1 class="title">Physical AI <span class="amp">&amp;</span> Robotics Concepts Exam</h1>
+    <div class="byline">100 scenario, application, and concept questions across ROS 2, perception, SLAM, control, RL, and embodied foundation models</div>
+    <div class="exambar">
+      <span><b>100</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>100</b> Marks</span>
+      <span>Exam Mode: <b>2 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')">Guided Path</button>
+    <button id="mode-instant" class="active" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Instant Feedback: pick an answer and see the explanation immediately.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/100</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">02:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/100</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 2-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    Physical AI &middot; 100 concept and case-study questions
+    <div class="disclaimer">An independent study resource for robotics and embodied-AI practitioners. The field evolves rapidly &mdash; verify current best practices against primary sources for production decisions.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team is designing a ROS 2 system where a perception node publishes lane detections to a planner. Sensor frames are lossy and the planner only cares about the latest message. Which QoS reliability/durability policy combination is the best fit?",
+    "opts": [
+      "Best-effort reliability with transient-local durability",
+      "Reliable reliability with transient-local durability",
+      "Best-effort reliability with volatile durability",
+      "Reliable reliability with volatile durability"
+    ],
+    "correct": 2,
+    "explanation": "For high-rate sensor-like streams where missed messages are acceptable and only the latest value matters, best-effort + volatile minimizes overhead and matches the typical sensor data QoS profile. Reliable + transient-local is for configuration/latched topics."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A new graduate is choosing between a ROS 2 topic, service, and action for a 'navigate to pose' interaction. The behaviour can take minutes, the robot should publish intermediate progress, and the client must be able to cancel. Which is correct?",
+    "opts": [
+      "Service — synchronous request/response is the strongest contract",
+      "Action — supports long-running goals with feedback and cancellation",
+      "Topic — feedback can be on a side topic and the request on a separate topic",
+      "A QoS-customized topic with reliability=reliable and depth=1"
+    ],
+    "correct": 1,
+    "explanation": "ROS 2 actions are specifically designed for long-running goals: they provide a goal, feedback stream, result, and cancellation. Services are synchronous and block; topics are fire-and-forget."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team is debugging a TF tree problem where rviz reports 'lookup would require extrapolation into the future'. What is the most likely cause?",
+    "opts": [
+      "A static transform is being published on /tf instead of /tf_static",
+      "The TF buffer has been garbage-collected and lost all transforms",
+      "The robot_state_publisher is publishing transforms to the wrong topic",
+      "The transform requester is asking for a transform at a stamp later than any published transform"
+    ],
+    "correct": 3,
+    "explanation": "This error occurs when the query time is newer than the most recent transform in the buffer — typically because the publishing node has a higher delay than the consumer's lookup, or clocks are misaligned. The fix is usually to wait for the transform or use a tolerance."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team is integrating an IMU running at 1000 Hz and a lidar running at 10 Hz. The system uses ROS 2 in simulation with use_sim_time=true. What is the most important pitfall?",
+    "opts": [
+      "IMU data at 1000 Hz will saturate the DDS middleware and must be downsampled",
+      "All nodes must subscribe to /clock and use the simulated clock, or timestamps will be inconsistent",
+      "Lidar at 10 Hz is too slow for a 1000 Hz IMU and the system cannot fuse them",
+      "use_sim_time only affects the rosbag tool, not the nodes themselves"
+    ],
+    "correct": 1,
+    "explanation": "With use_sim_time=true, every node must read time from /clock so all timestamps are consistent with the simulation. If any node uses the wall clock, sensor fusion (e.g., EKF) will fail due to apparent time skew."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team's URDF defines a 6-DOF arm but the visualization shows links floating away from the base. What is the most likely root cause?",
+    "opts": [
+      "robot_state_publisher is not running",
+      "Joint origins or parent/child link relationships in the URDF are incorrect",
+      "The URDF mesh files are missing",
+      "rviz is not configured to use the base_link frame"
+    ],
+    "correct": 1,
+    "explanation": "Floating links with otherwise visible geometry usually mean the URDF kinematic chain is broken — joint origins reference wrong frames, or parent/child relationships are mis-specified. Missing robot_state_publisher would mean no transforms at all (links would not move with joints); missing meshes would show only frames."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team needs hard real-time guarantees for a torque controller running at 1 kHz. Which approach is most defensible?",
+    "opts": [
+      "Run the controller in a Python node — Python's GIL prevents jitter",
+      "Run the controller as a normal ROS 2 node and raise the process priority with nice -20",
+      "Run the controller on a real-time kernel (PREEMPT_RT) with a dedicated CPU core, isolated from non-RT ROS 2 nodes",
+      "Use the default kernel — modern Linux is already real-time for 1 kHz workloads"
+    ],
+    "correct": 2,
+    "explanation": "True 1 kHz hard-RT control needs a PREEMPT_RT kernel, CPU isolation (isolcpus), and careful memory locking. Standard Linux can hit deadlines most of the time but offers no guarantee — unacceptable for safety-critical control. Python is unsuitable for tight RT loops due to GC and the GIL."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team uses a rosbag2 recording from a self-driving car to debug a near-miss. They want to re-run the perception node on the recorded sensor data with new code. What is the standard pattern?",
+    "opts": [
+      "Run the new node directly against the bag file — ROS 2 nodes can read bags natively without a player",
+      "Play the bag with --remap on raw sensor topics; the new perception node subscribes and republishes on its output topics, which can be recorded into a new bag",
+      "Convert the bag to a CSV file and reload it as a custom topic",
+      "The original perception output must be deleted from the bag before replay or it will conflict"
+    ],
+    "correct": 1,
+    "explanation": "The deterministic-replay pattern is: play the bag (publishing raw sensor topics), let the new perception subscribe to those raw topics and publish its own outputs, and record those outputs to a new bag. Nodes don't read bag files directly."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team is using quaternions for arm pose. They notice intermittent flipping of the wrist orientation when interpolating between two poses with linear interpolation on quaternion components followed by normalization. What is the issue?",
+    "opts": [
+      "Normalization corrupts the rotation; raw component lerp is the correct method",
+      "Quaternions cannot be linearly interpolated — only the rotation matrix can",
+      "Quaternions q and -q represent the same rotation; without sign correction, interpolation can take the long way around",
+      "The wrist joint limits are being hit and the IK solver is wrapping around"
+    ],
+    "correct": 2,
+    "explanation": "q and -q encode the same rotation but live on opposite hemispheres of S³. Lerp/Slerp without flipping the sign of the second quaternion when their dot product is negative will produce a 'long way' rotation. Fix: if dot(q1, q2) < 0, negate q2 before interpolating."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A robot's odometry computes pose by integrating wheel encoders. After a 30-minute run, the estimated pose has drifted by 4 metres from ground truth despite the robot returning to its start. Which characterization is most accurate?",
+    "opts": [
+      "Wheel slip cancels out over a closed loop, so the drift indicates a software bug",
+      "Wheel encoders are inaccurate; replacing them with higher-resolution encoders eliminates drift",
+      "The drift is due to ROS 2 message timing; switching to ROS 1 would solve it",
+      "Wheel odometry has unbounded drift; it must be corrected by a global sensor such as lidar SLAM, visual SLAM, or GPS"
+    ],
+    "correct": 3,
+    "explanation": "Dead-reckoning odometry integrates incremental errors (slip, wheel radius mismatch, IMU bias) into unbounded position drift. Higher-resolution encoders only reduce per-step noise; they don't bound drift. A global localization source (SLAM, GPS, motion capture) is required to bound error."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team is designing the message types between their perception, planning, and control nodes. Should they use standard ROS 2 messages or define custom ones for everything?",
+    "opts": [
+      "Always use only standard messages — defining custom messages breaks interoperability",
+      "Always define custom messages — standard messages don't support all use cases",
+      "Prefer standard messages (geometry_msgs, sensor_msgs, nav_msgs) for shared concepts; define custom messages only for domain-specific payloads",
+      "Use only string messages with JSON payloads for maximum flexibility"
+    ],
+    "correct": 2,
+    "explanation": "Standard messages give you interoperability with the broader ROS 2 ecosystem (rviz, recorder, tooling). Define custom messages only when the payload is genuinely domain-specific. JSON-in-string defeats type safety and serialization efficiency."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team wants a node that can be started, configured, activated, deactivated, and shut down in a controlled sequence — useful for safe bring-up of a manipulator. Which ROS 2 feature provides this?",
+    "opts": [
+      "Composable nodes",
+      "Managed (lifecycle) nodes",
+      "Action servers",
+      "Parameter callbacks"
+    ],
+    "correct": 1,
+    "explanation": "ROS 2 lifecycle (managed) nodes implement an explicit state machine: unconfigured → inactive → active → finalized. This is the standard pattern for safe bring-up and orderly shutdown of safety-critical components."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team is choosing between ros2_control and writing their own controllers. The robot has hardware that exposes joint position and torque interfaces. What is the strongest argument for ros2_control?",
+    "opts": [
+      "It is the only way to integrate with MoveIt 2",
+      "It runs hardware drivers faster than any custom code",
+      "It provides a standardized hardware-abstraction layer and a library of pre-built controllers (joint trajectory, admittance, etc.) with proven behaviour",
+      "It eliminates the need for a real-time kernel"
+    ],
+    "correct": 2,
+    "explanation": "ros2_control's value is the hardware abstraction (your hardware plugin exposes interfaces; controllers consume them) and the catalog of well-tested controllers. MoveIt 2 can talk to other interfaces; RT kernel needs are independent."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team's mobile robot has a base_link frame and the lidar is mounted offset and rotated. They publish the static transform 'base_link → laser' but laser hits show in the wrong place on the map. Which root cause is most likely?",
+    "opts": [
+      "ROS 2 requires the static broadcaster to run on the same machine as the lidar",
+      "Static transforms are only allowed between certain frame names",
+      "The lidar driver publishes scans in base_link by default and the transform is being applied twice",
+      "The transform's translation or rotation does not match the physical mounting; calibration is wrong"
+    ],
+    "correct": 3,
+    "explanation": "If the transform is published but the laser hits appear in the wrong place, the most common cause is that the published transform does not match the physical mounting (e.g., wrong measured offset, wrong axis convention). Sensor frames in ROS 2 are conventionally 'x forward, y left, z up' but lidars may differ."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team is using Nav2 (the ROS 2 navigation stack) and notices the local planner aggressively swerves around small noise points appearing in the costmap. Which mitigation is most appropriate?",
+    "opts": [
+      "Add a voxel/spatial filter on the lidar input and tune the costmap inflation and obstacle-clearing parameters",
+      "Switch from DWB to a sampling-based global planner",
+      "Run the navigation stack in a higher-priority thread",
+      "Use a custom controller that ignores the costmap"
+    ],
+    "correct": 0,
+    "explanation": "Noisy local costmaps cause jittery local planning. The remedy is upstream: filter sensor noise, tune voxel-grid clearing, and adjust inflation radii. Changing the planner doesn't address the underlying noisy inputs."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team is choosing communication between two ROS 2 nodes running on the same machine. They want the lowest possible latency. Which configuration is most effective?",
+    "opts": [
+      "Composable nodes loaded into the same process so they communicate via intra-process zero-copy",
+      "Two separate processes with reliable QoS",
+      "Two separate machines on a local Ethernet with multicast disabled",
+      "TCP-based bridge between the two nodes"
+    ],
+    "correct": 0,
+    "explanation": "ROS 2 composable nodes support intra-process zero-copy communication — the message is passed by reference within the same process, avoiding serialization and the DDS network stack. This is the lowest-latency option for same-machine nodes."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team's robot has multiple cameras, each with its own intrinsic and extrinsic calibration. Where should the calibrated extrinsics be expressed for downstream consumers?",
+    "opts": [
+      "Hard-coded in each consumer's Python source",
+      "As static transforms in the TF tree, with each camera frame as a child of the robot's body frame (or a sensor frame parented to it)",
+      "Stored as parameters on a single 'camera_manager' node and queried via service calls",
+      "Embedded in the camera image stream metadata"
+    ],
+    "correct": 1,
+    "explanation": "The TF tree is the single source of truth for sensor and link poses. Static transforms encode the calibrated extrinsics, and any downstream node uses the standard lookup. Hard-coding or service queries fragment the system."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A perception team's object detector achieves 95% mAP in the lab and 62% in the warehouse. The hardware and image resolution are identical. What is the most likely root cause?",
+    "opts": [
+      "Domain shift — the warehouse has different lighting, backgrounds, and object poses than the training set",
+      "The detector's anchor sizes are mistuned",
+      "The warehouse network has higher packet loss, dropping frames",
+      "The warehouse camera is operating at a slightly higher temperature"
+    ],
+    "correct": 0,
+    "explanation": "Large lab-to-field accuracy drops in vision are almost always domain shift: different lighting, materials, viewpoints, or object instances. The fix is data — collect or generate samples that match deployment, or apply domain randomization in training."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is choosing between a structured-light depth camera (Realsense), a time-of-flight (ToF) camera, and a stereo camera for indoor manipulation. Glass and shiny metal objects must be detected. Which best matches the constraint?",
+    "opts": [
+      "A passive stereo camera with textured projection (active stereo) — ToF and structured-light struggle with specular and transparent surfaces",
+      "A ToF camera — it sees through glass best",
+      "A structured-light camera with the projector at full power",
+      "A monocular RGB camera using learned depth estimation"
+    ],
+    "correct": 0,
+    "explanation": "Glass and shiny surfaces are notoriously hard for ToF and structured-light because the projected/timed light reflects away from the sensor or refracts through the surface. Active stereo (or learned depth in some cases) tends to handle these better, though all approaches have weaknesses."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is calibrating a camera with a checkerboard. They use 8 images, all taken from roughly the same angle facing the wall. The reprojection error is acceptable but the system performs poorly when projecting points. What went wrong?",
+    "opts": [
+      "Calibration images must cover a range of distances, angles, and positions of the board in the image — 8 similar views underconstrain the intrinsics",
+      "8 images is far too few — at least 100 are required",
+      "The board must be flat against the lens, not the wall",
+      "The reprojection error metric is unreliable; mean pixel error should be used instead"
+    ],
+    "correct": 0,
+    "explanation": "Camera calibration requires diverse views of the board (tilted, at different distances, board centred in different image regions). Without variation, focal length and principal point are weakly identifiable even if the reprojection error on similar views looks fine."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is using a lidar-camera fusion pipeline. They project lidar points onto the image to label them. The points appear shifted by 5 pixels horizontally. What is the most likely cause?",
+    "opts": [
+      "Time-synchronization mismatch or incorrect lidar-to-camera extrinsic calibration",
+      "Either of the first or third explanations is likely — both should be checked",
+      "The image was undistorted but the lidar projection used the raw image dimensions",
+      "The lidar driver returns ranges in millimetres instead of metres"
+    ],
+    "correct": 1,
+    "explanation": "Both extrinsic miscalibration and undistortion-pipeline mismatches commonly cause pixel-level shifts in lidar-camera fusion. Time sync also shows up as moving-object lag. Production systems should check all three. (Units in mm vs m would cause much larger errors.)"
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A perception engineer must choose between YOLO (single-stage) and Mask R-CNN (two-stage) for real-time object detection on a forklift robot. Latency budget is 50 ms per frame. Which is the most defensible choice?",
+    "opts": [
+      "Either is fine; the latency budget doesn't constrain the choice meaningfully",
+      "Mask R-CNN — the segmentation masks are needed for box selection",
+      "A modern single-stage detector (YOLOv8/v11) — favored when speed/latency dominate over mask quality",
+      "A diffusion-based detector for highest accuracy"
+    ],
+    "correct": 2,
+    "explanation": "Single-stage detectors (YOLO family, RT-DETR) are designed for low-latency real-time use. Mask R-CNN's per-pixel masks add cost; if you don't need masks, you don't need that overhead. Diffusion-based detectors are not real-time."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is converting depth images to point clouds. The clouds look noisy at long ranges. Which describes the underlying sensor physics correctly?",
+    "opts": [
+      "Depth noise is constant across all ranges if the sensor is calibrated",
+      "Depth noise generally grows quadratically with distance for stereo and structured-light sensors",
+      "Depth noise decreases with distance because there is more averaging",
+      "Depth noise only depends on lighting, not range"
+    ],
+    "correct": 1,
+    "explanation": "For triangulation-based depth (stereo, structured light), depth uncertainty grows as Z²/(f·B) where Z is range, f is focal length, B is baseline. ToF is closer to linear. Either way, long ranges are noisier."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is using ICP to align two consecutive lidar scans for odometry. ICP converges to a wrong solution about 10% of the time. Which mitigation is most effective?",
+    "opts": [
+      "Provide a good initial guess from another source (IMU, wheel odometry) so ICP starts in the correct basin of attraction",
+      "Use more ICP iterations — the algorithm just needs more time",
+      "Increase the correspondence distance threshold to its maximum",
+      "Switch from point-to-point to point-to-plane and rely on it alone"
+    ],
+    "correct": 0,
+    "explanation": "ICP is locally convergent: bad initial guesses lead to wrong local optima. Combining ICP with an odometry-derived initial guess (motion model) is the standard remedy. Point-to-plane helps with planar scenes but doesn't fix the basin-of-attraction problem."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team has trained an object detector. In deployment, it confidently misclassifies a yellow construction vest as a school bus. Which best describes the issue?",
+    "opts": [
+      "Out-of-distribution input — the model has high confidence but is operating outside the support of the training data",
+      "A bug in the inference code; the model is fine",
+      "The detector needs more training epochs",
+      "The image preprocessing pipeline is corrupt"
+    ],
+    "correct": 0,
+    "explanation": "Modern detectors are notoriously overconfident on out-of-distribution inputs that share spurious features with training classes (here: yellow + roughly correct silhouette → 'bus'). Calibration techniques and OOD detection are active research; the practical remedy is data curation and confidence-aware downstream policy."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team needs to track a single object across frames in a cluttered scene with occlusions. Which approach is most robust?",
+    "opts": [
+      "A detector run every frame combined with a data-association tracker (e.g., SORT/DeepSORT/ByteTrack) and a motion model",
+      "A single detection on frame 0 and ICP between frames",
+      "Optical flow alone, ignoring detections",
+      "Background subtraction with a Gaussian Mixture Model"
+    ],
+    "correct": 0,
+    "explanation": "Tracking-by-detection (detect every frame + Hungarian/Kalman association) is the standard for robust tracking under occlusion. Optical flow alone fails on large motions/occlusions. Background subtraction is for static cameras only."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is augmenting their training dataset for a pick-and-place perception model. Which augmentation strategy is most relevant for a top-down camera over a conveyor?",
+    "opts": [
+      "Random horizontal mirroring only (since the conveyor is left-right symmetric)",
+      "Random rotation (planar), brightness/contrast/colour jitter, and occasional partial occlusions",
+      "Heavy affine shears and 3D viewpoint synthesis",
+      "Adding random Gaussian noise alone"
+    ],
+    "correct": 1,
+    "explanation": "A top-down conveyor view varies primarily in planar object pose, lighting, and occasional clutter. Planar rotation + photometric jitter + occlusion patches covers the realistic variation. 3D viewpoint synthesis is overkill for a fixed top-down camera."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team uses a 360° lidar plus an RGB camera with a 60° field of view on a mobile robot. They train a model that fuses both modalities for obstacle detection. What is a fundamental limitation of this architecture?",
+    "opts": [
+      "Cameras with 60° FOV cannot be calibrated",
+      "The model can fuse only at the same resolution, which is impossible across sensors",
+      "Lidar and camera fusion is intractable due to coordinate-frame issues",
+      "Fusion benefits only apply in the camera's 60° FOV — outside that, only the lidar can contribute"
+    ],
+    "correct": 3,
+    "explanation": "Sensor fusion only works where the sensors' fields of view overlap. Behind and to the sides of the robot, fusion degenerates into lidar-only perception. Some architectures handle this gracefully with attention/masking; others must be designed to expect it."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is using a vision foundation model (DINOv2, SAM) as a frozen backbone for a robot manipulation policy. What is the strongest argument for freezing the backbone?",
+    "opts": [
+      "Fine-tuning is computationally infeasible on any hardware",
+      "Frozen backbones are always more accurate than fine-tuned ones",
+      "Pretrained features generalize well across visual distributions, while fine-tuning on small robot datasets risks catastrophic forgetting and overfitting",
+      "ROS 2 does not support fine-tuned models"
+    ],
+    "correct": 2,
+    "explanation": "Frozen foundation backbones bring broad generalisation 'for free'. On small robot datasets, fine-tuning risks catastrophic forgetting and overfitting. LoRA / adapter-style partial fine-tuning is a middle ground; full fine-tuning is best when robot data is large and diverse."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team's outdoor mobile robot uses a camera-based perception stack. At dawn and dusk, accuracy crashes. Which is the most defensible engineering response?",
+    "opts": [
+      "Train a separate model exclusively on dawn images and switch at runtime",
+      "Disable the robot at dawn and dusk; it is not safe",
+      "Lower the detection threshold to increase recall",
+      "Add diverse low-light and high-dynamic-range data to training; consider auto-exposure tuning, HDR sensors, or a thermal/IR auxiliary sensor"
+    ],
+    "correct": 3,
+    "explanation": "The right answer combines data (low-light examples), hardware (HDR sensors or thermal), and signal-quality fixes (auto-exposure). Lowering the threshold trades precision for recall — not a fundamental fix. A single auxiliary model can work but increases system complexity."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team uses ArUco markers for end-effector calibration. The marker is detected but the estimated pose is unstable, especially when the marker is tilted away from the camera. What is the most likely cause?",
+    "opts": [
+      "ArUco only works at normal incidence; tilted markers are unsupported",
+      "Planar marker pose estimation has a known ambiguity at oblique angles — two pose solutions are nearly equally consistent",
+      "The marker ID is being mis-decoded at oblique angles",
+      "OpenCV's solvePnP is broken in the version they are using"
+    ],
+    "correct": 1,
+    "explanation": "Planar fiducials (ArUco, AprilTag) suffer from a perspective pose ambiguity when viewed at oblique angles — two distinct rotations project to nearly identical corners. Use multiple markers, larger markers, or a 3D fiducial pattern to disambiguate."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is running a real-time perception pipeline at 30 FPS on a Jetson Orin. They want to add a heavier semantic segmentation model. What is the typical first step before changing model architecture?",
+    "opts": [
+      "Profile the existing pipeline to find the actual bottleneck (preprocessing, inference, postprocessing, I/O) before optimizing",
+      "Replace the model with a smaller architecture immediately",
+      "Buy a desktop GPU and stream inference over the network",
+      "Reduce the camera resolution to 320×240"
+    ],
+    "correct": 0,
+    "explanation": "Optimization without profiling is guesswork. Often the bottleneck is memory copies, preprocessing, or postprocessing — not the model. TensorRT and FP16/INT8 quantization on the existing model usually help before rearchitecting."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team's grasp-detection model outputs a 2D pixel + planar orientation for top-down grasping. They want to extend this to 6-DOF grasps. Which architectural change is most consistent with how the field handles this?",
+    "opts": [
+      "Convert the 2D model to use 6 output channels",
+      "Train the existing 2D model on more data — 6-DOF will emerge",
+      "Predict only top-down grasps and rotate the gripper at fixed 30° increments",
+      "Predict grasps in 3D from a point cloud (e.g., GraspNet, GG-CNN extensions, or 6-DOF grasp foundation models) rather than from a 2D image alone"
+    ],
+    "correct": 3,
+    "explanation": "6-DOF grasp prediction requires 3D information — typically a point cloud or RGB-D input — because the rotation around camera axes is genuinely 3D. Models like GraspNet, Contact-GraspNet, and Anygrasp output 6-DOF grasps from point clouds. A 2D image alone underconstrains the problem."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team's mobile robot uses 2D lidar SLAM. After driving a 50-metre loop and returning to the start, the estimated pose is 1.2 metres off. The team is running scan matching but no loop-closure detection. Which addition is most impactful?",
+    "opts": [
+      "A second IMU",
+      "A higher-resolution lidar",
+      "Faster scan matching",
+      "Loop closure detection plus pose graph optimization — these explicitly correct accumulated drift when the robot revisits a known place"
+    ],
+    "correct": 3,
+    "explanation": "Scan matching alone produces unbounded drift. Loop closure detection recognises previously visited places and adds a constraint; the pose graph optimizer redistributes the error across the trajectory. This is the canonical fix for closed-loop drift."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is choosing between an Extended Kalman Filter (EKF) and a Particle Filter (PF) for robot localization in a known map. The state has highly multimodal uncertainty (e.g., 'kidnapped robot' problem). Which is the better fit?",
+    "opts": [
+      "An information filter — it handles multimodality by inverting the covariance",
+      "Extended Kalman filter — it is always more accurate",
+      "Either is identical; the choice is arbitrary",
+      "Particle filter — it can represent multimodal distributions natively"
+    ],
+    "correct": 3,
+    "explanation": "EKF assumes Gaussian (unimodal) posteriors and breaks under multimodal uncertainty (e.g., a robot that could be in one of two symmetric corridors). Particle filters represent the posterior as samples and handle multimodality directly. AMCL is the standard 2D PF localizer."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team's visual SLAM system (ORB-SLAM3) loses tracking when the robot turns toward a textureless white wall. What is the fundamental cause?",
+    "opts": [
+      "The camera is overexposed; lowering the exposure would fix it",
+      "ORB-SLAM3 has a known bug with white pixels",
+      "Feature-based visual SLAM requires distinguishable visual features; a textureless surface provides none",
+      "Tracking loss indicates the IMU is failing"
+    ],
+    "correct": 2,
+    "explanation": "Indirect (feature-based) visual SLAM relies on detecting and matching keypoints. Textureless surfaces produce no detectable features, so the system has no constraints. Direct methods (LSD-SLAM, DSO) and IMU integration help mitigate this."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is deciding between mapping with an occupancy grid versus a feature-based map. Their robot navigates corridors and rooms with mostly planar walls. Which mapping representation is most appropriate?",
+    "opts": [
+      "An occupancy grid — it directly supports collision checking and path planning, and works well in structured indoor environments",
+      "A feature-based map only — grids are obsolete",
+      "A keyframe-based mesh — highest fidelity for any environment",
+      "No map — plan purely from raw lidar each step"
+    ],
+    "correct": 0,
+    "explanation": "For 2D indoor navigation, occupancy grids strike the best balance of memory, computation, and planning compatibility. Feature maps are common in visual SLAM but require additional structures (e.g., dense reconstruction) for planning."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is running AMCL on a known map. The robot's pose estimate occasionally jumps by several metres when the laser sees a long featureless corridor. What is the most likely cause?",
+    "opts": [
+      "The map is too high-resolution",
+      "AMCL is broken; the team should switch to GPS",
+      "Particle weights become nearly uniform across many corridor positions; resampling can shift the estimate when one particle gets a slightly better score",
+      "The robot's odometry is too accurate"
+    ],
+    "correct": 2,
+    "explanation": "In featureless corridors, the measurement model can't discriminate among many candidate positions — the posterior is flat. Small noise in laser readings can cause the estimate to jump. Adding ceiling features, AR markers, or an alternative sensor (Wi-Fi RSSI, UWB) helps."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is choosing a SLAM algorithm for a humanoid robot exploring an unstructured outdoor environment. Which combination is most appropriate today?",
+    "opts": [
+      "Visual-inertial SLAM (e.g., VINS-Fusion, ORB-SLAM3 with IMU) augmented with lidar if available",
+      "Wheel odometry only — humanoids drift less than wheeled robots",
+      "GPS only — outdoor environments have line of sight",
+      "Magnetic compass only"
+    ],
+    "correct": 0,
+    "explanation": "Outdoor humanoids combine fast motion, varying lighting, and unreliable GPS (urban canyons, trees). Visual-inertial SLAM with IMU integration provides robust short-term odometry; lidar gives global structure. No single sensor is sufficient."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is debugging a SLAM system that uses RGB-D input. Static rooms work perfectly, but a person walking through the scene causes the map to deform. Which mitigation is most appropriate?",
+    "opts": [
+      "Train the robot to wait until all people leave",
+      "Add dynamic-object detection (e.g., a semantic segmentation network) and mask out detected dynamic regions during scan matching and map updates",
+      "Increase the depth threshold so people are not registered",
+      "Use a wider-angle camera so people appear smaller"
+    ],
+    "correct": 1,
+    "explanation": "Standard SLAM systems assume a static world. Dynamic objects (people, vehicles) violate this and corrupt the map. Modern systems (DynaSLAM, etc.) mask out dynamic regions using a semantic or motion-segmentation network."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is choosing between offline batch (full SLAM) and online filtering (EKF/PF) approaches. The robot needs real-time localization during operation but high-quality maps for post-mission analysis. Which architecture is best?",
+    "opts": [
+      "Run an online filter for real-time pose estimates and a separate offline batch optimizer (e.g., bundle adjustment / pose graph) for the post-mission map",
+      "Run only the offline optimizer — it is always more accurate",
+      "Run only an online filter — batch methods are obsolete",
+      "Disable mapping entirely during operation"
+    ],
+    "correct": 0,
+    "explanation": "This is the standard pattern: online filter for real-time pose (low latency, slightly noisier), batch optimization offline for the high-quality map (uses all data, expensive). Modern stacks (GTSAM, Cartographer) blur the line with incremental optimization."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team's robot has high-quality wheel odometry but no IMU. They are integrating an EKF for sensor fusion. The robot occasionally turns sharply on a slippery floor. Which is the most likely failure mode?",
+    "opts": [
+      "Wheel odometry severely overestimates motion during slip, and without an independent angular rate source the EKF cannot detect or correct this",
+      "Wheel odometry is unaffected by slip",
+      "The EKF will correctly handle slip without any additional sensor",
+      "Slip only affects translation, never rotation"
+    ],
+    "correct": 0,
+    "explanation": "Wheel slip causes encoder readings to over-report motion. Without an independent observation (IMU gyro, visual odometry), the filter cannot distinguish slip from real motion. An IMU provides angular rate observations that disagree with slipping wheels and let the filter correct."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team wants to deploy a SLAM system on a 200 m × 200 m warehouse. The single-session map is 1.2 GB and the localization is slow. Which engineering pattern is most appropriate?",
+    "opts": [
+      "Disable mapping and rely only on dead reckoning",
+      "Run full SLAM every session and discard the previous map",
+      "Build a single 200 m × 200 m map at maximum resolution and load it all into RAM",
+      "Pre-build the map offline using SLAM; deploy only the map for localization (AMCL or similar) so the robot does not need to re-map every session"
+    ],
+    "correct": 3,
+    "explanation": "The standard pattern: SLAM the environment once (or periodically), save the map, and use a lightweight localizer (AMCL, NDT, monte-carlo) in production. This is dramatically faster and more reliable than re-SLAMing each session."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is choosing between Cartographer, RTAB-Map, and ORB-SLAM3 for an indoor robot with 2D lidar plus a downward-facing camera. Which best matches the sensor suite?",
+    "opts": [
+      "None of these systems supports a 2D lidar",
+      "ORB-SLAM3 — it requires only the downward camera; lidar is unsupported",
+      "RTAB-Map — it requires stereo RGB-D and would not use the lidar",
+      "Cartographer — it natively supports 2D lidar SLAM with optional submap-based loop closure"
+    ],
+    "correct": 3,
+    "explanation": "Cartographer was designed by Google for real-time 2D/3D SLAM with lidar and is the natural choice when 2D lidar is the primary modality. RTAB-Map supports lidar but is more often associated with RGB-D; ORB-SLAM3 is camera-first."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is using visual-inertial SLAM and notices that as the robot stands still, the position estimate slowly drifts. What is the most likely cause?",
+    "opts": [
+      "IMU bias drift accumulates when the visual SLAM constraints are weak (e.g., minimal parallax during stationary periods)",
+      "Visual SLAM does not work when the robot is stationary",
+      "The camera frame rate must be increased",
+      "The IMU is faulty and must be replaced"
+    ],
+    "correct": 0,
+    "explanation": "Standing still gives minimal parallax in visual features, so visual constraints provide little new information. The IMU bias (an unobservable nuisance state) can drift, causing apparent motion. Robust VI-SLAM detects zero-velocity periods (ZUPT) to clamp the estimate."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is using lidar-based SLAM in a long, repetitive office corridor. Loop closure fails because every section of corridor looks similar. Which approach is most likely to help?",
+    "opts": [
+      "Increase the lidar's range",
+      "Drive the robot faster to reduce the loop closure error",
+      "Add visual loop-closure (place recognition from camera images) or an alternative descriptor that uses scene context, since 2D laser scans alone are ambiguous in corridors",
+      "Disable loop closure entirely"
+    ],
+    "correct": 2,
+    "explanation": "Repetitive geometry causes laser-based place recognition to fail (every corridor section matches). Visual place recognition (BoW, NetVLAD, or modern image embeddings) provides distinguishing context (signs, posters) that lidar lacks. Modern stacks fuse both."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team's pose graph SLAM system suddenly produces a wildly twisted map after a loop closure event. Which is the most likely cause?",
+    "opts": [
+      "The covariance matrix on odometry edges was set to zero",
+      "The optimizer ran out of memory",
+      "A false loop closure was added — the optimizer pulled distant places together, deforming the trajectory",
+      "The map's resolution is too low"
+    ],
+    "correct": 2,
+    "explanation": "False loop closures are the classic failure mode of pose graph SLAM. Once a wrong edge is added, the optimizer cannot tell it from a true one and warps the trajectory to satisfy it. Robust estimators (Pose Graph Optimization with switchable constraints, Dynamic Covariance Scaling) mitigate this."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is using AprilTag fiducials placed around a warehouse to bound localization drift. The robot uses 2D lidar SLAM for the rest. Which is the cleanest architecture?",
+    "opts": [
+      "Use only the tags and ignore the lidar",
+      "Detect tags with the camera and add tag observations as constraints in the SLAM optimizer (pose graph factors), letting it fuse them with lidar scan matching",
+      "Use only the lidar and ignore the tags",
+      "Switch between tags and lidar based on which detects features more reliably"
+    ],
+    "correct": 1,
+    "explanation": "Modern SLAM frameworks (GTSAM, Ceres) let you add tag observations as factors alongside lidar scan-matching factors. The optimizer fuses everything optimally. Switching between modalities loses information; using only one sacrifices either drift bounds or local accuracy."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is choosing where to perform global localization (initial pose recovery after startup) in a known map. The robot has a 2D lidar. Which is the best canonical approach?",
+    "opts": [
+      "Run a particle filter (e.g., AMCL) initialized with uniformly distributed particles across the free space, then converge as the robot moves",
+      "Require a human to drive the robot to a known location at startup",
+      "Always start the robot in the exact same physical pose",
+      "Assume the initial pose is the origin and let drift correct it"
+    ],
+    "correct": 0,
+    "explanation": "Global localization is exactly what AMCL is designed for: uniform particle initialization, then convergence as the robot moves and observes the map. Modern systems may use neural place recognition for faster convergence, but AMCL with uniform init remains the standard 2D lidar approach."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team's wheeled robot oscillates noticeably around the setpoint when using a P controller alone for velocity. What is the most likely cause and best remedy?",
+    "opts": [
+      "Replace the P controller with an open-loop controller",
+      "P-gain is too low — increase it further",
+      "The controller needs a feed-forward term but no D term",
+      "P-gain is too high without damping — add a D term (PD controller) to damp oscillation"
+    ],
+    "correct": 3,
+    "explanation": "High proportional gain with no damping leads to oscillation. Adding a derivative term provides damping proportional to the rate of error change. (Integral helps with steady-state offset but doesn't address oscillation.)"
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is choosing between A*, Dijkstra, and RRT for a 7-DOF manipulator planning around obstacles. Which approach is most appropriate?",
+    "opts": [
+      "A* with Euclidean heuristic — always the right choice",
+      "Dijkstra on a grid — guaranteed optimal in any dimension",
+      "RRT (or RRT-Connect, BIT*, etc.) — sampling-based planners scale to high-dimensional configuration spaces; A*/Dijkstra suffer from exponential grid growth",
+      "Pure forward dynamics simulation without any planner"
+    ],
+    "correct": 2,
+    "explanation": "Grid-based planners (A*, Dijkstra) scale exponentially with dimensionality. For 7-DOF arms, sampling-based methods (RRT, PRM, BIT*) are the standard. Modern optimization-based planners (TrajOpt, CHOMP) are also options."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team's manipulation system uses inverse kinematics that occasionally fails near workspace boundaries. The Jacobian becomes nearly singular. Which technique is most defensible?",
+    "opts": [
+      "Use higher numerical precision (float64 → float128)",
+      "Use a larger step size in Newton's method",
+      "Switch to forward kinematics only",
+      "Damped least squares (Levenberg-Marquardt) IK — the damping term regularizes the inverse near singularities"
+    ],
+    "correct": 3,
+    "explanation": "Damped least squares is the canonical singularity-robust IK method. The damping parameter trades off accuracy for stability. Alternatives include projected pseudoinverse or task-priority IK; switching precision doesn't address the underlying ill-conditioning."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is implementing MPC for an autonomous vehicle. The horizon is 5 seconds with 0.1-second discretization. Computation is too slow to run in real time. What is the most pragmatic fix?",
+    "opts": [
+      "Switch from MPC to pure feed-forward control",
+      "Increase the discretization step but keep the same horizon",
+      "Shorten the horizon or coarsen the discretization (e.g., 2 s horizon, 0.2 s step) and accept the reduced lookahead in exchange for real-time feasibility",
+      "Add more constraints to the MPC"
+    ],
+    "correct": 2,
+    "explanation": "The first MPC tuning knob is the horizon length and discretization. Modern solvers (Acados, OSQP) help, but ultimately a shorter or coarser horizon trades performance for tractability. Removing MPC entirely loses constraint handling; adding constraints makes it slower."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is tuning a PID for a heated extruder. The system has significant transport delay. Which PID variant or augmentation is most appropriate?",
+    "opts": [
+      "Pure integral control with no proportional term",
+      "An aggressive D term to compensate for the delay",
+      "A Smith predictor or model-based feedforward to compensate for the dead time, plus tuned PID for residual error",
+      "Bang-bang control"
+    ],
+    "correct": 2,
+    "explanation": "Pure PID handles delays poorly — high gain causes oscillation; low gain is slow. The Smith predictor uses a process model to predict the future delayed output, allowing tighter control. Alternatives: dead-time-aware tuning (Ziegler-Nichols variants), MPC."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team's quadruped robot is unstable on uneven terrain. They use kinematic-only foot trajectories. Which controller architecture would most improve robustness?",
+    "opts": [
+      "Use position control on every joint with no torque feedback",
+      "More aggressive PID gains on each joint",
+      "Lower the robot's centre of mass with a mechanical change only",
+      "Whole-body control with dynamic models and contact forces (e.g., MPC + WBC or learning-based dynamics) — kinematic-only ignores the physics"
+    ],
+    "correct": 3,
+    "explanation": "Legged locomotion requires reasoning about contact forces, momentum, and balance — quantities a kinematic-only approach ignores. Modern legged robots use MPC + whole-body control (or learned policies) that explicitly account for dynamics."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is doing trajectory optimization for a manipulator subject to joint limits, joint velocity limits, and obstacle constraints. Which formulation is most appropriate?",
+    "opts": [
+      "A constrained nonlinear optimization (e.g., direct collocation or trajectory optimization solvers like TrajOpt, IPOPT) with the constraints encoded explicitly",
+      "Unconstrained gradient descent on a sum-of-squares objective",
+      "Greedy step-by-step IK with no global optimization",
+      "Random sampling without checking feasibility"
+    ],
+    "correct": 0,
+    "explanation": "Joint limits, velocity limits, and obstacles are inequality constraints. Modern trajectory optimization (TrajOpt, ALTRO, CHOMP variants, direct collocation in IPOPT/SNOPT) handles these natively. Unconstrained methods can't enforce hard limits reliably."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team wants to pick up a delicate object. Position-controlled gripping crushes it. Which control paradigm is appropriate?",
+    "opts": [
+      "Open-loop control with a fixed grasp width",
+      "Stiffer position control with higher gains",
+      "Impedance or admittance control — the robot complies to environmental forces, allowing soft contact and force-limited grasping",
+      "PID with extremely high derivative gain"
+    ],
+    "correct": 2,
+    "explanation": "Impedance/admittance control trades position accuracy for compliance, which is essential for delicate or contact-rich tasks. Stiffer position control makes the problem worse. Many modern grippers (parallel jaw with force sensing, soft grippers) use force-based grasping."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is choosing between RRT* and RRT for a mobile robot path planner. RRT* is slower per iteration but produces better paths. The system has 50 ms per planning cycle. Which is the better choice?",
+    "opts": [
+      "Always RRT* — quality matters more than speed",
+      "RRT* with very few iterations",
+      "RRT or RRT-Connect with a path-smoothing post-process — within a tight budget, find a feasible path fast and smooth it; RRT* needs more time to converge",
+      "Neither — use Dijkstra"
+    ],
+    "correct": 2,
+    "explanation": "With tight per-cycle budgets, the practical recipe is: find any feasible path with RRT-Connect quickly, then smooth/shortcut it. RRT* needs many iterations to approach optimality; truncated RRT* often does worse than smoothed RRT."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team's quadrotor uses cascaded control: outer position loop, inner attitude loop. The position loop oscillates. Which is the canonical cause?",
+    "opts": [
+      "The inner attitude loop is too slow relative to the outer position loop — cascaded control requires the inner loop to be significantly faster than the outer",
+      "The position loop is using the wrong frame",
+      "Quadrotors should not use cascaded control",
+      "The position loop should be replaced with a single MPC"
+    ],
+    "correct": 0,
+    "explanation": "Cascaded control requires a clear time-scale separation: the inner loop must be much faster than the outer. If they overlap, outer commands change before inner has settled, causing oscillation. Standard quadrotor practice: ~500 Hz attitude, ~50 Hz position."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is implementing collision checking between a robot link (a capsule) and an environment obstacle (a triangle mesh). Which approach is most efficient for runtime collision queries?",
+    "opts": [
+      "Sample random points along the capsule and check if any are inside the mesh",
+      "Loop over every triangle in Python and compute capsule-triangle distance",
+      "Use a collision-checking library (FCL, Bullet, libccd) that supports broad-phase / narrow-phase pipelines with spatial acceleration structures",
+      "Approximate everything as spheres regardless of geometry"
+    ],
+    "correct": 2,
+    "explanation": "Production planners use FCL (Flexible Collision Library) or equivalent: AABB or OBB trees for broad phase, GJK/EPA for narrow phase. Python loops are too slow. Sampling misses thin objects. Sphere approximation discards accuracy."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team's wheeled robot follows a path with a pure pursuit controller. At high speed it cuts corners. Which adjustment is most appropriate?",
+    "opts": [
+      "Switch from Ackermann to skid-steer",
+      "Lower the controller frequency",
+      "Increase the lookahead distance — a longer lookahead smooths the trajectory but cuts corners; a shorter lookahead hugs the path but oscillates",
+      "Disable the path entirely"
+    ],
+    "correct": 2,
+    "explanation": "Lookahead distance is the central tuning parameter for pure pursuit. The trade-off in the answer is the standard one. Modern variants (adaptive pure pursuit, model predictive variants) tune lookahead with speed. The user must trade corner-cutting against oscillation."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team needs to plan a manipulator trajectory that respects joint velocity, acceleration, and jerk limits. Which trajectory representation is best suited?",
+    "opts": [
+      "Time-parameterized polynomial or B-spline trajectories (e.g., quintic, time-optimal parameterization, TOPP-RA) that allow analytical derivatives up to jerk",
+      "A discrete sequence of joint targets with no interpolation",
+      "Pure cubic interpolation only",
+      "Step-function position commands"
+    ],
+    "correct": 0,
+    "explanation": "Smooth polynomial / spline trajectories let you derive velocity, acceleration, and jerk analytically and apply limits. TOPP-RA is the standard for time-optimal path parameterization under kinodynamic limits. Discrete or step commands produce infinite acceleration / jerk."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team's robot must avoid obstacles in dynamic environments where humans move unpredictably. Which planner family is most appropriate?",
+    "opts": [
+      "A single global planner re-run from scratch every 100 ms",
+      "Local reactive planners (Dynamic Window Approach, Timed Elastic Band, MPC-based collision avoidance) running on top of a global planner that handles static obstacles",
+      "Open-loop trajectories computed once at startup",
+      "A pure reactive controller with no global plan"
+    ],
+    "correct": 1,
+    "explanation": "The standard architecture: global planner (A*, RRT) over static map, plus a local planner (DWA, TEB, MPC) that adjusts in real time for dynamic obstacles. Re-running the global planner every 100 ms is wasteful and may not respond fast enough; pure reactive lacks goal-directed behaviour."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is choosing between teleoperation, scripted behaviours, and learned policies for a new manipulation task. The task is novel, takes many minutes to demonstrate, and has high variability. Which approach is most appropriate as a first step?",
+    "opts": [
+      "Train an RL policy from scratch — it will learn faster than any other method",
+      "Hand-script the entire task — it will be perfect on the first try",
+      "Collect a small number of expert demonstrations via teleoperation, then use behaviour cloning or diffusion policy as a starting point — it can match the demonstration distribution quickly",
+      "Skip all of this and use a pre-trained foundation model with no task-specific data"
+    ],
+    "correct": 2,
+    "explanation": "Teleop + BC / diffusion policy is the modern recipe for novel manipulation tasks: collect 50-200 demos, train, deploy. RL from scratch is slow for high-DOF manipulation. Pre-trained foundation models help, but typically benefit from task-specific demos."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team's force-controlled assembly task fails on the first insertion attempt because the part is misaligned by 2 mm. Which compliance strategy is most appropriate?",
+    "opts": [
+      "Use stiffer position control on insertion",
+      "Add more position accuracy until 2 mm errors never occur",
+      "Run the insertion faster to overcome friction",
+      "Implement an active compliance / search behaviour (spiral or Lissajous search with force feedback) that wiggles until the part finds the hole, combined with low impedance"
+    ],
+    "correct": 3,
+    "explanation": "Achieving sub-millimetre absolute positioning is expensive. Industry standard for assembly with millimetre-level uncertainty: low impedance + active search (spiral / hole-search). Robotics-specific approaches (RL for insertion, learned residual policies) build on this."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team trains a quadruped locomotion policy in simulation. It works perfectly in sim but fails on the real robot. Which class of techniques is the primary remedy?",
+    "opts": [
+      "Use a higher learning rate",
+      "Train for more iterations in simulation",
+      "Domain randomization (and/or system identification) — randomize physics parameters during training so the policy is robust to the sim-real gap",
+      "Switch from PPO to DQN"
+    ],
+    "correct": 2,
+    "explanation": "Sim-to-real transfer is the defining challenge of RL for robotics. Domain randomization (mass, friction, motor delays, terrain) is the most widely-used solution. System identification narrows the sim-real gap from the other direction. Both are often combined."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is choosing between PPO (on-policy) and SAC (off-policy) for a manipulation task with limited compute. SAC's sample efficiency advantage is well-known. Which consideration favours PPO?",
+    "opts": [
+      "PPO does not require a critic network",
+      "PPO has higher sample efficiency than SAC",
+      "PPO is the only on-policy algorithm",
+      "Massively parallel simulation (Isaac Gym, MuJoCo MJX) collects huge batches quickly — PPO scales to that regime, and its simplicity / stability often wins in practice"
+    ],
+    "correct": 3,
+    "explanation": "In compute-rich, sample-cheap settings (massively parallel sim), PPO's wall-clock performance often beats SAC despite worse sample efficiency. SAC dominates when sample collection is expensive (real-robot training). The choice depends on the bottleneck."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team's RL agent achieves high reward but the resulting behaviour is unsafe (e.g., a quadruped runs by violently flailing its legs). Which is the most likely cause?",
+    "opts": [
+      "The policy network is too small",
+      "The discount factor is too high",
+      "RL cannot produce safe behaviours by design",
+      "Reward misspecification — the reward function does not penalize the unsafe behaviour; the agent has found a high-reward solution that humans would call unsafe"
+    ],
+    "correct": 3,
+    "explanation": "This is reward hacking / reward misspecification: the agent maximizes what's specified, not what's desired. Fixes: explicit penalty terms (energy, smoothness, joint limits), constrained RL formulations, or learned reward models from human preferences."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team uses RL to train a peg-in-hole task. The reward is +1 on success, 0 otherwise. Training plateaus at 0% success after millions of steps. Which is the most likely cause and remedy?",
+    "opts": [
+      "The simulator is buggy",
+      "The policy network is too small",
+      "PPO doesn't work for manipulation",
+      "Sparse reward — the agent never sees a positive signal. Add reward shaping (dense distance-based reward) or use HER (Hindsight Experience Replay) to relabel failed trajectories"
+    ],
+    "correct": 3,
+    "explanation": "Sparse-reward RL fails when the agent never accidentally succeeds. Classic remedies: dense reward shaping (negative distance to goal), HER (relabel a failed reach as a success of reaching where it actually went), demonstrations, or curiosity bonuses."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team uses simulator A for training and simulator B for evaluation. Policies trained in A fail in B. Which type of transfer gap is this?",
+    "opts": [
+      "Real-to-real gap",
+      "Sim-to-real gap — only this term applies",
+      "Sim-to-sim gap — different simulators have different contact models, integration, and tolerances; even careful tuning can leave behaviour mismatches",
+      "Such a gap does not exist; all simulators are interchangeable"
+    ],
+    "correct": 2,
+    "explanation": "Sim-to-sim gaps are real and well-documented (different contact solvers, different rigid-body engines). They are a useful proxy for sim-to-real: if your policy can't transfer between two simulators, it certainly won't transfer to reality."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is choosing between model-based RL and model-free RL for a robotic insertion task. Which is the typical trade-off?",
+    "opts": [
+      "Model-based RL is more sample-efficient but suffers from model bias; model-free RL needs more data but avoids the modelling pitfall",
+      "Model-based RL is always better in every respect",
+      "Model-free RL doesn't work for robotics at all",
+      "There is no difference; they produce identical policies"
+    ],
+    "correct": 0,
+    "explanation": "Classic trade-off: model-based methods (Dyna, Dreamer, PILCO) learn faster but propagate model errors. Model-free methods (PPO, SAC) need more data but are robust to model misspecification. Hybrid methods (MBPO) combine both."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is concerned about exploration in continuous-control RL. Which exploration strategy is built into SAC?",
+    "opts": [
+      "Maximum entropy: SAC adds an entropy bonus to the reward, encouraging the policy to remain stochastic and explore",
+      "Epsilon-greedy",
+      "Boltzmann sampling on action probabilities only",
+      "No exploration; SAC is fully deterministic"
+    ],
+    "correct": 0,
+    "explanation": "SAC's defining feature is the maximum-entropy objective: the policy maximizes reward plus entropy of the action distribution, encoded via a temperature parameter α. This produces good exploration in continuous-control without needing epsilon-greedy."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team's RL policy works perfectly on flat ground but fails on inclines never seen in training. Which is the most appropriate remedy?",
+    "opts": [
+      "Switch from PPO to SAC",
+      "Train for more steps on flat ground",
+      "Lower the learning rate",
+      "Add varied terrain (slopes, steps, rough surfaces) to the training distribution — the policy can only generalize to what it has been exposed to"
+    ],
+    "correct": 3,
+    "explanation": "RL policies generalize to their training distribution. If inclines weren't seen, performance there is essentially undefined. The remedy is curriculum learning over varied terrain (as ANYmal and HumanPlus do). No optimization knob substitutes for missing data."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team uses RL to train a multi-task policy: pick, place, insert, push. Training on all tasks simultaneously hurts performance on individual tasks. Which approach typically helps?",
+    "opts": [
+      "Train one global policy for all tasks with no conditioning",
+      "Curriculum learning or task embeddings — start with easier subtasks and build up, or condition the policy on a task identifier so it can specialize",
+      "Train separate policies and never share parameters",
+      "Use a smaller policy network"
+    ],
+    "correct": 1,
+    "explanation": "Multi-task RL is fragile; gradient interference and task imbalance are common. Curriculum learning and task conditioning (one-hot, language embedding, goal embedding) are the standard remedies. Modern foundation-model policies use language to condition."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is choosing a simulator for RL training. Their priority is fastest possible sample throughput. Which is the strongest fit today?",
+    "opts": [
+      "Gazebo — it's the most accurate",
+      "A GPU-parallel simulator such as Isaac Sim / Isaac Lab, MuJoCo MJX, or Brax — they run thousands of environments in parallel on GPU",
+      "PyBullet — has the best Python API",
+      "A custom Python physics engine"
+    ],
+    "correct": 1,
+    "explanation": "GPU-parallel simulators (Isaac, MJX, Brax) dominate raw sample throughput, enabling billions of steps per day. Gazebo and PyBullet are CPU-based and 100×+ slower per env. For training, throughput matters; for high-fidelity evaluation, accuracy matters."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is concerned about safety during real-world RL fine-tuning. Which technique is most appropriate?",
+    "opts": [
+      "Run pure on-policy RL from scratch on the real robot",
+      "Train in sim first, then fine-tune in the real world with a safety filter (control barrier function, reachability shield, or human override) to constrain exploratory actions",
+      "Disable exploration entirely",
+      "Use only model-free RL on the real robot with no warm start"
+    ],
+    "correct": 1,
+    "explanation": "Real-world RL without a safety layer destroys robots. The standard recipe: pretrain in sim, then fine-tune with safety constraints (CBF, reachability, human-in-the-loop overrides). Modern systems also use learned safety classifiers."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is implementing imitation learning (behaviour cloning). The trained policy works on training trajectories but veers off the demonstrated path during deployment. What is this failure mode called?",
+    "opts": [
+      "Overfitting to the training set",
+      "Covariate shift / compounding errors — small deviations from the expert distribution accumulate, taking the agent into states with no training data",
+      "Underfitting due to insufficient model capacity",
+      "Reward hacking"
+    ],
+    "correct": 1,
+    "explanation": "BC's classic failure: tiny errors compound because the agent is now in states the expert never visited, where the policy is undefined. DAgger (online expert queries), diffusion policies (multi-modal action distributions), and action chunking all mitigate this."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is implementing a residual policy: a hand-designed controller plus a learned correction. What is the strongest argument for this architecture?",
+    "opts": [
+      "The hand-designed controller provides a strong prior and safe baseline; the learned residual handles the parts that hand engineering can't",
+      "Both of the first two together",
+      "Hand-designed controllers can be discarded once the residual is trained",
+      "Residual policies require less data than learning from scratch"
+    ],
+    "correct": 1,
+    "explanation": "Residual learning leverages prior knowledge as a baseline (point 1) and dramatically reduces data needs (point 2). It's a common pattern for contact-rich manipulation where hand-engineering captures most of the behaviour and learning fills the gaps."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team's RL agent is trained with PPO. Training rewards spike high and then crash repeatedly. Which diagnosis is most likely?",
+    "opts": [
+      "The simulator is slow",
+      "The optimizer is broken",
+      "PPO doesn't work for any continuous-control task",
+      "Policy collapse — the clip ratio is too loose or the learning rate is too high, causing large policy updates that destroy performance"
+    ],
+    "correct": 3,
+    "explanation": "PPO's trust region is enforced by the clip ratio. Large policy updates can collapse the policy (action distribution becomes nearly deterministic and brittle). Remedies: lower learning rate, tighter clip ratio (e.g., 0.1 instead of 0.3), early stopping by KL divergence."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is debating the value function discount factor γ for a navigation task that takes 200 steps. They are using γ = 0.99. Which observation is most apt?",
+    "opts": [
+      "With γ = 0.99, the effective horizon is roughly 1/(1-γ) = 100 steps — shorter than the task. A larger discount (e.g., 0.999) is appropriate for long-horizon tasks",
+      "γ = 0.99 is always optimal regardless of task length",
+      "Discount factor doesn't matter in modern RL",
+      "Larger γ always learns faster"
+    ],
+    "correct": 0,
+    "explanation": "Effective horizon ~ 1/(1-γ) is a useful rule of thumb. For long tasks, raising γ helps the agent value future rewards. However, larger γ also increases variance and slows learning, so it's a trade-off. γ = 0.999 is common for 1000-step tasks."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is training a vision-based RL policy that takes raw camera images as input. Training is slow and unstable. Which architectural choice typically helps?",
+    "opts": [
+      "Use a larger, randomly-initialized vision encoder",
+      "Use a pre-trained vision encoder (DINOv2, R3M, ResNet) and either freeze it or fine-tune slowly — RL signals are too noisy to train a vision backbone from scratch on small data",
+      "Use grayscale images only",
+      "Skip vision entirely and use only proprioception"
+    ],
+    "correct": 1,
+    "explanation": "Training a vision encoder from RL signal alone is sample-inefficient; reward gradients are noisy. Pretrained encoders (especially robotics-specific R3M, VIP) provide strong features. Either freeze or fine-tune slowly. This is the dominant pattern in vision-based RL."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team wants to use offline RL: train from a fixed dataset of robot trajectories with no online interaction. Which algorithm family is appropriate?",
+    "opts": [
+      "Offline RL algorithms with conservative policy updates (e.g., CQL, IQL, TD3+BC) that avoid extrapolating outside the data distribution",
+      "Standard PPO — it works fine without any change",
+      "Pure behaviour cloning — it always matches the best online method",
+      "Online DQN with a frozen environment"
+    ],
+    "correct": 0,
+    "explanation": "Online RL algorithms applied to fixed datasets fail catastrophically: they query the value of actions outside the data distribution and over-estimate them. Offline RL methods (CQL, IQL, TD3+BC) penalize this extrapolation. BC ignores reward signal; offline RL uses it."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team's RL policy achieves high performance but the action distribution is highly peaked (effectively deterministic). They want it to remain stochastic for exploration. Which approach is most appropriate?",
+    "opts": [
+      "Use a smaller policy network",
+      "Increase the entropy bonus weight (in SAC, the temperature α) or use entropy regularization in PPO — explicit terms in the loss preserve stochasticity",
+      "Train for fewer iterations",
+      "Switch to a deterministic policy (DDPG)"
+    ],
+    "correct": 1,
+    "explanation": "Entropy regularization (explicitly weighted in the loss) is the standard tool to prevent the policy from collapsing to a deterministic spike. SAC has it built in; PPO can add it manually. DDPG is fully deterministic by design."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is comparing diffusion policies and ACT (Action Chunking Transformers) for behavior cloning. Both predict action chunks. What is the key conceptual difference?",
+    "opts": [
+      "Diffusion policies require LiDAR; ACT requires only cameras",
+      "ACT uses diffusion internally; diffusion policies use a CVAE",
+      "There is no difference; the names refer to the same algorithm",
+      "Diffusion policies model the action distribution via iterative denoising (capturing multimodality natively); ACT regresses the action chunk directly with a transformer and a CVAE prior"
+    ],
+    "correct": 3,
+    "explanation": "Both are behaviour cloning over action chunks but model the distribution differently. Diffusion's iterative denoising naturally captures multimodal demonstrations (different valid ways to do the same task). ACT uses a transformer + CVAE latent variable to do similar."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is choosing between OpenVLA, RT-2, and pi-0 as a pretrained vision-language-action backbone. Which is the strongest argument for selecting any modern VLA foundation model?",
+    "opts": [
+      "Pretraining on large-scale, diverse robot data plus a vision-language backbone gives broad task and embodiment generalization that small task-specific datasets cannot achieve",
+      "VLA foundation models are smaller and faster than task-specific policies",
+      "VLA foundation models eliminate the need for any fine-tuning",
+      "VLA foundation models do not require image inputs"
+    ],
+    "correct": 0,
+    "explanation": "The value of VLA foundation models comes from scale and diversity: pretraining on Open X-Embodiment and equivalent corpora, then fine-tuning for the target task. They are larger and slower than task-specific models but generalize much better. Fine-tuning is still needed in most cases."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is evaluating diffusion policy on a real robot. Inference takes too long because of the many denoising steps. Which technique most directly addresses this?",
+    "opts": [
+      "Train a larger diffusion model",
+      "Use a faster sampler (DDIM with fewer steps, consistency models, or distillation to a one-step model)",
+      "Run the policy at higher precision (float64)",
+      "Add more denoising steps for stability"
+    ],
+    "correct": 1,
+    "explanation": "Standard DDPM uses 100-1000 denoising steps. Faster samplers (DDIM with 10-20 steps, DPM-Solver, consistency models) dramatically reduce inference time. Distillation to a one-step student is another option. Modern robotics diffusion policies typically use 10-50 steps."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is collecting data for a behaviour cloning policy. They have 100 successful demonstrations of a pick-and-place task. The policy generalizes poorly to slightly different object positions. Which is the most useful next step?",
+    "opts": [
+      "Collect more demonstrations with varied object positions, lighting, distractors, and starting configurations — BC generalizes to its data distribution",
+      "Train for more epochs on the existing data",
+      "Use a smaller policy network",
+      "Train on synthetic data only"
+    ],
+    "correct": 0,
+    "explanation": "BC's generalization is bounded by data diversity. 100 demos with limited variation produce a brittle policy. Modern manipulation datasets emphasize variation in poses, distractors, lighting, and embodiments. Synthetic data helps but rarely replaces real demos."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is evaluating LeRobot's training pipeline. Which observation is most accurate about action chunking (predicting multiple future actions per inference)?",
+    "opts": [
+      "Action chunking is incompatible with diffusion policies",
+      "Action chunking always requires recurrent neural networks",
+      "Action chunking reduces inference frequency and smooths execution; it also reduces compounding errors by reducing the number of policy decisions per trajectory",
+      "Action chunking only works in simulation"
+    ],
+    "correct": 2,
+    "explanation": "Action chunking (predict K actions, execute H of them) reduces decisions per episode — fewer chances to accumulate errors. It also lowers compute (1 forward pass per H steps). Both ACT and Diffusion Policy use chunking."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team uses Open X-Embodiment data to pretrain a VLA model. The training data includes 22 different robots with different morphologies. Which is the most important architectural design decision?",
+    "opts": [
+      "Embodiment differences are negligible at large scale",
+      "The model only needs a single action head shared across all robots",
+      "Different robots cannot share any parameters; train one model per robot",
+      "The model must be cross-embodiment: handling different action spaces (e.g., end-effector velocity, joint position) and different observation spaces (mono / stereo / RGB-D / wrist cam)"
+    ],
+    "correct": 3,
+    "explanation": "Cross-embodiment is the central design challenge for OXE-style training. Common approaches: action tokenization to a shared discrete space, per-embodiment action heads, or natural-language specification of action conventions. RT-X and OpenVLA both make explicit design choices here."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is using a VLA model with language conditioning. They want the robot to follow new instructions zero-shot. Which capability is most relevant?",
+    "opts": [
+      "Zero-shot is impossible for any VLA model",
+      "The robot must have seen the exact instruction during training",
+      "Language conditioning has no effect on generalization",
+      "Compositional generalization to novel instructions built from familiar verbs/objects — e.g., 'pick up the red cup' generalizing from training on 'pick up the blue cup' and 'pick up the red ball'"
+    ],
+    "correct": 3,
+    "explanation": "Compositional generalization is the main payoff of language conditioning: the model should generalize to novel combinations of seen primitives. Modern VLAs (RT-2, OpenVLA) demonstrate some of this; it is still an active research area and far from solved."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is choosing between fine-tuning OpenVLA (7B parameters) and training a small task-specific policy (5M parameters) for a single manipulation task. Compute and latency are tight. Which is the better choice?",
+    "opts": [
+      "Always use the larger model — it's always more accurate",
+      "Train a task-specific policy if the task is narrow and the constraint is tight — a small model fine-tuned on demos can outperform a large VLA when the task is specific",
+      "Use a 70B language model directly with no robot fine-tuning",
+      "Use OpenVLA but freeze all parameters"
+    ],
+    "correct": 1,
+    "explanation": "Big VLAs generalize broadly but are heavy. For a narrow task with tight constraints, a small task-specific BC/diffusion policy is often competitive or better. Use big VLAs when generality across tasks/embodiments matters. The 'always biggest' heuristic is wrong."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is using SAM (Segment Anything Model) to identify graspable objects for a vision-language pipeline. Which limitation is most important to consider?",
+    "opts": [
+      "SAM requires a pre-specified set of object classes",
+      "SAM only segments people, not objects",
+      "SAM outputs masks but doesn't label them — it must be paired with a language-grounding model (e.g., GroundingDINO, CLIP) or class names from a detector to identify which mask corresponds to which object",
+      "SAM only works in monocular images"
+    ],
+    "correct": 2,
+    "explanation": "SAM is class-agnostic: it segments anything, but does not assign labels. For robot use, SAM is usually paired with GroundingDINO (open-vocabulary detection), CLIP (text-image scoring), or task-specific classifiers to identify which masks matter."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is evaluating world models (e.g., DreamerV3, RSSM-based) for robotics. Which use case best motivates a world model over standard model-free RL?",
+    "opts": [
+      "Tasks where simulation is essentially free",
+      "Long-horizon tasks with sparse rewards or environments where real-world data is expensive — the world model lets the agent imagine and learn from synthetic rollouts",
+      "Tasks with very dense rewards and short horizons",
+      "Tasks that require no exploration"
+    ],
+    "correct": 1,
+    "explanation": "World models excel when sample efficiency matters: long horizons, sparse rewards, or expensive real-world data collection. The world model is trained on real data, then used to generate billions of imagined steps for planning or policy learning. DreamerV3 is the canonical modern example."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team's mobile-manipulator architecture uses a high-level LLM planner that decomposes natural-language goals into subtasks, plus low-level skill policies. Which trade-off is intrinsic to this design?",
+    "opts": [
+      "Two-level designs are always strictly better than end-to-end",
+      "Two-level designs gain modularity and interpretability but lose the ability to learn end-to-end behaviours that span the planner / skill boundary",
+      "Two-level designs are always worse than end-to-end",
+      "The planner and skills cannot communicate at all"
+    ],
+    "correct": 1,
+    "explanation": "Hierarchical / planner-skill designs (SayCan, RT-H, code-as-policies) are modular and inspectable. The trade-off is rigidity: the boundary between planner and skills is fixed; end-to-end models can in principle learn smoother behaviours but are harder to debug."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is debating whether to use point clouds or images as primary input to their manipulation policy. The task involves grasping objects of varied geometry. Which approach is most defensible today?",
+    "opts": [
+      "Use RGB-D and let the policy learn what to attend to, since modern vision encoders process RGB-D effectively and large pretrained backbones provide strong priors",
+      "Point clouds are always superior for any manipulation task",
+      "Images are always superior; depth is unnecessary",
+      "Avoid both — use only proprioception"
+    ],
+    "correct": 0,
+    "explanation": "For grasping, depth is important. RGB-D inputs combined with a pretrained backbone (sometimes augmented with a point-cloud encoder for the 3D component) are the modern default. Pure point clouds lose colour/texture; pure images lose depth in tabletop manipulation."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is choosing between training a single policy across many tasks (multi-task) vs training separate per-task policies. Which is the strongest argument for multi-task training?",
+    "opts": [
+      "Multi-task policies eliminate the need for any pretraining",
+      "Multi-task policies are always smaller than single-task",
+      "Multi-task training avoids the need for task labels",
+      "Skill sharing — a multi-task policy that conditions on task identity can transfer knowledge between similar tasks and generalize to novel task combinations"
+    ],
+    "correct": 3,
+    "explanation": "The case for multi-task: shared representations transfer across tasks, and conditioning enables compositional generalization. Trade-off: harder to balance task loss weights; some tasks may dominate or interfere. Foundation-model policies typically embrace multi-task training."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is concerned about latency: their VLA model has 250 ms inference but the control loop needs 10 ms. How is this typically handled in practice?",
+    "opts": [
+      "Disable safety checks to reduce latency",
+      "Run the VLA at 10 ms per inference — there is no way around it",
+      "Use a fully feed-forward controller with no VLA",
+      "The VLA outputs action chunks (e.g., 16-32 future actions); the low-level controller executes them at the control-loop rate while the VLA prepares the next chunk asynchronously"
+    ],
+    "correct": 3,
+    "explanation": "Action chunking + asynchronous policy querying is the standard latency mitigation. VLA inference at 5-10 Hz produces action chunks; the controller streams them at 100-1000 Hz. The policy runs concurrently in the background. ACT and pi-0 explicitly use this pattern."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is using a VLM (vision-language model like LLaVA or GPT-4V) for high-level scene understanding plus a low-level policy for action. Which is the most realistic role for the VLM?",
+    "opts": [
+      "Real-time obstacle avoidance at 100 Hz",
+      "Direct continuous joint torque commands",
+      "Scene understanding and task decomposition — e.g., identifying objects, parsing instructions, or producing subgoals; low-level continuous control is left to a separate policy",
+      "Sub-millisecond reactive control"
+    ],
+    "correct": 2,
+    "explanation": "VLMs are slow (seconds per query) and reason in language/symbolic terms, not continuous control. Their role is high-level: scene parsing, instruction grounding, planning. Low-level control belongs to policies trained for that purpose. SayCan, ProgPrompt, Code-as-Policies all follow this division."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team wants their robot to follow natural-language instructions like 'pick up the small red block to the left of the cup'. Which capability stack does this depend on?",
+    "opts": [
+      "Hand-coded object templates for every possible object",
+      "Only a low-level diffusion policy with no language input",
+      "A pure language model with no vision",
+      "Referring expression grounding (visual-language localisation), a manipulation policy conditioned on the target, and possibly a planner to sequence subtasks"
+    ],
+    "correct": 3,
+    "explanation": "This is grounded language understanding plus manipulation. Modern stacks: open-vocabulary detection (GroundingDINO + SAM) to ground the referring expression, plus a language-conditioned manipulation policy. A planner often sequences multi-step instructions."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is comparing teleop interfaces for data collection: VR controllers, leader-follower systems (e.g., ALOHA-style bimanual), and 3D mice. Which is the strongest argument for leader-follower?",
+    "opts": [
+      "Leader-follower systems don't require any setup",
+      "Leader-follower systems are the cheapest",
+      "Kinaesthetic correspondence — the demonstrator feels what the robot feels, enabling skilful contact-rich and bimanual demonstrations that VR/3D mice handle poorly",
+      "Leader-follower systems work without any robot"
+    ],
+    "correct": 2,
+    "explanation": "Leader-follower (ALOHA, GELLO) gives a 1:1 kinaesthetic mapping. The demonstrator can feel forces and provide contact-rich, bimanual demonstrations that abstract input devices cannot easily produce. The trade-off is hardware cost and setup time."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is wrapping up: they want to scale up data collection for their robotics foundation model. Which is the strongest argument for diverse data over more data of the same kind?",
+    "opts": [
+      "More data of any kind is always equally valuable",
+      "Robotic policies generalize to the variation they see; doubling demonstrations of the same scenario yields diminishing returns compared to demonstrations across new objects, scenes, and embodiments",
+      "Diverse data is impossible to collect",
+      "Foundation models don't benefit from data scaling"
+    ],
+    "correct": 1,
+    "explanation": "Robot data scaling follows variation, not just volume. The Open X-Embodiment results, RT-2, and OpenVLA all show that diversity (across objects, scenes, robots, tasks) drives generalization. Identical replays of the same trajectory plateau quickly."
+  }
+];
+const SECTIONS  = [
+  {
+    "key": "Robotics Foundations & ROS 2",
+    "label": "Section A — Robotics Foundations & ROS 2",
+    "cls": "sec-ros",
+    "range": "Questions 1–16"
+  },
+  {
+    "key": "Perception & Computer Vision",
+    "label": "Section B — Perception & Computer Vision",
+    "cls": "sec-cv",
+    "range": "Questions 17–32"
+  },
+  {
+    "key": "SLAM, Localization & Mapping",
+    "label": "Section C — SLAM, Localization & Mapping",
+    "cls": "sec-slam",
+    "range": "Questions 33–48"
+  },
+  {
+    "key": "Motion Planning & Control",
+    "label": "Section D — Motion Planning & Control",
+    "cls": "sec-ctrl",
+    "range": "Questions 49–64"
+  },
+  {
+    "key": "Reinforcement Learning for Robotics",
+    "label": "Section E — Reinforcement Learning for Robotics",
+    "cls": "sec-rl",
+    "range": "Questions 65–82"
+  },
+  {
+    "key": "Embodied AI & Foundation Models",
+    "label": "Section F — Embodied AI & Foundation Models",
+    "cls": "sec-vla",
+    "range": "Questions 83–100"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+
+let mode='instant', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 2*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='02:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/100';
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/100';
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  if(pct>=0.9){ grade='Senior Robotics & Embodied AI Engineer'; blurb='Outstanding. You have strong conceptual command across the physical AI stack \u2014 architecture, sensor selection, control, RL, and foundation-model thinking.'; }
+  else if(pct>=0.75){ grade='Strong Physical AI Engineer'; blurb='Solid working understanding of physical AI design trade-offs. Review missed items \u2014 most gaps cluster around specific subsystem choices or modern foundation-model patterns.'; }
+  else if(pct>=0.6){ grade='Qualified Physical AI Engineer'; blurb='You understand the major concepts. Sharpen your fluency on sensor trade-offs, SLAM failure modes, RL exploration, and modern VLA architectures.'; }
+  else if(pct>=0.4){ grade='Developing Physical AI Engineer'; blurb='The core conceptual map is forming. Spend time on the rigid-body / SE(3) basics, classical SLAM, PID/MPC, and the modern BC / diffusion / VLA stack.'; }
+  else { grade='Begin the Physical AI Journey'; blurb='Start with the Probabilistic Robotics / Modern Robotics fundamentals, then a ROS 2 tutorial, then a hands-on Gym RL example, then read OpenVLA and Diffusion Policy papers.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 100 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one question at a time. 2-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+</body>
+</html>

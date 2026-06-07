@@ -1,0 +1,1956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Core Foundations of AI &amp; ML — Mock Exam · 100Q (V1)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#15161e;
+  --paper:#f1eee7;
+  --paper2:#e6e2d6;
+  --gold:#a07a3a;
+  --gold-deep:#7c5b1f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  /* Section accents — six distinct hues for AI/ML topics */
+  --math:#1d4ed8;
+  --data:#0e7c66;
+  --classical:#7a3e9d;
+  --deep:#c54a1b;
+  --eval:#a4761c;
+  --ops:#0d6e80;
+  --line:#cfc7b3;
+  --shadow:rgba(20,16,8,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(29,78,216,.06), transparent 40%),
+    radial-gradient(circle at 90% 94%, rgba(14,124,102,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 22px}
+header.masthead{
+  text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);
+  margin-bottom:8px;
+}
+.kicker{
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;
+  text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px;
+}
+h1.title{
+  font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.8rem);
+  line-height:.98;letter-spacing:-.02em;margin-bottom:10px;
+}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5e564a;margin-bottom:22px}
+.exambar{
+  display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;
+  color:#4f483b;padding:12px 26px;border:1px solid var(--line);
+  border-radius:2px;background:rgba(255,255,255,.4);
+}
+.exambar b{color:var(--ink)}
+.modebar{
+  display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;
+  border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;
+  margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45);
+}
+.modebar button{
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;
+  background:transparent;cursor:pointer;color:#5e564a;transition:all .2s;
+}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6e6552;font-size:.92rem;margin-bottom:8px}
+.hud{
+  position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;
+  background:rgba(241,238,231,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--math),var(--classical));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{
+  margin:46px 0 8px;padding:13px 20px;border-radius:3px;
+  font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;
+  color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;
+  box-shadow:0 4px 16px var(--shadow);
+}
+.section-head .tag{
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;
+  background:rgba(255,255,255,.2);white-space:nowrap;
+}
+.sec-math{background:linear-gradient(100deg,var(--math),#0e2f8a)}
+.sec-data{background:linear-gradient(100deg,var(--data),#054a3d)}
+.sec-classical{background:linear-gradient(100deg,var(--classical),#4d2566)}
+.sec-deep{background:linear-gradient(100deg,var(--deep),#7c2a0d)}
+.sec-eval{background:linear-gradient(100deg,var(--eval),#634611)}
+.sec-ops{background:linear-gradient(100deg,var(--ops),#06424e)}
+.q-card{
+  background:rgba(255,255,255,.6);border:1px solid var(--line);
+  border-radius:4px;padding:24px 26px 20px;margin:16px 0;
+  box-shadow:0 2px 10px rgba(20,16,8,.05);
+  transition:box-shadow .3s,border-color .3s;
+}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{
+  font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);
+  line-height:1;min-width:54px;
+}
+.q-type{
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;
+  border:1px solid currentColor;opacity:.85;color:var(--classical);
+}
+.q-sect{
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;
+  color:#fff;
+}
+.q-text{font-size:1.1rem;line-height:1.55;margin-bottom:16px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{
+  display:flex;align-items:flex-start;gap:13px;padding:13px 16px;
+  border:1px solid var(--line);border-radius:3px;cursor:pointer;
+  background:rgba(255,255,255,.45);transition:all .18s ease;
+  font-size:1rem;position:relative;
+}
+.opt:hover{border-color:var(--gold);background:rgba(160,122,58,.07);transform:translateX(2px)}
+.opt .letter{
+  font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;
+  width:25px;height:25px;flex-shrink:0;border-radius:50%;
+  display:grid;place-items:center;border:1.5px solid var(--gold-deep);
+  color:var(--gold-deep);transition:all .18s;
+}
+.opt .otext{flex:1;padding-top:1px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(160,122,58,.1)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{
+  max-height:0;overflow:hidden;opacity:0;
+  transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;
+  border-left:3px solid var(--gold);background:rgba(160,122,58,.06);
+  border-radius:0 3px 3px 0;margin-top:0;padding:0 18px;
+}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);
+  margin-bottom:7px;display:flex;align-items:center;gap:8px;
+}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{
+  display:flex;justify-content:space-between;align-items:center;gap:14px;
+  margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap;
+}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{
+  margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;
+  background:linear-gradient(160deg,#fff,var(--paper2));
+  border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);
+  display:none;
+}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:170px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{
+  font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;
+  border-radius:3px;cursor:pointer;transition:all .2s;
+}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);
+  font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5e564a;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 18px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:1.02rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Conceptual Examination &middot; AI &amp; ML Core Foundations</div>
+    <h1 class="title">AI <span class="amp">&amp;</span> ML Core Foundations Exam</h1>
+    <div class="byline">Mathematics, data, classical ML, deep learning, evaluation, and applied AI systems</div>
+    <div class="exambar">
+      <span><b>100</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>100</b> Marks</span>
+      <span>Exam Mode: <b>2 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')">Guided Path</button>
+    <button id="mode-instant" class="active" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Instant Feedback: pick an answer and see the explanation immediately.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/100</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">02:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/100</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired — exam auto-submitted at the 2-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    Core foundations of AI &amp; ML &middot; 100 conceptual and applied questions &middot; V1 (Guided / Instant / Exam-with-Timer)
+    <div class="disclaimer">An independent study resource intended for self-assessment of foundational AI/ML concepts. Not affiliated with any vendor, certification body, or academic institution.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "Mathematical & Statistical Foundations",
+    "q": "You compute the dot product of two real-valued vectors and obtain a value close to zero. Which interpretation is most appropriate?",
+    "opts": [
+      "The two vectors are nearly identical and point in essentially the same direction in the feature space.",
+      "The dot product near zero proves both vectors must themselves have norms near zero in magnitude.",
+      "The two vectors are nearly orthogonal, indicating little shared component along each other's directions.",
+      "The cosine of the angle between them is close to one, indicating very strong vector alignment."
+    ],
+    "correct": 2,
+    "explanation": "For real vectors, the dot product equals the product of their norms times the cosine of the angle. A value near zero (with non-zero norms) means cosine ≈ 0, i.e. they are nearly orthogonal — a common test for independence of directions in feature space.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Mathematical & Statistical Foundations",
+    "q": "You multiply a (200 × 50) data matrix X by a weight matrix W and want a (200 × 10) output. What shape must W have?",
+    "opts": [
+      "The weight matrix W must have shape (10, 50), so each output dimension is a linear combination of features.",
+      "The weight matrix W must have shape (50, 10), so its rows match input features and columns match outputs.",
+      "The weight matrix W must have shape (200, 10), matching the batch dimension at the front of the input.",
+      "The weight matrix W must have shape (50, 200), making each row a different mapping back to the input space."
+    ],
+    "correct": 1,
+    "explanation": "For X @ W where X is (200, 50) to produce (200, 10), the inner dimensions must match: W must be (50, 10). This is the standard layout for a dense layer mapping 50 input features to 10 output units.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Mathematical & Statistical Foundations",
+    "q": "In PCA, the principal components are derived from the eigenvectors of the data's covariance matrix. What do the corresponding eigenvalues tell you?",
+    "opts": [
+      "Each eigenvalue measures the cross-correlation between two principal components projected onto each other.",
+      "Each eigenvalue gives the mean of the original feature aligned with the corresponding eigenvector direction.",
+      "Each eigenvalue is essentially the squared norm of the original column vectors before they are recentered.",
+      "Each eigenvalue gives the variance captured by its associated principal component direction in the data."
+    ],
+    "correct": 3,
+    "explanation": "Eigenvalues of the covariance matrix equal the variance of the data projected onto the corresponding eigenvector. PCA orders components by descending eigenvalue so the top-k components capture the most variance.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Mathematical & Statistical Foundations",
+    "q": "A diagnostic test is 95% accurate. The base rate of the disease is 1 in 1000. A randomly tested person tests positive. What is most likely about the probability they actually have the disease?",
+    "opts": [
+      "It is around 95%, because the test was correct 95% of the time when applied to this individual patient.",
+      "It is well below 50%, because the low base rate means false positives swamp the true positives.",
+      "It is around 50%, since a positive result and a negative result are equally likely outcomes for this person.",
+      "It is essentially 100%, because the high test accuracy effectively rules out any false positive result."
+    ],
+    "correct": 1,
+    "explanation": "This is the classic base-rate problem. With prevalence 0.001 and false-positive rate 0.05, false positives heavily outnumber true positives. By Bayes' theorem, posterior probability of disease given a positive test is on the order of a few percent, not 95%.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Mathematical & Statistical Foundations",
+    "q": "You apply Bayes' theorem with prior P(H), likelihood P(E|H), and evidence P(E). Which statement best describes what the posterior P(H|E) represents?",
+    "opts": [
+      "It is the prior probability of the hypothesis rescaled by an arbitrary normalizing constant unrelated to the data.",
+      "It is the updated belief in the hypothesis after taking the observed evidence into account.",
+      "It is the probability of observing the evidence E in the absence of any prior knowledge of H.",
+      "It is the joint probability of H and E, which is also equal to P(E|H) times P(E) by symmetry."
+    ],
+    "correct": 1,
+    "explanation": "The posterior P(H|E) is the updated belief in the hypothesis after incorporating the evidence: P(H|E) = P(E|H) · P(H) / P(E). It expresses how evidence changes prior belief.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Mathematical & Statistical Foundations",
+    "q": "A fair six-sided die is rolled. Let X be the number shown. What is the expected value E[X]?",
+    "opts": [
+      "The expected value is 3.0, the midpoint between the smallest possible outcome and the largest possible outcome.",
+      "The expected value is 4.0, since higher faces contribute disproportionately more weight to the long-run mean.",
+      "The expected value is 3.5, the average of values 1 through 6 weighted equally by uniform probability.",
+      "The expected value is 6.0, which corresponds to the maximum face that the die can possibly land on."
+    ],
+    "correct": 2,
+    "explanation": "For a discrete uniform distribution on {1,…,6}, the expected value is (1+2+3+4+5+6)/6 = 21/6 = 3.5. Expected value is a probability-weighted average of outcomes.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Mathematical & Statistical Foundations",
+    "q": "In a binary classification task you model the output as a Bernoulli random variable. Which distribution parameter is your model effectively predicting?",
+    "opts": [
+      "Some real-valued mean μ that can take any value between negative infinity and positive infinity freely.",
+      "A single probability p in [0,1] that gives the chance the outcome variable equals 1.",
+      "Both the mean and a separately learned variance, which together define a Gaussian over the output.",
+      "A multi-dimensional vector of probabilities that must sum to one over the full set of K classes."
+    ],
+    "correct": 1,
+    "explanation": "A Bernoulli distribution has a single parameter p ∈ [0,1] giving P(Y=1). Binary classifiers — logistic regression, sigmoid output of a neural net — predict this probability for each input.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Mathematical & Statistical Foundations",
+    "q": "A study reports a p-value of 0.03 when testing whether a model's accuracy beats a baseline at α = 0.05. What is the correct interpretation?",
+    "opts": [
+      "There is a 97% probability that the model is genuinely better than the baseline in deployment.",
+      "There is a 3% probability that the null hypothesis is true given the observed test statistics.",
+      "Under the null, observing data at least this extreme has probability 0.03; this is below α, so we reject.",
+      "The result is statistically insignificant since p-values below 0.05 always indicate insufficient evidence."
+    ],
+    "correct": 2,
+    "explanation": "A p-value is P(data at least this extreme | null hypothesis true). With p = 0.03 < α = 0.05 we reject the null. It is NOT the probability the null is true, nor the probability the model is better.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Mathematical & Statistical Foundations",
+    "q": "You report a 95% confidence interval [0.82, 0.88] for the accuracy of your model. Which interpretation is the most defensible frequentist reading?",
+    "opts": [
+      "There is exactly a 95% probability that the true accuracy parameter falls within this specific reported interval.",
+      "Around 95% of future predictions made by the model will land somewhere within the interval [0.82, 0.88].",
+      "The model's accuracy is guaranteed to be at least 0.82 and at most 0.88 in every deployment scenario.",
+      "If we resampled and reconstructed many such intervals, around 95% of them would contain the true accuracy."
+    ],
+    "correct": 3,
+    "explanation": "In the frequentist view, the parameter is fixed; the interval is random. 'Confidence' refers to the long-run coverage of the procedure — about 95% of such intervals across hypothetical repetitions would contain the true parameter.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Mathematical & Statistical Foundations",
+    "q": "You are minimizing a loss function L(θ) using gradient descent. Which statement about the gradient ∇L(θ) is most accurate?",
+    "opts": [
+      "The gradient at a local minimum is exactly equal to the identity matrix in higher-dimensional parameter spaces.",
+      "The gradient is always perpendicular to the direction of fastest descent regardless of the loss surface shape.",
+      "The gradient points in the direction of steepest ascent of L at the current point in parameter space.",
+      "The gradient is independent of the parameters and depends only on the structure of the training data itself."
+    ],
+    "correct": 2,
+    "explanation": "By definition the gradient points in the direction of steepest ascent. Gradient descent moves opposite to the gradient (−∇L) to decrease L. At a stationary point ∇L = 0 (the zero vector, not the identity).",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Mathematical & Statistical Foundations",
+    "q": "Which property of a loss function guarantees that gradient descent will converge to a global minimum (with appropriate step sizes)?",
+    "opts": [
+      "The function must be differentiable everywhere, regardless of its overall shape or local curvature behaviour.",
+      "The function must be convex, so any local minimum coincides with the unique global minimum on the surface.",
+      "The function must be linear in the parameters, so gradient descent reduces to closed-form least squares.",
+      "The function must be bounded above by a finite constant across the entire parameter domain of interest."
+    ],
+    "correct": 1,
+    "explanation": "Convexity guarantees a unique global minimum (or a connected set of global minima) and that gradient descent with appropriate step sizes converges to it. Most deep-network losses are non-convex, so this guarantee does not hold there.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Mathematical & Statistical Foundations",
+    "q": "Maximum likelihood estimation (MLE) selects model parameters by which principle?",
+    "opts": [
+      "By choosing the parameters that minimize the prior probability of the training data under the assumed model class.",
+      "By directly minimizing test-set accuracy, since this best reflects deployment performance of the model.",
+      "By picking parameters that maximize the probability of the observed data under the model.",
+      "By averaging parameters across all hypotheses in proportion to their posterior probability after Bayesian updating."
+    ],
+    "correct": 2,
+    "explanation": "MLE chooses θ that maximizes the likelihood P(data | θ) — equivalently, minimizes negative log-likelihood. The Bayesian average-over-posterior approach in the last option is the marginal predictive, not MLE.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Mathematical & Statistical Foundations",
+    "q": "In classification, training with cross-entropy loss is equivalent to which statistical estimation procedure?",
+    "opts": [
+      "Robust estimation that explicitly downweights outliers far from the bulk of the training distribution.",
+      "Method-of-moments estimation that matches the empirical mean and variance of the labels to the model.",
+      "Bayesian estimation with an uninformative uniform prior on every weight in the network being trained.",
+      "Maximum likelihood estimation under a categorical (or Bernoulli) model of the labels conditional on inputs."
+    ],
+    "correct": 3,
+    "explanation": "Cross-entropy loss is the negative log-likelihood of the labels under a categorical (or Bernoulli) model. Minimizing it is exactly MLE for those distributions, which is why it is the standard classification loss.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Mathematical & Statistical Foundations",
+    "q": "You measure KL divergence D_KL(P || Q) between two distributions. Which of the following statements is correct?",
+    "opts": [
+      "It is non-negative and equals zero if and only if P equals Q almost everywhere on their common support.",
+      "It is a true distance metric satisfying the triangle inequality across any sequence of three distributions.",
+      "It is symmetric: D_KL(P||Q) equals D_KL(Q||P) for all valid pairs of probability distributions P and Q.",
+      "It can be negative whenever Q has higher entropy than P over the same outcome space and shared support."
+    ],
+    "correct": 0,
+    "explanation": "KL divergence is non-negative (Gibbs' inequality) and equals zero iff P = Q (a.e.). It is asymmetric and not a true metric — it does not satisfy the triangle inequality. It is never negative.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Mathematical & Statistical Foundations",
+    "q": "The central limit theorem (CLT) says that the sample mean of i.i.d. samples approaches what distribution as the sample size grows?",
+    "opts": [
+      "It approaches an approximately normal (Gaussian) distribution regardless of the underlying distribution's shape.",
+      "It approaches a uniform distribution on the support of the underlying random variable regardless of its shape.",
+      "It approaches the exact distribution of the population from which the data is drawn, just with smaller spread.",
+      "It approaches a Bernoulli distribution whenever the random variables take values on a finite discrete domain."
+    ],
+    "correct": 0,
+    "explanation": "The CLT states that, given finite variance, the distribution of the sample mean approaches a normal distribution as n → ∞, regardless of the parent distribution's shape. This underpins many statistical tests and confidence intervals.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Mathematical & Statistical Foundations",
+    "q": "Your model finds strong correlation between ice-cream sales and drowning deaths over a year. What is the most defensible interpretation?",
+    "opts": [
+      "Strong correlation in any observational dataset like this is sufficient evidence of a direct causal relationship.",
+      "A confounder such as warm weather likely drives both, so the correlation does not establish any causal direction.",
+      "Drownings cause ice-cream sales, since traumatic events tend to drive consumption of comfort foods like ice cream.",
+      "Ice cream causes drownings, and the policy implication is to restrict ice-cream sales during summer months."
+    ],
+    "correct": 1,
+    "explanation": "This is the canonical example of confounding. Correlation does not imply causation; a third variable (temperature/season) drives both. Causal claims require designs (RCTs, instrumental variables, causal inference techniques) that control for confounders.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Data & Feature Foundations",
+    "q": "You split your dataset into train, validation, and test sets. Which use is most appropriate for the test set?",
+    "opts": [
+      "Use it only once at the end to obtain an unbiased estimate of the final selected model's generalization.",
+      "Use it for hyperparameter tuning by trying several configurations and selecting the one with the highest score.",
+      "Use it during training to make early-stopping decisions whenever validation accuracy stops improving each epoch.",
+      "Use it interchangeably with the validation set whenever the validation set becomes too small for reliable estimates."
+    ],
+    "correct": 0,
+    "explanation": "The test set provides an unbiased estimate of generalization. It must be used exactly once on the final model. Repeatedly probing it during development causes information leakage and optimistic bias — making it effectively another validation set.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Data & Feature Foundations",
+    "q": "A churn prediction model achieves 99% AUC in development but performs poorly in production. The training data includes a 'days_since_cancellation' feature. What is the likely cause?",
+    "opts": [
+      "Target leakage — the feature is only well-defined after the outcome it is supposed to predict has already occurred.",
+      "Overfitting to the validation set caused by running too many hyperparameter trials in sequence.",
+      "Class imbalance, which causes AUC to overstate model performance for the minority class in unseen data.",
+      "Random initialization of model weights varying significantly between development and production environments."
+    ],
+    "correct": 0,
+    "explanation": "Target leakage: 'days_since_cancellation' is only known after cancellation, making it a near-perfect predictor of churn at training time but unavailable (or zero) at prediction time. Audit feature timestamps relative to the prediction horizon.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Data & Feature Foundations",
+    "q": "When standardizing features (z-score) before training, on what statistics should the transformation be computed?",
+    "opts": [
+      "On the training set only; the same mean and std are then applied to validation and test data as fixed constants.",
+      "On the combined training, validation, and test data so that all splits share exactly the same statistical scale.",
+      "On each split independently — training, validation, and test sets each computing their own mean and std locally.",
+      "On the test set only, since the test distribution is what we ultimately want the model to be calibrated to."
+    ],
+    "correct": 0,
+    "explanation": "Fit any preprocessing — scaling, encoding, imputation — on the training set only. Then apply the same fitted transform to validation and test. Using validation/test statistics is a form of leakage that biases evaluation.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Data & Feature Foundations",
+    "q": "You have a categorical feature 'country' with 200 distinct values used in a tree-based model. Which encoding is most likely to cause issues?",
+    "opts": [
+      "Target encoding with proper out-of-fold computation to avoid leaking the target into the encoded feature value.",
+      "Integer (label) encoding that imposes an arbitrary ordering on countries with no inherent ordinal relationship between them.",
+      "Hashing the categories down to a smaller fixed number of buckets, accepting a tunable rate of collisions.",
+      "Frequency encoding where each country is replaced by how often it appears across the training dataset."
+    ],
+    "correct": 1,
+    "explanation": "Label encoding implies ordinal structure that does not exist for nominal categories like country. Linear models would be especially harmed; tree models are more tolerant but still cannot exploit the arbitrary ordering. Use one-hot, target, or hashing instead.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Data & Feature Foundations",
+    "q": "A medical dataset has 30% missing values in a critical lab-test feature. Which approach is generally least defensible?",
+    "opts": [
+      "Investigate the missingness mechanism (MCAR / MAR / MNAR) before choosing imputation, deletion, or model-based handling.",
+      "Use multiple imputation that accounts for the uncertainty introduced by replacing missing values with plausible estimates.",
+      "Impute missing values with the global mean of the column with no further uncertainty modelling at all.",
+      "Add a missingness indicator column alongside any imputed value so the model can use missingness as a signal."
+    ],
+    "correct": 2,
+    "explanation": "Mean imputation without considering missingness mechanism or uncertainty distorts variance and ignores valuable information. In medical data, 'missing' often carries clinical meaning — at minimum add a missingness indicator and consider model-based imputation.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Data & Feature Foundations",
+    "q": "A fraud classification dataset has 0.5% positive class. Which of the following is generally not a useful response to this imbalance?",
+    "opts": [
+      "Resampling techniques such as SMOTE for the minority class or undersampling of the majority class observations.",
+      "Reporting plain accuracy as the only headline metric, since a baseline of 99.5% can be achieved trivially.",
+      "Class-weighted loss so that minority-class examples contribute more heavily to the training gradient updates.",
+      "Evaluating using precision, recall, F1, and PR-AUC instead of overall accuracy as the primary headline metrics."
+    ],
+    "correct": 1,
+    "explanation": "Accuracy is misleading under extreme imbalance — predicting 'never fraud' yields 99.5% accuracy with zero useful predictions. Use precision, recall, F1, PR-AUC; consider resampling and class weights to improve minority-class detection.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Data & Feature Foundations",
+    "q": "Your training data was collected from existing customers of an app. The model will be deployed to acquire new users. What concern is most relevant?",
+    "opts": [
+      "Selection bias — the training population differs systematically from the deployment population in unknown ways.",
+      "Class imbalance between users who installed the app version 1 and the users who installed version 2.",
+      "Hyperparameter sensitivity, since the same hyperparameters may not transfer across different model architectures.",
+      "Optimizer-choice sensitivity, since Adam and SGD can converge to slightly different minima on the same data."
+    ],
+    "correct": 0,
+    "explanation": "Selection bias / sampling bias: existing users are systematically different from prospective users (they already chose to install). The model may underperform on the deployment population. Address via better sampling, domain adaptation, or careful evaluation on a representative holdout.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Data & Feature Foundations",
+    "q": "Which statement best describes the goal of feature engineering?",
+    "opts": [
+      "Transforming raw inputs into representations that expose structure aligned with the learner's inductive biases.",
+      "Adding as many features as possible so the learner can decide what is most useful during optimization.",
+      "Replacing every numeric feature with one-hot encoded bins so all inputs become binary indicator variables.",
+      "Removing features the model dislikes during the first epoch of training to speed up the optimizer's progress."
+    ],
+    "correct": 0,
+    "explanation": "Feature engineering converts raw signals into representations that make the relationship to the target easier for a model to learn — for linear models this means linearizing, for trees it means surfacing useful split points. It complements rather than replaces the learner.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Data & Feature Foundations",
+    "q": "Which is a primary motivation for dimensionality reduction techniques like PCA before clustering or visualization?",
+    "opts": [
+      "It reduces noise and computational cost, and can mitigate the curse of dimensionality in distance-based methods.",
+      "PCA guarantees better downstream model accuracy whenever the original feature set has more than ten dimensions.",
+      "PCA always produces interpretable features, since each principal component aligns with an original input feature exactly.",
+      "PCA increases the effective sample size of the dataset by replacing each sample with multiple projected versions."
+    ],
+    "correct": 0,
+    "explanation": "Dimensionality reduction can denoise, decorrelate, and shrink compute — especially useful for distance-based learners that suffer when meaningful distances become uniform in high dimensions. It does not guarantee better accuracy and components are linear combinations, not original features.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Data & Feature Foundations",
+    "q": "You suspect train-test distribution shift. Which check is most directly diagnostic?",
+    "opts": [
+      "Increase model capacity until training loss reaches zero, then measure whether test loss simultaneously decreases.",
+      "Train a model to distinguish 'is this sample from train or test' — if AUC is high, distributions differ meaningfully.",
+      "Train the same model architecture five times with different random seeds and compare the validation losses obtained.",
+      "Replace ReLU activations with sigmoid activations to see whether the test-vs-train accuracy gap closes substantially."
+    ],
+    "correct": 1,
+    "explanation": "A classifier that tells train apart from test (sometimes called adversarial validation) is a standard distribution-shift diagnostic. If a model can predict source with AUC well above 0.5, the distributions differ; high importance features point at which features shifted.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Data & Feature Foundations",
+    "q": "You split a small imbalanced dataset randomly and the test set happens to have zero positive examples. Which strategy directly avoids this?",
+    "opts": [
+      "Increase the random-seed variation by using a different shuffle each time the dataset is loaded into memory.",
+      "Combine train and test, sample with replacement to grow the dataset, then split randomly into three parts.",
+      "Always make the test set as small as possible, since smaller test sets are inherently easier to balance manually.",
+      "Stratified sampling that preserves the class proportions across train, validation, and test splits."
+    ],
+    "correct": 3,
+    "explanation": "Stratified splitting ensures the class distribution in each split matches the overall data. This is essential for imbalanced datasets so every split contains both classes in approximately the right proportions.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Data & Feature Foundations",
+    "q": "Which is the strongest motivation for using data augmentation for image classification?",
+    "opts": [
+      "Augmentation generates entirely new image classes that did not appear in the original training data collection.",
+      "Augmentation perfectly compensates for label-noise problems in the training set by smoothing out wrong labels.",
+      "Augmentation expands effective training data and encodes invariances (rotation, crop) the model should respect.",
+      "Augmentation reduces compute cost during training, since augmented images can be processed at lower resolution always."
+    ],
+    "correct": 2,
+    "explanation": "Augmentation increases effective dataset size and explicitly encodes invariances the model should learn — small translations, flips, rotations, colour jitter often shouldn't change a classification label. It improves generalization, not class coverage or label correctness.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Data & Feature Foundations",
+    "q": "You have a feature 'education_level' with values High School, Bachelor's, Master's, PhD. Which encoding is most natural?",
+    "opts": [
+      "One-hot encoding only, since any other choice would impose ordering on categories that should be treated as nominal.",
+      "Target encoding using the mean outcome per category as the only representation passed to the model.",
+      "Hashing the four values into 1024 bins, accepting the resulting collisions as a regularization benefit.",
+      "Ordinal encoding (e.g. 1, 2, 3, 4) reflecting the inherent ordering of education levels."
+    ],
+    "correct": 3,
+    "explanation": "Education level has natural ordering, so ordinal encoding preserves that signal for models that can use it (especially linear models and trees). One-hot is also valid but discards order; hashing is unnecessary for only 4 values.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Data & Feature Foundations",
+    "q": "A few extreme outliers in a regression target are dominating mean-squared error. Which response is most defensible?",
+    "opts": [
+      "Increase the model's capacity until the outliers fit perfectly, since memorizing them shows the model is expressive enough.",
+      "Investigate whether outliers are data-quality errors or genuine; consider robust loss (e.g. Huber) or transformations.",
+      "Always remove every observation more than two standard deviations from the mean before training a regression model.",
+      "Always log-transform the target whenever its distribution has any positive skew, regardless of the outlier mechanism."
+    ],
+    "correct": 1,
+    "explanation": "First understand the outliers (data errors vs genuine signal). For genuine but heavy-tailed targets, robust losses (Huber, MAE) or target transformations (log) reduce sensitivity. Blanket removal or transformation rules ignore the actual mechanism.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Data & Feature Foundations",
+    "q": "When splitting time-series data for evaluation, which approach is most appropriate?",
+    "opts": [
+      "Use a forward-chaining (time-ordered) split where training periods strictly precede validation and test periods.",
+      "Shuffle all timestamps randomly and split into train, validation, and test using uniform random sampling for fairness.",
+      "Use the most recent observations as the training set so the model is trained on the freshest available data.",
+      "Always use exactly leave-one-out cross-validation because it provides the lowest-bias evaluation in every scenario."
+    ],
+    "correct": 0,
+    "explanation": "Time-series data has temporal dependence; random shuffling leaks future information into training. Use forward-chaining/expanding-window splits where train always precedes validation/test in time. This matches how the model will be used in deployment.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Data & Feature Foundations",
+    "q": "You discover a 'user_id' field has been included as a numeric feature in your model and removing it sharply hurts validation accuracy. What is the most likely conclusion?",
+    "opts": [
+      "User ID carries genuine causal information about the target and should remain as an input feature in the model.",
+      "User IDs are a useful sequential signal that helps the model adapt to recent users compared to older ones.",
+      "Validation accuracy dropped because the model can no longer detect malicious users via their ID patterns.",
+      "The model has memorized identifiers, generalization is illusory, and the ID should not be a feature."
+    ],
+    "correct": 3,
+    "explanation": "User IDs are usually arbitrary tokens with no causal meaning. If removing them hurts validation, the model is memorizing identifiers — strong evidence of leakage or train/val overlap by user. Validation performance will not transfer to new users.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Classical Machine Learning",
+    "q": "Which assumption of ordinary least squares (OLS) linear regression, if violated, most directly biases the coefficient estimates?",
+    "opts": [
+      "Homoscedasticity of residuals — when violated, coefficients become biased but standard errors stay perfectly correct.",
+      "Independence of errors across observations — when violated, point estimates become biased and inconsistent always.",
+      "Normality of residuals — when violated, OLS coefficient point estimates become biased even in arbitrarily large samples.",
+      "Exogeneity (zero mean error given X) — when violated, e.g. via omitted variables, coefficient estimates are biased."
+    ],
+    "correct": 3,
+    "explanation": "OLS gives unbiased coefficient estimates under exogeneity (E[ε|X] = 0). Omitted variables correlated with included regressors violate this and bias estimates. Heteroscedasticity affects standard errors, not point-estimate bias. Non-normality affects inference at small samples, not consistency.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Classical Machine Learning",
+    "q": "Logistic regression outputs values between 0 and 1. What is its standard fitting objective?",
+    "opts": [
+      "Maximize the squared correlation between predictions and labels using a least-squares closed-form solution.",
+      "Maximize the AUC of the resulting classifier directly via gradient ascent on the area under the ROC curve.",
+      "Minimize the squared error between probabilities and binary labels treated as continuous numeric targets.",
+      "Maximize log-likelihood under a Bernoulli model — equivalently, minimize binary cross-entropy loss."
+    ],
+    "correct": 3,
+    "explanation": "Logistic regression fits parameters by maximum likelihood under a Bernoulli model, equivalent to minimizing binary cross-entropy. It does not minimize MSE on labels, and AUC is generally not directly optimized (it's non-differentiable in the rank sense).",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Classical Machine Learning",
+    "q": "L1 regularization (Lasso) and L2 regularization (Ridge) differ most importantly in which respect?",
+    "opts": [
+      "L2 produces sparse solutions where many coefficients become exactly zero, while L1 only shrinks coefficient magnitudes.",
+      "L1 always converges faster than L2 because the L1 penalty has a smaller computational footprint per training step.",
+      "L1 tends to produce sparse solutions where some coefficients are exactly zero, while L2 shrinks coefficients smoothly.",
+      "L2 cannot be used for regression problems, while L1 is the standard penalty for regression with continuous targets."
+    ],
+    "correct": 2,
+    "explanation": "L1's penalty (|w|) is non-differentiable at zero and induces sparsity — many coefficients are driven exactly to zero. L2 (w²) shrinks all coefficients smoothly toward zero but rarely to exactly zero. Lasso doubles as a feature-selection method; Ridge does not.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Classical Machine Learning",
+    "q": "A decision tree node chooses a split that minimizes which type of impurity for classification?",
+    "opts": [
+      "Gini impurity or entropy (information gain) — both measure how mixed the labels are within a node.",
+      "Manhattan distance between the predicted class probabilities and the true one-hot encoded target labels.",
+      "Mean squared error of the labels, since it is symmetric and differentiable everywhere across the input domain.",
+      "Negative log-determinant of the within-node covariance matrix of the feature values at each candidate split."
+    ],
+    "correct": 0,
+    "explanation": "Classification trees use Gini impurity or entropy to pick splits that maximize class purity in child nodes (i.e. minimize impurity). MSE is the standard objective for regression trees, not classification.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Classical Machine Learning",
+    "q": "A random forest reduces variance compared with a single decision tree primarily through which mechanism?",
+    "opts": [
+      "Boosting weak learners sequentially so each new tree fixes the errors made by previously fitted trees in the ensemble.",
+      "Pruning a single decision tree very aggressively until it has only one or two splits in the final model.",
+      "Bagging (bootstrap aggregation) plus random feature subsampling at each split to decorrelate the constituent trees.",
+      "Replacing decision trees with linear models trained on the same bootstrap samples drawn from the data."
+    ],
+    "correct": 2,
+    "explanation": "Random forests combine bagging (train on bootstrap samples) with random feature subsets per split. Both decorrelate the trees so averaging reduces variance more than bagging alone. Boosting is a different paradigm (gradient boosting, AdaBoost).",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Classical Machine Learning",
+    "q": "Gradient boosting builds an ensemble in which way?",
+    "opts": [
+      "By fitting each new weak learner to the residuals (or gradients of the loss) of the current ensemble.",
+      "By averaging predictions from many trees fit independently in parallel on different random bootstrap samples of data.",
+      "By selecting a single best decision tree out of many candidate trees through cross-validated hyperparameter search.",
+      "By training a deep neural network using the residuals from a shallow tree-based ensemble as additional input features."
+    ],
+    "correct": 0,
+    "explanation": "Gradient boosting fits each new learner to the negative gradient of the loss with respect to the current ensemble's predictions — for squared loss this is the residual. It is sequential and additive, distinct from the parallel bagging of random forests.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Classical Machine Learning",
+    "q": "k-Nearest Neighbours (k-NN) is sensitive to the 'curse of dimensionality.' What does that mean in practice?",
+    "opts": [
+      "k-NN cannot be applied when the number of features exceeds the number of training examples in the dataset.",
+      "As dimensionality grows, distances between points become more uniform, so 'nearest' carries less information.",
+      "The optimization landscape of k-NN training becomes non-convex above a certain dimensionality threshold.",
+      "Gradient updates for k-NN parameters become unstable when the number of features exceeds the number of classes."
+    ],
+    "correct": 1,
+    "explanation": "In high dimensions, distance contrasts shrink: nearest and farthest neighbours become almost equidistant. This degrades any distance-based method (k-NN, k-means). Mitigations include dimensionality reduction, learned distance metrics, or different model families. k-NN is non-parametric, so 'training' isn't gradient-based.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Classical Machine Learning",
+    "q": "A support vector machine (SVM) with a soft margin trades off which two competing objectives?",
+    "opts": [
+      "Maximizing the margin between classes versus minimizing the slack used to tolerate misclassified or boundary points.",
+      "Maximizing training accuracy versus minimizing the number of support vectors used in the final fitted model.",
+      "Maximizing the regularization strength versus minimizing the depth of the polynomial kernel function used internally.",
+      "Maximizing the L2 norm of the weight vector versus minimizing the number of training examples actually used."
+    ],
+    "correct": 0,
+    "explanation": "Soft-margin SVMs minimize ½||w||² + C Σξᵢ — the first term maximizes margin, the second penalizes slack (misclassified or within-margin points). C controls the trade-off: large C favours low training error, small C favours larger margin.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Classical Machine Learning",
+    "q": "What is the 'naive' assumption that gives Naive Bayes its name?",
+    "opts": [
+      "That the features are conditionally independent of each other given the class label.",
+      "That the prior probability of every class is exactly equal regardless of how often each appears in the training data.",
+      "That the classifier requires only a single training example per class to estimate its parameters accurately.",
+      "That the data distribution has finite support and bounded variance, both of which can be estimated trivially."
+    ],
+    "correct": 0,
+    "explanation": "Naive Bayes assumes features are conditionally independent given the class — a strong (often wrong) simplification that makes parameter estimation easy and surprisingly effective in practice, especially for text classification.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Classical Machine Learning",
+    "q": "k-means clustering minimizes which objective?",
+    "opts": [
+      "The pairwise distances between every pair of points within each cluster, summed across the whole dataset.",
+      "The number of clusters needed to cover every training point within a fixed radius around each cluster centre.",
+      "The marginal likelihood of the data under a Gaussian mixture with shared spherical covariance parameters.",
+      "The within-cluster sum of squared distances from each point to its assigned cluster centroid."
+    ],
+    "correct": 3,
+    "explanation": "k-means minimizes the within-cluster sum of squares (WCSS): Σ ||x − μ_c(x)||². The Gaussian-mixture interpretation in the last option is closely related but k-means is the hard-assignment limit; the canonical objective is WCSS.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Classical Machine Learning",
+    "q": "Which clustering method does NOT require you to specify the number of clusters up front?",
+    "opts": [
+      "k-means clustering, which requires the parameter k to be set before the iterative assignment process begins.",
+      "Spectral clustering using normalized cuts, which requires k to be specified before computing the spectral embedding.",
+      "Gaussian mixture models, which require the number of mixture components to be specified before training begins.",
+      "Hierarchical agglomerative clustering, which builds a dendrogram that can be cut at any chosen height afterward."
+    ],
+    "correct": 3,
+    "explanation": "Hierarchical agglomerative clustering produces a full dendrogram; the user chooses where to cut afterward to get any number of clusters. k-means, GMM (without model selection), and spectral clustering all require k beforehand.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Classical Machine Learning",
+    "q": "DBSCAN clusters points based on density. Which kind of structure handles it especially well compared to k-means?",
+    "opts": [
+      "Clusters of arbitrary shape (e.g. crescents, rings) and the ability to mark sparse points as noise.",
+      "Clusters that are well-approximated by spherical Gaussians of approximately equal size in the feature space.",
+      "Datasets with exactly k clusters of similar density where each cluster contains approximately the same number of points.",
+      "High-dimensional sparse data where distance contrasts are weak and density estimates become essentially uniform."
+    ],
+    "correct": 0,
+    "explanation": "DBSCAN groups dense regions and treats sparse regions as noise. It handles non-convex clusters well — unlike k-means which assumes spherical-ish clusters. It struggles in very high dimensions where density becomes hard to estimate.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Classical Machine Learning",
+    "q": "What does PCA optimize for when projecting data onto a lower-dimensional subspace?",
+    "opts": [
+      "Maximum class separation in the projected space, given known class labels and within-class scatter information.",
+      "Maximum sparsity of the resulting projected coordinates so that many of them end up exactly zero by design.",
+      "Maximum variance retained in the projected space — equivalently, minimum squared reconstruction error.",
+      "Maximum non-linearity of the projection, capturing curved manifolds within a small number of dimensions."
+    ],
+    "correct": 2,
+    "explanation": "PCA finds orthogonal directions that maximize variance — equivalent to minimizing squared reconstruction error from the projection. Maximum class separation describes LDA (supervised), not PCA. PCA is linear, not sparse, and not curvature-aware.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Classical Machine Learning",
+    "q": "t-SNE and UMAP are commonly used for which purpose?",
+    "opts": [
+      "Linear feature extraction whose components are easy to interpret in terms of the original input features.",
+      "Predicting future values of time series by projecting historical data into a low-dimensional latent space.",
+      "Non-linear dimensionality reduction primarily for visualization, preserving local neighbourhood structure.",
+      "Removing measurement noise from regression targets prior to fitting a downstream supervised predictive model."
+    ],
+    "correct": 2,
+    "explanation": "t-SNE and UMAP are non-linear dimensionality reduction methods designed for visualizing high-dimensional data in 2D/3D. They preserve local neighbourhoods. Distances and densities in the embedding should not be over-interpreted globally.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Classical Machine Learning",
+    "q": "As you increase model complexity from very simple to very complex, the bias-variance tradeoff typically behaves how?",
+    "opts": [
+      "Bias and variance both monotonically increase together as model complexity grows without any bound on either.",
+      "Bias decreases while variance increases, with a sweet spot near the middle that minimizes total expected error.",
+      "Bias increases while variance decreases monotonically as the model becomes more flexible and high-capacity.",
+      "Both bias and variance remain essentially constant — only the irreducible noise floor of the data changes."
+    ],
+    "correct": 1,
+    "explanation": "Simple models underfit (high bias, low variance). Complex models overfit (low bias, high variance). Total error = bias² + variance + irreducible noise. The classical U-shape has a minimum at intermediate complexity. (Modern deep learning sometimes shows 'double descent.')",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Classical Machine Learning",
+    "q": "Bagging and boosting are both ensemble methods. What is the key difference in their training procedures?",
+    "opts": [
+      "Bagging trains base learners in parallel on bootstrap samples; boosting trains them sequentially to fix prior errors.",
+      "Boosting trains base learners in parallel on bootstrap samples; bagging trains them sequentially to fix prior errors.",
+      "Bagging and boosting are identical in procedure; only their final aggregation rules at prediction time differ.",
+      "Bagging always uses decision trees, while boosting always uses linear models, which is the only meaningful distinction."
+    ],
+    "correct": 0,
+    "explanation": "Bagging fits many base learners independently on bootstrap samples and averages them — reducing variance. Boosting builds learners sequentially, each focusing on errors of the current ensemble — reducing both bias and variance. Both work with any weak learner.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Classical Machine Learning",
+    "q": "For an extremely imbalanced binary classification problem, which technique addresses imbalance at the algorithm level (rather than the data level)?",
+    "opts": [
+      "Random undersampling of the majority class to roughly match the size of the minority class in the training set.",
+      "SMOTE-style synthetic oversampling of the minority class to balance the training distribution before fitting any model.",
+      "Stratified train/test splitting that preserves class proportions across the various data partitions consistently.",
+      "Class-weighted loss that penalizes minority-class errors more heavily during model training and gradient updates."
+    ],
+    "correct": 3,
+    "explanation": "Class-weighted loss modifies the algorithm to upweight the minority class without changing the data. Undersampling and SMOTE are data-level techniques; stratified splitting addresses evaluation, not training imbalance.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Classical Machine Learning",
+    "q": "K-fold cross-validation primarily produces what?",
+    "opts": [
+      "A guaranteed improvement in test-set accuracy compared with training on the full data without any cross-validation.",
+      "A trained model whose parameters are jointly the average of the parameters across all the K trained fold models.",
+      "A lower-variance estimate of generalization performance than a single train/validation split alone.",
+      "An unbiased estimator of the irreducible noise floor of the data, independent of the model class being evaluated."
+    ],
+    "correct": 2,
+    "explanation": "K-fold CV averages performance over K different train/val splits, giving a lower-variance estimate of generalization. It does not improve a model's accuracy, doesn't average parameters, and doesn't directly estimate noise floor.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Classical Machine Learning",
+    "q": "What is the difference between a model parameter and a hyperparameter?",
+    "opts": [
+      "Parameters are set by the user before training; hyperparameters are learned from the data during training itself.",
+      "Parameters are always discrete; hyperparameters are always continuous values to be optimized through gradient descent.",
+      "Parameters and hyperparameters refer to the same thing — the distinction is purely stylistic between papers and tutorials.",
+      "Parameters are learned from the data during training; hyperparameters are set before training (and tuned separately)."
+    ],
+    "correct": 3,
+    "explanation": "Parameters (weights, biases) are learned by the optimizer from data during training. Hyperparameters (learning rate, depth, regularization strength) configure the training itself and are usually chosen via cross-validation or other search procedures.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Classical Machine Learning",
+    "q": "Which is true of the distinction between generative and discriminative models in classification?",
+    "opts": [
+      "Both generative and discriminative models always require explicit modelling of the full joint distribution P(X,Y).",
+      "Discriminative models estimate P(X,Y) while generative models estimate P(Y|X) directly without modelling X.",
+      "Generative models estimate P(X,Y) (often via P(X|Y) and P(Y)); discriminative models estimate P(Y|X) directly.",
+      "Generative models can only ever be used for binary classification problems, never for multi-class problems."
+    ],
+    "correct": 2,
+    "explanation": "Generative models (Naive Bayes, GDA, HMMs) model the joint P(X,Y) — typically via P(X|Y)·P(Y) — and can generate new samples. Discriminative models (logistic regression, SVM, most neural nets for classification) model P(Y|X) directly.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Neural Networks & Deep Learning",
+    "q": "A single artificial neuron computes which operation before applying its activation function?",
+    "opts": [
+      "An element-wise product between the input vector and the weight vector, followed by a sum reduction.",
+      "A determinant of the outer product matrix formed between the input and weight vectors at this neuron.",
+      "A weighted sum of the inputs plus a bias term — equivalent to a dot product w·x + b.",
+      "A pairwise difference between each input feature and the corresponding stored weight, summed across all inputs."
+    ],
+    "correct": 2,
+    "explanation": "A neuron computes z = w·x + b (weighted sum plus bias), then applies a nonlinear activation σ(z). This is the building block of every dense layer in feed-forward networks.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Neural Networks & Deep Learning",
+    "q": "Why does a deep network with only linear activations behave equivalently to a single linear layer?",
+    "opts": [
+      "Linear activations cause gradients to explode during backpropagation, collapsing the network to a single layer in practice.",
+      "Linear activations destroy the bias terms during the forward pass, leaving only a single weighted sum at the output.",
+      "PyTorch and TensorFlow automatically optimize away intermediate linear layers at runtime, leaving only the first and last.",
+      "The composition of linear functions is itself linear, so adding depth without nonlinearity adds no representational power."
+    ],
+    "correct": 3,
+    "explanation": "Linear ∘ linear = linear. Any number of stacked linear layers collapses to one equivalent linear map. Nonlinear activations (ReLU, tanh, sigmoid) are what give depth its expressive power.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Neural Networks & Deep Learning",
+    "q": "Compared with sigmoid and tanh activations, what is a key advantage of ReLU in deep networks?",
+    "opts": [
+      "ReLU's gradient is exactly 1 for positive inputs, mitigating the vanishing-gradient problem that hurts sigmoid/tanh.",
+      "ReLU is bounded between 0 and 1, so it acts as a probability and works directly as an output activation.",
+      "ReLU is differentiable everywhere with smooth gradients, which makes optimization perfectly stable in all networks.",
+      "ReLU produces only positive outputs that are also zero-mean, which speeds up gradient-based optimization significantly."
+    ],
+    "correct": 0,
+    "explanation": "ReLU has gradient 1 for positive inputs (and 0 for negative), avoiding the saturating-gradient problem of sigmoid/tanh in deep networks. It is not bounded, not smooth (kink at 0), and not zero-mean — but its anti-vanishing property is decisive in practice.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Neural Networks & Deep Learning",
+    "q": "In backpropagation, gradients of the loss with respect to weights are computed using which mathematical rule?",
+    "opts": [
+      "The product rule applied to each pair of adjacent weights in the network, ignoring intervening activation layers.",
+      "Finite-difference approximation that evaluates the loss at slightly perturbed weights and divides by the perturbation size.",
+      "The chain rule, applied from the output layer backward through each layer's local Jacobians during the backward pass.",
+      "A separate analytical derivation for each individual layer that does not need to be combined with other layers in the network."
+    ],
+    "correct": 2,
+    "explanation": "Backpropagation is essentially the chain rule applied from output back to inputs. Each layer's local gradients are multiplied through to give ∂L/∂w. Finite differences would work but are too costly; pure analytical per-layer derivatives still need composition.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Neural Networks & Deep Learning",
+    "q": "In a very deep feed-forward network, what causes the 'vanishing gradient' problem?",
+    "opts": [
+      "Memory limitations on the GPU force gradients to be truncated to zero after a fixed number of layers each step.",
+      "The optimizer's learning rate is automatically reduced as the network grows deeper, causing updates to disappear over time.",
+      "Repeated multiplication of small gradients (often from saturating activations) shrinks signal toward zero through layers.",
+      "ReLU activations always produce zero gradients in their negative region, which dominates the entire backward pass."
+    ],
+    "correct": 2,
+    "explanation": "Backprop multiplies per-layer Jacobians; if their norms are small (e.g. sigmoid saturating regions), products shrink exponentially through depth. Solutions include ReLU-family activations, normalization layers, residual/skip connections, careful initialization.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Neural Networks & Deep Learning",
+    "q": "Which statement about the Adam optimizer is most accurate?",
+    "opts": [
+      "Adam maintains exponential moving averages of gradients and squared gradients to adapt per-parameter learning rates.",
+      "Adam is a second-order method that explicitly computes and inverts the Hessian matrix of the loss at every step.",
+      "Adam is equivalent to vanilla SGD but with the learning rate divided by a global constant set automatically by PyTorch.",
+      "Adam is guaranteed to converge to a global minimum on every loss surface, including non-convex ones used in deep learning."
+    ],
+    "correct": 0,
+    "explanation": "Adam tracks first-moment (mean) and second-moment (uncentered variance) estimates of gradients via EMAs, with bias correction. The per-parameter scale acts as adaptive learning rates. It is first-order, with no Hessian, and has no global convergence guarantee on non-convex losses.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Neural Networks & Deep Learning",
+    "q": "You set the learning rate too high during training. What is the most likely consequence?",
+    "opts": [
+      "The training loss converges almost immediately and the model generalizes far better than any low learning rate would.",
+      "The model strictly underfits because high learning rates always cause early stopping before any meaningful progress.",
+      "The loss diverges or oscillates wildly because each step overshoots the minimum and grows the parameter norm rapidly.",
+      "The optimizer enters a permanently flat region of the loss surface and stays there for the remainder of training."
+    ],
+    "correct": 2,
+    "explanation": "Excessively high learning rates cause divergence or oscillation around minima. Symptoms include loss spiking to NaN, oscillating loss curves, or parameter norm growing unbounded. Use learning-rate schedules, warmup, and gradient clipping to manage this.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Neural Networks & Deep Learning",
+    "q": "Batch normalization normalizes activations using which statistics during training?",
+    "opts": [
+      "Statistics computed across all of the model's parameters at the current training step, not the activations themselves.",
+      "Statistics computed across the full training set, recomputed from scratch at every forward pass during training.",
+      "Statistics computed across the current mini-batch — its mean and variance per feature channel.",
+      "Statistics derived from a moving average over the test set, ensuring train-time and test-time behaviour match exactly."
+    ],
+    "correct": 2,
+    "explanation": "BatchNorm uses the current mini-batch's mean and variance during training, and maintains running averages used at inference. It accelerates training and acts as a mild regularizer; its effectiveness depends on batch size.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Neural Networks & Deep Learning",
+    "q": "Dropout, applied during training, has what effect?",
+    "opts": [
+      "It randomly zeroes some activations during each training step, reducing co-adaptation and acting as a regularizer.",
+      "It permanently removes neurons whose weights fall below a small fixed threshold to enforce structured network sparsity.",
+      "It freezes the current layer's weights during training, allowing earlier layers to fit the data without interference.",
+      "It boosts large activations during training so the most informative neurons dominate the network's effective output."
+    ],
+    "correct": 0,
+    "explanation": "Dropout randomly zeroes activations (with probability p) during training, scaling the remainder to keep expected outputs constant. This prevents co-adaptation and approximates ensemble averaging. Dropout is disabled at inference time.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Neural Networks & Deep Learning",
+    "q": "What is the role of a convolution operation in a convolutional neural network (CNN)?",
+    "opts": [
+      "It densely connects every input pixel to every neuron in the next layer, similar to a standard fully-connected MLP.",
+      "It applies a learned filter that slides over spatial inputs to produce feature maps with shared-weight local connectivity.",
+      "It always reduces spatial dimensions by exactly half along each axis as a guaranteed property of every convolution layer.",
+      "It performs a global pooling over the full spatial domain of the input feature map at each layer of the network."
+    ],
+    "correct": 1,
+    "explanation": "A convolution slides a learnable filter (kernel) across the input, computing a weighted sum locally. Weight sharing across positions encodes translation equivariance and dramatically reduces parameters compared with dense layers. Stride/pooling control spatial reduction separately.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Neural Networks & Deep Learning",
+    "q": "Max pooling in a CNN serves what main purpose?",
+    "opts": [
+      "It introduces learnable parameters that adapt to the data, replacing the role of convolution in later layers entirely.",
+      "It applies non-linear activation functions in regions where ReLU otherwise would saturate to zero for many inputs.",
+      "It downsamples feature maps and adds limited translation invariance by keeping the strongest activation in each window.",
+      "It normalizes activations by computing the mean and variance over each local window, similar to a small batch norm."
+    ],
+    "correct": 2,
+    "explanation": "Max pooling reduces spatial resolution and provides limited translation invariance by retaining the maximum in each window. It has no learnable parameters. Average pooling is similar but uses the mean.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Neural Networks & Deep Learning",
+    "q": "A vanilla RNN processes a sequence by maintaining what?",
+    "opts": [
+      "An attention map over the entire input sequence computed afresh at every time step from scratch.",
+      "A static lookup table of token embeddings that does not change as the model processes successive tokens in time.",
+      "An independent set of weights for each position in the sequence, learned separately during training for each timestep.",
+      "A hidden state that is updated at each time step as a function of the current input and the previous hidden state."
+    ],
+    "correct": 3,
+    "explanation": "A vanilla RNN updates h_t = f(W·h_{t-1} + U·x_t + b). The hidden state carries information forward through time. Weights are shared across time steps. Vanilla RNNs struggle with long-range dependencies due to vanishing gradients.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Neural Networks & Deep Learning",
+    "q": "LSTMs improve over vanilla RNNs primarily by introducing what mechanism?",
+    "opts": [
+      "A multi-head self-attention block that replaces the recurrent connection between successive time steps entirely.",
+      "Convolutional layers along the time dimension that replace the recurrent step with a fixed-receptive-field computation.",
+      "Gating mechanisms (input, forget, output) that control information flow and help preserve long-range dependencies.",
+      "Skip connections to the embedding layer that allow the gradient to bypass every intermediate recurrent layer in training."
+    ],
+    "correct": 2,
+    "explanation": "LSTMs add gates that learn what to remember, forget, and output, plus a separate cell state. This addresses vanishing gradients and lets the model preserve long-range information much better than a vanilla RNN.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Neural Networks & Deep Learning",
+    "q": "In a transformer, self-attention allows the model to do which of the following?",
+    "opts": [
+      "Sample tokens randomly during training to encourage exploration of unseen subsequences during the forward pass.",
+      "Process tokens strictly left-to-right with a fixed-size context window of exactly four tokens at each timestep.",
+      "Convolve learned filters over the sequence with a fixed receptive field that does not adapt to the input content at all.",
+      "Process every position simultaneously while letting each position attend to all other positions in the sequence."
+    ],
+    "correct": 3,
+    "explanation": "Self-attention computes attention weights between every pair of positions, producing a content-dependent weighted combination per position. Computation is parallelizable (unlike RNNs) and the effective receptive field is the full sequence.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Neural Networks & Deep Learning",
+    "q": "What does it mean for a model to use 'embeddings' for categorical inputs like words or product IDs?",
+    "opts": [
+      "Each category is mapped to a sparse high-dimensional one-hot vector with exactly one entry equal to one in it.",
+      "Each category is mapped to its frequency count in the training set and used as a numeric feature in the model.",
+      "Each category is mapped to a fixed integer ID and used directly as a numeric feature in the network's input layer.",
+      "Each category is mapped to a learnable dense low-dimensional vector whose values are trained from data."
+    ],
+    "correct": 3,
+    "explanation": "Embeddings are learnable dense vectors per category. They place related items near each other in the embedding space and dramatically reduce parameters compared with one-hot inputs for large vocabularies. They are trained jointly with the rest of the network.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Neural Networks & Deep Learning",
+    "q": "Transfer learning typically involves which workflow?",
+    "opts": [
+      "Train a model on your target task from scratch using only randomly initialized weights to avoid biases from any source domain.",
+      "Use a pretrained model exclusively for inference on the new task without any further tuning or adaptation of its weights.",
+      "Discard any pretrained model weights and use only the architectural blueprint, since pretrained values bias the new task.",
+      "Take a model pretrained on a large dataset, then fine-tune it (or use it as a feature extractor) on the target task."
+    ],
+    "correct": 3,
+    "explanation": "Transfer learning leverages representations learned on a related source task (e.g. ImageNet, large text corpora) by fine-tuning on the target task or extracting features. It often achieves strong performance with far less labelled target data than training from scratch.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Neural Networks & Deep Learning",
+    "q": "Which of these is a key reason residual (skip) connections help train very deep networks?",
+    "opts": [
+      "Skip connections always increase test accuracy by exactly 10% regardless of model architecture or task domain.",
+      "Skip connections double the number of parameters per layer, which makes the model fit harder training distributions.",
+      "Skip connections allow gradient signal to propagate more directly to early layers, easing vanishing-gradient issues.",
+      "Skip connections automatically eliminate the need for any non-linear activation function in the residual branch."
+    ],
+    "correct": 2,
+    "explanation": "Residual connections (y = x + F(x)) give gradients a direct path back through depth, mitigating vanishing gradients and easing the optimization of deep networks. They underpin ResNets, modern transformers, and many other architectures.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Neural Networks & Deep Learning",
+    "q": "You train a large neural network and observe that training loss continues to decrease while validation loss starts increasing. What is happening?",
+    "opts": [
+      "The model is overfitting — it is memorizing training noise that does not generalize to held-out data.",
+      "The model is severely underfitting and you should increase capacity or train for many more total epochs.",
+      "The optimizer has reached a global minimum of the training loss, and any further movement would degrade performance.",
+      "The learning rate is too small, and increasing it will make both training and validation losses decrease in tandem."
+    ],
+    "correct": 0,
+    "explanation": "Diverging training/validation losses (training down, validation up) is the textbook signature of overfitting. Remedies: regularization, dropout, weight decay, early stopping, more data, augmentation, or smaller models.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Evaluation, Validation & Generalization",
+    "q": "On an imbalanced classification problem with 99% negatives, your model achieves 99% accuracy by always predicting negative. What does this reveal?",
+    "opts": [
+      "Accuracy alone is a misleading metric here; precision, recall, F1, and PR-AUC paint a more honest picture.",
+      "The model has achieved strong predictive performance because its overall accuracy exceeds 95% on this hard dataset.",
+      "The model is well-calibrated, since its predicted probabilities match the underlying class proportions in the data.",
+      "The data has been split incorrectly; a stratified k-fold split would have caused accuracy to drop substantially."
+    ],
+    "correct": 0,
+    "explanation": "Accuracy is uninformative under heavy imbalance — predicting the majority class gives high accuracy with zero useful information. Use precision, recall, F1, PR-AUC, and inspect the confusion matrix instead.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Evaluation, Validation & Generalization",
+    "q": "Precision and recall measure different aspects of classifier performance. Which is correct?",
+    "opts": [
+      "Precision = TP/(TP+FN); recall = TP/(TP+FP). Precision measures completeness and recall measures correctness.",
+      "Precision and recall are both the same as accuracy when the test data is balanced 50/50 between positive and negative classes.",
+      "Precision and recall are identical metrics; the choice between them is purely conventional and depends on the domain.",
+      "Precision = TP/(TP+FP); recall = TP/(TP+FN). Precision measures correctness of positives; recall measures completeness."
+    ],
+    "correct": 3,
+    "explanation": "Precision = TP/(TP+FP): of those we predicted positive, how many are truly positive (correctness). Recall = TP/(TP+FN): of all truly positive, how many did we catch (completeness). They trade off and are summarized by F1 = 2·P·R/(P+R).",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Evaluation, Validation & Generalization",
+    "q": "The F1 score is most useful when:",
+    "opts": [
+      "You want to combine precision and recall using an additive average that treats the two metrics symmetrically.",
+      "You want a single number balancing precision and recall, especially when positive examples are rare and costly.",
+      "You want a metric that increases monotonically with the size of the test set used in the evaluation procedure.",
+      "You want to evaluate regression models on a held-out test set with continuous numeric targets and continuous predictions."
+    ],
+    "correct": 1,
+    "explanation": "F1 = harmonic mean of precision and recall. It penalizes imbalance between them and is widely used when the positive class is rare or when both false positives and false negatives matter. (F1 = 2PR/(P+R), not additive average.)",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Evaluation, Validation & Generalization",
+    "q": "ROC-AUC measures what?",
+    "opts": [
+      "The accuracy of the classifier at a single specific decision threshold tuned on the held-out validation set.",
+      "The probability that a random positive example is ranked higher than a random negative example by the classifier.",
+      "The precision of the model averaged across all possible decision thresholds, weighted by predicted-positive count.",
+      "The total number of correct classifications divided by the total number of examples in the held-out test set."
+    ],
+    "correct": 1,
+    "explanation": "ROC-AUC equals the probability that a randomly drawn positive ranks above a randomly drawn negative. It is threshold-free and useful for comparing ranking quality. Under heavy imbalance, PR-AUC can be more informative.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Evaluation, Validation & Generalization",
+    "q": "In a confusion matrix for a binary classifier, what does each cell typically count?",
+    "opts": [
+      "The probability that the classifier outputs the predicted label given the true label, averaged across all test examples.",
+      "The number of examples in each combination of (true label, predicted label), summing to the total test set size.",
+      "The accuracy of the model conditional on each true label, normalized to sum to one across the matrix rows.",
+      "The recall of the model conditional on each predicted label, normalized to sum to one across the matrix columns."
+    ],
+    "correct": 1,
+    "explanation": "A confusion matrix tabulates counts of (true, predicted) class pairs. From it you can compute accuracy, precision, recall, F1, and per-class breakdowns. Normalized versions (row/column-wise) exist but are derived.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Evaluation, Validation & Generalization",
+    "q": "For a heavily imbalanced classification problem, which metric is generally MORE informative than ROC-AUC?",
+    "opts": [
+      "Plain accuracy, since it is the easiest to communicate to non-technical stakeholders in any presentation.",
+      "Precision-Recall AUC (PR-AUC), which directly emphasizes performance on the rare positive class of interest.",
+      "Logarithmic-loss (cross-entropy), since it perfectly captures classifier ranking quality across all decision thresholds.",
+      "Mean squared error of predicted probabilities versus the binary labels treated as continuous numeric targets."
+    ],
+    "correct": 1,
+    "explanation": "PR-AUC is more sensitive to performance on the minority class than ROC-AUC, which can look good even when the model performs poorly on the rare class. Both are threshold-free; PR-AUC is preferred for heavy imbalance.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Evaluation, Validation & Generalization",
+    "q": "For a regression task, what does R² (coefficient of determination) represent?",
+    "opts": [
+      "The squared correlation coefficient between predicted and observed values, regardless of overall model bias or offset.",
+      "The fraction of variance in the target explained by the model relative to predicting the mean of the targets.",
+      "The number of standard deviations by which the model's prediction deviates from the true value on each example.",
+      "The geometric mean of the prediction errors across the test set, scaled by the standard deviation of the targets."
+    ],
+    "correct": 1,
+    "explanation": "R² = 1 − SS_res/SS_tot, the fraction of target variance explained by the model relative to a mean-prediction baseline. R² can be negative for models worse than the mean baseline.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Evaluation, Validation & Generalization",
+    "q": "MAE and RMSE differ in their sensitivity to outliers. Which statement is accurate?",
+    "opts": [
+      "MAE penalizes large errors more than RMSE because the absolute value grows faster than a quadratic for huge errors.",
+      "RMSE always exceeds MAE by exactly the standard deviation of the errors, regardless of the error distribution shape.",
+      "MAE and RMSE are mathematically equivalent and give identical results on any error distribution.",
+      "RMSE penalizes large errors more than MAE because of squaring, making it more sensitive to outliers in the data."
+    ],
+    "correct": 3,
+    "explanation": "RMSE = √mean(e²) squares errors before averaging, so large errors dominate. MAE = mean(|e|) is more robust to outliers. RMSE ≥ MAE always, with equality only if all errors have the same magnitude.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Evaluation, Validation & Generalization",
+    "q": "In k-fold cross-validation, each example is used:",
+    "opts": [
+      "In exactly one fold as validation and in the remaining (k-1) folds as training data, rotating across all k folds.",
+      "As a training point in every fold; the validation set in each fold is composed of synthetic examples generated from the data.",
+      "Either only for training or only for validation, fixed for the entire procedure based on a single random split.",
+      "Several times in the validation set of every fold, ensuring the variance estimate is as low as theoretically possible."
+    ],
+    "correct": 0,
+    "explanation": "In k-fold CV, the data is partitioned into k folds; each fold serves as validation exactly once while the other k-1 folds serve as training. Performance is averaged across the k folds for a lower-variance estimate of generalization.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Evaluation, Validation & Generalization",
+    "q": "What is the most appropriate cross-validation strategy for time-series data?",
+    "opts": [
+      "Random k-fold cross-validation using uniform sampling, since this maximizes variance reduction for any data type.",
+      "Time-series split (forward-chaining), where each validation window comes strictly after the corresponding training window.",
+      "Stratified k-fold cross-validation on timestamps, ensuring equal numbers of samples per fold across the entire timeline.",
+      "Leave-one-out cross-validation on the most recent points only, dropping older history before evaluating the model."
+    ],
+    "correct": 1,
+    "explanation": "Time-series data has temporal dependence; random CV leaks future into training. Forward-chaining (expanding window) CV preserves temporal ordering and mirrors realistic deployment evaluation.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Evaluation, Validation & Generalization",
+    "q": "A classic symptom of overfitting in supervised learning is:",
+    "opts": [
+      "Training loss is low and validation loss is significantly higher, with validation loss often increasing over time.",
+      "Training loss is high and validation loss is high, with both decreasing together as training continues longer.",
+      "Training loss and validation loss are essentially identical across all epochs and converge to the same final value.",
+      "Validation loss is much lower than training loss because the validation set is generally easier than the training set."
+    ],
+    "correct": 0,
+    "explanation": "Overfitting: the model fits training noise so training loss is low but validation/test loss is much higher and may rise as training continues. The opposite (validation < training) usually indicates a data-leakage or split-construction problem.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Evaluation, Validation & Generalization",
+    "q": "Underfitting most often presents as:",
+    "opts": [
+      "Training loss being much higher than validation loss across multiple architectures and training runs in a row.",
+      "Both training and validation loss being high, with little change across reasonable amounts of training or capacity.",
+      "Validation loss exploding to infinity after a few epochs while training loss steadily decreases over time.",
+      "Training and validation loss diverging dramatically, with the gap widening monotonically over training epochs."
+    ],
+    "correct": 1,
+    "explanation": "Underfitting: model lacks capacity (or right features/objective) to capture patterns — both training and validation losses are high. Remedy with more capacity, better features, longer training, or a different model family.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Evaluation, Validation & Generalization",
+    "q": "Model calibration refers to:",
+    "opts": [
+      "Tuning of hyperparameters via cross-validation to maximize the model's accuracy on a held-out validation dataset.",
+      "The process of normalizing inputs to zero mean and unit variance before they are fed into the model during training.",
+      "The procedure for adjusting the learning rate during training so that gradients have stable magnitudes throughout.",
+      "The alignment between predicted probabilities and observed frequencies — well-calibrated models' 0.7 predictions are right about 70% of the time."
+    ],
+    "correct": 3,
+    "explanation": "Calibration: a 70% confidence prediction should be correct ~70% of the time. Modern deep models are often overconfident; calibration plots and metrics (ECE, Brier score) diagnose this. Methods like Platt scaling and temperature scaling can recalibrate.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Evaluation, Validation & Generalization",
+    "q": "You compare two models with overlapping confidence intervals on the test set. What is the safest conclusion?",
+    "opts": [
+      "The difference may not be statistically significant; consider larger test sets, multiple seeds, or paired statistical tests.",
+      "The model with the higher point estimate is clearly better and should be deployed without any further analysis.",
+      "The two models are mathematically identical, since their confidence intervals overlap at every point in the range.",
+      "Overlapping confidence intervals always means the two models are equivalent in performance for any practical purpose."
+    ],
+    "correct": 0,
+    "explanation": "Overlapping CIs hint at weak evidence but are not definitive; the right tool is a paired test on per-example performance, with multiple seeds and sufficient data. Headline numbers without uncertainty quantification routinely mislead.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Evaluation, Validation & Generalization",
+    "q": "Random search often outperforms grid search for hyperparameter tuning. Why?",
+    "opts": [
+      "Random search exhaustively covers the entire hyperparameter space, while grid search samples only a few points from it.",
+      "Random search samples diverse values per dimension and explores influential hyperparameters more effectively than grid search.",
+      "Random search uses gradient information to navigate the hyperparameter space, whereas grid search uses no gradients at all.",
+      "Random search is guaranteed to find the global optimum after a fixed number of trials independent of the search space size."
+    ],
+    "correct": 1,
+    "explanation": "In high dimensions, most hyperparameters don't matter equally. Random search explores each axis more diversely than grid search in the same trial budget, so it finds good values along the few influential dimensions more efficiently (Bergstra & Bengio, 2012).",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Evaluation, Validation & Generalization",
+    "q": "What is the generalization gap?",
+    "opts": [
+      "The difference between performance on the training set and performance on held-out (unseen) data from the same distribution.",
+      "The fraction of the training set that is held out as validation data during the final retraining of a tuned model.",
+      "The difference between in-distribution performance and out-of-distribution performance on data from a different domain entirely.",
+      "The difference between the optimal achievable performance on a task and the performance of the current best model."
+    ],
+    "correct": 0,
+    "explanation": "Generalization gap = training performance − held-out performance. A large gap suggests overfitting; a small gap suggests the model generalizes well within the same distribution. Out-of-distribution shift is a related but distinct concept.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Practical ML, MLOps & AI Systems",
+    "q": "Train-serve skew refers to which problem in deployed ML systems?",
+    "opts": [
+      "The accuracy of a model in production is always lower than its accuracy on the development test set, by design.",
+      "Random variation in predictions across multiple servers due to non-determinism in floating-point arithmetic across hardware.",
+      "Inconsistency between feature transformations or data sources used at training time and those used at inference time.",
+      "Drift in the natural language vocabulary of users between the time training data was collected and serving begins."
+    ],
+    "correct": 2,
+    "explanation": "Train-serve skew: features computed differently (or from different data) between training and inference cause silent performance degradation. Mitigations include shared feature transformation code/feature stores, integration tests, and serving-time logging back to training.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Practical ML, MLOps & AI Systems",
+    "q": "Concept drift in a deployed model refers to:",
+    "opts": [
+      "A change in the input feature distribution where the relationship P(Y|X) between inputs and target stays fixed.",
+      "A change in the user interface of the application that causes downstream features to render differently in production.",
+      "A code change in the deployed model serving stack that introduces a bug into the feature computation pipeline.",
+      "A change in the relationship between inputs and target P(Y|X), so the model's learned mapping becomes outdated."
+    ],
+    "correct": 3,
+    "explanation": "Concept drift = change in P(Y|X) — the underlying input→output relationship shifts. Covariate (data) drift is change in P(X). Either can degrade performance; concept drift typically requires retraining with fresh labels.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Practical ML, MLOps & AI Systems",
+    "q": "Which signal is most directly diagnostic of degraded production model performance when ground-truth labels are delayed?",
+    "opts": [
+      "Reducing the number of features fed to the model in production to simplify the inference path and improve reliability.",
+      "Restarting the model serving infrastructure on a daily schedule to clear any memory issues that might have accumulated.",
+      "Increasing the rate of A/B tests against new candidate models without changing the production traffic split.",
+      "Tracking shifts in input-feature distributions and prediction distributions over time as proxy indicators of drift."
+    ],
+    "correct": 3,
+    "explanation": "When labels are delayed, monitor proxies: input distributions, prediction distributions, downstream business metrics. Significant shifts in these are early signals that the model may be drifting even before labels become available to confirm.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Practical ML, MLOps & AI Systems",
+    "q": "An A/B test for ML models compares a control (current model) and a treatment (new model). What is the most appropriate primary metric to design around?",
+    "opts": [
+      "The training loss of each model, since lower training loss generally predicts better deployment performance.",
+      "A business or product metric that the model is intended to influence (e.g. click-through, revenue, retention).",
+      "The number of parameters in each model, since a smaller model is generally preferred for production efficiency.",
+      "The validation accuracy on a fixed offline benchmark, since this most directly measures real-world impact in production."
+    ],
+    "correct": 1,
+    "explanation": "A/B tests should measure the downstream metric the model is intended to move (conversion, revenue, satisfaction). Offline accuracy is a useful filter but does not always translate to business impact; the A/B test exists to validate that linkage.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Practical ML, MLOps & AI Systems",
+    "q": "For model reproducibility, which of the following is least sufficient by itself?",
+    "opts": [
+      "Versioning the training code, the training data, the model artifacts, and recording the random seeds used during training.",
+      "Pinning library versions and recording the exact hardware (CPU/GPU) configuration used during training of the model.",
+      "Saving just the trained model's final weights without any record of training data, code, or hyperparameters used.",
+      "Logging hyperparameters, training metrics, evaluation metrics, and pipeline configuration for every experimental training run."
+    ],
+    "correct": 2,
+    "explanation": "Final weights alone leave no record of how they were obtained — data, code, hyperparameters, seeds, and environment all matter. Reproducibility requires versioning across code, data, configuration, environment, and outputs together.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Practical ML, MLOps & AI Systems",
+    "q": "A feature store typically provides which benefit?",
+    "opts": [
+      "Automatic model retraining on a schedule based purely on the calendar, regardless of monitored model performance.",
+      "Centralized, versioned feature computation reusable across teams and consistent between training and online serving.",
+      "Encrypted storage of model weights for compliance, with no relationship to training or inference feature pipelines.",
+      "Automatic tuning of model hyperparameters by running large-scale random search over the feature set automatically."
+    ],
+    "correct": 1,
+    "explanation": "Feature stores centralize feature definitions, computations, and serving — so the same logic is used at training and inference (preventing train-serve skew), and features can be discovered and reused across teams.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Practical ML, MLOps & AI Systems",
+    "q": "Inference latency budgets often force tradeoffs against accuracy. Which technique most directly reduces latency at deployment time?",
+    "opts": [
+      "Training the model for more epochs, which always improves both throughput and serving latency simultaneously in production.",
+      "Model compression methods like quantization, pruning, and distillation that yield smaller and faster inference models.",
+      "Doubling the number of layers in the neural network, which increases model expressivity and inference throughput together.",
+      "Increasing batch size during training, which has no inference-time impact but reduces total wall-clock training duration."
+    ],
+    "correct": 1,
+    "explanation": "Quantization (e.g. int8), pruning (zero out unimportant weights), and distillation (small student trained from large teacher) reduce model size and compute cost at inference. They usually trade some accuracy for major latency/throughput gains.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Practical ML, MLOps & AI Systems",
+    "q": "For an online recommendation system serving millions of users, which inference mode is typically required?",
+    "opts": [
+      "Online (low-latency) inference per request, often paired with cached candidate generation upstream of the model.",
+      "Pure batch inference run once daily, since real-time interaction with users is generally not required by recommenders.",
+      "Manual inference by a human-in-the-loop reviewer for every recommendation displayed to every user on the platform.",
+      "Federated inference across all end-user devices in real time without any contact with central servers or services."
+    ],
+    "correct": 0,
+    "explanation": "User-facing recommenders need online inference at request time, often within tight latency budgets. Two-stage architectures (candidate generation + ranking) and caching are common to manage the latency/quality tradeoff.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Practical ML, MLOps & AI Systems",
+    "q": "Shadow deployment of a new model means:",
+    "opts": [
+      "Replacing the current model immediately for all traffic and rolling back only if monitoring alarms fire later.",
+      "Caching the new model's predictions for one hour before allowing them to influence the user experience in production.",
+      "Deploying the new model to a small subset of internal employees while keeping the old model serving external users always.",
+      "Running the new model alongside production, scoring real traffic but not affecting user-facing decisions yet."
+    ],
+    "correct": 3,
+    "explanation": "Shadow deployment sends real production traffic to a candidate model in parallel with the current model; the candidate's predictions are logged but not used. This validates infra and behaviour at scale before any user impact. Canary release is partial traffic exposure.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Practical ML, MLOps & AI Systems",
+    "q": "Label noise in training data tends to hurt model performance the most when:",
+    "opts": [
+      "The model is heavily under-parameterized and cannot fit the noise even if it tried to memorize the labels.",
+      "The dataset is extremely large, since each individual noisy label has a vanishingly small effect on training overall.",
+      "The model uses dropout regularization, which automatically corrects for label noise during training.",
+      "The label noise is systematically biased and correlated with input features rather than independent random noise."
+    ],
+    "correct": 3,
+    "explanation": "Systematic label noise correlated with inputs teaches the model wrong patterns rather than just adding random variance. Random label noise is averaged out with enough data; biased noise distorts the learned mapping in directions hard to detect or correct.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Practical ML, MLOps & AI Systems",
+    "q": "Active learning is a strategy where:",
+    "opts": [
+      "Models are trained continuously on every incoming production sample without any human review of any labels.",
+      "Multiple models actively compete on the same task and the winner replaces the others through gradient updates.",
+      "The model selects the most informative unlabelled examples for human annotation, often based on uncertainty.",
+      "Models actively delete training examples they find uninformative during training to reduce dataset storage costs."
+    ],
+    "correct": 2,
+    "explanation": "Active learning chooses which examples to label next — typically those the model is most uncertain about or that would most reduce expected error. This concentrates expensive labelling on the most informative examples, improving sample efficiency.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Practical ML, MLOps & AI Systems",
+    "q": "You evaluate a hiring-screening model for fairness across demographic groups. Which finding most clearly suggests a fairness problem?",
+    "opts": [
+      "Overall model accuracy is identical to a baseline rule-based screening system used by the organization in the past.",
+      "The model's parameters were trained using the Adam optimizer instead of vanilla stochastic gradient descent.",
+      "The model uses logistic regression rather than gradient boosting on the same training features in the dataset.",
+      "False-negative rates differ substantially across groups, harming one demographic group more than other groups consistently."
+    ],
+    "correct": 3,
+    "explanation": "Disparate error rates across protected groups (false negatives, false positives, etc.) signal fairness concerns regardless of overall accuracy. Different fairness criteria can conflict; choosing among them is a sociotechnical decision involving stakeholders and context.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Practical ML, MLOps & AI Systems",
+    "q": "An LLM 'hallucination' refers to which kind of failure?",
+    "opts": [
+      "The model refuses to answer any prompts because of an overly strict safety filter applied during inference time.",
+      "The model uses more compute than expected, causing latency spikes during inference when prompts are long.",
+      "The model produces fluent text that is factually incorrect or unsupported by the input or any reliable source.",
+      "The model's tokenizer fails to encode some characters in the input, producing nonsensical output sequences as a result."
+    ],
+    "correct": 2,
+    "explanation": "Hallucination: confident-sounding output that is fabricated or unsupported. Mitigations include grounding via retrieval (RAG), structured citations, calibration, evals, and post-hoc verification. The other items describe unrelated failure modes.",
+    "type": "Conceptual"
+  },
+  {
+    "section": "Practical ML, MLOps & AI Systems",
+    "q": "When deciding between Retrieval-Augmented Generation (RAG) and fine-tuning for an LLM application, which is most accurate?",
+    "opts": [
+      "RAG modifies the model's weights using gradient descent on new data, while fine-tuning leaves the weights unchanged.",
+      "RAG injects retrieved context at inference time and is well suited to changing factual knowledge bases without retraining.",
+      "Fine-tuning is always better than RAG, since fine-tuning produces a model with all the relevant knowledge built in.",
+      "RAG and fine-tuning are mutually exclusive; combining the two in a single application has no practical benefit."
+    ],
+    "correct": 1,
+    "explanation": "RAG retrieves relevant context at inference and conditions the LLM on it — good for dynamic knowledge bases, citations, and avoiding retraining costs. Fine-tuning shifts model behaviour or style. They are complementary and often combined in practice.",
+    "type": "Conceptual"
+  }
+];
+const SECTIONS  = [
+  {
+    "key": "Mathematical & Statistical Foundations",
+    "label": "Section A — Mathematical & Statistical Foundations",
+    "cls": "sec-math",
+    "range": "Questions 1–16"
+  },
+  {
+    "key": "Data & Feature Foundations",
+    "label": "Section B — Data & Feature Foundations",
+    "cls": "sec-data",
+    "range": "Questions 17–32"
+  },
+  {
+    "key": "Classical Machine Learning",
+    "label": "Section C — Classical Machine Learning",
+    "cls": "sec-classical",
+    "range": "Questions 33–52"
+  },
+  {
+    "key": "Neural Networks & Deep Learning",
+    "label": "Section D — Neural Networks & Deep Learning",
+    "cls": "sec-deep",
+    "range": "Questions 53–70"
+  },
+  {
+    "key": "Evaluation, Validation & Generalization",
+    "label": "Section E — Evaluation, Validation & Generalization",
+    "cls": "sec-eval",
+    "range": "Questions 71–86"
+  },
+  {
+    "key": "Practical ML, MLOps & AI Systems",
+    "label": "Section F — Practical ML, MLOps & AI Systems",
+    "cls": "sec-ops",
+    "range": "Questions 87–100"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+
+let mode    = 'instant';
+let current = 0;
+let answers = new Array(QUESTIONS.length).fill(null);
+let locked  = new Array(QUESTIONS.length).fill(false);
+let submitted = false;
+
+const EXAM_DURATION_MS = 2 * 60 * 60 * 1000;
+let examEndTime  = null;
+let timerInterval = null;
+let timedOut = false;
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+}
+
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+
+function fmtHMS(ms){
+  if(ms<0) ms = 0;
+  const t = Math.floor(ms/1000);
+  const h = Math.floor(t/3600);
+  const m = Math.floor((t%3600)/60);
+  const s = t%60;
+  const pad = n => String(n).padStart(2,'0');
+  return pad(h)+':'+pad(m)+':'+pad(s);
+}
+
+function tickExamTimer(){
+  const ts = document.getElementById('timerStat');
+  const tv = document.getElementById('timerVal');
+  if(!examEndTime || !ts || !tv) return;
+  const remain = examEndTime - Date.now();
+  tv.textContent = fmtHMS(remain);
+  ts.classList.toggle('crit', remain<=60000);
+  ts.classList.toggle('warn', remain<=300000 && remain>60000);
+  if(remain <= 0){
+    stopExamTimer();
+    if(mode==='exam' && !submitted){
+      timedOut = true;
+      submitExam();
+    }
+  }
+}
+
+function startExamTimer(){
+  stopExamTimer();
+  examEndTime = Date.now() + EXAM_DURATION_MS;
+  const ts = document.getElementById('timerStat');
+  if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer();
+  timerInterval = setInterval(tickExamTimer, 1000);
+}
+
+function stopExamTimer(){
+  if(timerInterval){ clearInterval(timerInterval); timerInterval = null; }
+}
+
+function hideExamTimer(){
+  stopExamTimer();
+  examEndTime = null;
+  const ts = document.getElementById('timerStat');
+  if(ts){
+    ts.style.display = 'none';
+    ts.classList.remove('warn','crit');
+    const tv = document.getElementById('timerVal');
+    if(tv) tv.textContent = '02:00:00';
+  }
+}
+
+function makeCard(idx, num, showNumberAsGlobal){
+  const q = QUESTIONS[idx];
+  const sec = sectionMeta(q.section);
+  const isLocked = locked[idx];
+  const chosen = answers[idx];
+  let optsHtml = '';
+  q.opts.forEach((o,i)=>{
+    let cls = 'opt';
+    if(isLocked){
+      if(i === q.correct) cls += ' correct';
+      else if(i === chosen) cls += ' wrong';
+    } else if(chosen === i){ cls += ' sel'; }
+    const mark = isLocked
+      ? (i === q.correct ? '\u2713' : (i === chosen ? '\u2717' : ''))
+      : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span>'
+              + '</div>';
+  });
+  const expCls = isLocked ? 'explain show' : 'explain';
+  const sectTag = sec ? '<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>' : '';
+  const globalNum = showNumberAsGlobal ? (idx + 1) : num;
+  return ''
+    + '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+    +   '<div class="q-top">'
+    +     '<span class="q-num">Q'+globalNum+'</span>'
+    +     '<span class="q-type">'+escapeHtml(q.type || 'Conceptual')+'</span>'
+    +     sectTag
+    +   '</div>'
+    +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+    +   '<div class="opts">'+optsHtml+'</div>'
+    +   '<div class="'+expCls+'" id="exp'+idx+'">'
+    +     '<div class="elabel">Explanation</div>'
+    +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+    +     '<p>'+escapeHtml(q.explanation)+'</p>'
+    +   '</div>'
+    + '</div>';
+}
+
+function build(){
+  const exam = document.getElementById('exam');
+  if(mode === 'instant'){
+    let html = '';
+    let qi = 0;
+    SECTIONS.forEach(sec => {
+      html += '<div class="section-head '+sec.cls+'">'
+            + '<span>'+escapeHtml(sec.label)+'</span>'
+            + '<span class="tag">'+escapeHtml(sec.range)+'</span>'
+            + '</div>';
+      QUESTIONS.forEach((q,idx)=>{
+        if(q.section !== sec.key) return;
+        qi++;
+        html += makeCard(idx, qi, false);
+      });
+    });
+    exam.innerHTML = html;
+  } else {
+    const idx = current;
+    let html = makeCard(idx, idx+1, true);
+    const last = (idx === QUESTIONS.length-1);
+    const answered = answers[idx] !== null;
+    const allAnswered = answers.every(a => a !== null);
+    let nextBtn = '';
+    if(mode === 'guided'){
+      if(!last){
+        nextBtn = '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+      } else {
+        nextBtn = '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>';
+      }
+    } else {
+      if(!last){
+        nextBtn = '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+      } else {
+        nextBtn = '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>';
+      }
+    }
+    const prevBtn = '<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn = '<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note = mode==='exam' ? 'No feedback until final submission.' : 'Feedback appears after selection.';
+    html += '<div class="nav">'
+          +   '<div class="left">'+prevBtn+resetBtn+'</div>'
+          +   '<div class="note">'+note+'</div>'
+          +   '<div class="right">'+nextBtn+'</div>'
+          + '</div>';
+    exam.innerHTML = html;
+  }
+  document.getElementById('bottomActions').innerHTML = '';
+  updateHud();
+}
+
+function choose(idx, i){
+  if(locked[idx]) return;
+  if(mode === 'exam' && submitted) return;
+  answers[idx] = i;
+  if(mode === 'instant'){
+    lockCard(idx);
+    updateOptionUI(idx);
+  } else if(mode === 'guided'){
+    lockCard(idx);
+    rebuildSingle();
+  } else {
+    rebuildSingle();
+  }
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q = QUESTIONS[idx];
+  const card = document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen = answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o => {
+    const oi = +o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark = o.querySelector('.mark'); if(mark) mark.textContent = '';
+    if(locked[idx]){
+      if(oi === q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi === chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen === oi){
+      o.classList.add('sel');
+    }
+  });
+  if(locked[idx]){
+    const exp = document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function rebuildSingle(){
+  if(mode==='guided' || mode==='exam') build();
+}
+
+function lockCard(idx){ locked[idx] = true; }
+
+function nextQ(){
+  if(current < QUESTIONS.length-1){
+    current++;
+    build();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+}
+
+function prevQ(){
+  if(current > 0){
+    current--;
+    build();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+}
+
+function updateHud(){
+  const done = answers.filter(a => a !== null).length;
+  document.getElementById('progCount').textContent = done;
+  if(mode === 'instant'){
+    document.getElementById('progStat').innerHTML = 'Progress <b id="progCount">'+done+'</b>/100';
+  } else {
+    document.getElementById('progStat').innerHTML = 'Question <b id="progCount">'+(current+1)+'</b>/100';
+  }
+  const pct = mode==='instant' ? (done/QUESTIONS.length) : ((current+1)/QUESTIONS.length);
+  document.getElementById('barFill').style.width = (pct*100)+'%';
+  const correct = answers.reduce((s,a,i)=> s + (a===QUESTIONS[i].correct ? 1 : 0), 0);
+  document.getElementById('scoreNum').textContent = (mode==='exam' && !submitted) ? '\u2014' : correct;
+}
+
+function submitExam(){
+  for(let i=0; i<QUESTIONS.length; i++) locked[i] = true;
+  submitted = true;
+  stopExamTimer();
+  showResults();
+}
+
+function showResultsFromGuided(){ submitted = true; showResults(); }
+
+function showResults(){
+  const correct = answers.reduce((s,a,i)=> s + (a===QUESTIONS[i].correct ? 1 : 0), 0);
+  const bySection = {};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section] = bySection[q.section] || {c:0, t:0};
+    bySection[q.section].t++;
+    if(answers[idx] === q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent = correct;
+  document.getElementById('scoreNum').textContent = correct;
+  const pct = correct/QUESTIONS.length;
+  let grade, blurb;
+  if(pct >= 0.9){ grade='ML Architect Calibre'; blurb='Outstanding. You connect mathematical fundamentals, data discipline, model choice, and deployment realities with confidence.'; }
+  else if(pct >= 0.75){ grade='Senior Practitioner'; blurb='Strong grasp of foundations. Review missed items where the explanation surfaces a subtle distinction (e.g. RMSE vs MAE, ROC vs PR-AUC).'; }
+  else if(pct >= 0.6){ grade='Solid Foundation'; blurb='You hold many core concepts. Reinforce areas where evaluation, generalization, and data discipline intersect with the modelling choices.'; }
+  else if(pct >= 0.4){ grade='Developing Competence'; blurb='Foundations are taking shape. Revisit probability, the bias-variance tradeoff, evaluation under imbalance, and overfitting signals.'; }
+  else { grade='Begin the Foundations'; blurb='Start with linear algebra, probability, the train/val/test discipline, and the bias-variance tradeoff before deeper architectures.'; }
+  document.getElementById('rGrade').textContent = grade;
+  document.getElementById('rBlurb').textContent = blurb;
+  document.getElementById('rTimeout').style.display = timedOut ? 'block' : 'none';
+  const bd = document.getElementById('rBreak'); bd.innerHTML = '';
+  SECTIONS.forEach(sec => {
+    if(!bySection[sec.key]) return;
+    const d = document.createElement('div'); d.className = 'bd-item';
+    d.innerHTML = '<div class="bd-t">'+escapeHtml(sec.key)+'</div>'
+                + '<div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r = document.getElementById('results'); r.classList.add('show');
+  if(mode === 'exam' || mode === 'guided'){ renderReviewList(); }
+  else { rebuildSingle(); }
+  setTimeout(()=> r.scrollIntoView({behavior:'smooth'}), 200);
+}
+
+function renderReviewList(){
+  const exam = document.getElementById('exam');
+  let html = '';
+  let qi = 0;
+  SECTIONS.forEach(sec => {
+    html += '<div class="section-head '+sec.cls+'">'
+          + '<span>'+escapeHtml(sec.label)+'</span>'
+          + '<span class="tag">'+escapeHtml(sec.range)+'</span>'
+          + '</div>';
+    QUESTIONS.forEach((q,idx)=>{
+      if(q.section !== sec.key) return;
+      qi++;
+      html += makeCard(idx, qi, false);
+    });
+  });
+  exam.innerHTML = html;
+}
+
+function reviewAnswers(){
+  const exam = document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode = m;
+  document.getElementById('mode-guided').classList.toggle('active',  m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active', m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',    m==='exam');
+  const hint = document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent = 'Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent = 'Instant Feedback: all 100 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent = 'Exam Mode: one question at a time. 2-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current = 0;
+  answers = new Array(QUESTIONS.length).fill(null);
+  locked  = new Array(QUESTIONS.length).fill(false);
+  submitted = false;
+  timedOut = false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent = '0';
+  if(mode === 'exam'){ startExamTimer(); } else { hideExamTimer(); }
+  build();
+  if(jump) window.scrollTo({top:0, behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mass, Momentum, and Energy in Chemical Engineering — 50 Question Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1c1a17;
+  --paper:#f4efe6;
+  --paper2:#ebe3d5;
+  --gold:#b08d3c;
+  --gold-deep:#8a6d28;
+  --green:#2f6b4f;
+  --green-soft:#e3eee6;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  --mass:#1a5276;
+  --momentum:#7d6608;
+  --energy:#145a32;
+  --integrated:#6e2f8f;
+  --line:#d4c9b4;
+  --shadow:rgba(40,32,18,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(176,141,60,.07), transparent 40%),
+    radial-gradient(circle at 88% 92%, rgba(47,107,79,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 22px}
+header.masthead{
+  text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);
+  margin-bottom:8px;
+}
+.kicker{
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;
+  text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px;
+}
+h1.title{
+  font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.15rem,5.4vw,3.75rem);
+  line-height:.98;letter-spacing:-.02em;margin-bottom:10px;
+}
+h1.title .of{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#6b5f4a;margin-bottom:22px}
+.exambar{
+  display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;
+  color:#5a5040;padding:12px 26px;border:1px solid var(--line);
+  border-radius:2px;background:rgba(255,255,255,.35);
+}
+.exambar b{color:var(--ink)}
+.hud{
+  position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;
+  background:rgba(244,239,230,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-deep));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.section-head{
+  margin:46px 0 8px;padding:13px 20px;border-radius:3px;
+  font-family:'Fraunces',serif;font-weight:700;font-size:1.18rem;letter-spacing:.01em;
+  color:#fff;display:flex;align-items:center;gap:14px;
+  box-shadow:0 4px 16px var(--shadow);
+}
+.section-head .tag{
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;
+  background:rgba(255,255,255,.2);
+}
+.sec-mass{background:linear-gradient(100deg,var(--mass),#0f3a52)}
+.sec-momentum{background:linear-gradient(100deg,var(--momentum),#574700)}
+.sec-energy{background:linear-gradient(100deg,var(--energy),#0a3c20)}
+.sec-integrated{background:linear-gradient(100deg,var(--integrated),#4a1f63)}
+.q-card{
+  background:rgba(255,255,255,.55);border:1px solid var(--line);
+  border-radius:4px;padding:24px 26px 20px;margin:16px 0;
+  box-shadow:0 2px 10px rgba(40,32,18,.05);
+  transition:box-shadow .3s,border-color .3s;
+}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{
+  font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);
+  line-height:1;min-width:58px;
+}
+.q-type{
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;
+  border:1px solid currentColor;opacity:.85;
+}
+.t-mass-balances{color:var(--mass)}
+.t-momentum-transfer-fluid-flow{color:var(--momentum)}
+.t-energy-balances{color:var(--energy)}
+.t-integrated-applications{color:var(--integrated)}
+.q-text{font-size:1.12rem;line-height:1.55;margin-bottom:16px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{
+  display:flex;align-items:flex-start;gap:13px;padding:13px 16px;
+  border:1px solid var(--line);border-radius:3px;cursor:pointer;
+  background:rgba(255,255,255,.4);transition:all .18s ease;
+  font-size:1.01rem;position:relative;
+}
+.opt:hover{border-color:var(--gold);background:rgba(176,141,60,.07);transform:translateX(2px)}
+.opt .letter{
+  font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;
+  width:25px;height:25px;flex-shrink:0;border-radius:50%;
+  display:grid;place-items:center;border:1.5px solid var(--gold-deep);
+  color:var(--gold-deep);transition:all .18s;
+}
+.opt .otext{flex:1;padding-top:1px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(176,141,60,.1)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{
+  max-height:0;overflow:hidden;opacity:0;
+  transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;
+  border-left:3px solid var(--gold);background:rgba(176,141,60,.06);
+  border-radius:0 3px 3px 0;margin-top:0;padding:0 18px;
+}
+.explain.show{max-height:700px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);
+  margin-bottom:7px;display:flex;align-items:center;gap:8px;
+}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#3a3326}
+.results{
+  margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;
+  background:linear-gradient(160deg,#fff,var(--paper2));
+  border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);
+  display:none;
+}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#8a7d63}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#4a4234;font-size:1.05rem}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.5);min-width:128px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{
+  font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;
+  border-radius:3px;cursor:pointer;transition:all .2s;
+}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.modebar{
+  display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;
+  border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;
+  margin-left:auto;margin-right:auto;background:rgba(255,255,255,.4);
+}
+.modebar button{
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;
+  background:transparent;cursor:pointer;color:#6b5f4a;transition:all .2s;
+}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#7a6e58;font-size:.92rem;margin-bottom:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);
+  font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#8a7d63}
+@media(max-width:560px){
+  .q-card{padding:20px 18px}
+  .q-num{font-size:1.25rem;min-width:48px}
+  .q-text{font-size:1.04rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  h1.title{font-size:2.25rem}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Chemical Engineering Examination &middot; Practice Set</div>
+    <h1 class="title">Mass, Momentum <span class="of">&amp;</span> Energy</h1>
+    <div class="byline">A core chemical engineering exam covering balances, transport, and integrated applications</div>
+    <div class="exambar">
+      <span><b>50</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>50</b> Marks</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-instant" class="active" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam" onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Pick an answer and see the explanation immediately.</p>
+
+  <div class="hud">
+    <span class="stat">Progress <b id="progCount">0</b>/50</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px">
+    <button class="btn btn-gold" id="submitBtn" onclick="submitExam()" style="display:none">Submit Exam</button>
+  </div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/50</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAll()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam()">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>Educational practice resource &middot; Mass balances, momentum transfer, and energy balances in chemical engineering</footer>
+</div>
+
+<script>
+const QUESTIONS = [{"type": "Mass Balances", "q": "A nonreactive liquid feed enters a tank at 120 kg/h and leaves at 95 kg/h. Which statement correctly describes the total mass balance?", "opts": ["The tank is at steady state because both streams are liquids", "The accumulation rate is 25 kg/h", "The accumulation rate is -25 kg/h", "The outlet flow must eventually equal 120 kg/h by definition"], "correct": 1, "explanation": "For a nonreactive total mass balance: accumulation = input - output. Therefore accumulation = 120 - 95 = 25 kg/h. Positive accumulation means mass inside the tank is increasing."}, {"type": "Mass Balances", "q": "For a steady-state, nonreactive mixer with two inlet streams and one outlet, which balance is generally valid?", "opts": ["Total mass in = total mass out", "Total molar flow in always equals total molar flow out for any mixture", "Each inlet stream must have the same composition as the outlet", "The outlet temperature must equal the average of the inlet temperatures"], "correct": 0, "explanation": "At steady state with no reaction, the total mass flow entering must equal the total mass flow leaving. Molar flow may change if species have different molecular weights and streams are described by mass fractions, but mass is conserved."}, {"type": "Mass Balances", "q": "A feed contains 30 wt% ethanol and 70 wt% water. If 200 kg/h of feed enters a separator and the distillate contains 80 wt% ethanol, what information is still needed to solve for both product flow rates?", "opts": ["The density of ethanol", "The molecular weight of water", "The ethanol or water composition of the bottoms stream", "The heat of vaporization of ethanol"], "correct": 2, "explanation": "There are two unknown product flow rates plus an unknown bottoms composition unless one bottoms composition is provided. A component balance requires enough independent composition information to close the degrees of freedom."}, {"type": "Mass Balances", "q": "A reactor feed contains A and inert I. A purge stream is commonly used in a recycle process mainly to:", "opts": ["Increase the recycle ratio without changing composition", "Prevent accumulation of inerts or undesired species in the recycle loop", "Make the reactor operate adiabatically", "Eliminate the need for a component balance"], "correct": 1, "explanation": "Inerts and impurities can build up in a closed recycle loop because they are not consumed. A purge removes part of the recycle stream to keep their concentration within acceptable limits."}, {"type": "Mass Balances", "q": "For the reaction A → B, 100 mol/h of A enters a reactor and 70 mol/h of A leaves unreacted. What is the single-pass conversion of A?", "opts": ["30%", "43%", "70%", "100%"], "correct": 0, "explanation": "Conversion = moles of A reacted / moles of A fed = (100 - 70)/100 = 0.30, or 30%."}, {"type": "Mass Balances", "q": "In a reacting system, why are atomic balances often useful?", "opts": ["Atoms are conserved even when molecular species are transformed by reaction", "Atomic balances eliminate all energy-balance requirements", "Atomic balances apply only to ideal gases", "Atoms are not affected by measurement error"], "correct": 0, "explanation": "Chemical reactions rearrange atoms into different molecules, but atoms of each element are conserved. Elemental balances are therefore powerful when multiple reactions or unknown species are involved."}, {"type": "Mass Balances", "q": "A gas mixture is 20 mol% CO₂ and 80 mol% N₂. Which flow description is required to calculate the mass fraction of CO₂?", "opts": ["Only the total pressure", "Only the total temperature", "The molecular weights of CO₂ and N₂", "The pipe diameter"], "correct": 2, "explanation": "Mass fraction requires converting mole amounts to mass. This needs molecular weights: mass of each component equals moles times molecular weight."}, {"type": "Mass Balances", "q": "A splitter divides one well-mixed stream into two outlet streams. Which property must be true for an ideal splitter?", "opts": ["Each outlet has the same composition as the feed", "The lower-flow outlet has a higher solute concentration", "The two outlets must have equal flow rates", "The total molar flow must increase due to splitting"], "correct": 0, "explanation": "An ideal splitter changes only flow amount, not composition. Both outlet streams have the same composition as the inlet stream."}, {"type": "Mass Balances", "q": "Which equation best represents a general component balance for species i?", "opts": ["Input + generation - output - consumption = accumulation", "Input + output = generation + consumption", "Accumulation = output - input only", "Generation must always equal consumption"], "correct": 0, "explanation": "The general species balance is accumulation = input - output + generation - consumption, equivalently input + generation - output - consumption = accumulation."}, {"type": "Mass Balances", "q": "A process has 5 independent unknowns and 5 independent equations. Before solving, its degrees of freedom are:", "opts": ["-5", "0", "1", "10"], "correct": 1, "explanation": "Degrees of freedom = number of unknowns - number of independent equations. Here DOF = 5 - 5 = 0, so the system is exactly specified."}, {"type": "Mass Balances", "q": "In a crystallizer, a hot saturated solution is cooled and crystals form. A correct solute balance must include:", "opts": ["Only the liquid mother liquor stream", "Only the crystal stream", "Both dissolved solute in mother liquor and solid solute in crystals", "No solute balance because crystallization is not a chemical reaction"], "correct": 2, "explanation": "Crystallization is a phase-separation process. The solute leaving the system may appear both as dissolved solute in mother liquor and as solid crystals."}, {"type": "Mass Balances", "q": "For a bypass around a dryer, part of the wet feed bypasses the dryer and later mixes with the dry product. Why is this used?", "opts": ["To control final moisture content by blending streams", "To increase chemical conversion in the dryer", "To make the outlet completely anhydrous", "To remove the need for a humidity balance"], "correct": 0, "explanation": "Bypass streams are often used for product specification control. Mixing a dried stream with a bypassed wet stream can achieve a target final moisture content."}, {"type": "Mass Balances", "q": "A limiting reactant is best defined as the reactant that:", "opts": ["Has the highest molecular weight", "Is fed in the smallest mass flow rate", "Would be completely consumed first if the reaction proceeded to completion", "Has the largest stoichiometric coefficient"], "correct": 2, "explanation": "The limiting reactant is determined by stoichiometric availability, not simply by mass or coefficient. It is the reactant that runs out first relative to the balanced reaction."}, {"type": "Mass Balances", "q": "For two parallel reactions A → B and A → C, selectivity to B is commonly expressed as:", "opts": ["Moles of B formed per mole of C formed or per mole of A consumed, depending on convention", "Moles of A fed divided by total reactor volume", "Total outlet mass divided by total inlet mass", "Heat released per mole of A fed"], "correct": 0, "explanation": "Selectivity measures preference for the desired product relative to undesired product or relative to reactant consumed. The exact definition must be stated, but it always concerns product distribution."}, {"type": "Mass Balances", "q": "A humid air stream is dried by removing water vapor. On a dry-air basis, the flow of dry air through the dryer is usually treated as:", "opts": ["Generated by evaporation", "Consumed by condensation", "Conserved if there is no air leakage", "Equal to the water vapor flow"], "correct": 2, "explanation": "In drying and humidification calculations, dry air is often used as a conserved carrier basis. If there is no leakage or reaction, the dry-air flow entering equals the dry-air flow leaving."}, {"type": "Momentum Transfer & Fluid Flow", "q": "For an incompressible fluid flowing steadily through a pipe, the continuity equation implies that:", "opts": ["Mass flow rate is constant along the pipe if there is no leakage", "Velocity must be constant even if diameter changes", "Pressure must increase in the flow direction", "Density must vary linearly with pipe length"], "correct": 0, "explanation": "Steady continuity requires constant mass flow rate when there are no side streams or leaks. If pipe diameter changes, velocity changes to maintain the same volumetric flow for an incompressible fluid."}, {"type": "Momentum Transfer & Fluid Flow", "q": "The Reynolds number compares which two effects?", "opts": ["Pressure force to gravity force", "Inertial force to viscous force", "Thermal energy to kinetic energy", "Surface tension to buoyancy"], "correct": 1, "explanation": "Reynolds number is the ratio of inertial to viscous effects. It is used to assess whether flow is likely laminar, transitional, or turbulent."}, {"type": "Momentum Transfer & Fluid Flow", "q": "For flow in a circular pipe, laminar flow is generally expected when Reynolds number is approximately:", "opts": ["Less than 2100", "Between 10,000 and 100,000 only", "Greater than 100,000", "Independent of Reynolds number"], "correct": 0, "explanation": "For internal pipe flow, Re below about 2100 is generally laminar, while high Reynolds numbers indicate turbulent flow. The exact transition can vary with disturbances and pipe conditions."}, {"type": "Momentum Transfer & Fluid Flow", "q": "In Bernoulli's equation for ideal flow, which assumption is not normally included?", "opts": ["Steady flow", "Incompressible fluid", "No frictional losses", "Large viscous dissipation in the pipe"], "correct": 3, "explanation": "The ideal Bernoulli equation assumes no frictional losses or viscous dissipation. Real pipe systems require loss terms and pump or turbine work terms."}, {"type": "Momentum Transfer & Fluid Flow", "q": "A pump is added to a pipeline primarily to:", "opts": ["Reduce the fluid density", "Add mechanical energy or head to the flowing fluid", "Eliminate all pipe friction", "Convert turbulent flow to laminar flow automatically"], "correct": 1, "explanation": "A pump supplies shaft work to the fluid, increasing its mechanical energy. This added head can overcome elevation changes, pressure requirements, and frictional losses."}, {"type": "Momentum Transfer & Fluid Flow", "q": "The Darcy-Weisbach equation is mainly used to calculate:", "opts": ["Chemical conversion in a pipe reactor", "Pressure drop or head loss due to pipe friction", "Heat of reaction in a flowing stream", "Vapor-liquid equilibrium composition"], "correct": 1, "explanation": "The Darcy-Weisbach equation relates frictional head loss to friction factor, pipe length, diameter, velocity, and gravity. It is a central equation for pressure-drop calculations."}, {"type": "Momentum Transfer & Fluid Flow", "q": "For fully developed laminar flow in a circular pipe, the Darcy friction factor is:", "opts": ["f = 16/Re", "f = 64/Re", "f = Re/64", "f is independent of Reynolds number"], "correct": 1, "explanation": "For laminar flow in a circular pipe using the Darcy friction factor, f = 64/Re. The Fanning friction factor would be 16/Re, so the convention must be clear."}, {"type": "Momentum Transfer & Fluid Flow", "q": "If the volumetric flow rate in a pipe doubles while diameter remains constant, the average velocity:", "opts": ["Doubles", "Halves", "Remains unchanged", "Increases by a factor of four"], "correct": 0, "explanation": "Average velocity equals volumetric flow rate divided by cross-sectional area. With fixed area, doubling volumetric flow doubles average velocity."}, {"type": "Momentum Transfer & Fluid Flow", "q": "A U-tube manometer connected across an orifice plate measures primarily:", "opts": ["Temperature difference", "Pressure difference", "Molecular weight difference", "Heat-transfer coefficient"], "correct": 1, "explanation": "A manometer converts a pressure difference into a measurable height difference of manometer fluid. Across an orifice plate, that pressure drop can be related to flow rate."}, {"type": "Momentum Transfer & Fluid Flow", "q": "Minor losses in pipe systems are associated with:", "opts": ["Only pipe-wall roughness over long straight runs", "Fittings, valves, entrances, exits, bends, and sudden expansions or contractions", "Molecular diffusion across the pipe wall", "Chemical reaction at the pump impeller"], "correct": 1, "explanation": "Minor losses are local mechanical-energy losses caused by fittings and geometry changes. They may be significant when there are many valves, bends, entrances, or contractions."}, {"type": "Momentum Transfer & Fluid Flow", "q": "Cavitation in a pump occurs when:", "opts": ["The liquid pressure locally falls below its vapor pressure, forming vapor bubbles", "The pump discharge pressure is always too high", "The liquid viscosity becomes exactly zero", "The pipe diameter is larger than the pump nozzle"], "correct": 0, "explanation": "Cavitation occurs when local pressure drops below vapor pressure, causing vapor bubbles that collapse and can damage pump surfaces. Adequate NPSH is used to prevent it."}, {"type": "Momentum Transfer & Fluid Flow", "q": "For Newtonian fluids, shear stress is proportional to:", "opts": ["Temperature only", "Velocity gradient or shear rate", "Pipe length only", "Molecular weight squared"], "correct": 1, "explanation": "Newton's law of viscosity states that shear stress equals viscosity times the velocity gradient. This linear relationship defines Newtonian behavior."}, {"type": "Energy Balances", "q": "For a steady-flow open system with one inlet and one outlet, negligible kinetic and potential energy changes, and no shaft work, the energy balance reduces mainly to:", "opts": ["Heat transfer equals enthalpy change of the stream", "Heat transfer equals mass accumulation", "Pressure drop equals heat capacity", "Reaction conversion equals pump efficiency"], "correct": 0, "explanation": "Under these simplifications, Q = m(h_out - h_in). Enthalpy is the natural energy property for flowing streams because it includes internal energy plus flow work."}, {"type": "Energy Balances", "q": "The sensible heat required to raise the temperature of a liquid stream is commonly calculated using:", "opts": ["Q = m Cp ΔT", "Q = m/ΔT", "Q = Cp/(m ΔT)", "Q = ΔP/ρ"], "correct": 0, "explanation": "For approximately constant heat capacity with no phase change, sensible heat is Q = m Cp ΔT, or in molar form Q = n Cp ΔT."}, {"type": "Energy Balances", "q": "A heat of reaction reported as negative indicates that the reaction is:", "opts": ["Endothermic", "Exothermic", "Isothermal", "Non-stoichiometric"], "correct": 1, "explanation": "By common convention, a negative enthalpy of reaction means heat is released by the reaction. Such reactions are exothermic and may require cooling."}, {"type": "Energy Balances", "q": "In an adiabatic reactor, which heat-transfer term is zero?", "opts": ["Heat transfer across the reactor boundary", "Heat generated by reaction", "Sensible enthalpy change", "All enthalpy changes"], "correct": 0, "explanation": "Adiabatic means no heat is transferred across the system boundary. Reaction heat can still change the stream temperature through enthalpy changes inside the reactor."}, {"type": "Energy Balances", "q": "Latent heat is associated with:", "opts": ["Temperature change without phase change", "Pressure drop in a pipe", "Phase change at approximately constant temperature", "Only kinetic energy change"], "correct": 2, "explanation": "Latent heat is the energy absorbed or released during a phase change such as vaporization, condensation, melting, or freezing, often at nearly constant temperature."}, {"type": "Energy Balances", "q": "In a heat exchanger with no heat loss to surroundings, the heat lost by the hot stream is ideally:", "opts": ["Greater than the heat gained by the cold stream", "Equal in magnitude to the heat gained by the cold stream", "Always zero", "Equal to the pressure drop times volume"], "correct": 1, "explanation": "For an adiabatic heat exchanger, energy lost by the hot stream is gained by the cold stream, aside from sign convention. Real exchangers may have small environmental losses."}, {"type": "Energy Balances", "q": "The log-mean temperature difference, LMTD, is used because:", "opts": ["The temperature driving force varies along the length of a heat exchanger", "Heat capacity is always zero at the outlet", "Pressure drop is logarithmic in all pipes", "It eliminates the need for an energy balance"], "correct": 0, "explanation": "In most heat exchangers, the temperature difference between hot and cold streams changes along the flow path. LMTD provides an effective average driving force for heat-transfer design."}, {"type": "Energy Balances", "q": "If heat capacity varies strongly with temperature, the most accurate sensible-heat calculation is generally:", "opts": ["Use Q = m Cp at the inlet temperature only", "Integrate Cp(T) over the temperature range", "Ignore heat capacity and use latent heat", "Use pressure drop as a substitute for enthalpy"], "correct": 1, "explanation": "When Cp is temperature-dependent, enthalpy change is calculated by integrating Cp(T)dT over the temperature interval. A constant average Cp may be acceptable only as an approximation."}, {"type": "Energy Balances", "q": "A throttling valve is often modeled as approximately:", "opts": ["Constant enthalpy with no shaft work and negligible heat transfer", "Constant entropy with large shaft work output", "Constant temperature for every fluid", "Constant density for gases only"], "correct": 0, "explanation": "A throttling device is commonly approximated as adiabatic, with no shaft work and negligible kinetic/potential changes. The result is an approximately isenthalpic process."}, {"type": "Energy Balances", "q": "For a turbine operating at steady state, the desired output is:", "opts": ["Shaft work produced by expansion of the fluid", "Heat added to the feed tank", "Frictional head loss in a valve", "Mass accumulation in the casing"], "correct": 0, "explanation": "A turbine extracts energy from a flowing fluid and produces shaft work. The fluid enthalpy usually decreases across the turbine."}, {"type": "Energy Balances", "q": "In combustion calculations, using excess air means:", "opts": ["Less air than stoichiometrically required is supplied", "More air than stoichiometrically required is supplied", "No oxygen is supplied", "Only nitrogen reacts with fuel"], "correct": 1, "explanation": "Excess air is air supplied above the theoretical stoichiometric amount required for complete combustion. It helps ensure complete fuel conversion but increases stack-gas losses."}, {"type": "Energy Balances", "q": "The reference state in enthalpy calculations is important because:", "opts": ["Absolute enthalpy is usually measured directly for all substances", "Only enthalpy differences matter, so all streams must use a consistent reference", "It determines pipe roughness", "It changes the molecular weight of the fluid"], "correct": 1, "explanation": "In engineering energy balances, enthalpy differences are physically meaningful. A consistent reference state prevents errors when combining data for multiple streams and species."}, {"type": "Energy Balances", "q": "In a single-effect evaporator, most of the supplied heat is used to:", "opts": ["Increase the viscosity of the feed", "Vaporize solvent from the solution", "Compress the liquid feed", "Generate inert gas"], "correct": 1, "explanation": "Evaporators concentrate solutions by vaporizing solvent, often water. The dominant energy requirement is usually the latent heat of vaporization."}, {"type": "Energy Balances", "q": "If a well-insulated tank is stirred by a motor, and no heat leaves the tank, the shaft work input will generally:", "opts": ["Decrease the internal energy of the tank contents", "Increase the internal energy of the tank contents", "Have no effect because the tank is insulated", "Create mass outflow automatically"], "correct": 1, "explanation": "Insulation only prevents heat transfer; it does not prevent work transfer. Shaft work from stirring dissipates into internal energy, often increasing the fluid temperature."}, {"type": "Energy Balances", "q": "Kinetic energy changes are most likely to be important in an energy balance when:", "opts": ["Velocity changes are large, such as through nozzles or high-speed jets", "All streams are at room temperature", "There is no pressure change anywhere", "The process contains only liquids at low velocity"], "correct": 0, "explanation": "Kinetic energy terms are often negligible in tanks and slow process piping, but they can be significant when velocity changes sharply, such as in nozzles, jets, and turbines."}, {"type": "Integrated Applications", "q": "A liquid is pumped from a storage tank to a reactor located 20 m higher. Which balances are most directly combined to size the pump and check process flow?", "opts": ["Momentum/mechanical energy balance plus continuity", "Only a component material balance", "Only an atomic balance", "Only a heat of reaction calculation"], "correct": 0, "explanation": "Pump sizing for elevation gain and friction requires a mechanical-energy or momentum-based pressure-drop analysis, while continuity relates flow rate, velocity, and pipe size."}, {"type": "Integrated Applications", "q": "A strongly exothermic liquid-phase reactor experiences a higher temperature than expected after scale-up. Which combined issue is most likely?", "opts": ["Mass is not conserved in large tanks", "Heat generation increased with volume while heat removal capacity did not scale at the same rate", "The pump converted all kinetic energy into pressure energy", "Laminar flow always improves heat removal"], "correct": 1, "explanation": "Reaction heat generation scales with reactor volume, while heat removal often scales with surface area or exchanger capacity. Scale-up can therefore create thermal-control problems even when the chemistry is unchanged."}, {"type": "Integrated Applications", "q": "A distillation condenser receives overhead vapor and produces saturated liquid. Which terms must be included in the condenser energy balance?", "opts": ["Only pipe-friction losses", "Latent heat released by condensation and any sensible cooling/subcooling", "Only reactor conversion", "Only dry-air humidity"], "correct": 1, "explanation": "A condenser removes latent heat as vapor becomes liquid. If the outlet liquid is cooled below its boiling point, sensible cooling must also be included."}, {"type": "Integrated Applications", "q": "A process stream contains a suspended solid and flows through a long pipe. The pressure drop is much higher than predicted for water. What is the best first engineering explanation?", "opts": ["The stream may have higher apparent viscosity, non-Newtonian behavior, settling, or roughness effects not captured by the water model", "The energy balance proves no pressure drop can occur", "The mass balance is invalid because solids are present", "The pipe must be perfectly frictionless"], "correct": 0, "explanation": "Slurries often behave differently from clean water. Higher viscosity, particle interactions, settling, blockage, and roughness can greatly increase pressure drop."}, {"type": "Integrated Applications", "q": "A heat exchanger is added before a reactor to preheat feed. Which combination best describes the impact on the reactor?", "opts": ["The feed enthalpy increases, which may change reactor temperature, conversion, and cooling duty", "Only the pipe diameter changes", "The stoichiometric coefficients change", "The reactor no longer requires material balances"], "correct": 0, "explanation": "Preheating changes the inlet enthalpy and temperature. This can affect reaction rate, equilibrium, conversion, and the amount of heat that must be removed or supplied in the reactor."}, {"type": "Integrated Applications", "q": "During troubleshooting, an operator reports low flow and low reactor temperature. Which paired causes should be considered together?", "opts": ["Pump or valve restriction reducing flow, and reduced hot-feed or reaction heat input reducing temperature", "Higher flow always causes lower pressure drop", "Mass balance alone proves the temperature sensor is wrong", "A purge stream always increases reactor temperature"], "correct": 0, "explanation": "Flow and temperature are often coupled. A restriction can reduce feed rate and heat input, while lower reaction rate or heat-transfer problems can also affect temperature. Both momentum and energy perspectives are needed."}, {"type": "Integrated Applications", "q": "In designing a flash drum, which principles are usually required?", "opts": ["Overall/component mass balances plus energy balance and phase equilibrium", "Only laminar pipe-flow theory", "Only pump-head calculation", "Only solid crystallization balance"], "correct": 0, "explanation": "Flash separation requires material balances, an energy balance, and vapor-liquid equilibrium relationships to determine vapor and liquid amounts and compositions."}, {"type": "Integrated Applications", "q": "A plant replaces a small-diameter transfer line with a larger one at the same volumetric flow rate. Which result is generally expected?", "opts": ["Lower average velocity and usually lower frictional pressure drop", "Higher velocity and always higher pressure drop", "No change in velocity because flow rate is unchanged", "A change in reaction stoichiometry"], "correct": 0, "explanation": "For fixed volumetric flow rate, increasing pipe diameter increases cross-sectional area and lowers velocity. Since frictional losses strongly depend on velocity and diameter, pressure drop usually decreases."}];
+const LETTERS = ['A','B','C','D'];
+const SECTIONS = [{"key": "Mass Balances", "label": "Section A — Mass Balances", "cls": "sec-mass", "range": "Questions 1–15"}, {"key": "Momentum Transfer & Fluid Flow", "label": "Section B — Momentum Transfer & Fluid Flow", "cls": "sec-momentum", "range": "Questions 16–27"}, {"key": "Energy Balances", "label": "Section C — Energy Balances", "cls": "sec-energy", "range": "Questions 28–42"}, {"key": "Integrated Applications", "label": "Section D — Integrated Applications", "cls": "sec-integrated", "range": "Questions 43–50"}];
+let mode = 'instant';
+let answers = new Array(QUESTIONS.length).fill(null);
+let locked  = new Array(QUESTIONS.length).fill(false);
+
+function typeClassName(type){
+  return 't-' + type.toLowerCase().replace(/&/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+
+function build(){
+  const exam = document.getElementById('exam');
+  exam.innerHTML='';
+  let qi=0;
+  SECTIONS.forEach(sec=>{
+    const h=document.createElement('div');
+    h.className='section-head '+sec.cls;
+    h.innerHTML=`<span>${sec.label}</span><span class="tag">${sec.range}</span>`;
+    exam.appendChild(h);
+    QUESTIONS.forEach((q,idx)=>{
+      if(q.type!==sec.key) return;
+      qi++;
+      exam.appendChild(makeCard(q,idx,qi));
+    });
+  });
+}
+
+function makeCard(q,idx,num){
+  const card=document.createElement('div');
+  card.className='q-card';
+  card.id='q'+idx;
+  const typeClass=typeClassName(q.type);
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    optsHtml+=`<div class="opt" data-i="${i}" onclick="choose(${idx},${i})">
+      <span class="letter">${LETTERS[i]}</span>
+      <span class="otext">${o}</span>
+      <span class="mark"></span>
+    </div>`;
+  });
+  card.innerHTML=`
+    <div class="q-top">
+      <span class="q-num">Q${num}</span>
+      <span class="q-type ${typeClass}">${q.type}</span>
+    </div>
+    <div class="q-text">${q.q}</div>
+    <div class="opts">${optsHtml}</div>
+    <div class="explain" id="exp${idx}">
+      <div class="elabel">Explanation</div>
+      <div class="ans-line">Correct Answer: ${LETTERS[q.correct]} — ${q.opts[q.correct]}</div>
+      <p>${q.explanation}</p>
+    </div>`;
+  return card;
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  answers[idx]=i;
+  const card=document.getElementById('q'+idx);
+  card.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
+  card.querySelector(`.opt[data-i="${i}"]`).classList.add('sel');
+  card.classList.add('answered');
+  if(mode==='instant'){ lockCard(idx); }
+  updateHud();
+}
+
+function lockCard(idx){
+  locked[idx]=true;
+  const q=QUESTIONS[idx];
+  const card=document.getElementById('q'+idx);
+  card.classList.add('locked');
+  const chosen=answers[idx];
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    if(oi===q.correct){o.classList.add('correct');o.querySelector('.mark').textContent='✓';}
+    else if(oi===chosen){o.classList.add('wrong');o.querySelector('.mark').textContent='✕';}
+  });
+  document.getElementById('exp'+idx).classList.add('show');
+}
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  document.getElementById('progCount').textContent=done;
+  document.getElementById('barFill').style.width=(done/QUESTIONS.length*100)+'%';
+  if(mode==='instant'){
+    const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+    document.getElementById('scoreNum').textContent=correct;
+  }
+  if(mode==='exam'){
+    document.getElementById('submitBtn').style.display = done===QUESTIONS.length ? 'inline-block':'none';
+  }
+}
+
+function submitExam(){
+  let correct=0;
+  const byType={};
+  QUESTIONS.forEach((q,idx)=>{
+    lockCard(idx);
+    const ok=answers[idx]===q.correct;
+    if(ok)correct++;
+    byType[q.type]=byType[q.type]||{c:0,t:0};
+    byType[q.type].t++; if(ok)byType[q.type].c++;
+  });
+  document.getElementById('scoreNum').textContent=correct;
+  showResults(correct,byType);
+}
+
+function showResults(correct,byType){
+  const pct=correct/QUESTIONS.length;
+  document.getElementById('rScore').textContent=correct;
+  let grade,blurb;
+  if(pct>=0.9){grade='Excellent Command';blurb='Strong performance. You are applying conservation principles and transport reasoning accurately across mass, momentum, and energy problems.';}
+  else if(pct>=0.75){grade='Solid Engineering Judgement';blurb='Good work. Review the explanations for the questions you missed and pay special attention to assumptions, sign conventions, and degrees of freedom.';}
+  else if(pct>=0.6){grade='Developing Foundation';blurb='You have a workable base. Focus next on distinguishing total, component, mechanical-energy, and enthalpy balances.';}
+  else if(pct>=0.4){grade='Needs Targeted Review';blurb='The core ideas are within reach. Rework the questions by section and write the governing balance before selecting an answer.';}
+  else{grade='Begin with the Fundamentals';blurb='Start with conservation of mass, then build toward fluid-flow losses and steady-flow energy balances before attempting integrated problems.';}
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  const bd=document.getElementById('rBreak');bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    const t=sec.key;
+    if(!byType[t])return;
+    const d=document.createElement('div');d.className='bd-item';
+    d.innerHTML=`<div class="bd-t">${t}</div><div class="bd-s">${byType[t].c}/${byType[t].t}</div>`;
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results');r.classList.add('show');
+  r.scrollIntoView({behavior:'smooth'});
+}
+
+function reviewAll(){document.getElementById('q0').scrollIntoView({behavior:'smooth'});}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  document.getElementById('modeHint').textContent = m==='instant'
+    ? 'Pick an answer and see the explanation immediately.'
+    : 'Answer all 50 questions, then submit to see your score and explanations.';
+  resetExam();
+}
+
+function resetExam(){
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  document.getElementById('submitBtn').style.display='none';
+  build();
+  updateHud();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+</body>
+</html>

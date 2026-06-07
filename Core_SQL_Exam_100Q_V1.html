@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Core SQL — Mock Exam · 100Q (V1)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  /* Section accents (database-themed) */
+  --data:#1f4a7d;
+  --clf:#0e6b6a;
+  --dl:#a83410;
+  --nlp:#5a2585;
+  --llm:#226b2d;
+  --ops:#9b2c3a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+  /* Code block colors */
+  --code-bg:#1d2330;
+  --code-fg:#d8d4c4;
+  --code-comment:#8f96a8;
+  --code-blank-bg:#5a3a0d;
+  --code-blank-fg:#ffd57a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(31,74,125,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.6rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--data),var(--ops));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-data{background:linear-gradient(100deg,var(--data),#0c2541)}
+.sec-clf{background:linear-gradient(100deg,var(--clf),#06403f)}
+.sec-dl{background:linear-gradient(100deg,var(--dl),#5e1f05)}
+.sec-nlp{background:linear-gradient(100deg,var(--nlp),#311148)}
+.sec-llm{background:linear-gradient(100deg,var(--llm),#0e3d18)}
+.sec-ops{background:linear-gradient(100deg,var(--ops),#5b181f)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.06rem;line-height:1.55;margin-bottom:14px;font-weight:500}
+.q-code{
+  font-family:'JetBrains Mono',monospace;font-size:.86rem;line-height:1.55;
+  background:var(--code-bg);color:var(--code-fg);
+  padding:14px 16px;margin:0 0 16px;border-radius:4px;
+  overflow-x:auto;white-space:pre;
+  border:1px solid #2a3142;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.q-code .blank{
+  background:var(--code-blank-bg);color:var(--code-blank-fg);
+  padding:1px 6px;border-radius:3px;font-weight:700;
+  border:1px dashed #c89542;
+}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:11px 14px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.55);transition:all .18s ease;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.08);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s;margin-top:1px}
+.opt .otext{flex:1;font-family:'JetBrains Mono',monospace;font-size:.86rem;line-height:1.5;word-break:break-word;padding-top:3px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.12)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center;font-family:'JetBrains Mono',monospace}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.95rem;font-family:'JetBrains Mono',monospace;word-break:break-word}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:180px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 16px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:.98rem}
+  .q-code{font-size:.78rem}
+  .opt .otext{font-size:.78rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Core SQL Examination &middot; Coding + Theory</div>
+    <h1 class="title">Core SQL <span class="amp">&amp;</span> Database Exam</h1>
+    <div class="byline">100 coding-format and theory questions across SELECT, joins, aggregation, subqueries, CTEs, windows, DDL, DML, transactions, and SQL performance</div>
+    <div class="exambar">
+      <span><b>100</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>100</b> Marks</span>
+      <span>Exam Mode: <b>2 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')">Guided Path</button>
+    <button id="mode-instant" class="active" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Instant Feedback: pick an answer and see the explanation immediately.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/100</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">02:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/100</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 2-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    Core SQL &middot; 100 coding-format and theory case questions
+    <div class="disclaimer">An independent SQL study resource. SQL dialects vary &mdash; always verify production syntax against your target database documentation.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "SQL Fundamentals: SELECT, Filtering & Expressions",
+    "q": "A sales analyst needs to show each customer's name and city from the customers table. Complete the SELECT statement.",
+    "code": "-- Return customer name and city\n???",
+    "opts": [
+      "SELECT name, city FROM customers;",
+      "GET name, city FROM customers;",
+      "SELECT customers FROM name, city;",
+      "READ name, city IN customers;"
+    ],
+    "correct": 0,
+    "explanation": "A basic SQL query uses SELECT to choose columns and FROM to choose the table."
+  },
+  {
+    "section": "SQL Fundamentals: SELECT, Filtering & Expressions",
+    "q": "The operations team wants a list of unique product categories that appear in the products table. Which query removes duplicate category values?",
+    "code": "-- Unique categories\n???",
+    "opts": [
+      "SELECT UNIQUE category FROM products;",
+      "SELECT DISTINCT category FROM products;",
+      "SELECT category WITHOUT DUPLICATES FROM products;",
+      "SELECT category FROM products GROUP DISTINCT;"
+    ],
+    "correct": 1,
+    "explanation": "DISTINCT removes duplicate rows from the result set for the selected columns."
+  },
+  {
+    "section": "SQL Fundamentals: SELECT, Filtering & Expressions",
+    "q": "A manager wants all open orders over $500. Complete the WHERE clause using both conditions.",
+    "code": "SELECT order_id, status, total_amount\nFROM orders\n???;",
+    "opts": [
+      "WHERE status = 'Open' AND total_amount > 500",
+      "WHERE status = 'Open' OR total_amount > 500",
+      "HAVING status = 'Open' AND total_amount > 500",
+      "WHERE status == 'Open' AND total_amount > 500"
+    ],
+    "correct": 0,
+    "explanation": "AND requires both conditions to be true. SQL uses = for equality, not ==."
+  },
+  {
+    "section": "SQL Fundamentals: SELECT, Filtering & Expressions",
+    "q": "A dashboard needs the newest orders first. Complete the query so order_date is sorted from latest to earliest.",
+    "code": "SELECT order_id, order_date, total_amount\nFROM orders\n???;",
+    "opts": [
+      "ORDER BY order_date ASC",
+      "SORT BY order_date DESC",
+      "ORDER BY order_date DESC",
+      "ORDER order_date NEWEST"
+    ],
+    "correct": 2,
+    "explanation": "ORDER BY controls sorting; DESC sorts from highest/latest to lowest/earliest."
+  },
+  {
+    "section": "SQL Fundamentals: SELECT, Filtering & Expressions",
+    "q": "A report should show only the first 10 highest-value invoices after sorting by invoice_total. Complete the query.",
+    "code": "SELECT invoice_id, invoice_total\nFROM invoices\nORDER BY invoice_total DESC\n???;",
+    "opts": [
+      "LIMIT 10",
+      "TOP 10",
+      "FIRST 10 ROWS",
+      "WHERE rownum <= 10"
+    ],
+    "correct": 0,
+    "explanation": "LIMIT 10 is a common SQL syntax to return 10 rows after ORDER BY in systems such as PostgreSQL, MySQL, and SQLite."
+  },
+  {
+    "section": "SQL Fundamentals: SELECT, Filtering & Expressions",
+    "q": "A payroll audit needs employees whose salaries are from 60000 through 90000, including the endpoints. Which condition is correct?",
+    "code": "SELECT employee_id, salary\nFROM employees\nWHERE ???;",
+    "opts": [
+      "salary BETWEEN 60000 AND 90000",
+      "salary > 60000 AND salary < 90000",
+      "salary IN 60000 TO 90000",
+      "salary RANGE(60000, 90000)"
+    ],
+    "correct": 0,
+    "explanation": "BETWEEN is inclusive in SQL, so it includes 60000 and 90000."
+  },
+  {
+    "section": "SQL Fundamentals: SELECT, Filtering & Expressions",
+    "q": "A CRM user wants customers whose email address ends with '@example.com'. Which LIKE pattern is correct?",
+    "code": "SELECT customer_id, email\nFROM customers\nWHERE ???;",
+    "opts": [
+      "email LIKE '@example.com%'",
+      "email LIKE '%@example.com'",
+      "email LIKE '*@example.com'",
+      "email LIKE '_@example.com'"
+    ],
+    "correct": 1,
+    "explanation": "In SQL LIKE patterns, % matches any sequence of characters. Placing it before @example.com matches emails ending with that domain."
+  },
+  {
+    "section": "SQL Fundamentals: SELECT, Filtering & Expressions",
+    "q": "A procurement report needs orders from three approved regions: West, East, and North. Complete the filter using the cleanest syntax.",
+    "code": "SELECT order_id, region\nFROM orders\nWHERE ???;",
+    "opts": [
+      "region = ('West', 'East', 'North')",
+      "region IN ('West', 'East', 'North')",
+      "region HAS ('West', 'East', 'North')",
+      "region BETWEEN 'West' AND 'North'"
+    ],
+    "correct": 1,
+    "explanation": "IN checks whether a value equals any value in a list."
+  },
+  {
+    "section": "SQL Fundamentals: SELECT, Filtering & Expressions",
+    "q": "The data quality team needs customers with no phone number recorded. Which NULL check is correct?",
+    "code": "SELECT customer_id, phone\nFROM customers\nWHERE ???;",
+    "opts": [
+      "phone = NULL",
+      "phone IS NULL",
+      "phone == NULL",
+      "phone EQUALS NULL"
+    ],
+    "correct": 1,
+    "explanation": "NULL means unknown or missing; comparisons with = do not work. Use IS NULL or IS NOT NULL."
+  },
+  {
+    "section": "SQL Fundamentals: SELECT, Filtering & Expressions",
+    "q": "A dashboard should show 'Unassigned' when a ticket has no owner. Complete the expression that substitutes a default value for NULL.",
+    "code": "SELECT ticket_id, ??? AS owner_display\nFROM tickets;",
+    "opts": [
+      "IFNULL(owner_name, 'Unassigned')",
+      "COALESCE(owner_name, 'Unassigned')",
+      "NULLIF(owner_name, 'Unassigned')",
+      "DEFAULT(owner_name, 'Unassigned')"
+    ],
+    "correct": 1,
+    "explanation": "COALESCE returns the first non-NULL value and is standard SQL. IFNULL is available in some dialects but is not the standard option here."
+  },
+  {
+    "section": "SQL Fundamentals: SELECT, Filtering & Expressions",
+    "q": "A manager wants to classify orders as 'Large' when the total is at least 1000 and 'Regular' otherwise. Complete the CASE expression.",
+    "code": "SELECT order_id,\n       ??? AS order_size\nFROM orders;",
+    "opts": [
+      "CASE WHEN total_amount >= 1000 THEN 'Large' ELSE 'Regular' END",
+      "IF total_amount >= 1000 THEN 'Large' ELSE 'Regular'",
+      "CASE total_amount >= 1000 THEN 'Large' OTHERWISE 'Regular'",
+      "WHEN total_amount >= 1000 THEN 'Large' ELSE 'Regular'"
+    ],
+    "correct": 0,
+    "explanation": "A searched CASE expression uses CASE WHEN condition THEN value ELSE value END."
+  },
+  {
+    "section": "SQL Fundamentals: SELECT, Filtering & Expressions",
+    "q": "A finance query calculates gross profit as revenue minus cost and gives it a readable output name. Complete the alias.",
+    "code": "SELECT product_id,\n       ???\nFROM product_sales;",
+    "opts": [
+      "revenue - cost ALIAS gross_profit",
+      "revenue - cost AS gross_profit",
+      "revenue - cost NAME gross_profit",
+      "gross_profit = revenue - cost"
+    ],
+    "correct": 1,
+    "explanation": "AS assigns an alias to an expression in the SELECT list."
+  },
+  {
+    "section": "SQL Fundamentals: SELECT, Filtering & Expressions",
+    "q": "An analyst needs a calculated margin percentage. Which expression avoids integer truncation in many SQL engines by multiplying by 1.0?",
+    "code": "SELECT product_id,\n       ???\nFROM product_sales;",
+    "opts": [
+      "profit / revenue AS margin_pct",
+      "profit / revenue * 100 AS margin_pct",
+      "(profit * 1.0 / revenue) * 100 AS margin_pct",
+      "margin_pct = profit / revenue"
+    ],
+    "correct": 2,
+    "explanation": "Multiplying by 1.0 encourages decimal arithmetic before division; multiplying by 100 then gives a percentage."
+  },
+  {
+    "section": "SQL Fundamentals: SELECT, Filtering & Expressions",
+    "q": "A search feature should exclude products whose SKU begins with 'TEST-'. Complete the condition.",
+    "code": "SELECT sku, product_name\nFROM products\nWHERE ???;",
+    "opts": [
+      "sku NOT LIKE 'TEST-%'",
+      "sku != LIKE 'TEST-%'",
+      "sku NOT IN 'TEST-%'",
+      "sku DOES NOT MATCH 'TEST-*'"
+    ],
+    "correct": 0,
+    "explanation": "NOT LIKE excludes values matching the LIKE pattern. % is the multi-character wildcard."
+  },
+  {
+    "section": "SQL Fundamentals: SELECT, Filtering & Expressions",
+    "q": "Theory: Which clause is logically evaluated before SELECT in a standard SQL query?",
+    "code": "",
+    "opts": [
+      "ORDER BY",
+      "WHERE",
+      "SELECT",
+      "LIMIT"
+    ],
+    "correct": 1,
+    "explanation": "The logical processing order begins with FROM/JOIN, then WHERE, then GROUP BY, HAVING, SELECT, ORDER BY, and row limiting."
+  },
+  {
+    "section": "SQL Fundamentals: SELECT, Filtering & Expressions",
+    "q": "A query compares a status column to the literal text Shipped. Which format is correct for a SQL string literal?",
+    "code": "SELECT order_id\nFROM orders\nWHERE ???;",
+    "opts": [
+      "status = Shipped",
+      "status = 'Shipped'",
+      "status = \"Shipped\" only in all databases",
+      "status := 'Shipped'"
+    ],
+    "correct": 1,
+    "explanation": "Single quotes are the standard delimiter for SQL string literals. Double quotes usually indicate identifiers in standard SQL."
+  },
+  {
+    "section": "Joins, Relationships & Set Logic",
+    "q": "An analyst needs customer names beside their orders. Complete the INNER JOIN between orders and customers.",
+    "code": "SELECT o.order_id, c.customer_name\nFROM orders o\n???;",
+    "opts": [
+      "JOIN customers c ON o.customer_id = c.customer_id",
+      "JOIN customers c WHERE o.customer_id = c.customer_id",
+      "MERGE customers c BY customer_id",
+      "JOIN customers c USING o.customer_id = c.customer_id"
+    ],
+    "correct": 0,
+    "explanation": "JOIN ... ON defines the relationship between rows from the two tables."
+  },
+  {
+    "section": "Joins, Relationships & Set Logic",
+    "q": "A support report must show every customer, even those with no tickets. Which join keeps all rows from customers?",
+    "code": "SELECT c.customer_id, c.customer_name, t.ticket_id\nFROM customers c\n???;",
+    "opts": [
+      "INNER JOIN tickets t ON c.customer_id = t.customer_id",
+      "LEFT JOIN tickets t ON c.customer_id = t.customer_id",
+      "RIGHT JOIN customers c ON c.customer_id = t.customer_id",
+      "CROSS JOIN tickets t"
+    ],
+    "correct": 1,
+    "explanation": "A LEFT JOIN keeps every row from the table on the left side and fills unmatched right-side columns with NULL."
+  },
+  {
+    "section": "Joins, Relationships & Set Logic",
+    "q": "A schema uses aliases o for orders and p for payments. Complete the join condition so each order is matched to its payments.",
+    "code": "SELECT o.order_id, p.payment_id, p.amount\nFROM orders o\nJOIN payments p\n???;",
+    "opts": [
+      "ON order_id = payment_order_id",
+      "ON o.order_id = p.order_id",
+      "WHERE o.order_id = p.order_id",
+      "WITH o.order_id = p.order_id"
+    ],
+    "correct": 1,
+    "explanation": "The ON clause should reference qualified columns from each table alias."
+  },
+  {
+    "section": "Joins, Relationships & Set Logic",
+    "q": "Theory: In a many-to-many relationship between students and courses, what table is normally added to store enrollments?",
+    "code": "",
+    "opts": [
+      "A duplicate students table",
+      "A bridge/junction table with student_id and course_id",
+      "A view that combines all course names",
+      "A single text column listing courses inside students"
+    ],
+    "correct": 1,
+    "explanation": "A bridge table resolves many-to-many relationships into two one-to-many relationships."
+  },
+  {
+    "section": "Joins, Relationships & Set Logic",
+    "q": "An employee table stores manager_id that references another employee_id. Complete the self-join to show each employee with their manager name.",
+    "code": "SELECT e.employee_name, m.employee_name AS manager_name\nFROM employees e\nLEFT JOIN employees m\n???;",
+    "opts": [
+      "JOIN employees m ON e.manager_id = m.employee_id",
+      "JOIN managers m ON e.manager_id = m.manager_id",
+      "SELF JOIN employees ON manager_id",
+      "JOIN employees m ON e.employee_id = m.manager_id"
+    ],
+    "correct": 0,
+    "explanation": "A self-join joins a table to itself using different aliases. Here e is the employee row and m is the manager row."
+  },
+  {
+    "section": "Joins, Relationships & Set Logic",
+    "q": "A pricing team wants every possible combination of products and promotion codes for testing. Which join produces a Cartesian product?",
+    "code": "SELECT p.product_id, promo.code\nFROM products p\n??? promotions promo;",
+    "opts": [
+      "INNER JOIN",
+      "LEFT JOIN",
+      "CROSS JOIN",
+      "FULL JOIN"
+    ],
+    "correct": 2,
+    "explanation": "CROSS JOIN returns every combination of rows from both input tables."
+  },
+  {
+    "section": "Joins, Relationships & Set Logic",
+    "q": "Theory: What does a FULL OUTER JOIN return?",
+    "code": "",
+    "opts": [
+      "Only matching rows from both tables",
+      "All rows from the left table only",
+      "All rows from the right table only",
+      "All rows from both tables, matching where possible and filling missing side values with NULL"
+    ],
+    "correct": 3,
+    "explanation": "A FULL OUTER JOIN preserves unmatched rows from both sides."
+  },
+  {
+    "section": "Joins, Relationships & Set Logic",
+    "q": "Two branch systems provide customer IDs. The analyst wants one deduplicated list. Which set operator removes duplicates?",
+    "code": "SELECT customer_id FROM online_customers\n???\nSELECT customer_id FROM store_customers;",
+    "opts": [
+      "UNION",
+      "UNION ALL",
+      "APPEND",
+      "COMBINE ALL"
+    ],
+    "correct": 0,
+    "explanation": "UNION combines result sets and removes duplicates. UNION ALL keeps duplicates."
+  },
+  {
+    "section": "Joins, Relationships & Set Logic",
+    "q": "A quality team wants customer IDs found in the master table but missing from the verified table. Which operator represents set difference in standard SQL-style syntax?",
+    "code": "SELECT customer_id FROM customer_master\n???\nSELECT customer_id FROM verified_customers;",
+    "opts": [
+      "UNION",
+      "INTERSECT",
+      "EXCEPT",
+      "JOIN ONLY"
+    ],
+    "correct": 2,
+    "explanation": "EXCEPT returns rows from the first query that are not present in the second query."
+  },
+  {
+    "section": "Joins, Relationships & Set Logic",
+    "q": "A query unexpectedly multiplies rows because orders were joined to order_items without a proper key condition. What is the most likely issue?",
+    "code": "",
+    "opts": [
+      "The SELECT list has too few columns",
+      "The JOIN condition is missing or incomplete",
+      "ORDER BY was omitted",
+      "The WHERE clause uses IS NULL"
+    ],
+    "correct": 1,
+    "explanation": "Missing or incomplete join predicates can create accidental many-to-many matches and duplicate-looking results."
+  },
+  {
+    "section": "Joins, Relationships & Set Logic",
+    "q": "The marketing team needs customers who have never placed an order. Complete the anti-join pattern.",
+    "code": "SELECT c.customer_id, c.customer_name\nFROM customers c\nLEFT JOIN orders o ON c.customer_id = o.customer_id\n???;",
+    "opts": [
+      "WHERE o.order_id IS NULL",
+      "WHERE o.order_id IS NOT NULL",
+      "HAVING COUNT(o.order_id) > 0",
+      "WHERE c.customer_id = NULL"
+    ],
+    "correct": 0,
+    "explanation": "After a LEFT JOIN, unmatched orders have NULL values on the right side. Filtering right-side key IS NULL returns customers with no orders."
+  },
+  {
+    "section": "Joins, Relationships & Set Logic",
+    "q": "Theory: What does a foreign key normally enforce?",
+    "code": "",
+    "opts": [
+      "Every row must have a unique value in every column",
+      "A child table value must match an existing parent table key, or be NULL if allowed",
+      "All columns in a table must be numeric",
+      "The table must have exactly one index"
+    ],
+    "correct": 1,
+    "explanation": "A foreign key preserves referential integrity between a child table and a parent table."
+  },
+  {
+    "section": "Joins, Relationships & Set Logic",
+    "q": "Theory: One customer can have many orders, but each order belongs to one customer. What is this relationship?",
+    "code": "",
+    "opts": [
+      "One-to-one",
+      "One-to-many",
+      "Many-to-many without a bridge",
+      "No relationship"
+    ],
+    "correct": 1,
+    "explanation": "The customer side is one; the orders side is many."
+  },
+  {
+    "section": "Joins, Relationships & Set Logic",
+    "q": "Theory: Why is NATURAL JOIN risky in production SQL?",
+    "code": "",
+    "opts": [
+      "It never uses indexes",
+      "It joins automatically on columns with the same names, which can change when schemas evolve",
+      "It can only join numeric columns",
+      "It always produces a Cartesian product"
+    ],
+    "correct": 1,
+    "explanation": "NATURAL JOIN infers join columns by matching names. Schema changes can silently alter query behavior."
+  },
+  {
+    "section": "Joins, Relationships & Set Logic",
+    "q": "A report needs each customer and their total order value. Complete the join to a pre-aggregated subquery.",
+    "code": "SELECT c.customer_name, s.total_value\nFROM customers c\nLEFT JOIN (\n    SELECT customer_id, SUM(total_amount) AS total_value\n    FROM orders\n    GROUP BY customer_id\n) s\n???;",
+    "opts": [
+      "ON c.customer_id = s.customer_id",
+      "WHERE c.customer_id = s.customer_id",
+      "USING c.customer_id = s.customer_id",
+      "ON customer_name = total_value"
+    ],
+    "correct": 0,
+    "explanation": "When joining to a derived table, use ON to match the customer key."
+  },
+  {
+    "section": "Joins, Relationships & Set Logic",
+    "q": "A shipment line is identified by both shipment_id and line_no. Complete the composite join to shipment_line_status.",
+    "code": "SELECT s.shipment_id, s.line_no, st.status\nFROM shipment_lines s\nJOIN shipment_line_status st\n???;",
+    "opts": [
+      "ON s.shipment_id = st.shipment_id",
+      "ON s.line_no = st.line_no",
+      "ON s.shipment_id = st.shipment_id AND s.line_no = st.line_no",
+      "ON s.shipment_id + s.line_no = st.shipment_id + st.line_no"
+    ],
+    "correct": 2,
+    "explanation": "When a relationship uses a composite key, the join should include all key columns."
+  },
+  {
+    "section": "Aggregation, Grouping & Reporting",
+    "q": "A manager needs the total number of rows in the orders table. Complete the query.",
+    "code": "SELECT ??? AS order_count\nFROM orders;",
+    "opts": [
+      "COUNT(orders)",
+      "COUNT(*)",
+      "SUM(*)",
+      "TOTAL_ROWS()"
+    ],
+    "correct": 1,
+    "explanation": "COUNT(*) counts rows, including rows where some columns contain NULL."
+  },
+  {
+    "section": "Aggregation, Grouping & Reporting",
+    "q": "A dashboard needs average order value by region. Complete the aggregation query.",
+    "code": "???",
+    "opts": [
+      "SELECT region, AVG(total_amount) FROM orders GROUP BY region;",
+      "SELECT AVG(total_amount), region FROM orders;",
+      "SELECT region, MEAN(total_amount) FROM orders;",
+      "SELECT region, AVG(total_amount) FROM orders WHERE region;"
+    ],
+    "correct": 0,
+    "explanation": "Every non-aggregated selected column must be grouped. AVG computes the mean."
+  },
+  {
+    "section": "Aggregation, Grouping & Reporting",
+    "q": "A finance report should show only regions with total sales above 100000 after grouping. Which clause is correct?",
+    "code": "SELECT region, SUM(total_amount) AS total_sales\nFROM orders\nGROUP BY region\n???;",
+    "opts": [
+      "WHERE SUM(total_amount) > 100000",
+      "HAVING SUM(total_amount) > 100000",
+      "FILTER SUM(total_amount) > 100000",
+      "GROUP WHERE total_amount > 100000"
+    ],
+    "correct": 1,
+    "explanation": "HAVING filters grouped results after aggregation. WHERE filters rows before aggregation."
+  },
+  {
+    "section": "Aggregation, Grouping & Reporting",
+    "q": "Theory: Which statement best describes WHERE versus HAVING?",
+    "code": "",
+    "opts": [
+      "WHERE filters rows before grouping; HAVING filters groups after aggregation",
+      "WHERE and HAVING are identical",
+      "HAVING must appear before WHERE",
+      "WHERE can use aggregate functions directly but HAVING cannot"
+    ],
+    "correct": 0,
+    "explanation": "WHERE is row-level filtering; HAVING is group-level filtering."
+  },
+  {
+    "section": "Aggregation, Grouping & Reporting",
+    "q": "A marketing analyst needs the number of unique customers who placed orders. Complete the aggregate expression.",
+    "code": "SELECT ??? AS unique_customers\nFROM orders;",
+    "opts": [
+      "COUNT(customer_id)",
+      "COUNT(DISTINCT customer_id)",
+      "DISTINCT COUNT(customer_id)",
+      "COUNT(UNIQUE *)"
+    ],
+    "correct": 1,
+    "explanation": "COUNT(DISTINCT column) counts unique non-NULL values in that column."
+  },
+  {
+    "section": "Aggregation, Grouping & Reporting",
+    "q": "A report needs total paid amount and total unpaid amount in one grouped query. Complete the conditional aggregation for paid orders.",
+    "code": "SELECT customer_id,\n       ??? AS paid_amount\nFROM invoices\nGROUP BY customer_id;",
+    "opts": [
+      "SUM(CASE WHEN status = 'Paid' THEN amount ELSE 0 END)",
+      "COUNT(CASE WHEN status = 'Paid' THEN amount ELSE 0 END)",
+      "SUM(status = 'Paid')",
+      "CASE WHEN status = 'Paid' THEN SUM(amount) END"
+    ],
+    "correct": 0,
+    "explanation": "SUM(CASE WHEN ... THEN amount ELSE 0 END) is a standard conditional aggregation pattern."
+  },
+  {
+    "section": "Aggregation, Grouping & Reporting",
+    "q": "Theory: How does AVG(column) handle NULL values?",
+    "code": "",
+    "opts": [
+      "It treats NULL as zero",
+      "It ignores NULL values",
+      "It returns NULL if any row is NULL",
+      "It counts NULL values twice"
+    ],
+    "correct": 1,
+    "explanation": "Most SQL aggregate functions ignore NULL values, except COUNT(*) which counts rows."
+  },
+  {
+    "section": "Aggregation, Grouping & Reporting",
+    "q": "A retailer needs monthly sales by store. Which GROUP BY matches the selected non-aggregated columns?",
+    "code": "SELECT store_id, sale_month, SUM(amount) AS sales\nFROM monthly_sales\n???;",
+    "opts": [
+      "GROUP BY store_id",
+      "GROUP BY sale_month",
+      "GROUP BY store_id, sale_month",
+      "GROUP BY SUM(amount)"
+    ],
+    "correct": 2,
+    "explanation": "Both store_id and sale_month are selected without aggregation, so both must be in the GROUP BY."
+  },
+  {
+    "section": "Aggregation, Grouping & Reporting",
+    "q": "A warehouse team needs the earliest and latest receiving date in the receipts table. Complete the SELECT list.",
+    "code": "SELECT ???\nFROM receipts;",
+    "opts": [
+      "FIRST(received_at), LAST(received_at)",
+      "MIN(received_at), MAX(received_at)",
+      "EARLIEST(received_at), LATEST(received_at)",
+      "LOW(received_at), HIGH(received_at)"
+    ],
+    "correct": 1,
+    "explanation": "MIN returns the smallest/earliest value; MAX returns the largest/latest value."
+  },
+  {
+    "section": "Aggregation, Grouping & Reporting",
+    "q": "A grouped query aliases SUM(amount) as total_sales. Which ORDER BY is valid and readable in many SQL engines?",
+    "code": "SELECT region, SUM(amount) AS total_sales\nFROM sales\nGROUP BY region\n???;",
+    "opts": [
+      "ORDER BY total_sales DESC",
+      "ORDER BY SUM AS DESC",
+      "ORDER BY amount DESC GROUPED",
+      "SORT total_sales DESC"
+    ],
+    "correct": 0,
+    "explanation": "Many SQL engines allow ORDER BY to refer to a SELECT-list alias."
+  },
+  {
+    "section": "Aggregation, Grouping & Reporting",
+    "q": "A sales manager needs the product with the highest number of order lines. Complete the query ending.",
+    "code": "SELECT product_id, COUNT(*) AS line_count\nFROM order_items\n???;",
+    "opts": [
+      "GROUP BY product_id ORDER BY COUNT(*) DESC LIMIT 1",
+      "ORDER BY COUNT(*) DESC GROUP BY product_id LIMIT 1",
+      "GROUP BY product_id WHERE COUNT(*) DESC LIMIT 1",
+      "GROUP BY product_id LIMIT COUNT(*) DESC"
+    ],
+    "correct": 0,
+    "explanation": "Group first, sort groups by count descending, then limit to one row."
+  },
+  {
+    "section": "Aggregation, Grouping & Reporting",
+    "q": "A customer success team wants the cancellation rate by plan. Complete the numerator using conditional aggregation.",
+    "code": "SELECT plan_id,\n       ??? * 1.0 / COUNT(*) AS cancellation_rate\nFROM subscriptions\nGROUP BY plan_id;",
+    "opts": [
+      "SUM(CASE WHEN status = 'Cancelled' THEN 1 ELSE 0 END)",
+      "COUNT(status = 'Cancelled')",
+      "AVG(status = 'Cancelled')",
+      "SUM(status LIKE 'Cancelled' THEN 1)"
+    ],
+    "correct": 0,
+    "explanation": "The CASE expression returns 1 for cancelled rows and 0 otherwise; SUM counts cancelled rows."
+  },
+  {
+    "section": "Aggregation, Grouping & Reporting",
+    "q": "Theory: In GROUP BY results, what generally happens to NULL values in the grouped column?",
+    "code": "",
+    "opts": [
+      "Each NULL becomes its own separate group",
+      "All NULL values form one group",
+      "NULL rows are always discarded",
+      "NULL values are converted to zero"
+    ],
+    "correct": 1,
+    "explanation": "SQL groups NULL values together for GROUP BY purposes."
+  },
+  {
+    "section": "Aggregation, Grouping & Reporting",
+    "q": "Theory: What is the difference between COUNT(*) and COUNT(email)?",
+    "code": "",
+    "opts": [
+      "COUNT(*) counts rows; COUNT(email) counts only rows where email is not NULL",
+      "COUNT(email) counts rows; COUNT(*) counts only non-NULL emails",
+      "They are always identical",
+      "COUNT(*) counts columns, not rows"
+    ],
+    "correct": 0,
+    "explanation": "COUNT(column) ignores NULL in that column; COUNT(*) counts result rows."
+  },
+  {
+    "section": "Aggregation, Grouping & Reporting",
+    "q": "A report must show every department and employee count, including departments with zero employees. Complete the join and count pattern.",
+    "code": "SELECT d.department_name, COUNT(e.employee_id) AS employee_count\nFROM departments d\n???\nGROUP BY d.department_name;",
+    "opts": [
+      "INNER JOIN employees e ON d.department_id = e.department_id; COUNT(*)",
+      "LEFT JOIN employees e ON d.department_id = e.department_id; COUNT(e.employee_id)",
+      "RIGHT JOIN employees e ON d.department_id = e.department_id; COUNT(d.department_id)",
+      "CROSS JOIN employees e; COUNT(*)"
+    ],
+    "correct": 1,
+    "explanation": "LEFT JOIN preserves departments with no employees. COUNT(e.employee_id) returns zero for unmatched departments."
+  },
+  {
+    "section": "Aggregation, Grouping & Reporting",
+    "q": "A finance team needs total revenue after excluding refunded rows. Where should the row-level refund filter go?",
+    "code": "SELECT region, SUM(amount) AS revenue\nFROM transactions\n???\nGROUP BY region;",
+    "opts": [
+      "WHERE status <> 'Refunded'",
+      "HAVING status <> 'Refunded'",
+      "GROUP BY status <> 'Refunded'",
+      "ORDER BY status <> 'Refunded'"
+    ],
+    "correct": 0,
+    "explanation": "Because refund status is a row-level condition, it belongs in WHERE before aggregation."
+  },
+  {
+    "section": "Subqueries, CTEs & Window Functions",
+    "q": "A compensation analyst needs employees whose salary is above the company average. Complete the scalar subquery.",
+    "code": "SELECT employee_id, salary\nFROM employees\nWHERE salary > (???);",
+    "opts": [
+      "SELECT AVG(salary) FROM employees",
+      "AVG(SELECT salary FROM employees)",
+      "SELECT salary AVG FROM employees",
+      "SELECT salary FROM employees GROUP BY AVG(salary)"
+    ],
+    "correct": 0,
+    "explanation": "A scalar subquery can return the overall AVG(salary), which the outer WHERE compares against each row."
+  },
+  {
+    "section": "Subqueries, CTEs & Window Functions",
+    "q": "A report needs customers who have at least one order. Complete the EXISTS condition.",
+    "code": "SELECT c.customer_id, c.customer_name\nFROM customers c\nWHERE EXISTS (???);",
+    "opts": [
+      "SELECT 1 FROM orders o WHERE o.customer_id = c.customer_id",
+      "orders o ON o.customer_id = c.customer_id",
+      "SELECT COUNT(*) FROM orders",
+      "SELECT customer_id FROM customers"
+    ],
+    "correct": 0,
+    "explanation": "EXISTS tests whether the correlated subquery returns at least one row for the current customer."
+  },
+  {
+    "section": "Subqueries, CTEs & Window Functions",
+    "q": "Theory: Why is EXISTS often preferred over IN for correlated existence checks?",
+    "code": "",
+    "opts": [
+      "EXISTS can stop after finding a matching row and expresses existence directly",
+      "EXISTS always sorts the result first",
+      "IN cannot compare numbers",
+      "IN always changes the data"
+    ],
+    "correct": 0,
+    "explanation": "EXISTS is semantically clear for existence checks and many optimizers can short-circuit or transform it efficiently."
+  },
+  {
+    "section": "Subqueries, CTEs & Window Functions",
+    "q": "A data team wants to make a query easier to read by naming a temporary result set. Complete the CTE syntax.",
+    "code": "???\nSELECT COUNT(*) FROM recent_orders;",
+    "opts": [
+      "WITH recent_orders AS (SELECT * FROM orders WHERE order_date >= DATE '2024-01-01')",
+      "CTE recent_orders AS SELECT * FROM orders",
+      "DEFINE recent_orders = SELECT * FROM orders",
+      "TEMP recent_orders AS (SELECT * FROM orders)"
+    ],
+    "correct": 0,
+    "explanation": "A common table expression begins with WITH cte_name AS (subquery)."
+  },
+  {
+    "section": "Subqueries, CTEs & Window Functions",
+    "q": "Theory: What is a CTE primarily used for?",
+    "code": "",
+    "opts": [
+      "To permanently store data on disk",
+      "To name a temporary result set for a single statement and improve readability",
+      "To force every query to use an index",
+      "To replace all joins"
+    ],
+    "correct": 1,
+    "explanation": "A CTE is scoped to the statement that follows it and is often used to organize complex logic."
+  },
+  {
+    "section": "Subqueries, CTEs & Window Functions",
+    "q": "A leaderboard needs one row number per salesperson ordered by total_sales descending. Complete the window function.",
+    "code": "SELECT salesperson_id, total_sales,\n       ??? AS row_num\nFROM sales_summary;",
+    "opts": [
+      "ROW_NUMBER() OVER (ORDER BY total_sales DESC)",
+      "ROW_NUMBER(total_sales DESC)",
+      "RANK_NUMBER() OVER total_sales DESC",
+      "COUNT(*) OVER GROUP BY total_sales"
+    ],
+    "correct": 0,
+    "explanation": "ROW_NUMBER() OVER (ORDER BY ...) assigns a sequential number based on the specified order."
+  },
+  {
+    "section": "Subqueries, CTEs & Window Functions",
+    "q": "Theory: What is the key difference between RANK and DENSE_RANK when ties occur?",
+    "code": "",
+    "opts": [
+      "RANK leaves gaps after ties; DENSE_RANK does not",
+      "DENSE_RANK leaves gaps after ties; RANK does not",
+      "They are identical",
+      "RANK can only be used with text columns"
+    ],
+    "correct": 0,
+    "explanation": "If two rows tie for rank 1, RANK makes the next rank 3; DENSE_RANK makes it 2."
+  },
+  {
+    "section": "Subqueries, CTEs & Window Functions",
+    "q": "A finance dashboard needs running revenue by transaction date. Complete the window expression.",
+    "code": "SELECT transaction_date, amount,\n       ??? AS running_revenue\nFROM transactions;",
+    "opts": [
+      "SUM(amount) OVER (ORDER BY transaction_date)",
+      "SUM(amount) GROUP BY transaction_date",
+      "RUNNING_SUM(amount BY transaction_date)",
+      "SUM(amount) OVER GROUP BY transaction_date"
+    ],
+    "correct": 0,
+    "explanation": "SUM(...) OVER (ORDER BY ...) computes a running total while preserving row detail."
+  },
+  {
+    "section": "Subqueries, CTEs & Window Functions",
+    "q": "A manager needs each employee's salary rank within their department. Complete the partitioned ranking expression.",
+    "code": "SELECT employee_id, department_id, salary,\n       ??? AS dept_salary_rank\nFROM employees;",
+    "opts": [
+      "RANK() OVER (PARTITION BY department_id ORDER BY salary DESC)",
+      "RANK() PARTITION department_id ORDER salary DESC",
+      "RANK(department_id, salary DESC)",
+      "ORDER BY salary DESC PARTITION BY department_id"
+    ],
+    "correct": 0,
+    "explanation": "PARTITION BY restarts the ranking for each department; ORDER BY defines rank order inside the partition."
+  },
+  {
+    "section": "Subqueries, CTEs & Window Functions",
+    "q": "A logistics analyst needs the previous shipment status timestamp for each shipment event. Complete the LAG function.",
+    "code": "SELECT shipment_id, event_time, status,\n       ??? AS previous_event_time\nFROM shipment_events;",
+    "opts": [
+      "LAG(event_time) OVER (PARTITION BY shipment_id ORDER BY event_time)",
+      "PREVIOUS(event_time) BY shipment_id",
+      "LAG(event_time, shipment_id ORDER BY event_time)",
+      "event_time - 1 OVER shipment_id"
+    ],
+    "correct": 0,
+    "explanation": "LAG returns a value from a previous row in the same partition according to the window order."
+  },
+  {
+    "section": "Subqueries, CTEs & Window Functions",
+    "q": "A team wants the latest order per customer. Complete the CTE filter after calculating row numbers ordered newest first.",
+    "code": "WITH ranked_orders AS (\n    SELECT o.*,\n           ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date DESC) AS rn\n    FROM orders o\n)\nSELECT *\nFROM ranked_orders\n???;",
+    "opts": [
+      "WHERE rn = 1",
+      "WHERE ROW_NUMBER() = 1",
+      "HAVING rn = 1",
+      "ORDER BY rn = 1"
+    ],
+    "correct": 0,
+    "explanation": "After row numbers are computed in the CTE, the outer query can filter to rn = 1."
+  },
+  {
+    "section": "Subqueries, CTEs & Window Functions",
+    "q": "A correlated subquery calculates each customer's total order value. Which condition makes the inner query depend on the current outer customer?",
+    "code": "SELECT c.customer_id,\n       (SELECT SUM(o.total_amount)\n        FROM orders o\n        WHERE ???) AS lifetime_value\nFROM customers c;",
+    "opts": [
+      "o.customer_id = c.customer_id",
+      "o.customer_id = customer_id",
+      "c.total_amount = o.total_amount",
+      "orders.customer_id IS NOT NULL"
+    ],
+    "correct": 0,
+    "explanation": "The inner query references the outer alias c, making it correlated to the current customer row."
+  },
+  {
+    "section": "Subqueries, CTEs & Window Functions",
+    "q": "Theory: What must a scalar subquery used with = or > normally return?",
+    "code": "",
+    "opts": [
+      "Exactly one column and at most one row",
+      "Any number of columns and rows",
+      "Only a table name",
+      "A stored procedure"
+    ],
+    "correct": 0,
+    "explanation": "A scalar subquery must produce one value. Multiple rows usually cause an error in scalar contexts."
+  },
+  {
+    "section": "Subqueries, CTEs & Window Functions",
+    "q": "A product team needs products priced above the average price in their own category. Complete the correlated subquery condition.",
+    "code": "SELECT p.product_id, p.category_id, p.price\nFROM products p\nWHERE p.price > (\n    SELECT AVG(p2.price)\n    FROM products p2\n    WHERE ???\n);",
+    "opts": [
+      "p2.category_id = p.category_id",
+      "p2.product_id = p.product_id",
+      "p2.price = AVG(p.price)",
+      "category_id IN products"
+    ],
+    "correct": 0,
+    "explanation": "The inner average is restricted to the same category as the outer product."
+  },
+  {
+    "section": "Subqueries, CTEs & Window Functions",
+    "q": "Theory: Why can you not usually filter on a window-function alias in the same SELECT statement's WHERE clause?",
+    "code": "",
+    "opts": [
+      "WHERE is logically evaluated before SELECT, so the alias is not available yet",
+      "Window functions cannot be used in SQL",
+      "Aliases can only contain numbers",
+      "WHERE is evaluated after ORDER BY"
+    ],
+    "correct": 0,
+    "explanation": "Logical processing evaluates WHERE before SELECT/window output, so use a subquery or CTE to filter the alias."
+  },
+  {
+    "section": "Subqueries, CTEs & Window Functions",
+    "q": "A data analyst wants each row plus the overall grand total as a separate column. Complete the window expression.",
+    "code": "SELECT order_id, amount,\n       ??? AS grand_total\nFROM orders;",
+    "opts": [
+      "SUM(amount) OVER ()",
+      "SUM(amount) GROUP BY ()",
+      "COUNT(amount) OVER ()",
+      "TOTAL(amount)"
+    ],
+    "correct": 0,
+    "explanation": "SUM(amount) OVER () computes the sum over the full result set while keeping row-level detail."
+  },
+  {
+    "section": "Subqueries, CTEs & Window Functions",
+    "q": "Theory: What is the main difference between GROUP BY aggregation and window aggregation?",
+    "code": "",
+    "opts": [
+      "GROUP BY collapses rows into groups; window functions can calculate over groups while preserving row detail",
+      "Window functions always delete duplicate rows",
+      "GROUP BY is only for text columns",
+      "Window functions cannot use ORDER BY"
+    ],
+    "correct": 0,
+    "explanation": "GROUP BY reduces the result set; window functions add analytic values to rows without necessarily collapsing them."
+  },
+  {
+    "section": "Subqueries, CTEs & Window Functions",
+    "q": "A finance report needs percent of total revenue for each region. Complete the denominator using a window aggregate.",
+    "code": "SELECT region,\n       SUM(amount) AS region_revenue,\n       SUM(amount) * 1.0 / ??? AS pct_of_total\nFROM sales\nGROUP BY region;",
+    "opts": [
+      "SUM(SUM(amount)) OVER ()",
+      "SUM(amount) OVER (PARTITION BY region)",
+      "COUNT(*) OVER ()",
+      "AVG(amount) OVER ()"
+    ],
+    "correct": 0,
+    "explanation": "After grouping by region, SUM(amount) is the regional total; SUM(SUM(amount)) OVER () computes the grand total across those grouped rows."
+  },
+  {
+    "section": "DDL, DML, Constraints & Transactions",
+    "q": "A database designer creates a customers table with customer_id as the primary key. Complete the column definition.",
+    "code": "CREATE TABLE customers (\n    ???,\n    customer_name VARCHAR(100) NOT NULL\n);",
+    "opts": [
+      "customer_id INT PRIMARY KEY",
+      "customer_id INT FOREIGN KEY",
+      "customer_id INT INDEX ONLY",
+      "customer_id INT NULL PRIMARY"
+    ],
+    "correct": 0,
+    "explanation": "PRIMARY KEY enforces uniqueness and non-NULL values for the identifier."
+  },
+  {
+    "section": "DDL, DML, Constraints & Transactions",
+    "q": "A team needs to add an email column to an existing customers table. Complete the DDL statement.",
+    "code": "???",
+    "opts": [
+      "ALTER TABLE customers ADD COLUMN email VARCHAR(255);",
+      "UPDATE TABLE customers ADD email VARCHAR(255);",
+      "INSERT COLUMN email INTO customers;",
+      "MODIFY customers WITH email VARCHAR(255);"
+    ],
+    "correct": 0,
+    "explanation": "ALTER TABLE ... ADD COLUMN is the standard pattern for adding a column."
+  },
+  {
+    "section": "DDL, DML, Constraints & Transactions",
+    "q": "A web app creates a new customer record. Complete the INSERT statement.",
+    "code": "???",
+    "opts": [
+      "INSERT customers VALUES INTO (customer_id, customer_name) (1, 'Apex Co');",
+      "INSERT INTO customers (customer_id, customer_name) VALUES (1, 'Apex Co');",
+      "ADD INTO customers customer_id = 1, customer_name = 'Apex Co';",
+      "CREATE ROW customers (1, 'Apex Co');"
+    ],
+    "correct": 1,
+    "explanation": "INSERT INTO table (columns) VALUES (values) inserts a new row."
+  },
+  {
+    "section": "DDL, DML, Constraints & Transactions",
+    "q": "A customer changes their email address. Complete the UPDATE statement safely for one customer.",
+    "code": "???",
+    "opts": [
+      "UPDATE customers SET email = 'new@example.com' WHERE customer_id = 42;",
+      "UPDATE customers email = 'new@example.com' WHERE customer_id = 42;",
+      "SET customers.email = 'new@example.com' WHERE customer_id = 42;",
+      "UPDATE customers SET email = 'new@example.com';"
+    ],
+    "correct": 0,
+    "explanation": "UPDATE ... SET ... WHERE changes matching rows. The WHERE clause prevents updating every row."
+  },
+  {
+    "section": "DDL, DML, Constraints & Transactions",
+    "q": "A test order must be removed by its primary key. Complete the DELETE statement.",
+    "code": "???",
+    "opts": [
+      "DELETE orders WHERE order_id = 9001;",
+      "DELETE FROM orders WHERE order_id = 9001;",
+      "REMOVE FROM orders WHERE order_id = 9001;",
+      "DROP FROM orders WHERE order_id = 9001;"
+    ],
+    "correct": 1,
+    "explanation": "DELETE FROM table WHERE condition removes matching rows. DROP is for database objects, not rows."
+  },
+  {
+    "section": "DDL, DML, Constraints & Transactions",
+    "q": "A batch import should either fully succeed or be undone. Complete the transaction pattern.",
+    "code": "???\n-- insert/update multiple related rows here\nCOMMIT;",
+    "opts": [
+      "BEGIN; ... COMMIT;",
+      "START QUERY; ... SAVE;",
+      "OPEN TRANSACTION; ... END QUERY;",
+      "BEGIN; ... DELETE DATABASE;"
+    ],
+    "correct": 0,
+    "explanation": "BEGIN starts a transaction and COMMIT makes its changes durable. ROLLBACK would undo it if needed."
+  },
+  {
+    "section": "DDL, DML, Constraints & Transactions",
+    "q": "Theory: What does ROLLBACK do in a transaction?",
+    "code": "",
+    "opts": [
+      "It permanently saves all pending changes",
+      "It undoes uncommitted changes in the current transaction",
+      "It deletes the table definition",
+      "It creates an index"
+    ],
+    "correct": 1,
+    "explanation": "ROLLBACK reverts the transaction to its previous committed state."
+  },
+  {
+    "section": "DDL, DML, Constraints & Transactions",
+    "q": "Theory: Which statement about a primary key is correct?",
+    "code": "",
+    "opts": [
+      "It can contain duplicate values",
+      "It uniquely identifies each row and cannot be NULL",
+      "It must always be a text column",
+      "A table must have five primary keys"
+    ],
+    "correct": 1,
+    "explanation": "A primary key is the table's unique non-NULL row identifier."
+  },
+  {
+    "section": "DDL, DML, Constraints & Transactions",
+    "q": "Theory: What is the difference between UNIQUE and PRIMARY KEY constraints?",
+    "code": "",
+    "opts": [
+      "UNIQUE allows duplicate values; PRIMARY KEY does not",
+      "A table can have multiple UNIQUE constraints but normally only one PRIMARY KEY; primary key columns cannot be NULL",
+      "PRIMARY KEY is only for foreign tables",
+      "UNIQUE automatically creates child rows"
+    ],
+    "correct": 1,
+    "explanation": "UNIQUE enforces uniqueness; a primary key is the main identifier and is non-NULL. Tables can have multiple UNIQUE constraints."
+  },
+  {
+    "section": "DDL, DML, Constraints & Transactions",
+    "q": "Create an orders table column that references customers(customer_id). Complete the foreign key constraint.",
+    "code": "CREATE TABLE orders (\n    order_id INT PRIMARY KEY,\n    customer_id INT,\n    ???\n);",
+    "opts": [
+      "FOREIGN KEY (customer_id) REFERENCES customers(customer_id)",
+      "REFERENCE customer_id TO customers.customer_id",
+      "customer_id FOREIGN customers(customer_id)",
+      "LINK customer_id customers customer_id"
+    ],
+    "correct": 0,
+    "explanation": "FOREIGN KEY (child_column) REFERENCES parent_table(parent_column) defines referential integrity."
+  },
+  {
+    "section": "DDL, DML, Constraints & Transactions",
+    "q": "A product table should reject negative prices. Complete the CHECK constraint.",
+    "code": "CREATE TABLE products (\n    product_id INT PRIMARY KEY,\n    price DECIMAL(10,2) ???\n);",
+    "opts": [
+      "CHECK (price >= 0)",
+      "VALIDATE price positive",
+      "CONSTRAINT price NOT NEGATIVE",
+      "CHECK price IS POSITIVE"
+    ],
+    "correct": 0,
+    "explanation": "A CHECK constraint enforces a Boolean condition for inserted or updated rows."
+  },
+  {
+    "section": "DDL, DML, Constraints & Transactions",
+    "q": "A user account must always have an email. Complete the column definition.",
+    "code": "CREATE TABLE users (\n    user_id INT PRIMARY KEY,\n    ???\n);",
+    "opts": [
+      "email VARCHAR(255) NOT NULL",
+      "email VARCHAR(255) REQUIRED BY APP",
+      "email VARCHAR(255) NO EMPTY",
+      "email VARCHAR(255) UNIQUE NULL"
+    ],
+    "correct": 0,
+    "explanation": "NOT NULL prevents missing values in the column."
+  },
+  {
+    "section": "DDL, DML, Constraints & Transactions",
+    "q": "A new order should default to status 'Pending' if no status is supplied. Complete the column definition.",
+    "code": "CREATE TABLE orders (\n    order_id INT PRIMARY KEY,\n    ???\n);",
+    "opts": [
+      "status VARCHAR(20) DEFAULT 'Pending'",
+      "status VARCHAR(20) AUTO 'Pending'",
+      "status DEFAULT VALUE VARCHAR(20) 'Pending'",
+      "status VARCHAR(20) IF NULL 'Pending'"
+    ],
+    "correct": 0,
+    "explanation": "DEFAULT supplies a value when an INSERT omits the column."
+  },
+  {
+    "section": "DDL, DML, Constraints & Transactions",
+    "q": "Theory: Which data type is usually most appropriate for money-like exact decimal values?",
+    "code": "",
+    "opts": [
+      "FLOAT",
+      "REAL",
+      "DECIMAL(12,2)",
+      "BOOLEAN"
+    ],
+    "correct": 2,
+    "explanation": "DECIMAL/NUMERIC stores exact fixed-point values, which is preferable for currency-like amounts."
+  },
+  {
+    "section": "DDL, DML, Constraints & Transactions",
+    "q": "Theory: Which ACID property means committed data survives a system crash?",
+    "code": "",
+    "opts": [
+      "Atomicity",
+      "Consistency",
+      "Isolation",
+      "Durability"
+    ],
+    "correct": 3,
+    "explanation": "Durability means committed changes persist even after failures."
+  },
+  {
+    "section": "DDL, DML, Constraints & Transactions",
+    "q": "Theory: What is a dirty read?",
+    "code": "",
+    "opts": [
+      "Reading data that another transaction changed but has not committed",
+      "Reading data from a table with many NULL values",
+      "Reading a query result sorted in descending order",
+      "Reading from a table without indexes"
+    ],
+    "correct": 0,
+    "explanation": "A dirty read occurs when one transaction sees another transaction's uncommitted changes."
+  },
+  {
+    "section": "Performance, Modeling & SQL Theory",
+    "q": "A query often searches orders by customer_id. Which index is most directly useful for this predicate?",
+    "code": "SELECT *\nFROM orders\nWHERE customer_id = 42;\n\n-- Best supporting index:\n???",
+    "opts": [
+      "CREATE INDEX idx_orders_customer ON orders(customer_id);",
+      "CREATE INDEX idx_orders_total ON orders(total_amount);",
+      "CREATE INDEX idx_orders_status_date ON orders(status, order_date);",
+      "CREATE INDEX idx_customers_name ON customers(customer_name);"
+    ],
+    "correct": 0,
+    "explanation": "An index on the filtered column customer_id can help locate matching order rows faster."
+  },
+  {
+    "section": "Performance, Modeling & SQL Theory",
+    "q": "A database frequently joins orders to customers using orders.customer_id. What indexing choice commonly supports the child side of the join?",
+    "code": "",
+    "opts": [
+      "Index orders.customer_id",
+      "Index only customers.customer_name",
+      "Remove the foreign key",
+      "Create a text column with customer name in orders only"
+    ],
+    "correct": 0,
+    "explanation": "Indexing foreign key columns often improves join performance and parent-row deletes/updates that check child rows."
+  },
+  {
+    "section": "Performance, Modeling & SQL Theory",
+    "q": "Theory: For a composite index on (status, order_date), which predicate is most likely to use the leftmost part efficiently?",
+    "code": "",
+    "opts": [
+      "WHERE order_date >= DATE '2026-01-01' only",
+      "WHERE status = 'Open' only",
+      "WHERE total_amount > 100 only",
+      "WHERE customer_name LIKE 'A%' only"
+    ],
+    "correct": 1,
+    "explanation": "Composite indexes are most useful from the leftmost column onward. A predicate on status can use the leading column."
+  },
+  {
+    "section": "Performance, Modeling & SQL Theory",
+    "q": "A query filters by DATE(order_time), causing poor index usage on order_time. Which rewrite is usually better for an indexed timestamp column?",
+    "code": "-- Better day filter for an indexed timestamp\n???",
+    "opts": [
+      "WHERE order_time >= TIMESTAMP '2026-01-01 00:00:00' AND order_time < TIMESTAMP '2026-01-02 00:00:00'",
+      "WHERE DATE(order_time) = DATE '2026-01-01'",
+      "WHERE CAST(order_time AS TEXT) = '2026-01-01'",
+      "WHERE order_time LIKE '2026-01-01%'"
+    ],
+    "correct": 0,
+    "explanation": "A range predicate keeps the column unwrapped by a function, making it more index-friendly."
+  },
+  {
+    "section": "Performance, Modeling & SQL Theory",
+    "q": "Theory: What does an EXPLAIN plan help you understand?",
+    "code": "",
+    "opts": [
+      "The database's planned access path, joins, scans, and estimated costs",
+      "The legal license of the database",
+      "The spelling of column names only",
+      "The exact future runtime in all cases"
+    ],
+    "correct": 0,
+    "explanation": "EXPLAIN shows how the optimizer plans to execute a query, including scans, joins, and cost estimates."
+  },
+  {
+    "section": "Performance, Modeling & SQL Theory",
+    "q": "Theory: What does First Normal Form (1NF) require?",
+    "code": "",
+    "opts": [
+      "Each field contains atomic values and repeating groups are removed",
+      "Every table must have exactly one row",
+      "All values must be encrypted",
+      "Every query must use a CTE"
+    ],
+    "correct": 0,
+    "explanation": "1NF emphasizes atomic column values and no repeating groups within a row."
+  },
+  {
+    "section": "Performance, Modeling & SQL Theory",
+    "q": "Theory: What does Third Normal Form (3NF) mainly reduce?",
+    "code": "",
+    "opts": [
+      "Transitive dependencies between non-key attributes",
+      "The number of SELECT statements allowed",
+      "All indexes in a database",
+      "All foreign keys"
+    ],
+    "correct": 0,
+    "explanation": "3NF aims to ensure non-key attributes depend on the key, the whole key, and nothing but the key."
+  },
+  {
+    "section": "Performance, Modeling & SQL Theory",
+    "q": "Theory: What is a common tradeoff of denormalization?",
+    "code": "",
+    "opts": [
+      "Faster reads for some reports but more redundancy and update risk",
+      "No storage usage",
+      "Automatic perfect consistency",
+      "It eliminates the need for backups"
+    ],
+    "correct": 0,
+    "explanation": "Denormalization can reduce joins and speed reads, but duplicates data and can create maintenance risk."
+  },
+  {
+    "section": "Performance, Modeling & SQL Theory",
+    "q": "A BI warehouse stores order_amount in a central sales table and descriptive product/customer/date tables around it. What model is this?",
+    "code": "",
+    "opts": [
+      "Star schema with fact and dimension tables",
+      "Unstructured key-value store only",
+      "Recursive hierarchy only",
+      "Single-table inheritance"
+    ],
+    "correct": 0,
+    "explanation": "A star schema has a central fact table containing measures and foreign keys to surrounding dimensions."
+  },
+  {
+    "section": "Performance, Modeling & SQL Theory",
+    "q": "Theory: What is a surrogate key?",
+    "code": "",
+    "opts": [
+      "A system-generated identifier with no business meaning",
+      "A natural key such as email address",
+      "A foreign key that is always NULL",
+      "A text description used in dashboards"
+    ],
+    "correct": 0,
+    "explanation": "Surrogate keys are artificial identifiers, often integers or UUIDs, used as stable row keys."
+  },
+  {
+    "section": "Performance, Modeling & SQL Theory",
+    "q": "A login search currently concatenates user input into SQL text. What is the safest standard mitigation?",
+    "code": "",
+    "opts": [
+      "Use parameterized queries/prepared statements",
+      "Add more string quotes around the input",
+      "Remove all WHERE clauses",
+      "Store passwords in plain text"
+    ],
+    "correct": 0,
+    "explanation": "Parameterized queries separate SQL code from user-supplied values and reduce SQL injection risk."
+  },
+  {
+    "section": "Performance, Modeling & SQL Theory",
+    "q": "Theory: What is the N+1 query problem?",
+    "code": "",
+    "opts": [
+      "Running one query to fetch parent rows and then one additional query per parent row",
+      "Using one query with one JOIN",
+      "Creating one index per table",
+      "Having one database and many users"
+    ],
+    "correct": 0,
+    "explanation": "N+1 happens when an application repeatedly queries child data row-by-row instead of fetching it in a set-oriented way."
+  },
+  {
+    "section": "Performance, Modeling & SQL Theory",
+    "q": "A slow dashboard currently uses SELECT * from a wide table but only displays three columns. Which change is usually better?",
+    "code": "-- Better projection\n??? customer_id, customer_name, city\nFROM customers;",
+    "opts": [
+      "Select only the needed columns",
+      "Add ORDER BY RANDOM()",
+      "Remove all indexes",
+      "Convert every column to text"
+    ],
+    "correct": 0,
+    "explanation": "Selecting only required columns reduces I/O, memory transfer, and sometimes network cost."
+  },
+  {
+    "section": "Performance, Modeling & SQL Theory",
+    "q": "Theory: What is a database view?",
+    "code": "",
+    "opts": [
+      "A stored query that can be referenced like a table",
+      "A physical backup file only",
+      "An index that always stores duplicate rows",
+      "A transaction log entry"
+    ],
+    "correct": 0,
+    "explanation": "A view stores a query definition and presents it as a virtual table unless materialized."
+  },
+  {
+    "section": "Performance, Modeling & SQL Theory",
+    "q": "Theory: How is a materialized view different from a regular view?",
+    "code": "",
+    "opts": [
+      "It stores the query result physically and may need refresh",
+      "It cannot be queried",
+      "It is always updated every millisecond in every database",
+      "It can only contain one column"
+    ],
+    "correct": 0,
+    "explanation": "A materialized view stores results to improve read performance, but its data can become stale until refreshed."
+  },
+  {
+    "section": "Performance, Modeling & SQL Theory",
+    "q": "A developer checks for missing ship_date using ship_date = NULL and gets no rows. Why?",
+    "code": "SELECT order_id\nFROM orders\nWHERE ship_date = NULL;\n\n-- Correct reason:\n???",
+    "opts": [
+      "NULL must be checked with IS NULL, not = NULL",
+      "The table has no rows",
+      "ship_date must be converted to text first",
+      "The query needs ORDER BY"
+    ],
+    "correct": 0,
+    "explanation": "Any comparison with NULL using = evaluates to UNKNOWN, not TRUE. Use IS NULL."
+  },
+  {
+    "section": "Performance, Modeling & SQL Theory",
+    "q": "Theory: In SQL's three-valued logic, what are the three possible truth values?",
+    "code": "",
+    "opts": [
+      "TRUE, FALSE, UNKNOWN",
+      "YES, NO, MAYBE ONLY IN TEXT",
+      "ONE, ZERO, NEGATIVE",
+      "PASS, FAIL, SKIP"
+    ],
+    "correct": 0,
+    "explanation": "SQL predicates can evaluate to TRUE, FALSE, or UNKNOWN because NULL represents missing or unknown values."
+  },
+  {
+    "section": "Performance, Modeling & SQL Theory",
+    "q": "Theory: Which logical query-processing order is most accurate for a typical SELECT statement?",
+    "code": "",
+    "opts": [
+      "FROM/JOIN → WHERE → GROUP BY → HAVING → SELECT → ORDER BY",
+      "SELECT → WHERE → FROM → ORDER BY → GROUP BY",
+      "ORDER BY → SELECT → FROM → WHERE",
+      "WHERE → HAVING → FROM → SELECT"
+    ],
+    "correct": 0,
+    "explanation": "SQL is written SELECT-first, but logically it is processed from data sources and filtering toward grouping, selecting, and sorting."
+  }
+];
+const SECTIONS  = [
+  {
+    "key": "SQL Fundamentals: SELECT, Filtering & Expressions",
+    "label": "Section A — SQL Fundamentals: SELECT, Filtering & Expressions",
+    "cls": "sec-data",
+    "range": "Questions 1–16"
+  },
+  {
+    "key": "Joins, Relationships & Set Logic",
+    "label": "Section B — Joins, Relationships & Set Logic",
+    "cls": "sec-clf",
+    "range": "Questions 17–32"
+  },
+  {
+    "key": "Aggregation, Grouping & Reporting",
+    "label": "Section C — Aggregation, Grouping & Reporting",
+    "cls": "sec-dl",
+    "range": "Questions 33–48"
+  },
+  {
+    "key": "Subqueries, CTEs & Window Functions",
+    "label": "Section D — Subqueries, CTEs & Window Functions",
+    "cls": "sec-nlp",
+    "range": "Questions 49–66"
+  },
+  {
+    "key": "DDL, DML, Constraints & Transactions",
+    "label": "Section E — DDL, DML, Constraints & Transactions",
+    "cls": "sec-llm",
+    "range": "Questions 67–82"
+  },
+  {
+    "key": "Performance, Modeling & SQL Theory",
+    "label": "Section F — Performance, Modeling & SQL Theory",
+    "cls": "sec-ops",
+    "range": "Questions 83–100"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+
+let mode='instant', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 2*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function renderCode(code){
+  // Escape HTML, then highlight ??? as the blank marker
+  return escapeHtml(code).replace(/\?\?\?/g, '<span class="blank">???</span>');
+}
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='02:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  const codeBlock = q.code ? '<pre class="q-code">'+renderCode(q.code)+'</pre>' : '';
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   codeBlock
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/100';
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/100';
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  if(pct>=0.9){ grade='Senior SQL Practitioner'; blurb='Outstanding. You know the canonical APIs across the ML stack \u2014 data, sklearn, PyTorch, NLP, LLMs, and MLOps \u2014 with strong fluency.'; }
+  else if(pct>=0.75){ grade='Strong SQL Practitioner'; blurb='Strong working command of ML programming. Review missed items \u2014 most failures cluster around specific library APIs or signatures.'; }
+  else if(pct>=0.6){ grade='Qualified SQL Practitioner'; blurb='You can write practical SQL queries and reason about core database behavior. Sharpen edge cases such as HAVING vs WHERE, NULL logic, composite joins, and indexing.'; }
+  else if(pct>=0.4){ grade='Developing SQL Practitioner'; blurb='SQL fluency is forming. Practice writing queries from business scenarios, then compare your results against row counts and expected outputs.'; }
+  else { grade='Begin the SQL Journey'; blurb='Start by writing simple end-to-end pipelines: pandas \u2192 sklearn fit/predict \u2192 evaluation. Then PyTorch training loops, then HuggingFace, then LLM APIs.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 100 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one question at a time. 2-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+</body>
+</html>

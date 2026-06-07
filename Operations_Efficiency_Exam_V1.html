@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operations Efficiency — Exam V1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1c1a17;
+  --paper:#f4efe6;
+  --paper2:#ebe3d5;
+  --gold:#b08d3c;
+  --gold-deep:#8a6d28;
+  --green:#2f6b4f;
+  --green-soft:#e3eee6;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  --core:#1a5276;
+  --scen:#7d6608;
+  --appl:#145a32;
+  --break:#6e2f8f;
+  --line:#d4c9b4;
+  --shadow:rgba(40,32,18,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(176,141,60,.07), transparent 40%),
+    radial-gradient(circle at 88% 92%, rgba(47,107,79,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 22px}
+
+/* HEADER */
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.4rem,6vw,4rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .of{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#6b5f4a;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#5a5040;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.35)}
+.exambar b{color:var(--ink)}
+
+/* MODE TOGGLE */
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.4)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#6b5f4a;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#7a6e58;font-size:.92rem;margin-bottom:8px}
+
+/* HUD */
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(244,239,230,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-deep));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+
+/* SECTION HEADERS — full coloured bars */
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.18rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2)}
+.sec-core{background:linear-gradient(100deg,var(--core),#0f3a52)}
+.sec-scen{background:linear-gradient(100deg,var(--scen),#574700)}
+.sec-appl{background:linear-gradient(100deg,var(--appl),#0a3c20)}
+.sec-break{background:linear-gradient(100deg,var(--break),#4a1f63)}
+
+/* QUESTION CARD */
+.q-card{background:rgba(255,255,255,.55);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(40,32,18,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-type{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;border:1px solid currentColor;opacity:.85}
+.t-core{color:var(--core)} .t-scen{color:var(--scen)} .t-appl{color:var(--appl)} .t-break{color:var(--break)}
+.q-text{font-size:1.12rem;line-height:1.55;margin-bottom:16px;font-weight:500}
+
+/* OPTIONS */
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:13px 16px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.4);transition:all .18s ease;font-size:1.01rem;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(176,141,60,.07);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s}
+.opt .otext{flex:1;padding-top:1px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(176,141,60,.1)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+
+/* EXPLANATION */
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(176,141,60,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:600px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#3a3326}
+
+/* RESULTS */
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#8a7d63}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:520px;margin:0 auto 24px;color:#4a4234;font-size:1.05rem}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.5);min-width:96px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+
+/* BUTTONS */
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#8a7d63}
+
+@media(max-width:560px){
+  .q-card{padding:20px 18px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:1.04rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Multiple Choice Examination &middot; Version 1</div>
+    <h1 class="title">Operations <span class="of">Efficiency</span></h1>
+    <div class="byline">An assessment of Lean, Six Sigma, OEE &amp; the Theory of Constraints</div>
+    <div class="exambar">
+      <span><b>30</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>30</b> Marks</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-instant" class="active" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam" onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Pick an answer and see the explanation immediately.</p>
+
+  <div class="hud">
+    <span class="stat">Progress <b id="progCount">0</b>/30</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px">
+    <button class="btn btn-gold" id="submitBtn" onclick="submitExam()" style="display:none">Submit Exam</button>
+  </div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/30</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAll()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam()">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>Operations Efficiency Examination &middot; Concepts from Lean, Six Sigma &amp; the Theory of Constraints</footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {type:"Core Concepts", q:"What does \"operational efficiency\" fundamentally measure?", opts:[
+    "The total volume of output a facility produces in a period",
+    "The ratio of useful output produced to the resources (inputs) consumed to produce it",
+    "The maximum speed a single machine can run at peak settings",
+    "The percentage of employees physically present at any moment"
+  ], correct:1, explanation:"Efficiency is fundamentally output ÷ input — doing more with less. High output alone is not efficiency if it consumes disproportionate resources or generates waste and defects; the measure compares value delivered against the resources expended to deliver it."},
+
+  {type:"Core Concepts", q:"Overall Equipment Effectiveness (OEE) is the product of which three factors?", opts:[
+    "Uptime, Speed, and Cost",
+    "Availability, Performance, and Quality",
+    "Utilization, Efficiency, and Throughput",
+    "Reliability, Maintainability, and Capacity"
+  ], correct:1, explanation:"OEE = Availability (downtime losses) × Performance (slow-cycle and minor-stop losses) × Quality (defect and rework losses). Multiplying the three captures the cumulative effect of every loss category on truly productive time."},
+
+  {type:"Core Concepts", q:"What OEE score is widely cited as the \"world-class\" benchmark for discrete manufacturing?", opts:[
+    "About 60%",
+    "About 75%",
+    "About 85%",
+    "Exactly 100%"
+  ], correct:2, explanation:"The commonly cited world-class target is roughly 85%, often decomposed as ~90% availability, ~95% performance, and ~99% quality. Many plants run nearer 60%, so OEE exposes hidden capacity that can be recovered without buying new equipment."},
+
+  {type:"Core Concepts", q:"In Lean thinking, \"value\" is ultimately defined by:", opts:[
+    "The accountant calculating production cost",
+    "The end customer — what they are willing to pay for",
+    "The plant manager's throughput targets",
+    "The engineer who designed the process"
+  ], correct:1, explanation:"Lean begins by specifying value from the end customer's standpoint. Any activity the customer would not knowingly pay for becomes a candidate for elimination. This customer-defined value anchors the entire value-stream analysis."},
+
+  {type:"Core Concepts", q:"According to the Theory of Constraints (TOC), a system's overall throughput is governed by:", opts:[
+    "The fastest resource in the chain",
+    "The average capacity across all resources",
+    "The single most limiting resource — the constraint (bottleneck)",
+    "The resource with the highest operating cost"
+  ], correct:2, explanation:"A chain is only as strong as its weakest link. The constraint sets the pace for the whole system; improvements made anywhere other than the constraint do not raise total throughput and usually just accumulate inventory in front of it."},
+
+  {type:"Core Concepts", q:"A process operating at \"Six Sigma\" quality produces approximately how many defects per million opportunities (DPMO)?", opts:[
+    "3.4",
+    "34",
+    "340",
+    "6,210"
+  ], correct:0, explanation:"Six Sigma corresponds to about 3.4 DPMO (allowing for the conventional 1.5-sigma long-term shift), or 99.99966% defect-free. The methodology uses statistical tools to reduce variation until defects become extremely rare."},
+
+  {type:"Core Concepts", q:"Takt time is best defined as:", opts:[
+    "The time a single unit spends being actively worked on",
+    "The total time a unit spends in the system from start to finish",
+    "Available production time divided by customer demand — the pace of sales",
+    "The fastest possible cycle time of the bottleneck machine"
+  ], correct:2, explanation:"Takt (German for a beat or rhythm) = available time ÷ customer demand. It sets the rhythm production must match to meet demand without over- or under-producing. Station cycle times should be balanced to sit at or just below takt."},
+
+  {type:"Core Concepts", q:"Little's Law expresses which relationship?", opts:[
+    "Throughput = WIP × Lead time",
+    "WIP = Throughput × Lead (flow) time",
+    "Lead time = WIP × Throughput",
+    "WIP = Throughput ÷ Cycle time"
+  ], correct:1, explanation:"Little's Law states WIP = Throughput × Flow time (equivalently, Lead time = WIP ÷ Throughput). It links inventory, flow time, and rate — showing that cutting work-in-process directly shortens lead time at a given throughput."},
+
+  {type:"Core Concepts", q:"Which activity is genuinely \"value-added\" from the Lean perspective?", opts:[
+    "Moving parts between two storage areas",
+    "Inspecting finished goods for defects",
+    "Machining a part to its required final dimension",
+    "Waiting for the next process to become free"
+  ], correct:2, explanation:"A value-added step physically transforms the product toward what the customer wants, is done right the first time, and is something the customer would pay for. Transport, inspection, and waiting may be necessary but add no value the customer pays for."},
+
+  {type:"Core Concepts", q:"The PDCA continuous-improvement cycle stands for:", opts:[
+    "Plan, Do, Check, Act",
+    "Prepare, Deploy, Control, Adjust",
+    "Predict, Design, Calculate, Apply",
+    "Plan, Document, Confirm, Approve"
+  ], correct:0, explanation:"Plan–Do–Check–Act (the Deming/Shewhart cycle) is an iterative loop for improvement: plan a change, implement it on a small scale, check results against expectations, then act to standardize or adjust before repeating the cycle."},
+
+  {type:"Scenarios", q:"A line runs a 480-minute shift with 48 minutes of downtime. During run time it makes 800 units at an ideal rate of 2 units/minute, and 760 units pass quality. What is the OEE (to the nearest whole %)?", opts:[
+    "About 71%",
+    "About 79%",
+    "About 86%",
+    "About 90%"
+  ], correct:1, explanation:"Availability = (480−48)/480 = 90%. Performance = (0.5 min/unit × 800 units) ÷ 432 min run time ≈ 92.6%. Quality = 760/800 = 95%. OEE = 0.90 × 0.926 × 0.95 ≈ 79%. OEE is always lower than any single factor because the losses multiply."},
+
+  {type:"Scenarios", q:"A four-station line has cycle times of 40s, 62s, 48s, and 55s per unit. Which is the bottleneck, and what is the line's maximum output per hour?", opts:[
+    "Station 1 (40s); about 90 units/hr",
+    "Station 2 (62s); about 58 units/hr",
+    "Station 4 (55s); about 65 units/hr",
+    "The line averages 51s; about 70 units/hr"
+  ], correct:1, explanation:"The slowest station (62s) is the constraint and dictates output: 3,600 s/hr ÷ 62 s ≈ 58 units/hr. Speeding up any other station does not raise output — it only piles up WIP in front of the bottleneck."},
+
+  {type:"Scenarios", q:"A cell has 8 hours per shift with 40 minutes of breaks. Daily customer demand is 200 units. What is the takt time?", opts:[
+    "2.2 minutes per unit",
+    "2.4 minutes per unit",
+    "1.8 minutes per unit",
+    "3.0 minutes per unit"
+  ], correct:0, explanation:"Available time = 480 − 40 = 440 min. Takt = 440 min ÷ 200 units = 2.2 min/unit (132 s). Each unit must be completed roughly every 2.2 minutes to meet demand; any cycle time above takt means the cell cannot keep up."},
+
+  {type:"Scenarios", q:"A press takes 90 minutes to change over between products, so the plant runs huge batches to amortize it — bloating inventory. Which Lean technique most directly attacks this?", opts:[
+    "5S workplace organization",
+    "SMED (Single-Minute Exchange of Die) — slashing setup time",
+    "Andon visual signaling",
+    "Heijunka production leveling"
+  ], correct:1, explanation:"SMED converts internal setup steps (done while stopped) into external ones (done while running) and streamlines the rest, cutting changeover time dramatically. Faster changeovers make small batches economical, reducing inventory and improving flow."},
+
+  {type:"Scenarios", q:"Operators waste time each shift hunting for tools and tripping over clutter. Which methodology directly targets workplace organization and standardized order?", opts:[
+    "5S — Sort, Set in order, Shine, Standardize, Sustain",
+    "Kanban pull signaling",
+    "DMAIC project structure",
+    "Poka-yoke mistake-proofing"
+  ], correct:0, explanation:"5S creates a clean, organized, standardized workplace where everything has a designated place. It eliminates motion and searching waste and typically serves as the foundation for further Lean improvements."},
+
+  {type:"Scenarios", q:"Instead of pushing parts forward on a fixed schedule, a plant lets each downstream process signal upstream to replenish only what was consumed. This is:", opts:[
+    "A push system driven by forecasts",
+    "A pull system, typically signaled by Kanban",
+    "Batch-and-queue production",
+    "Overproduction by design"
+  ], correct:1, explanation:"A pull system produces only in response to actual downstream demand, signaled by Kanban (cards or bins). It limits WIP, prevents overproduction, and ties output to real consumption rather than to forecasts that build excess inventory."},
+
+  {type:"Scenarios", q:"A process moves parts in batches of 50, so each part waits for 49 others before advancing. Switching toward one-piece (continuous) flow primarily improves:", opts:[
+    "Lead time and early defect detection",
+    "The raw-material purchase price",
+    "The depreciation schedule of equipment",
+    "The number of supervisors required"
+  ], correct:0, explanation:"One-piece flow lets a unit move immediately to the next step, slashing the queue and wait time embedded in batching and shortening lead time. It also surfaces defects right away — instead of after a whole bad batch is made — enabling faster correction."},
+
+  {type:"Scenarios", q:"A machine is available 400 hours per month but is used productively for only 300 hours. Its capacity utilization is:", opts:[
+    "75%",
+    "133%",
+    "25%",
+    "100%"
+  ], correct:0, explanation:"Utilization = actual productive time ÷ available time = 300 ÷ 400 = 75%. Note that maximum utilization is not always the goal: running a non-bottleneck flat out merely builds excess WIP. TOC says utilization matters most at the constraint."},
+
+  {type:"Application", q:"A workshop processes 60 orders per day and, on average, has 180 orders in process at any time. Using Little's Law, the average order lead time is:", opts:[
+    "3 days",
+    "0.33 days",
+    "240 days",
+    "120 days"
+  ], correct:0, explanation:"Lead time = WIP ÷ Throughput = 180 orders ÷ 60 orders/day = 3 days. To shorten lead time without adding capacity, reduce WIP — fewer orders sitting in queue means each one flows through faster."},
+
+  {type:"Application", q:"Takt time is 2 minutes per unit and the total manual work content is 10 minutes per unit. Theoretically, how many balanced workstations are needed to meet takt?", opts:[
+    "5 stations",
+    "2 stations",
+    "10 stations",
+    "20 stations"
+  ], correct:0, explanation:"Minimum stations = total work content ÷ takt = 10 min ÷ 2 min = 5. Work is balanced so each station's cycle time stays at or below the 2-minute takt; fewer stations would force a cycle time above takt and miss demand."},
+
+  {type:"Application", q:"After identifying the constraint, the Theory of Constraints says the very next step is to:", opts:[
+    "Elevate the constraint by buying more capacity immediately",
+    "Exploit the constraint — get the most from it before spending money",
+    "Subordinate every other resource to the constraint",
+    "Ignore it and balance all resources equally"
+  ], correct:1, explanation:"The five focusing steps are Identify → Exploit → Subordinate → Elevate → Repeat. Before investing to elevate (add) capacity, you first exploit the constraint: eliminate its idle time and ensure it never starves or processes defects. Elevating is the costly last resort."},
+
+  {type:"Application", q:"In a Six Sigma project, you have Defined the problem and Measured the current process. The next DMAIC phase is:", opts:[
+    "Analyze — find the root causes of variation and defects",
+    "Improve — implement solutions",
+    "Control — lock in the gains",
+    "Design — start a new product"
+  ], correct:0, explanation:"DMAIC = Define, Measure, Analyze, Improve, Control. After measuring the baseline, you Analyze the data to pinpoint root causes before designing and implementing improvements, then lock the gains in with controls."},
+
+  {type:"Application", q:"An order requires 6 hours of value-added work but takes 60 hours total from receipt to delivery. Its process cycle efficiency (PCE) is:", opts:[
+    "10%",
+    "90%",
+    "100%",
+    "54%"
+  ], correct:0, explanation:"PCE = value-added time ÷ total lead time = 6 ÷ 60 = 10%. Most processes are surprisingly low (often under 10%) because the bulk of lead time is spent waiting in queues. Attacking that non-value-added wait yields the biggest lead-time gains."},
+
+  {type:"Application", q:"A plant's OEE is dragged down mainly by frequent unplanned breakdowns. Which improvement approach is most targeted?", opts:[
+    "Total Productive Maintenance (TPM) to raise availability",
+    "Adding more inspection stations",
+    "Increasing batch sizes",
+    "Reducing the workforce"
+  ], correct:0, explanation:"Unplanned breakdowns are an availability loss. TPM — with autonomous and preventive maintenance — reduces downtime by keeping equipment reliable, directly lifting the availability factor of OEE. Inspection and larger batches address neither the cause nor the loss."},
+
+  {type:"Application", q:"A process has four sequential steps with first-pass yields of 90%, 95%, 90%, and 98%. The rolled throughput yield (probability a unit clears all steps defect-free) is closest to:", opts:[
+    "About 75%",
+    "About 93% (the simple average)",
+    "About 98%",
+    "About 100%"
+  ], correct:0, explanation:"Rolled throughput yield multiplies the yields: 0.90 × 0.95 × 0.90 × 0.98 ≈ 0.754, or about 75% — far below the ~93% average. Yields compound, so several \"good\" steps can combine into a mediocre overall result: the hidden factory of rework."},
+
+  {type:"Eliminating Waste", q:"Lean's eight wastes are often recalled with the acronym DOWNTIME. Which of the following is NOT one of them?", opts:[
+    "Waiting",
+    "Overproduction",
+    "Innovation",
+    "Excess inventory"
+  ], correct:2, explanation:"The eight wastes (DOWNTIME) are Defects, Overproduction, Waiting, Non-utilized talent, Transportation, Inventory, Motion, and Extra-processing. Innovation is not a waste — eliminating the eight frees capacity and time that can be redirected toward improvement and innovation."},
+
+  {type:"Eliminating Waste", q:"Lean traditionally regards which waste as the \"worst,\" because it tends to generate the others?", opts:[
+    "Overproduction",
+    "Motion",
+    "Waiting",
+    "Defects"
+  ], correct:0, explanation:"Overproduction — making more, sooner, or faster than the next process needs — is considered the worst waste because it hides problems and spawns others: excess inventory, extra transport and storage, and undetected defects sitting in stock. It directly violates pull and just-in-time."},
+
+  {type:"Eliminating Waste", q:"Assembled units sit idle for hours because the downstream paint booth is not ready. This is primarily which waste?", opts:[
+    "Waiting",
+    "Transportation",
+    "Over-processing",
+    "Defects"
+  ], correct:0, explanation:"Idle product (or idle people) caused by unsynchronized or unbalanced processes is the waste of Waiting. It usually points to a flow or scheduling problem — here, an imbalance between assembly and the paint booth that line balancing or leveling (heijunka) could address."},
+
+  {type:"Eliminating Waste", q:"Forklifts repeatedly haul parts across the plant between distant operations. This is the waste of:", opts:[
+    "Transportation — unnecessary movement of materials",
+    "Motion — unnecessary movement of people",
+    "Inventory",
+    "Over-processing"
+  ], correct:0, explanation:"Transportation is the unnecessary movement of materials or product — it adds cost and risk of damage but no value. Motion, by contrast, is unnecessary movement of people or equipment. Better facility layout and cellular manufacturing reduce transportation distance."},
+
+  {type:"Eliminating Waste", q:"To stop a recurring assembly error, an engineer designs the fixture so a part physically cannot be inserted the wrong way. This mistake-proofing technique is called:", opts:[
+    "Poka-yoke",
+    "Kaizen",
+    "Gemba walk",
+    "Heijunka"
+  ], correct:0, explanation:"Poka-yoke (mistake-proofing) designs the process or fixture so that errors are impossible or immediately obvious, attacking the waste of Defects at its source. Preventing a defect is far cheaper than detecting and reworking it later."}
+];
+
+const LETTERS = ['A','B','C','D'];
+const SECTIONS = [
+  {key:'Core Concepts',     label:'Section A — Core Concepts',     cls:'sec-core',  range:'Questions 1–10'},
+  {key:'Scenarios',         label:'Section B — Scenarios',         cls:'sec-scen',  range:'Questions 11–18'},
+  {key:'Application',       label:'Section C — Application',       cls:'sec-appl',  range:'Questions 19–25'},
+  {key:'Eliminating Waste', label:'Section D — Eliminating Waste', cls:'sec-break', range:'Questions 26–30'},
+];
+const TYPECLASS = {'Core Concepts':'t-core','Scenarios':'t-scen','Application':'t-appl','Eliminating Waste':'t-break'};
+
+let mode='instant';
+let answers=new Array(QUESTIONS.length).fill(null);
+let locked =new Array(QUESTIONS.length).fill(false);
+
+function build(){
+  const exam=document.getElementById('exam');
+  exam.innerHTML='';
+  let qi=0;
+  SECTIONS.forEach(sec=>{
+    const h=document.createElement('div');
+    h.className='section-head '+sec.cls;
+    h.innerHTML=`<span>${sec.label}</span><span class="tag">${sec.range}</span>`;
+    exam.appendChild(h);
+    QUESTIONS.forEach((q,idx)=>{
+      if(q.type!==sec.key) return;
+      qi++;
+      exam.appendChild(makeCard(q,idx,qi));
+    });
+  });
+}
+
+function makeCard(q,idx,num){
+  const card=document.createElement('div');
+  card.className='q-card';card.id='q'+idx;
+  const tc=TYPECLASS[q.type]||'t-core';
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    optsHtml+=`<div class="opt" data-i="${i}" onclick="choose(${idx},${i})">
+      <span class="letter">${LETTERS[i]}</span>
+      <span class="otext">${o}</span>
+      <span class="mark"></span>
+    </div>`;
+  });
+  card.innerHTML=`
+    <div class="q-top">
+      <span class="q-num">Q${num}</span>
+      <span class="q-type ${tc}">${q.type}</span>
+    </div>
+    <div class="q-text">${q.q}</div>
+    <div class="opts">${optsHtml}</div>
+    <div class="explain" id="exp${idx}">
+      <div class="elabel">Explanation</div>
+      <div class="ans-line">Correct Answer: ${LETTERS[q.correct]} — ${q.opts[q.correct]}</div>
+      <p>${q.explanation}</p>
+    </div>`;
+  return card;
+}
+
+function choose(idx,i){
+  if(locked[idx])return;
+  answers[idx]=i;
+  const card=document.getElementById('q'+idx);
+  card.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
+  card.querySelector(`.opt[data-i="${i}"]`).classList.add('sel');
+  card.classList.add('answered');
+  if(mode==='instant') lockCard(idx);
+  updateHud();
+}
+
+function lockCard(idx){
+  locked[idx]=true;
+  const q=QUESTIONS[idx];
+  const card=document.getElementById('q'+idx);
+  card.classList.add('locked');
+  const chosen=answers[idx];
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    if(oi===q.correct){o.classList.add('correct');o.querySelector('.mark').textContent='✓';}
+    else if(oi===chosen){o.classList.add('wrong');o.querySelector('.mark').textContent='✕';}
+  });
+  document.getElementById('exp'+idx).classList.add('show');
+}
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  document.getElementById('progCount').textContent=done;
+  document.getElementById('barFill').style.width=(done/QUESTIONS.length*100)+'%';
+  if(mode==='instant'){
+    const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+    document.getElementById('scoreNum').textContent=correct;
+  }
+  if(mode==='exam'){
+    document.getElementById('submitBtn').style.display = done===QUESTIONS.length?'inline-block':'none';
+  }
+}
+
+function submitExam(){
+  let correct=0;const byType={};
+  QUESTIONS.forEach((q,idx)=>{
+    lockCard(idx);
+    const ok=answers[idx]===q.correct; if(ok)correct++;
+    byType[q.type]=byType[q.type]||{c:0,t:0};
+    byType[q.type].t++; if(ok)byType[q.type].c++;
+  });
+  document.getElementById('scoreNum').textContent=correct;
+  showResults(correct,byType);
+}
+
+function showResults(correct,byType){
+  const pct=correct/QUESTIONS.length;
+  document.getElementById('rScore').textContent=correct;
+  let grade,blurb;
+  if(pct>=0.9){grade="World-Class Operator";blurb="Outstanding. You read the system, the constraint, and the waste with equal clarity — the mindset that pushes a plant past the 85% OEE benchmark.";}
+  else if(pct>=0.75){grade="Lean Practitioner";blurb="A confident command of flow, constraints, and the eight wastes. Your understanding is well past the vocabulary and into application.";}
+  else if(pct>=0.6){grade="Continuous Improver";blurb="A solid foundation. Revisit the OEE math, Little's Law, and the TOC focusing steps to sharpen the edges.";}
+  else if(pct>=0.4){grade="Reducing Variation";blurb="The concepts are taking hold. Work back through the scenarios and calculations — like a capable process, small refinements compound into big gains.";}
+  else{grade="Eliminating the First Waste";blurb="Every improvement starts with one. Study the explanations carefully — Lean and Six Sigma reward steady, repeated practice over bursts of effort.";}
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  const bd=document.getElementById('rBreak');bd.innerHTML='';
+  ['Core Concepts','Scenarios','Application','Eliminating Waste'].forEach(t=>{
+    if(!byType[t])return;
+    const d=document.createElement('div');d.className='bd-item';
+    d.innerHTML=`<div class="bd-t">${t}</div><div class="bd-s">${byType[t].c}/${byType[t].t}</div>`;
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results');r.classList.add('show');
+  r.scrollIntoView({behavior:'smooth'});
+}
+
+function reviewAll(){document.getElementById('q0').scrollIntoView({behavior:'smooth'});}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  document.getElementById('modeHint').textContent = m==='instant'
+    ? 'Pick an answer and see the explanation immediately.'
+    : 'Answer all 30 questions, then submit to see your score and explanations.';
+  resetExam();
+}
+
+function resetExam(){
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked =new Array(QUESTIONS.length).fill(false);
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  document.getElementById('submitBtn').style.display='none';
+  build();updateHud();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();updateHud();
+</script>
+</body>
+</html>

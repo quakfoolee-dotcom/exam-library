@@ -1,0 +1,2250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Process Engineering Fundamentals — Heat Transfer · 150Q Mock Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  --conduction:#722F37;
+  --convection:#0e6b6a;
+  --radiation:#a8590e;
+  --hx:#1d3b7d;
+  --boiling:#5a2585;
+  --applications:#226b2d;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(114,47,55,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.6rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--conduction),var(--convection),var(--radiation),var(--hx),var(--boiling),var(--applications));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-conduction{background:linear-gradient(100deg,var(--conduction),#4d1f23)}
+.sec-convection{background:linear-gradient(100deg,var(--convection),#06403f)}
+.sec-radiation{background:linear-gradient(100deg,var(--radiation),#5f3406)}
+.sec-hx{background:linear-gradient(100deg,var(--hx),#0c2349)}
+.sec-boiling{background:linear-gradient(100deg,var(--boiling),#311148)}
+.sec-applications{background:linear-gradient(100deg,var(--applications),#0e3d18)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.06rem;line-height:1.62;margin-bottom:18px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:12px 14px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.55);transition:all .18s ease;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.08);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s;margin-top:1px}
+.opt .otext{flex:1;font-size:1.0rem;line-height:1.55;word-break:break-word;padding-top:2px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.12)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center;font-family:'JetBrains Mono',monospace}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:160px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 16px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:.98rem}
+  .opt .otext{font-size:.92rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Process Engineering Fundamentals &middot; 150-Question Mock</div>
+    <h1 class="title">Heat <span class="amp">Transfer</span> Exam</h1>
+    <div class="byline">150 questions across conduction, convection, radiation, heat exchangers, phase change, and industrial applications &mdash; concept, calculation, and design items aligned to FE/PE Chemical Engineering exam scope</div>
+    <div class="exambar">
+      <span><b>150</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>150</b> Marks</span>
+      <span>Exam Mode: <b>4 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')">Guided Path</button>
+    <button id="mode-instant" class="active" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Instant Feedback: pick an answer and see the explanation immediately.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/150</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">04:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/150</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 4-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    Process Engineering &middot; Heat Transfer &middot; 150-question mock aligned to FE/PE Chemical Engineering exam scope
+    <div class="disclaimer">An independent study resource. Always validate quantitative methods against authoritative sources (Incropera, Kern, Bergman/DeWitt, TEMA, API 660 / 560) and your organization's standards.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "A process engineer is sizing insulation for a steam-line wall. Fourier's law of one-dimensional steady-state conduction is BEST expressed as:",
+    "opts": [
+      "q = h·A·(T_surface − T_fluid); convective form rather than the conductive Fourier expression",
+      "q = −k·A·(dT/dx); heat flux is proportional to negative temperature gradient through conductivity k",
+      "q = ε·σ·A·(T₁⁴ − T₂⁴); radiative form, not the conductive Fourier expression for this case",
+      "q = ṁ·cp·ΔT; sensible-heat duty form for a flowing stream, not the conductive Fourier law"
+    ],
+    "correct": 1,
+    "explanation": "Fourier's law: q = −k·A·(dT/dx). Heat flows down the temperature gradient (hence the minus sign). k is thermal conductivity (W/m·K). The other expressions are Newton's law of cooling (convection), Stefan-Boltzmann (radiation), and sensible-heat duty for a flowing stream."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "A plant engineer compares thermal conductivities for piping materials. Which ranking from HIGHEST to LOWEST thermal conductivity at room temperature is approximately correct?",
+    "opts": [
+      "Aluminum > Copper > Stainless 316 > Carbon steel (swaps the top two and bottom two)",
+      "Stainless 316 > Carbon steel > Aluminum > Copper (reverses the actual metal ranking)",
+      "Carbon steel > Copper > Aluminum > Stainless 316 (incorrect placement of copper)",
+      "Copper (≈400) > Aluminum (≈235) > Carbon steel (≈50) > Stainless 316 (≈15) W/m·K"
+    ],
+    "correct": 3,
+    "explanation": "Typical thermal conductivities at 25°C (W/m·K): copper ≈ 400, aluminum ≈ 235, carbon steel ≈ 50, stainless 316 ≈ 15, water ≈ 0.6, air ≈ 0.026, mineral wool ≈ 0.04. Copper and aluminum dominate; stainless is poor (relevant for cryogenic vacuum applications)."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "A plane wall has thickness L = 0.05 m and conductivity k = 1.4 W/m·K. The faces are held at 200°C and 80°C in steady state. Using q'' = k·ΔT/L, what is the heat flux?",
+    "opts": [
+      "q'' = 1.4 × 0.05 / (200 − 80) = 0.000583 W/m² (inverted thickness and ΔT)",
+      "q'' = 1.4 × (200 + 80) / 0.05 = 7,840 W/m² (added temperatures instead of subtracting)",
+      "q'' = 1.4 × (200 − 80) / 0.05 = 1.4 × 2400 = 3,360 W/m²",
+      "q'' = (200 − 80) / 0.05 = 2,400 W/m² (omitted thermal conductivity k entirely)"
+    ],
+    "correct": 2,
+    "explanation": "Steady-state 1D conduction through a plane wall: q'' = k·(T₁ − T₂)/L. Here: 1.4 × 120 / 0.05 = 3,360 W/m². Equivalent to q = ΔT/R'' with thermal resistance R'' = L/k = 0.0357 m²·K/W."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "A composite wall has three layers in series with thermal resistances R₁ = 0.02, R₂ = 0.10, R₃ = 0.04 m²·K/W. The total thermal resistance is:",
+    "opts": [
+      "R_total = max(R₁, R₂, R₃) = 0.10 m²·K/W (took only the largest layer; ignored others)",
+      "R_total = 1/(1/R₁ + 1/R₂ + 1/R₃) ≈ 0.0118 m²·K/W (parallel sum, used wrong topology)",
+      "R_total = R₁ × R₂ × R₃ = 0.000008 m²·K/W (multiplication; wrong combination rule)",
+      "R_total = R₁ + R₂ + R₃ = 0.02 + 0.10 + 0.04 = 0.16 m²·K/W (series sum)"
+    ],
+    "correct": 3,
+    "explanation": "Series thermal resistances add directly: R_total = ΣRᵢ. Parallel resistances combine as reciprocals. The thermal-electrical analogy: temperature ↔ voltage, heat flux ↔ current, thermal resistance ↔ electrical resistance. Layer with the largest R controls the temperature drop."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "For 1-D radial steady-state conduction through a cylindrical pipe wall (inner r₁, outer r₂), the thermal resistance per unit length is:",
+    "opts": [
+      "R' = (r₂ − r₁) / (2π·k); linear (plane-wall) form, incorrect for cylindrical geometry",
+      "R' = ln(r₂/r₁) / (2π·k); logarithmic dependence on radius ratio",
+      "R' = 1 / (2π·k·r₁); uses only inner radius, ignoring the outer surface entirely",
+      "R' = (r₂² − r₁²) / (2π·k); squared form, incorrect for cylindrical conduction"
+    ],
+    "correct": 1,
+    "explanation": "Cylindrical 1-D radial conduction: R' = ln(r₂/r₁)/(2π·k) per unit length. The logarithm reflects the diverging area as radius increases. For spheres, R = (1/r₁ − 1/r₂)/(4π·k). Plane-wall (linear) form would only apply when r₂/r₁ ≈ 1 (thin wall)."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "A cylindrical insulation around a pipe has a 'critical radius' beyond which adding more insulation INCREASES heat loss. The critical radius for cylindrical insulation is:",
+    "opts": [
+      "r_critical = h_outside / k_insulation (inverted; would give units of K/W not meters)",
+      "r_critical = k_insulation / h_outside (insulation conductivity over external convection coefficient)",
+      "r_critical = k_pipe / h_inside (uses pipe conductivity, not insulation conductivity)",
+      "r_critical = ΔT / q'' (this is a thermal resistance, not a critical radius expression)"
+    ],
+    "correct": 1,
+    "explanation": "For cylinders: r_critical = k/h. Adding insulation below this radius increases outer surface area faster than it adds resistance, INCREASING heat loss. For typical insulation (k ≈ 0.04 W/m·K, h ≈ 10 W/m²·K), r_critical ≈ 4 mm. For spheres: r_critical = 2k/h."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "Thermal diffusivity α governs how quickly a temperature change propagates through a solid. The defining expression is:",
+    "opts": [
+      "α = cp / (k · ρ); inconsistent units, does not match the diffusivity definition",
+      "α = k · ρ · cp; product form, gives units inconsistent with diffusivity expectations",
+      "α = ρ · cp / k; inverted; gives units of s/m² which is the reciprocal of diffusivity",
+      "α = k / (ρ·cp); ratio of conductivity to volumetric heat capacity, with SI units m²/s"
+    ],
+    "correct": 3,
+    "explanation": "Thermal diffusivity α = k/(ρcp) [m²/s]. Appears in the transient heat equation ∂T/∂t = α·∇²T. Higher α means faster thermal response. Typical α: copper ≈ 1.1×10⁻⁴, steel ≈ 1.2×10⁻⁵, water ≈ 1.4×10⁻⁷, air ≈ 2.2×10⁻⁵ m²/s."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "For transient conduction with negligible internal resistance, the LUMPED CAPACITANCE assumption is valid when:",
+    "opts": [
+      "Biot number Bi > 1.0; large temperature gradients exist inside the body and must be tracked",
+      "Biot number Bi = h·L_c / k < 0.1; temperature is approximately uniform across the body",
+      "Reynolds number Re < 2300; this is the flow-regime criterion, not the lumped-capacitance one",
+      "Prandtl number Pr ≈ 1; this is a fluid property ratio, not the lumped-capacitance criterion"
+    ],
+    "correct": 1,
+    "explanation": "Bi = h·L_c/k_solid compares external (convection) to internal (conduction) resistance. Bi < 0.1 → internal gradients are negligible → lumped capacitance applies and T = T(t) only. Lc is the characteristic length (V/A). When Bi > 0.1, use Heisler charts or numerical methods."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "For lumped capacitance, the temperature response to a sudden environment change is exponential. The time constant τ is:",
+    "opts": [
+      "τ = h·A / (ρ·V·cp); inverted; would give a rate constant, not a time constant",
+      "τ = ρ·V·cp / (h·A); product of thermal mass over the convective conductance term",
+      "τ = L²/α; characteristic conduction time, not the lumped-capacitance time constant",
+      "τ = k/(h·L); a Biot-like ratio, not a time constant for lumped capacitance"
+    ],
+    "correct": 1,
+    "explanation": "Lumped capacitance: T(t) = T_∞ + (T_i − T_∞)·exp(−t/τ), where τ = ρVcp/(hA). Larger thermal mass or smaller convective area → slower response. After t = 3τ, the body has covered ~95% of the temperature change toward T_∞."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "The general 3-D heat equation for constant properties with internal generation q̇''' is:",
+    "opts": [
+      "ρ·cp·∂T/∂t = h·∇T + q̇'''; uses convection coefficient instead of conductivity",
+      "ρ·cp·∂T/∂t = k·∇²T + q̇'''; transient diffusion equation with generation term",
+      "ρ·cp·∂T/∂t = α·∇²T + q̇'''; mixes diffusivity α with k·∇² formulation incorrectly",
+      "∂T/∂t = ∇·T + q̇'''; missing transport coefficient on the diffusion term entirely"
+    ],
+    "correct": 1,
+    "explanation": "General heat equation: ρcp·∂T/∂t = ∇·(k·∇T) + q̇'''. For constant k: ρcp·∂T/∂t = k·∇²T + q̇'''. Dividing by ρcp: ∂T/∂t = α·∇²T + q̇'''/(ρcp). Boundary conditions specify T, q'', or h at each surface."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "A boundary condition specifying a known temperature at a surface (T_surface = T_s) is classified as:",
+    "opts": [
+      "Second kind (Neumann); specifies heat flux q'' = −k·∂T/∂n at the boundary surface",
+      "First kind (Dirichlet); specifies the dependent variable T directly on the boundary surface",
+      "Third kind (Robin); specifies convective coupling h·(T_s − T_∞) at the boundary surface",
+      "Fourth kind; specifies temperature gradient as a function of position along the surface"
+    ],
+    "correct": 1,
+    "explanation": "BC classification: 1st kind (Dirichlet) — T specified; 2nd kind (Neumann) — heat flux q'' specified (e.g., insulated → q''=0); 3rd kind (Robin/convective) — h·(T_s − T_∞) coupling; interface — temperature and flux continuity. Mixed BCs are common in real problems."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "An adiabatic (insulated) boundary in a heat-conduction problem corresponds to:",
+    "opts": [
+      "Infinite heat flux at the boundary: q'' → ∞ as the surface temperature changes",
+      "Zero temperature at the boundary: T = 0 on the insulated surface throughout time",
+      "Zero heat flux at the boundary: q'' = −k·∂T/∂n = 0 (∂T/∂n = 0 at the surface)",
+      "Convective coupling h → ∞ on the insulated boundary, forcing T_surface = T_∞"
+    ],
+    "correct": 2,
+    "explanation": "Adiabatic = no heat crosses → q'' = 0 → ∂T/∂n = 0 (Neumann BC with zero flux). Symmetry planes also act adiabatically. h → ∞ implies T_surface = T_∞ (perfect convection, opposite of adiabatic). Adiabatic BCs simplify analysis when problem has symmetry."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "For a fin attached to a hot surface, fin EFFECTIVENESS ε_fin is defined as:",
+    "opts": [
+      "ε_fin = q_fin / q_no-fin; ratio of fin heat transfer to bare-surface transfer over same area",
+      "ε_fin = q_fin / q_max,ideal; ratio used for fin EFFICIENCY η, not effectiveness",
+      "ε_fin = h_fin / h_bare; ratio of convection coefficients, not heat transfer ratio",
+      "ε_fin = A_fin / A_bare; geometric area ratio, not a heat transfer ratio at all"
+    ],
+    "correct": 0,
+    "explanation": "Fin effectiveness ε = q_fin / q_without_fin (same base area). Fin efficiency η = q_actual / q_if_entire_fin_at_base_temperature. Effectiveness > 2 generally justifies adding a fin. High-k materials and slender fins improve both metrics."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "A long straight fin of length L with insulated tip has temperature profile θ/θ_b = cosh[m(L−x)]/cosh(mL), where m = √(hP/kAc). The fin parameter mL governs:",
+    "opts": [
+      "Time constant for fin transient response; mL is a temporal not spatial parameter",
+      "Material thermal conductivity directly; mL replaces k in the fin equation",
+      "Reynolds number for flow over the fin; mL is a hydrodynamic parameter only",
+      "Fin effectiveness and efficiency; longer mL means asymptotic tip approaching ambient"
+    ],
+    "correct": 3,
+    "explanation": "mL is the dimensionless fin parameter: m = √(hP/(k·Ac)), where P is perimeter, Ac cross-section area. Larger mL = longer thermal length. For mL > 2.65, fin tip is essentially adiabatic regardless of actual tip BC. Optimal fin design balances surface area against added weight/cost."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "Two materials in contact have a 'thermal contact resistance' R''_tc at the interface. This resistance arises primarily because:",
+    "opts": [
+      "Stefan-Boltzmann radiation dominates across the interface even at low temperatures",
+      "Different materials always have different thermal conductivities causing temperature jump",
+      "Real surfaces touch only at asperities; gas-filled gaps reduce effective conduction area",
+      "Chemical reactions occur at the interface releasing or absorbing thermal energy"
+    ],
+    "correct": 2,
+    "explanation": "Even polished surfaces touch at micro-asperities; gas-filled (or vacuum) gaps between asperities reduce effective conduction. R''_tc reported in m²·K/W. Mitigation: thermal paste, indium foil, higher contact pressure. Critical in electronics cooling, vacuum systems."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "A plane wall has internal heat generation q̇''' = constant. The steady-state temperature profile T(x) is:",
+    "opts": [
+      "Parabolic in x; T(x) varies as a quadratic function due to integration of generation term twice",
+      "Linear in x; identical to the no-generation case with the same boundary temperatures",
+      "Exponential in x; characteristic of transient solutions, not steady-state with generation",
+      "Sinusoidal in x; characteristic of periodic generation, not constant generation"
+    ],
+    "correct": 0,
+    "explanation": "Steady-state 1-D conduction with constant generation: d²T/dx² = −q̇'''/k. Integrating twice gives T(x) = (−q̇'''/2k)·x² + C₁x + C₂ — parabolic. Without generation, d²T/dx² = 0 → linear T(x). With surface convection BC, the maximum temperature occurs at the midplane (symmetric case)."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "A semi-infinite solid initially at T_i is suddenly exposed to surface temperature T_s. The temperature response is given by:",
+    "opts": [
+      "(T − T_s)/(T_i − T_s) = ln(t); logarithmic time dependence, no spatial component included",
+      "(T − T_s)/(T_i − T_s) = exp(−t/τ); lumped-capacitance form, not applicable to semi-infinite",
+      "(T − T_s)/(T_i − T_s) = sin(πx/L); periodic solution, only applies to finite domains",
+      "(T − T_s)/(T_i − T_s) = erf(x/(2√(αt))); error-function solution penetrating into the solid"
+    ],
+    "correct": 3,
+    "explanation": "Semi-infinite solid with sudden surface T_s: dimensionless temperature = erf[x/(2√(αt))]. The penetration depth grows as √(αt). Useful for short-time response of large bodies (e.g., concrete walls, ground in geothermal). Other BC types (constant flux, convective) have similar erf/erfc-based solutions."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "Heisler charts (or equivalent 1-term approximations) provide solutions for transient conduction in 1-D geometries when:",
+    "opts": [
+      "Fo = α·t/L² > 0.2; the 1-term series approximation is sufficiently accurate after this time",
+      "Bi < 0.1; the lumped-capacitance approximation already applies and no chart is needed",
+      "Re > 2300; turbulent flow has been established and Heisler charts are required for the wall",
+      "Pr > 1; the thermal boundary layer is thicker than the velocity layer in this regime"
+    ],
+    "correct": 0,
+    "explanation": "Heisler 1-term solution: θ*/θ*_i ≈ C₁·exp(−ζ₁²·Fo). Valid for Fo > 0.2 (≈ 5% error). C₁ and ζ₁ depend on Bi and geometry. Three classic geometries: plane wall (2L), infinite cylinder, sphere. Multidimensional bodies = product of 1-D solutions (Heisler product rule)."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "For 2-D steady-state conduction in irregular geometries, the SHAPE FACTOR S allows computing heat rate as:",
+    "opts": [
+      "q = S·σ·ΔT⁴; radiative form, shape factor is not used in this context for Stefan-Boltzmann",
+      "q = S·h·A·ΔT; mixes shape factor with convective form incorrectly",
+      "q = S·k·ΔT; conductance equivalent to series-equivalent of geometric configurations",
+      "q = ρ·cp·S·ΔT; uses heat capacity instead of conductivity, dimensionally inconsistent"
+    ],
+    "correct": 2,
+    "explanation": "Shape factor S [m]: q = S·k·ΔT for 2-D or 3-D steady-state. Tabulated for many geometries (buried pipes, corners, edges). For a plane wall, S = A/L (reduces to Fourier's law). For more complex geometries, conformal mapping or numerical methods provide S."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "Numerical solution of the heat equation using the finite-difference method requires which key stability criterion for explicit time-stepping?",
+    "opts": [
+      "Fourier number Fo = α·Δt/Δx² ≤ 0.5 for 1-D explicit scheme to remain stable",
+      "Reynolds number Re < 2300 for the time-stepping scheme to converge",
+      "Biot number Bi < 0.1 for finite-difference methods to apply at all",
+      "No stability criterion is needed; explicit schemes are unconditionally stable for diffusion"
+    ],
+    "correct": 0,
+    "explanation": "Explicit forward-time central-space (FTCS) scheme: Fo ≤ 0.5 (1-D) or 0.25 (2-D) for stability. Smaller Δx requires much smaller Δt (Δt ~ Δx²). Implicit schemes (Crank-Nicolson, backward Euler) are unconditionally stable but require solving linear systems each timestep."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "A pipe wall conducts heat radially with an inner film coefficient h_i and outer film coefficient h_o. The overall heat transfer coefficient U based on outer area A_o is:",
+    "opts": [
+      "U_o = max(h_i, h_o); uses only the better-performing coefficient as the overall U value",
+      "1/U_o = 1/h_i + 1/h_o; combines only the two convective coefficients without conduction",
+      "U_o = h_i × h_o; multiplies the two coefficients with no resistance summation",
+      "1/(U_o·A_o) = 1/(h_i·A_i) + ln(r_o/r_i)/(2π·k·L) + 1/(h_o·A_o); sum of all resistances"
+    ],
+    "correct": 3,
+    "explanation": "Overall UA = 1/ΣR. For a cylindrical wall: 1/(U_o·A_o) = 1/(h_i·A_i) + ln(r_o/r_i)/(2π·k·L) + 1/(h_o·A_o), plus fouling resistances on both sides. Choice of reference area (A_i vs A_o) affects the numerical U but not the heat duty."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "For steady-state radial conduction through a sphere with inner r₁ and outer r₂, the thermal resistance is:",
+    "opts": [
+      "R = (r₂² − r₁²)/(4π·k); incorrect derivation; doesn't yield the right limit",
+      "R = ln(r₂/r₁)/(2π·k·L); cylindrical form, dimensionally inconsistent for a sphere",
+      "R = (r₂ − r₁)/k; plane-wall form, ignores spherical area divergence with radius",
+      "R = (1/r₁ − 1/r₂)/(4π·k); reciprocal form characteristic of spherical geometry"
+    ],
+    "correct": 3,
+    "explanation": "Spherical 1-D radial conduction: R = (1/r₁ − 1/r₂)/(4π·k). As r₂ → ∞, R → 1/(4π·k·r₁) — finite total resistance (unlike infinite plane). Critical radius for sphere: r_c = 2k/h. Cylinder: R = ln(r₂/r₁)/(2π·k·L)."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "A 5 cm thick steel plate (k = 50 W/m·K) loses heat through 2 cm of insulation (k = 0.04 W/m·K). Which layer dominates the total thermal resistance?",
+    "opts": [
+      "The steel: R_steel = (0.05/50) is far greater than R_ins because steel is thicker overall",
+      "The insulation: R_ins/R_steel = (0.02/0.04)/(0.05/50) ≈ 500; insulation is ~500× greater",
+      "Both contribute roughly equally because the layers compensate in thickness and conductivity",
+      "Neither dominates; only convective coefficients matter when computing total resistance"
+    ],
+    "correct": 1,
+    "explanation": "R = L/k. R_steel = 0.05/50 = 0.001 m²·K/W. R_ins = 0.02/0.04 = 0.5 m²·K/W. Ratio: 500. The insulation dominates by a factor of 500. This is why insulation thickness matters far more than wall material for thermal performance."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "For a long fin of constant cross-section with adiabatic tip, the total heat dissipated is q_fin = √(h·P·k·Ac)·θ_b·tanh(mL). Increasing the fin length L by 50% will:",
+    "opts": [
+      "Have no effect on q_fin since fin length doesn't appear in the heat-dissipation formula",
+      "Increase q_fin by 50% proportionally; heat dissipation is linear in fin length",
+      "Decrease q_fin because longer fins have more surface for tip-end losses",
+      "Increase q_fin only modestly; tanh(mL) approaches 1 asymptotically as mL grows"
+    ],
+    "correct": 3,
+    "explanation": "q_fin scales as tanh(mL), which saturates at 1 for large mL. Beyond mL ≈ 2.65, additional length adds little. This means optimum fin length balances material cost against marginal heat gain. Engineering practice: don't make fins longer than necessary."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "Anisotropic materials have direction-dependent thermal conductivity (k_x ≠ k_y ≠ k_z). Common engineering example:",
+    "opts": [
+      "Air in a sealed cavity; isotropic gas with identical conductivity in every direction observed",
+      "Pure copper bar; isotropic with identical k in all three orthogonal directions of the metal",
+      "Distilled water at 20°C; perfectly isotropic with no preferred direction in any thermal property",
+      "Pyrolytic graphite or composite laminates; in-plane conductivity differs from through-thickness"
+    ],
+    "correct": 3,
+    "explanation": "Anisotropic conductivity is common in layered/fibrous materials: pyrolytic graphite (in-plane k ≈ 1700, through-plane k ≈ 5 W/m·K), CFRP, wood, geological strata. Pure metals and simple fluids are isotropic. Anisotropic problems use a conductivity TENSOR in Fourier's law."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "A steady-state plane wall has T(x=0) = 100°C and T(x=L) = 20°C. Heat generation q̇''' = 0. The temperature at x = L/4 is:",
+    "opts": [
+      "T(L/4) = 100 × exp(−1/4) ≈ 77.9°C (exponential decay; wrong for steady-state)",
+      "T(L/4) = 100 − (100 − 20) × (1/16) = 95°C (quadratic decay; wrong for zero generation)",
+      "T(L/4) = (100 + 20)/2 = 60°C (treats wall as linear blend, wrong for 1/4 position)",
+      "T(L/4) = 100 − (100 − 20) × (1/4) = 100 − 20 = 80°C (linear profile, no generation)"
+    ],
+    "correct": 3,
+    "explanation": "Steady-state 1-D conduction without generation: d²T/dx² = 0 → T(x) = T₀ + (T_L − T₀)·(x/L). Linear profile. At x = L/4: T = 100 + (20 − 100)·0.25 = 100 − 20 = 80°C. Heat flux constant throughout: q'' = k(T₀−T_L)/L."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "A copper sphere of diameter 5 cm at 100°C is suddenly placed in water at 20°C with h = 1000 W/m²·K. Using L_c = V/A = D/6 = 0.0083 m, k = 400 W/m·K, the Biot number is:",
+    "opts": [
+      "Bi = h·L_c/k = 1000 × 0.0083 / 400 ≈ 0.021; lumped capacitance applies (Bi < 0.1)",
+      "Bi = h·D/k = 1000 × 0.05 / 400 = 0.125; uses D not V/A; just above lumped threshold",
+      "Bi = k/(h·L_c) = 400/(1000 × 0.0083) ≈ 48; inverted definition of the Biot number",
+      "Bi = h·L_c² /k = 1000 × 0.0083² / 400 ≈ 1.7×10⁻⁴; uses Lc² instead of Lc"
+    ],
+    "correct": 0,
+    "explanation": "Bi = h·L_c/k. For a sphere, L_c = V/A = (4πr³/3)/(4πr²) = r/3 = D/6. Bi = 0.021 < 0.1 → lumped capacitance valid. Time constant τ = ρVcp/(hA). For copper (ρ≈8900, cp≈385), τ ≈ 4.6 s. After ~14 s (3τ), sphere reaches ~95% of water temperature."
+  },
+  {
+    "section": "Fundamentals & Conduction",
+    "q": "Energy conservation at a finite-difference interior node m in steady-state 1-D conduction yields the algebraic equation:",
+    "opts": [
+      "T_m = T_{m−1} + T_{m+1} (sum of neighbors; no division yields wrong magnitude)",
+      "T_m = (T_{m−1} + T_{m+1})/2 (constant k, no generation; average of neighbors)",
+      "T_m = T_{m−1} × T_{m+1} (product of neighbors; wrong combination rule)",
+      "T_m = max(T_{m−1}, T_{m+1}) (uses only the larger neighbor; ignores conservation)"
+    ],
+    "correct": 1,
+    "explanation": "Steady-state 1-D central difference of d²T/dx² = 0: (T_{m−1} − 2T_m + T_{m+1})/Δx² = 0 → T_m = (T_{m−1} + T_{m+1})/2. The interior node's temperature is the average of neighbors. With generation, an extra source term appears. Solve the resulting linear system iteratively (Gauss-Seidel) or directly."
+  },
+  {
+    "section": "Convection",
+    "q": "Newton's law of cooling expresses convective heat transfer between a surface and an adjacent fluid as:",
+    "opts": [
+      "q'' = ṁ·cp·(T_s − T_∞); enthalpy form, not the convective rate equation here",
+      "q'' = k·(dT/dn); Fourier conduction form, not the convective Newton expression",
+      "q'' = ε·σ·(T_s⁴ − T_∞⁴); Stefan-Boltzmann radiative form rather than convective",
+      "q'' = h·(T_s − T_∞); heat flux is proportional to surface-fluid temperature difference"
+    ],
+    "correct": 3,
+    "explanation": "Newton's law of cooling: q'' = h·(T_s − T_∞). h [W/m²·K] is the convective heat transfer coefficient — a function of geometry, fluid properties, and flow conditions. The challenge is determining h, which is captured by Nusselt number correlations."
+  },
+  {
+    "section": "Convection",
+    "q": "The Nusselt number Nu = h·L/k is interpreted physically as:",
+    "opts": [
+      "Ratio of momentum diffusivity to thermal diffusivity in the fluid (this is Prandtl)",
+      "Ratio of inertial forces to viscous forces in the bulk fluid (this is actually Reynolds)",
+      "Ratio of convective heat transfer to conductive heat transfer across the boundary layer",
+      "Ratio of buoyancy forces to viscous forces in the fluid (this is Grashof)"
+    ],
+    "correct": 2,
+    "explanation": "Nu = h·L/k compares convective and conductive heat transfer. Nu = 1 → pure conduction. Higher Nu = more effective convection. Correlations express Nu as a function of Re and Pr (forced convection) or Gr and Pr (natural convection). Nu is what we look up; h is what we compute."
+  },
+  {
+    "section": "Convection",
+    "q": "The Reynolds number Re = ρ·u·L/μ characterizes flow regime. The transition to turbulent flow in a pipe occurs at approximately:",
+    "opts": [
+      "Re ≈ 100 (laminar throughout; below this value flow may exhibit creeping characteristics)",
+      "Re ≈ 2300 (commonly used transition criterion for pipe flow at moderate Reynolds numbers)",
+      "Re ≈ 50000 (well into the turbulent regime, not the transition point for pipe flow)",
+      "Re ≈ 1000000 (high-turbulence regime well above the transition point in any geometry)"
+    ],
+    "correct": 1,
+    "explanation": "Pipe flow transition: Re < 2300 laminar; 2300 < Re < 4000 transitional; Re > 4000 fully turbulent. Flat plate: transitions at Re_x ≈ 5×10⁵. Natural convection on vertical plate: turbulence at Ra ≈ 10⁹. Transition affects which correlation applies."
+  },
+  {
+    "section": "Convection",
+    "q": "The Prandtl number Pr = μ·cp/k = ν/α represents the ratio of:",
+    "opts": [
+      "Inertial forces to viscous forces in the fluid (this is the Reynolds number actually)",
+      "Momentum diffusivity to thermal diffusivity; controls boundary-layer thickness ratio",
+      "Convective to conductive heat transfer at the wall (this is the Nusselt number actually)",
+      "Buoyancy to viscous forces in the natural-convection flow (this is the Grashof actually)"
+    ],
+    "correct": 1,
+    "explanation": "Pr = ν/α — momentum vs thermal diffusivity. Pr ≈ 0.7 for air, ~7 for water at 20°C, ~10² for oils, ~10⁻² for liquid metals. For Pr > 1, velocity boundary layer is thicker than thermal layer. Many correlations include Pr^(1/3) factor."
+  },
+  {
+    "section": "Convection",
+    "q": "For fully developed turbulent flow in a smooth circular pipe, the Dittus-Boelter correlation is:",
+    "opts": [
+      "Nu = 0.023·Re^0.5·Pr^0.5 (square-root form; wrong exponents for both numbers)",
+      "Nu = 0.023·Re^0.8·Pr^n (n = 0.4 for heating fluid, 0.3 for cooling fluid)",
+      "Nu = 3.66·Re·Pr (linear form; valid only for laminar fully developed with constant T_s)",
+      "Nu = 0.023·Pr^0.8·Re^0.4 (Re and Pr exponents swapped from standard form)"
+    ],
+    "correct": 1,
+    "explanation": "Dittus-Boelter: Nu_D = 0.023·Re_D^0.8·Pr^n. Valid for 0.6 < Pr < 160, Re > 10,000, smooth tubes, moderate ΔT. n = 0.4 heating, 0.3 cooling reflects property variation. Gnielinski's correlation is more accurate but more complex; Sieder-Tate handles large viscosity variation."
+  },
+  {
+    "section": "Convection",
+    "q": "For fully developed laminar flow in a circular pipe with constant SURFACE TEMPERATURE boundary condition, the Nusselt number is:",
+    "opts": [
+      "Nu_D scales linearly with Re; would give Re-dependent Nu which is wrong for fully developed",
+      "Nu_D = 4.36 (constant; this is for constant heat FLUX, not constant temperature, BC)",
+      "Nu_D = 0.023·Re^0.8·Pr^0.4 (Dittus-Boelter; only valid for turbulent flow regime)",
+      "Nu_D = 3.66 (constant; independent of Re or Pr in fully developed laminar with constant T_s)"
+    ],
+    "correct": 3,
+    "explanation": "Fully developed laminar in pipe: Nu = 3.66 for constant T_s; Nu = 4.36 for constant q''. Both are constants independent of Re or Pr because thermal boundary layer fills the pipe. In the entry region, Nu is higher and depends on Re·Pr·(D/L)."
+  },
+  {
+    "section": "Convection",
+    "q": "The Grashof number Gr = g·β·ΔT·L³/ν² characterizes:",
+    "opts": [
+      "Ratio of convective to conductive heat transfer in the boundary layer (this is Nusselt)",
+      "Ratio of momentum diffusivity to thermal diffusivity in the fluid (this is Prandtl)",
+      "Ratio of inertial to viscous forces in the bulk fluid (this is the Reynolds number)",
+      "Ratio of buoyancy to viscous forces in natural-convection flow"
+    ],
+    "correct": 3,
+    "explanation": "Gr plays the role of Re for natural convection. The Rayleigh number Ra = Gr·Pr combines buoyancy and Prandtl. Natural convection correlations: Nu = f(Ra). Mixed convection occurs when Gr/Re² ≈ 1; pure forced when Gr/Re² ≪ 1; pure natural when Gr/Re² ≫ 1."
+  },
+  {
+    "section": "Convection",
+    "q": "For natural convection from a hot vertical plate, the Churchill-Chu correlation gives Nu as a function of:",
+    "opts": [
+      "Brinkman number Br only; characterizes viscous dissipation, not buoyancy-driven flow",
+      "Reynolds number Re only; natural convection has no Reynolds dependence at all",
+      "Rayleigh number Ra = Gr·Pr; combined buoyancy and Prandtl effects in one parameter",
+      "Eckert number Ec only; characterizes kinetic-energy effects, not buoyancy-driven flow"
+    ],
+    "correct": 2,
+    "explanation": "Natural convection correlations use Ra = Gr·Pr. Churchill-Chu: Nu = {0.825 + 0.387·Ra^(1/6) / [1 + (0.492/Pr)^(9/16)]^(8/27)}² for vertical plate, valid across laminar+turbulent. Simpler power-law fits work in narrower ranges."
+  },
+  {
+    "section": "Convection",
+    "q": "In external flow over a flat plate, the thermal boundary-layer thickness δ_t and velocity boundary-layer thickness δ are related by:",
+    "opts": [
+      "δ/δ_t = Nu; the ratio equals the Nusselt number for the flat plate at any condition",
+      "δ/δ_t = Re^(1/2); ratio depends on Reynolds number only with no Prandtl dependence",
+      "δ/δ_t = 1 regardless of fluid properties; the two layers always grow at the identical rate",
+      "δ/δ_t ≈ Pr^(1/3); thermal layer thicker than velocity layer when Pr < 1, thinner when Pr > 1"
+    ],
+    "correct": 3,
+    "explanation": "For laminar flow on a flat plate: δ/δ_t ≈ Pr^(1/3). Pr ≪ 1 (liquid metals) → δ_t ≫ δ. Pr ≫ 1 (oils) → δ_t ≪ δ. Pr ≈ 1 (gases) → δ ≈ δ_t. This ratio governs the Pr^(1/3) factor in many Nu correlations."
+  },
+  {
+    "section": "Convection",
+    "q": "For laminar flow over an isothermal flat plate, the local Nusselt number at distance x from the leading edge is:",
+    "opts": [
+      "Nu_x = 0.0296·Re_x^0.8·Pr^(1/3); turbulent flat-plate form, not the laminar one used here",
+      "Nu_x = 0.023·Re_x^0.8·Pr^0.4; Dittus-Boelter form, only for fully developed turbulent pipe flow",
+      "Nu_x = 0.332·Re_x^(1/2)·Pr^(1/3); Blasius solution for laminar boundary layer",
+      "Nu_x = 3.66; laminar pipe constant for constant T_s, not flat-plate form"
+    ],
+    "correct": 2,
+    "explanation": "Flat plate laminar: Nu_x = 0.332·Re_x^(1/2)·Pr^(1/3). Average Nu over length L: Nu_L = 0.664·Re_L^(1/2)·Pr^(1/3). Turbulent flat plate: Nu_x = 0.0296·Re_x^(0.8)·Pr^(1/3). Transition at Re_x ≈ 5×10⁵."
+  },
+  {
+    "section": "Convection",
+    "q": "In a heat exchanger with constant fluid properties and constant temperature difference, the convective heat transfer rate is:",
+    "opts": [
+      "q = ε·σ·A·ΔT⁴; radiative Stefan-Boltzmann form rather than convective Newton form",
+      "q = U·A; missing the temperature-difference driving force entirely",
+      "q = m·cp·ΔT; sensible heat duty of the flowing stream, not the convective rate equation",
+      "q = h·A·ΔT; product of convective coefficient, area, and temperature difference"
+    ],
+    "correct": 3,
+    "explanation": "Local convective rate: q = h·A·ΔT. For a complete heat exchanger with varying ΔT along its length, use q = U·A·LMTD with the log-mean temperature difference. The relationship q = ṁ·cp·ΔT is an energy balance on a stream, not a transport-rate equation."
+  },
+  {
+    "section": "Convection",
+    "q": "For a tube bank in cross-flow, the Zhukauskas correlation gives the convective coefficient as a function of:",
+    "opts": [
+      "Re_min (based on minimum velocity); using minimum velocity underestimates the heat transfer",
+      "Re_max (based on maximum velocity in the bundle), Pr, geometry (in-line vs staggered)",
+      "Reynolds number based on tube length L (longitudinal); cross-flow uses transverse Re",
+      "Only the Prandtl number; tube banks have no dependence on Reynolds number at all"
+    ],
+    "correct": 1,
+    "explanation": "Zhukauskas correlation for tube banks: Nu = C·Re_max^m·Pr^0.36·(Pr/Pr_s)^0.25, where C, m depend on Re range and arrangement (in-line / staggered). Re_max uses V_max = V·S_T/(S_T − D), accounting for flow contraction between tubes."
+  },
+  {
+    "section": "Convection",
+    "q": "Free convection from a heated horizontal cylinder is correlated using the Rayleigh number Ra_D = g·β·ΔT·D³/(ν·α). The transition to turbulence typically occurs at:",
+    "opts": [
+      "Ra_D ≈ 10¹⁵; far above the typical transition; impractical for most engineering Ra ranges",
+      "Ra_D ≈ 10²; transition well below this; turbulence onset at much higher Ra values",
+      "Ra_D ≈ 10⁹; above this, the convective boundary layer becomes turbulent",
+      "Ra_D < 1; this regime has no convection at all; pure conduction dominates instead"
+    ],
+    "correct": 2,
+    "explanation": "Natural convection on a vertical or horizontal cylinder transitions to turbulence at Ra ≈ 10⁹. Below: laminar boundary layer correlations apply. Above: turbulent expressions. Engineering Ra ranges typically 10⁴ to 10¹². At very low Ra (< 10⁴), conduction dominates."
+  },
+  {
+    "section": "Convection",
+    "q": "For air at 25°C flowing at 5 m/s over a 0.3 m long heated plate, using ν_air ≈ 1.6×10⁻⁵ m²/s, the Reynolds number at the trailing edge is:",
+    "opts": [
+      "Re_L = u·L·ν = 5 × 0.3 × 1.6×10⁻⁵ ≈ 2.4×10⁻⁵; multiplied instead of dividing by ν",
+      "Re_L = ν/u·L = 1.6×10⁻⁵/(5 × 0.3) ≈ 1.1×10⁻⁵; inverted Reynolds definition",
+      "Re_L = u·L/ν = 5 × 0.3 / 1.6×10⁻⁵ = 9.4×10⁴; laminar (below 5×10⁵ transition)",
+      "Re_L = u/L·ν = 5/(0.3 × 1.6×10⁻⁵) ≈ 1×10⁶; inverted multiplication and division"
+    ],
+    "correct": 2,
+    "explanation": "Re_L = u·L/ν = 5 × 0.3 / 1.6×10⁻⁵ = 93,750 ≈ 9.4×10⁴. Below transition (5×10⁵), so laminar throughout. Use Nu_L = 0.664·Re_L^(1/2)·Pr^(1/3) for average heat transfer coefficient."
+  },
+  {
+    "section": "Convection",
+    "q": "The Stanton number St = h/(ρ·u·cp) is related to Nu by:",
+    "opts": [
+      "St = Re·Pr/Nu; inverted form; doesn't yield Stanton's dimensionless heat transfer parameter",
+      "St = Nu·Re·Pr; product form; gives dimensions inconsistent with Stanton's intended use",
+      "St = Nu/(Re·Pr); convenient dimensionless heat transfer when comparing to friction coefficient",
+      "St = Nu²/Re; squared Nusselt form; doesn't match Stanton's standard definition"
+    ],
+    "correct": 2,
+    "explanation": "St = Nu/(Re·Pr) = h/(ρucp). Relates to friction coefficient via Reynolds analogy: St ≈ Cf/2 (for Pr ≈ 1). Chilton-Colburn extends this to other Pr: St·Pr^(2/3) = Cf/2. Useful for estimating heat transfer from pressure-drop measurements."
+  },
+  {
+    "section": "Convection",
+    "q": "In a duct with non-circular cross section, the heat transfer correlations use the hydraulic diameter D_h defined as:",
+    "opts": [
+      "D_h = 4·A_c / P_wetted (four times cross-section area divided by wetted perimeter)",
+      "D_h = A_c / P_wetted (omits the factor of 4; reduces to D/4 for circular pipes)",
+      "D_h = 4·P_wetted / A_c (inverted ratio; gives reciprocal length not a length)",
+      "D_h = √(A_c) (uses just the square root of area; ignores perimeter information entirely)"
+    ],
+    "correct": 0,
+    "explanation": "D_h = 4A_c/P_w. For circular pipe: D_h = 4(πD²/4)/(πD) = D. For square duct of side a: D_h = a. For annulus (D_o, D_i): D_h = D_o − D_i. Used in Reynolds, Nusselt correlations for non-circular ducts."
+  },
+  {
+    "section": "Convection",
+    "q": "For mixed (combined free+forced) convection on a vertical surface, the regime is determined by the ratio:",
+    "opts": [
+      "Pr/Re; ratio of Prandtl to Reynolds; relevant for property effects, not mode",
+      "Re/Gr; inverted ratio; doesn't yield the standard mixed-convection criterion",
+      "Gr/Re²; ratio of buoyancy to inertial forces governs which mode dominates the flow",
+      "Nu/Gr; ratio of convective intensity to buoyancy; not the standard criterion"
+    ],
+    "correct": 2,
+    "explanation": "Gr/Re² ≪ 1 → forced dominates; Gr/Re² ≫ 1 → natural dominates; Gr/Re² ≈ 1 → mixed convection. In mixed regime, Nu is NOT a simple sum or product of natural and forced; specialized correlations apply (Churchill, etc.). Direction of flow (assisting vs opposing) also matters."
+  },
+  {
+    "section": "Convection",
+    "q": "The Reynolds-Colburn analogy relates heat transfer and momentum transfer in turbulent flow as:",
+    "opts": [
+      "Nu·Pr = Cf·Re; dimensional but not the heat-momentum analogy in standard form",
+      "St·Re = Cf·Pr; doesn't reduce to the Chilton-Colburn or Reynolds analogy form",
+      "St·Pr^(2/3) ≈ Cf/2; Chilton-Colburn j-factor analogy with the friction coefficient",
+      "h/k = Cf·u; mixed dimensional and dimensionless terms, not the j-factor analogy"
+    ],
+    "correct": 2,
+    "explanation": "Chilton-Colburn j-factor: j_H = St·Pr^(2/3) ≈ Cf/2. Useful for estimating h from friction data, valid for many forced-convection situations. Reynolds analogy (Pr = 1): St = Cf/2. Both rely on similar boundary-layer transport of momentum and heat."
+  },
+  {
+    "section": "Convection",
+    "q": "For internal flow with entry-region effects, the Nu approaches the fully developed value when:",
+    "opts": [
+      "x/D > 0.05·Re·Pr (commonly cited 5% factor; matches the thermal entry-length criterion)",
+      "x/D > 10·Re·Pr (thermal entry length scales with Re·Pr for laminar pipe flow)",
+      "x/D > 0.1 regardless of fluid properties; entry effects are pure geometric in nature",
+      "x/D > Re alone with no Pr involvement; thermal entry depends only on Reynolds"
+    ],
+    "correct": 1,
+    "explanation": "Laminar thermal entry length: x_t/D ≈ 0.05·Re·Pr. Before this, Nu > Nu_fd (developing thermal layer enhances heat transfer). Hydrodynamic entry length: x_h/D ≈ 0.05·Re (no Pr). For turbulent flow, both lengths are much shorter (~10·D) and often ignored."
+  },
+  {
+    "section": "Convection",
+    "q": "For laminar flow over a cylinder in cross-flow, the Hilpert correlation gives Nu as a function of:",
+    "opts": [
+      "Reynolds based on cylinder length L (axial); cylinder cross-flow uses diameter Re_D",
+      "Only Nu_L^(1/2)·Pr^(1/3); independent of Reynolds (which is wrong for flow over a cylinder)",
+      "Only the Prandtl number; cylinder cross-flow has no Reynolds dependence (which is wrong)",
+      "Re_D and Pr (with C and m constants depending on the Re range of interest)"
+    ],
+    "correct": 3,
+    "explanation": "Hilpert: Nu_D = C·Re_D^m·Pr^(1/3). C and m tabulated for different Re_D ranges (e.g., 4-40: C=0.911, m=0.385). Other choices: Churchill-Bernstein covers all Re_D in one correlation. The Re_D is based on free-stream velocity and cylinder diameter."
+  },
+  {
+    "section": "Convection",
+    "q": "A heated sphere in a moving fluid has Nu correlations including the Whitaker form. As Re → 0, Nu approaches:",
+    "opts": [
+      "Nu → 1; trivial lower bound rarely matches any known asymptotic limit",
+      "Nu → 0; without flow, no heat transfer at all (which is wrong; conduction still occurs)",
+      "Nu → 2; pure conduction from a sphere to an infinite medium gives this asymptote",
+      "Nu → ∞; impossible since heat transfer is finite at any nonzero temperature difference"
+    ],
+    "correct": 2,
+    "explanation": "For a sphere in stagnant fluid: Nu = 2 (pure conduction to infinite medium). This is the lower bound for flowing-fluid correlations: Nu = 2 + (forced or natural convection terms). Whitaker: Nu = 2 + (0.4·Re^(1/2) + 0.06·Re^(2/3))·Pr^(0.4). Useful for catalyst-pellet heat transfer."
+  },
+  {
+    "section": "Convection",
+    "q": "The Sieder-Tate correlation for laminar flow in a heated pipe includes a viscosity-correction factor (μ/μ_s)^0.14 to account for:",
+    "opts": [
+      "Compressibility effects in the fluid as it flows along the heated pipe at high temperature",
+      "Property variation across the boundary layer due to fluid temperature gradient between bulk and wall",
+      "Surface roughness of the pipe wall changing the apparent boundary-layer thickness",
+      "Heat loss to the surroundings outside the pipe through the insulation system"
+    ],
+    "correct": 1,
+    "explanation": "Sieder-Tate: Nu = 1.86·(Re·Pr·D/L)^(1/3)·(μ_b/μ_s)^0.14 for laminar tube flow with large viscosity variation. The viscosity ratio accounts for property changes between bulk (subscript b) and wall (s). Cooling: μ_s > μ_b makes factor < 1. Heating: μ_s < μ_b makes factor > 1."
+  },
+  {
+    "section": "Convection",
+    "q": "In external flow over a flat plate, the local SKIN-FRICTION COEFFICIENT in laminar flow is:",
+    "opts": [
+      "Cf,x = 0.046·Re_x^(0.2); incorrect; doesn't match laminar or turbulent flat-plate forms",
+      "Cf,x = 0.0296·Re_x^(−1/5); turbulent flat-plate form, not laminar",
+      "Cf,x = 16/Re_x; laminar pipe Fanning form, not flat plate",
+      "Cf,x = 0.664·Re_x^(−1/2); decreases with distance from the leading edge"
+    ],
+    "correct": 3,
+    "explanation": "Laminar flat plate: Cf,x = 0.664/√(Re_x). Average over length L: Cf,L = 1.328/√(Re_L). Turbulent flat plate: Cf,x = 0.0592/Re_x^(1/5). These match the Reynolds-Colburn analogy when paired with the Nu correlations."
+  },
+  {
+    "section": "Convection",
+    "q": "In natural convection from a heated horizontal plate facing UP, the heat transfer is generally:",
+    "opts": [
+      "Identical to facing down; orientation has no effect on natural convection rate",
+      "Lower than from the same plate facing down; gravity opposes the upward rising plume",
+      "Higher than from the same plate facing down; plumes rise freely from the upper surface",
+      "Independent of Rayleigh number; depends only on plate area and material properties"
+    ],
+    "correct": 2,
+    "explanation": "Heated plate facing up: free plumes rise, Nu = 0.54·Ra^(1/4) (laminar) or 0.15·Ra^(1/3) (turbulent). Heated plate facing down: convection is suppressed, plumes can't rise easily, Nu = 0.27·Ra^(1/4). Heat transfer up > down. For cooled plates, orientation roles reverse."
+  },
+  {
+    "section": "Convection",
+    "q": "For turbulent flow in a circular pipe at high Re, the Gnielinski correlation is preferred over Dittus-Boelter because it:",
+    "opts": [
+      "Applies only to laminar flow regimes; Dittus-Boelter is preferred for turbulent flow",
+      "Is simpler and easier to use in routine engineering calculations without iteration",
+      "Better captures property variation, transition effects, and lower-Re turbulent regime accurately",
+      "Is the standard for radiative heat transfer rather than convection; Dittus-Boelter is for convection"
+    ],
+    "correct": 2,
+    "explanation": "Gnielinski: Nu = (f/8)(Re−1000)Pr / (1 + 12.7·√(f/8)·(Pr^(2/3) − 1)), valid 3000 < Re < 5×10⁶, 0.5 < Pr < 2000. More accurate than Dittus-Boelter (±10% vs ±25%), and works in transition regime. Requires Darcy friction factor f. Both apply to fully developed turbulent flow."
+  },
+  {
+    "section": "Convection",
+    "q": "A fluid with very low Prandtl number (e.g., liquid sodium, Pr ≈ 0.01) has:",
+    "opts": [
+      "Thermal boundary layer much thicker than velocity boundary layer; high heat conduction",
+      "Thermal boundary layer much thinner than velocity boundary layer; typical of oils",
+      "Thermal and velocity boundary layers of identical thickness as in any other fluid",
+      "Pure conduction with no convective boundary layer at all developing along the surface"
+    ],
+    "correct": 0,
+    "explanation": "Liquid metals: Pr ≪ 1, so δ_t ≫ δ. Heat conduction extends far beyond the velocity layer. Special correlations apply (Lyon, Lubarsky-Kaufman). Sodium, lead, lithium used in nuclear reactors precisely because high k gives excellent heat removal."
+  },
+  {
+    "section": "Convection",
+    "q": "For a heated vertical channel formed by two parallel plates with natural convection, the chimney effect:",
+    "opts": [
+      "Reverses heat transfer direction; cold air enters the top and warms inside the channel",
+      "Suppresses heat transfer by trapping warm air at the top of the channel without flow",
+      "Has no effect on heat transfer; channel acts identically to an open vertical plate",
+      "Enhances heat transfer by inducing upward flow driven by buoyancy through the channel"
+    ],
+    "correct": 3,
+    "explanation": "Chimney effect: buoyant air rises in a heated vertical channel, drawing cool air in at the bottom. Common in fin-array cooling of electronics, solar chimneys. Optimum plate spacing balances boundary-layer interference (too close) against insufficient surface area (too far apart)."
+  },
+  {
+    "section": "Convection",
+    "q": "For an isothermal vertical plate at 100°C in still air at 20°C, the appropriate correlation to estimate h is:",
+    "opts": [
+      "Churchill-Chu: Nu = f(Ra) where Ra = Gr·Pr; correlates natural convection on vertical plates",
+      "Dittus-Boelter: Nu = 0.023·Re^0.8·Pr^0.4; only valid for forced flow inside pipes",
+      "Hilpert: Nu = C·Re^m·Pr^(1/3); for forced flow across a cylinder cross-flow geometry",
+      "Constant Nu = 3.66; valid only for laminar flow inside circular pipes with constant T_s"
+    ],
+    "correct": 0,
+    "explanation": "Natural convection from a vertical surface uses Ra-based correlations (Churchill-Chu, McAdams, etc.). Ra = g·β·ΔT·L³/(ν·α). Forced-convection correlations require an imposed velocity; pipe correlations require pipe flow. Heat exchanger designers choose correlations by geometry and flow mode."
+  },
+  {
+    "section": "Convection",
+    "q": "In fully developed pipe flow, the heat transfer coefficient is:",
+    "opts": [
+      "Constant along the length once the thermal boundary layer fills the cross-section",
+      "Linearly increasing with axial position; thermal entry region never ends",
+      "Linearly decreasing with axial position; convection weakens further from the entrance",
+      "Oscillating with axial position; periodic thermal boundary-layer growth and collapse"
+    ],
+    "correct": 0,
+    "explanation": "Once thermally fully developed (x > x_t), the dimensionless temperature profile is invariant in axial direction and h becomes constant (Nu = const). This is the basis for Nu = 3.66 (constant T_s) and 4.36 (constant q'') laminar values, and for fully developed turbulent correlations."
+  },
+  {
+    "section": "Convection",
+    "q": "A 3 cm OD pipe carries water at 80°C; ambient air is at 20°C. Estimating h_natural ≈ 8 W/m²·K, the convective heat loss per meter of pipe is approximately:",
+    "opts": [
+      "q'/L = h·π·D·ΔT = 8 × π × 0.03 × (80 − 20) ≈ 45 W/m",
+      "q'/L = h·D·ΔT = 8 × 0.03 × 60 ≈ 14 W/m (omitted π in surface area calculation)",
+      "q'/L = h·π·D²·ΔT = 8 × π × 0.0009 × 60 ≈ 1.4 W/m (used D² incorrectly)",
+      "q'/L = h·ΔT/D = 8 × 60 / 0.03 ≈ 16,000 W/m (inverted geometric factor)"
+    ],
+    "correct": 0,
+    "explanation": "Cylindrical surface area per meter: A/L = π·D. Heat loss per length: q'/L = h·π·D·(T_s − T_∞) = 8·π·0.03·60 ≈ 45.2 W/m. For accurate prediction, evaluate h with proper natural-convection correlation (Churchill-Chu for vertical, etc.)."
+  },
+  {
+    "section": "Convection",
+    "q": "Forced convection with very high turbulence and rough walls is correlated using the Colburn analogy in the form:",
+    "opts": [
+      "St = Cf·Re; mixes Reynolds with skin-friction; not a standard analogy form",
+      "St·Pr^(2/3) = f/8; relates heat transfer Stanton number to Darcy friction factor",
+      "Nu = f·Re; replaces Stanton with Nusselt; not the analogy expression",
+      "St·Pr² = f; uses Pr² instead of Pr^(2/3); not consistent with the analogy"
+    ],
+    "correct": 1,
+    "explanation": "Chilton-Colburn j-factor analogy: j_H = St·Pr^(2/3) = f/8 (Darcy friction factor f). Holds approximately for smooth tubes; rough tubes augment friction more than heat transfer, breaking strict analogy. Still useful for first-order estimates of h from pressure drop data."
+  },
+  {
+    "section": "Convection",
+    "q": "For mixed (combined free+forced) convection on a horizontal flat plate, the heat transfer coefficient is BEST estimated by:",
+    "opts": [
+      "Taking the simple sum h_mixed = h_forced + h_natural directly without any blending exponent",
+      "Combining Nu via Nu^n = Nu_forced^n + Nu_natural^n with n = 3 or 4 from data correlation",
+      "Taking the smaller of h_forced and h_natural since one mode always dominates the other",
+      "Computing only the forced-convection coefficient and ignoring buoyancy contribution entirely"
+    ],
+    "correct": 1,
+    "explanation": "Mixed convection: Churchill's n-power blending: Nu^n = Nu_forced^n ± Nu_natural^n (± for assisting/opposing flow). n typically 3 or 4. Pure sum overestimates; smaller value alone underestimates; forced-only misses buoyancy. Gr/Re² ≈ 1 signals mixed regime."
+  },
+  {
+    "section": "Radiation",
+    "q": "The Stefan-Boltzmann law for total emissive power of a BLACKBODY at absolute temperature T is:",
+    "opts": [
+      "E_b = σ·T⁴; total emitted power per unit area scales as fourth power of absolute temperature",
+      "E_b = σ·T; linear in T; would imply weak temperature sensitivity which is incorrect",
+      "E_b = σ·T²; quadratic in T; not consistent with Stefan-Boltzmann's experimental basis",
+      "E_b = σ·exp(T); exponential form; not the Stefan-Boltzmann radiation expression"
+    ],
+    "correct": 0,
+    "explanation": "Stefan-Boltzmann: E_b = σ·T⁴ with σ = 5.67×10⁻⁸ W/m²·K⁴. T⁴ dependence makes radiation dominant at high temperatures (furnaces, sun). For real (gray) surfaces: E = ε·σ·T⁴. Net exchange between two surfaces: q = ε·σ·A·(T₁⁴ − T₂⁴) (when one fully encloses the other)."
+  },
+  {
+    "section": "Radiation",
+    "q": "A surface with emissivity ε = 0.85 at T = 500 K has total emissive power approximately:",
+    "opts": [
+      "E = ε·σ·T = 0.85 × 5.67×10⁻⁸ × 500 ≈ 2.4×10⁻⁵ W/m² (linear T; wrong by factor of 10⁸)",
+      "E = ε·σ·T⁴ = 0.85 × 5.67×10⁻⁸ × 500⁴ = 0.85 × 3,544 ≈ 3,012 W/m²",
+      "E = σ·T⁴/ε = 5.67×10⁻⁸ × 500⁴ / 0.85 ≈ 4,170 W/m² (divided by ε; should multiply)",
+      "E = ε·σ·T² = 0.85 × 5.67×10⁻⁸ × 250,000 ≈ 0.012 W/m² (quadratic; wrong exponent on T)"
+    ],
+    "correct": 1,
+    "explanation": "Real-surface emission: E = ε·σ·T⁴. Plug in: 0.85·5.67×10⁻⁸·6.25×10¹⁰ = 3,012 W/m². At 1000 K, this would be 16× larger (T⁴ dependence). At 2000 K, 256× the 500 K value. Hence the dominance of radiation at high temperatures."
+  },
+  {
+    "section": "Radiation",
+    "q": "Wien's displacement law gives the wavelength of maximum spectral emission as λ_max·T = 2898 μm·K. For a surface at 6000 K (Sun's surface):",
+    "opts": [
+      "λ_max = 2898 / 6000 ≈ 0.483 μm; peak emission in visible spectrum near blue-green",
+      "λ_max = 2898 × 6000 = 1.74×10⁷ μm; far infrared / microwave region (wrong inversion)",
+      "λ_max = 2898 + 6000 ≈ 8898 μm; infrared region; doesn't match Sun's visible emission",
+      "λ_max = 6000 / 2898 ≈ 2.07 μm; near infrared; inconsistent with observed Sun's spectrum"
+    ],
+    "correct": 0,
+    "explanation": "Wien's law: λ_max·T = 2898 μm·K. Sun (T ≈ 5800–6000 K): λ_max ≈ 0.48–0.50 μm (visible, blue-green). Room temperature (T ≈ 300 K): λ_max ≈ 10 μm (far IR, our thermal signature). Hot surface (1000 K): ~ 3 μm (near IR, used in IR thermography)."
+  },
+  {
+    "section": "Radiation",
+    "q": "Kirchhoff's law of thermal radiation states that for a body in thermal equilibrium:",
+    "opts": [
+      "Absorptivity is always equal to one (perfect absorber) for any surface in thermal equilibrium",
+      "Total emissivity equals reflectivity: ε = ρ for all surfaces at all temperatures and wavelengths",
+      "Emissivity is independent of temperature for all engineering surfaces under all conditions",
+      "Spectral emissivity equals spectral absorptivity: ε_λ(T) = α_λ(T) at every wavelength λ"
+    ],
+    "correct": 3,
+    "explanation": "Kirchhoff: ε_λ = α_λ at every wavelength (and direction) in thermal equilibrium. Total ε = α only when spectral distributions match (e.g., both gray bodies, or thermal radiation from a body at the same T as its surroundings). Common simplification: assume gray body so ε = α."
+  },
+  {
+    "section": "Radiation",
+    "q": "A 'GRAY surface' in radiation analysis is one whose emissivity:",
+    "opts": [
+      "Equals zero; no thermal radiation emitted from the surface (this is a blackbody opposite)",
+      "Is independent of wavelength; same ε at every λ (simplifies but is an approximation)",
+      "Equals one at every wavelength; perfect emitter at every frequency of the spectrum",
+      "Varies linearly with wavelength; never matches real surface behavior in any practical case"
+    ],
+    "correct": 1,
+    "explanation": "Gray surface: ε independent of λ. Most engineering analyses assume gray for tractability. Real surfaces are spectrally selective (e.g., glass: high ε for IR, low for visible; selective coatings for solar collectors). Gray + diffuse simplification is the basis of view-factor radiation network analysis."
+  },
+  {
+    "section": "Radiation",
+    "q": "A diffuse surface emits radiation according to Lambert's cosine law. This means radiative intensity:",
+    "opts": [
+      "Depends only on surface temperature; geometry plays no role in emission direction",
+      "Increases with viewing angle from the normal; brightest at grazing angles to the surface",
+      "Concentrates entirely along the surface normal; no emission at oblique angles at all",
+      "Is uniform in all directions; emissive power per unit projected area is constant"
+    ],
+    "correct": 3,
+    "explanation": "Diffuse (Lambertian) emitter: intensity I = const in all directions; radiosity J = πI. Apparent brightness is uniform regardless of viewing angle (like a perfect matte paint). Specular surfaces have direction-dependent intensity (mirror-like). Diffuse-gray approximation is standard for engineering analyses."
+  },
+  {
+    "section": "Radiation",
+    "q": "A VIEW FACTOR F_{1→2} from surface 1 to surface 2 represents:",
+    "opts": [
+      "Ratio of surface temperatures T₁/T₂; a thermal not geometric parameter",
+      "Fraction of radiation leaving surface 1 that directly strikes surface 2 (geometric only)",
+      "Reciprocal of distance squared between surface 1 and surface 2 directly",
+      "Combined emissivity-temperature product; depends on both geometry and surface properties"
+    ],
+    "correct": 1,
+    "explanation": "View factor (configuration factor) F_{i→j}: fraction of diffuse radiation leaving surface i that directly hits surface j. Purely geometric (0 ≤ F ≤ 1). Reciprocity: A_i·F_{ij} = A_j·F_{ji}. Summation: ΣF_{ij} = 1 (enclosure). Doesn't depend on temperature or emissivity."
+  },
+  {
+    "section": "Radiation",
+    "q": "For two small parallel coaxial discs of equal radius R separated by distance H, as H → 0 the view factor F_{1→2}:",
+    "opts": [
+      "F_{1→2} → 0.5; symmetry constraint for parallel discs at any separation",
+      "F_{1→2} → 0; very close discs have negligible radiation exchange between them",
+      "F_{1→2} → 1; the two discs become essentially in contact with all radiation transferred",
+      "F_{1→2} → R/H; ratio relationship not consistent with the H → 0 limit"
+    ],
+    "correct": 2,
+    "explanation": "For parallel coaxial discs (or rings): F_{1→2} → 1 as H → 0 (almost-touching surfaces see only each other). As H → ∞, F_{1→2} → 0 (small projected area). Standard view-factor charts and formulas (Hamilton-Morgan, Howell) cover this and other geometries."
+  },
+  {
+    "section": "Radiation",
+    "q": "The reciprocity relation for view factors states:",
+    "opts": [
+      "F_{ij} = F_{jj} − F_{ii}; algebraic identity unrelated to actual reciprocity expression",
+      "F_{ij} = F_{ji} regardless of areas; symmetric only when surfaces are equal in area",
+      "F_{ij} + F_{ji} = 1; sums to unity for any pair of surfaces in an enclosure",
+      "A_i·F_{ij} = A_j·F_{ji}; ensures consistent radiation exchange across surface pairs"
+    ],
+    "correct": 3,
+    "explanation": "Reciprocity: A_i·F_{ij} = A_j·F_{ji}. Allows computing one F from the other when areas are known. Summation relation: Σ_j F_{ij} = 1 for surface i in an enclosure (including F_{ii} for concave surfaces that see themselves). These two rules let you build view-factor matrices systematically."
+  },
+  {
+    "section": "Radiation",
+    "q": "For radiation between two large parallel plates (diffuse-gray, infinite extent) with emissivities ε₁ and ε₂, the net heat flux is:",
+    "opts": [
+      "q'' = σ·(T₁⁴ − T₂⁴) × (ε₁ + ε₂)/2; arithmetic mean of emissivities; doesn't match resistance form",
+      "q'' = ε₁·ε₂·σ·(T₁⁴ − T₂⁴); product of emissivities; incorrect resistance combination",
+      "q'' = σ·(T₁⁴ − T₂⁴) / (1/ε₁ + 1/ε₂ − 1); accounts for re-reflection between plates",
+      "q'' = σ·(T₁⁴ − T₂⁴); ignores emissivity effects; only valid for blackbodies on both sides"
+    ],
+    "correct": 2,
+    "explanation": "Two large parallel diffuse-gray plates: q'' = σ(T₁⁴ − T₂⁴)/(1/ε₁ + 1/ε₂ − 1). Reduces to σ(T₁⁴−T₂⁴) when ε₁=ε₂=1 (blackbodies). The form derives from a 3-resistance radiation network (two surface resistances + one space resistance with F_{12}=1)."
+  },
+  {
+    "section": "Radiation",
+    "q": "A radiation SHIELD placed between two parallel plates (same emissivity ε on both sides of shield, same as the plates) reduces the radiation heat flux by approximately:",
+    "opts": [
+      "A factor of 2; the shield's resistances double the effective radiation network resistance",
+      "A factor of 10; the shield is much more effective than just adding incremental resistance",
+      "A factor of 100; achievable only with highly polished metallic shields in vacuum systems",
+      "No reduction; the shield merely transmits radiation without altering the heat flux"
+    ],
+    "correct": 0,
+    "explanation": "For one shield of emissivity ε_s between two plates of emissivity ε (all equal): q''_with_shield / q''_no_shield = 1/2 (approximately). N shields reduce flux by factor 1/(N+1). Low-emissivity shields (polished metals, e.g., aluminum foil ε ≈ 0.05) provide much greater reduction. Used in multi-layer insulation (MLI), vacuum flasks."
+  },
+  {
+    "section": "Radiation",
+    "q": "A small object completely enclosed in a much larger evacuated cavity exchanges radiation with the cavity walls at:",
+    "opts": [
+      "q = σ·A₁·(T₁⁴ − T₂⁴); ignores object emissivity; treats both as blackbodies incorrectly",
+      "q = ε₁·ε₂·σ·A₁·(T₁⁴ − T₂⁴); both emissivities appear, but cavity emissivity doesn't matter here",
+      "q = ε₁·σ·A₁·(T₁⁴ − T₂⁴); only the object's emissivity matters; cavity is effectively a blackbody",
+      "q = (ε₁ + ε₂)·σ·A₁·(T₁⁴ − T₂⁴)/2; arithmetic mean form, not consistent with network analysis"
+    ],
+    "correct": 2,
+    "explanation": "Small object in large cavity: A₁/A₂ → 0, F_{12} = 1, surface resistance of large cavity dominates and effectively makes it act as a blackbody (regardless of ε₂). Result: q = ε₁σA₁(T₁⁴ − T₂⁴). Common case: thermocouple in a furnace, satellite in space."
+  },
+  {
+    "section": "Radiation",
+    "q": "For radiative heat transfer at moderate temperatures (e.g., a 350 K surface), the equivalent 'radiation heat transfer coefficient' h_rad is:",
+    "opts": [
+      "h_rad = ε·σ·(T_s + T_surr)·(T_s² + T_surr²); linearization for use with convection coefficient sum",
+      "h_rad = ε·σ·T_s⁴; absolute emission, not the linearization for use with ΔT-form expression",
+      "h_rad = σ·T_s/(T_surr); ratio form, doesn't reduce to standard linearization",
+      "h_rad = T_s²·σ; simplified squared form not consistent with radiation linearization"
+    ],
+    "correct": 0,
+    "explanation": "q''_rad = εσ(T_s⁴ − T_∞⁴) = h_rad·(T_s − T_∞), where h_rad = εσ(T_s + T_∞)(T_s² + T_∞²). For combined surfaces: h_total = h_conv + h_rad. Linearization is useful when ΔT is moderate and both modes act in parallel. At room temperature ε≈0.9, h_rad ≈ 5–7 W/m²·K."
+  },
+  {
+    "section": "Radiation",
+    "q": "At room temperature (300 K), thermal radiation is concentrated primarily in which wavelength range?",
+    "opts": [
+      "Far infrared (4 to 50 μm); essentially invisible to the human eye but detectable by IR camera",
+      "Visible spectrum (0.4 to 0.7 μm); the surface would be glowing visibly at this temperature",
+      "Ultraviolet (0.01 to 0.4 μm); high-energy short-wavelength radiation at room temperature",
+      "Microwave (0.1 to 10 cm); used in radio communication, not thermal emission from room objects"
+    ],
+    "correct": 0,
+    "explanation": "Wien's law at T = 300 K: λ_max ≈ 10 μm (far IR). Thermal IR imaging exploits this. Visible emission requires T > ~ 700 K (red hot). Solar radiation (T_sun ≈ 5800 K) peaks in visible. Different wavelength regimes drive choice of detector technology and selective surfaces."
+  },
+  {
+    "section": "Radiation",
+    "q": "Solar radiation reaching Earth's surface has a much different spectrum than the surface emits back. This SPECTRAL SELECTIVITY enables:",
+    "opts": [
+      "Selective absorbing coatings to absorb solar (short λ) but emit little IR (long λ) for collectors",
+      "Glass to block all radiation regardless of wavelength; no selective transmission occurs",
+      "All surfaces to emit equally in all wavelengths; spectral effects average out completely",
+      "Greenhouse gases to transmit all wavelengths equally; spectral selectivity has no role"
+    ],
+    "correct": 0,
+    "explanation": "Spectral selectivity: solar selective coatings (high α_solar, low ε_IR) maximize collector efficiency. Glass: transparent to visible/short-IR, opaque to long-IR — greenhouse effect. Low-emissivity (low-e) window coatings reduce IR emission. Color and surface treatment matter for radiation exchange."
+  },
+  {
+    "section": "Radiation",
+    "q": "An ideal RADIOSITY J for a diffuse surface is defined as:",
+    "opts": [
+      "J = ε·G; product of emissivity and irradiation; not the standard radiosity definition",
+      "J = E_b only; the emitted radiation without considering any reflected component",
+      "J = α·G only; the absorbed incoming radiation without considering emission",
+      "J = ε·E_b + ρ·G; total radiation leaving surface (emission plus reflected incident radiation)"
+    ],
+    "correct": 3,
+    "explanation": "Radiosity J = total radiation leaving a surface per unit area = ε·E_b + ρ·G (emitted + reflected). G is irradiation (incident). For opaque surfaces: ρ = 1 − ε (gray-diffuse). Radiation network method uses J nodes with 'surface resistance' (1−ε)/(ε·A) and 'space resistance' 1/(A·F)."
+  },
+  {
+    "section": "Radiation",
+    "q": "For combined convection and radiation from a hot surface in still air, the total heat transfer coefficient is:",
+    "opts": [
+      "h_total = max(h_conv, h_rad); ignores the non-dominant mode entirely (wrong)",
+      "h_total = h_conv × h_rad; multiplicative; gives wrong dimensions and is not physical",
+      "h_total = h_conv + h_rad; convective and radiative modes act in parallel and add",
+      "h_total = h_conv − h_rad; subtraction; would imply modes oppose, which is not the case"
+    ],
+    "correct": 2,
+    "explanation": "At a surface to ambient: q'' = h_conv·(T_s − T_∞) + ε·σ·(T_s⁴ − T_surr⁴) ≈ (h_conv + h_rad)·(T_s − T_∞). The two parallel paths add. At room temperature, h_rad ≈ h_conv for many surfaces — radiation cannot be ignored."
+  },
+  {
+    "section": "Radiation",
+    "q": "Gas radiation differs from surface radiation in that gases (CO₂, H₂O, CO) emit and absorb:",
+    "opts": [
+      "As perfect gray bodies over the entire infrared spectrum without any selectivity",
+      "Only in discrete spectral bands; not as continuous spectra like opaque solid surfaces",
+      "Identically to opaque solid surfaces; gas radiation behaves no differently than solids",
+      "Only at very high temperatures (> 2000 K); negligibly at typical engineering conditions"
+    ],
+    "correct": 1,
+    "explanation": "Gases absorb/emit only in specific vibrational-rotational bands. CO₂: 2.7, 4.3, 15 μm bands. H₂O: 1.4, 1.9, 2.7, 6.3 μm and 14–20 μm range. N₂, O₂ are essentially transparent. Gas emissivity depends on gas composition, partial pressure, temperature, and path length L (Hottel charts)."
+  },
+  {
+    "section": "Radiation",
+    "q": "For a furnace operating at 1500 K with inner wall area 50 m² and wall emissivity ε = 0.7, the gross blackbody emission rate to a cooler enclosure is approximately:",
+    "opts": [
+      "E = ε·A·T⁴ = 0.7 × 50 × (1500)⁴ ≈ 1.77 × 10¹⁴ W (missing σ; off by 10⁸)",
+      "E = σ·A·T⁴ = 5.67×10⁻⁸ × 50 × (1500)⁴ ≈ 1.43 × 10⁷ W = 14 MW (blackbody; ignores ε)",
+      "E = ε·σ·A·T = 0.7 × 5.67×10⁻⁸ × 50 × 1500 ≈ 0.003 W (linear T; massively wrong)",
+      "E = ε·σ·A·T⁴ = 0.7 × 5.67×10⁻⁸ × 50 × (1500)⁴ ≈ 1.005 × 10⁷ W = 10 MW"
+    ],
+    "correct": 3,
+    "explanation": "Gross emission: E = ε·σ·A·T⁴ = 0.7 × 5.67×10⁻⁸ × 50 × 5.0625×10¹² ≈ 1.0 × 10⁷ W. Demonstrates the dominance of radiation at high T. Net heat loss to colder surroundings is less; account for incident radiation from surroundings."
+  },
+  {
+    "section": "Radiation",
+    "q": "The 'mean beam length' L_m for gas radiation analysis is used to:",
+    "opts": [
+      "Determine the spectral distribution of gas emission across multiple wavelength bands",
+      "Compute the mean velocity of gas flowing through a duct under radiation analysis",
+      "Convert volume-dependent gas emissivity into an equivalent path length for tabulated charts",
+      "Define the optical thickness for gases (similar concept but a different quantity)"
+    ],
+    "correct": 2,
+    "explanation": "Mean beam length L_m: an equivalent average path length used to look up gas emissivity from Hottel charts based on p·L_m (partial pressure × path). For a hemisphere of gas, L_m = radius. Tabulated for common geometries (cylindrical furnaces, rectangular ducts, between two infinite plates)."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "The Log-Mean Temperature Difference (LMTD) for a counter-current heat exchanger is computed as:",
+    "opts": [
+      "LMTD = √(ΔT₁ × ΔT₂); geometric mean; not the correct mean temperature difference",
+      "LMTD = (ΔT₁ + ΔT₂) / 2; arithmetic mean; only matches LMTD when ΔT₁ ≈ ΔT₂",
+      "LMTD = (ΔT₁ − ΔT₂) / ln(ΔT₁/ΔT₂); where ΔT₁, ΔT₂ are end-point temperature differences",
+      "LMTD = max(ΔT₁, ΔT₂); larger of the two; not the appropriate driving force"
+    ],
+    "correct": 2,
+    "explanation": "LMTD = (ΔT₁ − ΔT₂)/ln(ΔT₁/ΔT₂) for counter or co-current with constant U and ṁcp. When ΔT₁ ≈ ΔT₂, LMTD → arithmetic mean. For complex geometries (cross-flow, multi-pass), apply correction factor F: q = U·A·F·LMTD with F from charts."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "A counter-current heat exchanger has hot stream entering at 150°C and exiting at 70°C; cold stream entering at 30°C and exiting at 90°C. Compute the LMTD:",
+    "opts": [
+      "LMTD = (150−30) = 120°C (used only one end temperature difference; not the log-mean form)",
+      "ΔT₁ = 150−30 = 120, ΔT₂ = 70−90 = −20; LMTD undefined (mixed signs; wrong end pairing)",
+      "LMTD = (150+70+30+90)/4 = 85°C (arithmetic mean of all four temperatures; not LMTD)",
+      "ΔT₁ = 150−90 = 60, ΔT₂ = 70−30 = 40; LMTD = (60−40)/ln(60/40) = 20/0.405 ≈ 49.3°C"
+    ],
+    "correct": 3,
+    "explanation": "Counter-current: hot in vs cold out at end 1 (150−90 = 60), hot out vs cold in at end 2 (70−30 = 40). LMTD = (60−40)/ln(60/40) ≈ 49.3°C. Same exchanger as co-current would give LMTD = (120−40)/ln(120/40) ≈ 72.8°C — counter-flow always lower LMTD but more thermally effective."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "For the same heat duty q and overall U, a counter-current heat exchanger requires LESS area than co-current because:",
+    "opts": [
+      "Counter-current has fewer fouling resistances; flow direction reduces fouling factor",
+      "Counter-current has a higher U; the flow arrangement increases heat transfer coefficient",
+      "Counter-current has a higher LMTD (more uniform temperature driving force along length)",
+      "Counter-current always has lower flow rates; smaller pump and capital cost requirement"
+    ],
+    "correct": 2,
+    "explanation": "Counter-current provides higher average ΔT (more uniform along the exchanger) than co-current for the same end temperatures, so q = UAΔT_LM gives smaller A. Counter-current also can reach higher T_cold,out (even above T_hot,out) — impossible in co-current. Standard choice unless special reasons dictate otherwise."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "The NTU-ε (number of transfer units / effectiveness) method is preferred over LMTD when:",
+    "opts": [
+      "Heat duty has been pre-specified by the customer in the project specifications",
+      "Both inlet and outlet temperatures are known on every stream (sizing problem; LMTD better)",
+      "Outlet temperatures are unknown (rating problem); ε = f(NTU, C_r, geometry) avoids iteration",
+      "The exchanger is single-pass counter-current with all inlets and outlets fully specified"
+    ],
+    "correct": 2,
+    "explanation": "LMTD: best when temperatures known (sizing for given duty). NTU-ε: best for rating (known geometry, find outlet temperatures). ε = q/q_max, where q_max = C_min·(T_h,i − T_c,i). NTU = UA/C_min. C_r = C_min/C_max. ε-NTU charts/expressions exist for all standard geometries."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "For a balanced counter-current heat exchanger (C_r = 1) with NTU = 3, the effectiveness is:",
+    "opts": [
+      "ε = 1 always; balanced counter-current achieves 100% effectiveness at any NTU",
+      "ε = 1 − exp(−NTU) = 1 − exp(−3) ≈ 0.95; unbalanced (C_r = 0) form, not C_r = 1 case",
+      "ε = NTU/(1 + NTU) = 3/4 = 0.75; effectiveness limited by balanced flow capacity ratio",
+      "ε = NTU/2 = 1.5; impossible since effectiveness is bounded by 0 ≤ ε ≤ 1"
+    ],
+    "correct": 2,
+    "explanation": "Counter-current with C_r = 1: ε = NTU/(1 + NTU). At NTU = 3: ε = 0.75. As NTU → ∞: ε → 1. Other relations: counter-current C_r < 1: ε = (1 − exp(−NTU(1−C_r)))/(1 − C_r·exp(−NTU(1−C_r))). Co-current: ε = (1 − exp(−NTU(1+C_r)))/(1+C_r)."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "A shell-and-tube heat exchanger is fouling on both sides with fouling factors R_f,i and R_f,o (referred to inside and outside areas respectively). The overall U based on outside area is reduced by adding terms:",
+    "opts": [
+      "1/U_o = 1/h_o + 1/h_i; no wall conduction, no fouling; only the two convective coefficients",
+      "1/U_o = 1/h_o + R_f,o; only outside fouling, ignoring inside fouling and wall resistance",
+      "1/U_o = 1/h_o + R_f,o + ln(D_o/D_i)·D_o/(2k) + R_f,i·(D_o/D_i) + (1/h_i)·(D_o/D_i)",
+      "1/U_o = R_f,o + R_f,i; only the two fouling factors with no convection or conduction"
+    ],
+    "correct": 2,
+    "explanation": "Cylindrical UA with fouling: 1/(U_o·A_o) = 1/(h_i·A_i) + R_f,i/A_i + ln(D_o/D_i)/(2π·k·L) + R_f,o/A_o + 1/(h_o·A_o). Per unit outside area: divide each term by A_o. Cleaning frequency, fouling allowance, and design margin all affect operating UA over time."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "A double-pipe heat exchanger has h_i = 1500 W/m²·K (water inside), h_o = 200 W/m²·K (steam outside), and negligible wall and fouling resistance. The overall U is approximately:",
+    "opts": [
+      "U = max(1500, 200) = 1500 W/m²·K (used only the higher value; ignores the lower)",
+      "U = 1500 × 200 = 300,000 W/m²·K (multiplied coefficients; wrong combination rule)",
+      "U = (1500 + 200)/2 = 850 W/m²·K (arithmetic mean; not the correct resistance combination)",
+      "1/U = 1/1500 + 1/200 = 0.0067 + 0.005 = 0.0117; U ≈ 85 W/m²·K (limited by lower h_o)"
+    ],
+    "correct": 3,
+    "explanation": "1/U = 1/h_i + 1/h_o (neglecting wall, fouling) = 1/1500 + 1/200. The smaller h dominates the resistance. Result: U ≈ 85 W/m²·K. Lesson: improving the better h alone has little effect; focus improvement on the limiting (smaller) h."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "For a TEMA-style shell-and-tube heat exchanger, the 'BEM' designation indicates:",
+    "opts": [
+      "Bonnet (B) front head, single-pass shell (E), fixed tubesheet (M); a common general-service unit",
+      "Bayonet head (B), evaporator shell (E), mechanical seal (M); not a standard TEMA designation",
+      "Bolted (B), expansion (E), modular (M); industry-specific terms not part of TEMA standard",
+      "Backflow (B), enhanced (E), multi-stream (M); none of these match TEMA letter conventions"
+    ],
+    "correct": 0,
+    "explanation": "TEMA letter designations for front head / shell / rear head. Front head: A (channel + removable cover), B (bonnet), C (channel integral with tubesheet). Shell: E (one-pass), F (two-pass), G (split flow). Rear head: L (fixed tubesheet like A), M (fixed bonnet like B), U (U-tube), S (floating)."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "A U-tube bundle in shell-and-tube design has the advantage of:",
+    "opts": [
+      "Maximum tube count for given shell diameter; tube bundle is most space-efficient design",
+      "Easy individual tube replacement; any single tube can be pulled and replaced freely",
+      "Free thermal expansion of tubes; no expansion joint needed in the shell",
+      "Minimum pressure drop on the tube side; flow path is direct without any return turn"
+    ],
+    "correct": 2,
+    "explanation": "U-tube: free thermal expansion (no expansion joint), but only the outer rows are easily cleaned/replaced. Floating head accommodates expansion + allows full tube access. Fixed tubesheet is cheapest but needs expansion joint if ΔT large. Each TEMA configuration is a different trade-off."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "In shell-and-tube design, BAFFLES on the shell side serve to:",
+    "opts": [
+      "Increase fluid residence time only; no role in flow direction or heat transfer coefficient",
+      "Reduce pressure drop on the shell side by enabling smooth uniform parallel flow",
+      "Direct shell-side flow across tubes (increase velocity, h) and support tubes mechanically",
+      "Replace tube supports with thin baffles only; primary purpose is mechanical not thermal"
+    ],
+    "correct": 2,
+    "explanation": "Baffles: (1) direct shell-side flow across the tube bundle (rather than parallel), increasing h and effective cross-flow; (2) support tubes against vibration and sagging. Segmental baffles are most common (with 25% cut as default). Spacing trade-off: closer = higher ΔP and h; farther = vibration risk."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "A plate-and-frame heat exchanger has advantages over shell-and-tube for low-fouling clean fluids including:",
+    "opts": [
+      "Better fouling resistance; the narrow channels resist fouling buildup more than tubes do",
+      "Higher allowable pressure (typically >100 bar); plate gaskets handle high pressures easily",
+      "Lower cost per unit area for high-temperature service above 250°C in industrial applications",
+      "High effective U (often 3-5× higher) due to thin plates and high turbulence in narrow channels"
+    ],
+    "correct": 3,
+    "explanation": "Plate-and-frame: high U (1,500–5,000 W/m²·K), compact footprint, easy to clean by disassembly, modular (add/remove plates). Limitations: gasket temperature/pressure limits (typically < 200°C, < 25 bar for elastomeric gaskets). Welded plates push limits but lose modularity."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "In a heat exchanger network design, the 'PINCH POINT' is:",
+    "opts": [
+      "The point where the overall U is highest in the network; flow rates are at their peak",
+      "The physical end of the longest exchanger in the network where temperatures converge most",
+      "The location of minimum temperature difference (ΔT_min) between hot and cold composite curves",
+      "The first heat exchanger in the network; the start point for sequential design analysis"
+    ],
+    "correct": 2,
+    "explanation": "Pinch analysis: pinch point is where the hot and cold composite curves come closest (ΔT_min). It divides the problem into 'above pinch' (heat sink, needs hot utility) and 'below pinch' (heat source, needs cold utility). Rules: no heat across pinch, no cold utility above, no hot utility below."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "A cross-flow heat exchanger with both streams unmixed has effectiveness lower than counter-current at the same NTU because:",
+    "opts": [
+      "Cross-flow temperature profiles have lateral variation that reduces overall driving force",
+      "Cross-flow has lower U; the geometric arrangement reduces heat transfer coefficient",
+      "Cross-flow has higher fouling; baffles in cross-flow trap more fouling material",
+      "Cross-flow always operates at high pressure drop; reducing the available driving force"
+    ],
+    "correct": 0,
+    "explanation": "Cross-flow has spatially-varying outlet temperatures (lateral profile), reducing the LMTD-equivalent driving force compared to counter-current at the same NTU. Correction factor F < 1 captures this. Counter-current is the most effective single-pass arrangement; cross-flow simpler to manifold (air coolers, radiators)."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "A heat exchanger with q = 500 kW, U = 800 W/m²·K, and LMTD = 25 K requires an area of approximately:",
+    "opts": [
+      "A = q × U × LMTD = 500,000 × 800 × 25 = 1×10¹⁰ m² (wrong; multiplied instead of dividing)",
+      "A = q / (U × LMTD) = 500,000 / (800 × 25) = 500,000 / 20,000 = 25 m²",
+      "A = q × LMTD / U = 500,000 × 25 / 800 ≈ 15,625 m² (inverted; placed U in numerator wrong)",
+      "A = U × LMTD / q = 800 × 25 / 500,000 = 0.04 m² (inverted; gives reciprocal area)"
+    ],
+    "correct": 1,
+    "explanation": "Sizing equation: q = U·A·LMTD → A = q/(U·LMTD) = 500,000/(800·25) = 25 m². Add fouling allowance, margin (10–25%), and F-factor for non-counter-current configurations. Always check the assumed U against typical ranges for the service type."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "The 'F-factor' (LMTD correction factor) for a 1-shell-2-tube-pass shell-and-tube exchanger is:",
+    "opts": [
+      "Always equal to 1; multi-pass arrangements have identical LMTD to counter-current always",
+      "Less than 1; corrects for cross-flow / multi-pass deviation from pure counter-current operation",
+      "Greater than 1; multi-pass enhances driving force above pure counter-current value",
+      "Negative; multi-pass causes reverse heat transfer compared to counter-current basis"
+    ],
+    "correct": 1,
+    "explanation": "F ≤ 1 (strict equality only for ideal counter-current). F charts available for standard configurations vs P = ΔT_c/(T_h,i − T_c,i) and R = (T_h,i − T_h,o)/(T_c,o − T_c,i). F < 0.75 is generally avoided (steep slope on chart → sensitive to disturbances). Use more shells in series to raise F."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "A typical overall U value for water-to-water heat exchanger in shell-and-tube service is in the range:",
+    "opts": [
+      "10,000 to 50,000 W/m²·K; characteristic of boiling/condensing, not single-phase water flow",
+      "5 to 50 W/m²·K; characteristic of gas-to-gas with natural convection, not water-to-water",
+      "850 to 1,700 W/m²·K; well-known design rule of thumb for clean turbulent water-to-water",
+      "0.1 to 1 W/m²·K; characteristic of insulated wall, not active heat exchanger service"
+    ],
+    "correct": 2,
+    "explanation": "Typical U values (W/m²·K): water-water 850–1,700; water-organic 300–900; gas-gas 25–250; condensing steam to water 1,000–6,000; boiling water/refrigerant 1,000–6,000. These are starting points; detailed design refines via correlations and pilot data."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "In a kettle-type reboiler used for vaporizing a process stream, heat is transferred by:",
+    "opts": [
+      "Falling-film evaporation on the inside of tubes with cooling water outside the tubes",
+      "Forced convection on both sides with no phase change occurring on either side of the tubes",
+      "Pool boiling on the outside of the tubes (process side) with heating steam condensing inside",
+      "Direct contact between the heating medium and the process fluid in a single-pass design"
+    ],
+    "correct": 2,
+    "explanation": "Kettle reboiler: steam condenses inside tubes; process fluid pool-boils on shell side around tubes. Provides clean separation of phases. Other reboiler types: thermosyphon (natural circulation), forced-circulation (pumped), internal (immersed in column sump). Choice depends on viscosity, fouling, vapor fraction needed."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "A heat exchanger's 'fouling allowance' or 'fouling factor' R_f is typically expressed in units of:",
+    "opts": [
+      "m²·K/W; thermal resistance per unit area added to the clean overall U calculation",
+      "W/m²·K; same units as heat transfer coefficient; characterizes fouling-side transport",
+      "kg/m²; mass deposit per unit area on the heat transfer surface over time",
+      "Dimensionless; pure ratio of fouled to clean heat transfer rate at constant temperature"
+    ],
+    "correct": 0,
+    "explanation": "Fouling factor R_f in m²·K/W (resistance form). Typical values: clean water ~ 0.0002 m²·K/W, chemically treated cooling water ~ 0.0004, untreated river water ~ 0.0006, light organics ~ 0.0002. TEMA tables give standard values. Higher R_f = larger A (and cost) for the design margin."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "In sizing a heat exchanger for a sensible-heat duty, the energy balance gives:",
+    "opts": [
+      "q = LMTD × ṁ; mass flow times LMTD gives duty without specific heat involvement",
+      "q = U·A·ΔT only; energy balance is not needed if U·A·ΔT gives the duty directly",
+      "q = h·A·ΔT only; the convection coefficient determines duty without stream balance",
+      "q = ṁ_h·cp,h·(T_h,i − T_h,o) = ṁ_c·cp,c·(T_c,o − T_c,i); both streams balance to the same q"
+    ],
+    "correct": 3,
+    "explanation": "Two equations match in design: q = ṁcp·ΔT (energy balance, gives ΔT from known ṁ, cp, q) AND q = U·A·LMTD (transport, gives A from known U, LMTD, q). For phase change on one side, replace ṁcp·ΔT with ṁ·h_fg (latent heat) on that side; T = const there."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "In a condenser, the heat transfer coefficient on the condensing side (saturated steam → film condensate) is typically:",
+    "opts": [
+      "Very high (5,000 to 15,000 W/m²·K); dominated by latent heat release at constant temperature",
+      "Very low (5 to 50 W/m²·K); resembles single-phase gas convection coefficients",
+      "Identical to single-phase liquid forced convection; condensation behaves like sensible flow",
+      "Equal to the wall thermal conductance; condensation has no convective component"
+    ],
+    "correct": 0,
+    "explanation": "Condensing film coefficients are high because the condensate film is thin and latent heat (h_fg) is large. Nusselt's film theory for laminar film on vertical wall: h ~ (g·ρ²·k³·h_fg / (μ·L·ΔT))^(1/4). Dropwise condensation gives even higher h (5–10× film), but is hard to sustain."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "For sizing a steam condenser with negligible subcooling, the energy balance reduces to:",
+    "opts": [
+      "q = ṁ_steam · k / L; conductive form unrelated to actual condenser energy balance",
+      "q = ṁ_steam · cp · ΔT; sensible heat form, doesn't apply during phase change",
+      "q = ṁ_steam · (h_fg + cp·ΔT); includes both latent and sensible; not pure-condensing case",
+      "q = ṁ_steam · h_fg; latent heat duty, no sensible-heat term since T is constant during condensation"
+    ],
+    "correct": 3,
+    "explanation": "Pure phase-change duty: q = ṁ·h_fg. Subcooling adds sensible component (cp·ΔT) below saturation. Superheat adds sensible component above. For steam at 1 atm: h_fg ≈ 2,257 kJ/kg, dominating typical sensible terms. Distinguish total enthalpy change (h₁ − h₂) from latent + sensible components."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "A 'thermal effectiveness' P = (T_c,o − T_c,i)/(T_h,i − T_c,i) in heat exchanger nomenclature:",
+    "opts": [
+      "Indicates how close the cold-stream exit approaches the hot-stream inlet (max possible)",
+      "Equals the NTU-method effectiveness ε in all configurations and conditions",
+      "Always equals 1.0 for any properly designed heat exchanger under any conditions",
+      "Has no relationship to the LMTD F-factor or to NTU-ε method calculations"
+    ],
+    "correct": 0,
+    "explanation": "P = (T_c,o − T_c,i)/(T_h,i − T_c,i): how close cold outlet approaches hot inlet. R = (T_h,i − T_h,o)/(T_c,o − T_c,i) = C_c/C_h. P and R are used with LMTD F-factor charts. P relates to ε but is not identical (different normalization). Both are useful design parameters."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "An air-cooled heat exchanger (ACHE, 'fin-fan') is selected when:",
+    "opts": [
+      "Process temperatures are below ambient air temperature; ACHEs work as heaters in reverse",
+      "Cooling water is unavailable or expensive; ambient air is the only available heat sink",
+      "Heat duty exceeds 100 MW; water-cooled units are physically incapable of large duties",
+      "Process pressure is extremely high (>200 bar); fin-fan tubes handle high pressure better"
+    ],
+    "correct": 1,
+    "explanation": "Air coolers used when water is scarce/expensive/forbidden (e.g., desert sites, environmental restrictions). Limitations: process outlet > ambient by ~ 10–15°C minimum; large footprint; sensitive to ambient temperature (summer derating); higher capital but lower operating cost than water-cooled."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "In a 1-shell-2-tube-pass shell-and-tube exchanger, if outlet temperatures cause the F-factor to drop below 0.75, the recommended fix is:",
+    "opts": [
+      "Reduce flow rate on the tube side to lower outlet temperature and increase F-factor",
+      "Use multiple shells in series (1-2 → 2-4, etc.) to raise F closer to 1.0 effectively",
+      "Add fouling allowance to compensate for low F by oversizing the exchanger by 50% or more",
+      "Switch to U-tube bundle; U-tube geometry always has F = 1 regardless of temperatures"
+    ],
+    "correct": 1,
+    "explanation": "F < 0.75 means the design is in a steep region of the F chart — small disturbances cause large effective LMTD changes. Adding shells in series (becoming closer to pure counter-current) raises F. Other options: change to plate-and-frame, or use 2-shell or more shells. F-factor is independent of bundle type."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "The 'transfer area density' β (m² of heat transfer surface per m³ of exchanger volume) is HIGHEST for:",
+    "opts": [
+      "Double-pipe heat exchangers (low, β ≈ 50–150 m²/m³ depending on size)",
+      "Shell-and-tube heat exchangers (moderate, β ≈ 100–300 m²/m³)",
+      "Plate-fin or printed-circuit heat exchangers (compact, β > 1,500 m²/m³)",
+      "Open-tank coolers (β ≈ 10–30 m²/m³, large physical envelope per area)"
+    ],
+    "correct": 2,
+    "explanation": "Compact exchangers (β > 700 m²/m³ on gas side or > 400 m²/m³ on liquid side): plate-fin (cryogenics, aerospace), printed-circuit (Heatric), tube-fin, microchannel. Shell-and-tube and double-pipe are non-compact. Compact units have higher capital cost per area but lower footprint and weight."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "In specifying a heat exchanger, the 'design pressure' should typically include a margin above operating pressure of:",
+    "opts": [
+      "10% above maximum operating pressure (or per ASME Section VIII / process safety standards)",
+      "0% (design = operating pressure); no margin needed if process is well-controlled",
+      "200% (design = 3× operating); excessive margin that drives up wall thickness substantially",
+      "50% always; uniform across all services regardless of fluid type or temperature"
+    ],
+    "correct": 0,
+    "explanation": "Typical 10% margin above max operating pressure (ASME/TEMA). Hydrotest at 1.3 × design pressure verifies integrity. Code minima, process safety review (HAZOP), and relief device set pressures all factor into the design specification. Over-specifying is expensive (wall thickness)."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "A heat exchanger's tube-side pressure drop ΔP increases with the SQUARE of velocity (ΔP ∝ v²). Doubling the tube-side velocity from 1 m/s to 2 m/s will:",
+    "opts": [
+      "Have no effect on ΔP; pressure drop depends only on geometry not velocity",
+      "Increase ΔP by approximately 2× (linear dependence; only correct in laminar fully developed)",
+      "Decrease ΔP by 2×; higher velocity always reduces frictional pressure drop in pipes",
+      "Increase ΔP by approximately 4× (square dependence on velocity in turbulent regime)"
+    ],
+    "correct": 3,
+    "explanation": "Turbulent: ΔP = f·(L/D)·(ρv²/2) ∝ v² (since f weakly depends on Re). Doubling velocity → 4× ΔP. Laminar: ΔP ∝ v (linear). High velocity boosts h (and so reduces required area), but also boosts pumping cost. Optimum balances capital vs operating cost."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "In a 'condenser' design where the process gas first desuperheats, then condenses, then subcools, the heat transfer coefficient typically:",
+    "opts": [
+      "Is LOWEST in the desuperheat (gas) section; HIGHEST in the condensing two-phase section",
+      "Is HIGHEST in the subcool (liquid) section; gas convection has higher h than condensation",
+      "Is constant across all three sections; single-section design captures the average value",
+      "Is unrelated to phase; depends only on tube material and shell configuration"
+    ],
+    "correct": 0,
+    "explanation": "Typical h ranking: condensing (h ≈ 5,000–15,000) >> subcooling (h ≈ 500–2,000, single-phase liquid) > desuperheating (h ≈ 50–500, single-phase gas). Design treats sections separately (with their own LMTD/U) and sums areas. Total exchanger may need internal baffles, multiple bundles."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "For a partial condenser where only some of the vapor condenses, the energy duty is:",
+    "opts": [
+      "q = ṁ_remaining_vapor · cp · ΔT; ignores latent component which under-estimates duty",
+      "q = ṁ_total · h_fg; treats entire stream as condensed which over-estimates actual duty",
+      "q = ṁ_condensed · h_fg + (sensible cooling of remaining vapor and liquid streams)",
+      "q = U · A · ΔT only; energy balance not needed for partial condensation"
+    ],
+    "correct": 2,
+    "explanation": "Partial condenser duty: latent heat of condensed fraction + sensible cooling of vapor and liquid + heat of mixing (if any). Often computed by enthalpy method (H_inlet − H_outlet) using a flash calculation. Driving-force temperature varies along the condenser (since composition changes); use enthalpy-vs-temperature integration."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "A shell-and-tube heat exchanger's 'TUBESHEET' serves which primary structural function?",
+    "opts": [
+      "Provides thermal insulation between shell-side and tube-side flows at end caps only",
+      "Holds the tubes in place at each end and separates shell-side from tube-side fluid",
+      "Acts as a flow distributor for shell-side fluid entering the tube bundle from inlet",
+      "Functions purely as a removable cleaning cover with no structural or sealing role"
+    ],
+    "correct": 1,
+    "explanation": "Tubesheet: thick plate (often 50–200 mm) holding tubes at each end. Tubes expanded or welded into holes. Acts as pressure boundary between shell and tube sides. Fixed tubesheet limits thermal expansion; floating head or U-tube allows differential expansion. Material and thickness selected per ASME Section VIII."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "A 'spiral plate' heat exchanger differs from shell-and-tube in:",
+    "opts": [
+      "Spiral tubes inside a straight shell; only the tube layout differs from standard",
+      "Standard shell-and-tube geometry but with spiral baffles on shell side only",
+      "Internal helical coil immersed in a tank; no separation between two streams' fluids",
+      "Two flat metal strips rolled into spiral channels; compact, good for fouling fluids"
+    ],
+    "correct": 3,
+    "explanation": "Spiral plate exchanger: two metal strips rolled together form two interleaved spiral channels (one for each fluid). Compact, single-pass true counter-current, self-cleaning in fouling service. Limited size (~ 500 m²), pressure (~ 25 bar), temperature (~ 400°C). Common in pulp & paper, sludge, slurries."
+  },
+  {
+    "section": "Heat Exchangers",
+    "q": "A 'twisted tape insert' placed inside a heat exchanger tube enhances heat transfer by:",
+    "opts": [
+      "Acting as a porous filter that captures fouling particles before they deposit on the wall",
+      "Inducing swirl flow that increases turbulence and breaks up boundary layer near the wall",
+      "Providing additional heat transfer surface; same as adding fins to the tube interior",
+      "Increasing the cross-sectional area of the tube; reducing velocity and pressure drop"
+    ],
+    "correct": 1,
+    "explanation": "Twisted-tape inserts induce helical swirl. Effect: higher h (1.5–3× plain tube) but also higher ΔP. Other enhancement methods: roughness (knurled tubes), spiral grooves, dimpled surfaces, fluted condenser tubes, low-fin tubes. Trade-off: capital savings (smaller exchanger) vs operating cost (pumping)."
+  },
+  {
+    "section": "Boiling, Condensation & Phase Change",
+    "q": "In POOL boiling of water at 1 atm, the four classical regimes (Nukiyama curve) in order of increasing wall superheat ΔT_e = T_w − T_sat are:",
+    "opts": [
+      "Free convection → nucleate boiling → transition (film+nucleate) → film boiling regime",
+      "Film boiling → transition → nucleate → free convection (reverses the actual order seen)",
+      "Nucleate boiling → film boiling only; the other regimes are not real distinct regions",
+      "Free convection → film boiling → nucleate → transition (jumbled non-physical sequence)"
+    ],
+    "correct": 0,
+    "explanation": "Nukiyama (boiling) curve regimes: (1) free convection (ΔT_e < 5 K), (2) nucleate boiling (5–30 K, peaks at ~ 1 MW/m² for water at 1 atm), (3) transition (unstable, ΔT_e ~ 30–120 K), (4) film boiling (> 120 K). Critical heat flux (CHF, ~ 1.27 MW/m² for water) marks the peak of nucleate."
+  },
+  {
+    "section": "Boiling, Condensation & Phase Change",
+    "q": "The CRITICAL HEAT FLUX (CHF) in pool boiling is significant because exceeding it leads to:",
+    "opts": [
+      "Gradual decrease in heat flux that the operator can correct by reducing electrical power",
+      "Sudden transition to film boiling with large wall temperature jump and possible burnout",
+      "Improved heat transfer due to vapor film providing higher conductivity than liquid",
+      "Reduced fouling at the surface; CHF cleans the surface by vigorous bubble action"
+    ],
+    "correct": 1,
+    "explanation": "Exceeding CHF in heat-flux-controlled systems (electric heaters): vapor blanket forms, wall T jumps by hundreds of degrees → burnout/melting. Critical for nuclear fuel rod design. Zuber CHF model gives q''_CHF ≈ 0.131·h_fg·ρ_v·[σg(ρ_l−ρ_v)/ρ_v²]^(1/4). For water at 1 atm: ~ 1.27 MW/m²."
+  },
+  {
+    "section": "Boiling, Condensation & Phase Change",
+    "q": "Pool nucleate boiling heat flux is correlated by the Rohsenow equation, in which the dominant proportional dependence on wall superheat is:",
+    "opts": [
+      "q'' ∝ (ΔT_e)³; cubic dependence; small superheat changes produce large heat flux changes",
+      "q'' ∝ ΔT_e; linear dependence; comparable to ordinary single-phase forced convection",
+      "q'' ∝ √(ΔT_e); square-root dependence; typical of radiation, not boiling",
+      "q'' ∝ exp(ΔT_e); exponential dependence; not consistent with empirical boiling data"
+    ],
+    "correct": 0,
+    "explanation": "Rohsenow: q'' = μ_l·h_fg·[g(ρ_l−ρ_v)/σ]^0.5 · [cp,l·ΔT_e/(C_sf·h_fg·Pr_l^n)]³. Cubic dependence on ΔT_e in nucleate regime. C_sf is surface-fluid combination constant (e.g., 0.013 for water on polished platinum). Surface roughness, wettability, surface fluid combination affect boiling significantly."
+  },
+  {
+    "section": "Boiling, Condensation & Phase Change",
+    "q": "In FLOW boiling (e.g., in tubes), as quality x increases from 0 to 1, the heat transfer mechanism transitions through:",
+    "opts": [
+      "Subcooled boiling → nucleate flow boiling → forced convective evaporation → dry-out / mist",
+      "Pool boiling → free convection → conduction (sequence not matching flow boiling regimes)",
+      "Film boiling → nucleate boiling (reverses the sequence; CHF would precede this)",
+      "Only single-phase forced convection; flow boiling lacks distinct regimes along the tube"
+    ],
+    "correct": 0,
+    "explanation": "Flow boiling along a heated tube: subcooled liquid → subcooled boiling → bubbly nucleate → slug → annular (high h, forced convective evaporation through thin film) → annular with droplet entrainment → dry-out (CHF) → mist/superheated vapor. h profile: rises to peak near dry-out, then collapses. Different correlations apply in each regime."
+  },
+  {
+    "section": "Boiling, Condensation & Phase Change",
+    "q": "FILM CONDENSATION on a vertical surface is well-described by Nusselt's theory. The local heat transfer coefficient h_x:",
+    "opts": [
+      "Reverses sign halfway down the surface; Nusselt theory has discontinuities mid-surface",
+      "Increases with x; film thinning along the surface enhances heat transfer downward",
+      "Is constant along the vertical surface; film thickness independent of x in Nusselt's model",
+      "Decreases with distance x from the top; film thickens as it falls, reducing local h"
+    ],
+    "correct": 3,
+    "explanation": "Nusselt film condensation: laminar film, h_x ∝ x^(−1/4). Falling film thickens (more condensate accumulates) → conduction across thicker film → lower h. Average over length L: h_L = (4/3)·h_L,local. Modified for turbulent film at high Re_film. Drag, vapor velocity, non-condensables also affect h."
+  },
+  {
+    "section": "Boiling, Condensation & Phase Change",
+    "q": "DROPWISE condensation provides h up to 5–10× higher than film condensation because:",
+    "opts": [
+      "Droplets generate more bubbles than film; nucleate-boiling-like enhancement occurs",
+      "Droplets have higher emissivity than thin film; radiation augments the heat transfer rate",
+      "Droplets resist gravity better than film; the surface tension supports thicker condensate",
+      "Droplets shed regularly leaving bare surface for fresh condensation; no continuous film resistance"
+    ],
+    "correct": 3,
+    "explanation": "Dropwise: condensate forms droplets that grow, coalesce, then run off, leaving bare surface — minimal liquid-side resistance. Hard to sustain (surface eventually becomes hydrophilic, returns to film). Promoters: hydrophobic coatings, oils. h_dropwise ≈ 5–10× h_film. Active research target for thermal management."
+  },
+  {
+    "section": "Boiling, Condensation & Phase Change",
+    "q": "For Nusselt film condensation on a vertical plate of length L, the average heat transfer coefficient depends on which variables?",
+    "opts": [
+      "h ∝ (ρ²·g·h_fg·k³ / (μ·L·ΔT))^(1/4); fourth-root dependence on multiple property groups",
+      "h = k/L only; pure conduction across the average film thickness with no other factor",
+      "h ∝ Re_L^(0.8) · Pr^(1/3); Dittus-Boelter form, only valid for forced convection in pipes",
+      "h ∝ T_s − T_sat only; linear dependence on temperature difference is not the Nusselt form"
+    ],
+    "correct": 0,
+    "explanation": "Nusselt's classical: h = 0.943·[ρ_l(ρ_l − ρ_v)·g·h_fg·k_l³/(μ_l·L·(T_sat − T_w))]^(1/4). Long L → lower h (thicker film). High h_fg, k, density, low μ favor h. Modifications include latent-heat correction (Rohsenow): h_fg' = h_fg + 0.68·cp·(T_sat − T_w)."
+  },
+  {
+    "section": "Boiling, Condensation & Phase Change",
+    "q": "For boiling on a horizontal tube bundle, the heat transfer coefficient on lower tubes:",
+    "opts": [
+      "Can be enhanced by liquid agitation from rising vapor from tubes above; depends on geometry",
+      "Is always identical to top-row tubes; bundle position doesn't affect boiling heat transfer",
+      "Is always higher than top-row; subcooling of bottom liquid enhances heat transfer",
+      "Drops sharply once dry-out occurs at any tube; uniform bundle dry-out at low quality"
+    ],
+    "correct": 0,
+    "explanation": "Tube-bundle pool boiling: lower tubes receive subcooled liquid from below (slight enhancement) plus disturbance from vapor rising from below (significant enhancement). Upper tubes can dry out when vapor crowds out liquid. Net effect: bundle h often differs from single-tube; design correlations include bundle factor."
+  },
+  {
+    "section": "Boiling, Condensation & Phase Change",
+    "q": "The LATENT HEAT OF VAPORIZATION h_fg for water at 1 atm is approximately:",
+    "opts": [
+      "h_fg ≈ 10,000 kJ/kg; far too high; impossible for water under normal conditions",
+      "h_fg ≈ 100 kJ/kg at 100°C; this is closer to fusion latent heat, not vaporization",
+      "h_fg ≈ 4.18 kJ/kg; this is the specific heat of liquid water cp, not latent heat",
+      "h_fg ≈ 2,257 kJ/kg at 100°C (1 atm saturation); dominant energy in steam-water systems"
+    ],
+    "correct": 3,
+    "explanation": "Water h_fg ≈ 2,257 kJ/kg at 100°C (atmospheric saturation). At higher pressures, h_fg decreases (vanishing at critical point). Steam tables provide values vs P/T. Compare: h_fus,ice ≈ 334 kJ/kg; sensible heating water 4.18 kJ/kg/K. Boiling is energy-dense — basis of steam power, refrigeration."
+  },
+  {
+    "section": "Boiling, Condensation & Phase Change",
+    "q": "In a kettle reboiler operating at heat flux below CHF, the dominant boiling regime is:",
+    "opts": [
+      "Film boiling on tubes; vapor film insulates the heating surface and h is low",
+      "Nucleate pool boiling on the outside of submerged tubes; high h and stable operation",
+      "Single-phase liquid forced convection; no boiling occurs in normal kettle operation",
+      "Transition boiling; unstable regime with intermittent vapor blanket and nucleate sites"
+    ],
+    "correct": 1,
+    "explanation": "Kettle reboilers operate in nucleate pool boiling on the shell side. Design heat flux typically 50–80% of CHF for safety margin. h_boil values commonly 5,000–20,000 W/m²·K. Above CHF: dangerous transition to film boiling with wall temperature excursion possible. CHF for water at 1 atm ≈ 1.27 MW/m²."
+  },
+  {
+    "section": "Boiling, Condensation & Phase Change",
+    "q": "For condensation in the presence of non-condensable gases (e.g., air in a steam condenser), the heat transfer coefficient:",
+    "opts": [
+      "Increases significantly; non-condensables enhance turbulence in the condensate film",
+      "Drops significantly; non-condensables accumulate at the interface forming a diffusion barrier",
+      "Remains essentially unchanged; non-condensables have negligible effect on condensation",
+      "Becomes infinite; non-condensables eliminate the condensate film resistance entirely"
+    ],
+    "correct": 1,
+    "explanation": "Non-condensables (NCG) at the vapor-liquid interface form a diffusion barrier — vapor must diffuse through NCG-rich layer before condensing. Even small fractions (~ 1% air) can cut h by 50% or more. Standard practice: vacuum vents on condensers, periodic blowdown. Critical for power plant condenser efficiency."
+  },
+  {
+    "section": "Boiling, Condensation & Phase Change",
+    "q": "For condensation INSIDE a horizontal tube at low vapor velocity, the flow regime is typically:",
+    "opts": [
+      "Mist flow with droplets entrained in vapor and no continuous liquid film at all",
+      "Annular flow with uniform liquid film around the entire tube circumference uniformly",
+      "Stratified flow with liquid pool at bottom and condensing film around the upper inner surface",
+      "Bubbly flow with discrete vapor bubbles dispersed in continuous liquid throughout the tube"
+    ],
+    "correct": 2,
+    "explanation": "Horizontal in-tube condensation regimes (function of vapor velocity, quality): stratified (low velocity, gravity-dominated, pool at bottom), wavy stratified, slug, annular (high velocity, shear-dominated, uniform film), mist. Different correlations apply in each. Shah, Cavallini, and Dobson-Chato correlations cover annular regime."
+  },
+  {
+    "section": "Boiling, Condensation & Phase Change",
+    "q": "The CRITICAL POINT of a fluid is significant in heat transfer because above it:",
+    "opts": [
+      "Latent heat h_fg → 0; no distinction between liquid and gas, no phase change occurs",
+      "Density goes to zero; no fluid exists above critical point in liquid form",
+      "Heat transfer coefficient becomes infinite; supercritical fluid is the ideal heat transfer medium",
+      "Conductivity goes to zero; supercritical fluids have no conductive transport properties at all"
+    ],
+    "correct": 0,
+    "explanation": "At/above the critical point (water: T_c = 374°C, P_c = 22.06 MPa), h_fg = 0 and there's no liquid-vapor distinction. Supercritical fluids show large variations in cp, ρ, k near the pseudo-critical line — leading to 'heat transfer deterioration' or enhancement. Used in supercritical CO₂ cycles, ultra-supercritical boilers."
+  },
+  {
+    "section": "Boiling, Condensation & Phase Change",
+    "q": "In CONDENSATION on a HORIZONTAL tube (outside, no shear), the heat transfer coefficient:",
+    "opts": [
+      "h_horizontal = h_vertical exactly; orientation doesn't affect Nusselt film condensation",
+      "h_horizontal ≈ 0.5 × h_vertical; horizontal trapping reduces condensate drainage and h",
+      "h_horizontal ≈ 1.3 × h_vertical for the same length; horizontal allows shorter falling distance",
+      "h_horizontal ≈ 10 × h_vertical; orientation has dramatic effect by 10× factor"
+    ],
+    "correct": 2,
+    "explanation": "Horizontal tube condensation (Nusselt): h_horizontal = 0.729·[ρ_l(ρ_l−ρ_v)gh_fg k_l³/(μ_l·D·ΔT)]^(1/4). Compared to vertical tube of length L: h_horizontal slightly higher due to shorter drainage path. Stacking horizontal tubes (e.g., bundles): condensate from upper tubes accumulates on lower — h decreases with row number."
+  },
+  {
+    "section": "Boiling, Condensation & Phase Change",
+    "q": "The 'subcooled boiling number' Ja_c = cp·(T_sat − T_l)/h_fg quantifies:",
+    "opts": [
+      "Wall superheat needed for nucleation onset; threshold for boiling to begin",
+      "Ratio of nucleate to film boiling intensity; characterizes regime transitions",
+      "Sensible heat to subcool liquid relative to latent heat; affects bubble collapse rate",
+      "Surface tension parameter; characterizes droplet/bubble equilibrium shape"
+    ],
+    "correct": 2,
+    "explanation": "Subcooling Jakob number Ja_c = cp,l·(T_sat − T_l)/h_fg. In subcooled boiling, bubbles form at the wall, detach, and collapse in cooler bulk liquid. High Ja_c means strong bubble collapse. Affects heat transfer and CHF in subcooled flow boiling (critical for nuclear reactor coolant channels)."
+  },
+  {
+    "section": "Boiling, Condensation & Phase Change",
+    "q": "For an ICE-WATER mixture at 0°C (1 atm) absorbing heat at constant pressure, until all ice melts:",
+    "opts": [
+      "Temperature remains at 0°C; heat goes into latent heat of fusion (h_sf ≈ 334 kJ/kg)",
+      "Temperature rises linearly during melting; ice gradually warms above 0°C continuously",
+      "Temperature drops as latent heat is absorbed; phase change cools the mixture further",
+      "Heat absorption stops once equilibrium reached; ice remains indefinitely at any input"
+    ],
+    "correct": 0,
+    "explanation": "Phase change at constant pressure happens at constant temperature. Ice → water at 0°C, 1 atm consumes h_sf = 334 kJ/kg with T constant. Only after all ice melts does sensible heating warm liquid water. Similarly: water → steam at 100°C consumes h_fg ≈ 2,257 kJ/kg. This isothermal latent path is exploited in PCM thermal storage."
+  },
+  {
+    "section": "Boiling, Condensation & Phase Change",
+    "q": "For a heat pipe operating with internal evaporation and condensation, the effective thermal conductivity can be:",
+    "opts": [
+      "Very low (less than 1 W/m·K equivalent); phase-change processes are too slow for transport",
+      "Very high (10,000 to 100,000 W/m·K equivalent); phase-change loop far exceeds solid metal",
+      "Identical to the wall material (typically copper ~ 400 W/m·K) with no enhancement gained",
+      "Approximately the conductivity of the working fluid liquid alone (often around 0.6 W/m·K)"
+    ],
+    "correct": 1,
+    "explanation": "Heat pipes use a closed loop: evaporation at hot end, capillary return via wick, condensation at cold end. Effective k can reach 10,000–100,000 W/m·K (vs copper ~ 400). Limited by capillary pumping, boiling, sonic, and entrainment limits. Used in electronics cooling, satellites, geothermal applications."
+  },
+  {
+    "section": "Boiling, Condensation & Phase Change",
+    "q": "Pool boiling Critical Heat Flux for water at 1 atm is approximately:",
+    "opts": [
+      "q''_CHF ≈ 10 W/m²; trivially low; doesn't represent any realistic boiling phenomenon",
+      "q''_CHF ≈ 1 kW/m²; far too low; doesn't match observed boiling burnout limits at all",
+      "q''_CHF ≈ 100 MW/m²; far too high; would imply temperatures beyond material limits",
+      "q''_CHF ≈ 1.27 MW/m² (1,270 kW/m²); the well-known Zuber correlation result"
+    ],
+    "correct": 3,
+    "explanation": "Zuber (1959): q''_CHF ≈ 0.131·h_fg·ρ_v·[σ·g·(ρ_l−ρ_v)/ρ_v²]^(1/4). For water at 1 atm: ~ 1.27 MW/m². Surface geometry, orientation, subcooling, and contact angle modify this baseline. Critical limit for design of nuclear fuel rods, electronic chips, and high-flux applications generally."
+  },
+  {
+    "section": "Industrial Applications & Equipment",
+    "q": "A FIRED HEATER (process furnace) transfers heat to a process fluid primarily by:",
+    "opts": [
+      "Conduction only; combustion heat conducts through the firebox walls into process tubes",
+      "Radiation in the radiant section and convection in the convection section after",
+      "Forced convection only; flue gas convection on outside of tubes dominates throughout",
+      "Pure mass transfer; species mixing rather than thermal transfer drives heat exchange"
+    ],
+    "correct": 1,
+    "explanation": "Fired heaters: radiant section (~ 65% duty) uses radiation from flame and refractory at 1,500-2,000°F; convection section recovers additional heat from flue gas with finned tubes. Design parameters: heat flux density (< 12,000 BTU/hr·ft² typical), tube metal temperature, draft, NOx emissions. API 560 governs design."
+  },
+  {
+    "section": "Industrial Applications & Equipment",
+    "q": "An EVAPORATOR concentrating a dilute solution by removing solvent (e.g., water) is sized based on:",
+    "opts": [
+      "Mass transfer coefficient only; heat transfer plays no role in solvent evaporation",
+      "Sensible heat only: q = ṁ_total · cp · ΔT; ignores the phase change which dominates",
+      "Latent heat duty q = ṁ_solvent · h_fg plus sensible heating to boiling point",
+      "Radiation: q = ε · σ · A · ΔT⁴; the dominant mechanism in any evaporator design"
+    ],
+    "correct": 2,
+    "explanation": "Evaporator duty: sensible heating of feed to boiling point + latent heat of vaporizing solvent. Multi-effect evaporators reuse vapor as heating medium for next stage, dramatically reducing steam consumption. Falling-film, rising-film, forced-circulation, agitated-film designs serve different fluids (viscosity, fouling, scaling)."
+  },
+  {
+    "section": "Industrial Applications & Equipment",
+    "q": "Insulation thickness for a steam line is typically selected to:",
+    "opts": [
+      "Always maximize thickness; thicker is always better for energy conservation regardless",
+      "Minimize total annualized cost: heat loss × cost of energy + capital cost of insulation",
+      "Match the pipe outer diameter exactly; geometric simplicity drives insulation design",
+      "Achieve zero outside surface temperature; this is the only safety-relevant target metric"
+    ],
+    "correct": 1,
+    "explanation": "Optimum insulation thickness minimizes total cost. Cost components: heat loss (annual energy × hours × duty) + insulation capital + jacket + labor. Diminishing returns: doubling thickness ≈ halves heat loss but doubles material cost. Surface temperature must also satisfy safety/personnel-protection limits (< 60°C typical)."
+  },
+  {
+    "section": "Industrial Applications & Equipment",
+    "q": "For a cooling tower, the heat removal mechanism is:",
+    "opts": [
+      "Conduction through the tower walls into the surrounding atmosphere via the structure",
+      "Pure convection only; sensible heat transferred from water to air without any evaporation",
+      "Pure radiation only; cooling tower thermal radiates excess heat to the night sky",
+      "Evaporative cooling; latent heat removed as a small fraction of water evaporates into air"
+    ],
+    "correct": 3,
+    "explanation": "Cooling towers: bulk of heat removal is evaporative (latent heat). Water flows down through fill; air flows up (induced or natural draft). Approach temperature: cold water outlet vs wet-bulb (typical ~ 3-5°C minimum). Drift loss, blowdown, makeup water all part of design. Counterflow towers most efficient."
+  },
+  {
+    "section": "Industrial Applications & Equipment",
+    "q": "HEAT TRACING of process piping (electrical or steam) is used to:",
+    "opts": [
+      "Replace insulation; tracing eliminates the need for any external thermal barrier",
+      "Cool pipe contents below ambient during summer operation only; not for heating purposes",
+      "Identify pipes during construction; tracing is a labeling rather than thermal function",
+      "Maintain pipe contents above a minimum temperature (freeze protection, viscosity control)"
+    ],
+    "correct": 3,
+    "explanation": "Heat tracing: electrical (resistance cable) or steam (small tubing) tracing applied under insulation. Purposes: freeze protection (water lines), maintain viscosity (heavy hydrocarbons, asphalt), maintain temperature (process control). Sized to offset heat loss through insulation; controlled by thermostat. IEEE 515 / IEC 62395 govern electrical heat tracing."
+  },
+  {
+    "section": "Industrial Applications & Equipment",
+    "q": "In a SHELL-AND-TUBE STEAM CONDENSER for power plant turbine exhaust, cooling water typically flows:",
+    "opts": [
+      "Outside the tubes with steam condensing inside; reverses standard power plant design",
+      "Inside the tubes with steam condensing on the outside (shell side) at low pressure (vacuum)",
+      "Co-current with steam in a single pass; condensation requires same-direction flow",
+      "Through the shell only with no tube-side flow; condensation is open to atmosphere"
+    ],
+    "correct": 1,
+    "explanation": "Power plant surface condenser: steam (very low quality, ~ 0.05 atm vacuum) condenses on tube exterior; cooling water tube-side. Large area (10,000+ m²). Tube material: titanium, cupronickel (seawater) or stainless. Air ejectors remove non-condensables. Condenser pressure directly affects turbine efficiency."
+  },
+  {
+    "section": "Industrial Applications & Equipment",
+    "q": "A DOUBLE-PIPE HEAT EXCHANGER is appropriate for small heat duties because:",
+    "opts": [
+      "Highest U among all exchanger types; should be used for any duty regardless of size",
+      "Simple construction, low capital cost, easy fabrication; well suited for duties under 0.5 MW",
+      "Lowest pressure drop available; ideal for very high flow rate or low ΔP service",
+      "Maximum modular flexibility; can accommodate any duty up to 100 MW or more"
+    ],
+    "correct": 1,
+    "explanation": "Double-pipe (hairpin) exchangers: simple, true counter-current, easy to service. Sweet spot: small duties (~ 1–500 kW), high pressure or temperature, fouling service. Beyond ~ 50 m² area, shell-and-tube becomes more economical. Modular: hairpins can be combined in series for larger duties."
+  },
+  {
+    "section": "Industrial Applications & Equipment",
+    "q": "An AIR-COOLED HEAT EXCHANGER (ACHE) commonly uses extended (finned) tubes on the air side because:",
+    "opts": [
+      "Air-side h is very low (~ 50 W/m²·K); fins augment area to balance UA between the sides",
+      "Process-side h is the bottleneck; fins on the air side don't affect overall U at all",
+      "Fins reduce pressure drop on the air side; smooth tubes have higher air-side ΔP than finned",
+      "Fins improve heat transfer by radiation; convection from finned air tubes is minimal"
+    ],
+    "correct": 0,
+    "explanation": "Air-side h is typically 50–100 W/m²·K (process-side often 500–5,000). Without fins, air-side dominates resistance. Fins (typically aluminum spiral wound, plate, or stud) extend area by 15–25×, balancing the UA contribution from each side. Pressure drop limits fin density and length."
+  },
+  {
+    "section": "Industrial Applications & Equipment",
+    "q": "For a steam generator (boiler) heating water, the dominant heat transfer in the radiant section is:",
+    "opts": [
+      "Radiation from combustion gases to water-wall tubes; > 50% of total heat absorbed",
+      "Conduction through the firebox walls; convective heat transfer plays only minor role",
+      "Convection from flue gas across superheater tubes only; radiation contributes very little",
+      "Conduction in the steam drum; radiation and convection contribute equal small amounts"
+    ],
+    "correct": 0,
+    "explanation": "Boiler radiant section (furnace, water-wall tubes): direct radiation from flame and refractory dominates (> 50% of total Q). Convection section (superheaters, economizer, air preheater) recovers sensible heat from flue gas. Total efficiency 85-95% for modern utility boilers; 75-85% for industrial."
+  },
+  {
+    "section": "Industrial Applications & Equipment",
+    "q": "A REGENERATOR transfers heat between two streams via:",
+    "opts": [
+      "A solid storage medium that alternately heats from one stream and cools to the other",
+      "Direct mixing of the two streams (which would also transfer mass, not pure heat)",
+      "A liquid intermediate loop pumped between two single-stream heat exchangers",
+      "An evaporation-condensation cycle similar to a heat pipe but with external compressor"
+    ],
+    "correct": 0,
+    "explanation": "Regenerator: a solid matrix (e.g., ceramic, metal mesh, packed bed) alternately exposed to hot then cold streams. Stores heat in matrix during hot phase, releases during cold phase. Used in gas turbines (Brayton cycle), Stirling engines, glass furnaces, air preheaters. Distinct from 'recuperator' (continuous flow, two-stream heat exchanger like shell-and-tube)."
+  },
+  {
+    "section": "Industrial Applications & Equipment",
+    "q": "A WASTE HEAT BOILER (HRSG) downstream of a gas turbine recovers exhaust heat by:",
+    "opts": [
+      "Radiative heat from hot exhaust gases only; convection plays no role in HRSG operation",
+      "Direct combustion of additional fuel in the exhaust; classified separately from HRSG",
+      "Cross-flow convection from hot exhaust (~ 600°C) to tubes generating steam for a power cycle",
+      "Conduction through the duct walls; the HRSG operates without active heat transfer surfaces"
+    ],
+    "correct": 2,
+    "explanation": "HRSG (heat recovery steam generator) following gas turbine: gas turbine exhaust at ~ 500–600°C provides heat to economizer, evaporator, superheater sections. Modern combined-cycle: 60%+ overall efficiency. Single, dual, triple pressure HRSGs balance steam-cycle efficiency against capital cost. Supplemental firing increases steam output."
+  },
+  {
+    "section": "Industrial Applications & Equipment",
+    "q": "A CRYOGENIC HEAT EXCHANGER (plate-fin type, e.g., LNG service) operates with:",
+    "opts": [
+      "Compact aluminum brazed plate-fin construction with very small ΔT_min (1-3 K) approaches",
+      "Standard shell-and-tube design with carbon steel and 10-20 K minimum approach temperatures",
+      "Open-loop design with direct atmospheric venting between heat transfer passes",
+      "Single-stream concept with no second fluid in counter-current contact configuration"
+    ],
+    "correct": 0,
+    "explanation": "Cryogenic plate-fin (BAHX): brazed aluminum, very compact (β > 1,000 m²/m³), multiple streams in single block, ΔT_min as low as 1–2 K. Used in air separation, LNG liquefaction. Sensitive to fouling; requires very clean fluids. Cold-box installations integrate multiple exchangers in vacuum-insulated enclosures."
+  },
+  {
+    "section": "Industrial Applications & Equipment",
+    "q": "In a TRAYED DISTILLATION COLUMN with reboiler, the REBOILER heat duty roughly equals:",
+    "opts": [
+      "Zero; distillation columns operate adiabatically without external heat input",
+      "Heat to vaporize the entire feed; reboiler must boil 100% of the feed material",
+      "Heat to subcool the bottoms; reboilers operate below boiling point intentionally",
+      "Heat to vaporize the vapor traffic at the bottom; sets the column's reflux and separation"
+    ],
+    "correct": 3,
+    "explanation": "Reboiler duty: q_reb = V_bot · h_fg (approximately); V_bot is the boilup flow rate, determined by required reflux ratio and tower design. For a given separation, higher reflux = more boilup = larger reboiler. Condenser duty roughly matches reboiler duty (energy in ≈ energy out, ignoring sensible enthalpy changes)."
+  },
+  {
+    "section": "Industrial Applications & Equipment",
+    "q": "For a FALLING FILM EVAPORATOR (common for heat-sensitive fluids like fruit juice or milk):",
+    "opts": [
+      "Liquid forms a thin descending film on vertical tubes; short residence time minimizes degradation",
+      "Liquid is fully submerged in tubes for long contact time; the opposite of falling-film design",
+      "Liquid flows up; rising film evaporators are an entirely separate design with different mechanism",
+      "Liquid drops as discrete droplets through hot vapor; spray evaporator concept, not falling-film"
+    ],
+    "correct": 0,
+    "explanation": "Falling-film evaporators: liquid distributed at top, falls as a thin film on heated tube walls, vapor co-current downward. Low ΔT, short residence time → preserves heat-sensitive products (food, pharma, fine chemicals). Limited turn-down (film integrity at low rates). Common in multi-effect setups."
+  },
+  {
+    "section": "Industrial Applications & Equipment",
+    "q": "An INSULATION SYSTEM for a cryogenic LNG tank typically uses:",
+    "opts": [
+      "Perlite or polyurethane foam outer insulation with vapor barrier and possibly inner suspended ceiling",
+      "Mineral wool only (typical for high-T steam lines); not effective at LNG temperatures",
+      "Bare metal walls only; cryogenic conditions don't require special insulation systems",
+      "Hot ceramic refractory; designed for high temperature service, not low"
+    ],
+    "correct": 0,
+    "explanation": "LNG storage (-162°C): typically double-wall construction with perlite or polyurethane insulation in annulus, vapor barrier on warm side, inner liner of 9% Ni steel or aluminum. Vacuum-jacketed designs for higher-performance smaller tanks. Hot-T insulation (mineral wool, calcium silicate) is for steam/oil service, not cryogenic."
+  },
+  {
+    "section": "Industrial Applications & Equipment",
+    "q": "A SPRAY DRYER (often used for milk powder, detergents, fine chemicals) transfers heat by:",
+    "opts": [
+      "Radiation from hot walls to falling droplets; convection plays only minor role here",
+      "Convection between hot drying air and atomized liquid droplets in a large chamber",
+      "Conduction through the chamber walls to the droplets in suspension; no air flow involved",
+      "Boiling of liquid in the spray header before atomization; entirely sensible heat after"
+    ],
+    "correct": 1,
+    "explanation": "Spray drying: atomizer (rotary or pressure nozzle) breaks feed into droplets; hot air (150-300°C) flows co-current or counter-current; rapid evaporation of solvent; powder collected by cyclone/bag filter. Sizing: droplet diameter, residence time, exit air saturation. Low product temperature even with high inlet air (evaporative cooling effect)."
+  },
+  {
+    "section": "Industrial Applications & Equipment",
+    "q": "For a STIRRED-TANK REACTOR with a heating/cooling JACKET, the overall heat transfer coefficient typically:",
+    "opts": [
+      "Equals the jacket-side h alone; the process side has no influence on the overall U",
+      "Is limited by the process-side h (often the lowest in viscous or fouling systems)",
+      "Is the simple sum h_jacket + h_process without considering wall conduction at all",
+      "Always exceeds 5,000 W/m²·K because the agitator forces high heat transfer in any case"
+    ],
+    "correct": 1,
+    "explanation": "Jacketed-vessel U: 1/U = 1/h_jacket + R_wall + 1/h_process + fouling. Process side often limiting (especially viscous, low-flow). Agitator type, speed, and baffles strongly affect h_process. Internal coils provide more area than jacket but more complex. Typical jacket U values: 300–1,500 W/m²·K depending on duty."
+  },
+  {
+    "section": "Industrial Applications & Equipment",
+    "q": "A 'PINCH ANALYSIS' applied to a plant utility system seeks to:",
+    "opts": [
+      "Maximize external utility usage to provide design margin against process disturbances",
+      "Maximize internal heat recovery; minimize external hot and cold utility requirements",
+      "Eliminate all heat exchangers; the goal is direct process-process integration only",
+      "Reduce capital cost by using the smallest possible heat exchanger network at any cost"
+    ],
+    "correct": 1,
+    "explanation": "Pinch analysis (Linnhoff, ~1980): based on composite curves (hot streams aggregated vs cold streams), find pinch point (minimum approach ΔT_min). Targets: minimum hot utility, minimum cold utility, minimum area, minimum number of units. Rules: no heat across pinch; no cold utility above pinch; no hot utility below pinch."
+  },
+  {
+    "section": "Industrial Applications & Equipment",
+    "q": "In a process furnace, the EFFICIENCY is typically defined as:",
+    "opts": [
+      "η = (heat absorbed by process) / (LHV·fuel + sensible air); 'thermal efficiency'",
+      "η = (heat radiated to tubes) / (heat absorbed by tubes); always equals 1.0 by definition",
+      "η = (fuel mass) / (process flow rate); a mass ratio rather than energy efficiency",
+      "η = (radiation duty) / (convection duty); the ratio of two duty fractions only"
+    ],
+    "correct": 0,
+    "explanation": "Furnace thermal efficiency η = q_absorbed / q_input. Losses: stack (flue gas exhaust enthalpy, biggest loss), radiation/convection to ambient, blowdown, incomplete combustion. Modern furnaces achieve 75–90% by recovering flue gas heat via air preheaters or economizers. Trade-off with NOx emissions (higher preheat = higher NOx)."
+  },
+  {
+    "section": "Industrial Applications & Equipment",
+    "q": "A FREEZE-PROTECTION HEAT TRACING design for a 50-meter, 6-inch carbon steel pipe carrying water in a -30°C environment is sized based on:",
+    "opts": [
+      "Heat loss per meter through insulation at design ΔT, plus 25% safety margin per IEEE 515",
+      "The peak instantaneous heating power; tracing must thaw frozen pipe within 1 hour",
+      "The pipe length only; no analysis of insulation properties or ambient conditions needed",
+      "The water flow rate only; heat tracing duty depends on flow not on ambient temperature"
+    ],
+    "correct": 0,
+    "explanation": "Freeze-protection heat tracing: maintain pipe contents above freezing (or higher target T). Sized to offset heat loss through insulation at design ambient. Common sizing: 5–25 W/m for insulated pipes. Add 10–25% safety margin. Self-regulating cables most common for water lines; mineral-insulated (MI) for higher-T. Controlled by thermostat per circuit."
+  }
+];
+const SECTIONS  = [
+  {
+    "key": "Fundamentals & Conduction",
+    "label": "I — Fundamentals & Conduction",
+    "cls": "sec-conduction",
+    "range": "Questions 1–28"
+  },
+  {
+    "key": "Convection",
+    "label": "II — Convection",
+    "cls": "sec-convection",
+    "range": "Questions 29–60"
+  },
+  {
+    "key": "Radiation",
+    "label": "III — Radiation",
+    "cls": "sec-radiation",
+    "range": "Questions 61–80"
+  },
+  {
+    "key": "Heat Exchangers",
+    "label": "IV — Heat Exchangers",
+    "cls": "sec-hx",
+    "range": "Questions 81–112"
+  },
+  {
+    "key": "Boiling, Condensation & Phase Change",
+    "label": "V — Boiling, Condensation & Phase Change",
+    "cls": "sec-boiling",
+    "range": "Questions 113–130"
+  },
+  {
+    "key": "Industrial Applications & Equipment",
+    "label": "VI — Industrial Applications & Equipment",
+    "cls": "sec-applications",
+    "range": "Questions 131–150"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+const TOTAL_Q = QUESTIONS.length;
+
+let mode='instant', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 4*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='04:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/'+TOTAL_Q;
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/'+TOTAL_Q;
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  // Engineering fundamentals: typical undergraduate / PE-prep readiness benchmarks
+  if(pct>=0.90){ grade='Heat Transfer \u2014 Distinction'; blurb='Outstanding command of heat transfer fundamentals. Strong grasp of conduction, convection correlations, radiation networks, exchanger design, and phase change.'; }
+  else if(pct>=0.80){ grade='Heat Transfer \u2014 Solid Pass'; blurb='Strong understanding across most domains. Review missed items; you are at typical PE Chemical exam readiness level.'; }
+  else if(pct>=0.70){ grade='Heat Transfer \u2014 Borderline'; blurb='At PE-prep level. Targeted review of weak sections recommended &mdash; especially correlations, view factors, and exchanger NTU-effectiveness.'; }
+  else if(pct>=0.60){ grade='Approaching Pass Threshold'; blurb='Below typical certification passing range. Strengthen weak sections (per the breakdown), redo the calculation items, then re-test.'; }
+  else if(pct>=0.45){ grade='Developing Engineer'; blurb='Fundamentals forming but key gaps remain. Work through Incropera or Bergman/DeWitt systematically and revisit dimensionless groups, LMTD/NTU methods, and radiation networks.'; }
+  else { grade='Begin the Heat Transfer Journey'; blurb='Start with an undergraduate text (Incropera, Bergman/DeWitt, or Cengel): Fourier law, dimensionless groups, basic correlations for forced/natural convection, view factors, LMTD method.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 150 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one question at a time. 4-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+</body>
+</html>

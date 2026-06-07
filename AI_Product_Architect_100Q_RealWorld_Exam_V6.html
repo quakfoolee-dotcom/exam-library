@@ -1,0 +1,2992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Product Architect — 100Q Real-World Graphical Diagram Exam (V6)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#17191f;--paper:#f5f2ea;--paper2:#ebe5d8;--line:#d4cab8;--muted:#6d675d;
+  --gold:#b58b32;--gold2:#8f6c22;--blue:#1f5f8b;--purple:#6d3b92;--green:#236a51;--red:#a24132;
+  --softgreen:#e4f1eb;--softred:#f4e3df;--softblue:#e8f1f8;--shadow:rgba(27,24,20,.13);
+}
+*{box-sizing:border-box;margin:0;padding:0} html{scroll-behavior:smooth}
+body{font-family:'Newsreader',Georgia,serif;background:radial-gradient(circle at 12% 8%,rgba(31,95,139,.10),transparent 36%),radial-gradient(circle at 90% 92%,rgba(109,59,146,.08),transparent 38%),var(--paper);color:var(--ink);line-height:1.6;padding:0 0 70px}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.45;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E")}
+.wrap{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:0 24px}
+header{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink)}
+.kicker{font-family:'JetBrains Mono',monospace;color:var(--gold2);font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;margin-bottom:16px}
+h1{font-family:'Fraunces',serif;font-size:clamp(2.4rem,6vw,4.4rem);line-height:.98;font-weight:900;letter-spacing:-.03em} h1 span{font-weight:500;font-style:italic;color:var(--blue)}
+.byline{font-style:italic;color:var(--muted);font-size:1.05rem;margin:14px auto 20px;max-width:820px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 22px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;padding:12px 24px;border:1px solid var(--line);background:rgba(255,255,255,.42)} .exambar b{color:var(--gold2)}
+.modebar{display:flex;justify-content:center;gap:0;margin:24px auto 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;background:rgba(255,255,255,.48)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.71rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:none;background:transparent;color:#6b6256;cursor:pointer;padding:11px 18px;transition:.2s}
+.modebar button.active{background:var(--ink);color:var(--paper)} .hint{text-align:center;color:var(--muted);font-style:italic;font-size:.94rem;margin-bottom:14px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -24px 28px;padding:14px 24px;background:rgba(245,242,234,.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.stat{font-family:'JetBrains Mono',monospace;font-size:.76rem;color:#4f493e;white-space:nowrap} .stat b{font-size:.96rem;color:var(--gold2)}
+.stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em} .stat.timer.warn b{color:#b8341a} .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.track{flex:1;min-width:150px;height:9px;border:1px solid var(--line);background:var(--paper2);border-radius:99px;overflow:hidden} .fill{height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--purple));border-radius:99px;transition:width .35s ease}
+.shell{margin:22px auto 0;background:rgba(255,255,255,.58);border:1px solid var(--line);border-radius:8px;box-shadow:0 6px 22px var(--shadow);overflow:hidden}
+.levelbar{padding:13px 22px;background:linear-gradient(100deg,var(--blue),var(--purple));color:white;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;font-family:'JetBrains Mono',monospace}
+.levelbar .domain{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700} .levelbar .diff{font-size:.66rem;border:1px solid rgba(255,255,255,.45);border-radius:99px;padding:4px 10px;background:rgba(255,255,255,.14)}
+.card{padding:28px 30px 24px} .qtop{display:flex;align-items:baseline;gap:13px;margin-bottom:12px} .qnum{font-family:'Fraunces',serif;font-weight:900;font-size:1.8rem;color:var(--gold2)} .qmeta{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.qtext{font-size:1.15rem;font-weight:600;line-height:1.6;margin:14px 0 18px}
+.diagram-card{margin:12px 0 18px;border:1px solid var(--line);background:linear-gradient(135deg,rgba(232,241,248,.85),rgba(255,255,255,.56));border-radius:8px;padding:15px 16px;box-shadow:0 2px 10px rgba(27,24,20,.06)}
+.diagram-title{font-family:'JetBrains Mono',monospace;font-size:.68rem;text-transform:uppercase;letter-spacing:.12em;color:var(--blue);font-weight:700;margin-bottom:10px}
+.diagram-caption{font-style:italic;color:#5f574c;font-size:.92rem;margin-top:10px}
+
+.diagram-svg-wrap{border:1px solid #c8d4df;border-radius:10px;background:linear-gradient(180deg,#f8fbff,#eef5fa);padding:10px;overflow:auto}
+.diagram-svg{width:100%;min-width:680px;height:auto;display:block}
+.diagram-svg text{font-family:'JetBrains Mono',monospace}
+.diagram-cap-note{font-size:.8rem;color:#67707a;margin-top:8px}
+
+.d-flow,.d-layers,.d-funnel{display:flex;align-items:center;gap:10px;flex-wrap:wrap} .d-node{border:1px solid #b8c6d2;background:rgba(255,255,255,.78);border-radius:8px;padding:10px 12px;min-width:120px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;color:#2d3945;box-shadow:0 1px 4px rgba(0,0,0,.05)} .d-arrow{font-family:'JetBrains Mono',monospace;color:var(--gold2);font-weight:900}
+.d-layers{flex-direction:column;align-items:stretch} .d-layer{border:1px solid #b8c6d2;background:rgba(255,255,255,.78);border-radius:8px;padding:9px 12px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;color:#2d3945}
+.d-matrix{display:grid;grid-template-columns:repeat(2,minmax(120px,1fr));gap:8px;max-width:640px;margin:auto} .d-cell{border:1px solid #b8c6d2;background:rgba(255,255,255,.78);border-radius:8px;padding:11px 10px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.71rem;font-weight:700;color:#2d3945}
+.d-decision{display:flex;align-items:center;gap:10px;flex-wrap:wrap} .d-diamond{width:120px;height:70px;transform:skew(-16deg);border:1px solid #b8c6d2;background:rgba(255,255,255,.86);display:grid;place-items:center;border-radius:8px} .d-diamond span{transform:skew(16deg);font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:700;text-align:center;color:#2d3945}
+.d-loop{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;align-items:center} .d-loop .d-node{border-radius:99px;min-width:108px}
+.opts{display:flex;flex-direction:column;gap:10px} .opt{display:flex;align-items:flex-start;gap:13px;padding:13px 15px;border:1px solid var(--line);border-radius:4px;background:rgba(255,255,255,.46);cursor:pointer;transition:.18s;font-size:1.02rem} .opt:hover{border-color:var(--gold);background:rgba(181,139,50,.08);transform:translateX(2px)} .opt.disabled{pointer-events:none;cursor:default}
+.letter{flex-shrink:0;width:27px;height:27px;border:1.5px solid var(--gold2);border-radius:50%;display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-size:.84rem;font-weight:700;color:var(--gold2)} .otext{flex:1;padding-top:1px} .mark{font-weight:900;align-self:center;min-width:18px;opacity:0}
+.opt.sel{border-color:var(--gold2);background:rgba(181,139,50,.12)} .opt.sel .letter{background:var(--gold2);color:white} .opt.correct{border-color:var(--green);background:var(--softgreen)} .opt.correct .letter{background:var(--green);border-color:var(--green);color:white} .opt.correct .mark{opacity:1;color:var(--green)} .opt.wrong{border-color:var(--red);background:var(--softred)} .opt.wrong .letter{background:var(--red);border-color:var(--red);color:white} .opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{display:none;margin-top:18px;padding:15px 18px;border-left:4px solid var(--gold);background:rgba(181,139,50,.075);border-radius:0 4px 4px 0} .explain.show{display:block} .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold2);font-weight:700;margin-bottom:7px} .ans{font-weight:700;color:var(--green);margin-bottom:6px} .explain p{color:#3d362a;line-height:1.62}
+.nav{display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap;padding:18px 30px 26px;border-top:1px solid var(--line)} .nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.76rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:none;border-radius:4px;padding:13px 21px;cursor:pointer;transition:.2s} .btn-primary{background:var(--ink);color:var(--paper)} .btn-primary:hover{background:var(--gold2);transform:translateY(-1px)} .btn-ghost{background:transparent;color:var(--ink);border:1.4px solid var(--ink)} .btn-ghost:hover{background:var(--ink);color:var(--paper)} .btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.note{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted)}
+.results{display:none;margin:34px auto 0;padding:34px 30px;text-align:center;border:1px solid var(--line);border-radius:8px;background:linear-gradient(160deg,#fff,var(--paper2));box-shadow:0 8px 30px var(--shadow)} .results.show{display:block} .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold2);margin-bottom:12px} .scorebig{font-family:'Fraunces',serif;font-weight:900;font-size:4rem;line-height:1} .scorebig small{font-size:1.7rem;color:#8a7d63} .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.45rem;margin:8px 0 10px} .blurb{max-width:680px;margin:0 auto 22px;color:#4b4437} .breakdown{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:22px 0;text-align:left} .bd{padding:12px 14px;border:1px solid var(--line);background:rgba(255,255,255,.58);border-radius:4px} .bdtitle{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:3px} .bdscore{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:800}
+.instant-list{display:flex;flex-direction:column} .instant-item{border-bottom:1px solid var(--line)} .instant-item:last-child{border-bottom:none}
+footer{text-align:center;margin-top:46px;padding-top:20px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#8a7d63;letter-spacing:.06em}
+@media(max-width:640px){.card{padding:22px 18px 18px}.nav{padding:16px 18px 22px}.qtext{font-size:1.06rem}.modebar{border-radius:8px;flex-direction:column;width:100%}.modebar button{width:100%}.d-node{min-width:100%}.d-arrow{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="kicker">Challenge Exam</div>
+  <h1>AI Product <span>Architect</span></h1>
+  <div class="byline">100 real-world AI Product Architect use-case questions. Every question includes a more graphical architecture-style diagram inspired by enterprise AI platform, pipeline, agent, integration, and governance reference patterns.</div>
+  <div class="exambar"><span><b>100</b> Questions</span><span><b>100</b> Diagrams</span><span><b>4</b> Options Each</span><span><b>Increasing</b> Difficulty</span></div>
+</header>
+<div class="modebar"><button id="m-guided" class="active" onclick="setMode('guided')">Guided Path</button><button id="m-instant" onclick="setMode('instant')">Instant Feedback</button><button id="m-exam" onclick="setMode('exam')">Exam Mode</button></div>
+<p class="hint" id="modeHint">Guided Path: one question at a time. The next question is locked until the current question is answered.</p>
+<div class="hud"><span class="stat" id="qStat">Question <b id="qNow">1</b>/100</span><div class="track"><div class="fill" id="barFill"></div></div><span class="stat">Answered <b id="answeredCount">0</b></span><span class="stat">Score <b id="scoreCount">0</b></span><span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">02:00:00</b></span></div>
+<main class="shell" id="questionShell"></main>
+<section class="results" id="results"><div class="rk">Your Result</div><div class="scorebig"><span id="rScore">0</span><small>/100</small></div><div class="grade" id="rGrade"></div><p class="blurb" id="rBlurb"></p><div class="breakdown" id="rBreak"></div><div class="nav" style="border-top:none;justify-content:center;padding:10px 0 0"><button class="btn btn-primary" onclick="reviewExam()">Review Answers</button><button class="btn btn-ghost" onclick="resetExam()">Retake Exam</button></div></section>
+<footer>AI Product Architect Real-World Diagram Exam · V6 (exam timer) · All 100 questions count toward the final score.</footer>
+</div>
+<script>
+const TAGS = [
+  "Support ticket triage",
+  "Defect inspection vision",
+  "Clinical note assistant",
+  "Retail recommendation engine",
+  "Insurance claim automation",
+  "Hiring fairness risk",
+  "Logistics ETA prediction",
+  "Cash flow forecasting",
+  "Build versus buy",
+  "Proposal scoping discovery",
+  "Dirty training data",
+  "Label quality consistency",
+  "Churn data leakage",
+  "Outcome metric design",
+  "Delayed outcome evaluation",
+  "Data minimization principle",
+  "Schema canonicalization layer",
+  "Synthetic data validity",
+  "Upstream schema drift",
+  "Multi-tenant vector isolation",
+  "Provider abstraction gateway",
+  "Confidence based routing",
+  "Edge inference deployment",
+  "Enterprise gateway design",
+  "Rules plus ML",
+  "Risk score explainability",
+  "Event-driven inference triggers",
+  "Provider failover resilience",
+  "Model routing tiers",
+  "RAG versus fine-tuning",
+  "Source corpus hygiene",
+  "Procedure-aware chunking strategy",
+  "Multilingual retrieval design",
+  "Grounding hallucination control",
+  "Prompt regression testing",
+  "Retrieval pipeline efficiency",
+  "Document access control",
+  "Citation faithfulness verification",
+  "Field-level redaction control",
+  "Vague query handling",
+  "Action authorization tiers",
+  "Tool sandbox limits",
+  "Agent loop bounds",
+  "Deterministic workflow choice",
+  "Procurement approval gate",
+  "Document concurrency control",
+  "Agent handoff contracts",
+  "Memory tenant isolation",
+  "Tool error handling",
+  "Policy guardrail enforcement",
+  "Precision recall tradeoff",
+  "Stratified evaluation slices",
+  "Offline online gap",
+  "Reviewer rubric alignment",
+  "Multi-metric evaluation design",
+  "Score calibration thresholds",
+  "Cohort performance disparity",
+  "End-to-end RAG evaluation",
+  "High-cost failure analysis",
+  "Outcome metric alignment",
+  "Vulnerable population safeguards",
+  "Protected group fairness",
+  "Contestability and appeal",
+  "Purpose-bound data scope",
+  "Uncertainty signal design",
+  "Safety assurance case",
+  "Harmful prompt handling",
+  "Consent scope reuse",
+  "Risk tiered governance",
+  "Accent fairness slicing",
+  "Artifact registry lineage",
+  "Output contract testing",
+  "Safe rollback mechanism",
+  "Shadow deployment pattern",
+  "Cost runaway diagnosis",
+  "Incident response playbook",
+  "Training reproducibility lineage",
+  "Workflow change management",
+  "Approval gate streamlining",
+  "Quality SLO design",
+  "Total cost ownership",
+  "Embedded workflow integration",
+  "Regional rollout strategy",
+  "Value-based pricing model",
+  "Enterprise trust evidence",
+  "Commodity versus differentiation",
+  "Onboarding adoption design",
+  "Procurement trust response",
+  "Regional localization strategy",
+  "Data residency architecture",
+  "Feature versus platform",
+  "Multi-tenant RAG isolation",
+  "Latency quality routing",
+  "Internal-to-product packaging",
+  "Cross-domain copilot platform",
+  "Workflow placement timing",
+  "Knowledge freshness loop",
+  "Action reversibility matrix",
+  "Capability sequencing strategy",
+  "Trustworthy value principle"
+];
+const QUESTIONS = [
+  {
+    "domain": "1. Product Strategy and Use-Case Architecture",
+    "level": "Challenge I",
+    "q": "A B2B support software company wants to add AI to reduce ticket handling time. The support team has ten categories of tickets, but password resets and billing questions represent 58% of volume and have clear resolution patterns. Leadership asks for a broad assistant that handles every ticket type on day one. What should the AI Product Architect recommend first?",
+    "opts": [
+      "Launch a narrow high-volume MVP",
+      "Automate every category at launch",
+      "Start with model branding only",
+      "Replace support agents immediately"
+    ],
+    "correct": 0,
+    "explanation": "The best first release should be narrow, high-volume, measurable, and operationally safe. A focused MVP proves value, reveals workflow issues, and avoids high-risk overreach before broad automation.",
+    "diagram": {
+      "type": "flow",
+      "title": "MVP scope funnel",
+      "nodes": [
+        "All tickets",
+        "High-volume categories",
+        "Controlled MVP",
+        "Measured rollout"
+      ],
+      "caption": "The diagram shows how broad demand should be narrowed into a controlled first release."
+    }
+  },
+  {
+    "domain": "1. Product Strategy and Use-Case Architecture",
+    "level": "Challenge I",
+    "q": "A manufacturer asks for a computer-vision product to inspect all defects on every production line. During discovery, you learn that one line has consistent lighting, clear defect labels, and costly scrap, while other lines have mixed cameras and weak labels. Which framing is strongest?",
+    "opts": [
+      "Train on every line together",
+      "Pilot the ready line first",
+      "Delay until all lines match",
+      "Buy cameras before discovery"
+    ],
+    "correct": 1,
+    "explanation": "A strong AI product starts where value, data readiness, and operational control overlap. The ready line gives the team a credible path to learn, evaluate, and scale.",
+    "diagram": {
+      "type": "matrix",
+      "title": "Use-case readiness map",
+      "nodes": [
+        "Value high",
+        "Data ready",
+        "Controlled line",
+        "Scale later"
+      ],
+      "caption": "The best candidate sits where business value and implementation readiness intersect."
+    }
+  },
+  {
+    "domain": "1. Product Strategy and Use-Case Architecture",
+    "level": "Challenge I",
+    "q": "A hospital innovation group wants an AI note assistant. Clinicians complain that the main pain is not typing speed but correcting incomplete summaries after visits. Which objective best turns the problem into an AI product requirement?",
+    "opts": [
+      "Create longer visit summaries",
+      "Use the newest clinical model",
+      "Reduce post-visit correction time",
+      "Remove clinician review entirely"
+    ],
+    "correct": 2,
+    "explanation": "The requirement should target the real workflow pain and be measurable. Reducing correction time connects AI behavior to clinician value while keeping review in place.",
+    "diagram": {
+      "type": "flow",
+      "title": "Clinical workflow objective",
+      "nodes": [
+        "Visit notes",
+        "Draft summary",
+        "Clinician correction",
+        "Time saved"
+      ],
+      "caption": "The product objective should target the measured bottleneck in the workflow."
+    }
+  },
+  {
+    "domain": "1. Product Strategy and Use-Case Architecture",
+    "level": "Challenge I",
+    "q": "A retailer wants AI recommendations for repeat buyers. However, the merchandising team already uses stable business rules for seasonal bundles, and historical interaction data is sparse for new product lines. What should the architect recommend?",
+    "opts": [
+      "Ignore cold-start conditions",
+      "Remove all merchandising rules",
+      "Train only on sparse history",
+      "Use hybrid rules plus learning"
+    ],
+    "correct": 3,
+    "explanation": "When rules are strong and data is sparse, a hybrid approach is more reliable. Rules handle known merchandising logic while learning improves as interaction data grows.",
+    "diagram": {
+      "type": "layers",
+      "title": "Hybrid recommendation design",
+      "nodes": [
+        "Business rules",
+        "User signals",
+        "Recommendation service",
+        "Feedback loop"
+      ],
+      "caption": "A hybrid architecture can use stable rules while collecting evidence for learning."
+    }
+  },
+  {
+    "domain": "1. Product Strategy and Use-Case Architecture",
+    "level": "Challenge II",
+    "q": "An insurance team proposes an AI claim assistant to approve, deny, and explain claims automatically. The product could save time, but errors affect customers financially and may create regulatory exposure. What is the best initial product boundary?",
+    "opts": [
+      "Auto-deny low-confidence claims",
+      "Assist adjusters with review",
+      "Hide reasoning from customers",
+      "Skip compliance until scale"
+    ],
+    "correct": 1,
+    "explanation": "High-impact decisions should usually begin as assisted decisioning with human oversight, explanations, auditability, and risk review. Full automation is premature.",
+    "diagram": {
+      "type": "decision",
+      "title": "Claim decision boundary",
+      "nodes": [
+        "Claim intake",
+        "AI recommendation",
+        "Adjuster review",
+        "Audited outcome"
+      ],
+      "caption": "The diagram keeps humans in the decision loop for financially consequential outcomes."
+    }
+  },
+  {
+    "domain": "1. Product Strategy and Use-Case Architecture",
+    "level": "Challenge II",
+    "q": "A hiring platform team wants to rank candidates automatically from resumes and social profiles. The product manager emphasizes efficiency, but legal flags fairness, consent, and explainability risks. Which product decision is most appropriate?",
+    "opts": [
+      "Use social data by default",
+      "Rank applicants without review",
+      "Redesign as screening support",
+      "Delay fairness testing forever"
+    ],
+    "correct": 2,
+    "explanation": "The safer product boundary is decision support, not opaque automated ranking. The team needs consent, job-related criteria, fairness testing, and meaningful recourse.",
+    "diagram": {
+      "type": "risk",
+      "title": "Hiring AI risk boundary",
+      "nodes": [
+        "Resume data",
+        "Job criteria",
+        "Bias review",
+        "Human screening"
+      ],
+      "caption": "Sensitive employment workflows require tight risk boundaries and transparent criteria."
+    }
+  },
+  {
+    "domain": "1. Product Strategy and Use-Case Architecture",
+    "level": "Challenge II",
+    "q": "A logistics company asks for ETA prediction. Dispatchers say the real issue is not knowing which delayed shipments require customer escalation versus routine monitoring. What should the product architecture prioritize?",
+    "opts": [
+      "Optimize model accuracy alone",
+      "Display only raw ETA values",
+      "Replace dispatch judgment fully",
+      "Predict and trigger escalation"
+    ],
+    "correct": 3,
+    "explanation": "The AI product should support the decision that matters: when to escalate. ETA prediction is useful only when connected to thresholds, workflow routing, and customer communication.",
+    "diagram": {
+      "type": "flow",
+      "title": "ETA to action chain",
+      "nodes": [
+        "Shipment status",
+        "ETA risk score",
+        "Escalation rule",
+        "Customer update"
+      ],
+      "caption": "Prediction becomes product value only when it changes the next action."
+    }
+  },
+  {
+    "domain": "1. Product Strategy and Use-Case Architecture",
+    "level": "Challenge II",
+    "q": "A finance team wants a forecasting product for cash flow. Stakeholders disagree about whether the tool should forecast balances, recommend borrowing, or trigger alerts. What should the architect do before model selection?",
+    "opts": [
+      "Separate decisions and users",
+      "Train a model immediately",
+      "Choose the largest dataset",
+      "Build a dashboard first"
+    ],
+    "correct": 0,
+    "explanation": "The architect must define who uses the product, which decisions it supports, and what actions follow. Forecasting, recommendations, and alerts have different risk and design needs.",
+    "diagram": {
+      "type": "matrix",
+      "title": "Decision clarity map",
+      "nodes": [
+        "Forecast balance",
+        "Recommend action",
+        "Trigger alert",
+        "Define owner"
+      ],
+      "caption": "Different product decisions require different architecture, controls, and success metrics."
+    }
+  },
+  {
+    "domain": "1. Product Strategy and Use-Case Architecture",
+    "level": "Challenge II",
+    "q": "A SaaS startup can build OCR extraction internally or license an established document-AI vendor. The feature is important but not core differentiation; speed and compliance evidence matter for enterprise sales. What is the best architecture choice?",
+    "opts": [
+      "Avoid vendor review",
+      "Build all models internally",
+      "Buy with abstraction layer",
+      "Hard-code one provider forever"
+    ],
+    "correct": 2,
+    "explanation": "A vendor can accelerate delivery when the capability is not core differentiation. A provider abstraction layer preserves future flexibility and reduces lock-in.",
+    "diagram": {
+      "type": "layers",
+      "title": "Build-buy boundary",
+      "nodes": [
+        "Vendor OCR",
+        "Abstraction layer",
+        "Product workflow",
+        "Future swap option"
+      ],
+      "caption": "The architecture separates capability sourcing from product workflow ownership."
+    }
+  },
+  {
+    "domain": "1. Product Strategy and Use-Case Architecture",
+    "level": "Challenge II",
+    "q": "A leadership team asks for a one-page AI product proposal. They want only a model name and launch date. What should the AI Product Architect include instead to make the proposal decision-ready?",
+    "opts": [
+      "Only executive sponsor names",
+      "Only model benchmark ranking",
+      "Only vendor pricing table",
+      "Value, data, risk, rollout"
+    ],
+    "correct": 3,
+    "explanation": "A decision-ready brief must connect value, users, workflow, data readiness, architecture, risks, evaluation, rollout, and ownership. A model name is not a product architecture.",
+    "diagram": {
+      "type": "flow",
+      "title": "Decision-ready brief",
+      "nodes": [
+        "Value hypothesis",
+        "Data readiness",
+        "Risk controls",
+        "Rollout plan"
+      ],
+      "caption": "A strong product brief shows how the AI capability becomes controlled business value."
+    }
+  },
+  {
+    "domain": "2. Data, Context, and Instrumentation",
+    "level": "Challenge II",
+    "q": "A service organization has five years of ticket data, but many tickets are copied from emails, categories changed twice, and resolution outcomes are missing for older cases. The CEO says, 'We have plenty of data, so the AI is easy.' What is the architect's best response?",
+    "opts": [
+      "Assess fit, labels, outcomes",
+      "Use all records as-is",
+      "Skip data profiling work",
+      "Measure volume only"
+    ],
+    "correct": 0,
+    "explanation": "Data volume is not data readiness. The team must assess relevance, label consistency, outcome availability, permission, and quality before designing the model.",
+    "diagram": {
+      "type": "layers",
+      "title": "Data readiness stack",
+      "nodes": [
+        "Volume",
+        "Label consistency",
+        "Outcome fields",
+        "Product fit"
+      ],
+      "caption": "Readiness depends on usable signal, not just historical quantity."
+    }
+  },
+  {
+    "domain": "2. Data, Context, and Instrumentation",
+    "level": "Challenge II",
+    "q": "A quality team labels defects as 'minor,' 'major,' or 'critical.' During review, inspectors disagree on borderline cases and use local definitions by shift. What should happen before supervised model training?",
+    "opts": [
+      "Train despite disagreement",
+      "Align label definitions first",
+      "Remove expert review entirely",
+      "Use only image filenames"
+    ],
+    "correct": 1,
+    "explanation": "Label ambiguity creates noisy targets and unreliable evaluation. A shared rubric, adjudication process, and sampled label audit are needed before training.",
+    "diagram": {
+      "type": "flow",
+      "title": "Label quality workflow",
+      "nodes": [
+        "Draft labels",
+        "Reviewer rubric",
+        "Adjudication",
+        "Training set"
+      ],
+      "caption": "Consistent labels are part of product architecture, not a minor data detail."
+    }
+  },
+  {
+    "domain": "2. Data, Context, and Instrumentation",
+    "level": "Challenge II",
+    "q": "A churn model shows excellent test performance. Later, an analyst discovers that the training data included a field called 'retention_offer_sent,' which is only created after the customer is already flagged by the retention team. What problem is this?",
+    "opts": [
+      "Healthy customer feedback loop",
+      "Normal feature engineering practice",
+      "Data leakage from future action",
+      "Valid real-time prediction signal"
+    ],
+    "correct": 2,
+    "explanation": "The feature would not be available at prediction time and reflects a downstream intervention. This leaks future or target-adjacent information into the model.",
+    "diagram": {
+      "type": "decision",
+      "title": "Leakage timing diagram",
+      "nodes": [
+        "Prediction time",
+        "Retention flag",
+        "Offer sent",
+        "Observed churn"
+      ],
+      "caption": "The diagram highlights that post-prediction information must not enter training features."
+    }
+  },
+  {
+    "domain": "2. Data, Context, and Instrumentation",
+    "level": "Challenge II",
+    "q": "A document assistant answers questions but product analytics only records page views. Leaders cannot tell whether answers save time, create errors, or cause follow-up work. Which instrumentation should be added first?",
+    "opts": [
+      "Store no user feedback",
+      "Track only page impressions",
+      "Log only button colors",
+      "Capture task outcome signals"
+    ],
+    "correct": 3,
+    "explanation": "AI products need instrumentation around usage, decisions, corrections, escalations, time saved, and user feedback. Page views alone do not measure AI usefulness.",
+    "diagram": {
+      "type": "flow",
+      "title": "Instrumentation path",
+      "nodes": [
+        "Question asked",
+        "Answer used",
+        "Correction made",
+        "Outcome logged"
+      ],
+      "caption": "Useful telemetry connects AI interactions to workflow outcomes."
+    }
+  },
+  {
+    "domain": "2. Data, Context, and Instrumentation",
+    "level": "Challenge II",
+    "q": "A loan-risk product predicts future default. The true outcome is not known for months, but product teams want weekly release evaluation. Which evaluation strategy is most realistic?",
+    "opts": [
+      "Wait years before testing",
+      "Use proxies plus delayed labels",
+      "Declare accuracy unknowable",
+      "Ignore outcome validation"
+    ],
+    "correct": 1,
+    "explanation": "Delayed ground truth requires a mixed strategy: short-term proxy metrics, expert review, back-testing, calibration checks, and later validation against real outcomes.",
+    "diagram": {
+      "type": "loop",
+      "title": "Delayed ground-truth loop",
+      "nodes": [
+        "Prediction",
+        "Proxy review",
+        "Outcome delay",
+        "Calibration update"
+      ],
+      "caption": "The feedback loop must account for labels that arrive after deployment."
+    }
+  },
+  {
+    "domain": "2. Data, Context, and Instrumentation",
+    "level": "Challenge III",
+    "q": "A healthcare app requests full patient records for a lifestyle coaching feature, but the feature only needs recent activity, medication categories, and a user-selected health goal. What is the best data design principle?",
+    "opts": [
+      "Store data without purpose",
+      "Copy entire medical history",
+      "Collect only necessary fields",
+      "Share records across teams"
+    ],
+    "correct": 2,
+    "explanation": "Privacy-by-design requires data minimization, purpose limitation, access control, and retention limits. More data increases risk without necessarily improving the product.",
+    "diagram": {
+      "type": "layers",
+      "title": "Privacy-by-design scope",
+      "nodes": [
+        "User goal",
+        "Needed fields",
+        "Access control",
+        "Retention limit"
+      ],
+      "caption": "The diagram narrows data collection to what the feature genuinely needs."
+    }
+  },
+  {
+    "domain": "2. Data, Context, and Instrumentation",
+    "level": "Challenge III",
+    "q": "A warehouse AI dashboard receives events from WMS, TMS, and billing systems. Each system uses different terms for 'received,' 'checked-in,' and 'available.' What should be built before model-driven analytics?",
+    "opts": [
+      "A separate spreadsheet export",
+      "More dashboard colors",
+      "A larger language model",
+      "Shared event taxonomy"
+    ],
+    "correct": 3,
+    "explanation": "A shared taxonomy prevents inconsistent meanings from becoming unreliable analytics or AI recommendations. Definition alignment is foundational architecture.",
+    "diagram": {
+      "type": "layers",
+      "title": "Cross-system vocabulary",
+      "nodes": [
+        "WMS event",
+        "TMS event",
+        "Billing event",
+        "Shared taxonomy"
+      ],
+      "caption": "Common definitions allow signals from separate systems to be interpreted consistently."
+    }
+  },
+  {
+    "domain": "2. Data, Context, and Instrumentation",
+    "level": "Challenge III",
+    "q": "A startup creates synthetic customer-service conversations to test an AI assistant because real conversations contain sensitive data. The synthetic set looks realistic, but it rarely includes angry customers, policy exceptions, or multilingual cases. What is the main risk?",
+    "opts": [
+      "Synthetic data misses edge cases",
+      "Synthetic data always improves safety",
+      "Synthetic data removes evaluation needs",
+      "Synthetic data proves production value"
+    ],
+    "correct": 0,
+    "explanation": "missing edge cases can make tests look strong while hiding production failures. Synthetic data needs validation against real distributions and risk scenarios.",
+    "diagram": {
+      "type": "matrix",
+      "title": "Synthetic data coverage",
+      "nodes": [
+        "Common cases",
+        "Angry users",
+        "Exceptions",
+        "Multilingual"
+      ],
+      "caption": "Synthetic data should be checked against the real edge cases the product must handle."
+    }
+  },
+  {
+    "domain": "2. Data, Context, and Instrumentation",
+    "level": "Challenge III",
+    "q": "An upstream CRM team changes the field 'industry_code' from numeric values to text labels without informing the AI team. The lead-scoring model breaks silently. What architectural artifact would reduce this risk?",
+    "opts": [
+      "More model parameters",
+      "Longer design presentation",
+      "Data contract with owners",
+      "Manual re-entry by sales"
+    ],
+    "correct": 2,
+    "explanation": "A data contract defines fields, formats, owners, quality rules, and change notice expectations. It reduces silent breakage in AI pipelines.",
+    "diagram": {
+      "type": "flow",
+      "title": "Data contract boundary",
+      "nodes": [
+        "CRM producer",
+        "Field schema",
+        "Quality checks",
+        "AI consumer"
+      ],
+      "caption": "The contract protects downstream AI systems from unannounced upstream changes."
+    }
+  },
+  {
+    "domain": "2. Data, Context, and Instrumentation",
+    "level": "Challenge III",
+    "q": "A multi-tenant AI knowledge product stores documents from several customers in one vector database. A developer suggests filtering by customer name inside the prompt only. What is the strongest architectural control?",
+    "opts": [
+      "Manual customer trust only",
+      "Prompt instructions only",
+      "Shared unrestricted indexes",
+      "Permission-aware retrieval filters"
+    ],
+    "correct": 3,
+    "explanation": "Access control must happen before retrieval and context assembly, not only inside the prompt. Tenant isolation, metadata filters, and authorization checks are required.",
+    "diagram": {
+      "type": "layers",
+      "title": "Tenant-safe retrieval",
+      "nodes": [
+        "User identity",
+        "Permission filter",
+        "Vector retrieval",
+        "Answer context"
+      ],
+      "caption": "The diagram places permissions before document retrieval to prevent data leakage."
+    }
+  },
+  {
+    "domain": "3. AI System and Application Architecture",
+    "level": "Challenge III",
+    "q": "A product currently calls one LLM provider directly from the front end. The roadmap includes provider comparison, fallback, and enterprise-specific routing. What should the architect introduce?",
+    "opts": [
+      "Model abstraction service",
+      "Direct browser API calls",
+      "Hard-coded model strings",
+      "User-selected secret keys"
+    ],
+    "correct": 0,
+    "explanation": "A model abstraction layer centralizes routing, credentials, evaluation, fallback, logging, and provider swaps. Direct calls from the front end are fragile and risky.",
+    "diagram": {
+      "type": "layers",
+      "title": "Model abstraction pattern",
+      "nodes": [
+        "Application UI",
+        "AI gateway",
+        "Provider adapter",
+        "Model providers"
+      ],
+      "caption": "An abstraction layer separates product logic from provider-specific implementation."
+    }
+  },
+  {
+    "domain": "3. AI System and Application Architecture",
+    "level": "Challenge III",
+    "q": "A claims assistant gives confidence scores. Low-confidence cases are rare but expensive when mishandled. The team wants every case to receive an automatic decision for speed. Which architecture is strongest?",
+    "opts": [
+      "Force all auto-decisions",
+      "Route uncertainty to review",
+      "Ignore confidence thresholds",
+      "Hide exceptions from users"
+    ],
+    "correct": 1,
+    "explanation": "Low-confidence or high-impact cases need fallback, rules, or human review. Architecture should optimize safe throughput, not blind automation.",
+    "diagram": {
+      "type": "decision",
+      "title": "Confidence routing",
+      "nodes": [
+        "Input claim",
+        "Confidence check",
+        "Auto path",
+        "Review path"
+      ],
+      "caption": "The diagram branches uncertain work into a safer review path."
+    }
+  },
+  {
+    "domain": "3. AI System and Application Architecture",
+    "level": "Challenge III",
+    "q": "A factory wants AI inspection on a remote line with unstable network connectivity and strict latency requirements. Central cloud inference is accurate but sometimes slow. What deployment pattern should be considered?",
+    "opts": [
+      "Manual upload once daily",
+      "Cloud-only live inference",
+      "Edge inference with sync",
+      "No monitoring required"
+    ],
+    "correct": 2,
+    "explanation": "Edge inference can meet latency and offline requirements while syncing results, updates, and monitoring data to central systems. It adds lifecycle complexity but fits the constraint.",
+    "diagram": {
+      "type": "layers",
+      "title": "Edge-cloud inspection",
+      "nodes": [
+        "Camera",
+        "Edge model",
+        "Local decision",
+        "Cloud monitoring"
+      ],
+      "caption": "Edge AI handles time-critical inspection close to the equipment."
+    }
+  },
+  {
+    "domain": "3. AI System and Application Architecture",
+    "level": "Challenge III",
+    "q": "An enterprise AI service will serve sales, finance, and support applications. Each group needs authentication, usage limits, routing, audit logs, and policy enforcement. Which component is most appropriate?",
+    "opts": [
+      "Separate unmanaged scripts",
+      "Uncontrolled shared endpoint",
+      "Local spreadsheet macro",
+      "AI API gateway"
+    ],
+    "correct": 3,
+    "explanation": "An API gateway or AI gateway can enforce authentication, rate limits, routing, observability, and policy controls across product surfaces.",
+    "diagram": {
+      "type": "layers",
+      "title": "AI gateway responsibilities",
+      "nodes": [
+        "Identity",
+        "Rate limits",
+        "Routing",
+        "Audit logs"
+      ],
+      "caption": "Centralized gateway controls make shared AI services governable."
+    }
+  },
+  {
+    "domain": "3. AI System and Application Architecture",
+    "level": "Challenge III",
+    "q": "A customs-clearance product must follow deterministic tariff rules but also classify messy shipment descriptions. The team debates rules versus machine learning. What architecture best fits?",
+    "opts": [
+      "ML for all legal decisions",
+      "Rules for law, ML for classification",
+      "Rules only with no learning",
+      "Random sampling for all cases"
+    ],
+    "correct": 1,
+    "explanation": "Known legal constraints should remain deterministic, while ML can help interpret messy descriptions. Hybrid design gives flexibility without sacrificing compliance logic.",
+    "diagram": {
+      "type": "layers",
+      "title": "Hybrid customs architecture",
+      "nodes": [
+        "Shipment text",
+        "ML classifier",
+        "Tariff rules",
+        "Reviewer queue"
+      ],
+      "caption": "The architecture separates probabilistic interpretation from deterministic rule enforcement."
+    }
+  },
+  {
+    "domain": "3. AI System and Application Architecture",
+    "level": "Challenge III",
+    "q": "A risk-scoring feature must explain why a shipment was flagged. The model score alone is not enough for operations or audit. What should the architecture capture?",
+    "opts": [
+      "Only server processing time",
+      "Only final numeric score",
+      "Inputs, signals, rationale, outcome",
+      "Only user login count"
+    ],
+    "correct": 2,
+    "explanation": "Explainability requires recording relevant inputs, feature signals, retrieved context, rules applied, rationale, reviewer action, and final outcome.",
+    "diagram": {
+      "type": "flow",
+      "title": "Explainable decision record",
+      "nodes": [
+        "Inputs",
+        "Signals",
+        "Rationale",
+        "Final action"
+      ],
+      "caption": "A useful explanation links evidence to the decision and its downstream action."
+    }
+  },
+  {
+    "domain": "3. AI System and Application Architecture",
+    "level": "Challenge III",
+    "q": "A logistics platform needs to trigger AI risk checks when a shipment is delayed, documents are uploaded, or customs status changes. Batch reports arrive too late for intervention. What architecture pattern fits best?",
+    "opts": [
+      "One-time model training only",
+      "Monthly manual reporting",
+      "Static PDF exports",
+      "Event-driven risk checks"
+    ],
+    "correct": 3,
+    "explanation": "Event-driven architecture lets the AI service react when workflow states change, enabling timely alerts and interventions.",
+    "diagram": {
+      "type": "flow",
+      "title": "Event-driven alert path",
+      "nodes": [
+        "Status event",
+        "Risk check",
+        "Alert rule",
+        "Action task"
+      ],
+      "caption": "Events allow AI decisions to occur at the moment they are operationally useful."
+    }
+  },
+  {
+    "domain": "3. AI System and Application Architecture",
+    "level": "Challenge III",
+    "q": "A customer-facing AI assistant depends on an external LLM. The provider sometimes has latency spikes. The company still needs users to complete basic tasks during outages. What should the architect design?",
+    "opts": [
+      "Graceful degradation paths",
+      "Total service shutdown",
+      "No fallback experience",
+      "Remove monitoring alerts"
+    ],
+    "correct": 0,
+    "explanation": "Graceful degradation uses fallback models, cached answers, rules, queues, or human support so the product remains useful when AI services fail.",
+    "diagram": {
+      "type": "flow",
+      "title": "Resilient service path",
+      "nodes": [
+        "Primary model",
+        "Fallback model",
+        "Cached response",
+        "Human support"
+      ],
+      "caption": "The diagram shows multiple ways to preserve service continuity."
+    }
+  },
+  {
+    "domain": "3. AI System and Application Architecture",
+    "level": "Challenge IV",
+    "q": "A customer-support copilot must answer simple policy questions quickly but also handle complex contract interpretation with high quality. A single large model meets quality but misses latency and cost targets. What architecture is strongest?",
+    "opts": [
+      "Use smallest model always",
+      "Use largest model always",
+      "Route by complexity tier",
+      "Disable contract questions"
+    ],
+    "correct": 2,
+    "explanation": "Complexity-based routing sends simple tasks to cheaper faster models and complex tasks to stronger models, with thresholds, fallback, and monitoring.",
+    "diagram": {
+      "type": "decision",
+      "title": "Tiered model routing",
+      "nodes": [
+        "Request",
+        "Complexity check",
+        "Fast model",
+        "Strong model"
+      ],
+      "caption": "Routing improves cost and latency without sacrificing hard-case quality."
+    }
+  },
+  {
+    "domain": "3. AI System and Application Architecture",
+    "level": "Challenge IV",
+    "q": "An architecture review asks why the team chose RAG over fine-tuning for a policy assistant. The reason was policy freshness, source citation, and access control. Where should this reasoning be documented?",
+    "opts": [
+      "Hidden prompt comment",
+      "Marketing release note",
+      "Informal chat thread",
+      "Architecture decision record"
+    ],
+    "correct": 3,
+    "explanation": "An Architecture Decision Record preserves decision context, alternatives, rationale, and consequences so future teams understand and revisit choices appropriately.",
+    "diagram": {
+      "type": "flow",
+      "title": "ADR decision trace",
+      "nodes": [
+        "Problem",
+        "Alternatives",
+        "Decision",
+        "Consequences"
+      ],
+      "caption": "The diagram shows the logic an ADR should preserve."
+    }
+  },
+  {
+    "domain": "4. LLM, RAG, and Knowledge Product Design",
+    "level": "Challenge III",
+    "q": "A legal-operations team wants a policy Q&A tool. The current file repository contains old policy drafts, approved policies, and regional addenda. Users need answers grounded only in active policies for their location. What RAG design is best?",
+    "opts": [
+      "Filter by status and region",
+      "Retrieve all similar documents",
+      "Trust the prompt to ignore drafts",
+      "Remove citations from answers"
+    ],
+    "correct": 0,
+    "explanation": "RAG must use metadata filters for policy status, region, date, and permissions before answer generation. Retrieval quality depends on source governance.",
+    "diagram": {
+      "type": "flow",
+      "title": "Policy RAG retrieval",
+      "nodes": [
+        "User region",
+        "Active filter",
+        "Approved docs",
+        "Cited answer"
+      ],
+      "caption": "The diagram shows that the correct source set must be filtered before generation."
+    }
+  },
+  {
+    "domain": "4. LLM, RAG, and Knowledge Product Design",
+    "level": "Challenge III",
+    "q": "A plant SOP is 180 pages long with tables, exceptions, and troubleshooting notes. Early RAG tests retrieve chunks that split procedures from their warnings. What should be improved?",
+    "opts": [
+      "Use random fixed chunks only",
+      "Chunk by procedure boundaries",
+      "Remove all section metadata",
+      "Send the full SOP always"
+    ],
+    "correct": 1,
+    "explanation": "Chunking should preserve semantic units such as procedure, warning, exception, and table context. Random splits can separate instructions from critical constraints.",
+    "diagram": {
+      "type": "flow",
+      "title": "Procedure-aware chunking",
+      "nodes": [
+        "SOP section",
+        "Procedure chunk",
+        "Warning metadata",
+        "Retrieval result"
+      ],
+      "caption": "Good chunks preserve operational meaning, not just token count."
+    }
+  },
+  {
+    "domain": "4. LLM, RAG, and Knowledge Product Design",
+    "level": "Challenge III",
+    "q": "A global company has English, French, and Chinese support documents. Users often ask in one language while source documents exist in another. Retrieval quality is uneven. What design improvement is most relevant?",
+    "opts": [
+      "Remove multilingual documents",
+      "English-only keyword search",
+      "Cross-lingual retrieval strategy",
+      "Use citations without retrieval"
+    ],
+    "correct": 2,
+    "explanation": "Multilingual RAG may need cross-lingual embeddings, translated query expansion, language metadata, and evaluation by language segment.",
+    "diagram": {
+      "type": "layers",
+      "title": "Multilingual retrieval",
+      "nodes": [
+        "User query",
+        "Language detect",
+        "Cross-lingual search",
+        "Localized answer"
+      ],
+      "caption": "The diagram shows language handling before and during retrieval."
+    }
+  },
+  {
+    "domain": "4. LLM, RAG, and Knowledge Product Design",
+    "level": "Challenge III",
+    "q": "An AI answer product provides confident responses even when no retrieved source supports the claim. Users cannot tell when the system is guessing. What guardrail is most important?",
+    "opts": [
+      "Accept unsupported answers",
+      "Increase temperature globally",
+      "Remove source display",
+      "Answerability and citations check"
+    ],
+    "correct": 3,
+    "explanation": "The system should verify whether retrieved context supports the answer and refuse or ask for clarification when evidence is insufficient. Citations help users validate claims.",
+    "diagram": {
+      "type": "decision",
+      "title": "Answerability gate",
+      "nodes": [
+        "User question",
+        "Retrieved evidence",
+        "Support check",
+        "Answer or refuse"
+      ],
+      "caption": "The answer should only proceed when the retrieved evidence is adequate."
+    }
+  },
+  {
+    "domain": "4. LLM, RAG, and Knowledge Product Design",
+    "level": "Challenge III",
+    "q": "After a prompt update, a contract summarizer becomes more concise but stops listing termination clauses. The change passed casual testing. What practice would have detected the regression?",
+    "opts": [
+      "A longer product slogan",
+      "Prompt regression test suite",
+      "Only manual demo review",
+      "Changing the UI color"
+    ],
+    "correct": 1,
+    "explanation": "Regression tests rerun important examples after prompt, model, or retrieval changes. They catch lost requirements such as missing clause categories.",
+    "diagram": {
+      "type": "loop",
+      "title": "Prompt regression loop",
+      "nodes": [
+        "Prompt version",
+        "Test cases",
+        "Required fields",
+        "Release gate"
+      ],
+      "caption": "The diagram shows prompt changes passing through repeatable test cases."
+    }
+  },
+  {
+    "domain": "4. LLM, RAG, and Knowledge Product Design",
+    "level": "Challenge IV",
+    "q": "A RAG product sends twenty retrieved chunks to the model for every answer. Costs are rising, latency is high, and answers often include irrelevant details. What design change should be prioritized?",
+    "opts": [
+      "Remove ranking entirely",
+      "Send more chunks always",
+      "Improve retrieval precision",
+      "Disable user questions"
+    ],
+    "correct": 2,
+    "explanation": "More context can increase noise, cost, and latency. Better chunking, ranking, filtering, and compression usually outperform indiscriminate context stuffing.",
+    "diagram": {
+      "type": "funnel",
+      "title": "Context quality funnel",
+      "nodes": [
+        "Candidate chunks",
+        "Rank/filter",
+        "Relevant context",
+        "Grounded answer"
+      ],
+      "caption": "The funnel reduces broad retrieval into useful context."
+    }
+  },
+  {
+    "domain": "4. LLM, RAG, and Knowledge Product Design",
+    "level": "Challenge IV",
+    "q": "A customer asks whether the knowledge assistant can answer using only documents their department is allowed to see. The team says the LLM can be instructed not to reveal restricted information. What is the correct architecture response?",
+    "opts": [
+      "Let users self-police access",
+      "Rely on prompt instructions",
+      "Index all documents together openly",
+      "Enforce permissions before retrieval"
+    ],
+    "correct": 3,
+    "explanation": "Security cannot rely on prompt compliance. Authorization and metadata filtering must restrict the retrievable context before it reaches the model.",
+    "diagram": {
+      "type": "layers",
+      "title": "Permission-aware RAG",
+      "nodes": [
+        "User role",
+        "Access filter",
+        "Allowed chunks",
+        "Generated answer"
+      ],
+      "caption": "Permissions must constrain the context before generation occurs."
+    }
+  },
+  {
+    "domain": "4. LLM, RAG, and Knowledge Product Design",
+    "level": "Challenge IV",
+    "q": "A compliance assistant cites a source paragraph but draws a conclusion that is not actually supported by that paragraph. The citation exists, but the reasoning is wrong. Which evaluation target is missing?",
+    "opts": [
+      "Faithfulness to cited evidence",
+      "Token count reduction only",
+      "Prompt length measurement",
+      "User interface alignment"
+    ],
+    "correct": 0,
+    "explanation": "RAG evaluation must test whether answers are faithful to retrieved evidence, not merely whether citations are present. Citation existence is not the same as grounded reasoning.",
+    "diagram": {
+      "type": "flow",
+      "title": "Faithfulness evaluation",
+      "nodes": [
+        "Answer claim",
+        "Cited passage",
+        "Support check",
+        "Reviewer score"
+      ],
+      "caption": "The evaluator compares each claim with the cited source."
+    }
+  },
+  {
+    "domain": "4. LLM, RAG, and Knowledge Product Design",
+    "level": "Challenge IV",
+    "q": "A product summarizes customer contracts. Some contracts include confidential pricing terms that only finance users may view. Product wants one shared summary for all roles. What is the safest design?",
+    "opts": [
+      "Prompt hides prices after retrieval",
+      "One universal full summary",
+      "Role-specific summaries from filtered context",
+      "Manual sharing through email"
+    ],
+    "correct": 2,
+    "explanation": "Summaries must be generated from role-authorized context. Filtering after retrieval or after generation can expose sensitive information.",
+    "diagram": {
+      "type": "decision",
+      "title": "Role-specific summary flow",
+      "nodes": [
+        "User role",
+        "Filtered clauses",
+        "Summary generation",
+        "Allowed output"
+      ],
+      "caption": "The output should be created from only the information the user may access."
+    }
+  },
+  {
+    "domain": "4. LLM, RAG, and Knowledge Product Design",
+    "level": "Challenge IV",
+    "q": "A support knowledge bot answers correctly in testing but fails when users ask vague questions like 'it does not work again.' What product improvement should be added?",
+    "opts": [
+      "Use random source retrieval",
+      "Longer final answers",
+      "Disable vague questions",
+      "Clarifying question strategy"
+    ],
+    "correct": 3,
+    "explanation": "A good knowledge product handles ambiguous inputs by asking clarifying questions, using context, or narrowing the possible intent before retrieval and generation.",
+    "diagram": {
+      "type": "decision",
+      "title": "Ambiguity handling",
+      "nodes": [
+        "Vague query",
+        "Intent check",
+        "Clarify",
+        "Targeted answer"
+      ],
+      "caption": "The diagram shows a branch that clarifies before attempting a final answer."
+    }
+  },
+  {
+    "domain": "5. Agentic Workflows and Tool-Use Architecture",
+    "level": "Challenge IV",
+    "q": "A billing agent can issue refunds through a payment API. Most refunds are under $20, but some enterprise disputes exceed $5,000. Product wants a fully autonomous launch. What control should be mandatory?",
+    "opts": [
+      "Amount-based approval gates",
+      "Unlimited refund authority",
+      "No audit trail needed",
+      "Higher creativity setting"
+    ],
+    "correct": 0,
+    "explanation": "Agents that perform financial actions need permission boundaries, amount thresholds, approval gates, audit logs, and rollback procedures.",
+    "diagram": {
+      "type": "decision",
+      "title": "Refund control gate",
+      "nodes": [
+        "Refund request",
+        "Amount check",
+        "Auto small refund",
+        "Manager approval"
+      ],
+      "caption": "The diagram places approval on high-value actions."
+    }
+  },
+  {
+    "domain": "5. Agentic Workflows and Tool-Use Architecture",
+    "level": "Challenge IV",
+    "q": "A data-analysis agent can query the production warehouse. It sometimes writes exploratory SQL that could scan sensitive tables or overload the system. What architecture is strongest?",
+    "opts": [
+      "Direct unrestricted database access",
+      "Scoped read-only tool layer",
+      "Prompt-only safety rules",
+      "Shared admin credentials"
+    ],
+    "correct": 1,
+    "explanation": "Tool access should be scoped, read-only where possible, resource-limited, logged, and permission-aware. Prompts alone are not reliable access controls.",
+    "diagram": {
+      "type": "layers",
+      "title": "Safe SQL agent access",
+      "nodes": [
+        "Agent request",
+        "Policy layer",
+        "Read-only views",
+        "Logged result"
+      ],
+      "caption": "The agent reaches data only through governed tool boundaries."
+    }
+  },
+  {
+    "domain": "5. Agentic Workflows and Tool-Use Architecture",
+    "level": "Challenge IV",
+    "q": "A travel-planning agent repeatedly calls search and booking tools in a loop when hotel results conflict. Costs rise and users wait too long. Which control should be added?",
+    "opts": [
+      "No tool-call logging",
+      "Unlimited retry loops",
+      "Step budget and stop rules",
+      "Hide delay from users"
+    ],
+    "correct": 2,
+    "explanation": "Agent workflows need step budgets, retry limits, stop conditions, cost controls, and graceful fallback when tools disagree or fail.",
+    "diagram": {
+      "type": "loop",
+      "title": "Agent loop control",
+      "nodes": [
+        "Plan",
+        "Tool call",
+        "Check result",
+        "Stop or retry"
+      ],
+      "caption": "The loop must include clear limits and termination rules."
+    }
+  },
+  {
+    "domain": "5. Agentic Workflows and Tool-Use Architecture",
+    "level": "Challenge IV",
+    "q": "A team wants an agent for a fixed, repeatable onboarding process with five known steps and no need for dynamic planning. What should the architect challenge?",
+    "opts": [
+      "Let model invent process",
+      "Use autonomous agent always",
+      "Remove step definitions",
+      "Use workflow automation instead"
+    ],
+    "correct": 3,
+    "explanation": "When the process is stable and predictable, deterministic workflow automation is often safer, cheaper, and easier to audit than an autonomous agent.",
+    "diagram": {
+      "type": "flow",
+      "title": "Workflow versus agent",
+      "nodes": [
+        "Known steps",
+        "Rules engine",
+        "Exception path",
+        "Audit log"
+      ],
+      "caption": "Stable processes often need controlled workflow, not open-ended autonomy."
+    }
+  },
+  {
+    "domain": "5. Agentic Workflows and Tool-Use Architecture",
+    "level": "Challenge IV",
+    "q": "An AI procurement assistant can draft purchase orders, select suppliers, and submit orders. Supplier choice affects cost and compliance. What product boundary is safest for first release?",
+    "opts": [
+      "Auto-submit all orders",
+      "Draft with human approval",
+      "Hide supplier rationale",
+      "Skip policy checks"
+    ],
+    "correct": 1,
+    "explanation": "The first release should assist with drafting, policy checks, and recommendations while requiring human approval for supplier selection and order submission.",
+    "diagram": {
+      "type": "decision",
+      "title": "Procurement approval path",
+      "nodes": [
+        "Need detected",
+        "Supplier options",
+        "AI draft PO",
+        "Human approval"
+      ],
+      "caption": "The diagram keeps consequential procurement actions under review."
+    }
+  },
+  {
+    "domain": "5. Agentic Workflows and Tool-Use Architecture",
+    "level": "Challenge IV",
+    "q": "An agent edits project documents in a shared drive. In testing, it overwrites a manager's manual revision because it did not check the latest file state. What control is most important?",
+    "opts": [
+      "Disable file history",
+      "Write without confirmation",
+      "Version checks before write",
+      "Ignore concurrent edits"
+    ],
+    "correct": 2,
+    "explanation": "Agents that modify files need version checks, conflict detection, confirmation, backups, and audit trails before writing changes.",
+    "diagram": {
+      "type": "flow",
+      "title": "Safe file-edit flow",
+      "nodes": [
+        "Read version",
+        "Propose edit",
+        "Conflict check",
+        "Commit with log"
+      ],
+      "caption": "The diagram shows write actions protected by version and conflict checks."
+    }
+  },
+  {
+    "domain": "5. Agentic Workflows and Tool-Use Architecture",
+    "level": "Challenge IV",
+    "q": "A company designs three agents: researcher, planner, and executor. The executor sometimes acts on incomplete research because handoffs are poorly defined. What architecture improvement is needed?",
+    "opts": [
+      "No acceptance criteria",
+      "More agent personas only",
+      "Unlogged free-form chat",
+      "Explicit handoff contracts"
+    ],
+    "correct": 3,
+    "explanation": "Multi-agent systems need clear roles, state, handoff contracts, acceptance criteria, and human checkpoints. Otherwise coordination failures become product failures.",
+    "diagram": {
+      "type": "flow",
+      "title": "Multi-agent handoff",
+      "nodes": [
+        "Researcher output",
+        "Handoff contract",
+        "Planner review",
+        "Executor action"
+      ],
+      "caption": "Each agent needs defined inputs, outputs, and acceptance criteria."
+    }
+  },
+  {
+    "domain": "5. Agentic Workflows and Tool-Use Architecture",
+    "level": "Challenge IV",
+    "q": "A customer-success agent remembers user preferences. It also starts using private notes from one customer when helping another customer because memory scope is weak. What design fix is required?",
+    "opts": [
+      "Scoped memory by tenant",
+      "Global shared memory pool",
+      "Prompt reminder only",
+      "No memory audit trail"
+    ],
+    "correct": 0,
+    "explanation": "Agent memory must be scoped by user, tenant, purpose, and permission. Cross-tenant memory leakage is a serious privacy and trust failure.",
+    "diagram": {
+      "type": "layers",
+      "title": "Scoped agent memory",
+      "nodes": [
+        "User identity",
+        "Tenant scope",
+        "Approved memory",
+        "Response context"
+      ],
+      "caption": "Memory should be retrieved only inside the correct permission boundary."
+    }
+  },
+  {
+    "domain": "5. Agentic Workflows and Tool-Use Architecture",
+    "level": "Challenge V",
+    "q": "An agent books freight shipments using carrier APIs. A carrier API returns a malformed response, and the agent still confirms a booking to the customer. What missing capability caused the failure?",
+    "opts": [
+      "No schema requirements",
+      "More creative planning",
+      "Tool-result validation",
+      "Fewer audit logs"
+    ],
+    "correct": 2,
+    "explanation": "Agent tools need schema validation, error handling, confirmation checks, and exception routing. The agent should not act on malformed or uncertain tool results.",
+    "diagram": {
+      "type": "decision",
+      "title": "Tool validation gate",
+      "nodes": [
+        "API response",
+        "Schema check",
+        "Valid booking",
+        "Exception queue"
+      ],
+      "caption": "Tool outputs must be validated before the agent takes external action."
+    }
+  },
+  {
+    "domain": "5. Agentic Workflows and Tool-Use Architecture",
+    "level": "Challenge V",
+    "q": "A sales agent sends personalized discount offers. It accidentally offers a restricted discount to a customer segment excluded by policy. Which control belongs closest to the action step?",
+    "opts": [
+      "No customer segmentation",
+      "Monthly manual review only",
+      "Prompt says be careful",
+      "Policy check before send"
+    ],
+    "correct": 3,
+    "explanation": "A policy enforcement check should run immediately before the external action. High-impact tool calls need last-mile validation, not only planning-time guidance.",
+    "diagram": {
+      "type": "decision",
+      "title": "Last-mile policy gate",
+      "nodes": [
+        "Draft offer",
+        "Segment policy",
+        "Send approval",
+        "Audit record"
+      ],
+      "caption": "The final action is blocked unless the policy check passes."
+    }
+  },
+  {
+    "domain": "6. Evaluation, Metrics, and Experimentation",
+    "level": "Challenge IV",
+    "q": "A fraud-alert model catches many suspicious transactions but also blocks many legitimate customers. Complaints are rising. Which metric trade-off should the product team examine first?",
+    "opts": [
+      "Precision versus recall",
+      "Font size versus layout",
+      "Model name versus vendor",
+      "Training date versus logo"
+    ],
+    "correct": 0,
+    "explanation": "Fraud systems must balance catching bad transactions with avoiding false positives. Precision, recall, threshold, review capacity, and customer friction must be evaluated together.",
+    "diagram": {
+      "type": "matrix",
+      "title": "Fraud metric trade-off",
+      "nodes": [
+        "True fraud caught",
+        "False blocks",
+        "Review capacity",
+        "Customer friction"
+      ],
+      "caption": "The diagram frames detection performance together with operational harm."
+    }
+  },
+  {
+    "domain": "6. Evaluation, Metrics, and Experimentation",
+    "level": "Challenge IV",
+    "q": "A contract-review assistant looks strong on randomly selected examples but fails on renewal clauses, foreign-law clauses, and unusual termination terms. What evaluation asset is missing?",
+    "opts": [
+      "Only more random examples",
+      "Golden set of edge cases",
+      "Marketing case studies",
+      "UI screenshot library"
+    ],
+    "correct": 1,
+    "explanation": "A golden dataset should include common, critical, and edge cases that matter to the product. Random sampling alone can miss high-risk scenarios.",
+    "diagram": {
+      "type": "funnel",
+      "title": "Evaluation case design",
+      "nodes": [
+        "Common cases",
+        "Critical cases",
+        "Edge cases",
+        "Golden set"
+      ],
+      "caption": "The diagram shows why curated cases complement random samples."
+    }
+  },
+  {
+    "domain": "6. Evaluation, Metrics, and Experimentation",
+    "level": "Challenge IV",
+    "q": "Offline tests show a summarizer saves two minutes per case. After launch, users spend extra time checking summaries because they do not trust them. Which evaluation gap explains this?",
+    "opts": [
+      "Too many source documents",
+      "No model benchmark score",
+      "No real workflow validation",
+      "Too much brand testing"
+    ],
+    "correct": 2,
+    "explanation": "Offline metrics do not capture trust, review behavior, adoption, or workflow effects. Online pilots and user studies are needed.",
+    "diagram": {
+      "type": "loop",
+      "title": "Offline-to-online validation",
+      "nodes": [
+        "Offline eval",
+        "Pilot users",
+        "Behavior metrics",
+        "Product decision"
+      ],
+      "caption": "Real users can change the measured value of an AI feature."
+    }
+  },
+  {
+    "domain": "6. Evaluation, Metrics, and Experimentation",
+    "level": "Challenge IV",
+    "q": "A team asks five reviewers to rate AI responses. Scores vary widely because reviewers use different standards for completeness and correctness. What should the architect add?",
+    "opts": [
+      "Only average response length",
+      "More unlabeled examples",
+      "No human review",
+      "Shared evaluation rubric"
+    ],
+    "correct": 3,
+    "explanation": "A rubric defines rating dimensions, examples, and anchors so human judgments become consistent and useful for product decisions.",
+    "diagram": {
+      "type": "layers",
+      "title": "Human evaluation rubric",
+      "nodes": [
+        "Correctness",
+        "Completeness",
+        "Safety",
+        "Usefulness"
+      ],
+      "caption": "The rubric turns subjective review into structured measurement."
+    }
+  },
+  {
+    "domain": "6. Evaluation, Metrics, and Experimentation",
+    "level": "Challenge IV",
+    "q": "An AI support bot reduces average handle time by 18%, but escalation rate and customer dissatisfaction increase. What evaluation design was incomplete?",
+    "opts": [
+      "The time metric was invalid",
+      "Guardrail metrics were weak",
+      "The model was too small",
+      "The UI had too many buttons"
+    ],
+    "correct": 1,
+    "explanation": "Primary efficiency metrics must be balanced by guardrails such as satisfaction, escalation, complaint rate, safety, and rework.",
+    "diagram": {
+      "type": "matrix",
+      "title": "Metric balance",
+      "nodes": [
+        "Handle time",
+        "Escalations",
+        "Satisfaction",
+        "Rework"
+      ],
+      "caption": "The diagram shows why product success needs both target and guardrail measures."
+    }
+  },
+  {
+    "domain": "6. Evaluation, Metrics, and Experimentation",
+    "level": "Challenge IV",
+    "q": "A risk model outputs probabilities, but managers treat every score above 0.50 as certain. Some decisions are over-escalated. What product improvement is most relevant?",
+    "opts": [
+      "Use arbitrary thresholds",
+      "Remove probability displays",
+      "Calibration and threshold education",
+      "Hide model uncertainty"
+    ],
+    "correct": 2,
+    "explanation": "Scores need calibration, threshold design, and user education. The product should communicate uncertainty and recommended actions clearly.",
+    "diagram": {
+      "type": "decision",
+      "title": "Score-to-action design",
+      "nodes": [
+        "Probability score",
+        "Threshold bands",
+        "Recommended action",
+        "User guidance"
+      ],
+      "caption": "The product should convert uncertain scores into calibrated action bands."
+    }
+  },
+  {
+    "domain": "6. Evaluation, Metrics, and Experimentation",
+    "level": "Challenge V",
+    "q": "A model's average performance is stable, but complaints come mostly from small regional offices. Aggregate dashboards show no issue. What should the evaluation plan include?",
+    "opts": [
+      "Use one region as all regions",
+      "Only global accuracy metric",
+      "Remove complaint tracking",
+      "Segment-level performance monitoring"
+    ],
+    "correct": 3,
+    "explanation": "Segment analysis can uncover failures hidden by aggregate metrics. Region, language, customer type, channel, and process variation should be monitored.",
+    "diagram": {
+      "type": "matrix",
+      "title": "Segment monitoring map",
+      "nodes": [
+        "Global score",
+        "Region A",
+        "Region B",
+        "Region C"
+      ],
+      "caption": "The diagram highlights that subgroup performance may differ from overall averages."
+    }
+  },
+  {
+    "domain": "6. Evaluation, Metrics, and Experimentation",
+    "level": "Challenge V",
+    "q": "A RAG system is evaluated only on whether it retrieves a relevant document. Users complain that answers still combine unrelated clauses. Which additional metric is needed?",
+    "opts": [
+      "Answer faithfulness to evidence",
+      "Raw retrieval volume only",
+      "Number of indexed files",
+      "Average document length"
+    ],
+    "correct": 0,
+    "explanation": "RAG evaluation needs retrieval quality plus answer faithfulness, context relevance, citation accuracy, and answer usefulness. Retrieval alone is insufficient.",
+    "diagram": {
+      "type": "flow",
+      "title": "RAG evaluation chain",
+      "nodes": [
+        "Retrieve docs",
+        "Use evidence",
+        "Generate answer",
+        "Check faithfulness"
+      ],
+      "caption": "Each stage of RAG can fail independently and must be evaluated."
+    }
+  },
+  {
+    "domain": "6. Evaluation, Metrics, and Experimentation",
+    "level": "Challenge V",
+    "q": "An agent successfully completes 90% of tasks in testing, but the 10% failures are costly because they create irreversible external actions. Which metric design is best?",
+    "opts": [
+      "Ignore rare failures",
+      "Average success only",
+      "Weight failures by impact",
+      "Count tool calls only"
+    ],
+    "correct": 2,
+    "explanation": "Agent evaluation should consider severity, reversibility, cost, and policy violations, not only task-completion rate. Rare failures may dominate risk.",
+    "diagram": {
+      "type": "matrix",
+      "title": "Agent failure severity",
+      "nodes": [
+        "Task success",
+        "Low-impact fail",
+        "High-impact fail",
+        "Irreversible action"
+      ],
+      "caption": "The diagram separates ordinary misses from severe product risks."
+    }
+  },
+  {
+    "domain": "6. Evaluation, Metrics, and Experimentation",
+    "level": "Challenge V",
+    "q": "A document classifier improves F1 score by 4%, but the operations team sees no reduction in manual review time. What should the architect recommend?",
+    "opts": [
+      "Launch without process change",
+      "Celebrate model score only",
+      "Stop measuring user behavior",
+      "Tie evaluation to workflow value"
+    ],
+    "correct": 3,
+    "explanation": "Model metrics must connect to business outcomes such as time saved, cases processed, error reduction, or review effort. Otherwise the model improvement may not matter.",
+    "diagram": {
+      "type": "flow",
+      "title": "Metric-to-value chain",
+      "nodes": [
+        "Model score",
+        "Workflow change",
+        "Time saved",
+        "Business value"
+      ],
+      "caption": "The model metric should translate into a measurable product outcome."
+    }
+  },
+  {
+    "domain": "7. Responsible AI, Safety, and Governance",
+    "level": "Challenge IV",
+    "q": "A city agency wants AI to prioritize housing support applications. Errors can affect vulnerable residents. What should happen before automation is approved?",
+    "opts": [
+      "Impact assessment and controls",
+      "Launch quietly and monitor later",
+      "Remove appeal processes",
+      "Use only vendor assurances"
+    ],
+    "correct": 0,
+    "explanation": "High-impact public-service AI needs impact assessment, stakeholder review, fairness testing, human oversight, recourse, monitoring, and accountability before launch.",
+    "diagram": {
+      "type": "flow",
+      "title": "High-impact AI review",
+      "nodes": [
+        "Use case",
+        "Impact assessment",
+        "Controls",
+        "Approval gate"
+      ],
+      "caption": "The diagram places assessment before deployment, not after harm occurs."
+    }
+  },
+  {
+    "domain": "7. Responsible AI, Safety, and Governance",
+    "level": "Challenge IV",
+    "q": "A customer-risk model performs well overall but assigns higher risk scores to a protected group after controlling for relevant business variables. What should the team do?",
+    "opts": [
+      "Average results and proceed",
+      "Investigate bias and redesign",
+      "Hide group analysis",
+      "Remove all audit records"
+    ],
+    "correct": 1,
+    "explanation": "Systematic performance or outcome differences require bias analysis, feature review, data inspection, threshold review, and mitigation before deployment.",
+    "diagram": {
+      "type": "matrix",
+      "title": "Bias investigation path",
+      "nodes": [
+        "Outcome gap",
+        "Feature review",
+        "Threshold check",
+        "Mitigation plan"
+      ],
+      "caption": "The diagram shows that aggregate performance is not enough for fairness review."
+    }
+  },
+  {
+    "domain": "7. Responsible AI, Safety, and Governance",
+    "level": "Challenge IV",
+    "q": "An AI claims tool recommends denial. The customer receives no explanation and no way to challenge incorrect information. What product capability is missing?",
+    "opts": [
+      "No decision record",
+      "More hidden automation",
+      "User recourse path",
+      "One-way notification only"
+    ],
+    "correct": 2,
+    "explanation": "Recourse allows affected users to understand, correct, appeal, or request review. It is essential in consequential decisions.",
+    "diagram": {
+      "type": "flow",
+      "title": "Decision recourse path",
+      "nodes": [
+        "AI decision",
+        "Reason shown",
+        "User appeal",
+        "Human review"
+      ],
+      "caption": "The diagram adds a path for correction and review."
+    }
+  },
+  {
+    "domain": "7. Responsible AI, Safety, and Governance",
+    "level": "Challenge IV",
+    "q": "A marketing AI team wants to use all customer emails, call transcripts, and browsing history to personalize offers. The product can work with recent preferences and consented purchase categories. What principle should guide design?",
+    "opts": [
+      "Permanent retention always",
+      "Maximum data collection",
+      "Unrestricted secondary use",
+      "Data minimization by purpose"
+    ],
+    "correct": 3,
+    "explanation": "Collect only what is necessary for the defined purpose, with consent, retention limits, and access control. Excess data increases risk.",
+    "diagram": {
+      "type": "funnel",
+      "title": "Data minimization funnel",
+      "nodes": [
+        "All possible data",
+        "Needed signals",
+        "Consent check",
+        "Personalization"
+      ],
+      "caption": "The funnel narrows collection to justified data."
+    }
+  },
+  {
+    "domain": "7. Responsible AI, Safety, and Governance",
+    "level": "Challenge IV",
+    "q": "A medical advice assistant uses cautious disclaimers but gives no sources, confidence, or limitation statements. Users may over-trust the output. What product design helps calibrate trust?",
+    "opts": [
+      "Make answers sound certain",
+      "Show evidence and limitations",
+      "Hide uncertainty signals",
+      "Remove clinician escalation"
+    ],
+    "correct": 1,
+    "explanation": "Trust calibration needs limitations, evidence, uncertainty, appropriate disclaimers, and escalation guidance. Disclaimers alone are insufficient.",
+    "diagram": {
+      "type": "layers",
+      "title": "Trust calibration cues",
+      "nodes": [
+        "Evidence",
+        "Uncertainty",
+        "Limitations",
+        "Escalation"
+      ],
+      "caption": "Users need cues that support appropriate reliance."
+    }
+  },
+  {
+    "domain": "7. Responsible AI, Safety, and Governance",
+    "level": "Challenge V",
+    "q": "A factory safety assistant recommends corrective actions for hazardous conditions. Management asks for proof that the system is safe enough to pilot. What artifact should be prepared?",
+    "opts": [
+      "Unreviewed prompt library",
+      "Only sales demo slides",
+      "Safety case with evidence",
+      "Generic model benchmark"
+    ],
+    "correct": 2,
+    "explanation": "A safety case documents hazards, mitigations, evidence, monitoring, fallback, and accountability. It supports a structured safety argument.",
+    "diagram": {
+      "type": "layers",
+      "title": "Safety case structure",
+      "nodes": [
+        "Hazards",
+        "Controls",
+        "Evidence",
+        "Monitoring"
+      ],
+      "caption": "The diagram shows the components of a structured safety argument."
+    }
+  },
+  {
+    "domain": "7. Responsible AI, Safety, and Governance",
+    "level": "Challenge V",
+    "q": "A public-facing chatbot sometimes receives self-harm, hate, and illegal-instruction prompts. The team wants the same response path for every message. What architecture is needed?",
+    "opts": [
+      "Log nothing for safety",
+      "Single unfiltered model call",
+      "No content policy layer",
+      "Risk-based moderation routing"
+    ],
+    "correct": 3,
+    "explanation": "Content moderation should classify risk and route inputs to safe responses, escalation, refusal, or support resources depending on policy and severity.",
+    "diagram": {
+      "type": "decision",
+      "title": "Moderation routing",
+      "nodes": [
+        "User input",
+        "Risk classifier",
+        "Safe answer",
+        "Escalation/refusal"
+      ],
+      "caption": "The diagram branches unsafe inputs before normal generation."
+    }
+  },
+  {
+    "domain": "7. Responsible AI, Safety, and Governance",
+    "level": "Challenge V",
+    "q": "A customer consented to use support transcripts for service improvement. Product later wants to use the same transcripts to train a sales targeting model. What governance concept is triggered?",
+    "opts": [
+      "Purpose limitation review",
+      "Automatic reuse permission",
+      "No notice requirement",
+      "Permanent consent expansion"
+    ],
+    "correct": 0,
+    "explanation": "Purpose limitation means data collected for one purpose should not be reused for a materially different purpose without appropriate review, notice, or consent.",
+    "diagram": {
+      "type": "decision",
+      "title": "Purpose review gate",
+      "nodes": [
+        "Original purpose",
+        "New use",
+        "Review/consent",
+        "Allowed or blocked"
+      ],
+      "caption": "The diagram shows a gate when data use changes."
+    }
+  },
+  {
+    "domain": "7. Responsible AI, Safety, and Governance",
+    "level": "Challenge V",
+    "q": "A company has many AI ideas, from internal summarization to automated credit decisions. Leadership wants one approval process for all. What governance model is better?",
+    "opts": [
+      "No review for internal tools",
+      "Same checklist for every use",
+      "Tiered risk review process",
+      "Only executive approval"
+    ],
+    "correct": 2,
+    "explanation": "AI governance should scale with risk. Low-risk internal tools need lighter controls; high-impact decisions need rigorous assessment, monitoring, and approvals.",
+    "diagram": {
+      "type": "matrix",
+      "title": "Tiered AI governance",
+      "nodes": [
+        "Low risk",
+        "Medium risk",
+        "High risk",
+        "Prohibited use"
+      ],
+      "caption": "The diagram shows that review intensity should match risk level."
+    }
+  },
+  {
+    "domain": "7. Responsible AI, Safety, and Governance",
+    "level": "Challenge V",
+    "q": "A voice assistant performs worse for accents not represented in the training data. Product launch dashboards only show average word error rate. What control should be added?",
+    "opts": [
+      "Use one audio sample set",
+      "Only average error tracking",
+      "Remove accent testing",
+      "Subgroup performance evaluation"
+    ],
+    "correct": 3,
+    "explanation": "Responsible AI requires measuring performance across relevant user groups and contexts. Average performance can hide poor service for specific groups.",
+    "diagram": {
+      "type": "matrix",
+      "title": "Subgroup quality review",
+      "nodes": [
+        "Overall WER",
+        "Accent group A",
+        "Accent group B",
+        "Mitigation"
+      ],
+      "caption": "The diagram makes subgroup performance visible before scaling."
+    }
+  },
+  {
+    "domain": "8. MLOps, LLMOps, and Lifecycle Management",
+    "level": "Challenge IV",
+    "q": "A team has three approved models, two experimental prompts, and several evaluation datasets. Nobody knows which combination is in production. What lifecycle capability is missing?",
+    "opts": [
+      "Registry for models and prompts",
+      "Only spreadsheet project notes",
+      "No version metadata",
+      "Manual memory from engineers"
+    ],
+    "correct": 0,
+    "explanation": "Registries and versioning track approved models, prompts, datasets, evaluations, and deployments. They support reproducibility and governance.",
+    "diagram": {
+      "type": "layers",
+      "title": "Version registry stack",
+      "nodes": [
+        "Model version",
+        "Prompt version",
+        "Dataset version",
+        "Deployment record"
+      ],
+      "caption": "The diagram shows the versioned artifacts needed for traceability."
+    }
+  },
+  {
+    "domain": "8. MLOps, LLMOps, and Lifecycle Management",
+    "level": "Challenge IV",
+    "q": "A prompt change improves tone but breaks JSON output required by a downstream system. The issue appears after release. What release practice would reduce this?",
+    "opts": [
+      "Manual tone review only",
+      "Automated prompt regression tests",
+      "No output schema checks",
+      "Deploy directly to users"
+    ],
+    "correct": 1,
+    "explanation": "Prompt changes should be tested against required formats, business rules, safety cases, and known examples before release.",
+    "diagram": {
+      "type": "flow",
+      "title": "Prompt release gate",
+      "nodes": [
+        "Prompt change",
+        "Schema tests",
+        "Quality tests",
+        "Deploy"
+      ],
+      "caption": "The diagram shows prompt changes passing through release checks."
+    }
+  },
+  {
+    "domain": "8. MLOps, LLMOps, and Lifecycle Management",
+    "level": "Challenge IV",
+    "q": "A newly deployed model starts producing unsafe recommendations. The team cannot quickly return to the previous behavior because deployment settings were overwritten. What plan was missing?",
+    "opts": [
+      "Only offline evaluation",
+      "More launch announcements",
+      "Rollback and configuration control",
+      "No deployment history"
+    ],
+    "correct": 2,
+    "explanation": "Rollback planning requires retained prior versions, controlled configuration, deployment records, and operational authority to revert quickly.",
+    "diagram": {
+      "type": "flow",
+      "title": "Rollback path",
+      "nodes": [
+        "New release",
+        "Issue detected",
+        "Revert config",
+        "Known-good version"
+      ],
+      "caption": "A rollback path lets teams recover from harmful releases."
+    }
+  },
+  {
+    "domain": "8. MLOps, LLMOps, and Lifecycle Management",
+    "level": "Challenge IV",
+    "q": "A company wants to compare a new model on live traffic without exposing users to its outputs. Which deployment pattern fits?",
+    "opts": [
+      "Unmonitored beta release",
+      "Full production switch",
+      "Delete baseline model",
+      "Shadow deployment"
+    ],
+    "correct": 3,
+    "explanation": "Shadow deployment sends production-like traffic to a candidate model while users continue receiving the current model output. It enables safe observation.",
+    "diagram": {
+      "type": "layers",
+      "title": "Shadow deployment pattern",
+      "nodes": [
+        "Live request",
+        "Current output",
+        "Shadow model",
+        "Comparison logs"
+      ],
+      "caption": "The candidate model is observed without affecting the user."
+    }
+  },
+  {
+    "domain": "8. MLOps, LLMOps, and Lifecycle Management",
+    "level": "Challenge IV",
+    "q": "A support copilot's monthly cost doubles even though active users grow only 10%. Logs show longer prompts, more retrieved chunks, and more retries. What should monitoring track?",
+    "opts": [
+      "Only user login totals",
+      "Token, context, retry costs",
+      "Only training dataset size",
+      "Only UI page views"
+    ],
+    "correct": 1,
+    "explanation": "LLMOps cost monitoring should track token use, context size, retries, model routing, latency, and cost by feature, user, and tenant.",
+    "diagram": {
+      "type": "layers",
+      "title": "LLM cost observability",
+      "nodes": [
+        "Prompt tokens",
+        "Retrieved context",
+        "Retries",
+        "Cost per task"
+      ],
+      "caption": "The diagram shows cost drivers beyond user count."
+    }
+  },
+  {
+    "domain": "8. MLOps, LLMOps, and Lifecycle Management",
+    "level": "Challenge V",
+    "q": "A customer reports that an AI assistant exposed incorrect confidential information. The team lacks severity definitions, owner assignments, customer communication steps, and rollback authority. What is missing?",
+    "opts": [
+      "More model benchmarks",
+      "Longer roadmap deck",
+      "AI incident response plan",
+      "Generic release checklist only"
+    ],
+    "correct": 2,
+    "explanation": "AI incidents need severity levels, triggers, owners, containment actions, communication, rollback, evidence preservation, and post-incident review.",
+    "diagram": {
+      "type": "flow",
+      "title": "AI incident response",
+      "nodes": [
+        "Detect issue",
+        "Assess severity",
+        "Contain/rollback",
+        "Communicate"
+      ],
+      "caption": "The diagram shows the response sequence needed after an AI incident."
+    }
+  },
+  {
+    "domain": "8. MLOps, LLMOps, and Lifecycle Management",
+    "level": "Challenge V",
+    "q": "A model trained six months ago is retrained, but engineers cannot reproduce the previous evaluation because training data changed and old samples were overwritten. What practice is missing?",
+    "opts": [
+      "Untracked data refreshes",
+      "Only more compute capacity",
+      "Prompt rewriting by hand",
+      "Dataset versioning and lineage"
+    ],
+    "correct": 3,
+    "explanation": "Dataset versioning and lineage record the exact data used for training and evaluation, enabling reproducibility, debugging, and compliance review.",
+    "diagram": {
+      "type": "layers",
+      "title": "Data lineage path",
+      "nodes": [
+        "Raw data",
+        "Prepared dataset",
+        "Training run",
+        "Evaluation result"
+      ],
+      "caption": "The diagram shows traceability from source data to model result."
+    }
+  },
+  {
+    "domain": "8. MLOps, LLMOps, and Lifecycle Management",
+    "level": "Challenge V",
+    "q": "An AI routing feature changes how customer-service agents work. Accuracy is acceptable, but agents resist because SOPs, escalation paths, and training were not updated. What was missing?",
+    "opts": [
+      "Change-management architecture",
+      "Only better model tuning",
+      "More hidden automation",
+      "A larger data warehouse"
+    ],
+    "correct": 0,
+    "explanation": "AI architecture includes human workflow, SOPs, training, role changes, support, and feedback loops. Adoption fails when process design is ignored.",
+    "diagram": {
+      "type": "flow",
+      "title": "Adoption readiness path",
+      "nodes": [
+        "AI workflow",
+        "Updated SOP",
+        "Training",
+        "Feedback loop"
+      ],
+      "caption": "The diagram shows the human system around the AI release."
+    }
+  },
+  {
+    "domain": "8. MLOps, LLMOps, and Lifecycle Management",
+    "level": "Challenge V",
+    "q": "A regulated AI feature cannot launch until privacy, security, evaluation, and business owners approve. Reviews happen late and block releases. What architecture process helps?",
+    "opts": [
+      "Single informal sign-off",
+      "Launch then collect approvals",
+      "Predefined release gates",
+      "No approval tracking"
+    ],
+    "correct": 2,
+    "explanation": "Release gates define required evidence and approvers early. This makes governance predictable and prevents late-stage surprises.",
+    "diagram": {
+      "type": "flow",
+      "title": "Governed release gates",
+      "nodes": [
+        "Design review",
+        "Data review",
+        "Eval review",
+        "Launch approval"
+      ],
+      "caption": "The diagram makes approvals a designed part of the delivery lifecycle."
+    }
+  },
+  {
+    "domain": "8. MLOps, LLMOps, and Lifecycle Management",
+    "level": "Challenge V",
+    "q": "An AI assistant has a 99% uptime target, but users also complain when responses exceed five seconds or when quality drops during fallback. What should the service objective include?",
+    "opts": [
+      "Only infrastructure cost",
+      "Uptime target only",
+      "No measurable objectives",
+      "Reliability, latency, quality targets"
+    ],
+    "correct": 3,
+    "explanation": "AI SLOs should cover availability, latency, error rate, quality, safety, and cost where relevant. Uptime alone does not define a usable AI service.",
+    "diagram": {
+      "type": "matrix",
+      "title": "AI service objectives",
+      "nodes": [
+        "Uptime",
+        "Latency",
+        "Quality",
+        "Cost"
+      ],
+      "caption": "The diagram broadens service objectives beyond availability."
+    }
+  },
+  {
+    "domain": "9. Enterprise Integration and Commercialization",
+    "level": "Challenge IV",
+    "q": "An AI proposal estimates only model API fees. It excludes data cleaning, integration, monitoring, governance, user training, support, and improvement cycles. What financial view is missing?",
+    "opts": [
+      "Total cost of ownership",
+      "Only monthly token budget",
+      "Only launch-day spend",
+      "Only sales commission cost"
+    ],
+    "correct": 0,
+    "explanation": "TCO includes build, run, govern, integrate, support, monitor, train, and improve costs. Model fees are only one part of the economics.",
+    "diagram": {
+      "type": "funnel",
+      "title": "AI TCO components",
+      "nodes": [
+        "Build",
+        "Run",
+        "Govern",
+        "Support"
+      ],
+      "caption": "The diagram shows cost categories beyond the model API."
+    }
+  },
+  {
+    "domain": "9. Enterprise Integration and Commercialization",
+    "level": "Challenge IV",
+    "q": "A sales-copilot vendor demos strong answers, but the client's team works inside CRM, email, and quoting systems. The demo requires users to copy and paste between tools. What should the architect examine first?",
+    "opts": [
+      "Only model benchmark score",
+      "Workflow integration fit",
+      "Only visual polish",
+      "Only vendor headquarters"
+    ],
+    "correct": 1,
+    "explanation": "Enterprise adoption depends on fit with existing workflows and systems. Copy-paste friction can erase AI productivity gains.",
+    "diagram": {
+      "type": "flow",
+      "title": "Enterprise workflow fit",
+      "nodes": [
+        "CRM",
+        "AI copilot",
+        "Quote system",
+        "User action"
+      ],
+      "caption": "The diagram highlights the need for connected workflows."
+    }
+  },
+  {
+    "domain": "9. Enterprise Integration and Commercialization",
+    "level": "Challenge IV",
+    "q": "A company wants a national rollout of an AI field-service assistant. Pilot users in one region are enthusiastic, but other regions have different regulations, languages, and technician roles. What rollout plan is strongest?",
+    "opts": [
+      "Ignore regional variation",
+      "Launch everywhere at once",
+      "Phased pilots by segment",
+      "Skip training materials"
+    ],
+    "correct": 2,
+    "explanation": "Phased rollout allows localization, risk controls, training, support, and measurement by segment before national scale.",
+    "diagram": {
+      "type": "flow",
+      "title": "Phased rollout path",
+      "nodes": [
+        "Pilot region",
+        "Adapt controls",
+        "Train users",
+        "Scale segments"
+      ],
+      "caption": "The diagram shows controlled expansion rather than one-time launch."
+    }
+  },
+  {
+    "domain": "9. Enterprise Integration and Commercialization",
+    "level": "Challenge IV",
+    "q": "A productivity AI saves time per case, but customers have different volumes and value drivers. Product debates seat pricing, usage pricing, and value-based pricing. What should guide the choice?",
+    "opts": [
+      "Random monthly fee",
+      "Only model provider invoice",
+      "Only competitor homepage text",
+      "Customer value and usage pattern"
+    ],
+    "correct": 3,
+    "explanation": "Pricing should reflect how customers receive value, how usage scales, willingness to pay, cost structure, and adoption friction.",
+    "diagram": {
+      "type": "matrix",
+      "title": "Pricing logic map",
+      "nodes": [
+        "Seat value",
+        "Usage volume",
+        "Outcome value",
+        "Cost floor"
+      ],
+      "caption": "The diagram compares common pricing bases for AI products."
+    }
+  },
+  {
+    "domain": "9. Enterprise Integration and Commercialization",
+    "level": "Challenge IV",
+    "q": "An enterprise buyer asks how the AI product protects data, evaluates outputs, handles incidents, and limits model behavior. Sales has only feature screenshots. What package is needed?",
+    "opts": [
+      "Only promotional video",
+      "Customer trust package",
+      "Only product roadmap",
+      "Unverified model claims"
+    ],
+    "correct": 1,
+    "explanation": "A trust package should include security, privacy, data handling, evaluation methods, limitations, governance, monitoring, and incident response evidence.",
+    "diagram": {
+      "type": "layers",
+      "title": "AI trust package",
+      "nodes": [
+        "Security",
+        "Privacy",
+        "Evaluation",
+        "Incident plan"
+      ],
+      "caption": "The diagram shows trust evidence enterprise buyers often require."
+    }
+  },
+  {
+    "domain": "9. Enterprise Integration and Commercialization",
+    "level": "Challenge V",
+    "q": "A startup considers building its own voice transcription model, but accurate multilingual transcription is not core differentiation and mature vendors have compliance certifications. What should the architecture decision favor?",
+    "opts": [
+      "Avoid compliance review",
+      "Build everything immediately",
+      "Partner with provider, abstract access",
+      "Lock into one vendor forever"
+    ],
+    "correct": 2,
+    "explanation": "When capability is mature and not differentiating, partnering can reduce time and risk. Abstraction preserves flexibility and vendor resilience.",
+    "diagram": {
+      "type": "layers",
+      "title": "Partner architecture",
+      "nodes": [
+        "Vendor capability",
+        "Adapter layer",
+        "Product workflow",
+        "Fallback option"
+      ],
+      "caption": "The diagram separates purchased capability from owned product experience."
+    }
+  },
+  {
+    "domain": "9. Enterprise Integration and Commercialization",
+    "level": "Challenge V",
+    "q": "An AI onboarding tool gets strong demo feedback but low retained usage after two weeks. Customers say setup is confusing and value appears too late. Which customer-success metric should be prioritized?",
+    "opts": [
+      "Total model parameter count",
+      "Number of demo attendees",
+      "Length of feature list",
+      "Time-to-value after onboarding"
+    ],
+    "correct": 3,
+    "explanation": "Time-to-value measures how quickly customers reach a useful outcome. It often predicts adoption better than demo excitement.",
+    "diagram": {
+      "type": "flow",
+      "title": "Onboarding value path",
+      "nodes": [
+        "Setup",
+        "First useful task",
+        "Repeated use",
+        "Outcome proof"
+      ],
+      "caption": "The diagram shows value emerging through onboarding and repeated use."
+    }
+  },
+  {
+    "domain": "9. Enterprise Integration and Commercialization",
+    "level": "Challenge V",
+    "q": "A bank procurement team worries about data residency, auditability, vendor lock-in, and explainability. The product team replies only with accuracy metrics. What should the architect add to the proposal?",
+    "opts": [
+      "Enterprise architecture risk controls",
+      "More benchmark charts only",
+      "Shorter sales deck only",
+      "No governance discussion"
+    ],
+    "correct": 0,
+    "explanation": "Enterprise AI sales need architecture evidence for compliance, audit, residency, portability, monitoring, and operational controls. Accuracy is not enough.",
+    "diagram": {
+      "type": "matrix",
+      "title": "Procurement concern map",
+      "nodes": [
+        "Residency",
+        "Auditability",
+        "Portability",
+        "Explainability"
+      ],
+      "caption": "The diagram maps buyer objections to architecture evidence."
+    }
+  },
+  {
+    "domain": "9. Enterprise Integration and Commercialization",
+    "level": "Challenge V",
+    "q": "An AI support product works well in North America but fails in Asia because source documents, escalation policies, and customer tone differ. What should be built before expansion?",
+    "opts": [
+      "Remove regional policies",
+      "One global prompt only",
+      "Localization and regional evaluation",
+      "Translate UI without testing"
+    ],
+    "correct": 2,
+    "explanation": "Regional expansion requires localized content, policies, evaluation sets, language handling, support workflows, and governance differences.",
+    "diagram": {
+      "type": "layers",
+      "title": "Regional adaptation stack",
+      "nodes": [
+        "Local content",
+        "Policy rules",
+        "Language eval",
+        "Support workflow"
+      ],
+      "caption": "The diagram shows localization beyond interface translation."
+    }
+  },
+  {
+    "domain": "9. Enterprise Integration and Commercialization",
+    "level": "Challenge V",
+    "q": "A European customer requires that sensitive data remain in-region while the AI platform currently processes all requests through a single overseas endpoint. What architecture change is most relevant?",
+    "opts": [
+      "Manual deletion after export",
+      "One global endpoint forever",
+      "Prompt-level residency promise",
+      "Regional processing and storage"
+    ],
+    "correct": 3,
+    "explanation": "Data residency requirements may require regional storage, processing, routing, vendor selection, logging, and contractual controls.",
+    "diagram": {
+      "type": "flow",
+      "title": "Data residency route",
+      "nodes": [
+        "EU user",
+        "Regional gateway",
+        "In-region processing",
+        "Regional logs"
+      ],
+      "caption": "The diagram keeps sensitive processing inside the required region."
+    }
+  },
+  {
+    "domain": "10. Expert AI Product Architecture Scenarios",
+    "level": "Challenge V",
+    "q": "The board asks whether to build one AI feature for support or an internal AI platform for support, sales, finance, and operations. Each use case shares identity, logging, evaluation, prompt management, and governance needs. What recommendation is strongest?",
+    "opts": [
+      "Build platform capabilities incrementally",
+      "Build isolated tools forever",
+      "Start with full platform only",
+      "Ignore shared governance needs"
+    ],
+    "correct": 0,
+    "explanation": "A platform is justified when multiple use cases share common capabilities. The best approach is usually incremental platformization driven by real use cases.",
+    "diagram": {
+      "type": "layers",
+      "title": "Platform capability map",
+      "nodes": [
+        "Identity",
+        "Evaluation",
+        "Logging",
+        "Governance"
+      ],
+      "caption": "Shared capabilities can support multiple product surfaces over time."
+    }
+  },
+  {
+    "domain": "10. Expert AI Product Architecture Scenarios",
+    "level": "Challenge V",
+    "q": "A SaaS company designs a multi-tenant RAG product for law firms. Each firm needs private documents, role-based access, citations, deletion, and audit logs. What is the core architectural principle?",
+    "opts": [
+      "Prompt-only tenant separation",
+      "Tenant isolation across retrieval",
+      "One shared context for all",
+      "Manual review of every query"
+    ],
+    "correct": 1,
+    "explanation": "Multi-tenant RAG must enforce tenant isolation, permission-aware retrieval, lifecycle controls, and auditability at the data and retrieval layers.",
+    "diagram": {
+      "type": "layers",
+      "title": "Multi-tenant RAG boundary",
+      "nodes": [
+        "Tenant identity",
+        "Access filter",
+        "Private index",
+        "Cited answer"
+      ],
+      "caption": "The diagram places tenant boundary before retrieval and generation."
+    }
+  },
+  {
+    "domain": "10. Expert AI Product Architecture Scenarios",
+    "level": "Challenge V",
+    "q": "A customer service AI must respond under two seconds for routine questions but must produce highly reasoned answers with citations for contractual disputes. What architecture balances both needs?",
+    "opts": [
+      "One small model for all cases",
+      "One large model for all cases",
+      "Fast path and expert path routing",
+      "Disable contract dispute support"
+    ],
+    "correct": 2,
+    "explanation": "Routing by complexity and risk allows fast low-cost responses for simple tasks and stronger retrieval/reasoning for harder cases.",
+    "diagram": {
+      "type": "decision",
+      "title": "Dual-path service design",
+      "nodes": [
+        "User request",
+        "Risk/complexity",
+        "Fast path",
+        "Expert path"
+      ],
+      "caption": "The diagram shows differentiated paths rather than one model for every situation."
+    }
+  },
+  {
+    "domain": "10. Expert AI Product Architecture Scenarios",
+    "level": "Challenge V",
+    "q": "A regulated AI product is successful internally and leadership wants to sell it externally. The internal version lacks customer-facing audit reports, configurable retention, tenant controls, and support SLAs. What should happen before commercialization?",
+    "opts": [
+      "Use internal SOPs only",
+      "Immediate public launch",
+      "Remove audit features",
+      "External-grade controls and packaging"
+    ],
+    "correct": 3,
+    "explanation": "External commercialization requires enterprise controls, tenant isolation, configurable governance, documentation, support, SLAs, legal terms, and trust evidence.",
+    "diagram": {
+      "type": "funnel",
+      "title": "Internal-to-external readiness",
+      "nodes": [
+        "Internal tool",
+        "Tenant controls",
+        "Trust package",
+        "Commercial product"
+      ],
+      "caption": "The diagram shows the hardening required before selling externally."
+    }
+  },
+  {
+    "domain": "10. Expert AI Product Architecture Scenarios",
+    "level": "Challenge V",
+    "q": "A company wants an enterprise knowledge copilot across HR, legal, engineering, and finance. Each domain has different permissions, freshness needs, and answer risk. What is the safest architecture?",
+    "opts": [
+      "One universal index and prompt",
+      "Domain-specific retrieval policies",
+      "No source freshness rules",
+      "Shared unrestricted context"
+    ],
+    "correct": 1,
+    "explanation": "Enterprise copilots need domain-specific access control, freshness rules, answer styles, escalation paths, and evaluation sets.",
+    "diagram": {
+      "type": "layers",
+      "title": "Domain policy architecture",
+      "nodes": [
+        "HR policy",
+        "Legal policy",
+        "Finance policy",
+        "Unified interface"
+      ],
+      "caption": "The interface can be unified while retrieval policy remains domain-specific."
+    }
+  },
+  {
+    "domain": "10. Expert AI Product Architecture Scenarios",
+    "level": "Challenge V",
+    "q": "A support AI has 92% judged answer quality but only 18% weekly active usage. Interviews show answers appear after the agent already resolved the issue manually. What is the best architectural diagnosis?",
+    "opts": [
+      "Users dislike AI generally",
+      "Model accuracy is too low only",
+      "Workflow timing and adoption failure",
+      "More documents must be indexed"
+    ],
+    "correct": 2,
+    "explanation": "High answer quality does not ensure adoption. The AI must appear at the right moment, in the right tool, with trust and actionability.",
+    "diagram": {
+      "type": "flow",
+      "title": "Adoption timing map",
+      "nodes": [
+        "Issue starts",
+        "Agent needs help",
+        "AI appears late",
+        "Manual workaround"
+      ],
+      "caption": "The diagram shows why timing can destroy otherwise strong model value."
+    }
+  },
+  {
+    "domain": "10. Expert AI Product Architecture Scenarios",
+    "level": "Challenge V",
+    "q": "A policy assistant fails every time policies change because old documents remain indexed, prompt examples become stale, and no owner validates changes. What operating model is needed?",
+    "opts": [
+      "No document ownership",
+      "Bigger model only",
+      "One-time document upload",
+      "Content governance lifecycle"
+    ],
+    "correct": 3,
+    "explanation": "Knowledge AI requires content ownership, ingestion schedules, freshness metadata, deprecation rules, validation, and review workflows.",
+    "diagram": {
+      "type": "loop",
+      "title": "Knowledge governance loop",
+      "nodes": [
+        "Policy owner",
+        "Ingestion",
+        "Freshness check",
+        "Validation"
+      ],
+      "caption": "The diagram shows knowledge maintenance as a lifecycle."
+    }
+  },
+  {
+    "domain": "10. Expert AI Product Architecture Scenarios",
+    "level": "Challenge V",
+    "q": "A supply-chain agent can re-route shipments, message customers, and update billing notes. One wrong action can create cost, customer confusion, and accounting errors. What architecture should govern action authority?",
+    "opts": [
+      "Risk-tiered tool permissions",
+      "Unlimited tool access",
+      "No approval checkpoints",
+      "Single prompt instruction"
+    ],
+    "correct": 0,
+    "explanation": "Action authority should be tiered by risk, reversibility, value, and system impact. Higher-risk actions need approval, audit, and rollback.",
+    "diagram": {
+      "type": "matrix",
+      "title": "Tool authority tiers",
+      "nodes": [
+        "Low-risk note",
+        "Customer message",
+        "Route change",
+        "Billing update"
+      ],
+      "caption": "The diagram ranks actions by risk and required control."
+    }
+  },
+  {
+    "domain": "10. Expert AI Product Architecture Scenarios",
+    "level": "Challenge V",
+    "q": "A product roadmap includes summarization, document Q&A, workflow automation, and agentic tool actions. Leadership wants agents first because they sound innovative. What sequencing is most defensible?",
+    "opts": [
+      "Skip evaluation until agents",
+      "Start with tool actions immediately",
+      "Ground knowledge before actions",
+      "Avoid user feedback loops"
+    ],
+    "correct": 2,
+    "explanation": "Roadmaps should build capability and trust in sequence: data/context, Q&A, evaluation, workflow integration, then controlled agentic action. Tool autonomy should not come first.",
+    "diagram": {
+      "type": "flow",
+      "title": "Capability sequencing",
+      "nodes": [
+        "Knowledge base",
+        "Grounded Q&A",
+        "Workflow assist",
+        "Controlled actions"
+      ],
+      "caption": "The diagram sequences capabilities from lower risk to higher autonomy."
+    }
+  },
+  {
+    "domain": "10. Expert AI Product Architecture Scenarios",
+    "level": "Challenge V",
+    "q": "A final architecture review asks for the principle that should govern all AI Product Architect decisions. The product must create value, earn user trust, respect constraints, and improve over time. Which principle best summarizes the role?",
+    "opts": [
+      "Measure only technical accuracy",
+      "Maximize automation immediately",
+      "Choose models before workflows",
+      "Deliver value with controlled learning"
+    ],
+    "correct": 3,
+    "explanation": "AI Product Architecture is the discipline of turning AI capability into useful, measurable, governable, and improving product systems. Value and control must advance together.",
+    "diagram": {
+      "type": "layers",
+      "title": "AI product architecture principle",
+      "nodes": [
+        "User value",
+        "Data fit",
+        "Risk controls",
+        "Learning loop"
+      ],
+      "caption": "The final diagram summarizes the architecture balance: value, risk, and learning."
+    }
+  }
+];
+const LETTERS = ['A','B','C','D'];
+let mode='guided'; let current=0; let answers=new Array(QUESTIONS.length).fill(null); let revealed=new Array(QUESTIONS.length).fill(false); let submitted=false;
+const EXAM_DURATION_MS = 2 * 60 * 60 * 1000;
+let examEndTime = null;
+let timerInterval = null;
+function fmtHMS(ms){if(ms<0)ms=0;const t=Math.floor(ms/1000);const h=Math.floor(t/3600);const m=Math.floor((t%3600)/60);const s=t%60;const pad=n=>String(n).padStart(2,'0');return pad(h)+':'+pad(m)+':'+pad(s);}
+function tickExamTimer(){const ts=document.getElementById('timerStat');const tv=document.getElementById('timerVal');if(!examEndTime||!ts||!tv)return;const remain=examEndTime-Date.now();tv.textContent=fmtHMS(remain);ts.classList.toggle('crit',remain<=60000);ts.classList.toggle('warn',remain<=300000&&remain>60000);if(remain<=0){stopExamTimer();if(mode==='exam'&&!submitted){submitExam(true);}}}
+function startExamTimer(){stopExamTimer();examEndTime=Date.now()+EXAM_DURATION_MS;const ts=document.getElementById('timerStat');if(ts){ts.style.display='';ts.classList.remove('warn','crit');}tickExamTimer();timerInterval=setInterval(tickExamTimer,1000);}
+function stopExamTimer(){if(timerInterval){clearInterval(timerInterval);timerInterval=null;}}
+function hideExamTimer(){stopExamTimer();examEndTime=null;const ts=document.getElementById('timerStat');if(ts){ts.style.display='none';ts.classList.remove('warn','crit');const tv=document.getElementById('timerVal');if(tv)tv.textContent='02:00:00';}}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
+function setMode(m){mode=m;document.getElementById('m-guided').classList.toggle('active',m==='guided');document.getElementById('m-instant').classList.toggle('active',m==='instant');document.getElementById('m-exam').classList.toggle('active',m==='exam');const h=document.getElementById('modeHint');if(m==='guided')h.textContent='Guided Path: one question at a time. The next question is locked until the current question is answered.';if(m==='instant')h.textContent='Instant Feedback: all 100 questions are shown in a practice list. Each answer reveals feedback immediately.';if(m==='exam')h.textContent='Exam Mode: one question at a time. 2-hour countdown; feedback and score are hidden until final submission.';resetExam(false);}
+function currentScore(){return answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);} function answeredCount(){return answers.filter(a=>a!==null).length;}
+function updateHud(){const done=answeredCount();const qStat=document.getElementById('qStat');if(mode==='instant'){qStat.innerHTML=`Answered <b id="qNow">${done}</b>/100`;document.getElementById('barFill').style.width=(done/QUESTIONS.length*100)+'%';}else{qStat.innerHTML=`Question <b id="qNow">${current+1}</b>/100`;document.getElementById('barFill').style.width=((current+1)/QUESTIONS.length*100)+'%';}document.getElementById('answeredCount').textContent=done;document.getElementById('scoreCount').textContent=(mode==='exam'&&!submitted)?'—':currentScore();}
+function shouldShowFeedback(i){return submitted||((mode==='guided'||mode==='instant')&&revealed[i]);}
+function optionClassAt(qi,oi){const q=QUESTIONS[qi];let c='opt';const selected=answers[qi]===oi;const show=shouldShowFeedback(qi);if(selected)c+=' sel';if(show){c+=' disabled';if(oi===q.correct)c+=' correct';else if(selected)c+=' wrong';}return c;}
+
+/* ===== Diagram helpers (rewritten for proper alignment) ===== */
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function wrapLines(s, maxChars){
+  s = String(s||'').trim();
+  if(!s) return [''];
+  maxChars = Math.max(3, maxChars|0);
+  const words = s.split(/\s+/);
+  const lines = [];
+  let line = '';
+  for(const w of words){
+    if(w.length > maxChars){
+      if(line){ lines.push(line); line=''; }
+      for(let i=0;i<w.length;i+=maxChars){ lines.push(w.slice(i, i+maxChars)); }
+      continue;
+    }
+    const trial = line ? line + ' ' + w : w;
+    if(trial.length <= maxChars){ line = trial; }
+    else { lines.push(line); line = w; }
+  }
+  if(line) lines.push(line);
+  return lines;
+}
+
+// Fit a title into width w. JetBrains Mono char width ≈ fontSize * 0.62.
+function fitTitle(title, w, maxLines){
+  maxLines = maxLines || 3;
+  let fs = 12;
+  const cpl = (size) => Math.max(4, Math.floor((w - 4) / (size * 0.62)));
+  let lines = wrapLines(title, cpl(fs));
+  while(lines.length > maxLines && fs > 9){
+    fs -= 1;
+    lines = wrapLines(title, cpl(fs));
+  }
+  if(lines.length > maxLines){
+    const head = lines.slice(0, maxLines - 1);
+    const tail = lines.slice(maxLines - 1).join(' ');
+    const lim = cpl(fs);
+    head.push(tail.length > lim ? tail.slice(0, lim - 1) + '…' : tail);
+    lines = head;
+  }
+  return { lines, fontSize: fs, lineHeight: fs + 2 };
+}
+
+// Rounded rectangle node with centered title and optional subtitle.
+function box(x, y, w, h, title, subtitle, fill, stroke, rx){
+  fill = fill || '#ffffff';
+  stroke = stroke || '#90a4b8';
+  rx = (rx == null) ? 8 : rx;
+  const subH = subtitle ? 14 : 0;
+  const padY = 4;
+  const titleArea = h - subH - padY*2;
+  // Limit how many lines we'll try to fit based on title area
+  const maxLines = Math.max(1, Math.floor(titleArea / 13));
+  const fit = fitTitle(title, w - 8, maxLines);
+  // Cap font size if box is short
+  const maxFs = Math.min(12, Math.max(9, Math.floor(titleArea / Math.max(1, fit.lines.length) - 2)));
+  let fs = Math.min(fit.fontSize, maxFs);
+  let lh = fs + 2;
+  let lines = fit.lines;
+  if(fs !== fit.fontSize){
+    const re = fitTitle(title, w - 8, maxLines);
+    lines = re.lines;
+  }
+  const blockH = lines.length * lh;
+  const titleTop = y + padY + Math.max(0, (titleArea - blockH) / 2);
+  const firstBaseline = titleTop + fs;
+  const linesSvg = lines.map((ln, i) =>
+    '<tspan x="' + (x + w/2) + '" y="' + (firstBaseline + i * lh) + '">' + esc(ln) + '</tspan>'
+  ).join('');
+  const subtitleSvg = subtitle
+    ? '<text x="' + (x + w/2) + '" y="' + (y + h - 5) + '" text-anchor="middle" font-size="9.5" font-style="italic" fill="#5c6875">' + esc(subtitle) + '</text>'
+    : '';
+  return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="' + rx + '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="1.2"/>' +
+    '<text text-anchor="middle" font-size="' + fs + '" font-weight="700" fill="#22313f">' + linesSvg + '</text>' +
+    subtitleSvg;
+}
+
+// Dashed cluster boundary with a label at top-left, leaves ~28px of header room.
+function cluster(x, y, w, h, label, stroke, fill){
+  stroke = stroke || '#7aa0c0';
+  fill = fill || 'rgba(255,255,255,0.55)';
+  const cpl = Math.max(6, Math.floor((w - 18) / 6.4));
+  const lines = wrapLines(label, cpl).slice(0, 2);
+  const titleSvg = lines.map((ln, i) =>
+    '<tspan x="' + (x + 10) + '" y="' + (y + 15 + i * 12) + '">' + esc(ln) + '</tspan>'
+  ).join('');
+  return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="12" fill="' + fill + '" stroke="' + stroke + '" stroke-width="1.2" stroke-dasharray="6 4"/>' +
+    '<text font-size="10.5" font-weight="700" fill="#395d7a">' + titleSvg + '</text>';
+}
+
+// 3D-look storage cylinder with centered title.
+function cylinder(x, y, w, h, title, fill, stroke){
+  fill = fill || '#ffe8e8';
+  stroke = stroke || '#b07a7a';
+  const ry = 8;
+  const inner = h - ry*2;
+  const fit = fitTitle(title, w - 10, Math.max(1, Math.floor(inner / 14)));
+  const blockH = fit.lines.length * fit.lineHeight;
+  const titleTop = y + ry + (inner - blockH) / 2;
+  const firstBaseline = titleTop + fit.fontSize;
+  const linesSvg = fit.lines.map((ln, i) =>
+    '<tspan x="' + (x + w/2) + '" y="' + (firstBaseline + i * fit.lineHeight) + '">' + esc(ln) + '</tspan>'
+  ).join('');
+  return '<path d="M ' + x + ' ' + (y + ry) + ' L ' + x + ' ' + (y + h - ry) +
+    ' A ' + (w/2) + ' ' + ry + ' 0 0 0 ' + (x + w) + ' ' + (y + h - ry) +
+    ' L ' + (x + w) + ' ' + (y + ry) + '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="1.2"/>' +
+    '<ellipse cx="' + (x + w/2) + '" cy="' + (y + ry) + '" rx="' + (w/2) + '" ry="' + ry + '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="1.2"/>' +
+    '<text text-anchor="middle" font-size="' + fit.fontSize + '" font-weight="700" fill="#502e2e">' + linesSvg + '</text>';
+}
+
+// Arrow with optional label; endpoint is pulled back so the arrowhead sits just outside the target.
+function arrow(x1, y1, x2, y2, color, label){
+  color = color || '#7a6a44';
+  label = label || '';
+  const dx = x2 - x1, dy = y2 - y1;
+  const len = Math.sqrt(dx*dx + dy*dy);
+  let xe = x2, ye = y2;
+  if(len > 8){ const back = 3; xe = x2 - dx * back / len; ye = y2 - dy * back / len; }
+  const mx = (x1 + xe) / 2, my = (y1 + ye) / 2;
+  let txt = '';
+  if(label){
+    const tw = label.length * 6.6 + 8;
+    txt = '<rect x="' + (mx - tw/2) + '" y="' + (my - 13) + '" width="' + tw + '" height="13" rx="3" fill="rgba(255,255,255,0.88)" stroke="none"/>' +
+      '<text x="' + mx + '" y="' + (my - 3) + '" text-anchor="middle" font-size="10" font-weight="700" fill="#5c6875">' + esc(label) + '</text>';
+  }
+  return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + xe + '" y2="' + ye + '" stroke="' + color + '" stroke-width="2" marker-end="url(#arrowhead)"/>' + txt;
+}
+
+function badge(cx, cy, num, color){
+  color = color || '#1d8e4e';
+  return '<circle cx="' + cx + '" cy="' + cy + '" r="11" fill="' + color + '" stroke="#ffffff" stroke-width="1.5"/>' +
+    '<text x="' + cx + '" y="' + (cy + 3.5) + '" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">' + esc(num) + '</text>';
+}
+
+function svgWrap(title, body, w, h){
+  w = w || 900; h = h || 320;
+  return '<div class="diagram-card"><div class="diagram-title">' + esc(title || 'Graphical architecture illustration') + '</div>' +
+    '<div class="diagram-svg-wrap"><svg class="diagram-svg" viewBox="0 0 ' + w + ' ' + h + '" role="img" aria-label="' + esc(title||'Architecture diagram') + '" xmlns="http://www.w3.org/2000/svg">' +
+    '<defs><marker id="arrowhead" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><polygon points="0 0, 10 3, 0 6" fill="#7a6a44"/></marker></defs>' + body + '</svg></div>';
+}
+
+/* ===== Templates ===== */
+
+function tplPipeline(d, idx){
+  const n = d.nodes || [];
+  const a = n[0] || 'Source data', b = n[1] || 'Ingest / process',
+        c = n[2] || 'AI runtime', e = n[3] || 'Business outcome';
+  const title = d.title || 'AI pipeline architecture';
+  let body = '';
+  body += cluster(18, 24, 134, 252, 'Source domain');
+  body += cluster(162, 24, 134, 252, 'Data workload');
+  body += cluster(306, 24, 232, 252, 'AI / ML runtime');
+  body += cluster(548, 24, 138, 252, 'Analytics');
+  body += cluster(696, 24, 188, 252, 'Experience');
+  body += box(32, 110, 106, 78, a, 'enterprise');
+  body += box(176, 110, 106, 78, b, 'ingest');
+  body += box(318, 76, 96, 60, 'Feature prep', '', '#fff6dd', '#c8a552');
+  body += box(424, 76, 100, 60, 'Training', '', '#fff6dd', '#c8a552');
+  body += box(372, 168, 100, 78, c, 'inference', '#eaf4ff', '#7aa0c0');
+  body += box(560, 110, 114, 78, 'Observability', 'BI / KPIs', '#eef6ff', '#7aa0c0');
+  body += box(710, 110, 162, 78, e, 'app / user', '#f7f4ff', '#9b88be');
+  body += arrow(138, 149, 176, 149);
+  body += arrow(282, 149, 318, 110);
+  body += arrow(414, 106, 424, 106, '#7a6a44', 'batch');
+  body += arrow(474, 136, 422, 168, '#7a6a44', 'deploy');
+  body += arrow(472, 207, 560, 170, '#7a6a44', 'monitor');
+  body += arrow(674, 149, 710, 149);
+  return svgWrap(title, body, 900, 290) +
+    '<div class="diagram-caption">' + esc(d.caption || 'The diagram shows a left-to-right enterprise AI data and delivery pipeline.') + '</div></div>';
+}
+
+function tplIngest(d, idx){
+  const n = d.nodes || [];
+  const a = n[0] || 'Source 1', b = n[1] || 'Source 2',
+        c = n[2] || 'Process', e = n[3] || 'Analyze / report';
+  const title = d.title || 'Ingest–process–store–analyze flow';
+  let body = '';
+  body += cluster(18, 24, 144, 252, 'Data sources');
+  body += cluster(172, 24, 130, 252, 'Ingest');
+  body += cluster(312, 24, 168, 252, 'Process');
+  body += cluster(490, 24, 130, 252, 'Store');
+  body += cluster(630, 24, 254, 252, 'Analyze / report');
+  body += box(32, 80, 116, 60, a);
+  body += box(32, 170, 116, 60, b);
+  body += box(186, 80, 102, 56, 'Event Hub');
+  body += box(186, 174, 102, 56, 'Stream bus');
+  body += box(326, 104, 138, 70, c, 'enrich / score', '#eef8ff', '#7aa0c0');
+  body += box(330, 198, 132, 36, 'Monitor', '', '#fff6dd', '#c8a552');
+  body += box(504, 124, 102, 64, 'Vector store');
+  body += box(648, 100, 132, 70, e, 'tools / dashboard', '#f8f6ff', '#9b88be');
+  body += box(648, 198, 132, 36, 'Alerts feed', '', '#fff6dd', '#c8a552');
+  body += arrow(148, 110, 186, 108);
+  body += arrow(148, 200, 186, 202);
+  body += arrow(288, 108, 326, 128);
+  body += arrow(288, 202, 326, 158);
+  body += arrow(464, 142, 504, 156);
+  body += arrow(606, 156, 648, 130);
+  body += arrow(396, 174, 396, 198);
+  body += arrow(462, 216, 648, 216, '#7a6a44', 'alerts');
+  return svgWrap(title, body, 900, 290) +
+    '<div class="diagram-caption">' + esc(d.caption || 'The diagram emphasizes source ingestion, processing, storage, analytics, and monitoring.') + '</div></div>';
+}
+
+function tplLayers(d, idx){
+  const n = d.nodes || [];
+  const title = d.title || 'Enterprise AI platform layers';
+  const A = n[0] || 'AI control center', B = n[1] || 'AI services APIs',
+        C = n[2] || 'Lifecycle management', D = n[3] || 'Cloud / infra';
+  let body = '';
+  body += box(18, 28, 124, 268, A, 'governance', '#fff3e4', '#c9a56b');
+  body += box(154, 28, 540, 56, 'AI store', 'use cases', '#eaf4ff', '#7aa0c0');
+  body += box(154, 96, 540, 56, B, 'vision / speech / text', '#eff8f2', '#84bc9d');
+  body += box(154, 164, 540, 56, C, 'data / models / assurance', '#f4ebfb', '#a37dc4');
+  body += box(154, 232, 540, 56, D, 'storage / training / inference', '#fff0ee', '#d0958e');
+  body += box(706, 28, 178, 56, 'Benefits', 'visibility', '#edf3ff', '#7aa0c0');
+  body += box(706, 96, 178, 56, 'Consistency', 'service design', '#eef8f2', '#84bc9d');
+  body += box(706, 164, 178, 56, 'Lifecycle', 'governed ML', '#f4ebfb', '#a37dc4');
+  body += box(706, 232, 178, 56, 'Scalability', 'compute', '#fff0ee', '#d0958e');
+  body += arrow(142, 56, 154, 56);
+  body += arrow(142, 124, 154, 124);
+  body += arrow(142, 192, 154, 192);
+  body += arrow(142, 260, 154, 260);
+  body += arrow(694, 56, 706, 56);
+  body += arrow(694, 124, 706, 124);
+  body += arrow(694, 192, 706, 192);
+  body += arrow(694, 260, 706, 260);
+  return svgWrap(title, body, 900, 320) +
+    '<div class="diagram-caption">' + esc(d.caption || 'The diagram organizes AI product architecture into controls, services, lifecycle, and infrastructure layers.') + '</div></div>';
+}
+
+function tplMonolith(d, idx){
+  const n = d.nodes || [];
+  const title = d.title || 'Application + agentic architecture';
+  const A = n[0] || 'Web app', B = n[1] || 'Business logic',
+        C = n[2] || 'Semantic event bus', D = n[3] || 'Agent / inference';
+  let body = '';
+  body += cylinder(20, 50, 124, 76, 'Application DB');
+  body += cylinder(20, 168, 124, 76, 'Memory DB', '#eef3ff', '#7aa0c0');
+  body += '<rect x="172" y="24" width="442" height="276" rx="12" fill="rgba(255,255,255,0.72)" stroke="#2d3945" stroke-width="2" stroke-dasharray="6 5"/>';
+  body += '<text x="184" y="42" font-size="11" font-weight="700" fill="#2d3945">APPLICATION</text>';
+  body += box(196, 56, 280, 44, A);
+  body += box(196, 112, 280, 64, B, 'orchestration', '#fff8d8', '#c8a552');
+  body += box(220, 188, 232, 44, C, 'events', '#ffe6e6', '#d0958e');
+  body += box(196, 246, 280, 46, D, 'tools / memory', '#eff8f2', '#84bc9d');
+  body += box(490, 56, 116, 120, 'Integration', 'layer', '#eaf4ff', '#7aa0c0');
+  body += box(636, 56, 240, 50, 'External systems');
+  body += box(636, 124, 240, 50, 'Channels / CRM');
+  body += box(636, 192, 240, 50, 'Foundation model');
+  body += arrow(144, 88, 196, 78);
+  body += arrow(144, 206, 220, 232);
+  body += arrow(336, 100, 336, 112);
+  body += arrow(336, 176, 336, 188);
+  body += arrow(336, 232, 336, 246);
+  body += arrow(476, 144, 490, 116);
+  body += arrow(606, 90, 636, 81);
+  body += arrow(606, 116, 636, 149);
+  body += arrow(606, 152, 636, 217);
+  return svgWrap(title, body, 900, 320) +
+    '<div class="diagram-caption">' + esc(d.caption || 'The diagram shows a monolithic application coordinating business logic, eventing, memory, and agent inference.') + '</div></div>';
+}
+
+function tplBackend(d, idx){
+  const n = d.nodes || [];
+  const title = d.title || 'Agent runtime fabric';
+  const A = n[0] || 'Desktop / Web UI', B = n[1] || 'SDK / App proxy',
+        C = n[2] || 'Manager / common services', D = n[3] || 'Agents / containers';
+  let body = '';
+  body += box(18, 28, 138, 58, 'Client UI', 'user surface', '#fff8e0', '#c8a552');
+  body += box(18, 100, 138, 58, A, '', '#ffffff', '#90a4b8');
+  body += box(174, 28, 156, 58, 'App proxy', 'gateway', '#eaf4ff', '#7aa0c0');
+  body += box(174, 100, 156, 58, B);
+  body += box(348, 64, 170, 78, C, 'registry / auth', '#edf3ff', '#7aa0c0');
+  const rowYs = [32, 90, 148];
+  for(let r = 0; r < 3; r++){
+    const ry = rowYs[r];
+    body += box(540, ry, 120, 50, 'Agent ' + (r+1));
+    body += box(672, ry, 144, 50, 'Container engine', '', '#eaf4ff', '#7aa0c0');
+    body += box(828, ry, 80, 50, 'C ' + (r+1), '', '#f4ebfb', '#a37dc4');
+  }
+  body += cylinder(348, 196, 130, 84, 'Databases');
+  body += cylinder(540, 216, 140, 64, 'Network storage', '#fff3dd', '#c7a159');
+  body += '<polygon points="700,228 720,210 760,210 780,228 760,246 720,246" fill="#d5f0bb" stroke="#6c8d50" stroke-width="1.2"/>';
+  body += '<text x="740" y="232" text-anchor="middle" font-size="11" font-weight="700" fill="#2d3945">GPU</text>';
+  body += arrow(156, 57, 174, 57);
+  body += arrow(156, 129, 174, 129);
+  body += arrow(330, 57, 348, 95);
+  body += arrow(330, 129, 348, 110);
+  body += arrow(518, 85, 540, 57);
+  body += arrow(518, 103, 540, 115);
+  body += arrow(518, 121, 540, 173);
+  body += arrow(413, 142, 413, 196);
+  body += arrow(610, 198, 610, 216);
+  return svgWrap(title, body, 940, 300) +
+    '<div class="diagram-caption">' + esc(d.caption || 'The diagram illustrates a multi-agent runtime with shared services, containers, storage, and optional GPU acceleration.') + '</div></div>';
+}
+
+function tplConnectivity(d, idx){
+  const n = d.nodes || [];
+  const title = d.title || 'Enterprise connectivity architecture';
+  const A = n[0] || 'Public APIs', B = n[1] || 'Application logic',
+        C = n[2] || 'Discovery / cognitive service', D = n[3] || 'Enterprise systems';
+  let body = '';
+  body += '<rect x="14" y="20" width="180" height="270" rx="10" fill="rgba(232,241,248,0.45)" stroke="#7aa0c0" stroke-width="1.2"/>';
+  body += '<rect x="204" y="20" width="476" height="270" rx="10" fill="rgba(232,241,248,0.30)" stroke="#7aa0c0" stroke-width="1.2"/>';
+  body += '<rect x="690" y="20" width="196" height="270" rx="10" fill="rgba(232,241,248,0.45)" stroke="#7aa0c0" stroke-width="1.2"/>';
+  body += '<text x="24" y="38" font-size="11.5" font-weight="700" fill="#355979">PUBLIC NETWORK</text>';
+  body += '<text x="214" y="38" font-size="11.5" font-weight="700" fill="#355979">CLOUD NETWORK</text>';
+  body += '<text x="700" y="38" font-size="11.5" font-weight="700" fill="#355979">ENTERPRISE</text>';
+  body += box(38, 56, 132, 40, 'User', '', '#fff8e0', '#c8a552');
+  body += box(38, 110, 132, 64, A);
+  body += box(226, 110, 132, 64, 'Edge services', '', '#eef8f2', '#84bc9d');
+  body += box(396, 56, 158, 50, 'Conversation');
+  body += box(396, 124, 158, 64, B, 'orchestration', '#fff3dd', '#c7a159');
+  body += box(396, 204, 158, 56, C, 'retrieval / tools', '#f4ebfb', '#a37dc4');
+  body += '<rect x="226" y="244" width="158" height="40" rx="6" fill="#f8fbff" stroke="#a8b7c7" stroke-width="1.2"/>';
+  body += '<text x="305" y="260" text-anchor="middle" font-size="10.5" font-weight="700" fill="#3a4a5a">Governance</text>';
+  body += '<text x="305" y="275" text-anchor="middle" font-size="9.5" font-style="italic" fill="#5c6875">security · logging</text>';
+  body += box(708, 56, 160, 40, 'User', '', '#fff8e0', '#c8a552');
+  body += box(708, 110, 160, 64, D, 'process / data', '#eef3ff', '#7aa0c0');
+  body += arrow(104, 96, 104, 110);
+  body += arrow(170, 142, 226, 142);
+  body += arrow(358, 142, 396, 156);
+  body += arrow(475, 124, 475, 106);
+  body += arrow(475, 188, 475, 204);
+  body += arrow(554, 156, 708, 142);
+  body += arrow(788, 110, 788, 96);
+  body += arrow(475, 260, 384, 260, '#7a6a44');
+  return svgWrap(title, body, 900, 310) +
+    '<div class="diagram-caption">' + esc(d.caption || 'The diagram highlights cross-boundary flow between public entry points, cloud services, enterprise systems, and governance controls.') + '</div></div>';
+}
+
+function tplDecision(d, idx){
+  const n = d.nodes || [];
+  const title = d.title || 'Decision-gated automation';
+  let body = '';
+  body += box(34, 124, 140, 64, n[0] || 'Input');
+  body += '<polygon points="270,106 348,156 270,206 192,156" fill="#ffffff" stroke="#90a4b8" stroke-width="1.2"/>';
+  body += '<text x="270" y="152" text-anchor="middle" font-size="12" font-weight="700" fill="#22313f">' + esc(n[1] || 'Decision gate') + '</text>';
+  body += '<text x="270" y="170" text-anchor="middle" font-size="10" fill="#556372">policy / confidence</text>';
+  body += box(382, 76, 176, 60, n[2] || 'Approved path', 'auto action', '#eef8f2', '#84bc9d');
+  body += box(382, 176, 176, 60, n[3] || 'Fallback path', 'human review', '#fff3dd', '#c7a159');
+  body += box(606, 124, 200, 64, 'Logged outcome', 'audit trail', '#eef3ff', '#7aa0c0');
+  body += arrow(174, 156, 192, 156);
+  body += arrow(309, 132, 382, 106, '#7a6a44', 'yes');
+  body += arrow(309, 180, 382, 206, '#7a6a44', 'no');
+  body += arrow(558, 106, 606, 144);
+  body += arrow(558, 206, 606, 168);
+  return svgWrap(title, body, 900, 300) +
+    '<div class="diagram-caption">' + esc(d.caption || 'The diagram shows a policy and confidence gate that splits fully automated and human-reviewed paths.') + '</div></div>';
+}
+
+function tplLoop(d, idx){
+  const n = d.nodes || [];
+  const title = d.title || 'AI lifecycle loop';
+  const labels = [n[0]||'Discover', n[1]||'Build', n[2]||'Evaluate', n[3]||'Operate'];
+  let body = '';
+  const cx = 240, cy = 170, r = 80;
+  body += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="rgba(232,241,248,0.55)" stroke="#9fb6cb" stroke-width="1.5" stroke-dasharray="8 6"/>';
+  body += '<text x="' + cx + '" y="' + (cy - 4) + '" text-anchor="middle" font-size="13" font-weight="700" fill="#395d7a">AI lifecycle</text>';
+  body += '<text x="' + cx + '" y="' + (cy + 14) + '" text-anchor="middle" font-size="10.5" fill="#556372">continuous loop</text>';
+  body += box(175, 30, 130, 46, labels[0]);
+  body += box(350, 147, 130, 46, labels[1]);
+  body += box(175, 264, 130, 46, labels[2]);
+  body += box(10, 147, 130, 46, labels[3]);
+  body += '<path d="M 305 60 Q 360 60 350 155" fill="none" stroke="#7a6a44" stroke-width="2.2" marker-end="url(#arrowhead)"/>';
+  body += '<path d="M 478 195 Q 478 287 308 287" fill="none" stroke="#7a6a44" stroke-width="2.2" marker-end="url(#arrowhead)"/>';
+  body += '<path d="M 175 287 Q 60 287 60 195" fill="none" stroke="#7a6a44" stroke-width="2.2" marker-end="url(#arrowhead)"/>';
+  body += '<path d="M 140 145 Q 60 60 175 60" fill="none" stroke="#7a6a44" stroke-width="2.2" marker-end="url(#arrowhead)"/>';
+  body += box(540, 110, 180, 124, 'Guardrails', 'quality · cost · safety', '#fff3dd', '#c7a159');
+  body += arrow(480, 170, 540, 150);
+  body += arrow(305, 287, 540, 220);
+  return svgWrap(title, body, 760, 330) +
+    '<div class="diagram-caption">' + esc(d.caption || 'The diagram presents a lifecycle loop for discovery, build, evaluation, operation, and continuous guardrail management.') + '</div></div>';
+}
+
+function renderDiagram(d,idx){let t=''; const kind = d.type || 'flow'; if(kind==='layers') t = tplLayers(d,idx); else if(kind==='matrix') t = tplIngest(d,idx); else if(kind==='decision') t = tplDecision(d,idx); else if(kind==='loop') t = tplLoop(d,idx); else if(kind==='funnel') t = tplPipeline(d,idx); else if(kind==='risk') t = tplConnectivity(d,idx); else if(kind==='flow' && idx % 6 === 0) t = tplPipeline(d,idx); else if(kind==='flow' && idx % 6 === 1) t = tplIngest(d,idx); else if(kind==='flow' && idx % 6 === 2) t = tplMonolith(d,idx); else if(kind==='flow' && idx % 6 === 3) t = tplBackend(d,idx); else if(kind==='flow' && idx % 6 === 4) t = tplConnectivity(d,idx); else t = tplPipeline(d,idx); return t;}
+function renderOptions(qi){const q=QUESTIONS[qi];const show=shouldShowFeedback(qi);return q.opts.map((o,i)=>{let mark='';if(show&&i===q.correct)mark='✓';if(show&&answers[qi]===i&&i!==q.correct)mark='✕';const click=mode==='instant'?`choose(${i},${qi})`: `choose(${i})`;return `<div class="${optionClassAt(qi,i)}" onclick="${click}"><span class="letter">${LETTERS[i]}</span><span class="otext">${escapeHtml(o)}</span><span class="mark">${mark}</span></div>`;}).join('');}
+function renderQuestion(){if(mode==='instant'){renderInstantList();return;}const q=QUESTIONS[current];const show=shouldShowFeedback(current);const opts=renderOptions(current);const isAnswered=answers[current]!==null;const finalQ=current===QUESTIONS.length-1;const allDone=answeredCount()===QUESTIONS.length;let right='';if(!finalQ){const can=mode==='exam'?true:isAnswered;right=`<button class="btn btn-primary" onclick="nextQuestion()" ${can?'':'disabled'}>Continue</button>`;}else if(mode==='exam'&&!submitted){right=`<button class="btn btn-primary" onclick="submitExam()" ${allDone?'':'disabled'}>Submit Exam</button>`;}else if(finalQ&&mode==='guided'){right=`<button class="btn btn-primary" onclick="showResultsNow()" ${isAnswered?'':'disabled'}>Show Results</button>`;}else{right=`<button class="btn btn-primary" onclick="showResultsNow()">Show Results</button>`;}document.getElementById('questionShell').innerHTML=`<div class="levelbar"><span class="domain">${escapeHtml(q.domain)}</span></div><div class="card"><div class="qtop"><span class="qnum">Q${current+1}</span><span class="qmeta">${escapeHtml(TAGS[current])}</span></div>${renderDiagram(q.diagram,current)}<div class="qtext">${escapeHtml(q.q)}</div><div class="opts">${opts}</div><div class="explain ${show?'show':''}"><div class="elabel">Explanation</div><div class="ans">Correct Answer: ${LETTERS[q.correct]} — ${escapeHtml(q.opts[q.correct])}</div><p>${escapeHtml(q.explanation)}</p></div></div><div class="nav"><div class="left"><button class="btn btn-ghost" onclick="prevQuestion()" ${current===0?'disabled':''}>Back</button><button class="btn btn-ghost" onclick="resetExam()">Reset</button></div><div class="note">${mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.'}</div><div class="right">${right}</div></div>`;updateHud();}
+function renderInstantList(){let html='<div class="instant-list">';QUESTIONS.forEach((q,i)=>{html+=`<div class="instant-item"><div class="levelbar"><span class="domain">Q${i+1} · ${escapeHtml(q.domain)}</span></div><div class="card"><div class="qtop"><span class="qnum">Q${i+1}</span><span class="qmeta">${escapeHtml(TAGS[i])}</span></div>${renderDiagram(q.diagram,i)}<div class="qtext">${escapeHtml(q.q)}</div><div class="opts">${renderOptions(i)}</div><div class="explain ${shouldShowFeedback(i)?'show':''}"><div class="elabel">Explanation</div><div class="ans">Correct Answer: ${LETTERS[q.correct]} — ${escapeHtml(q.opts[q.correct])}</div><p>${escapeHtml(q.explanation)}</p></div></div></div>`;});html+='</div>';document.getElementById('questionShell').innerHTML=html;updateHud();}
+function choose(opt, qIndex=null){const qi=(mode==='instant')?qIndex:current;if(shouldShowFeedback(qi))return;answers[qi]=opt;if(mode==='guided'||mode==='instant')revealed[qi]=true;renderQuestion();}
+function nextQuestion(){if(current<QUESTIONS.length-1){current++;renderQuestion();window.scrollTo({top:0,behavior:'smooth'});}}
+function prevQuestion(){if(current>0){current--;renderQuestion();window.scrollTo({top:0,behavior:'smooth'});}}
+function submitExam(auto){stopExamTimer();submitted=true;revealed=revealed.map(()=>true);renderQuestion();showResultsNow();if(auto===true){const r=document.getElementById('results');if(r){const note=document.createElement('p');note.className='blurb';note.style.color='#b8341a';note.textContent='Time expired — exam auto-submitted at the 2-hour limit.';r.insertBefore(note,r.querySelector('.breakdown'));}}}
+function showResultsNow(){submitted=true;const correct=currentScore();document.getElementById('rScore').textContent=correct;let grade='';let blurb='';const pct=correct/QUESTIONS.length;if(pct>=.9){grade='Expert AI Product Architect';blurb='Excellent command of product strategy, architecture, evaluation, governance, and lifecycle design.';}else if(pct>=.78){grade='Senior AI Product Architect';blurb='Strong performance. Review the highest-risk agent, RAG, and governance cases to sharpen decisions.';}else if(pct>=.65){grade='Practicing AI Product Architect';blurb='Solid foundation with room to strengthen trade-off reasoning across enterprise-scale scenarios.';}else if(pct>=.5){grade='Developing Architect';blurb='You understand key concepts. Revisit the explanations and diagrams to improve case-based judgment.';}else{grade='Architecture Foundations Needed';blurb='Focus on workflow fit, data readiness, risk controls, and evaluation before advanced autonomy.';}document.getElementById('rGrade').textContent=grade;document.getElementById('rBlurb').textContent=blurb;const groups={};QUESTIONS.forEach((q,i)=>{groups[q.domain]=groups[q.domain]||{c:0,t:0};groups[q.domain].t++;if(answers[i]===q.correct)groups[q.domain].c++;});document.getElementById('rBreak').innerHTML=Object.entries(groups).map(([k,v])=>`<div class="bd"><div class="bdtitle">${escapeHtml(k)}</div><div class="bdscore">${v.c}/${v.t}</div></div>`).join('');document.getElementById('results').classList.add('show');document.getElementById('scoreCount').textContent=currentScore();setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth'}),150);}
+function reviewExam(){mode='instant';document.getElementById('m-guided').classList.remove('active');document.getElementById('m-instant').classList.add('active');document.getElementById('m-exam').classList.remove('active');revealed=revealed.map(()=>true);document.getElementById('modeHint').textContent='Review mode: all questions and explanations are visible.';renderQuestion();window.scrollTo({top:0,behavior:'smooth'});}
+function resetExam(jump=true){current=0;answers=new Array(QUESTIONS.length).fill(null);revealed=new Array(QUESTIONS.length).fill(false);submitted=false;document.getElementById('results').classList.remove('show');renderQuestion();if(mode==='exam'){startExamTimer();}else{hideExamTimer();}if(jump)window.scrollTo({top:0,behavior:'smooth'});}
+renderQuestion();
+</script>
+</body>
+</html>

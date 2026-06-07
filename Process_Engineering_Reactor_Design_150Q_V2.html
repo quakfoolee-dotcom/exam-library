@@ -1,0 +1,2251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Process Engineering Fundamentals — Reactor Design · 150Q Mock Exam · Mixed Answer Key</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  --conduction:#6b2d2d;
+  --convection:#0e5f73;
+  --radiation:#7a5b12;
+  --hx:#264c86;
+  --boiling:#5e2a7e;
+  --applications:#26633a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(114,47,55,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.6rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--conduction),var(--convection),var(--radiation),var(--hx),var(--boiling),var(--applications));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-conduction{background:linear-gradient(100deg,var(--conduction),#4d1f23)}
+.sec-convection{background:linear-gradient(100deg,var(--convection),#06403f)}
+.sec-radiation{background:linear-gradient(100deg,var(--radiation),#5f3406)}
+.sec-hx{background:linear-gradient(100deg,var(--hx),#0c2349)}
+.sec-boiling{background:linear-gradient(100deg,var(--boiling),#311148)}
+.sec-applications{background:linear-gradient(100deg,var(--applications),#0e3d18)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.06rem;line-height:1.62;margin-bottom:18px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:12px 14px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.55);transition:all .18s ease;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.08);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s;margin-top:1px}
+.opt .otext{flex:1;font-size:1.0rem;line-height:1.55;word-break:break-word;padding-top:2px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.12)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center;font-family:'JetBrains Mono',monospace}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:160px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 16px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:.98rem}
+  .opt .otext{font-size:.92rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Process Engineering Fundamentals &middot; 150-Question Mock</div>
+    <h1 class="title">Reactor <span class="amp">Design</span> Exam</h1>
+    <div class="byline">150 questions across mole balances, kinetics, ideal reactors, selectivity, nonisothermal operation, catalysis, nonideal flow, scale-up, and industrial applications &mdash; concept, calculation, and design items aligned to FE/PE Chemical Engineering exam scope</div>
+    <div class="exambar">
+      <span><b>150</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>150</b> Marks</span>
+      <span>Exam Mode: <b>4 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')">Guided Path</button>
+    <button id="mode-instant" class="active" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Instant Feedback: pick an answer and see the explanation immediately.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/150</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">04:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/150</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 4-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    Process Engineering &middot; Reactor Design &middot; 150-question mock aligned to FE/PE Chemical Engineering exam scope
+    <div class="disclaimer">An independent study resource. Always validate quantitative methods against authoritative sources (Levenspiel, Fogler, Smith, Perry's Handbook, API/AIChE safety guidance) and your organization's standards.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "A reactor-design calculation begins with the general mole balance on species A. Which statement is the correct general form?",
+    "opts": [
+      "Generation = input only; ignores outlet flow and accumulation terms",
+      "Input + output − generation = accumulation; uses the wrong sign for outlet flow and reaction",
+      "Output − input + accumulation = generation; rearranged with inconsistent signs for a control volume",
+      "Input − output + generation = accumulation; the starting point for all reactor design equations"
+    ],
+    "correct": 3,
+    "explanation": "The general mole balance is input − output + generation = accumulation. Batch, CSTR, PFR, and packed-bed design equations are special cases formed by choosing the control volume and the appropriate steady or unsteady assumptions."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "For a well-mixed batch reactor of constant volume, the mole balance for reactant A is BEST written as:",
+    "opts": [
+      "dF_A/dV = r_A; this is the differential PFR form, not batch",
+      "F_A0 − F_A + r_A V = 0; this is the steady-state CSTR form",
+      "dN_A/dt = F_A0 − F_A + r_A V; this is the general unsteady flow balance, not batch-specific",
+      "dN_A/dt = r_A V; no inlet or outlet streams exist during the reaction period"
+    ],
+    "correct": 3,
+    "explanation": "In a batch reactor during reaction, inlet and outlet molar flow rates are zero, so dN_A/dt = r_A V. For reactant consumption, r_A is negative, so N_A decreases with time."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "For a steady-state CSTR with feed molar flow F_A0 and outlet conversion X, which design equation is correct?",
+    "opts": [
+      "V = F_A0/(−r_A0); omits conversion and uses only feed conditions",
+      "V = F_A0 X/(−r_A) evaluated at the reactor outlet conditions",
+      "dV = F_A0 dX/(−r_A) integrated using the inlet rate only",
+      "V = (−r_A)/(F_A0 X); inverse of the CSTR design equation"
+    ],
+    "correct": 1,
+    "explanation": "A CSTR is perfectly mixed, so the reaction rate everywhere equals the exit-condition rate. The steady mole balance gives V = F_A0 X/(−r_A)_exit."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "For a plug-flow reactor operating at steady state, the differential design equation in terms of conversion is:",
+    "opts": [
+      "dX/dt = −r_A/C_A0; batch-like form with time as the independent variable",
+      "dF_A/dt = r_A V; unsteady accumulation, not steady plug flow",
+      "dV = F_A0 dX/(−r_A); integrate along the reactor as the rate changes with conversion",
+      "V = F_A0 X/(−r_A)_exit; this is the CSTR algebraic equation"
+    ],
+    "correct": 2,
+    "explanation": "For a PFR, a differential slice is treated as a small steady control volume. The design equation is dV = F_A0 dX/(−r_A), with the local rate evaluated at the local composition and temperature."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "For a packed-bed reactor with catalytic rate reported as −r_A′ in mol A consumed per kg catalyst per second, the design variable is usually:",
+    "opts": [
+      "Catalyst weight W, with dW = F_A0 dX/(−r_A′)",
+      "Heat-transfer area A only; catalyst weight is not needed when a rate per mass catalyst is used",
+      "Liquid holdup volume only; catalyst mass appears only for slurry reactors",
+      "Pipe length L only, independent of catalyst packing density"
+    ],
+    "correct": 0,
+    "explanation": "Packed-bed design commonly uses catalyst mass W because heterogeneous rates are often reported per mass of catalyst. The ideal packed-bed balance is dW = F_A0 dX/(−r_A′)."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "For the reaction 2A + B → C, the stoichiometric relation among rates is:",
+    "opts": [
+      "−r_A/2 = −r_B/1 = r_C/1; rates are normalized by stoichiometric coefficients",
+      "−r_A = −r_B = r_C; ignores the 2:1 consumption ratio of A to B",
+      "−2r_A = −r_B = r_C; multiplies A by its coefficient instead of dividing",
+      "r_A/2 = r_B = r_C; misses the sign convention for consumed reactants"
+    ],
+    "correct": 0,
+    "explanation": "Species rates are related through stoichiometric coefficients: r_i/ν_i is the same reaction rate, with reactant ν_i negative and product ν_i positive. For 2A + B → C, −r_A/2 = −r_B = r_C."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "If A + B → products is elementary, the most appropriate rate law is:",
+    "opts": [
+      "−r_A = k/(C_A C_B), because elementary reactions are inhibited by concentration",
+      "−r_A = k(C_A + C_B)⁰, because elementary reactions are always zero order",
+      "−r_A = kC_A², because every bimolecular reaction is second order in A alone",
+      "−r_A = kC_A C_B, because the elementary molecular collision involves one A and one B"
+    ],
+    "correct": 3,
+    "explanation": "For an elementary step, the powers in the rate law follow molecularity. A + B elementary gives −r_A = kC_A C_B. Non-elementary overall reactions need experimental kinetics."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "For a first-order homogeneous reaction −r_A = kC_A, the SI units of k are:",
+    "opts": [
+      "mol/(m³·s)",
+      "s⁻¹",
+      "m⁶/(mol²·s)",
+      "m³/(mol·s)"
+    ],
+    "correct": 1,
+    "explanation": "Rate has units mol/(m³·s). For −r_A = kC_A and C_A in mol/m³, k must have units s⁻¹. Second-order k has units m³/(mol·s)."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "For a second-order liquid reaction −r_A = kC_A², what are the usual SI units of k?",
+    "opts": [
+      "s⁻¹; appropriate for first-order kinetics, not second order",
+      "m³/s; missing the mole term in the denominator",
+      "m³/(mol·s); this converts concentration squared into volumetric rate",
+      "mol/(m³·s); these are rate units, not rate-constant units"
+    ],
+    "correct": 2,
+    "explanation": "For −r_A = kC_A², k = rate/concentration² = [mol m⁻³ s⁻¹]/[mol² m⁻⁶] = m³/(mol·s)."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "An Arrhenius plot of ln k versus 1/T has slope:",
+    "opts": [
+      "E/R; misses the negative sign in ln k = ln A − E/(RT)",
+      "−E/R; activation energy is obtained from the negative slope times R",
+      "−R/E; reciprocal of the actual Arrhenius slope",
+      "ln A; the intercept, not the slope"
+    ],
+    "correct": 1,
+    "explanation": "The Arrhenius equation is k = A exp(−E/RT), so ln k = ln A − (E/R)(1/T). The slope of ln k versus 1/T is −E/R."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "Conversion of reactant A in a flow reactor is defined as:",
+    "opts": [
+      "X = (F_A0 − F_A)/F_A0; fraction of entering A that has reacted",
+      "X = (C_A0 − C_A)/C_A0 only; valid only for constant-density systems",
+      "X = F_A0/(F_A0 − F_A); inverse of the conversion expression",
+      "X = F_A/F_A0; fraction of A remaining, not fraction converted"
+    ],
+    "correct": 0,
+    "explanation": "For flow reactors, conversion is X = (F_A0 − F_A)/F_A0. The concentration form is only equivalent when volumetric flow is constant."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "For a liquid-phase constant-density reaction, the reactant concentration in terms of conversion is:",
+    "opts": [
+      "C_A = C_A0X; gives zero concentration at the feed and maximum at complete conversion",
+      "C_A = C_A0/(1 − X); incorrectly increases concentration as conversion rises",
+      "C_A = C_A0(1 − X); volumetric flow is unchanged",
+      "C_A = C_A0(1 + εX); gas expansion form without the reactant consumption factor"
+    ],
+    "correct": 2,
+    "explanation": "For constant volume or constant volumetric flow, moles of A are proportional to concentration, so C_A = C_A0(1 − X)."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "For an isothermal, isobaric gas reaction, a common expression for reactant concentration is C_A = C_A0(1 − X)/(1 + εX). The parameter ε accounts for:",
+    "opts": [
+      "Catalyst porosity and tortuosity inside a pellet",
+      "Heat generated by reaction per mole of A converted",
+      "Change in total molar flow caused by reaction stoichiometry and feed composition",
+      "Axial dispersion in a nonideal tubular reactor"
+    ],
+    "correct": 2,
+    "explanation": "In gas-phase reactions, conversion can change total moles and therefore volumetric flow. ε captures the fractional change in total molar flow per conversion of A, adjusted for the feed composition."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "For pure A reacting as A → 2B in an isothermal, isobaric ideal gas reactor, ε is:",
+    "opts": [
+      "−1, because one reactant disappears",
+      "0, because total moles never change in gas reactions",
+      "+2, because two moles of product are formed",
+      "+1, because total moles increase from 1 to 2 per mole A reacted"
+    ],
+    "correct": 3,
+    "explanation": "For pure A, δ = products − reactants = 2 − 1 = +1. Thus ε = y_A0δ = 1×1 = +1, and the volumetric flow increases as X rises."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "A Levenspiel plot for single-reaction design commonly plots:",
+    "opts": [
+      "F_A0/(−r_A) versus conversion X; area gives PFR volume and rectangles give CSTR volume",
+      "Temperature versus reactor length; area gives heat duty only",
+      "−r_A versus time; area always gives conversion for every reactor type",
+      "Pressure drop versus catalyst diameter; area gives catalyst effectiveness"
+    ],
+    "correct": 0,
+    "explanation": "The Levenspiel plot uses F_A0/(−r_A) against X. The PFR volume is the area under the curve; a CSTR volume is a rectangle evaluated at exit conversion."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "The half-life of a constant-volume first-order batch reaction is:",
+    "opts": [
+      "t₁/₂ = 1/(kC_A0); this is the second-order half-life",
+      "t₁/₂ = k/ln 2; inverted units",
+      "t₁/₂ = ln 2/k; independent of initial concentration",
+      "t₁/₂ = C_A0/(2k); this resembles a zero-order result"
+    ],
+    "correct": 2,
+    "explanation": "For first-order decay, C_A/C_A0 = exp(−kt). Setting C_A/C_A0 = 1/2 gives t₁/₂ = ln 2/k."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "The half-life of a constant-volume second-order reaction −r_A = kC_A² is:",
+    "opts": [
+      "t₁/₂ = 1/(kC_A0); depends on the initial concentration",
+      "t₁/₂ = C_A0/(2k); zero-order style expression",
+      "t₁/₂ = ln 2/k; first-order result, not second order",
+      "t₁/₂ = 2kC_A0; wrong units and wrong dependence"
+    ],
+    "correct": 0,
+    "explanation": "The integrated second-order law is 1/C_A − 1/C_A0 = kt. At C_A = C_A0/2, t₁/₂ = 1/(kC_A0)."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "For a zero-order liquid batch reaction, −r_A = k. The time to reach conversion X is:",
+    "opts": [
+      "t = kC_A0X; inverted rate constant dependence",
+      "t = C_A0X/k; concentration decreases linearly with time",
+      "t = X/[kC_A0(1−X)]; second-order PFR result",
+      "t = ln[1/(1−X)]/k; first-order batch result"
+    ],
+    "correct": 1,
+    "explanation": "For zero-order kinetics in a constant-volume batch reactor, C_A = C_A0 − kt. Since C_A = C_A0(1 − X), t = C_A0X/k."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "Which statement about reaction order is most accurate?",
+    "opts": [
+      "Reaction order is always one for unimolecular products",
+      "Reaction order is empirical for non-elementary reactions and must usually be measured",
+      "Overall reaction order must always equal the sum of stoichiometric coefficients",
+      "Reaction order is determined from the balanced equation for all reactions"
+    ],
+    "correct": 1,
+    "explanation": "Stoichiometry alone does not determine kinetics unless the step is elementary. Overall rate laws are usually experimental because mechanisms can involve adsorption, radicals, intermediates, or rate-limiting steps."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "A first-order liquid reaction has k = 0.20 min⁻¹. The batch time for 90% conversion is approximately:",
+    "opts": [
+      "2.0 min; used X/k only",
+      "0.53 min; used ln(1.1)/0.20 instead of ln(10)/0.20",
+      "45 min; used 9/k as if conversion were concentration ratio",
+      "11.5 min; t = ln[1/(1−0.90)]/0.20 = 2.303/0.20"
+    ],
+    "correct": 3,
+    "explanation": "For first-order batch or constant-density PFR behavior, t or τ = ln[1/(1−X)]/k. For X = 0.90 and k = 0.20 min⁻¹, t = 11.5 min."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "If B is present in very large excess for A + B → products with rate −r_A = kC_A C_B, the reaction can often be treated as:",
+    "opts": [
+      "Zero-order in A because B is not changing appreciably",
+      "Second-order in A, with rate kC_A²",
+      "Pseudo-first-order in A, with k′ = kC_B approximately constant",
+      "Equilibrium-limited even if the reverse reaction is absent"
+    ],
+    "correct": 2,
+    "explanation": "When C_B changes little, combine kC_B into an apparent constant k′. The rate becomes −r_A = k′C_A, simplifying design and kinetic fitting."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "For a first-order reaction in a constant-density flow reactor, the Damköhler number is often written Da = kτ. It represents:",
+    "opts": [
+      "A dimensionless measure of residence time relative to chemical reaction time",
+      "The ratio of reaction time scale to mixing intensity only",
+      "The pressure-drop coefficient in a packed bed",
+      "The ratio of heat capacity to heat of reaction"
+    ],
+    "correct": 0,
+    "explanation": "For first-order systems, Da = kτ compares how long fluid resides in the reactor with how fast it reacts. Larger Da generally means higher conversion, subject to equilibrium and transport limits."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "Space time τ for a flow reactor is conventionally defined as:",
+    "opts": [
+      "τ = V/F_A; has units of m³ per mol/s, not time unless divided by concentration",
+      "τ = V/v₀; reactor volume divided by inlet volumetric flow rate",
+      "τ = v₀/V; this is space velocity, not space time",
+      "τ = F_A0/V; molar feed rate per volume, not residence-time scale"
+    ],
+    "correct": 1,
+    "explanation": "Space time is τ = V/v₀ using inlet volumetric flow. It is a nominal residence time; actual mean residence time may differ for variable-density systems or nonideal flow."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "Space velocity is commonly defined as:",
+    "opts": [
+      "SV = V/v₀; this is space time",
+      "SV = F_A0X/(−r_A); CSTR volume expression",
+      "SV = v₀/V; reciprocal of space time",
+      "SV = k/V; rate constant divided by reactor volume"
+    ],
+    "correct": 2,
+    "explanation": "Space velocity is feed volumetric flow per reactor volume, SV = v₀/V, with units of reciprocal time. Industrial packed beds often use GHSV or LHSV."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "A measured rate r_A reported as mol/(m³ reactor·s) is a:",
+    "opts": [
+      "Catalyst-mass-based rate only",
+      "Dimensionless conversion rate",
+      "Molar flow rate rather than a rate density",
+      "Volumetric homogeneous rate or bed-volume-based rate"
+    ],
+    "correct": 3,
+    "explanation": "Homogeneous reaction rates are often per reactor volume. Heterogeneous catalytic rates may be reported per kg catalyst, per external area, per pellet volume, or per bed volume, so the basis must match the design equation."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "For a reversible reaction A ⇌ B with rate −r_A = k_f C_A − k_r C_B, the net rate at equilibrium is:",
+    "opts": [
+      "Zero because forward and reverse rates are equal",
+      "Maximum because both forward and reverse reactions are fastest",
+      "Equal to k_fC_A only because reverse reaction stops at equilibrium",
+      "Negative infinite because equilibrium prevents conversion"
+    ],
+    "correct": 0,
+    "explanation": "At equilibrium the forward and reverse rates are equal, so the net rate is zero. Reactor volume required to exactly reach equilibrium is theoretically infinite for an ideal rate expression approaching zero."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "A liquid reaction rate doubles when C_A doubles while other concentrations are fixed. The apparent order in A is:",
+    "opts": [
+      "Two",
+      "One",
+      "Cannot be inferred because doubling can never identify order",
+      "Zero"
+    ],
+    "correct": 1,
+    "explanation": "If rate ∝ C_A^n and doubling C_A doubles the rate, then 2^n = 2 and n = 1, assuming other variables are fixed."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "A liquid reaction rate increases by a factor of four when C_A doubles while all else is fixed. The apparent order in A is:",
+    "opts": [
+      "Two",
+      "Four",
+      "One-half",
+      "One"
+    ],
+    "correct": 0,
+    "explanation": "For rate ∝ C_A^n, a doubling gives 2^n. If the rate increases by 4, then 2^n = 4 and n = 2."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "Which quantity is a kinetic parameter rather than a reactor-design operating variable?",
+    "opts": [
+      "Inlet volumetric flow rate v₀",
+      "Activation energy E in the Arrhenius equation",
+      "Reactor volume V",
+      "Coolant temperature T_c"
+    ],
+    "correct": 1,
+    "explanation": "Activation energy is part of the chemical kinetic model. Flow rate, reactor size, and coolant temperature are design or operating variables that influence performance but are not intrinsic kinetic parameters."
+  },
+  {
+    "section": "Fundamentals, Mole Balances & Kinetics",
+    "q": "For an exothermic reaction using the convention ΔH_R < 0, the heat released per mole of A reacted is commonly represented by:",
+    "opts": [
+      "1/ΔH_R, the reciprocal heat of reaction",
+      "R T/ΔH_R, an Arrhenius-like heat term",
+      "ΔH_R, which is negative and therefore always a heat sink",
+      "−ΔH_R, a positive heat-release quantity"
+    ],
+    "correct": 3,
+    "explanation": "For exothermic reactions, ΔH_R is negative by thermodynamic convention. Reactor energy balances often use (−ΔH_R)(−r_A)V as a positive heat-generation term."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "For an irreversible positive-order reaction at the same inlet conditions and target conversion, which ideal reactor usually requires less volume: PFR or single CSTR?",
+    "opts": [
+      "PFR, because reactant concentration is highest near the inlet and the rate remains higher over much of the reactor",
+      "CSTR, because complete mixing always maximizes reactant concentration",
+      "CSTR only if the reaction is first order; otherwise PFR cannot be designed",
+      "They always require exactly the same volume"
+    ],
+    "correct": 0,
+    "explanation": "For positive-order kinetics, rate decreases as conversion increases. A PFR benefits from high inlet concentration, while a CSTR operates everywhere at the lower exit concentration, so the PFR is usually smaller."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "For a first-order liquid reaction in a CSTR, X as a function of space time τ is:",
+    "opts": [
+      "X = kτ/(1 + kτ)",
+      "X = 1 − exp(−kτ)",
+      "X = exp(−kτ)",
+      "X = 1/(1 + kτ)"
+    ],
+    "correct": 0,
+    "explanation": "For a CSTR, V = F_A0X/(kC_A). With C_A = C_A0(1−X) and τ = V/v₀, τ = X/[k(1−X)], so X = kτ/(1+kτ)."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "For a first-order liquid reaction in a PFR, X as a function of space time τ is:",
+    "opts": [
+      "X = exp(kτ) − 1",
+      "X = 1 − exp(−kτ)",
+      "X = 1/(1+kτ)",
+      "X = kτ/(1+kτ)"
+    ],
+    "correct": 1,
+    "explanation": "The PFR equation integrates to ln[1/(1−X)] = kτ, giving X = 1 − e^(−kτ). This is the same conversion-time relation as a constant-volume batch reactor."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "A first-order liquid reaction has k = 0.50 min⁻¹ in a CSTR with τ = 2.0 min. The conversion is:",
+    "opts": [
+      "0.632; this is the first-order PFR conversion at kτ = 1",
+      "0.368; this is e⁻¹, the fraction unconverted in a PFR",
+      "1.000; kτ = 1 does not imply complete conversion",
+      "0.500; X = kτ/(1+kτ) = 1/(1+1)"
+    ],
+    "correct": 3,
+    "explanation": "For a first-order CSTR, X = kτ/(1+kτ). Here kτ = 1, so X = 0.5."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "A first-order liquid reaction has k = 0.50 min⁻¹ in a PFR with τ = 2.0 min. The conversion is approximately:",
+    "opts": [
+      "0.500",
+      "0.632",
+      "1.000",
+      "0.865"
+    ],
+    "correct": 1,
+    "explanation": "For a first-order PFR, X = 1 − exp(−kτ). With kτ = 1, X = 1 − e⁻¹ = 0.632."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "For a constant-density second-order PFR with −r_A = kC_A², the design relation is:",
+    "opts": [
+      "τ = ln[1/(1−X)]/k",
+      "τ = C_A0X/k",
+      "τ = X/[kC_A0(1−X)]",
+      "τ = X/[kC_A0(1−X)²]"
+    ],
+    "correct": 2,
+    "explanation": "For PFR: τ = ∫₀ˣ dX/[kC_A0(1−X)²] = X/[kC_A0(1−X)]. The squared term appears inside the integral, not in the final denominator for PFR."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "For a constant-density second-order CSTR with −r_A = kC_A², the design relation is:",
+    "opts": [
+      "τ = X/[kC_A0(1−X)]",
+      "τ = ln[1/(1−X)]/k",
+      "τ = 1/[kC_A0X]",
+      "τ = X/[kC_A0(1−X)²]"
+    ],
+    "correct": 3,
+    "explanation": "In a CSTR the rate is evaluated at exit: −r_A = k[C_A0(1−X)]². Using τ = C_A0X/(−r_A) gives τ = X/[kC_A0(1−X)²]."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "Which design statement about a CSTR is correct?",
+    "opts": [
+      "The reactor has an axial concentration gradient like a PFR",
+      "The volume is independent of the target conversion",
+      "The outlet composition is identical to the tank composition under perfect mixing",
+      "The rate in the design equation is evaluated at inlet conditions"
+    ],
+    "correct": 2,
+    "explanation": "A CSTR is perfectly mixed, so the reactor contents and outlet stream have the same composition and temperature. The rate in the CSTR design equation is the exit-condition rate."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "Which design statement about a PFR is correct?",
+    "opts": [
+      "Fluid elements move with no axial mixing in the ideal model",
+      "It has the same RTD as a single ideal CSTR",
+      "The composition is uniform throughout the reactor",
+      "The exit rate is used everywhere in the reactor volume"
+    ],
+    "correct": 0,
+    "explanation": "The ideal PFR has radial mixing but no axial mixing; fluid elements move in order, and composition changes continuously with axial position."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "For an irreversible first-order reaction, increasing the number of equal-volume CSTRs in series at fixed total volume causes the conversion to:",
+    "opts": [
+      "Remain exactly equal to a single CSTR conversion",
+      "Approach the PFR conversion for the same total space time",
+      "Exceed 100% for a sufficiently large number of tanks",
+      "Decrease toward zero because each tank dilutes the feed"
+    ],
+    "correct": 1,
+    "explanation": "CSTRs in series reduce backmixing. As the number of equal tanks increases, their behavior approaches plug flow, and for positive-order reactions conversion increases toward the PFR limit."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "For N equal CSTRs in series carrying out a first-order reaction with total space time τ, the conversion is:",
+    "opts": [
+      "X = 1 − exp(−Nkτ)",
+      "X = kτ/(1+kτ), independent of N",
+      "X = (1 + kτ/N)^N",
+      "X = 1 − (1 + kτ/N)^(−N)"
+    ],
+    "correct": 3,
+    "explanation": "Each equal CSTR has space time τ/N. The fraction unconverted across one tank is 1/(1+kτ/N). Across N tanks, C_A/C_A0 = (1+kτ/N)^−N, so X = 1 − that term."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "A PFR with no side feeds, no heat exchange changes, and no pressure-drop complications is divided into two PFRs in series. Compared with one PFR of the same total volume, the conversion is:",
+    "opts": [
+      "The same, because ideal PFR segments in series are equivalent to one longer PFR",
+      "Lower because the feed is mixed between sections",
+      "Higher because two reactors double the kinetic constant",
+      "Impossible to predict without the CSTR design equation"
+    ],
+    "correct": 0,
+    "explanation": "Ideal PFRs in series are mathematically equivalent to a single PFR of the same total volume if no intermediate mixing, separation, heat exchange change, or feed addition alters the path."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "For a reaction whose rate increases with conversion, such as an autocatalytic reaction over part of its range, which reactor choice can become favorable?",
+    "opts": [
+      "A PFR is always smaller for every possible rate law",
+      "Only a packed bed can handle rates that increase with conversion",
+      "A CSTR can be favorable because it operates at the high-product, high-rate exit composition throughout the vessel",
+      "A batch reactor cannot process autocatalytic reactions"
+    ],
+    "correct": 2,
+    "explanation": "For normal positive-order reactant consumption, PFRs are smaller. If the rate increases with conversion, a CSTR can exploit the high-rate exit composition throughout the volume and may outperform a PFR over that range."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "On a Levenspiel plot of F_A0/(−r_A) versus X for a positive-order irreversible reaction, the CSTR volume to reach X is represented by:",
+    "opts": [
+      "The tangent at X = 0 only",
+      "The area under the curve from 0 to X",
+      "A rectangle with height evaluated at the exit conversion and width X",
+      "The reciprocal of the curve area"
+    ],
+    "correct": 2,
+    "explanation": "For a CSTR, V = F_A0X/(−r_A)_exit. This is a rectangle from 0 to X with height F_A0/(−r_A) evaluated at the exit conversion."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "On a Levenspiel plot of F_A0/(−r_A) versus X, the PFR volume is represented by:",
+    "opts": [
+      "A single rectangle evaluated at the exit conversion",
+      "The area under the curve from X = 0 to the target X",
+      "The area above the curve",
+      "Only the value of the curve at X = 0"
+    ],
+    "correct": 1,
+    "explanation": "The PFR design equation integrates dV = [F_A0/(−r_A)] dX, so volume is the area under the Levenspiel curve from inlet to target conversion."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "A first-order CSTR is designed for 90% conversion. What value of kτ is required?",
+    "opts": [
+      "2.303",
+      "10.0",
+      "9.0",
+      "0.90"
+    ],
+    "correct": 2,
+    "explanation": "For a first-order CSTR, X = kτ/(1+kτ). Rearranging gives kτ = X/(1−X) = 0.9/0.1 = 9."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "A first-order PFR is designed for 90% conversion. What value of kτ is required?",
+    "opts": [
+      "0.90",
+      "9.0",
+      "10.0",
+      "2.303"
+    ],
+    "correct": 3,
+    "explanation": "For a first-order PFR, kτ = ln[1/(1−X)]. At X = 0.90, kτ = ln(10) = 2.303."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "For a zero-order liquid reaction in a CSTR or PFR before reactant depletion, the required space time to reach conversion X is:",
+    "opts": [
+      "τ = ln[1/(1−X)]/k; first-order result",
+      "τ = C_A0X/k; the same for CSTR and PFR because the rate is concentration-independent",
+      "τ = X/[kC_A0(1−X)²]; second-order CSTR result",
+      "τ = k/(C_A0X); inverted dependence"
+    ],
+    "correct": 1,
+    "explanation": "For zero-order kinetics, −r_A = k is independent of concentration, so CSTR and PFR give the same design relation τ = C_A0X/k until A is exhausted."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "For an isothermal gas reaction with increasing total moles, ignoring expansion in a PFR design will generally:",
+    "opts": [
+      "Overestimate concentration and reaction rate at high conversion, underestimating required reactor size",
+      "Have no effect because ideal gases have constant concentration at constant T and P",
+      "Underestimate concentration and overestimate reactor size in every case",
+      "Only affect heat transfer, not reaction rate"
+    ],
+    "correct": 0,
+    "explanation": "When total moles increase at constant T and P, volumetric flow rises and reactant concentration falls faster than the liquid constant-density expression predicts. Ignoring this can underpredict required volume."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "For a reversible reaction, an ideal reactor can practically approach but not exactly pass the equilibrium conversion because:",
+    "opts": [
+      "The outlet flow rate must become zero",
+      "The net reaction rate goes to zero at equilibrium",
+      "Equilibrium conversion is always 100%",
+      "The activation energy becomes zero at equilibrium"
+    ],
+    "correct": 1,
+    "explanation": "At equilibrium the forward and reverse rates balance, so net rate is zero. A finite ideal reactor cannot drive the reaction beyond equilibrium without changing conditions or separating products."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "Which reactor is usually best when very fast mixing and tight temperature control are required for a liquid-phase reaction?",
+    "opts": [
+      "A single large PFR with no heat-transfer surface",
+      "A dead-zone reactor, because stagnant zones stabilize temperature",
+      "Any reactor, because temperature control is independent of hydrodynamics",
+      "A CSTR or well-agitated semibatch reactor, because mixing and heat removal can be controlled"
+    ],
+    "correct": 3,
+    "explanation": "Stirred tanks provide high mixing intensity and practical heat-transfer surfaces through jackets, coils, and feed control. They are often preferred for liquid reactions with strong heat release or sensitive selectivity."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "In semibatch operation, one reactant is fed gradually into a reactor initially containing another reactant. A common reason for using semibatch operation is:",
+    "opts": [
+      "To control concentration and heat release by limiting the feed rate of a reactant",
+      "To eliminate the need for kinetic data",
+      "To remove all heat-transfer requirements",
+      "To force plug-flow behavior in a stirred tank"
+    ],
+    "correct": 0,
+    "explanation": "Semibatch feed can keep one reactant concentration low, manage exotherms, improve selectivity, and reduce runaway risk. It does not eliminate heat-transfer or kinetic-design requirements."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "In a packed-bed reactor, decreasing catalyst particle diameter usually:",
+    "opts": [
+      "Has no effect on either rate or hydraulics",
+      "Decreases pressure drop and worsens diffusion at the same time",
+      "Improves internal diffusion but increases pressure drop",
+      "Eliminates external mass transfer limitations entirely"
+    ],
+    "correct": 2,
+    "explanation": "Smaller particles shorten intraparticle diffusion paths and raise external area, but they also increase packed-bed pressure drop. Reactor design balances effectiveness, pressure drop, heat transfer, and mechanical constraints."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "For a gas-phase packed-bed reactor, why can pressure drop reduce conversion compared with a no-pressure-drop calculation?",
+    "opts": [
+      "Pressure drop changes stoichiometry from reversible to irreversible",
+      "Lower pressure reduces concentration and therefore lowers rate for positive-order kinetics",
+      "Pressure drop increases catalyst weight directly",
+      "Lower pressure always increases equilibrium conversion for every reaction"
+    ],
+    "correct": 1,
+    "explanation": "For ideal gases, concentration is proportional to pressure at fixed temperature and composition. Pressure drop lowers partial pressures downstream, reducing rates for positive-order gas reactions."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "A batch reactor has reaction time of 2 h, plus 0.5 h filling, cleaning, and discharge per batch. For production-rate estimates, the cycle time is:",
+    "opts": [
+      "2.0 h; only chemical time counts",
+      "4.0 h; batch time must be doubled for safety",
+      "0.5 h; only dead time counts",
+      "2.5 h; reaction plus nonreaction turnaround time"
+    ],
+    "correct": 3,
+    "explanation": "Batch productivity depends on cycle time: charging, heating/cooling, reaction, sampling, discharge, and cleaning. Ignoring turnaround can significantly overstate production capacity."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "For a constant-volume batch reactor and a constant-density PFR carrying out the same first-order reaction, the mathematical role of time t in batch is analogous to:",
+    "opts": [
+      "Space time τ in the PFR",
+      "Catalyst particle diameter",
+      "Coolant temperature",
+      "CSTR outlet residence time only"
+    ],
+    "correct": 0,
+    "explanation": "Batch time and PFR space time both integrate the same concentration trajectory for constant-density single-reaction systems: dX/dt or dX/dτ = −r_A/C_A0."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "For a CSTR, a sudden increase in feed flow rate at fixed reactor volume directly causes:",
+    "opts": [
+      "No change in conversion because CSTRs are perfectly mixed",
+      "A change in stoichiometric coefficients",
+      "A decrease in space time and usually lower conversion for positive-order reactions",
+      "An increase in space time and usually higher conversion"
+    ],
+    "correct": 2,
+    "explanation": "Space time τ = V/v₀. Increasing feed flow at fixed volume reduces τ, leaving less reaction time and usually lowering conversion for positive-order irreversible reactions."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "For a PFR carrying out a liquid reaction, doubling the reactor volume at fixed feed rate doubles:",
+    "opts": [
+      "The stoichiometric coefficient of products",
+      "The space time, not necessarily the conversion",
+      "The inlet concentration",
+      "The rate constant k"
+    ],
+    "correct": 1,
+    "explanation": "For constant volumetric flow, τ = V/v₀. Doubling V doubles τ, but conversion responds nonlinearly through the integrated rate law and may approach equilibrium or depletion limits."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "A first-order reaction is run in two equal CSTRs in series with total kτ = 2. The conversion is approximately:",
+    "opts": [
+      "1.000; two tanks do not guarantee complete conversion",
+      "0.865; this is PFR conversion at kτ = 2",
+      "0.750; unconverted fraction = (1+1)^−2 = 0.25",
+      "0.500; this is one CSTR with kτ = 1"
+    ],
+    "correct": 2,
+    "explanation": "For N equal CSTRs, unconverted fraction = (1 + kτ/N)^−N. With N = 2 and kτ = 2, C_A/C_A0 = (1+1)^−2 = 0.25, so X = 0.75."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "For an ideal CSTR at steady state, the residence-time distribution has broad spread. In reactor design terms, this backmixing usually:",
+    "opts": [
+      "Makes conversion independent of kinetics",
+      "Causes every molecule to spend exactly τ in the reactor",
+      "Lowers conversion relative to PFR for positive-order single reactions at equal τ",
+      "Always raises conversion relative to PFR"
+    ],
+    "correct": 2,
+    "explanation": "Backmixing exposes entering reactant immediately to exit composition. For positive-order single reactions, this lowers average rate compared with a PFR of the same space time."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "Which statement about recycle around a PFR is generally correct?",
+    "opts": [
+      "Increasing recycle makes the reactor system more mixed and can make behavior approach a CSTR-like limit",
+      "Recycle always makes the system a perfect PFR",
+      "Recycle is impossible for gas-phase reactions",
+      "Recycle has no effect on inlet concentration to the reactor"
+    ],
+    "correct": 0,
+    "explanation": "Recycle mixes product with fresh feed before the reactor inlet. High recycle ratios reduce concentration gradients and move the system toward mixed-flow behavior, which can help temperature control or selectivity in some cases."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "A reactor design equation gives infinite volume as X approaches 1 for a first-order irreversible reaction because:",
+    "opts": [
+      "Conversion above 50% is forbidden in first-order kinetics",
+      "The feed flow rate becomes negative",
+      "The rate constant becomes infinite",
+      "The reaction rate approaches zero as C_A approaches zero"
+    ],
+    "correct": 3,
+    "explanation": "For first-order kinetics, −r_A = kC_A. As X approaches 1, C_A approaches zero and rate approaches zero, so the incremental volume per extra conversion becomes very large."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "A CSTR volume for a single reaction should be calculated using which concentration in the rate law?",
+    "opts": [
+      "Outlet concentration, because the tank contents equal the exit stream",
+      "Feed concentration only",
+      "Zero concentration, because the tank is perfectly mixed",
+      "Arithmetic average of feed and outlet concentrations for every rate law"
+    ],
+    "correct": 0,
+    "explanation": "Perfect mixing means every point in the reactor has the same composition as the effluent. Therefore the CSTR rate is evaluated at exit concentration and temperature."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "A PFR volume for a single reaction should be calculated by:",
+    "opts": [
+      "Ignoring rate variation because plug flow means no reaction gradients",
+      "Using only the inlet rate for the entire reactor",
+      "Using only the outlet rate for the entire reactor",
+      "Integrating the local rate as composition and temperature change along the reactor"
+    ],
+    "correct": 3,
+    "explanation": "PFR design requires integration because concentration, temperature, and sometimes pressure vary with axial position, changing the local rate."
+  },
+  {
+    "section": "Ideal Reactor Design",
+    "q": "Which item is most likely to invalidate a simple isothermal ideal-reactor sizing calculation?",
+    "opts": [
+      "A single irreversible reaction with no pressure drop",
+      "Large heat of reaction with inadequate heat removal",
+      "A first-order rate law at fixed temperature",
+      "Constant liquid density"
+    ],
+    "correct": 1,
+    "explanation": "If reaction heat significantly changes temperature, the rate constant and equilibrium may change sharply. The reactor then needs coupled mole and energy balances rather than an isothermal sizing calculation."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "For parallel reactions A → D (desired) and A → U (undesired), instantaneous selectivity to D over U is commonly defined as:",
+    "opts": [
+      "S_D/U = k_U/k_D only, independent of concentrations",
+      "S_D/U = F_A0/F_D",
+      "S_D/U = V_D/V_U regardless of stoichiometry",
+      "S_D/U = r_D/r_U"
+    ],
+    "correct": 3,
+    "explanation": "Instantaneous selectivity compares formation rates, often S_D/U = r_D/r_U after accounting for stoichiometric definitions. Overall selectivity uses accumulated products or outlet flows."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "For a desired product D, yield based on reactant A fed is best described as:",
+    "opts": [
+      "Moles of A remaining per mole of D formed",
+      "Moles of D formed per mole of A fed, adjusted as needed for stoichiometry",
+      "The residence time divided by reactor volume",
+      "The instantaneous ratio of undesired to desired rates"
+    ],
+    "correct": 1,
+    "explanation": "Yield measures how much desired product is obtained from feed. The exact expression must respect stoichiometry and the chosen basis, such as moles D produced per mole A fed or per mole A consumed."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "Parallel reactions have rates r_D = k_D C_A² and r_U = k_U C_A. To favor desired D, one should generally use:",
+    "opts": [
+      "Low C_A and a highly backmixed reactor",
+      "A very long residence time after A is depleted",
+      "High C_A and a reactor that preserves high reactant concentration, such as a PFR or batch early in time",
+      "Only a recycle loop, because concentration has no selectivity effect"
+    ],
+    "correct": 2,
+    "explanation": "When desired reaction order in A is higher than undesired order, high A concentration improves r_D/r_U = (k_D/k_U)C_A. PFR or batch operation can preserve higher concentrations than a CSTR."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "Parallel reactions have rates r_D = k_D C_A and r_U = k_U C_A². To favor desired D, one should generally use:",
+    "opts": [
+      "High C_A in a PFR",
+      "Maximum pressure for every system",
+      "A longer reactor after complete conversion",
+      "Low C_A, often aided by a CSTR, dilution, or controlled feed"
+    ],
+    "correct": 3,
+    "explanation": "When the undesired reaction is higher order in A, lowering C_A improves selectivity to D. A CSTR, dilution, or semibatch feed can be beneficial depending on production constraints."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "For consecutive reactions A → B → C where B is desired, the usual strategy is to:",
+    "opts": [
+      "Use only a CSTR because PFRs cannot produce intermediates",
+      "Maximize temperature regardless of kinetics",
+      "Use an intermediate residence time and quench or separate B before it overreacts",
+      "Use infinite residence time to convert all B to C"
+    ],
+    "correct": 2,
+    "explanation": "B first increases as A forms it, then decreases as B converts to C. Maximum B occurs at an intermediate residence time; rapid quenching or separation can preserve B."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "For first-order consecutive reactions A → B → C with k₁ ≠ k₂ in a batch or PFR, the time of maximum B concentration is:",
+    "opts": [
+      "t* = 1/(k₁ + k₂) for all cases",
+      "t* = ln(k₂/k₁)/(k₂ − k₁)",
+      "t* = ln 2/k₁ only",
+      "t* = (k₂ − k₁)/ln(k₂/k₁)"
+    ],
+    "correct": 1,
+    "explanation": "For first-order consecutive reactions, differentiating C_B(t) gives t* = ln(k₂/k₁)/(k₂ − k₁), valid when k₁ and k₂ are unequal and positive."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "For A → B → C with B desired, why can excessive residence time be harmful?",
+    "opts": [
+      "Because A reappears after long time in all consecutive reactions",
+      "Because the rate constant becomes negative",
+      "Because B can continue reacting to undesired C",
+      "Because conversion is undefined above 50%"
+    ],
+    "correct": 2,
+    "explanation": "In consecutive reactions, the desired intermediate is consumed in a downstream reaction. Too much residence time can reduce yield even while conversion of A increases."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "For parallel reactions where desired and undesired reactions have different activation energies, temperature affects selectivity because:",
+    "opts": [
+      "The higher-activation-energy reaction is more temperature-sensitive",
+      "Both rate constants change by the exact same factor at all temperatures",
+      "Activation energy only affects equilibrium, not rate",
+      "Temperature changes stoichiometric coefficients"
+    ],
+    "correct": 0,
+    "explanation": "Arrhenius sensitivity increases with activation energy. Raising temperature favors the pathway with larger E relative to the lower-E pathway, all else equal."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "If the desired parallel reaction has a higher activation energy than the undesired reaction, increasing temperature tends to:",
+    "opts": [
+      "Have no kinetic selectivity effect",
+      "Stop both reactions at equilibrium",
+      "Favor the desired reaction kinetically",
+      "Favor the undesired reaction kinetically"
+    ],
+    "correct": 2,
+    "explanation": "For two Arrhenius rate constants, the larger activation energy increases more rapidly with temperature. If desired has higher E, higher T tends to improve kinetic selectivity to desired product."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "If the undesired parallel reaction has a higher activation energy than the desired reaction, selectivity to desired product is usually improved by:",
+    "opts": [
+      "Lower temperature, if the rate remains practical",
+      "Eliminating all mixing",
+      "Increasing residence time indefinitely",
+      "Higher temperature"
+    ],
+    "correct": 0,
+    "explanation": "Lower temperature penalizes the higher-E undesired pathway more strongly, although the desired production rate may also decrease. Design often balances selectivity, rate, and heat removal."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "In a semibatch reactor for A + B → D desired and A + A → U undesired, a common selectivity strategy is to:",
+    "opts": [
+      "Feed A all at once to maximize C_A and suppress dimerization",
+      "Run until both reactants are depleted regardless of selectivity",
+      "Remove all B to prevent desired reaction",
+      "Feed A slowly into B to keep C_A low and suppress the A + A side reaction"
+    ],
+    "correct": 3,
+    "explanation": "If the undesired reaction is second order in A, keeping A concentration low suppresses it. Semibatch addition is a practical way to control concentration and heat release."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "For A + B → D desired and A + C → U undesired, selectivity to D is improved by:",
+    "opts": [
+      "Low B concentration and high C concentration",
+      "Complete backmixing in every case",
+      "Equal concentrations of B and C regardless of rate constants",
+      "High B concentration and low C concentration near A"
+    ],
+    "correct": 3,
+    "explanation": "The desired rate depends on A and B, while undesired depends on A and C. Increasing B relative to C near A improves selectivity to D."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "Overall selectivity D/U at a reactor outlet is usually based on:",
+    "opts": [
+      "Total amount or molar flow of D formed relative to U formed",
+      "The inverse of conversion",
+      "The reactor wall temperature divided by coolant temperature",
+      "Only the local inlet reaction rates"
+    ],
+    "correct": 0,
+    "explanation": "Overall selectivity describes product distribution accumulated over the reactor or batch, not just the instantaneous rate at one point."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "A recycle stream of unreacted reactant with a product separator is often used to:",
+    "opts": [
+      "Make the reaction rate independent of concentration",
+      "Force all reactions to become first order",
+      "Eliminate the need for a purge when inerts are present",
+      "Increase overall conversion of fresh feed while allowing moderate single-pass conversion"
+    ],
+    "correct": 3,
+    "explanation": "Separating product and recycling unreacted feed can raise overall conversion without requiring extremely high single-pass conversion, which may be costly or selectivity-limiting."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "A purge stream in a recycle reactor system is often needed to:",
+    "opts": [
+      "Change a CSTR into a PFR",
+      "Prevent buildup of inerts or unwanted species that are not consumed",
+      "Increase equilibrium conversion above its thermodynamic limit",
+      "Make the reactor adiabatic"
+    ],
+    "correct": 1,
+    "explanation": "If inerts or impurities enter with the feed and are not removed by reaction or separation, they accumulate in recycle. A purge controls their concentration at the cost of losing some reactants."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "For a consecutive reaction network, removing the desired intermediate from the reaction zone can:",
+    "opts": [
+      "Increase the intrinsic rate constant of the first step",
+      "Improve yield by reducing further conversion to undesired products",
+      "Eliminate stoichiometric constraints",
+      "Always lower yield because separation stops all chemistry"
+    ],
+    "correct": 1,
+    "explanation": "Reactive separation, quenching, extraction, or membrane removal can protect an intermediate from overreaction, improving yield in consecutive networks."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "A very high conversion of limiting reactant is not always optimal because:",
+    "opts": [
+      "Selectivity or yield may decline due to side reactions or overreaction",
+      "High conversion means the reactor volume is always zero",
+      "Conversion and yield are always identical",
+      "High conversion violates mole conservation"
+    ],
+    "correct": 0,
+    "explanation": "In multiple-reaction systems, maximizing conversion can sacrifice selectivity. The economic optimum often balances reactant recovery, product yield, separation, and reactor cost."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "In parallel reactions, if both desired and undesired rates have the same dependence on all concentrations and temperature, selectivity is:",
+    "opts": [
+      "Always improved by using a PFR",
+      "Always zero",
+      "Always improved by using a CSTR",
+      "Independent of reactor type and concentration path, assuming no other effects"
+    ],
+    "correct": 3,
+    "explanation": "If r_D/r_U is constant along all operating paths, hydrodynamic choice alone does not change selectivity. Reactor choice may still affect conversion, heat control, or safety."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "For a network A → D desired and A → U undesired, if D is stable and both reactions are irreversible, increasing residence time at fixed conditions usually:",
+    "opts": [
+      "Always increases selectivity to D",
+      "Increases conversion but may or may not improve selectivity depending on rate laws",
+      "Always decreases conversion",
+      "Makes U convert back to A automatically"
+    ],
+    "correct": 1,
+    "explanation": "Residence time increases A conversion, but product distribution depends on the relative rates over the concentration path. Conversion and selectivity must be evaluated together."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "For A → B desired and B → C undesired, a PFR can outperform a CSTR for B yield because:",
+    "opts": [
+      "A CSTR has no reaction at its exit composition",
+      "CSTRs cannot process liquids",
+      "PFRs eliminate the second reaction",
+      "A PFR allows B to be formed in high-A regions and then exit after a controlled residence time"
+    ],
+    "correct": 3,
+    "explanation": "A PFR gives a residence-time path rather than exposing all material to the final mixed composition. For intermediates, controlling the residence-time distribution is often crucial."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "For A → B → C, broad residence-time distribution tends to be undesirable for B because:",
+    "opts": [
+      "RTD affects only pressure drop, not selectivity",
+      "Every molecule spends exactly the same time in a broad RTD",
+      "Some fluid elements stay too long and overreact to C while others leave too early",
+      "Broad RTD prevents formation of C entirely"
+    ],
+    "correct": 2,
+    "explanation": "Intermediate products benefit from a narrow residence-time distribution. Backmixing or stagnant zones can create overprocessed and underprocessed material, lowering selectivity."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "A yield greater than the stoichiometric maximum indicates:",
+    "opts": [
+      "A calculation or basis error, unless the stated basis is different than assumed",
+      "A valid result for any catalytic reaction",
+      "An exceptionally efficient reactor",
+      "A reaction that violates conservation only at high temperature"
+    ],
+    "correct": 0,
+    "explanation": "Yields must respect stoichiometry and basis. Apparent yields above the theoretical maximum usually signal inconsistent units, basis confusion, analytical error, or unaccounted feed/product sources."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "For a reaction network with valuable unreacted feed and poor selectivity at high conversion, an economically attractive design may use:",
+    "opts": [
+      "No separation and one reactor forced to 100% conversion",
+      "Lower single-pass conversion with separation and recycle",
+      "Only a larger residence time, regardless of product distribution",
+      "A purge of all reactants after every pass"
+    ],
+    "correct": 1,
+    "explanation": "Moderate single-pass conversion can preserve selectivity; separation and recycle can recover unreacted feed. This is common when high conversion in one pass causes side reactions or excessive reactor size."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "For parallel reactions where desired selectivity improves at high reactant concentration, adding inert diluent generally:",
+    "opts": [
+      "Makes the reactor nonideal automatically",
+      "Always improves selectivity by increasing total flow",
+      "Hurts selectivity by lowering reactant concentration, all else equal",
+      "Has no effect because concentrations are unchanged"
+    ],
+    "correct": 2,
+    "explanation": "Dilution lowers reactant concentrations. If desired selectivity benefits from high concentration, inert diluent can reduce selectivity, even though it may help temperature control or safety."
+  },
+  {
+    "section": "Multiple Reactions, Selectivity & Reactor Networks",
+    "q": "For an industrial reactor network, the best objective function is usually:",
+    "opts": [
+      "Economic performance considering conversion, selectivity, separation, recycle, safety, and operability",
+      "Maximum reactor volume only",
+      "Minimum temperature only",
+      "Maximum conversion only"
+    ],
+    "correct": 0,
+    "explanation": "Reactor design is rarely a single-variable conversion problem. The best design balances kinetics, selectivity, separations, recycle, energy use, safety, catalyst life, controllability, and economics."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "The steady-state energy balance for a reacting CSTR commonly includes which terms?",
+    "opts": [
+      "Only conversion, because temperature is independent of reaction",
+      "Only pressure drop and catalyst weight",
+      "Enthalpy flow in/out, heat of reaction, heat transfer, and possibly shaft work",
+      "Only kinetic energy and potential energy"
+    ],
+    "correct": 2,
+    "explanation": "Nonisothermal reactor balances account for stream enthalpy changes, heat generated or consumed by reaction, heat exchanged with surroundings, and sometimes work. These couple strongly with mole balances through temperature-dependent rates."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "For an adiabatic liquid-phase reactor with constant ρC_p and exothermic reaction, the adiabatic temperature rise is approximately:",
+    "opts": [
+      "ΔT_ad = E/(RT²)",
+      "ΔT_ad = (−ΔH_R)C_A0X/(ρC_p)",
+      "ΔT_ad = UA(T−T_c)",
+      "ΔT_ad = ρC_p/[(−ΔH_R)C_A0X]"
+    ],
+    "correct": 1,
+    "explanation": "For constant heat capacity and no heat loss, heat released by reaction raises sensible enthalpy. ΔT_ad ≈ (−ΔH_R)C_A0X/(ρC_p) for a simple liquid system."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "For an exothermic reaction with ΔH_R < 0 in an adiabatic reactor, temperature generally:",
+    "opts": [
+      "Stays constant by definition",
+      "Decreases with conversion",
+      "Increases with conversion",
+      "Oscillates only because the reactor is ideal"
+    ],
+    "correct": 2,
+    "explanation": "Adiabatic means no heat exchange with surroundings. For an exothermic reaction, released heat warms the reacting mixture as conversion increases."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "For an endothermic reaction in an adiabatic reactor, temperature generally:",
+    "opts": [
+      "Increases with conversion",
+      "Becomes undefined because endothermic reactions cannot be adiabatic",
+      "Decreases with conversion because reaction absorbs heat",
+      "Remains fixed at coolant temperature"
+    ],
+    "correct": 2,
+    "explanation": "Endothermic reactions consume sensible heat when no external heat is supplied, causing the reacting fluid temperature to fall and often reducing the rate."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "Why can an exothermic CSTR exhibit multiple steady states?",
+    "opts": [
+      "Reaction heat generation increases nonlinearly with temperature, while heat removal is often roughly linear",
+      "Stoichiometric coefficients change with reactor volume",
+      "Heat of reaction becomes zero at high conversion",
+      "Perfect mixing prevents energy accumulation"
+    ],
+    "correct": 0,
+    "explanation": "Arrhenius kinetics can make heat generation strongly nonlinear in temperature. The heat-removal line can intersect the heat-generation curve multiple times, producing low- and high-temperature stable states and an unstable middle state."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "Thermal runaway risk is high when:",
+    "opts": [
+      "Activation energy is zero and heat of reaction is zero",
+      "The reaction is exactly isothermal by design",
+      "Heat removal is always greater than generation at every temperature",
+      "Heat generation can increase faster with temperature than heat removal"
+    ],
+    "correct": 3,
+    "explanation": "Runaway occurs when a temperature rise accelerates heat generation faster than the system can remove heat. Exothermic reactions with high activation energy and inadequate cooling are especially sensitive."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "For a jacketed CSTR, the heat removal term is commonly modeled as:",
+    "opts": [
+      "Q = UA(T − T_c)",
+      "Q = P/RT",
+      "Q = F_A0X",
+      "Q = kC_A²V"
+    ],
+    "correct": 0,
+    "explanation": "A simple jacket or coil heat-transfer model uses Q = UA(T − T_c), where U is overall heat-transfer coefficient, A is area, T is reactor temperature, and T_c is coolant temperature."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "Increasing coolant flow rate in a jacket usually improves heat removal mainly by:",
+    "opts": [
+      "Reducing reactant molecular weight",
+      "Increasing activation energy",
+      "Increasing the coolant-side heat-transfer coefficient and reducing coolant temperature rise",
+      "Changing reaction stoichiometry"
+    ],
+    "correct": 2,
+    "explanation": "Higher coolant flow often raises the coolant-side film coefficient and keeps coolant temperature closer to its inlet value, increasing the effective driving force for heat removal."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "A hot spot in a packed-bed reactor is dangerous because it can:",
+    "opts": [
+      "Accelerate reaction locally, damage catalyst, lower selectivity, or trigger runaway",
+      "Reduce all reaction rates to zero",
+      "Guarantee equilibrium conversion is exceeded safely",
+      "Eliminate pressure drop completely"
+    ],
+    "correct": 0,
+    "explanation": "Packed beds can develop axial or radial temperature peaks. Hot spots may accelerate kinetics, promote side reactions, sinter catalyst, create mechanical stress, or compromise safety."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "For a reversible exothermic reaction, increasing temperature has two competing effects:",
+    "opts": [
+      "It has no effect on either rate or equilibrium",
+      "It increases rate constants but lowers equilibrium conversion",
+      "It lowers both rate constants and equilibrium conversion",
+      "It increases equilibrium conversion and eliminates side reactions"
+    ],
+    "correct": 1,
+    "explanation": "Higher temperature generally increases kinetic rates but, for exothermic reactions, shifts equilibrium toward reactants, reducing equilibrium conversion. Optimal temperature profiles often balance rate and equilibrium."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "For a reversible endothermic reaction, increasing temperature generally:",
+    "opts": [
+      "Increases equilibrium conversion to products and increases rate constants",
+      "Only changes pressure drop",
+      "Decreases equilibrium conversion and decreases rate constants",
+      "Makes the reaction irreversible"
+    ],
+    "correct": 0,
+    "explanation": "Endothermic equilibrium favors products at higher temperature by van't Hoff behavior, and Arrhenius kinetics also accelerate with temperature. Heat supply is often central to reactor design."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "Interstage cooling in an exothermic packed-bed reactor is used to:",
+    "opts": [
+      "Remove catalyst permanently after each bed",
+      "Convert a packed bed into a batch reactor",
+      "Make pressure drop exactly zero",
+      "Control temperature and improve equilibrium or selectivity between catalyst beds"
+    ],
+    "correct": 3,
+    "explanation": "Multiple adiabatic beds with cooling or quench between beds help manage hot spots, protect catalyst, and improve conversion for equilibrium-limited exothermic reactions."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "A quench stream added between adiabatic reactor beds primarily:",
+    "opts": [
+      "Makes residence time distribution a delta function",
+      "Lowers temperature by mixing with a cooler stream and may alter composition",
+      "Eliminates equilibrium limitations",
+      "Increases activation energy"
+    ],
+    "correct": 1,
+    "explanation": "Quench cooling reduces temperature by direct mixing, often with feed or inert. It can also change partial pressures and concentrations, so mole and energy balances must both be updated."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "For a nonisothermal PFR, the mole balance must be integrated with the energy balance because:",
+    "opts": [
+      "Rate constants and sometimes equilibrium constants depend on temperature",
+      "Energy balances replace stoichiometry",
+      "Temperature affects only the color of the reactor wall",
+      "PFRs have uniform temperature by definition"
+    ],
+    "correct": 0,
+    "explanation": "Temperature changes alter reaction rates, equilibrium, density, and sometimes transport properties. Nonisothermal PFR design requires coupled differential equations for conversion, temperature, and possibly pressure."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "The Arrhenius temperature sensitivity of a reaction rate is stronger when:",
+    "opts": [
+      "Activation energy is zero",
+      "The feed contains more inert, regardless of temperature",
+      "Activation energy is larger",
+      "The reactor is larger"
+    ],
+    "correct": 2,
+    "explanation": "The logarithmic sensitivity d(ln k)/dT = E/(RT²). Larger activation energy means a given temperature rise causes a larger fractional increase in k."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "For an exothermic CSTR, the high-temperature steady state is often risky because:",
+    "opts": [
+      "It always has zero conversion",
+      "It always requires no cooling",
+      "It is impossible for exothermic reactions",
+      "It may correspond to high reaction rate, high heat release, and possible safety or selectivity problems"
+    ],
+    "correct": 3,
+    "explanation": "High-temperature ignited states can give high conversion but may be close to thermal limits, catalyst deactivation, boiling, overpressure, or undesired reaction regimes."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "Ignition in an exothermic reactor refers to:",
+    "opts": [
+      "The mechanical lighting of a burner only",
+      "Complete catalyst deactivation",
+      "A pressure drop correlation",
+      "A jump from a low-temperature low-conversion state to a high-temperature reacting state"
+    ],
+    "correct": 3,
+    "explanation": "In reactor stability, ignition is a transition to a high-temperature steady state when heat generation overtakes heat removal. Extinction is the reverse transition to a low-temperature state."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "Extinction in an exothermic reactor refers to:",
+    "opts": [
+      "A drop from a high-temperature reacting state to a low-temperature low-conversion state",
+      "Maximum possible conversion",
+      "Formation of a hot spot at the inlet only",
+      "A mandatory shutdown of every CSTR at steady state"
+    ],
+    "correct": 0,
+    "explanation": "Extinction occurs when the reactor can no longer sustain the ignited state, often due to lower feed temperature, lower concentration, or stronger cooling."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "The maximum temperature of synthesis reaction (MTSR) is a thermal-safety concept used to estimate:",
+    "opts": [
+      "The lowest possible coolant temperature",
+      "The highest temperature attainable under credible loss-of-cooling or accumulation scenarios",
+      "The maximum stirrer speed",
+      "The maximum selectivity in a parallel network"
+    ],
+    "correct": 1,
+    "explanation": "MTSR estimates how hot a reaction mass can become if accumulated reactants react under upset conditions. It supports runaway screening and emergency relief analysis."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "Adding inert diluent to an exothermic reactor feed can reduce temperature rise because it:",
+    "opts": [
+      "Increases heat of reaction",
+      "Increases heat capacity per mole of reactant and may lower reactant concentration",
+      "Eliminates the need for pressure relief",
+      "Makes ΔH_R positive for every reaction"
+    ],
+    "correct": 1,
+    "explanation": "Inerts absorb heat and reduce adiabatic temperature rise per mole of reactant. They can also lower rate by dilution, but may increase downstream separation and compression costs."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "For a batch reactor with exothermic reaction, delayed addition of one reactant can improve safety by:",
+    "opts": [
+      "Increasing the adiabatic temperature rise to infinity",
+      "Removing all need for agitation",
+      "Preventing any reaction from occurring",
+      "Limiting the maximum accumulation of reactive material and controlling heat release rate"
+    ],
+    "correct": 3,
+    "explanation": "Feed-controlled operation can cap the inventory of the limiting reactant and match heat generation to heat-removal capacity. It is a common safety strategy for exothermic chemistry."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "A reactor cooling system loses utility flow during an exothermic reaction. The immediate design concern is:",
+    "opts": [
+      "Heat removal drops while reaction heat generation may continue or accelerate",
+      "The reaction instantly becomes endothermic",
+      "Stoichiometric coefficients become invalid",
+      "Conversion must immediately become zero"
+    ],
+    "correct": 0,
+    "explanation": "Loss of cooling can rapidly shift the heat balance. If heat generation exceeds the remaining heat capacity and heat losses, temperature and pressure can rise dangerously."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "For a gas-phase reaction in a nonisothermal packed bed, pressure drop influences temperature and conversion calculations because:",
+    "opts": [
+      "Pressure drop eliminates heat of reaction",
+      "Pressure has no role in gas-phase reactor design",
+      "Pressure drop changes the universal gas constant",
+      "Partial pressures, concentrations, rates, and sometimes equilibrium change along the bed"
+    ],
+    "correct": 3,
+    "explanation": "Gas concentrations and partial pressures depend on total pressure. Pressure drop couples with mole and energy balances, especially in high-throughput packed beds."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "Which operating change typically reduces runaway tendency for an exothermic CSTR?",
+    "opts": [
+      "Blocking the relief system",
+      "Lower feed concentration or lower feed temperature, with adequate cooling maintained",
+      "Higher activation energy by catalyst poisoning",
+      "Higher feed concentration and lower heat-transfer area"
+    ],
+    "correct": 1,
+    "explanation": "Lower feed temperature or concentration reduces heat generation, while adequate cooling increases heat removal margin. Safety changes must also preserve product quality and avoid unsafe accumulation."
+  },
+  {
+    "section": "Nonisothermal Reactors & Thermal Safety",
+    "q": "Autothermal reactor operation means:",
+    "opts": [
+      "All reactions are thermoneutral",
+      "Coolant temperature equals absolute zero",
+      "Heat generated by exothermic reaction is used to sustain required reactor temperature, often with heat integration",
+      "The reactor has no energy balance"
+    ],
+    "correct": 2,
+    "explanation": "Autothermal designs use reaction heat to maintain temperature or supply heat to endothermic steps. They require careful control because heat generation and conversion are coupled."
+  },
+  {
+    "section": "Catalysis & Heterogeneous Reactors",
+    "q": "A heterogeneous catalytic rate reported as mol/(kg_cat·s) should be used in a packed-bed design equation with:",
+    "opts": [
+      "Coolant flow rate only",
+      "Catalyst weight W",
+      "Residence-time distribution only",
+      "Reactor liquid volume only"
+    ],
+    "correct": 1,
+    "explanation": "Rate basis and design basis must match. If −r_A′ is per kg catalyst, the packed-bed design equation uses dW = F_A0 dX/(−r_A′)."
+  },
+  {
+    "section": "Catalysis & Heterogeneous Reactors",
+    "q": "The usual sequence in a heterogeneous catalytic reaction is best described as:",
+    "opts": [
+      "Only product separation, with no reaction step",
+      "Bulk diffusion, external mass transfer, pore diffusion, adsorption, surface reaction, desorption, and diffusion back out",
+      "Only heat transfer through the wall",
+      "Only gas-phase molecular collision, with no surface steps"
+    ],
+    "correct": 1,
+    "explanation": "Catalytic rates can be limited by external transport, intraparticle diffusion, adsorption, surface reaction, desorption, or heat transfer. Experiments must distinguish intrinsic kinetics from transport effects."
+  },
+  {
+    "section": "Catalysis & Heterogeneous Reactors",
+    "q": "A Langmuir-Hinshelwood rate expression typically assumes:",
+    "opts": [
+      "No adsorption occurs at any condition",
+      "Only homogeneous gas-phase reaction occurs",
+      "Rate is independent of partial pressure at all coverages",
+      "Reactants adsorb on catalyst sites and surface reaction occurs between adsorbed species or with site coverage effects"
+    ],
+    "correct": 3,
+    "explanation": "Langmuir-Hinshelwood models include adsorption equilibria and finite site coverage. Denominator terms often represent competition for active sites and saturation effects."
+  },
+  {
+    "section": "Catalysis & Heterogeneous Reactors",
+    "q": "An Eley-Rideal mechanism involves:",
+    "opts": [
+      "A purely homogeneous reaction in the bulk fluid",
+      "No surface participation",
+      "A gas-phase or fluid-phase species reacting directly with an adsorbed species",
+      "Two adsorbed species reacting only after both desorb"
+    ],
+    "correct": 2,
+    "explanation": "In Eley-Rideal kinetics, one species is adsorbed while another reacts from the fluid phase. This differs from Langmuir-Hinshelwood, where both reacting species are typically adsorbed."
+  },
+  {
+    "section": "Catalysis & Heterogeneous Reactors",
+    "q": "Catalyst deactivation by coking means:",
+    "opts": [
+      "The catalyst particle diameter becomes zero",
+      "Carbonaceous deposits block active sites or pores",
+      "The catalyst becomes a homogeneous liquid",
+      "The reaction becomes thermoneutral"
+    ],
+    "correct": 1,
+    "explanation": "Coking deposits carbon-rich material on catalysts, reducing active site availability and pore access. Regeneration may burn off coke if the catalyst can tolerate the conditions."
+  },
+  {
+    "section": "Catalysis & Heterogeneous Reactors",
+    "q": "Catalyst poisoning differs from reversible adsorption mainly because poisoning often:",
+    "opts": [
+      "Strongly and sometimes irreversibly blocks active sites with trace contaminants",
+      "Is independent of feed impurities",
+      "Increases active site count permanently",
+      "Eliminates all pressure drop"
+    ],
+    "correct": 0,
+    "explanation": "Poisons such as sulfur, metals, or halides can bind strongly to active sites and sharply reduce activity. Guard beds or feed purification are often used."
+  },
+  {
+    "section": "Catalysis & Heterogeneous Reactors",
+    "q": "The Thiele modulus compares:",
+    "opts": [
+      "Pressure drop to coolant temperature",
+      "Conversion to equilibrium conversion only",
+      "External film area to reactor volume only",
+      "Reaction rate capacity to internal diffusion capacity inside a catalyst pellet"
+    ],
+    "correct": 3,
+    "explanation": "The Thiele modulus measures the relative importance of reaction and intraparticle diffusion. Large φ means diffusion limitations are significant; small φ means the pellet is nearly uniformly at bulk-accessible concentration."
+  },
+  {
+    "section": "Catalysis & Heterogeneous Reactors",
+    "q": "For a first-order reaction in a catalyst pellet, increasing pellet radius generally:",
+    "opts": [
+      "Always increases effectiveness factor to 1",
+      "Eliminates external mass transfer",
+      "Increases the Thiele modulus and can lower effectiveness factor",
+      "Has no influence on diffusion limitations"
+    ],
+    "correct": 2,
+    "explanation": "A larger pellet increases diffusion path length. For first-order kinetics, φ scales with characteristic length, so larger pellets are more prone to internal diffusion limitations."
+  },
+  {
+    "section": "Catalysis & Heterogeneous Reactors",
+    "q": "The catalyst effectiveness factor η is defined as:",
+    "opts": [
+      "Actual overall reaction rate in the pellet divided by the rate if the entire pellet were at external-surface conditions",
+      "Pressure drop divided by catalyst weight",
+      "Outlet conversion divided by inlet conversion",
+      "Heat of reaction divided by activation energy"
+    ],
+    "correct": 0,
+    "explanation": "η accounts for intraparticle concentration and temperature gradients. η < 1 for ordinary internal diffusion limitations in isothermal pellets; nonisothermal exothermic pellets can show more complex behavior."
+  },
+  {
+    "section": "Catalysis & Heterogeneous Reactors",
+    "q": "A very large Thiele modulus for an isothermal first-order pellet implies:",
+    "opts": [
+      "No diffusion limitation and uniform concentration",
+      "The external film is always the only limitation",
+      "Strong internal diffusion limitation and η much less than 1",
+      "Zero reaction rate everywhere"
+    ],
+    "correct": 2,
+    "explanation": "Large φ means reaction is fast relative to diffusion into the pellet. Reactant is consumed near the outer region, leaving the interior underutilized."
+  },
+  {
+    "section": "Catalysis & Heterogeneous Reactors",
+    "q": "The Weisz-Prater criterion is used to screen for:",
+    "opts": [
+      "Radiative heat exchange between walls",
+      "Flooding in distillation columns",
+      "Pump cavitation",
+      "Internal diffusion limitations in catalyst particles"
+    ],
+    "correct": 3,
+    "explanation": "The Weisz-Prater criterion compares observed reaction rate with internal diffusion capacity. A sufficiently small value suggests intraparticle diffusion is not controlling the measured rate."
+  },
+  {
+    "section": "Catalysis & Heterogeneous Reactors",
+    "q": "The Mears criterion is commonly used to assess:",
+    "opts": [
+      "Stoichiometric balance only",
+      "Equilibrium conversion in a batch reactor",
+      "External mass-transfer or heat-transfer limitations around catalyst particles",
+      "Residence-time distribution in a CSTR"
+    ],
+    "correct": 2,
+    "explanation": "Mears-type criteria help decide whether external film transport or heat transfer is influencing observed catalytic rates, so that intrinsic kinetic measurements are not misinterpreted."
+  },
+  {
+    "section": "Catalysis & Heterogeneous Reactors",
+    "q": "If internal diffusion controls a catalytic reaction, the apparent activation energy is often:",
+    "opts": [
+      "Higher by exactly a factor of two in every case",
+      "Independent of temperature entirely",
+      "Equal to the heat of reaction",
+      "Lower than the intrinsic activation energy because diffusion has weaker temperature dependence"
+    ],
+    "correct": 3,
+    "explanation": "Diffusion limitations mask intrinsic kinetics. Since diffusion coefficients usually have weaker temperature dependence than chemical rates, the observed apparent activation energy is often reduced."
+  },
+  {
+    "section": "Catalysis & Heterogeneous Reactors",
+    "q": "For a packed bed, the Ergun equation estimates:",
+    "opts": [
+      "Catalyst poison concentration from color",
+      "Equilibrium constant from heat of reaction",
+      "Pressure drop as a function of flow, particle diameter, void fraction, and fluid properties",
+      "Intrinsic activation energy from conversion data"
+    ],
+    "correct": 2,
+    "explanation": "The Ergun equation combines viscous and inertial pressure-drop contributions through a packed bed. Pressure drop is a key design constraint for gas-phase catalytic reactors."
+  },
+  {
+    "section": "Catalysis & Heterogeneous Reactors",
+    "q": "Using smaller catalyst particles in a packed bed usually creates the trade-off:",
+    "opts": [
+      "Higher effectiveness and external area, but larger pressure drop",
+      "Complete elimination of heat-transfer limitations",
+      "Lower pressure drop and lower effectiveness",
+      "No change in either pressure drop or diffusion"
+    ],
+    "correct": 0,
+    "explanation": "Smaller particles improve diffusion and area but increase frictional pressure drop. The optimum particle size balances activity, pressure drop, heat removal, and mechanical durability."
+  },
+  {
+    "section": "Catalysis & Heterogeneous Reactors",
+    "q": "A fluidized-bed reactor often provides:",
+    "opts": [
+      "Excellent heat transfer and solids mixing, but more backmixing than a fixed-bed PFR",
+      "Perfect plug flow with no particle motion",
+      "No gas-solid contact",
+      "Zero catalyst attrition"
+    ],
+    "correct": 0,
+    "explanation": "Fluidized beds are attractive for highly exothermic or catalyst-regeneration processes due to good heat transfer and mixing. They can suffer from backmixing, entrainment, attrition, and scale-up complexity."
+  },
+  {
+    "section": "Catalysis & Heterogeneous Reactors",
+    "q": "A trickle-bed reactor is best described as:",
+    "opts": [
+      "A membrane separator with no reaction",
+      "Gas and liquid flowing through a packed catalyst bed",
+      "A purely gas-phase empty tube",
+      "A batch reactor with no catalyst"
+    ],
+    "correct": 1,
+    "explanation": "Trickle beds contact gas and liquid phases over a fixed catalyst bed, common in hydrotreating and hydrogenation. Design must address wetting, mass transfer, pressure drop, and heat effects."
+  },
+  {
+    "section": "Catalysis & Heterogeneous Reactors",
+    "q": "A monolith catalyst reactor is often chosen when:",
+    "opts": [
+      "Low pressure drop and high geometric surface area are important",
+      "A high random packing pressure drop is desired",
+      "The catalyst must be continuously stirred as a slurry",
+      "No mass transfer can occur"
+    ],
+    "correct": 0,
+    "explanation": "Monoliths provide many parallel channels with low pressure drop and washcoated catalyst surface, widely used in automotive exhaust and some environmental catalytic applications."
+  },
+  {
+    "section": "Catalysis & Heterogeneous Reactors",
+    "q": "Effective diffusivity inside a porous catalyst is commonly smaller than molecular diffusivity because of:",
+    "opts": [
+      "Disappearance of concentration gradients",
+      "Elimination of pore walls",
+      "Higher universal gas constant inside the pore",
+      "Porosity, tortuosity, constriction, and possible Knudsen diffusion effects"
+    ],
+    "correct": 3,
+    "explanation": "Only part of the pellet cross-section is open pore, and molecules follow tortuous paths. In small pores, molecule-wall collisions can add Knudsen resistance."
+  },
+  {
+    "section": "Catalysis & Heterogeneous Reactors",
+    "q": "Catalyst regeneration is often used to:",
+    "opts": [
+      "Change the balanced reaction stoichiometry",
+      "Restore activity after reversible deactivation such as coke deposition, when feasible",
+      "Remove the need for feed purification forever",
+      "Make a toxic poison beneficial at all concentrations"
+    ],
+    "correct": 1,
+    "explanation": "Regeneration can restore activity by burning coke, stripping deposits, or reconditioning sites. It must avoid sintering, phase changes, runaway, and emissions problems."
+  },
+  {
+    "section": "Nonideal Flow, Scale-Up & Industrial Applications",
+    "q": "The residence-time distribution function E(t) has what normalization property?",
+    "opts": [
+      "∫₀∞ E(t) dt = reactor volume",
+      "E(t) is always negative",
+      "∫₀∞ E(t) dt = 1",
+      "E(t) must be constant for every reactor"
+    ],
+    "correct": 2,
+    "explanation": "E(t) is a probability density for residence times, so its integral over all time is one. It describes how long fluid elements spend in the system."
+  },
+  {
+    "section": "Nonideal Flow, Scale-Up & Industrial Applications",
+    "q": "The mean residence time from an RTD is:",
+    "opts": [
+      "t_m = 1/E(∞)",
+      "t_m = E(0)",
+      "t_m = ∫₀∞ E(t)/t dt",
+      "t_m = ∫₀∞ tE(t) dt"
+    ],
+    "correct": 3,
+    "explanation": "The first moment of E(t) gives mean residence time: t_m = ∫ tE(t)dt. For ideal reactors with constant density and no dead volume, it often equals V/v₀."
+  },
+  {
+    "section": "Nonideal Flow, Scale-Up & Industrial Applications",
+    "q": "In a pulse-tracer experiment, the measured outlet tracer curve is used to determine:",
+    "opts": [
+      "The activation energy without kinetic data",
+      "E(t), after normalization of the outlet concentration-time curve",
+      "Only the heat of reaction",
+      "Only the catalyst particle density"
+    ],
+    "correct": 1,
+    "explanation": "A narrow tracer pulse injected at the inlet produces an outlet concentration curve. Normalizing the area gives E(t), the residence-time distribution."
+  },
+  {
+    "section": "Nonideal Flow, Scale-Up & Industrial Applications",
+    "q": "In a step-tracer experiment, the dimensionless outlet response C(t)/C_∞ is:",
+    "opts": [
+      "Always zero for a CSTR",
+      "Always a delta function",
+      "The cumulative distribution F(t)",
+      "The differential distribution E(t) directly without differentiation"
+    ],
+    "correct": 2,
+    "explanation": "For an ideal step input, the normalized outlet concentration is F(t), the fraction of fluid with residence time less than t. E(t) = dF/dt."
+  },
+  {
+    "section": "Nonideal Flow, Scale-Up & Industrial Applications",
+    "q": "The RTD of an ideal CSTR is:",
+    "opts": [
+      "E(t) = constant forever with infinite area",
+      "E(t) = 0 for all t < 2τ and infinite after",
+      "E(t) = δ(t−τ)",
+      "E(t) = (1/τ)exp(−t/τ)"
+    ],
+    "correct": 3,
+    "explanation": "An ideal CSTR has exponential residence-time distribution due to complete backmixing: E(t) = (1/τ)e^(−t/τ). Some material exits quickly while some remains much longer."
+  },
+  {
+    "section": "Nonideal Flow, Scale-Up & Industrial Applications",
+    "q": "The RTD of an ideal plug-flow reactor is:",
+    "opts": [
+      "A delta function at t = τ",
+      "An exponential decay from t = 0",
+      "A Gaussian with infinite variance in every case",
+      "A uniform distribution from 0 to infinity"
+    ],
+    "correct": 0,
+    "explanation": "In an ideal PFR, every fluid element spends exactly the same residence time τ, so E(t) = δ(t−τ). Real tubular reactors have some dispersion and finite spread."
+  },
+  {
+    "section": "Nonideal Flow, Scale-Up & Industrial Applications",
+    "q": "In the tanks-in-series model, increasing the number of equal tanks N causes the RTD to:",
+    "opts": [
+      "Become negative at long times",
+      "Become narrower and approach plug flow",
+      "Become broader and approach a dead zone",
+      "Stay exactly the same as one CSTR"
+    ],
+    "correct": 1,
+    "explanation": "The tanks-in-series model spans CSTR behavior at N = 1 and PFR behavior as N approaches infinity. Variance decreases as N increases."
+  },
+  {
+    "section": "Nonideal Flow, Scale-Up & Industrial Applications",
+    "q": "In the axial-dispersion model, a high Peclet number means:",
+    "opts": [
+      "Axial dispersion dominates and behavior approaches perfect mixing",
+      "Convection dominates axial dispersion and behavior approaches plug flow",
+      "The reaction is necessarily diffusion-controlled inside pellets",
+      "There is no flow through the reactor"
+    ],
+    "correct": 1,
+    "explanation": "Peclet number compares convective transport to axial dispersion. High Pe indicates little axial mixing; low Pe indicates substantial backmixing."
+  },
+  {
+    "section": "Nonideal Flow, Scale-Up & Industrial Applications",
+    "q": "Dead volume in a reactor usually causes:",
+    "opts": [
+      "Part of the vessel volume to contribute little to active reaction, reducing effective volume",
+      "Guaranteed plug flow",
+      "Stoichiometric coefficients to double",
+      "The rate constant to become negative"
+    ],
+    "correct": 0,
+    "explanation": "Dead zones or stagnant pockets do not contact fresh feed effectively. They can lower conversion, broaden RTD, trap material, and create cleaning or safety issues."
+  },
+  {
+    "section": "Nonideal Flow, Scale-Up & Industrial Applications",
+    "q": "Bypass flow in a reactor causes poor performance because:",
+    "opts": [
+      "The catalyst becomes more active automatically",
+      "The reaction becomes equilibrium-free",
+      "All feed remains longer than designed",
+      "Some feed leaves with insufficient residence time"
+    ],
+    "correct": 3,
+    "explanation": "Bypass or channeling allows part of the feed to avoid the intended reaction zone, lowering conversion and broadening product quality distribution."
+  },
+  {
+    "section": "Nonideal Flow, Scale-Up & Industrial Applications",
+    "q": "For nonlinear kinetics, RTD alone may be insufficient to predict conversion because:",
+    "opts": [
+      "RTD is never measurable",
+      "All nonlinear reactions are zero order",
+      "Kinetics are irrelevant in nonideal reactors",
+      "Micromixing and segregation influence how concentrations mix before reacting"
+    ],
+    "correct": 3,
+    "explanation": "For first-order reactions, conversion can often be predicted from RTD alone. For nonlinear kinetics, the degree of mixing at molecular scale affects local concentrations and reaction rates."
+  },
+  {
+    "section": "Nonideal Flow, Scale-Up & Industrial Applications",
+    "q": "Scale-up of an exothermic reactor is challenging because:",
+    "opts": [
+      "Larger reactors always remove heat more easily per unit volume",
+      "All scale-up laws are linear and exact",
+      "Volume, heat generation, mixing time, and heat-transfer area do not scale identically",
+      "Activation energy disappears at large scale"
+    ],
+    "correct": 2,
+    "explanation": "Heat generation scales roughly with volume, while heat-transfer area scales differently. Mixing, mass transfer, and safety margins can change dramatically during scale-up."
+  },
+  {
+    "section": "Nonideal Flow, Scale-Up & Industrial Applications",
+    "q": "Microreactors are attractive for some hazardous or highly exothermic reactions because they offer:",
+    "opts": [
+      "Infinite residence time in every channel",
+      "High surface-area-to-volume ratio and small reacting inventory",
+      "No pressure drop at any flow rate",
+      "No need for kinetic or thermal data"
+    ],
+    "correct": 1,
+    "explanation": "Small channels provide strong heat and mass transfer with low inventory, helping control fast or hazardous chemistry. They can face fouling, numbering-up, and pressure-drop constraints."
+  },
+  {
+    "section": "Nonideal Flow, Scale-Up & Industrial Applications",
+    "q": "In ammonia synthesis, industrial reactor designs often use catalyst beds with interstage cooling or quench because the reaction is:",
+    "opts": [
+      "Exothermic and equilibrium-limited",
+      "Unaffected by temperature and pressure",
+      "A liquid-phase batch reaction only",
+      "Always zero-order and thermoneutral"
+    ],
+    "correct": 0,
+    "explanation": "Ammonia synthesis is an exothermic equilibrium-limited catalytic gas reaction. Beds with cooling manage temperature while maintaining favorable equilibrium and practical rates."
+  },
+  {
+    "section": "Nonideal Flow, Scale-Up & Industrial Applications",
+    "q": "A sound reactor selection decision should consider:",
+    "opts": [
+      "Only maximum single-pass conversion",
+      "Only the lowest purchase price of the vessel",
+      "Kinetics, heat and mass transfer, equilibrium, selectivity, safety, control, separations, and economics",
+      "Only the color of the catalyst"
+    ],
+    "correct": 2,
+    "explanation": "Good reactor design integrates chemistry and process engineering. The best reactor is not necessarily the one with the highest conversion in isolation; it must work safely and economically within the full process."
+  }
+];
+
+const SECTIONS  = [
+  {
+    "key": "Fundamentals, Mole Balances & Kinetics",
+    "label": "I — Fundamentals, Mole Balances & Kinetics",
+    "cls": "sec-conduction",
+    "range": "Questions 1–30"
+  },
+  {
+    "key": "Ideal Reactor Design",
+    "label": "II — Ideal Reactor Design",
+    "cls": "sec-convection",
+    "range": "Questions 31–65"
+  },
+  {
+    "key": "Multiple Reactions, Selectivity & Reactor Networks",
+    "label": "III — Multiple Reactions, Selectivity & Reactor Networks",
+    "cls": "sec-radiation",
+    "range": "Questions 66–90"
+  },
+  {
+    "key": "Nonisothermal Reactors & Thermal Safety",
+    "label": "IV — Nonisothermal Reactors & Thermal Safety",
+    "cls": "sec-hx",
+    "range": "Questions 91–115"
+  },
+  {
+    "key": "Catalysis & Heterogeneous Reactors",
+    "label": "V — Catalysis & Heterogeneous Reactors",
+    "cls": "sec-boiling",
+    "range": "Questions 116–135"
+  },
+  {
+    "key": "Nonideal Flow, Scale-Up & Industrial Applications",
+    "label": "VI — Nonideal Flow, Scale-Up & Industrial Applications",
+    "cls": "sec-applications",
+    "range": "Questions 136–150"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+const TOTAL_Q = QUESTIONS.length;
+
+let mode='instant', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 4*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='04:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/'+TOTAL_Q;
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/'+TOTAL_Q;
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  // Engineering fundamentals: typical undergraduate / PE-prep readiness benchmarks
+  if(pct>=0.90){ grade='Reactor Design \u2014 Distinction'; blurb='Outstanding command of reactor design fundamentals. Strong grasp of mole balances, kinetics, ideal reactors, selectivity, nonisothermal design, catalysis, and nonideal flow.'; }
+  else if(pct>=0.80){ grade='Reactor Design \u2014 Solid Pass'; blurb='Strong understanding across most domains. Review missed items; you are at typical PE Chemical reactor-design readiness level.'; }
+  else if(pct>=0.70){ grade='Reactor Design \u2014 Borderline'; blurb='At PE-prep level. Targeted review of weak sections recommended &mdash; especially rate-law integration, CSTR/PFR sizing, selectivity, and nonisothermal stability.'; }
+  else if(pct>=0.60){ grade='Approaching Pass Threshold'; blurb='Below typical certification passing range. Strengthen weak sections (per the breakdown), redo the calculation items, then re-test.'; }
+  else if(pct>=0.45){ grade='Developing Engineer'; blurb='Fundamentals forming but key gaps remain. Work through Fogler or Levenspiel systematically and revisit mole balances, rate laws, Levenspiel plots, and energy balances.'; }
+  else { grade='Begin the Reactor Design Journey'; blurb='Start with an undergraduate reactor-design text (Fogler, Levenspiel, or Smith): mole balances, conversion, rate laws, ideal CSTR/PFR/batch design equations, and basic energy balances.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 150 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one question at a time. 4-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+</body>
+</html>
