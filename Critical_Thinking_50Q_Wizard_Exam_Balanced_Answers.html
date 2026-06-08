@@ -132,6 +132,7 @@ footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid v
 .chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
 .chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
 .chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+.chml-oat-nav{display:none!important;}
 </style>
 
 <style id="chml-cert-style">
@@ -290,9 +291,13 @@ function render(){
     actions.className='wizard-actions';
     const left=document.createElement('button');
     left.className='btn btn-ghost';
-    left.textContent='Previous';
+    left.textContent='Back';
     left.disabled=current===0;
     left.onclick=()=>{current=Math.max(0,current-1);render();window.scrollTo({top:0,behavior:'smooth'})};
+    const reset=document.createElement('button');
+    reset.className='btn btn-ghost';
+    reset.textContent='Reset';
+    reset.onclick=()=>{ if(confirm('Reset this attempt? All answers so far will be cleared.')) resetExam(true); };
     const note=document.createElement('div');
     note.className='mini-note';
     note.textContent= mode==='guided'
@@ -300,13 +305,14 @@ function render(){
       : 'Exam mode: no feedback until final submission.';
     const right=document.createElement('button');
     right.className='btn btn-gold';
-    right.textContent=current===QUESTIONS.length-1 ? (mode==='exam'?'Submit Exam':'Finish Exam') : 'Next Question';
+    right.textContent=current===QUESTIONS.length-1 ? (mode==='exam'?'Submit Exam':'Finish Exam') : 'Continue';
     right.disabled = mode==='guided' ? answers[current]===null : false;
     right.onclick=()=>{
       if(current===QUESTIONS.length-1) submitExam();
       else { current++; render(); window.scrollTo({top:0,behavior:'smooth'}); }
     };
     actions.appendChild(left);
+    actions.appendChild(reset);
     actions.appendChild(note);
     actions.appendChild(right);
     shell.appendChild(actions);
