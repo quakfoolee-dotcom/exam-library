@@ -924,6 +924,8 @@ build(); updateHud();
   window.__chmlOneQuestionInstalled = true;
   var chmlIndex = 0;
   var applying = false;
+  
+  var applyTimer = null;
   function examRoot(){ return document.getElementById('exam') || document.querySelector('main'); }
   function cards(){ var root=examRoot(); return root ? Array.prototype.slice.call(root.querySelectorAll('.q-card')) : []; }
   function hasResults(){ var r=document.getElementById('results'); return !!(r && r.classList.contains('show')); }
@@ -982,18 +984,34 @@ build(); updateHud();
       if(active) active.insertAdjacentElement('afterend', makeNav(active,chmlIndex,cs.length));
     } finally { applying=false; }
   }
-  function after(){ setTimeout(apply,0); setTimeout(apply,80); }
-  ['choose','hitZone','toggleMulti','moveRow','dropRow','placeSel','unplace','checkCard','refreshCard','build','resetExam','newExam','setMode','setFilter','toggleReview'].forEach(function(name){
+  function after(){
+    if(applyTimer) clearTimeout(applyTimer);
+    applyTimer = setTimeout(function(){ applyTimer=null; apply(); }, 60);
+  }
+  ['choose','chooseSingle','chooseMulti','selectHotspot','placeSeqCard','setSeqSlot','clearSeqSlot','dropSeqCard','hitZone','toggleMulti','moveRow','dropRow','placeSel','unplace','checkCard','refreshCard','build','resetExam','newExam','newRandomExam','setLength','setMode','setFilter','toggleReview'].forEach(function(name){
     var fn=window[name];
     if(typeof fn==='function' && !fn.__chmlWrapped){
-      var wrapped=function(){ var result=fn.apply(this,arguments); after(); return result; };
+      var wrapped=function(){
+        if(name==='build' || name==='resetExam' || name==='newExam' || name==='newRandomExam' || name==='setLength') chmlIndex=0;
+        var result=fn.apply(this,arguments);
+        after();
+        return result;
+      };
       wrapped.__chmlWrapped=true;
       window[name]=wrapped;
     }
   });
   document.addEventListener('click',function(e){ if(e.target && e.target.closest && e.target.closest('.q-card')) after(); },true);
   var root=examRoot();
-  if(root && window.MutationObserver){ new MutationObserver(after).observe(root,{childList:true,subtree:false}); }
+  if(root && window.MutationObserver){
+    new MutationObserver(function(mutations){
+      var contentChanged=mutations.some(function(m){
+        var nodes=Array.prototype.slice.call(m.addedNodes).concat(Array.prototype.slice.call(m.removedNodes));
+        return nodes.some(function(n){ return n.nodeType===1 && !(n.classList && n.classList.contains('chml-oat-nav')); });
+      });
+      if(contentChanged) after();
+    }).observe(root,{childList:true,subtree:false});
+  }
   after();
 })();
 </script>
