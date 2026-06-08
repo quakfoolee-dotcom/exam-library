@@ -95,6 +95,7 @@ h1.title .of{font-style:italic;font-weight:400;color:var(--gold-deep)}
 .explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
 .explain p{font-size:1rem;line-height:1.62;color:#3a3326}
 .wizard-actions{display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-top:18px}
+.wizard-left{display:flex;gap:12px;flex-wrap:wrap}
 .mini-note{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#6b5f4a;letter-spacing:.02em}
 .btn{font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:13px 24px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
 .btn-gold{background:var(--ink);color:var(--paper)}
@@ -298,6 +299,10 @@ function render(){
     reset.className='btn btn-ghost';
     reset.textContent='Reset';
     reset.onclick=()=>{ if(confirm('Reset this attempt? All answers so far will be cleared.')) resetExam(true); };
+    const leftGroup=document.createElement('div');
+    leftGroup.className='wizard-left';
+    leftGroup.appendChild(left);
+    leftGroup.appendChild(reset);
     const note=document.createElement('div');
     note.className='mini-note';
     note.textContent= mode==='guided'
@@ -311,8 +316,7 @@ function render(){
       if(current===QUESTIONS.length-1) submitExam();
       else { current++; render(); window.scrollTo({top:0,behavior:'smooth'}); }
     };
-    actions.appendChild(left);
-    actions.appendChild(reset);
+    actions.appendChild(leftGroup);
     actions.appendChild(note);
     actions.appendChild(right);
     shell.appendChild(actions);
