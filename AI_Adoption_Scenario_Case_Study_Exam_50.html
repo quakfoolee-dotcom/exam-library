@@ -421,9 +421,34 @@ resetExam(false);
     if(count>=50) return count<=50 ? '1 hour' : '2 hours';
     return '30 minutes';
   }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
   function chmlExamDurationText(){
     try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
     var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
     var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
     if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
     m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
