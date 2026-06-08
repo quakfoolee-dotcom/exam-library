@@ -874,5 +874,115 @@ resetExam();
 })();
 </script>
 
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
 </body>
 </html>
