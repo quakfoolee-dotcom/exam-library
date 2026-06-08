@@ -278,6 +278,7 @@ footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid v
   <div class="hud">
     <span class="stat">Progress <b id="progCount">0</b>/<b id="totalCount">50</b></span>
     <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat" id="timerWrap" style="display:none">Time <b id="timerVal" class="timer">01:00:00</b></span>
     <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
   </div>
 
@@ -309,9 +310,13 @@ const LETTERS = ['A','B','C','D'];
 const VALID_COUNTS = [25,50,75,90,120];
 let selectedCount = 50;
 let mode = 'instant';
+let current = 0;
 let activeQuestions = [];
 let answers = [];
 let locked = [];
+let timerRemaining = 60*60;
+let timerInterval = null;
+let timedOut = false;
 
 function shuffleCopy(arr){
   const a = arr.slice();
@@ -338,7 +343,24 @@ function build(){
   h.className='section-head';
   h.innerHTML=`<span>Randomized Leadership Scenario Case Study Set</span><span class="tag">${selectedCount} Questions</span>`;
   exam.appendChild(h);
-  activeQuestions.forEach((q,idx)=>exam.appendChild(makeCard(q,idx,idx+1)));
+  if(!activeQuestions.length) return;
+  if(current>=activeQuestions.length) current=activeQuestions.length-1;
+  exam.appendChild(makeCard(activeQuestions[current],current,current+1));
+  restoreCard(current);
+  exam.appendChild(makeNav());
+}
+
+function restoreCard(idx){
+  if(answers[idx]===null) return;
+  const card=document.getElementById('q'+idx);
+  if(!card) return;
+  const sel=card.querySelector(`.opt[data-i="${answers[idx]}"]`);
+  if(sel) sel.classList.add('sel');
+  card.classList.add('answered');
+  if(locked[idx]){
+    locked[idx]=false;
+    lockCard(idx);
+  }
 }
 
 function makeCard(q,idx,num){
@@ -392,6 +414,7 @@ function choose(idx,i){
   card.classList.add('answered');
   if(mode==='instant'){ lockCard(idx); }
   updateHud();
+  updateLeadershipNav();
 }
 
 function lockCard(idx){
@@ -434,7 +457,125 @@ function updateHud(){
   }
 }
 
+function examDurationSeconds(){
+  if(selectedCount<=25) return 30*60;
+  if(selectedCount<=50) return 60*60;
+  if(selectedCount<=75) return 90*60;
+  if(selectedCount<=90) return 120*60;
+  return 150*60;
+}
+function hms(seconds){
+  seconds=Math.max(0,Math.floor(seconds));
+  const h=Math.floor(seconds/3600), m=Math.floor((seconds%3600)/60), s=seconds%60;
+  const pad=n=>String(n).padStart(2,'0');
+  return h>0 ? pad(h)+':'+pad(m)+':'+pad(s) : pad(m)+':'+pad(s);
+}
+function updateTimerDisplay(){
+  const el=document.getElementById('timerVal');
+  if(el) el.textContent=hms(timerRemaining);
+}
+function showTimer(show){
+  const wrap=document.getElementById('timerWrap');
+  if(wrap) wrap.style.display=show?'':'none';
+}
+function startTimer(){
+  stopTimer();
+  timedOut=false;
+  timerRemaining=examDurationSeconds();
+  updateTimerDisplay();
+  showTimer(true);
+  timerInterval=setInterval(function(){
+    timerRemaining--;
+    updateTimerDisplay();
+    if(timerRemaining<=0){
+      timedOut=true;
+      stopTimer();
+      submitExam();
+    }
+  },1000);
+}
+function stopTimer(){
+  if(timerInterval){clearInterval(timerInterval);timerInterval=null;}
+}
+
+function makeNav(){
+  const nav=document.createElement('div');
+  nav.className='chml-oat-nav';
+  const left=document.createElement('div');
+  left.className='chml-oat-cluster';
+  const back=document.createElement('button');
+  back.className='btn btn-ghost';
+  back.type='button';
+  back.textContent='Back';
+  back.disabled=current===0;
+  back.onclick=prevQuestion;
+  const reset=document.createElement('button');
+  reset.className='btn btn-ghost';
+  reset.type='button';
+  reset.textContent='Reset';
+  reset.onclick=resetExam;
+  left.appendChild(back);
+  left.appendChild(reset);
+
+  const hint=document.createElement('div');
+  hint.className='chml-oat-hint';
+  hint.id='navHint';
+
+  const right=document.createElement('div');
+  right.className='chml-oat-cluster';
+  const cont=document.createElement('button');
+  cont.className='btn btn-gold';
+  cont.type='button';
+  cont.id='navContinue';
+  cont.onclick=function(){ current===activeQuestions.length-1 ? submitExam() : nextQuestion(); };
+  right.appendChild(cont);
+
+  nav.appendChild(left);
+  nav.appendChild(hint);
+  nav.appendChild(right);
+  updateLeadershipNavElements(cont,hint);
+  return nav;
+}
+
+function updateLeadershipNavElements(btn,hint){
+  const answered=answers[current]!==null;
+  const last=current===activeQuestions.length-1;
+  const allAnswered=answers.every(a=>a!==null);
+  if(btn){
+    btn.textContent=last?'Submit Exam':'Continue';
+    btn.disabled=last ? !allAnswered : !answered;
+  }
+  if(hint){
+    hint.textContent=answered
+      ? (last ? (allAnswered?'Ready to submit.':'Answer remaining questions before submitting.') : 'Answer saved. Continue when ready.')
+      : 'Pick an answer to continue.';
+  }
+}
+
+function updateLeadershipNav(){
+  updateLeadershipNavElements(document.getElementById('navContinue'),document.getElementById('navHint'));
+}
+
+function nextQuestion(){
+  if(current<activeQuestions.length-1 && answers[current]!==null){
+    current++;
+    build();
+    updateHud();
+    document.querySelector('.hud')?.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+}
+
+function prevQuestion(){
+  if(current>0){
+    current--;
+    build();
+    updateHud();
+    document.querySelector('.hud')?.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+}
+
 function submitExam(){
+  stopTimer();
   let correct=0;
   const byCat={};
   activeQuestions.forEach((q,idx)=>{
@@ -474,16 +615,18 @@ function reviewAll(){document.getElementById('q0').scrollIntoView({behavior:'smo
 
 function setMode(m){
   mode=m;
+  current=0;
   document.getElementById('mode-instant').classList.toggle('active',m==='instant');
   document.getElementById('mode-exam').classList.toggle('active',m==='exam');
   document.getElementById('modeHint').textContent = m==='instant'
     ? 'Pick an answer and see the explanation immediately.'
-    : 'Answer all selected questions, then submit to see your score and explanations.';
+    : 'Answer all selected questions before the countdown ends, then submit to see your score and explanations.';
   resetExam();
 }
 
 function selectCount(n){
   selectedCount=n;
+  current=0;
   document.querySelectorAll('#countbar button').forEach(btn=>{
     btn.classList.toggle('active', btn.textContent.trim().startsWith(String(n)));
   });
@@ -491,12 +634,18 @@ function selectCount(n){
 }
 
 function resetExam(){
+  stopTimer();
+  current=0;
   document.getElementById('results').classList.remove('show');
   document.getElementById('scoreNum').textContent='0';
   document.getElementById('submitBtn').style.display='none';
   prepQuestions();
+  timerRemaining=examDurationSeconds();
+  updateTimerDisplay();
+  showTimer(mode==='exam');
   build();
   updateHud();
+  if(mode==='exam') startTimer();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -596,6 +745,8 @@ resetExam();
     return mins+' '+(mins===1?'minute':'minutes');
   }
   function chmlQuestionCount(){
+    try{if(typeof selectedCount!=='undefined' && selectedCount) return selectedCount;}catch(e){}
+    try{if(typeof activeQuestions!=='undefined' && Array.isArray(activeQuestions) && activeQuestions.length) return activeQuestions.length;}catch(e){}
     try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
     try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
     try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
@@ -723,84 +874,5 @@ resetExam();
 })();
 </script>
 
-<script id="chml-one-question-script">
-(function(){
-  if(window.__chmlOneQuestionInstalled) return;
-  window.__chmlOneQuestionInstalled = true;
-  var chmlIndex = 0;
-  var applying = false;
-  function examRoot(){ return document.getElementById('exam') || document.querySelector('main'); }
-  function cards(){ var root=examRoot(); return root ? Array.prototype.slice.call(root.querySelectorAll('.q-card')) : []; }
-  function hasResults(){ var r=document.getElementById('results'); return !!(r && r.classList.contains('show')); }
-  function answered(card){
-    if(!card) return false;
-    if(card.classList.contains('answered')) return true;
-    if(card.querySelector('.opt.sel,.chip.sel,.dnd-row.ok,.dnd-row.no,.cat .chip')) return true;
-    var id=card.id||'';
-    var m=id.match(/q(\d+)/);
-    if(m && Array.isArray(window.answers)){
-      var a=window.answers[parseInt(m[1],10)];
-      return Array.isArray(a) ? a.length>0 : a!==null && typeof a!=='undefined';
-    }
-    return false;
-  }
-  function answeredCount(){ return cards().filter(answered).length; }
-  function allAnswered(){ var cs=cards(); return cs.length>0 && cs.every(answered); }
-  function hintFor(card,last){
-    if(last && answered(card)) return allAnswered() ? 'Ready to submit.' : 'Answer remaining questions before submitting.';
-    return answered(card) ? 'Answer saved. Continue when ready.' : 'Pick an answer to continue.';
-  }
-  function btnClass(kind){ return kind==='primary' ? 'btn btn-gold' : 'btn btn-ghost'; }
-  function submitOrFinish(){
-    if(typeof window.submitExam==='function') { window.submitExam(); return; }
-    var btn=document.getElementById('submitBtn'); if(btn) { btn.click(); return; }
-    var r=document.getElementById('results'); if(r) r.classList.add('show');
-  }
-  function go(delta){
-    var cs=cards(); if(!cs.length) return;
-    chmlIndex=Math.max(0,Math.min(cs.length-1,chmlIndex+delta));
-    apply();
-    var h=document.querySelector('.hud') || cs[chmlIndex];
-    if(h && h.scrollIntoView) h.scrollIntoView({behavior:'smooth',block:'start'});
-  }
-  function makeNav(card,idx,total){
-    var nav=document.createElement('div'); nav.className='chml-oat-nav';
-    var last=idx===total-1, isAnswered=answered(card), canSubmit=last && allAnswered();
-    var back=document.createElement('button'); back.type='button'; back.className=btnClass('secondary'); back.textContent='Back'; back.disabled=idx===0; back.onclick=function(){go(-1);};
-    var reset=document.createElement('button'); reset.type='button'; reset.className=btnClass('secondary'); reset.textContent='Reset'; reset.onclick=function(){ if(typeof window.confirmReset==='function') window.confirmReset(); else if(typeof window.resetExam==='function' && confirm('Reset this attempt? All answers so far will be cleared.')) window.resetExam(true); };
-    var cont=document.createElement('button'); cont.type='button'; cont.className=btnClass('primary'); cont.textContent=last?'Submit Exam':'Continue'; cont.disabled= last ? !canSubmit : !isAnswered; cont.onclick=function(){ if(last) submitOrFinish(); else go(1); };
-    var left=document.createElement('div'); left.className='chml-oat-cluster'; left.appendChild(back); left.appendChild(reset);
-    var mid=document.createElement('div'); mid.className='chml-oat-hint'; mid.textContent=hintFor(card,last);
-    var right=document.createElement('div'); right.className='chml-oat-cluster'; right.appendChild(cont);
-    nav.appendChild(left); nav.appendChild(mid); nav.appendChild(right);
-    return nav;
-  }
-  function apply(){
-    if(applying) return; applying=true;
-    try{
-      var cs=cards();
-      var old=document.querySelectorAll('.chml-oat-nav'); old.forEach(function(n){n.remove();});
-      if(!cs.length || hasResults()) { cs.forEach(function(c){c.classList.remove('chml-oat-hidden');}); return; }
-      if(chmlIndex>=cs.length) chmlIndex=cs.length-1;
-      cs.forEach(function(c,i){ c.classList.toggle('chml-oat-hidden', i!==chmlIndex); });
-      var active=cs[chmlIndex];
-      if(active) active.insertAdjacentElement('afterend', makeNav(active,chmlIndex,cs.length));
-    } finally { applying=false; }
-  }
-  function after(){ setTimeout(apply,0); setTimeout(apply,80); }
-  ['choose','hitZone','toggleMulti','moveRow','dropRow','placeSel','unplace','checkCard','refreshCard','build','resetExam','newExam','setMode','setFilter','toggleReview'].forEach(function(name){
-    var fn=window[name];
-    if(typeof fn==='function' && !fn.__chmlWrapped){
-      var wrapped=function(){ var result=fn.apply(this,arguments); after(); return result; };
-      wrapped.__chmlWrapped=true;
-      window[name]=wrapped;
-    }
-  });
-  document.addEventListener('click',function(e){ if(e.target && e.target.closest && e.target.closest('.q-card')) after(); },true);
-  var root=examRoot();
-  if(root && window.MutationObserver){ new MutationObserver(after).observe(root,{childList:true,subtree:false}); }
-  after();
-})();
-</script>
 </body>
 </html>
