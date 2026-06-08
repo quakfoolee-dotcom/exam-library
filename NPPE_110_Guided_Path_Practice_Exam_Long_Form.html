@@ -2275,6 +2275,15 @@ render(); updateTimer();
     var btn=document.getElementById('submitBtn'); if(btn) { btn.click(); return; }
     var r=document.getElementById('results'); if(r) r.classList.add('show');
   }
+  function syncProgress(idx,total){
+    var current=Math.min(total,Math.max(1,idx+1));
+    var prog=document.getElementById('progCount');
+    if(prog) prog.textContent=String(current);
+    var totalEl=document.getElementById('totalCount');
+    if(totalEl) totalEl.textContent=String(total);
+    var fill=document.getElementById('barFill');
+    if(fill) fill.style.width=(total ? (current/total*100) : 0)+'%';
+  }
   function go(delta){
     var cs=cards(); if(!cs.length) return;
     chmlIndex=Math.max(0,Math.min(cs.length-1,chmlIndex+delta));
@@ -2303,6 +2312,7 @@ render(); updateTimer();
       if(chmlIndex>=cs.length) chmlIndex=cs.length-1;
       cs.forEach(function(c,i){ c.classList.toggle('chml-oat-hidden', i!==chmlIndex); });
       var active=cs[chmlIndex];
+      syncProgress(chmlIndex,cs.length);
       if(active) active.insertAdjacentElement('afterend', makeNav(active,chmlIndex,cs.length));
     } finally { applying=false; }
   }
