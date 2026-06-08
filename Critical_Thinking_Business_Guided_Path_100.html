@@ -1851,6 +1851,20 @@ render();updateHud();
   var applyTimer = null;
   function examRoot(){ return document.getElementById('exam') || document.querySelector('main'); }
   function cards(){ var root=examRoot(); return root ? Array.prototype.slice.call(root.querySelectorAll('.q-card')) : []; }
+  function sectionHeads(){ var root=examRoot(); return root ? Array.prototype.slice.call(root.querySelectorAll('.section-head')) : []; }
+  function revealSectionFor(card){
+    var heads=sectionHeads();
+    heads.forEach(function(h){ h.classList.add('chml-oat-hidden'); });
+    var node=card ? card.previousElementSibling : null;
+    while(node){
+      if(node.classList && node.classList.contains('section-head')){
+        node.classList.remove('chml-oat-hidden');
+        break;
+      }
+      node=node.previousElementSibling;
+    }
+  }
+  function showAllSections(){ sectionHeads().forEach(function(h){ h.classList.remove('chml-oat-hidden'); }); }
   function hasResults(){ var r=document.getElementById('results'); return !!(r && r.classList.contains('show')); }
   function answered(card){
     if(!card) return false;
@@ -1910,11 +1924,12 @@ render();updateHud();
     try{
       var cs=cards();
       var old=document.querySelectorAll('.chml-oat-nav'); old.forEach(function(n){n.remove();});
-      if(!cs.length || hasResults()) { cs.forEach(function(c){c.classList.remove('chml-oat-hidden');}); return; }
+      if(!cs.length || hasResults()) { cs.forEach(function(c){c.classList.remove('chml-oat-hidden');}); showAllSections(); return; }
       if(chmlIndex>=cs.length) chmlIndex=cs.length-1;
       cs.forEach(function(c,i){ c.classList.toggle('chml-oat-hidden', i!==chmlIndex); });
       var active=cs[chmlIndex];
       syncProgress(chmlIndex,cs.length);
+      revealSectionFor(active);
       if(active) active.insertAdjacentElement('afterend', makeNav(active,chmlIndex,cs.length));
     } finally { applying=false; }
   }
