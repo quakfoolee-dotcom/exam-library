@@ -1,0 +1,2137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cybersecurity Fundamentals - Mock Exam · 100Q (V1)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  /* Section palette \u2014 broader, engineering-themed */
+  --fund:#1f4a7d;
+  --llm:#5a2585;
+  --rag:#0e6b6a;
+  --agent:#a85410;
+  --ops:#226b2d;
+  --safe:#9b2c3a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(31,74,125,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.8rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--fund),var(--llm));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-fund{background:linear-gradient(100deg,var(--fund),#0c2541)}
+.sec-llm{background:linear-gradient(100deg,var(--llm),#311148)}
+.sec-rag{background:linear-gradient(100deg,var(--rag),#06403f)}
+.sec-agent{background:linear-gradient(100deg,var(--agent),#5e2d05)}
+.sec-ops{background:linear-gradient(100deg,var(--ops),#0e3d18)}
+.sec-safe{background:linear-gradient(100deg,var(--safe),#5b181f)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-type{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;border:1px solid currentColor;opacity:.85;color:var(--llm)}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.1rem;line-height:1.55;margin-bottom:16px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:13px 16px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.45);transition:all .18s ease;font-size:1rem;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.07);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s}
+.opt .otext{flex:1;padding-top:1px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.1)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px;display:flex;align-items:center;gap:8px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:180px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 18px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:1.02rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Fundamentals Examination &middot; Cybersecurity Readiness</div>
+    <h1 class="title">Cybersecurity <span class="amp">&amp;</span> Fundamentals Exam</h1>
+    <div class="byline">Breadth across practical cybersecurity foundations: risk, identity, networks, endpoints, cloud, applications, cryptography, monitoring, and response</div>
+    <div class="exambar">
+      <span><b>100</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>100</b> Marks</span>
+      <span>Exam Mode: <b>2 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/100</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">02:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/100</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 2-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    Cybersecurity Fundamentals &middot; 100 mixed questions (theory + application + scenario) &middot; V1 (Guided / Instant / Exam-with-Timer)
+    <div class="disclaimer">An independent cybersecurity study resource. Threats, tools, standards, and regulatory expectations evolve continually - verify production decisions against current official guidance and organizational policy.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "Security Foundations",
+    "q": "In cybersecurity fundamentals, what best describes CIA triad?",
+    "opts": [
+      "confidentiality, integrity, and availability",
+      "It replaces the need for authentication, logging, and incident response.",
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "It guarantees attacks cannot succeed once enabled."
+    ],
+    "correct": 0,
+    "explanation": "Core security objectives: keeping data private, accurate, and available. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Security Foundations",
+    "q": "A team is discussing integrity failure. Which answer is most defensible?",
+    "opts": [
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "unauthorized or accidental change to trusted data",
+      "It is a finance-only control unrelated to technical security.",
+      "It requires sharing credentials broadly so work can move faster."
+    ],
+    "correct": 1,
+    "explanation": "Integrity means data remains accurate, complete, and trustworthy. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Security Foundations",
+    "q": "Which statement about availability failure is most accurate?",
+    "opts": [
+      "It removes the need to classify data or understand business context.",
+      "It is useful only for public websites and never for internal systems.",
+      "systems or data cannot be used when needed",
+      "It should be ignored when systems are protected by a firewall."
+    ],
+    "correct": 2,
+    "explanation": "Availability protects business operations from outages and disruption. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Security Foundations",
+    "q": "A security analyst needs to explain defense in depth. What should they say?",
+    "opts": [
+      "It is a one-time setup that never needs review or monitoring.",
+      "It replaces the need for authentication, logging, and incident response.",
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "layered controls so one failure does not expose everything"
+    ],
+    "correct": 3,
+    "explanation": "Layering controls reduces single-point failure. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Security Foundations",
+    "q": "Which option best applies least privilege in a practical security program?",
+    "opts": [
+      "only the access required for the role or task",
+      "It guarantees attacks cannot succeed once enabled.",
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "It is a finance-only control unrelated to technical security."
+    ],
+    "correct": 0,
+    "explanation": "Least privilege limits damage from mistakes, misuse, and compromised accounts. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Security Foundations",
+    "q": "What is the main security purpose of human risk reduction?",
+    "opts": [
+      "It requires sharing credentials broadly so work can move faster.",
+      "training combined with usable technical safeguards",
+      "It removes the need to classify data or understand business context.",
+      "It is useful only for public websites and never for internal systems."
+    ],
+    "correct": 1,
+    "explanation": "People need awareness, clear process, and guardrails such as MFA and filtering. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Security Foundations",
+    "q": "A manager asks why threat matters. Which response is best?",
+    "opts": [
+      "It should be ignored when systems are protected by a firewall.",
+      "It is a one-time setup that never needs review or monitoring.",
+      "a potential cause of harm such as an attacker, accident, or event",
+      "It replaces the need for authentication, logging, and incident response."
+    ],
+    "correct": 2,
+    "explanation": "Threats can exploit vulnerabilities and create impact. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Security Foundations",
+    "q": "Which choice reflects sound practice for vulnerability?",
+    "opts": [
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "It guarantees attacks cannot succeed once enabled.",
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "a weakness that could be exploited to cause harm"
+    ],
+    "correct": 3,
+    "explanation": "Vulnerabilities may exist in software, configuration, design, or process. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Security Foundations",
+    "q": "What should a learner remember first about compensating control?",
+    "opts": [
+      "an alternate safeguard used when the preferred control is not feasible",
+      "It is a finance-only control unrelated to technical security.",
+      "It requires sharing credentials broadly so work can move faster.",
+      "It removes the need to classify data or understand business context."
+    ],
+    "correct": 0,
+    "explanation": "Compensating controls should be documented, reviewed, and tied to risk. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Security Foundations",
+    "q": "In a basic security review, how should risk-based controls be understood?",
+    "opts": [
+      "It is useful only for public websites and never for internal systems.",
+      "controls matched to likelihood, impact, business context, and obligations",
+      "It should be ignored when systems are protected by a firewall.",
+      "It is a one-time setup that never needs review or monitoring."
+    ],
+    "correct": 1,
+    "explanation": "Risk-based programs prioritize effort where it reduces meaningful exposure. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Identity & Access Management",
+    "q": "In cybersecurity fundamentals, what best describes authentication?",
+    "opts": [
+      "It replaces the need for authentication, logging, and incident response.",
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "verification of a claimed user, device, or service identity",
+      "It guarantees attacks cannot succeed once enabled."
+    ],
+    "correct": 2,
+    "explanation": "Authentication proves identity before access decisions are made. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Identity & Access Management",
+    "q": "A team is discussing authorization. Which answer is most defensible?",
+    "opts": [
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "It is a finance-only control unrelated to technical security.",
+      "It requires sharing credentials broadly so work can move faster.",
+      "determination of what an authenticated identity can do"
+    ],
+    "correct": 3,
+    "explanation": "Authorization maps identities to roles, permissions, scopes, or policies. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Identity & Access Management",
+    "q": "Which statement about multi-factor authentication is most accurate?",
+    "opts": [
+      "more than one proof, such as something known and something possessed",
+      "It removes the need to classify data or understand business context.",
+      "It is useful only for public websites and never for internal systems.",
+      "It should be ignored when systems are protected by a firewall."
+    ],
+    "correct": 0,
+    "explanation": "MFA reduces the chance that a stolen password alone is enough. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Identity & Access Management",
+    "q": "A security analyst needs to explain unexpected MFA prompts. What should they say?",
+    "opts": [
+      "It is a one-time setup that never needs review or monitoring.",
+      "deny the prompt and report possible credential compromise",
+      "It replaces the need for authentication, logging, and incident response.",
+      "It is mainly a cosmetic or convenience feature with no risk impact."
+    ],
+    "correct": 1,
+    "explanation": "Unrequested prompts may indicate compromise or MFA fatigue attack. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Identity & Access Management",
+    "q": "Which option best applies privileged access management in a practical security program?",
+    "opts": [
+      "It guarantees attacks cannot succeed once enabled.",
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "control and monitoring of high-risk administrative access",
+      "It is a finance-only control unrelated to technical security."
+    ],
+    "correct": 2,
+    "explanation": "PAM manages powerful accounts through approval, rotation, logging, and limits. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Identity & Access Management",
+    "q": "What is the main security purpose of deprovisioning?",
+    "opts": [
+      "It requires sharing credentials broadly so work can move faster.",
+      "It removes the need to classify data or understand business context.",
+      "It is useful only for public websites and never for internal systems.",
+      "timely removal of accounts, tokens, and access after departure"
+    ],
+    "correct": 3,
+    "explanation": "Orphaned accounts are a common avoidable access risk. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Identity & Access Management",
+    "q": "A manager asks why single sign-on matters. Which response is best?",
+    "opts": [
+      "centralized authentication and a simpler user access experience",
+      "It should be ignored when systems are protected by a firewall.",
+      "It is a one-time setup that never needs review or monitoring.",
+      "It replaces the need for authentication, logging, and incident response."
+    ],
+    "correct": 0,
+    "explanation": "SSO can improve policy enforcement and monitoring when implemented well. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Identity & Access Management",
+    "q": "Which choice reflects sound practice for access review?",
+    "opts": [
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "periodic validation that users still need assigned permissions",
+      "It guarantees attacks cannot succeed once enabled.",
+      "It should be used only after a confirmed breach and never during normal operations."
+    ],
+    "correct": 1,
+    "explanation": "Reviews detect stale, excessive, or inappropriate access. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Identity & Access Management",
+    "q": "What should a learner remember first about password storage?",
+    "opts": [
+      "It is a finance-only control unrelated to technical security.",
+      "It requires sharing credentials broadly so work can move faster.",
+      "salted slow hashes using a modern password hashing algorithm",
+      "It removes the need to classify data or understand business context."
+    ],
+    "correct": 2,
+    "explanation": "Passwords should not be stored in plaintext or reversible form. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Identity & Access Management",
+    "q": "In a basic security review, how should service account be understood?",
+    "opts": [
+      "It is useful only for public websites and never for internal systems.",
+      "It should be ignored when systems are protected by a firewall.",
+      "It is a one-time setup that never needs review or monitoring.",
+      "an account used by an application or service rather than a human"
+    ],
+    "correct": 3,
+    "explanation": "Service accounts need ownership, least privilege, rotation, and monitoring. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Network Security",
+    "q": "In cybersecurity fundamentals, what best describes firewall purpose?",
+    "opts": [
+      "control traffic based on rules for source, destination, port, and protocol",
+      "It replaces the need for authentication, logging, and incident response.",
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "It guarantees attacks cannot succeed once enabled."
+    ],
+    "correct": 0,
+    "explanation": "Firewalls enforce traffic policy at host or network boundaries. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Network Security",
+    "q": "A team is discussing network segmentation. Which answer is most defensible?",
+    "opts": [
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "limits lateral movement and scopes access between systems",
+      "It is a finance-only control unrelated to technical security.",
+      "It requires sharing credentials broadly so work can move faster."
+    ],
+    "correct": 1,
+    "explanation": "Segmentation reduces blast radius after compromise. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Network Security",
+    "q": "Which statement about database exposure is most accurate?",
+    "opts": [
+      "It removes the need to classify data or understand business context.",
+      "It is useful only for public websites and never for internal systems.",
+      "restrict inbound database access to approved application sources and ports",
+      "It should be ignored when systems are protected by a firewall."
+    ],
+    "correct": 2,
+    "explanation": "Databases rarely need broad inbound network reachability. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Network Security",
+    "q": "A security analyst needs to explain VPN use. What should they say?",
+    "opts": [
+      "It is a one-time setup that never needs review or monitoring.",
+      "It replaces the need for authentication, logging, and incident response.",
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "an encrypted tunnel into approved network resources"
+    ],
+    "correct": 3,
+    "explanation": "VPNs protect remote access paths but do not replace all controls. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Network Security",
+    "q": "Which option best applies DNS filtering in a practical security program?",
+    "opts": [
+      "blocking or warning on malicious or policy-violating domains",
+      "It guarantees attacks cannot succeed once enabled.",
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "It is a finance-only control unrelated to technical security."
+    ],
+    "correct": 0,
+    "explanation": "DNS controls can disrupt phishing, malware callbacks, and unwanted destinations. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Network Security",
+    "q": "What is the main security purpose of open RDP risk?",
+    "opts": [
+      "It requires sharing credentials broadly so work can move faster.",
+      "credential attacks and direct remote access compromise",
+      "It removes the need to classify data or understand business context.",
+      "It is useful only for public websites and never for internal systems."
+    ],
+    "correct": 1,
+    "explanation": "Internet-exposed administration services are high-value targets. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Network Security",
+    "q": "A manager asks why TLS matters. Which response is best?",
+    "opts": [
+      "It should be ignored when systems are protected by a firewall.",
+      "It is a one-time setup that never needs review or monitoring.",
+      "confidentiality and integrity in transit plus server identity validation",
+      "It replaces the need for authentication, logging, and incident response."
+    ],
+    "correct": 2,
+    "explanation": "TLS protects communication when certificates and ciphers are configured correctly. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Network Security",
+    "q": "Which choice reflects sound practice for default deny?",
+    "opts": [
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "It guarantees attacks cannot succeed once enabled.",
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "only explicitly approved traffic is allowed"
+    ],
+    "correct": 3,
+    "explanation": "Default-deny posture prevents accidental exposure from permissive rules. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Network Security",
+    "q": "What should a learner remember first about lateral movement?",
+    "opts": [
+      "an attacker moving from one compromised system to others",
+      "It is a finance-only control unrelated to technical security.",
+      "It requires sharing credentials broadly so work can move faster.",
+      "It removes the need to classify data or understand business context."
+    ],
+    "correct": 0,
+    "explanation": "Attackers often pivot internally after initial access. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Network Security",
+    "q": "In a basic security review, how should firewall logging be understood?",
+    "opts": [
+      "It is useful only for public websites and never for internal systems.",
+      "support detection, investigation, tuning, and evidence of policy behavior",
+      "It should be ignored when systems are protected by a firewall.",
+      "It is a one-time setup that never needs review or monitoring."
+    ],
+    "correct": 1,
+    "explanation": "Traffic logs help analysts understand and investigate network activity. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Endpoint, Cloud & Infrastructure",
+    "q": "In cybersecurity fundamentals, what best describes timely patching?",
+    "opts": [
+      "It replaces the need for authentication, logging, and incident response.",
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "fix known vulnerabilities before attackers exploit them widely",
+      "It guarantees attacks cannot succeed once enabled."
+    ],
+    "correct": 2,
+    "explanation": "Patching reduces exposure after vulnerabilities become known. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Endpoint, Cloud & Infrastructure",
+    "q": "A team is discussing EDR. Which answer is most defensible?",
+    "opts": [
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "It is a finance-only control unrelated to technical security.",
+      "It requires sharing credentials broadly so work can move faster.",
+      "detect, investigate, and respond to suspicious endpoint activity"
+    ],
+    "correct": 3,
+    "explanation": "EDR gives telemetry and response actions such as isolation. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Endpoint, Cloud & Infrastructure",
+    "q": "Which statement about full-disk encryption is most accurate?",
+    "opts": [
+      "protect stored data if a laptop is lost or stolen",
+      "It removes the need to classify data or understand business context.",
+      "It is useful only for public websites and never for internal systems.",
+      "It should be ignored when systems are protected by a firewall."
+    ],
+    "correct": 0,
+    "explanation": "Disk encryption reduces impact from physical loss. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Endpoint, Cloud & Infrastructure",
+    "q": "A security analyst needs to explain public cloud storage. What should they say?",
+    "opts": [
+      "It is a one-time setup that never needs review or monitoring.",
+      "publicly accessible storage containing sensitive data",
+      "It replaces the need for authentication, logging, and incident response.",
+      "It is mainly a cosmetic or convenience feature with no risk impact."
+    ],
+    "correct": 1,
+    "explanation": "Misconfigured public storage is a frequent cloud exposure. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Endpoint, Cloud & Infrastructure",
+    "q": "Which option best applies IaC scanning in a practical security program?",
+    "opts": [
+      "It guarantees attacks cannot succeed once enabled.",
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "find risky infrastructure settings before deployment",
+      "It is a finance-only control unrelated to technical security."
+    ],
+    "correct": 2,
+    "explanation": "Infrastructure scanning catches public access, weak encryption, and broad permissions early. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Endpoint, Cloud & Infrastructure",
+    "q": "What is the main security purpose of hardening?",
+    "opts": [
+      "It requires sharing credentials broadly so work can move faster.",
+      "It removes the need to classify data or understand business context.",
+      "It is useful only for public websites and never for internal systems.",
+      "remove unnecessary services, insecure defaults, and excessive permissions"
+    ],
+    "correct": 3,
+    "explanation": "Hardening reduces attack surface and configuration risk. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Endpoint, Cloud & Infrastructure",
+    "q": "A manager asks why backup testing matters. Which response is best?",
+    "opts": [
+      "prove backups are complete, accessible, and restorable in time",
+      "It should be ignored when systems are protected by a firewall.",
+      "It is a one-time setup that never needs review or monitoring.",
+      "It replaces the need for authentication, logging, and incident response."
+    ],
+    "correct": 0,
+    "explanation": "Untested backups may fail during a real incident. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Endpoint, Cloud & Infrastructure",
+    "q": "Which choice reflects sound practice for immutable backups?",
+    "opts": [
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "protect recovery copies from ransomware modification or deletion",
+      "It guarantees attacks cannot succeed once enabled.",
+      "It should be used only after a confirmed breach and never during normal operations."
+    ],
+    "correct": 1,
+    "explanation": "Immutable or offline backups preserve recovery options. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Endpoint, Cloud & Infrastructure",
+    "q": "What should a learner remember first about baseline configuration?",
+    "opts": [
+      "It is a finance-only control unrelated to technical security.",
+      "It requires sharing credentials broadly so work can move faster.",
+      "an approved standard for secure system configuration",
+      "It removes the need to classify data or understand business context."
+    ],
+    "correct": 2,
+    "explanation": "Baselines make secure builds repeatable and drift visible. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Endpoint, Cloud & Infrastructure",
+    "q": "In a basic security review, how should cloud admin logs be understood?",
+    "opts": [
+      "It is useful only for public websites and never for internal systems.",
+      "It should be ignored when systems are protected by a firewall.",
+      "It is a one-time setup that never needs review or monitoring.",
+      "central logs for detection, accountability, investigation, and alerting"
+    ],
+    "correct": 3,
+    "explanation": "Cloud control-plane logs are essential for tracing changes and misuse. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Application & Data Security",
+    "q": "In cybersecurity fundamentals, what best describes input validation?",
+    "opts": [
+      "reduce unexpected or malicious input reaching unsafe code paths",
+      "It replaces the need for authentication, logging, and incident response.",
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "It guarantees attacks cannot succeed once enabled."
+    ],
+    "correct": 0,
+    "explanation": "Validation enforces expected formats, types, ranges, and lengths. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Application & Data Security",
+    "q": "A team is discussing SQL injection. Which answer is most defensible?",
+    "opts": [
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "untrusted input changes the meaning of a database query",
+      "It is a finance-only control unrelated to technical security.",
+      "It requires sharing credentials broadly so work can move faster."
+    ],
+    "correct": 1,
+    "explanation": "SQL injection happens when input is treated as executable query logic. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Application & Data Security",
+    "q": "Which statement about SQL injection defense is most accurate?",
+    "opts": [
+      "It removes the need to classify data or understand business context.",
+      "It is useful only for public websites and never for internal systems.",
+      "parameterized queries or prepared statements",
+      "It should be ignored when systems are protected by a firewall."
+    ],
+    "correct": 2,
+    "explanation": "Parameterization separates code from data. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Application & Data Security",
+    "q": "A security analyst needs to explain cross-site scripting. What should they say?",
+    "opts": [
+      "It is a one-time setup that never needs review or monitoring.",
+      "It replaces the need for authentication, logging, and incident response.",
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "script injection into pages viewed by other users"
+    ],
+    "correct": 3,
+    "explanation": "XSS lets attackers run script in a victim browser context. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Application & Data Security",
+    "q": "Which option best applies session management in a practical security program?",
+    "opts": [
+      "protect tokens from theft, fixation, and misuse",
+      "It guarantees attacks cannot succeed once enabled.",
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "It is a finance-only control unrelated to technical security."
+    ],
+    "correct": 0,
+    "explanation": "Session tokens can grant access and need secure handling. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Application & Data Security",
+    "q": "What is the main security purpose of data classification?",
+    "opts": [
+      "It requires sharing credentials broadly so work can move faster.",
+      "label data by sensitivity so controls match risk",
+      "It removes the need to classify data or understand business context.",
+      "It is useful only for public websites and never for internal systems."
+    ],
+    "correct": 1,
+    "explanation": "Classification guides access, encryption, retention, and handling. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Application & Data Security",
+    "q": "A manager asks why data minimization matters. Which response is best?",
+    "opts": [
+      "It should be ignored when systems are protected by a firewall.",
+      "It is a one-time setup that never needs review or monitoring.",
+      "avoid collecting sensitive data without a clear need",
+      "It replaces the need for authentication, logging, and incident response."
+    ],
+    "correct": 2,
+    "explanation": "Data not collected cannot be breached, retained, or misused. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Application & Data Security",
+    "q": "Which choice reflects sound practice for secure code review?",
+    "opts": [
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "It guarantees attacks cannot succeed once enabled.",
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "identify design, logic, data handling, and implementation flaws"
+    ],
+    "correct": 3,
+    "explanation": "Manual review catches issues tools may miss. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Application & Data Security",
+    "q": "What should a learner remember first about secrets management?",
+    "opts": [
+      "secure storage, access, rotation, and auditing of keys and tokens",
+      "It is a finance-only control unrelated to technical security.",
+      "It requires sharing credentials broadly so work can move faster.",
+      "It removes the need to classify data or understand business context."
+    ],
+    "correct": 0,
+    "explanation": "Secrets should not be embedded in source code or chat. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Application & Data Security",
+    "q": "In a basic security review, how should exposed API key be understood?",
+    "opts": [
+      "It is useful only for public websites and never for internal systems.",
+      "revoke or rotate the key and investigate usage",
+      "It should be ignored when systems are protected by a firewall.",
+      "It is a one-time setup that never needs review or monitoring."
+    ],
+    "correct": 1,
+    "explanation": "An exposed secret should be treated as compromised. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Cryptography & Secure Communications",
+    "q": "In cybersecurity fundamentals, what best describes encryption?",
+    "opts": [
+      "It replaces the need for authentication, logging, and incident response.",
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "confidentiality by making data unreadable without the key",
+      "It guarantees attacks cannot succeed once enabled."
+    ],
+    "correct": 2,
+    "explanation": "Encryption protects confidentiality when keys are managed properly. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Cryptography & Secure Communications",
+    "q": "A team is discussing hashing. Which answer is most defensible?",
+    "opts": [
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "It is a finance-only control unrelated to technical security.",
+      "It requires sharing credentials broadly so work can move faster.",
+      "a one-way fingerprint for integrity checks and password verification"
+    ],
+    "correct": 3,
+    "explanation": "Hashing is not reversible encryption. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Cryptography & Secure Communications",
+    "q": "Which statement about password salts is most accurate?",
+    "opts": [
+      "make identical passwords produce different hashes and resist precomputed attacks",
+      "It removes the need to classify data or understand business context.",
+      "It is useful only for public websites and never for internal systems.",
+      "It should be ignored when systems are protected by a firewall."
+    ],
+    "correct": 0,
+    "explanation": "Unique salts reduce repeated patterns and rainbow-table value. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Cryptography & Secure Communications",
+    "q": "A security analyst needs to explain digital signature. What should they say?",
+    "opts": [
+      "It is a one-time setup that never needs review or monitoring.",
+      "integrity, authenticity, and non-repudiation of signed data",
+      "It replaces the need for authentication, logging, and incident response.",
+      "It is mainly a cosmetic or convenience feature with no risk impact."
+    ],
+    "correct": 1,
+    "explanation": "Signatures verify who signed data and whether it changed. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Cryptography & Secure Communications",
+    "q": "Which option best applies key management in a practical security program?",
+    "opts": [
+      "It guarantees attacks cannot succeed once enabled.",
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "protect keys from exposure, misuse, and poor rotation",
+      "It is a finance-only control unrelated to technical security."
+    ],
+    "correct": 2,
+    "explanation": "Strong algorithms fail when keys are mishandled. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Cryptography & Secure Communications",
+    "q": "What is the main security purpose of asymmetric cryptography?",
+    "opts": [
+      "It requires sharing credentials broadly so work can move faster.",
+      "It removes the need to classify data or understand business context.",
+      "It is useful only for public websites and never for internal systems.",
+      "public and private keys performing complementary operations"
+    ],
+    "correct": 3,
+    "explanation": "Asymmetric crypto supports TLS, signatures, and key exchange. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Cryptography & Secure Communications",
+    "q": "A manager asks why deprecated ciphers matters. Which response is best?",
+    "opts": [
+      "disable weak protocols and ciphers with known weaknesses",
+      "It should be ignored when systems are protected by a firewall.",
+      "It is a one-time setup that never needs review or monitoring.",
+      "It replaces the need for authentication, logging, and incident response."
+    ],
+    "correct": 0,
+    "explanation": "Old cryptography can allow downgrade or interception attacks. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Cryptography & Secure Communications",
+    "q": "Which choice reflects sound practice for certificate validation?",
+    "opts": [
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "confirm server identity and certificate trust chain",
+      "It guarantees attacks cannot succeed once enabled.",
+      "It should be used only after a confirmed breach and never during normal operations."
+    ],
+    "correct": 1,
+    "explanation": "Validation helps avoid secure connections to the wrong server. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Cryptography & Secure Communications",
+    "q": "What should a learner remember first about encryption at rest?",
+    "opts": [
+      "It is a finance-only control unrelated to technical security.",
+      "It requires sharing credentials broadly so work can move faster.",
+      "protect stored data such as disks, databases, backups, and objects",
+      "It removes the need to classify data or understand business context."
+    ],
+    "correct": 2,
+    "explanation": "At-rest controls reduce impact from storage exposure. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Cryptography & Secure Communications",
+    "q": "In a basic security review, how should encryption in transit be understood?",
+    "opts": [
+      "It is useful only for public websites and never for internal systems.",
+      "It should be ignored when systems are protected by a firewall.",
+      "It is a one-time setup that never needs review or monitoring.",
+      "protect data while it moves across networks"
+    ],
+    "correct": 3,
+    "explanation": "TLS and similar protocols protect network communication. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Risk, Governance & Compliance",
+    "q": "In cybersecurity fundamentals, what best describes security policy?",
+    "opts": [
+      "management-approved security expectations and rules",
+      "It replaces the need for authentication, logging, and incident response.",
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "It guarantees attacks cannot succeed once enabled."
+    ],
+    "correct": 0,
+    "explanation": "Policies guide standards, procedures, and controls. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Risk, Governance & Compliance",
+    "q": "A team is discussing risk register. Which answer is most defensible?",
+    "opts": [
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "track risks, owners, ratings, responses, and status",
+      "It is a finance-only control unrelated to technical security.",
+      "It requires sharing credentials broadly so work can move faster."
+    ],
+    "correct": 1,
+    "explanation": "Risk registers create visibility and accountability. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Risk, Governance & Compliance",
+    "q": "Which statement about residual risk is most accurate?",
+    "opts": [
+      "It removes the need to classify data or understand business context.",
+      "It is useful only for public websites and never for internal systems.",
+      "risk remaining after controls are applied",
+      "It should be ignored when systems are protected by a firewall."
+    ],
+    "correct": 2,
+    "explanation": "Residual risk should be consciously accepted, reduced, transferred, or avoided. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Risk, Governance & Compliance",
+    "q": "A security analyst needs to explain vendor review. What should they say?",
+    "opts": [
+      "It is a one-time setup that never needs review or monitoring.",
+      "It replaces the need for authentication, logging, and incident response.",
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "assess third-party risk before sharing data or relying on services"
+    ],
+    "correct": 3,
+    "explanation": "Vendors can create security and privacy exposure. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Risk, Governance & Compliance",
+    "q": "Which option best applies awareness training in a practical security program?",
+    "opts": [
+      "reduce human-driven risks such as phishing and unsafe handling",
+      "It guarantees attacks cannot succeed once enabled.",
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "It is a finance-only control unrelated to technical security."
+    ],
+    "correct": 0,
+    "explanation": "Training works best with practical technical controls. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Risk, Governance & Compliance",
+    "q": "What is the main security purpose of separation of duties?",
+    "opts": [
+      "It requires sharing credentials broadly so work can move faster.",
+      "prevent one person from initiating and approving sensitive actions unchecked",
+      "It removes the need to classify data or understand business context.",
+      "It is useful only for public websites and never for internal systems."
+    ],
+    "correct": 1,
+    "explanation": "Separation reduces fraud, errors, and abuse. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Risk, Governance & Compliance",
+    "q": "A manager asks why business impact analysis matters. Which response is best?",
+    "opts": [
+      "It should be ignored when systems are protected by a firewall.",
+      "It is a one-time setup that never needs review or monitoring.",
+      "understand critical processes, downtime impact, and recovery priorities",
+      "It replaces the need for authentication, logging, and incident response."
+    ],
+    "correct": 2,
+    "explanation": "BIA informs continuity and recovery objectives. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Risk, Governance & Compliance",
+    "q": "Which choice reflects sound practice for acceptable use policy?",
+    "opts": [
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "It guarantees attacks cannot succeed once enabled.",
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "rules for appropriate use of company systems, data, networks, and devices"
+    ],
+    "correct": 3,
+    "explanation": "Acceptable use sets expectations for technology use. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Risk, Governance & Compliance",
+    "q": "What should a learner remember first about audit evidence?",
+    "opts": [
+      "demonstrate whether controls operate as claimed",
+      "It is a finance-only control unrelated to technical security.",
+      "It requires sharing credentials broadly so work can move faster.",
+      "It removes the need to classify data or understand business context."
+    ],
+    "correct": 0,
+    "explanation": "Audits rely on logs, tickets, approvals, reports, and other evidence. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Risk, Governance & Compliance",
+    "q": "In a basic security review, how should risk acceptance be understood?",
+    "opts": [
+      "It is useful only for public websites and never for internal systems.",
+      "leadership knowingly agrees to retain a documented risk within tolerance",
+      "It should be ignored when systems are protected by a firewall.",
+      "It is a one-time setup that never needs review or monitoring."
+    ],
+    "correct": 1,
+    "explanation": "Acceptance should be explicit, informed, and owned. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Threats, Vulnerabilities & Testing",
+    "q": "In cybersecurity fundamentals, what best describes phishing?",
+    "opts": [
+      "It replaces the need for authentication, logging, and incident response.",
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "social engineering that tricks users into unsafe actions or disclosure",
+      "It guarantees attacks cannot succeed once enabled."
+    ],
+    "correct": 2,
+    "explanation": "Phishing uses email, SMS, voice, or fake sites to manipulate victims. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Threats, Vulnerabilities & Testing",
+    "q": "A team is discussing ransomware. Which answer is most defensible?",
+    "opts": [
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "It is a finance-only control unrelated to technical security.",
+      "It requires sharing credentials broadly so work can move faster.",
+      "malware that blocks access to systems or data and demands payment"
+    ],
+    "correct": 3,
+    "explanation": "Ransomware creates availability and sometimes confidentiality incidents. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Threats, Vulnerabilities & Testing",
+    "q": "Which statement about social engineering is most accurate?",
+    "opts": [
+      "manipulating people to bypass normal security controls",
+      "It removes the need to classify data or understand business context.",
+      "It is useful only for public websites and never for internal systems.",
+      "It should be ignored when systems are protected by a firewall."
+    ],
+    "correct": 0,
+    "explanation": "Attackers exploit trust, urgency, authority, fear, or helpfulness. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Threats, Vulnerabilities & Testing",
+    "q": "A security analyst needs to explain vulnerability scanning. What should they say?",
+    "opts": [
+      "It is a one-time setup that never needs review or monitoring.",
+      "find known weaknesses and misconfigurations at scale",
+      "It replaces the need for authentication, logging, and incident response.",
+      "It is mainly a cosmetic or convenience feature with no risk impact."
+    ],
+    "correct": 1,
+    "explanation": "Scanning is useful but needs triage and does not prove safety. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Threats, Vulnerabilities & Testing",
+    "q": "Which option best applies penetration testing in a practical security program?",
+    "opts": [
+      "It guarantees attacks cannot succeed once enabled.",
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "authorized attempts to exploit weaknesses and demonstrate impact",
+      "It is a finance-only control unrelated to technical security."
+    ],
+    "correct": 2,
+    "explanation": "Pen tests require scope, permission, and careful handling. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Threats, Vulnerabilities & Testing",
+    "q": "What is the main security purpose of false positive?",
+    "opts": [
+      "It requires sharing credentials broadly so work can move faster.",
+      "It removes the need to classify data or understand business context.",
+      "It is useful only for public websites and never for internal systems.",
+      "a reported issue that is not actually exploitable or applicable"
+    ],
+    "correct": 3,
+    "explanation": "Triage helps teams focus on real risk. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Threats, Vulnerabilities & Testing",
+    "q": "A manager asks why vulnerability prioritization matters. Which response is best?",
+    "opts": [
+      "use exploitability and asset criticality, not score alone",
+      "It should be ignored when systems are protected by a firewall.",
+      "It is a one-time setup that never needs review or monitoring.",
+      "It replaces the need for authentication, logging, and incident response."
+    ],
+    "correct": 0,
+    "explanation": "Prioritization should consider exposure, exploit availability, controls, and value. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Threats, Vulnerabilities & Testing",
+    "q": "Which choice reflects sound practice for threat modeling?",
+    "opts": [
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "identify likely threats and design weaknesses early",
+      "It guarantees attacks cannot succeed once enabled.",
+      "It should be used only after a confirmed breach and never during normal operations."
+    ],
+    "correct": 1,
+    "explanation": "Threat modeling examines abuse cases, trust boundaries, and data flows. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Threats, Vulnerabilities & Testing",
+    "q": "What should a learner remember first about credential stuffing?",
+    "opts": [
+      "It is a finance-only control unrelated to technical security.",
+      "It requires sharing credentials broadly so work can move faster.",
+      "try stolen username and password pairs from other breaches",
+      "It removes the need to classify data or understand business context."
+    ],
+    "correct": 2,
+    "explanation": "MFA, rate limiting, and breached-password checks reduce this risk. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Threats, Vulnerabilities & Testing",
+    "q": "In a basic security review, how should zero-day be understood?",
+    "opts": [
+      "It is useful only for public websites and never for internal systems.",
+      "It should be ignored when systems are protected by a firewall.",
+      "It is a one-time setup that never needs review or monitoring.",
+      "a vulnerability unknown to or unpatched by the vendor when exploited or disclosed"
+    ],
+    "correct": 3,
+    "explanation": "Layered controls and detection matter when patches are unavailable. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Monitoring & Incident Response",
+    "q": "In cybersecurity fundamentals, what best describes SIEM?",
+    "opts": [
+      "centralize, correlate, search, and alert on security logs",
+      "It replaces the need for authentication, logging, and incident response.",
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "It guarantees attacks cannot succeed once enabled."
+    ],
+    "correct": 0,
+    "explanation": "SIEM platforms help detect and investigate suspicious activity. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Monitoring & Incident Response",
+    "q": "A team is discussing time synchronization. Which answer is most defensible?",
+    "opts": [
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "accurate timestamps for correlating events across systems",
+      "It is a finance-only control unrelated to technical security.",
+      "It requires sharing credentials broadly so work can move faster."
+    ],
+    "correct": 1,
+    "explanation": "Incident timelines become unreliable when clocks disagree. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Monitoring & Incident Response",
+    "q": "Which statement about incident response plan is most accurate?",
+    "opts": [
+      "It removes the need to classify data or understand business context.",
+      "It is useful only for public websites and never for internal systems.",
+      "document detection, triage, containment, eradication, recovery, and communication",
+      "It should be ignored when systems are protected by a firewall."
+    ],
+    "correct": 2,
+    "explanation": "Plans reduce confusion during high-pressure events. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Monitoring & Incident Response",
+    "q": "A security analyst needs to explain containment. What should they say?",
+    "opts": [
+      "It is a one-time setup that never needs review or monitoring.",
+      "It replaces the need for authentication, logging, and incident response.",
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "limit damage and spread while preserving evidence where possible"
+    ],
+    "correct": 3,
+    "explanation": "Containment may isolate hosts, disable accounts, or block indicators. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Monitoring & Incident Response",
+    "q": "Which option best applies evidence preservation in a practical security program?",
+    "opts": [
+      "support root cause analysis, legal needs, and reliable decisions",
+      "It guarantees attacks cannot succeed once enabled.",
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "It is a finance-only control unrelated to technical security."
+    ],
+    "correct": 0,
+    "explanation": "Evidence must be handled carefully to remain trustworthy. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Monitoring & Incident Response",
+    "q": "What is the main security purpose of indicator of compromise?",
+    "opts": [
+      "It requires sharing credentials broadly so work can move faster.",
+      "artifact suggesting malicious activity such as hash, IP, domain, path, or behavior",
+      "It removes the need to classify data or understand business context.",
+      "It is useful only for public websites and never for internal systems."
+    ],
+    "correct": 1,
+    "explanation": "IOCs help detection and hunting but may change quickly. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Monitoring & Incident Response",
+    "q": "A manager asks why alert tuning matters. Which response is best?",
+    "opts": [
+      "It should be ignored when systems are protected by a firewall.",
+      "It is a one-time setup that never needs review or monitoring.",
+      "reduce noise while preserving meaningful detection coverage",
+      "It replaces the need for authentication, logging, and incident response."
+    ],
+    "correct": 2,
+    "explanation": "Tuning reduces fatigue and improves response quality. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Monitoring & Incident Response",
+    "q": "Which choice reflects sound practice for post-incident review?",
+    "opts": [
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "It guarantees attacks cannot succeed once enabled.",
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "learn what happened and improve prevention, detection, response, and communication"
+    ],
+    "correct": 3,
+    "explanation": "Reviews should improve the system, not just assign blame. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Monitoring & Incident Response",
+    "q": "What should a learner remember first about clicked phishing link?",
+    "opts": [
+      "triage account and endpoint risk, collect details, and contain if needed",
+      "It is a finance-only control unrelated to technical security.",
+      "It requires sharing credentials broadly so work can move faster.",
+      "It removes the need to classify data or understand business context."
+    ],
+    "correct": 0,
+    "explanation": "Response should gather facts and protect the account and device. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Monitoring & Incident Response",
+    "q": "In a basic security review, how should incident severity be understood?",
+    "opts": [
+      "It is useful only for public websites and never for internal systems.",
+      "guide escalation, communication, response speed, and resources",
+      "It should be ignored when systems are protected by a firewall.",
+      "It is a one-time setup that never needs review or monitoring."
+    ],
+    "correct": 1,
+    "explanation": "Severity levels make response consistent and impact-based. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Security Operations Scenarios",
+    "q": "In cybersecurity fundamentals, what best describes password compromises?",
+    "opts": [
+      "It replaces the need for authentication, logging, and incident response.",
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "enable MFA on email, admin, and remote access accounts first",
+      "It guarantees attacks cannot succeed once enabled."
+    ],
+    "correct": 2,
+    "explanation": "MFA on high-value accounts sharply reduces password-only compromise risk. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Security Operations Scenarios",
+    "q": "A team is discussing new SaaS sharing. Which answer is most defensible?",
+    "opts": [
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "It is a finance-only control unrelated to technical security.",
+      "It requires sharing credentials broadly so work can move faster.",
+      "review vendor security, data sensitivity, contracts, and business need before upload"
+    ],
+    "correct": 3,
+    "explanation": "Third-party sharing should be reviewed before sensitive data leaves control. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Security Operations Scenarios",
+    "q": "Which statement about patch delay is most accurate?",
+    "opts": [
+      "apply compensating controls, reduce exposure, monitor, and schedule the patch",
+      "It removes the need to classify data or understand business context.",
+      "It is useful only for public websites and never for internal systems.",
+      "It should be ignored when systems are protected by a firewall."
+    ],
+    "correct": 0,
+    "explanation": "When immediate patching is constrained, reduce risk until remediation. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Security Operations Scenarios",
+    "q": "A security analyst needs to explain finance folder access. What should they say?",
+    "opts": [
+      "It is a one-time setup that never needs review or monitoring.",
+      "least privilege and need-to-know should limit access",
+      "It replaces the need for authentication, logging, and incident response.",
+      "It is mainly a cosmetic or convenience feature with no risk impact."
+    ],
+    "correct": 1,
+    "explanation": "Confidential data access should be tied to role and business need. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Security Operations Scenarios",
+    "q": "Which option best applies public cloud bucket in a practical security program?",
+    "opts": [
+      "It guarantees attacks cannot succeed once enabled.",
+      "It should be used only after a confirmed breach and never during normal operations.",
+      "restrict public access, preserve evidence, assess exposure, and notify response owners",
+      "It is a finance-only control unrelated to technical security."
+    ],
+    "correct": 2,
+    "explanation": "Contain exposure quickly, then investigate scope. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Security Operations Scenarios",
+    "q": "What is the main security purpose of urgent password reset?",
+    "opts": [
+      "It requires sharing credentials broadly so work can move faster.",
+      "It removes the need to classify data or understand business context.",
+      "It is useful only for public websites and never for internal systems.",
+      "follow identity verification and refuse shortcuts despite urgency"
+    ],
+    "correct": 3,
+    "explanation": "Social engineering often uses urgency and authority. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Security Operations Scenarios",
+    "q": "A manager asks why impossible travel matters. Which response is best?",
+    "opts": [
+      "investigate possible account compromise, review sessions, and consider reset",
+      "It should be ignored when systems are protected by a firewall.",
+      "It is a one-time setup that never needs review or monitoring.",
+      "It replaces the need for authentication, logging, and incident response."
+    ],
+    "correct": 0,
+    "explanation": "Impossible travel can indicate compromise, though false positives exist. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  },
+  {
+    "section": "Security Operations Scenarios",
+    "q": "Which choice reflects sound practice for new internet-facing app?",
+    "opts": [
+      "It is mainly a cosmetic or convenience feature with no risk impact.",
+      "perform threat modeling, secure review, vulnerability testing, logging, and rollback planning",
+      "It guarantees attacks cannot succeed once enabled.",
+      "It should be used only after a confirmed breach and never during normal operations."
+    ],
+    "correct": 1,
+    "explanation": "Internet-facing applications need security and operational readiness. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Application"
+  },
+  {
+    "section": "Security Operations Scenarios",
+    "q": "What should a learner remember first about ransomware note?",
+    "opts": [
+      "It is a finance-only control unrelated to technical security.",
+      "It requires sharing credentials broadly so work can move faster.",
+      "isolate the affected device and report through incident channels",
+      "It removes the need to classify data or understand business context."
+    ],
+    "correct": 2,
+    "explanation": "Early containment and reporting can limit spread. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Security Operations Scenarios",
+    "q": "In a basic security review, how should zero-risk request be understood?",
+    "opts": [
+      "It is useful only for public websites and never for internal systems.",
+      "It should be ignored when systems are protected by a firewall.",
+      "It is a one-time setup that never needs review or monitoring.",
+      "explain that cybersecurity manages risk but cannot eliminate all uncertainty"
+    ],
+    "correct": 3,
+    "explanation": "Good programs reduce likelihood and impact while preparing for failures. The other options overstate, misunderstand, or dangerously bypass the control.",
+    "type": "Theory"
+  }
+];
+const SECTIONS = [
+  {
+    "key": "Security Foundations",
+    "label": "Section A - Security Foundations",
+    "cls": "sec-fund",
+    "range": "Questions 1-10"
+  },
+  {
+    "key": "Identity & Access Management",
+    "label": "Section B - Identity & Access Management",
+    "cls": "sec-llm",
+    "range": "Questions 11-20"
+  },
+  {
+    "key": "Network Security",
+    "label": "Section C - Network Security",
+    "cls": "sec-rag",
+    "range": "Questions 21-30"
+  },
+  {
+    "key": "Endpoint, Cloud & Infrastructure",
+    "label": "Section D - Endpoint, Cloud & Infrastructure",
+    "cls": "sec-agent",
+    "range": "Questions 31-40"
+  },
+  {
+    "key": "Application & Data Security",
+    "label": "Section E - Application & Data Security",
+    "cls": "sec-ops",
+    "range": "Questions 41-50"
+  },
+  {
+    "key": "Cryptography & Secure Communications",
+    "label": "Section F - Cryptography & Secure Communications",
+    "cls": "sec-safe",
+    "range": "Questions 51-60"
+  },
+  {
+    "key": "Risk, Governance & Compliance",
+    "label": "Section G - Risk, Governance & Compliance",
+    "cls": "sec-fund",
+    "range": "Questions 61-70"
+  },
+  {
+    "key": "Threats, Vulnerabilities & Testing",
+    "label": "Section H - Threats, Vulnerabilities & Testing",
+    "cls": "sec-llm",
+    "range": "Questions 71-80"
+  },
+  {
+    "key": "Monitoring & Incident Response",
+    "label": "Section I - Monitoring & Incident Response",
+    "cls": "sec-rag",
+    "range": "Questions 81-90"
+  },
+  {
+    "key": "Security Operations Scenarios",
+    "label": "Section J - Security Operations Scenarios",
+    "cls": "sec-agent",
+    "range": "Questions 91-100"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+
+let mode = 'guided', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 2*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='02:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'
+       +     '<span class="q-type">'+escapeHtml(q.type||'Mixed')+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/100';
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/100';
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  if(pct>=0.9){ grade='Senior Cybersecurity Practitioner'; blurb='Outstanding. You can reason across core cybersecurity controls, risks, incidents, and practical operating trade-offs with strong judgement.'; }
+  else if(pct>=0.75){ grade='Strong Cybersecurity Practitioner'; blurb='Strong working cybersecurity knowledge. Review missed items - they often hinge on subtle trade-offs involving access, exposure, monitoring, data sensitivity, or incident response.'; }
+  else if(pct>=0.6){ grade='Qualified Cybersecurity Practitioner'; blurb='You have a working cybersecurity foundation. Strengthen weaker sections to round out security operations, risk, technical controls, and response knowledge.'; }
+  else if(pct>=0.4){ grade='Developing Cybersecurity Practitioner'; blurb='Cybersecurity breadth is forming. Revisit fundamentals: CIA triad, IAM, network controls, endpoint hygiene, application security, cryptography, risk, and incident response.'; }
+  else { grade='Begin the Cybersecurity Journey'; blurb='Start with the CIA triad, least privilege, MFA, patching, secure networking, phishing defense, backups, logging, and basic incident response.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 100 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one question at a time. 2-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Certificate name</label>
+    <input id="chmlCertNameInput" type="text" maxlength="80" placeholder="Enter name for certificate" oninput="chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" type="button" onclick="chmlPrintCertificate()">Print / Save as PDF</button>
+    <button class="chml-cert-btn secondary" type="button" onclick="chmlHideCertificate()">Hide Certificate</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div><div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker"><span id="chmlCertExamKicker">Knowledge Hub Examination</span></div>
+      <h1 class="chml-cert-h1">Certificate of Completion</h1>
+      <div class="chml-cert-rule"></div>
+      <p class="chml-cert-pre">This certifies that</p>
+      <p class="chml-cert-name" id="chmlCertName">Learner</p>
+      <p class="chml-cert-body">has successfully completed the <b id="chmlCertExamName">Knowledge Hub Exam</b>.</p>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">0 / 0</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">-</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Quak Foo Lee</div><div class="chml-cert-sig-label">Chmltech Ltd.</div></div>
+        <div class="chml-cert-id">Certificate ID: <span id="chmlCertId">-</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertificateInstalled) return;
+  window.__chmlCertificateInstalled = true;
+  function textOf(sel){var el=document.querySelector(sel);return el?el.textContent.trim():'';}
+  function examTitle(){return textOf('h1.title')||textOf('header h1')||textOf('h1')||document.title.replace(/\s+/g,' ').trim()||'Knowledge Hub Exam';}
+  function parseFirstNumber(txt){var m=String(txt||'').match(/\d+/);return m?parseInt(m[0],10):null;}
+  function parseScoreTotal(){
+    var correct=parseFirstNumber(textOf('#rScore'));
+    var total=null;
+    var rt=textOf('#rTotal');
+    if(rt) total=parseFirstNumber(rt);
+    if(!total){var sb=textOf('.score-big');var m=sb.match(/\/\s*(\d+)/);if(m) total=parseInt(m[1],10);}
+    if(!total) total=parseFirstNumber(textOf('#progTotal'));
+    if(!total){var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;if(cards) total=cards;}
+    if(!correct && correct!==0) correct=parseFirstNumber(textOf('#scoreNum'));
+    return {correct:correct||0,total:total||0};
+  }
+  function totalFromBreakdown(byType){
+    if(!byType || typeof byType!=='object') return null;
+    var total=0, found=false;
+    Object.keys(byType).forEach(function(k){var v=byType[k];if(v&&typeof v==='object'){var n=v.t||v.total||v.count;if(typeof n==='number'){total+=n;found=true;}}});
+    return found?total:null;
+  }
+  function hashCode(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+  window.chmlUpdateCertificateName=function(name){document.getElementById('chmlCertName').textContent=(name||'').trim()||'Learner';};
+  window.chmlHideCertificate=function(){var c=document.getElementById('chmlCertificate');if(c)c.classList.remove('show');};
+  window.chmlPrintCertificate=function(){window.print();};
+  window.chmlRenderCertificate=function(correct,total,grade){
+    var cert=document.getElementById('chmlCertificate');if(!cert)return;
+    var title=examTitle();
+    var nameInput=document.getElementById('chmlCertNameInput');
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
+    var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
+    document.getElementById('chmlCertExamName').textContent=title;
+    document.getElementById('chmlCertName').textContent=learner;
+    document.getElementById('chmlCertScore').textContent=String(correct)+' / '+String(total||0)+(total?(' ('+Math.round((correct/total)*100)+'%)'):'');
+    document.getElementById('chmlCertDate').textContent=date;
+    document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
+    cert.classList.add('show');
+  };
+
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
+    var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){
+      var parsed=parseScoreTotal();
+      if(correct===null || isNaN(correct)) correct=parsed.correct;
+      if(!total) total=parsed.total;
+      if(total || correct || document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0);
+    },60);
+  }
+  if(typeof window.showResults==='function'){
+    var originalShowResults=window.showResults;
+    window.showResults=function(){var out=originalShowResults.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  if(typeof window.submitExam==='function'){
+    var originalSubmitExam=window.submitExam;
+    window.submitExam=function(){var out=originalSubmitExam.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  ['resetExam','newExam'].forEach(function(fn){
+    if(typeof window[fn]==='function'){
+      var original=window[fn];
+      window[fn]=function(){window.chmlHideCertificate();return original.apply(this,arguments);};
+    }
+  });
+})();
+</script>
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>
