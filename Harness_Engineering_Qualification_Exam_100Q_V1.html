@@ -1,0 +1,2113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harness Engineering Qualification - Mock Exam - 100Q (V1)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  /* Section palette \u2014 broader, engineering-themed */
+  --fund:#1f4a7d;
+  --llm:#5a2585;
+  --rag:#0e6b6a;
+  --agent:#a85410;
+  --ops:#226b2d;
+  --safe:#9b2c3a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(31,74,125,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.8rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--fund),var(--llm));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-fund{background:linear-gradient(100deg,var(--fund),#0c2541)}
+.sec-llm{background:linear-gradient(100deg,var(--llm),#311148)}
+.sec-rag{background:linear-gradient(100deg,var(--rag),#06403f)}
+.sec-agent{background:linear-gradient(100deg,var(--agent),#5e2d05)}
+.sec-ops{background:linear-gradient(100deg,var(--ops),#0e3d18)}
+.sec-safe{background:linear-gradient(100deg,var(--safe),#5b181f)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-type{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;border:1px solid currentColor;opacity:.85;color:var(--llm)}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.1rem;line-height:1.55;margin-bottom:16px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:13px 16px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.45);transition:all .18s ease;font-size:1rem;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.07);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s}
+.opt .otext{flex:1;padding-top:1px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.1)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px;display:flex;align-items:center;gap:8px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:180px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 18px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:1.02rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Qualification Examination &middot; Harness Engineering Role</div>
+    <h1 class="title">Harness Engineering <span class="amp">&amp;</span> Qualification Exam</h1>
+    <div class="byline">Concepts, theory, case studies, and applications for wiring harness design, manufacturing, testing, and reliability</div>
+    <div class="exambar">
+      <span><b>100</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>100</b> Marks</span>
+      <span>Exam Mode: <b>2 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/100</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">02:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/100</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 2-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    Harness Engineering qualification &middot; 100 mixed questions (concept + theory + application + case study) &middot; V1 (Guided / Instant / Exam-with-Timer)
+    <div class="disclaimer">An independent study resource for wiring harness engineering. Verify safety-critical designs, standards, ratings, and qualification requirements against your product requirements, customer specifications, and official standards.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "Harness Engineering Foundations & Requirements",
+    "q": "In harness engineering, what is the best explanation of a wiring harness?",
+    "opts": [
+      "A controlled interconnect assembly that routes power and signals using documented conductors, connectors, terminals, protection, labels, and installation features.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "A controlled interconnect assembly that routes power and signals using documented conductors, connectors, terminals, protection, labels, and installation features. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Harness Engineering Foundations & Requirements",
+    "q": "In harness engineering, what is the best explanation of a harness requirements specification?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Capture electrical, mechanical, environmental, regulatory, manufacturing, service, and interface constraints before detailed release.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Capture electrical, mechanical, environmental, regulatory, manufacturing, service, and interface constraints before detailed release. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Harness Engineering Foundations & Requirements",
+    "q": "Which principle best describes starting from the electrical architecture in harness engineering?",
+    "opts": [
+      "Derive loads, circuit classes, protection zones, returns, grounding, interfaces, and signal sensitivity before physical routing is finalized.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Derive loads, circuit classes, protection zones, returns, grounding, interfaces, and signal sensitivity before physical routing is finalized. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Harness Engineering Foundations & Requirements",
+    "q": "A design team is working through uncontrolled connector-location changes. What is the most appropriate engineering response?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Use interface control for connector location, mating part, pinout, clearance, access, and change approval.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Use interface control for connector location, mating part, pinout, clearance, access, and change approval. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Harness Engineering Foundations & Requirements",
+    "q": "Case study: a product shows a harness issue involving branch lengths varying between builds. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Define branch datums, breakout points, tolerance scheme, measurement method, and form-board controls.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Define branch datums, breakout points, tolerance scheme, measurement method, and form-board controls. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Harness Engineering Foundations & Requirements",
+    "q": "Which principle best describes configuration management in harness engineering?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Control schematics, drawings, BOMs, pinouts, variants, tooling, and engineering changes as one released design set.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Control schematics, drawings, BOMs, pinouts, variants, tooling, and engineering changes as one released design set. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Harness Engineering Foundations & Requirements",
+    "q": "A design team is working through serviceability. What is the most appropriate engineering response?",
+    "opts": [
+      "Design connector access, labels, diagnostics, branch replacement strategy, repair limits, and removal path early.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Design connector access, labels, diagnostics, branch replacement strategy, repair limits, and removal path early. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Harness Engineering Foundations & Requirements",
+    "q": "In harness engineering, what is the best explanation of the harness BOM?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Control approved wires, cables, connectors, terminals, seals, backshells, clips, labels, tapes, sleeving, and approved alternates.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Control approved wires, cables, connectors, terminals, seals, backshells, clips, labels, tapes, sleeving, and approved alternates. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Harness Engineering Foundations & Requirements",
+    "q": "Case study: a product shows a harness issue involving a prototype that works but cannot be installed. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Validate installation path, bend radius, access, clipping, assembly sequence, and surrounding hardware.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Validate installation path, bend radius, access, clipping, assembly sequence, and surrounding hardware. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Harness Engineering Foundations & Requirements",
+    "q": "Which principle best describes cross-functional harness reviews in harness engineering?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Review electrical, mechanical, thermal, environmental, manufacturing, quality, service, supplier, and safety trade-offs together.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Review electrical, mechanical, thermal, environmental, manufacturing, quality, service, supplier, and safety trade-offs together. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Harness Engineering Foundations & Requirements",
+    "q": "A design team is working through a cost-reduction request. What is the most appropriate engineering response?",
+    "opts": [
+      "Preserve ratings, circuit protection, safety, environment, manufacturability, testability, and service needs while reducing cost.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Preserve ratings, circuit protection, safety, environment, manufacturability, testability, and service needs while reducing cost. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Harness Engineering Foundations & Requirements",
+    "q": "In harness engineering, what is the best explanation of harness variants?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Manage controlled design differences for options, markets, lengths, and configurations with clear selection rules.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Manage controlled design differences for options, markets, lengths, and configurations with clear selection rules. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Harness Engineering Foundations & Requirements",
+    "q": "Case study: a product shows a harness issue involving continuity passes but vibration fails. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Treat the issue as incomplete mechanical, vibration, strain-relief, support, abrasion, or environmental validation.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Treat the issue as incomplete mechanical, vibration, strain-relief, support, abrasion, or environmental validation. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Harness Engineering Foundations & Requirements",
+    "q": "Which principle best describes spare circuits in harness engineering?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Include them only when future options, diagnostics, or service needs justify cost, mass, space, termination, and documentation.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Include them only when future options, diagnostics, or service needs justify cost, mass, space, termination, and documentation. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Harness Engineering Foundations & Requirements",
+    "q": "A design team is working through production release evidence. What is the most appropriate engineering response?",
+    "opts": [
+      "Release only with approved schematic, drawing, BOM, validated fit, electrical verification, manufacturability review, and inspection plan.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Release only with approved schematic, drawing, BOM, validated fit, electrical verification, manufacturability review, and inspection plan. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Harness Engineering Foundations & Requirements",
+    "q": "In harness engineering, what is the best explanation of treating the harness as an afterthought?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Recognize the risk of late packaging conflicts, voltage drop, EMI, assembly variation, service problems, and safety exposure.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Recognize the risk of late packaging conflicts, voltage drop, EMI, assembly variation, service problems, and safety exposure. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Electrical Architecture & Protection",
+    "q": "Which principle best describes wire gauge selection in harness engineering?",
+    "opts": [
+      "Select gauge from current, voltage drop, temperature, bundling, insulation rating, installation method, duty cycle, and safety margin.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Select gauge from current, voltage drop, temperature, bundling, insulation rating, installation method, duty cycle, and safety margin. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Electrical Architecture & Protection",
+    "q": "A design team is working through a long run to a high-current actuator. What is the most appropriate engineering response?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Check voltage drop, conductor heating, return path, connector rating, protection coordination, and inrush behavior.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Check voltage drop, conductor heating, return path, connector rating, protection coordination, and inrush behavior. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Electrical Architecture & Protection",
+    "q": "In harness engineering, what is the best explanation of circuit protection?",
+    "opts": [
+      "Interrupt abnormal current before conductors, connectors, or loads overheat or create unsafe conditions.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Interrupt abnormal current before conductors, connectors, or loads overheat or create unsafe conditions. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Electrical Architecture & Protection",
+    "q": "Case study: a product shows a harness issue involving a larger fuse stopping nuisance trips. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Reject the change until root cause is known and protection remains coordinated with wire and connector ratings.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Reject the change until root cause is known and protection remains coordinated with wire and connector ratings. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Electrical Architecture & Protection",
+    "q": "Which principle best describes separating power and low-level sensor wiring in harness engineering?",
+    "opts": [
+      "Reduce inductive, capacitive, and common-impedance coupling from noisy or high-current circuits.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Reduce inductive, capacitive, and common-impedance coupling from noisy or high-current circuits. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Electrical Architecture & Protection",
+    "q": "A design team is working through a differential communication pair. What is the most appropriate engineering response?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Maintain pair integrity, twist consistency, suitable routing, length control if required, and separation from noisy circuits.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Maintain pair integrity, twist consistency, suitable routing, length control if required, and separation from noisy circuits. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Electrical Architecture & Protection",
+    "q": "In harness engineering, what is the best explanation of the return path?",
+    "opts": [
+      "Define the conductive path that completes current flow back to the source or reference.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Define the conductive path that completes current flow back to the source or reference. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Electrical Architecture & Protection",
+    "q": "Case study: a product shows a harness issue involving sensor readings shift when a motor starts. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Investigate shared return impedance, grounding, supply disturbance, coupling from motor leads, shielding, and filtering.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Investigate shared return impedance, grounding, supply disturbance, coupling from motor leads, shielding, and filtering. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Electrical Architecture & Protection",
+    "q": "Which principle best describes connector current ratings in harness engineering?",
+    "opts": [
+      "Apply ratings with terminal size, loaded cavities, temperature, wire size, contact resistance, sealing, and installation conditions.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Apply ratings with terminal size, loaded cavities, temperature, wire size, contact resistance, sealing, and installation conditions. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Electrical Architecture & Protection",
+    "q": "A design team is working through battery power and electronics in one harness. What is the most appropriate engineering response?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Document distribution, grounds and returns, protection, pinouts, wire sizes, identifiers, and test points.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Document distribution, grounds and returns, protection, pinouts, wire sizes, identifiers, and test points. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Electrical Architecture & Protection",
+    "q": "In harness engineering, what is the best explanation of derating?",
+    "opts": [
+      "Use components below absolute maximum ratings to account for temperature, bundling, aging, duty cycle, environment, and margin.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Use components below absolute maximum ratings to account for temperature, bundling, aging, duty cycle, environment, and margin. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Electrical Architecture & Protection",
+    "q": "Case study: a product shows a harness issue involving an intermittent heater load. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Verify inrush, duty cycle, thermal rise, connector rating, protection coordination, and allowable voltage drop.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Verify inrush, duty cycle, thermal rise, connector rating, protection coordination, and allowable voltage drop. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Electrical Architecture & Protection",
+    "q": "Which principle best describes pinout control in harness engineering?",
+    "opts": [
+      "Assign each connector cavity to the correct circuit, function, terminal, seal, mating interface, and revision-controlled definition.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Assign each connector cavity to the correct circuit, function, terminal, seal, mating interface, and revision-controlled definition. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Electrical Architecture & Protection",
+    "q": "A design team is working through a high-speed signal crossing a hinge. What is the most appropriate engineering response?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Consider flex life, bend radius, conductor construction, shield continuity, strain relief, and signal integrity.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Consider flex life, bend radius, conductor construction, shield continuity, strain relief, and signal integrity. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Electrical Architecture & Protection",
+    "q": "In harness engineering, what is the best explanation of load analysis?",
+    "opts": [
+      "Estimate branch and total currents, protection needs, voltage drop, supply capacity, and thermal effects.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Estimate branch and total currents, protection needs, voltage drop, supply capacity, and thermal effects. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Electrical Architecture & Protection",
+    "q": "Case study: a product shows a harness issue involving startup trips but normal running. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Analyze inrush, simultaneous loads, voltage sag, protection curves, and sizing assumptions beyond steady-state current.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Analyze inrush, simultaneous loads, voltage sag, protection curves, and sizing assumptions beyond steady-state current. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Wire, Cable, Connectors & Materials",
+    "q": "In harness engineering, what is the best explanation of insulation material selection?",
+    "opts": [
+      "Choose materials for temperature, voltage, fluids, abrasion, flexibility, flame behavior, weight, and applicable requirements.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Choose materials for temperature, voltage, fluids, abrasion, flexibility, flame behavior, weight, and applicable requirements. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Wire, Cable, Connectors & Materials",
+    "q": "Which principle best describes stranded conductors in harness engineering?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Use stranding to improve flexibility and fatigue resistance compared with solid conductors in vibration or motion.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Use stranding to improve flexibility and fatigue resistance compared with solid conductors in vibration or motion. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Wire, Cable, Connectors & Materials",
+    "q": "A design team is working through hydraulic fluid and heat exposure. What is the most appropriate engineering response?",
+    "opts": [
+      "Verify insulation, seals, labels, protection, and connector materials against the actual fluid and temperature range.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Verify insulation, seals, labels, protection, and connector materials against the actual fluid and temperature range. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Wire, Cable, Connectors & Materials",
+    "q": "Case study: a product shows a harness issue involving terminals pulling off during test. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Investigate crimp height, tooling condition, terminal-wire compatibility, strip length, conductor damage, and pull-test criteria.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Investigate crimp height, tooling condition, terminal-wire compatibility, strip length, conductor damage, and pull-test criteria. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Wire, Cable, Connectors & Materials",
+    "q": "Which principle best describes connector sealing in harness engineering?",
+    "opts": [
+      "Limit ingress of moisture, dust, chemicals, or contaminants that can cause corrosion, leakage paths, or intermittent contacts.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Limit ingress of moisture, dust, chemicals, or contaminants that can cause corrosion, leakage paths, or intermittent contacts. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Wire, Cable, Connectors & Materials",
+    "q": "In harness engineering, what is the best explanation of terminal, wire, and seal compatibility?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Match crimp, insulation support, sealing diameter, cavity retention, and tooling as one termination system.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Match crimp, insulation support, sealing diameter, cavity retention, and tooling as one termination system. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Wire, Cable, Connectors & Materials",
+    "q": "A design team is working through a long noisy signal cable. What is the most appropriate engineering response?",
+    "opts": [
+      "Consider shielded cable or twisted pair with appropriate shield termination and routing strategy.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Consider shielded cable or twisted pair with appropriate shield termination and routing strategy. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Wire, Cable, Connectors & Materials",
+    "q": "Case study: a product shows a harness issue involving labels unreadable after solvent cleaning. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Validate label material, print method, adhesive, and marking durability against cleaning and service exposure.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Validate label material, print method, adhesive, and marking durability against cleaning and service exposure. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Wire, Cable, Connectors & Materials",
+    "q": "Which principle best describes approved alternates in harness engineering?",
+    "opts": [
+      "Allow substitutions only when fit, function, rating, process, qualification, and documentation equivalence is demonstrated.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Allow substitutions only when fit, function, rating, process, qualification, and documentation equivalence is demonstrated. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Wire, Cable, Connectors & Materials",
+    "q": "In harness engineering, what is the best explanation of contact resistance?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Control resistance at mating or termination interfaces to avoid heat, voltage drop, and intermittent behavior.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Control resistance at mating or termination interfaces to avoid heat, voltage drop, and intermittent behavior. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Wire, Cable, Connectors & Materials",
+    "q": "A design team is working through a frequently serviced connector. What is the most appropriate engineering response?",
+    "opts": [
+      "Review mating-cycle rating, latch durability, retention, keying, seal wear, contact plating, strain relief, and access.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Review mating-cycle rating, latch durability, retention, keying, seal wear, contact plating, strain relief, and access. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Wire, Cable, Connectors & Materials",
+    "q": "Case study: a product shows a harness issue involving similar connectors being cross-mated. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Use keying, polarization, unique cavity counts, color coding, labels, and assembly error-proofing.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Use keying, polarization, unique cavity counts, color coding, labels, and assembly error-proofing. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Wire, Cable, Connectors & Materials",
+    "q": "Which principle best describes aluminum conductors in harness engineering?",
+    "opts": [
+      "Consider conductivity, termination method, galvanic compatibility, creep, oxide behavior, size, repair, and qualification evidence.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Consider conductivity, termination method, galvanic compatibility, creep, oxide behavior, size, repair, and qualification evidence. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Wire, Cable, Connectors & Materials",
+    "q": "A design team is working through routing near sharp metal. What is the most appropriate engineering response?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Use edge protection, grommets, abrasion-resistant sleeving, clearance, clipping, and route validation.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Use edge protection, grommets, abrasion-resistant sleeving, clearance, clipping, and route validation. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Wire, Cable, Connectors & Materials",
+    "q": "In harness engineering, what is the best explanation of splices?",
+    "opts": [
+      "Treat a splice as a controlled electrical joining point using an approved process and environmental protection.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Treat a splice as a controlled electrical joining point using an approved process and environmental protection. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Wire, Cable, Connectors & Materials",
+    "q": "Case study: a product shows a harness issue involving a splice failing in a tight bend. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Move or protect the splice and control strain, bend radius, support, and inspection access.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Move or protect the splice and control strain, bend radius, support, and inspection access. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Routing, Packaging, EMI & Environment",
+    "q": "In harness engineering, what is the best explanation of minimum bend radius?",
+    "opts": [
+      "Specify bend radius to prevent conductor fatigue, insulation damage, shield damage, impedance disruption, or excessive stress.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Specify bend radius to prevent conductor fatigue, insulation damage, shield damage, impedance disruption, or excessive stress. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Routing, Packaging, EMI & Environment",
+    "q": "A design team is working through a panel pass-through. What is the most appropriate engineering response?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Design grommets or bulkheads, edge protection, sealing, strain relief, service access, and chafe prevention.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Design grommets or bulkheads, edge protection, sealing, strain relief, service access, and chafe prevention. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Routing, Packaging, EMI & Environment",
+    "q": "Which principle best describes strain relief in harness engineering?",
+    "opts": [
+      "Transfer mechanical load away from terminals, splices, and conductor-to-connector interfaces.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Transfer mechanical load away from terminals, splices, and conductor-to-connector interfaces. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Routing, Packaging, EMI & Environment",
+    "q": "Case study: a product shows a harness issue involving cracked insulation near a hot exhaust. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Review thermal environment, clearance, heat shielding, insulation rating, and route validation.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Review thermal environment, clearance, heat shielding, insulation rating, and route validation. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Routing, Packaging, EMI & Environment",
+    "q": "In harness engineering, what is the best explanation of EMI and EMC?",
+    "opts": [
+      "Manage electromagnetic emissions and susceptibility so harness circuits do not disturb each other or fail in the product environment.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Manage electromagnetic emissions and susceptibility so harness circuits do not disturb each other or fail in the product environment. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Routing, Packaging, EMI & Environment",
+    "q": "A design team is working through a motor cable near an analog sensor. What is the most appropriate engineering response?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Use separation where possible, right-angle crossings, twisting, shielding, filtering, grounding review, and validation testing.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Use separation where possible, right-angle crossings, twisting, shielding, filtering, grounding review, and validation testing. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Routing, Packaging, EMI & Environment",
+    "q": "Which principle best describes support spacing in harness engineering?",
+    "opts": [
+      "Limit movement, vibration, sag, rubbing, and load transfer to terminals while maintaining installation consistency.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Limit movement, vibration, sag, rubbing, and load transfer to terminals while maintaining installation consistency. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Routing, Packaging, EMI & Environment",
+    "q": "Case study: a product shows a harness issue involving contact with a moving linkage. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Reroute or guard the harness, add supports, verify full-travel clearance, and update design documentation.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Reroute or guard the harness, add supports, verify full-travel clearance, and update design documentation. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Routing, Packaging, EMI & Environment",
+    "q": "In harness engineering, what is the best explanation of service loops?",
+    "opts": [
+      "Provide controlled slack for installation, motion, service access, or tolerance variation without uncontrolled rubbing or snagging.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Provide controlled slack for installation, motion, service access, or tolerance variation without uncontrolled rubbing or snagging. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Routing, Packaging, EMI & Environment",
+    "q": "A design team is working through water pooling at a sealed connector. What is the most appropriate engineering response?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Review drainage, connector orientation, drip loops, sealing limits, strain relief, and environmental evidence.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Review drainage, connector orientation, drip loops, sealing limits, strain relief, and environmental evidence. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Routing, Packaging, EMI & Environment",
+    "q": "Which principle best describes shield termination strategy in harness engineering?",
+    "opts": [
+      "Choose one-end or both-end termination based on frequency, ground potential differences, noise source, cable type, and EMC needs.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Choose one-end or both-end termination based on frequency, ground potential differences, noise source, cable type, and EMC needs. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Routing, Packaging, EMI & Environment",
+    "q": "Case study: a product shows a harness issue involving a door-hinge harness failing after cycles. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Address conductor construction, bend radius, strain relief, loop geometry, torsion, and cycle testing.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Address conductor construction, bend radius, strain relief, loop geometry, torsion, and cycle testing. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Routing, Packaging, EMI & Environment",
+    "q": "In harness engineering, what is the best explanation of packaging integration?",
+    "opts": [
+      "Coordinate harness geometry with structure, installation path, clearances, clips, connectors, access, and motion envelopes.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Coordinate harness geometry with structure, installation path, clearances, clips, connectors, access, and motion envelopes. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Routing, Packaging, EMI & Environment",
+    "q": "A design team is working through branch length variation. What is the most appropriate engineering response?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Use clear form-board dimensions, branch tolerances, datum definitions, and in-process checks.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Use clear form-board dimensions, branch tolerances, datum definitions, and in-process checks. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Routing, Packaging, EMI & Environment",
+    "q": "Which principle best describes using a harness as a mechanical support in harness engineering?",
+    "opts": [
+      "Avoid unrelated mechanical loads because they can fatigue conductors and damage terminations.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Avoid unrelated mechanical loads because they can fatigue conductors and damage terminations. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Routing, Packaging, EMI & Environment",
+    "q": "Case study: a product shows a harness issue involving bench test passes but final EMC fails. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Recognize that final routing, grounding, enclosure coupling, and cable layout changed electromagnetic behavior.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Recognize that final routing, grounding, enclosure coupling, and cable layout changed electromagnetic behavior. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Manufacturing, Test & Quality",
+    "q": "In harness engineering, what is the best explanation of a form board or assembly fixture?",
+    "opts": [
+      "Control branch layout, lengths, component placement, routing sequence, and repeatable assembly geometry.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Control branch layout, lengths, component placement, routing sequence, and repeatable assembly geometry. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Manufacturing, Test & Quality",
+    "q": "Which principle best describes crimp validation in harness engineering?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Verify terminal, wire, tooling, setup, and process create mechanically and electrically acceptable terminations.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Verify terminal, wire, tooling, setup, and process create mechanically and electrically acceptable terminations. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Manufacturing, Test & Quality",
+    "q": "A design team is working through intermittent opens after installation. What is the most appropriate engineering response?",
+    "opts": [
+      "Check terminal seating, retention, crimp quality, connector damage, installation strain, and test coverage.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Check terminal seating, retention, crimp quality, connector damage, installation strain, and test coverage. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Manufacturing, Test & Quality",
+    "q": "Case study: a product shows a harness issue involving a test adapter repeating the wrong pinout. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Independently verify fixture pinout and acceptance logic against the controlled schematic and interface definition.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Independently verify fixture pinout and acceptance logic against the controlled schematic and interface definition. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Manufacturing, Test & Quality",
+    "q": "In harness engineering, what is the best explanation of first article inspection?",
+    "opts": [
+      "Verify an initial build against drawing, BOM, dimensions, workmanship, labeling, electrical tests, and special requirements.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Verify an initial build against drawing, BOM, dimensions, workmanship, labeling, electrical tests, and special requirements. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Manufacturing, Test & Quality",
+    "q": "A design team is working through a supplier proposing new tape. What is the most appropriate engineering response?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Evaluate adhesion, temperature, abrasion, fluids, flame behavior, aging, rework, process impact, and change control.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Evaluate adhesion, temperature, abrasion, fluids, flame behavior, aging, rework, process impact, and change control. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Manufacturing, Test & Quality",
+    "q": "Which principle best describes work instructions in harness engineering?",
+    "opts": [
+      "Translate drawings into repeatable build steps, tooling settings, inspection points, handling practices, and acceptance criteria.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Translate drawings into repeatable build steps, tooling settings, inspection points, handling practices, and acceptance criteria. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Manufacturing, Test & Quality",
+    "q": "Case study: a product shows a harness issue involving terminals not fully seated. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Use insertion procedure, retention confirmation, operator training, connector-specific checks, and in-process inspection.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Use insertion procedure, retention confirmation, operator training, connector-specific checks, and in-process inspection. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Manufacturing, Test & Quality",
+    "q": "In harness engineering, what is the best explanation of dielectric or hi-pot testing?",
+    "opts": [
+      "Evaluate insulation withstand and separation between circuits or from ground under specified conditions.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Evaluate insulation withstand and separation between circuits or from ground under specified conditions. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Manufacturing, Test & Quality",
+    "q": "A design team is working through shield drains and twisted pairs in the test plan. What is the most appropriate engineering response?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Test shield and drain continuity, pair identity, pinout, shorts, opens, and required functional checks.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Test shield and drain continuity, pair identity, pinout, shorts, opens, and required functional checks. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Manufacturing, Test & Quality",
+    "q": "Which principle best describes process capability in harness engineering?",
+    "opts": [
+      "Measure whether a process consistently produces outputs within specification, such as crimp height, strip length, or branch length.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Measure whether a process consistently produces outputs within specification, such as crimp height, strip length, or branch length. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Manufacturing, Test & Quality",
+    "q": "Case study: a product shows a harness issue involving operators reversing similar terminals. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Apply physical separation, unique tooling or presentation, visual aids, barcode checks, and connector-specific kitting.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Apply physical separation, unique tooling or presentation, visual aids, barcode checks, and connector-specific kitting. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Manufacturing, Test & Quality",
+    "q": "In harness engineering, what is the best explanation of traceability?",
+    "opts": [
+      "Link finished harnesses to materials, tooling, inspections, operators, dates, and test results when required.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Link finished harnesses to materials, tooling, inspections, operators, dates, and test results when required. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Manufacturing, Test & Quality",
+    "q": "A design team is working through an empty connector cavity at final test. What is the most appropriate engineering response?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Review BOM, cut list, pinout, kitting, insertion sequence, cavity plug requirements, and fixture coverage.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Review BOM, cut list, pinout, kitting, insertion sequence, cavity plug requirements, and fixture coverage. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Manufacturing, Test & Quality",
+    "q": "Which principle best describes rework limits in harness engineering?",
+    "opts": [
+      "Define approved methods and limits because rework can damage terminals, seals, conductors, connector housings, or plating.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Define approved methods and limits because rework can damage terminals, seals, conductors, connector housings, or plating. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Manufacturing, Test & Quality",
+    "q": "Case study: a product shows a harness issue involving an unapproved crimp applicator change. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Strengthen process change control, supplier notification, validation, and approval before production use.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Strengthen process change control, supplier notification, validation, and approval before production use. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Manufacturing, Test & Quality",
+    "q": "A design team is working through production quality metrics. What is the most appropriate engineering response?",
+    "opts": [
+      "Track first-pass yield, defect types, crimp rejects, test failures, rework rate, supplier escapes, and field returns.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Track first-pass yield, defect types, crimp rejects, test failures, rework rate, supplier escapes, and field returns. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Manufacturing, Test & Quality",
+    "q": "In harness engineering, what is the best explanation of acceptance criteria?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Define measurable pass/fail conditions for dimensions, workmanship, electrical tests, labels, inspection status, and special requirements.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Define measurable pass/fail conditions for dimensions, workmanship, electrical tests, labels, inspection status, and special requirements. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Reliability, Safety & Applications",
+    "q": "In harness engineering, what is the best explanation of vibration failure modes?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Expect conductor fatigue, fretting contacts, loose terminals, abrasion, strain-related opens, and shorts.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Expect conductor fatigue, fretting contacts, loose terminals, abrasion, strain-related opens, and shorts. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Reliability, Safety & Applications",
+    "q": "Which principle best describes fretting corrosion in harness engineering?",
+    "opts": [
+      "Recognize micromotion at a contact interface that disrupts surface films or plating and increases contact resistance.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Recognize micromotion at a contact interface that disrupts surface films or plating and increases contact resistance. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Reliability, Safety & Applications",
+    "q": "A design team is working through a safety circuit. What is the most appropriate engineering response?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Apply hazard analysis, fail-safe behavior, robust protection, diagnostics, secure routing, validation, and configuration control.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Apply hazard analysis, fail-safe behavior, robust protection, diagnostics, secure routing, validation, and configuration control. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Reliability, Safety & Applications",
+    "q": "Case study: a product shows a harness issue involving green corrosion in a sealed connector. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Investigate seal fit, wire seal size, cavity plugs, orientation, pooling, assembly damage, and exposure beyond rating.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Investigate seal fit, wire seal size, cavity plugs, orientation, pooling, assembly damage, and exposure beyond rating. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Reliability, Safety & Applications",
+    "q": "Which principle best describes accelerated environmental testing in harness engineering?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Expose likely failure mechanisms under controlled temperature cycling, humidity, vibration, fluids, salt, or flexing.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Expose likely failure mechanisms under controlled temperature cycling, humidity, vibration, fluids, salt, or flexing. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Reliability, Safety & Applications",
+    "q": "A design team is working through outdoor mobile equipment. What is the most appropriate engineering response?",
+    "opts": [
+      "Address UV, water, mud, chemicals, abrasion, vibration, temperature cycling, service damage, and corrosion.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Address UV, water, mud, chemicals, abrasion, vibration, temperature cycling, service damage, and corrosion. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Reliability, Safety & Applications",
+    "q": "In harness engineering, what is the best explanation of FMEA?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Identify possible failure modes, causes, effects, existing controls, and risk priorities before failures occur.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Identify possible failure modes, causes, effects, existing controls, and risk priorities before failures occur. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Reliability, Safety & Applications",
+    "q": "Case study: a product shows a harness issue involving communication loss during rain. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Investigate moisture ingress, leakage paths, wet connectors, damaged insulation, wet splices, and signal-integrity sensitivity.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Investigate moisture ingress, leakage paths, wet connectors, damaged insulation, wet splices, and signal-integrity sensitivity. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Reliability, Safety & Applications",
+    "q": "Which principle best describes contact normal force in harness engineering?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Maintain stable electrical contact resistance under vibration, aging, contamination, and thermal cycling.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Maintain stable electrical contact resistance under vibration, aging, contamination, and thermal cycling. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Reliability, Safety & Applications",
+    "q": "A design team is working through robotics harnesses across moving axes. What is the most appropriate engineering response?",
+    "opts": [
+      "Validate flex cycles, dynamic routing, strain relief, bend radius, torsion control, and cable carrier compatibility.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Validate flex cycles, dynamic routing, strain relief, bend radius, torsion control, and cable carrier compatibility. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Reliability, Safety & Applications",
+    "q": "In harness engineering, what is the best explanation of root cause analysis?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Separate symptoms from causes and verify corrective actions that prevent recurrence.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Separate symptoms from causes and verify corrective actions that prevent recurrence. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Reliability, Safety & Applications",
+    "q": "Case study: a product shows a harness issue involving unapproved field splice repair failing again. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Improve field repair instructions, approved materials, training, inspection, and service controls.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Improve field repair instructions, approved materials, training, inspection, and service controls. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Reliability, Safety & Applications",
+    "q": "Which principle best describes thermal cycling effects in harness engineering?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Consider differential expansion, seal movement, contact stress changes, insulation aging, and condensation.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Consider differential expansion, seal movement, contact stress changes, insulation aging, and condensation. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Reliability, Safety & Applications",
+    "q": "A design team is working through weight-sensitive aerospace harnesses. What is the most appropriate engineering response?",
+    "opts": [
+      "Optimize conductor size, materials, routing, shielding, and protection with verified margins.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Optimize conductor size, materials, routing, shielding, and protection with verified margins. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  },
+  {
+    "section": "Reliability, Safety & Applications",
+    "q": "In harness engineering, what is the best explanation of maintainability?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Design for safe inspection, diagnosis, repair, replacement, and configuration during product life.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Design for safe inspection, diagnosis, repair, replacement, and configuration during product life. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Reliability, Safety & Applications",
+    "q": "Case study: a product shows a harness issue involving chemical washdown failure. What conclusion or corrective action is most defensible?",
+    "opts": [
+      "Review compatibility of insulation, seals, labels, sleeving, connectors, repair materials, wash pressure, and drainage.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Review compatibility of insulation, seals, labels, sleeving, connectors, repair materials, wash pressure, and drainage. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Case Study"
+  },
+  {
+    "section": "Reliability, Safety & Applications",
+    "q": "Which principle best describes documentation as reliability control in harness engineering?",
+    "opts": [
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Use correct drawings, BOMs, pinouts, test criteria, and repair instructions to reduce variation and wrong substitutions.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 2,
+    "explanation": "Use correct drawings, BOMs, pinouts, test criteria, and repair instructions to reduce variation and wrong substitutions. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Theory"
+  },
+  {
+    "section": "Reliability, Safety & Applications",
+    "q": "A design team is working through final maturity review. What is the most appropriate engineering response?",
+    "opts": [
+      "Confirm the harness can be built, installed, tested, serviced, and survive its environment while meeting electrical and safety requirements.",
+      "Choose the lowest-cost part and rely on final continuity testing to catch every possible issue.",
+      "Leave the decision to the installer without updating the released schematic, drawing, BOM, or test plan.",
+      "Treat the concern as cosmetic because harnesses only need to connect point A to point B."
+    ],
+    "correct": 0,
+    "explanation": "Confirm the harness can be built, installed, tested, serviced, and survive its environment while meeting electrical and safety requirements. This answer preserves controlled design intent and balances electrical function, physical installation, manufacturing repeatability, verification, serviceability, and reliability.",
+    "type": "Application"
+  }
+];
+const SECTIONS  = [
+  {
+    "key": "Harness Engineering Foundations & Requirements",
+    "label": "Section A - Harness Foundations & Requirements",
+    "cls": "sec-fund",
+    "range": "Questions 1-16"
+  },
+  {
+    "key": "Electrical Architecture & Protection",
+    "label": "Section B - Electrical Architecture & Protection",
+    "cls": "sec-llm",
+    "range": "Questions 17-32"
+  },
+  {
+    "key": "Wire, Cable, Connectors & Materials",
+    "label": "Section C - Wire, Cable, Connectors & Materials",
+    "cls": "sec-rag",
+    "range": "Questions 33-48"
+  },
+  {
+    "key": "Routing, Packaging, EMI & Environment",
+    "label": "Section D - Routing, Packaging, EMI & Environment",
+    "cls": "sec-agent",
+    "range": "Questions 49-64"
+  },
+  {
+    "key": "Manufacturing, Test & Quality",
+    "label": "Section E - Manufacturing, Test & Quality",
+    "cls": "sec-ops",
+    "range": "Questions 65-82"
+  },
+  {
+    "key": "Reliability, Safety & Applications",
+    "label": "Section F - Reliability, Safety & Applications",
+    "cls": "sec-safe",
+    "range": "Questions 83-100"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+
+let mode = 'guided', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 2*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='02:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'
+       +     '<span class="q-type">'+escapeHtml(q.type||'Mixed')+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/100';
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/100';
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  if(pct>=0.9){ grade='Senior Harness Engineer'; blurb='Outstanding. You navigate harness engineering trade-offs across electrical design, routing, materials, manufacturing, testing, safety, and reliability with strong judgement.'; }
+  else if(pct>=0.75){ grade='Strong Harness Engineer'; blurb='Strong working knowledge of the harness engineering role. Review missed items; they often hinge on a subtle trade-off among current capacity, packaging, environment, manufacturability, or serviceability.'; }
+  else if(pct>=0.6){ grade='Qualified Harness Engineer'; blurb='You have a working foundation across harness engineering. Strengthen weaker sections to round out the breadth this role demands.'; }
+  else if(pct>=0.4){ grade='Developing Harness Engineer'; blurb='Harness engineering breadth is forming. Revisit requirements, wire sizing, connectors, routing, manufacturing controls, testing, and reliability fundamentals.'; }
+  else { grade='Build the Harness Engineering Foundation'; blurb='Start with harness fundamentals: requirements, schematics, wire and connector selection, routing, protection, assembly quality, and environmental reliability.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 100 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one question at a time. 2-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Certificate name</label>
+    <input id="chmlCertNameInput" type="text" maxlength="80" placeholder="Enter name for certificate" oninput="chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" type="button" onclick="chmlPrintCertificate()">Print / Save as PDF</button>
+    <button class="chml-cert-btn secondary" type="button" onclick="chmlHideCertificate()">Hide Certificate</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div><div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker"><span id="chmlCertExamKicker">Knowledge Hub Examination</span></div>
+      <h1 class="chml-cert-h1">Certificate of Completion</h1>
+      <div class="chml-cert-rule"></div>
+      <p class="chml-cert-pre">This certifies that</p>
+      <p class="chml-cert-name" id="chmlCertName">Learner</p>
+      <p class="chml-cert-body">has successfully completed the <b id="chmlCertExamName">Knowledge Hub Exam</b>.</p>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">0 / 0</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">-</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Quak Foo Lee</div><div class="chml-cert-sig-label">Chmltech Ltd.</div></div>
+        <div class="chml-cert-id">Certificate ID: <span id="chmlCertId">-</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertificateInstalled) return;
+  window.__chmlCertificateInstalled = true;
+  function textOf(sel){var el=document.querySelector(sel);return el?el.textContent.trim():'';}
+  function examTitle(){return textOf('h1.title')||textOf('header h1')||textOf('h1')||document.title.replace(/\s+/g,' ').trim()||'Knowledge Hub Exam';}
+  function parseFirstNumber(txt){var m=String(txt||'').match(/\d+/);return m?parseInt(m[0],10):null;}
+  function parseScoreTotal(){
+    var correct=parseFirstNumber(textOf('#rScore'));
+    var total=null;
+    var rt=textOf('#rTotal');
+    if(rt) total=parseFirstNumber(rt);
+    if(!total){var sb=textOf('.score-big');var m=sb.match(/\/\s*(\d+)/);if(m) total=parseInt(m[1],10);}
+    if(!total) total=parseFirstNumber(textOf('#progTotal'));
+    if(!total){var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;if(cards) total=cards;}
+    if(!correct && correct!==0) correct=parseFirstNumber(textOf('#scoreNum'));
+    return {correct:correct||0,total:total||0};
+  }
+  function totalFromBreakdown(byType){
+    if(!byType || typeof byType!=='object') return null;
+    var total=0, found=false;
+    Object.keys(byType).forEach(function(k){var v=byType[k];if(v&&typeof v==='object'){var n=v.t||v.total||v.count;if(typeof n==='number'){total+=n;found=true;}}});
+    return found?total:null;
+  }
+  function hashCode(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+  window.chmlUpdateCertificateName=function(name){document.getElementById('chmlCertName').textContent=(name||'').trim()||'Learner';};
+  window.chmlHideCertificate=function(){var c=document.getElementById('chmlCertificate');if(c)c.classList.remove('show');};
+  window.chmlPrintCertificate=function(){window.print();};
+  window.chmlRenderCertificate=function(correct,total,grade){
+    var cert=document.getElementById('chmlCertificate');if(!cert)return;
+    var title=examTitle();
+    var nameInput=document.getElementById('chmlCertNameInput');
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
+    var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
+    document.getElementById('chmlCertExamName').textContent=title;
+    document.getElementById('chmlCertName').textContent=learner;
+    document.getElementById('chmlCertScore').textContent=String(correct)+' / '+String(total||0)+(total?(' ('+Math.round((correct/total)*100)+'%)'):'');
+    document.getElementById('chmlCertDate').textContent=date;
+    document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
+    cert.classList.add('show');
+  };
+
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
+    var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){
+      var parsed=parseScoreTotal();
+      if(correct===null || isNaN(correct)) correct=parsed.correct;
+      if(!total) total=parsed.total;
+      if(total || correct || document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0);
+    },60);
+  }
+  if(typeof window.showResults==='function'){
+    var originalShowResults=window.showResults;
+    window.showResults=function(){var out=originalShowResults.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  if(typeof window.submitExam==='function'){
+    var originalSubmitExam=window.submitExam;
+    window.submitExam=function(){var out=originalSubmitExam.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  ['resetExam','newExam'].forEach(function(fn){
+    if(typeof window[fn]==='function'){
+      var original=window[fn];
+      window[fn]=function(){window.chmlHideCertificate();return original.apply(this,arguments);};
+    }
+  });
+})();
+</script>
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>
