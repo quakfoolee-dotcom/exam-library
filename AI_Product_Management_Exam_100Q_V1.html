@@ -1,0 +1,2141 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Product Management - Mock Exam Â· 100Q (V1)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  /* Section palette \u2014 broader, engineering-themed */
+  --fund:#1f4a7d;
+  --llm:#5a2585;
+  --rag:#0e6b6a;
+  --agent:#a85410;
+  --ops:#226b2d;
+  --safe:#9b2c3a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(31,74,125,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.8rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--fund),var(--llm));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-fund{background:linear-gradient(100deg,var(--fund),#0c2541)}
+.sec-llm{background:linear-gradient(100deg,var(--llm),#311148)}
+.sec-rag{background:linear-gradient(100deg,var(--rag),#06403f)}
+.sec-agent{background:linear-gradient(100deg,var(--agent),#5e2d05)}
+.sec-ops{background:linear-gradient(100deg,var(--ops),#0e3d18)}
+.sec-safe{background:linear-gradient(100deg,var(--safe),#5b181f)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-type{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;border:1px solid currentColor;opacity:.85;color:var(--llm)}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.1rem;line-height:1.55;margin-bottom:16px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:13px 16px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.45);transition:all .18s ease;font-size:1rem;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.07);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s}
+.opt .otext{flex:1;padding-top:1px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.1)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px;display:flex;align-items:center;gap:8px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:180px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 18px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:1.02rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Qualification Examination &middot; AI Product Readiness</div>
+    <h1 class="title">AI <span class="amp">Product Management</span> Exam</h1>
+    <div class="byline">Breadth across practical AI product management: fundamentals, discovery, data strategy, evaluation, AI UX, experimentation, LLM products, MLOps, responsible AI, and business strategy</div>
+    <div class="exambar">
+      <span><b>100</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>100</b> Marks</span>
+      <span>Exam Mode: <b>2 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/100</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">02:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/100</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 2-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    AI Product Management &middot; 100 mixed questions (theory + application + scenario) &middot; V1 (Guided / Instant / Exam-with-Timer)
+    <div class="disclaimer">An independent AI product management study resource. Models, tools, market practices, and regulations evolve continually - verify real-world decisions against current guidance and organizational policy.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "AI Product Fundamentals",
+    "q": "A product team must decide between a rules-based system and a machine learning model for a new feature. In which situation does machine learning earn its added complexity?",
+    "opts": [
+      "When no training data exists yet but the launch deadline is very close",
+      "When patterns are complex or shifting and enough quality data exists to learn",
+      "When the logic is simple, stable, and explainable by a few fixed conditions",
+      "When the team wants the product to be marketed publicly as AI-powered"
+    ],
+    "correct": 1,
+    "explanation": "ML pays off where hand-written rules can't keep up: high-dimensional, shifting, or subtle patterns with data to learn from. If a dozen stable rules solve it, rules are cheaper, faster, and easier to debug.",
+    "type": "Theory"
+  },
+  {
+    "section": "AI Product Fundamentals",
+    "q": "A PM wants to group customers into natural segments without predefined categories, and separately wants to predict which customers will churn next quarter using historical churn records. Which learning types match these two tasks?",
+    "opts": [
+      "Segmentation is unsupervised (no labels); churn prediction is supervised",
+      "Both of the tasks are supervised learning since the customer data carries labels",
+      "Both tasks require deep learning regardless of the data available",
+      "Segmentation is reinforcement learning, while churn is unsupervised"
+    ],
+    "correct": 0,
+    "explanation": "Unsupervised methods like clustering find structure without labels - ideal for discovering segments. Churn prediction learns from historical labeled examples (churned / didn't), the definition of supervised learning.",
+    "type": "Theory"
+  },
+  {
+    "section": "AI Product Fundamentals",
+    "q": "Unlike traditional software, an AI feature will sometimes be wrong even when working as designed. What is the most important product implication of this probabilistic nature?",
+    "opts": [
+      "Users should be required to accept terms acknowledging possible errors",
+      "Design around errors: error budgets, failure handling, and recovery paths",
+      "AI features should never be shipped to production until fully error-free",
+      "Errors are an engineering problem and sit outside the PM's scope of work"
+    ],
+    "correct": 1,
+    "explanation": "A model that is 95% accurate is wrong 1 time in 20 by design. PMs must treat error behavior - cost, visibility, recovery - as a first-class product requirement, because 'works correctly' is now a distribution, not a guarantee.",
+    "type": "Theory"
+  },
+  {
+    "section": "AI Product Fundamentals",
+    "q": "A team is framing two problems: (1) estimate the dollar amount a customer will spend next month, and (2) decide whether a support ticket is 'billing', 'technical', or 'account' related. How should these be framed in ML terms?",
+    "opts": [
+      "The distinction doesn't matter when writing product requirements",
+      "(1) is clustering and (2) is regression, since spend forms groups",
+      "Both are classification problems since both tasks produce a single output value",
+      "(1) is regression (continuous value); (2) is multi-class classification"
+    ],
+    "correct": 3,
+    "explanation": "Framing matters because it determines metrics, data needs, and what 'wrong' looks like: regression errors are distances, classification errors are confusions. PMs who frame the problem correctly have far better conversations with data science.",
+    "type": "Theory"
+  },
+  {
+    "section": "AI Product Fundamentals",
+    "q": "An executive returns from a conference and asks the PM to 'add AI to the product this quarter.' What is the strongest first response?",
+    "opts": [
+      "Map it to customer problems where AI would create measurable value",
+      "Refuse the request, since executive-driven features are usually misguided",
+      "Pick the easiest AI feature to ship quickly and satisfy the request",
+      "Buy an AI vendor tool and rebrand it as a native product capability"
+    ],
+    "correct": 0,
+    "explanation": "AI is a means, not a goal. The durable move is converting 'add AI' into 'which user problems have AI-shaped solutions with data to support them' - that yields features that survive beyond the hype cycle.",
+    "type": "Scenario"
+  },
+  {
+    "section": "AI Product Fundamentals",
+    "q": "A demo model classifies historical examples with 99% accuracy, but in the pilot with live customers it performs barely better than chance. The data scientist mentions the model 'memorized the training set.' What is this phenomenon?",
+    "opts": [
+      "Overfitting - it memorized training specifics and fails on new data",
+      "Underfitting - the model was far too simple for the underlying problem",
+      "Data drift - the customer population changed since training finished",
+      "Hallucination - the model invented its answers rather than learning"
+    ],
+    "correct": 0,
+    "explanation": "Overfitting is the classic gap between rehearsed and real: stellar on data it has seen, poor on data it hasn't. It's why PMs should insist evaluation always uses held-out data the model never trained on.",
+    "type": "Application"
+  },
+  {
+    "section": "AI Product Fundamentals",
+    "q": "Finance asks a PM why the AI feature's cloud bill keeps growing after the model was finished months ago. What distinction explains the ongoing cost?",
+    "opts": [
+      "Training is mostly one-time; inference scales as an ongoing cost with usage",
+      "The team must still be retraining the model continuously by mistake",
+      "The cloud provider is systematically overcharging the company and should be audited",
+      "AI models carry licensing fees that automatically renew every month"
+    ],
+    "correct": 0,
+    "explanation": "Inference cost is the per-use price of AI and grows with adoption - a successful feature costs more to serve. PMs need unit economics (cost per prediction/request) in the business case, not just build cost.",
+    "type": "Application"
+  },
+  {
+    "section": "AI Product Fundamentals",
+    "q": "A fraud-detection model outputs a score from 0 to 1 for each transaction, and the product must decide when to block. Moving the threshold from 0.5 to 0.9 will have what effect?",
+    "opts": [
+      "It makes the underlying model itself measurably more accurate",
+      "More transactions get blocked, catching extra fraud at the cost of friction",
+      "Fewer blocks: fewer false alarms but more fraud passes - a product trade-off",
+      "No effect at all - score thresholds are purely an engineering detail"
+    ],
+    "correct": 2,
+    "explanation": "Raising the threshold demands more confidence before acting. Where to set it depends on the relative cost of false positives versus false negatives - a business judgment that belongs to product, not just engineering.",
+    "type": "Application"
+  },
+  {
+    "section": "AI Product Fundamentals",
+    "q": "A startup launches a recommendation feature, but new users see poor suggestions because the system knows nothing about them, and new items are never recommended because no one has interacted with them yet. What is this challenge called and how is it commonly addressed?",
+    "opts": [
+      "Cold start - use onboarding preferences, popularity fallbacks, exploration",
+      "Model collapse - usually solved by switching to a different algorithm",
+      "Survivorship bias - solved by collecting much more data from existing users",
+      "An inference latency problem - solved by deploying faster servers"
+    ],
+    "correct": 0,
+    "explanation": "Cold start hits both new users and new items. Good products bridge the gap with explicit preference collection, content similarity, sensible defaults, and deliberate exploration - degrading gracefully instead of recommending randomly.",
+    "type": "Scenario"
+  },
+  {
+    "section": "AI Product Fundamentals",
+    "q": "A PM is choosing the company's first AI use case from four candidates. Which profile makes the strongest first project?",
+    "opts": [
+      "A high-stakes medical decision feature where errors could harm patients",
+      "A high-volume repetitive task with data, error tolerance, and a fallback",
+      "A feature in a domain where the company has neither data nor users",
+      "A moonshot requiring techniques that have not yet been published"
+    ],
+    "correct": 1,
+    "explanation": "Good first AI projects combine data availability, error tolerance, measurable value, and graceful fallbacks. High-stakes or research-grade problems are where AI programs go to die before proving value.",
+    "type": "Application"
+  },
+  {
+    "section": "Discovery & Problem Fit",
+    "q": "During discovery, a PM evaluates whether a problem is a good fit for an AI solution. Which set of questions best tests AI-fit?",
+    "opts": [
+      "Is AI trending right now? Do competitors mention it? Will it demo well on stage?",
+      "Can it ship in one sprint? Does the CEO like it? Can it be patented?",
+      "Is it prediction at scale? Does data exist? Error cost? A baseline to beat?",
+      "Will it reduce headcount? Can the model be explained in one slide?"
+    ],
+    "correct": 2,
+    "explanation": "AI-fit hinges on task shape (prediction/patterns), data feasibility, error economics, and whether AI actually beats simpler alternatives. The other lenses optimize for optics rather than outcomes.",
+    "type": "Theory"
+  },
+  {
+    "section": "Discovery & Problem Fit",
+    "q": "Before investing six months building an AI email-drafting assistant, a PM has support agents secretly write the 'AI' replies behind a prototype interface for two weeks while measuring user behavior. What is this technique and its value?",
+    "opts": [
+      "A/B testing - it compares two competing model versions head to head",
+      "A beta test - it validates the accuracy of the production model",
+      "A Wizard-of-Oz test - it validates demand and workflow fit before any build",
+      "Dogfooding - it ensures that internal employees enjoy using the feature first"
+    ],
+    "correct": 2,
+    "explanation": "Faking the AI with humans answers the riskiest question first: do users want and trust this experience at achievable quality? Building the model is expensive; learning the feature is unwanted should cost weeks, not quarters.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Discovery & Problem Fit",
+    "q": "Two AI features score equally on demand: auto-diagnosing patient symptoms, and auto-suggesting playlist songs. The PM notes they differ enormously in one dimension that should shape solution design. Which dimension?",
+    "opts": [
+      "The number of established competitors operating in each space",
+      "The programming language and framework used to build each model",
+      "The cost and reversibility of errors - harm vs a tap to skip a song",
+      "The total size of the addressable market for each candidate feature"
+    ],
+    "correct": 2,
+    "explanation": "Error cost asymmetry drives everything: required accuracy, human-in-the-loop design, confidence thresholds, regulatory exposure, and liability. Low-stakes errors permit aggressive automation; high-stakes errors demand augmentation and oversight.",
+    "type": "Application"
+  },
+  {
+    "section": "Discovery & Problem Fit",
+    "q": "A data science team proposes three months building a deep learning model to prioritize sales leads. The PM asks first for a one-week version that simply ranks leads by company size and recent engagement. Why is this a strong product instinct?",
+    "opts": [
+      "Heuristic approaches are always permanently better than ML models",
+      "It isn't justified - simple versions waste time better spent on the real model",
+      "A heuristic baseline sets the bar, captures value, and tests if ML is needed",
+      "It postpones the project long enough for it to be cancelled quietly"
+    ],
+    "correct": 2,
+    "explanation": "Baselines protect against building expensive models that beat nothing. If the heuristic lifts conversions, value ships in week one - and the ML investment can then be judged by its marginal improvement over it.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Discovery & Problem Fit",
+    "q": "User interviews about a planned AI scheduling assistant reveal users love the concept but say things like 'I'd want to check everything it does before it sends.' How should this insight shape the MVP?",
+    "opts": [
+      "Ignore the finding - users always claim to want control but never actually use it",
+      "Cancel the feature entirely since users clearly don't trust automation",
+      "Design review-then-approve drafts, earning fuller automation as trust grows",
+      "Make the automation mandatory from day one to force habit formation"
+    ],
+    "correct": 2,
+    "explanation": "Trust is earned incrementally. Starting with human-approves-AI-drafts matches user mental models, generates training signal from corrections, and creates the path to deeper automation - skipping that step risks rejection of the whole feature.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Discovery & Problem Fit",
+    "q": "A PM writing the PRD for an AI feature includes the happy path but stops there. What must an AI-feature PRD specify that traditional PRDs often don't?",
+    "opts": [
+      "Quality thresholds, wrong/unsure behavior, fallbacks, and feedback capture",
+      "A written guarantee that the model will be 100% accurate at launch",
+      "The specific GPU hardware that will be purchased for training runs",
+      "The exact model architecture and training algorithm the data scientists must use"
+    ],
+    "correct": 0,
+    "explanation": "For AI features, the 'unhappy path' is a certainty at some frequency, not an edge case. Specifying error behavior, confidence handling, fallbacks, and learning loops is the PM's job; choosing algorithms is not.",
+    "type": "Theory"
+  },
+  {
+    "section": "Discovery & Problem Fit",
+    "q": "A competitor analysis shows every product in the category now offers AI-powered search suggestions, and customers mention it as expected, not delightful. How should this shape the PM's positioning of a similar planned feature?",
+    "opts": [
+      "Wait for the AI search trend to pass before making any decision",
+      "Skip the feature entirely since it can no longer differentiate",
+      "Build parity efficiently; differentiate where proprietary data adds advantage",
+      "Market it heavily as a revolutionary AI breakthrough despite the obvious parity"
+    ],
+    "correct": 2,
+    "explanation": "Features customers expect must exist but won't win deals. Durable AI differentiation usually comes from unique data, distribution, or workflow integration - parity features get built pragmatically, not sold as breakthroughs.",
+    "type": "Application"
+  },
+  {
+    "section": "Discovery & Problem Fit",
+    "q": "Kicking off an AI project, a PM and data science lead align on what 'success' means. Which agreement is most important to reach before development starts?",
+    "opts": [
+      "The marketing name of the model architecture to feature in the press release",
+      "A quantified quality bar, the outcome to move, and a ship/iterate/kill rule",
+      "Which industry conference the team will present the results at",
+      "The font, color, and placement of the feature's AI badge in the UI"
+    ],
+    "correct": 1,
+    "explanation": "Without pre-agreed thresholds and outcome metrics, 'is it good enough?' becomes a launch-week argument. Defining the quality bar, target outcome, and kill criteria up front aligns both disciplines and de-politicizes the decision.",
+    "type": "Theory"
+  },
+  {
+    "section": "Discovery & Problem Fit",
+    "q": "A PM scoping the first release of an AI writing assistant must choose between supporting all document types moderately well or excelling at sales follow-up emails only. Which scoping principle applies?",
+    "opts": [
+      "Broad scope wins - more supported use cases always means more potential users",
+      "Narrow scope wins: better quality, clearer evaluation, a keepable promise",
+      "Scope doesn't matter since the model handles everything automatically",
+      "Choose whichever scope produces the more impressive demo video"
+    ],
+    "correct": 1,
+    "explanation": "AI quality concentrates with focus: a narrow domain means tighter training data, easier evals, and meeting expectations consistently. 'Great at one thing' builds trust that funds expansion; 'mediocre at everything' kills it.",
+    "type": "Application"
+  },
+  {
+    "section": "Discovery & Problem Fit",
+    "q": "Asked to prioritize between an AI feature with proven demand but no available data, and one with rich data but unvalidated demand, what should a PM recognize about these two gaps?",
+    "opts": [
+      "Demand gaps don't really matter because AI features always create their own demand",
+      "Different de-risking: data strategy for one, cheap demand tests for the other",
+      "Data gaps don't matter because models can be trained without data",
+      "They are equivalent blockers, so the PM might as well flip a coin"
+    ],
+    "correct": 1,
+    "explanation": "Each candidate has a different riskiest assumption. Good AI product discovery sequences the cheapest test of the biggest unknown - data feasibility for one, demand evidence for the other - before committing build resources.",
+    "type": "Application"
+  },
+  {
+    "section": "Data Strategy & Quality",
+    "q": "A support-ticket routing model underperforms despite multiple algorithm changes. An audit reveals 20% of historical tickets were mislabeled by agents rushing to close queues. What principle does this illustrate?",
+    "opts": [
+      "The support agents should all be removed from the ticket labeling process entirely",
+      "The model simply needs to be trained for more epochs to converge",
+      "Data quality caps model quality - fixing labels often beats better algorithms",
+      "More complex model architectures overcome label noise automatically"
+    ],
+    "correct": 2,
+    "explanation": "Garbage in, garbage out remains the iron law of ML. When labels are 20% wrong, the model learns the noise; data-centric fixes (cleaning, clearer guidelines, audit loops) routinely outperform algorithm swaps.",
+    "type": "Application"
+  },
+  {
+    "section": "Data Strategy & Quality",
+    "q": "A PM needs 50,000 labeled medical images. Options include in-house clinical experts (slow, costly, accurate), crowdsourcing (fast, cheap, error-prone for specialist content), and synthetic generation. How should this be decided?",
+    "opts": [
+      "Skip the labeling entirely and use a fully unsupervised approach for everything",
+      "Always crowdsource the labels - the cost advantage wins every time",
+      "Always use synthetic data, since it requires no human labelers at all",
+      "Match labeling to expertise and error cost - tiered crowd-plus-expert review"
+    ],
+    "correct": 3,
+    "explanation": "Labeling is a product decision balancing cost, speed, and the expertise the task genuinely demands. Medical labels from non-experts poison the dataset; tiered pipelines (crowd triage + expert verification) often optimize the trade-off.",
+    "type": "Application"
+  },
+  {
+    "section": "Data Strategy & Quality",
+    "q": "A PM pitches a product loop: more users generate more interaction data, which improves the model, which improves the product, which attracts more users. What is this strategic pattern and its key requirement?",
+    "opts": [
+      "A growth hack whose success depends mainly on viral marketing spend and luck",
+      "Vendor lock-in achieved through long multi-year customer contracts",
+      "A data flywheel - instrument the product so usage produces training signal",
+      "A network effect that works without any data infrastructure at all"
+    ],
+    "correct": 2,
+    "explanation": "Data flywheels are a durable AI moat, but only if the loop is engineered: capture the right signals, route them into retraining, and verify each cycle actually improves quality. Otherwise it's a diagram, not a moat.",
+    "type": "Theory"
+  },
+  {
+    "section": "Data Strategy & Quality",
+    "q": "Engineering proposes training a new model on existing customer documents 'since we already store them.' What must the PM verify before approving?",
+    "opts": [
+      "Nothing - data a company already holds is data it may use freely",
+      "That terms, consent, and regulations permit it - stored does not mean usable",
+      "Only that the documents are stored in a compatible file format",
+      "Only that the additional data storage and processing costs are fully acceptable"
+    ],
+    "correct": 1,
+    "explanation": "Possession is not permission. Training on customer content can violate contracts, privacy law, and trust - several companies have faced backlash and regulatory action for exactly this. Legal review and clear customer communication come first.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Data Strategy & Quality",
+    "q": "A churn model trained exclusively on data from the product's most active enterprise users performs terribly for small-business customers. What data problem does this represent?",
+    "opts": [
+      "Sampling bias - training data doesn't represent the population served",
+      "Overfitting to the held-out test set during repeated experimentation",
+      "A latency bottleneck somewhere in the data ingestion pipeline",
+      "Label leakage from future information into the training features"
+    ],
+    "correct": 0,
+    "explanation": "Models learn the world their data describes. When training data over-represents one segment, others get a model tuned for someone else - the fix is representative sampling or segment-specific evaluation and training.",
+    "type": "Application"
+  },
+  {
+    "section": "Data Strategy & Quality",
+    "q": "A demand-forecasting model trained on three years of data performs well until November, then misses badly through the holidays. The training data ended each year in October due to a pipeline quirk. What does this case teach?",
+    "opts": [
+      "Demand forecasting is fundamentally impossible during holiday periods",
+      "Three years of history is always insufficient for any forecasting model",
+      "Training data must cover seasonality and rare-but-recurring conditions",
+      "Forecasting models should simply be turned off in the fourth quarter"
+    ],
+    "correct": 2,
+    "explanation": "The model had literally never seen a holiday season. Coverage gaps in training data become predictable failure windows in production - data audits should map coverage against the conditions the product will actually encounter.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Data Strategy & Quality",
+    "q": "Two annotators labeling the same customer messages agree only 60% of the time on whether messages are 'complaints.' The PM realizes the model can't be better than this. What should happen?",
+    "opts": [
+      "Hire replacement annotators who naturally agree with each other much more",
+      "Train the model anyway and let it decide which annotator was right",
+      "Tighten guidelines with worked examples and measure annotator agreement",
+      "Average the two annotators' conflicting labels mathematically"
+    ],
+    "correct": 2,
+    "explanation": "If humans can't agree what a complaint is, the labels encode noise and the model inherits the confusion. Improving guideline clarity and measuring agreement first raises the ceiling for everything downstream.",
+    "type": "Application"
+  },
+  {
+    "section": "Data Strategy & Quality",
+    "q": "A vendor offers a dataset to enrich a company's models. Before purchasing, which diligence questions matter most?",
+    "opts": [
+      "Whether any of the key competitors have already purchased the very same dataset",
+      "Only the price per record and the delivery file format on offer",
+      "Whether the dataset ships with a reporting dashboard included",
+      "Provenance, consent, licensing, coverage, and a trial lift in performance"
+    ],
+    "correct": 3,
+    "explanation": "Third-party data can import legal liability (improperly sourced data), quality problems, and bias. Provenance, license scope for training, and a measured performance lift on your task are the diligence that matters.",
+    "type": "Theory"
+  },
+  {
+    "section": "Data Strategy & Quality",
+    "q": "A fraud model is praised for 99.9% accuracy. A PM checks and finds fraud occurs in 0.1% of transactions - a model predicting 'not fraud' every time achieves the same accuracy while catching zero fraud. What concept explains this?",
+    "opts": [
+      "The model is truly exceptional and should be shipped to production immediately",
+      "Class imbalance makes accuracy misleading - check rare-class precision/recall",
+      "Accuracy is always the wrong metric for every machine learning problem",
+      "Most fraud records should be deleted to rebalance the dataset"
+    ],
+    "correct": 1,
+    "explanation": "With rare events, accuracy rewards doing nothing. Precision (how many flagged are truly fraud) and recall (how much fraud gets caught) on the minority class describe real performance - a distinction every AI PM must internalize.",
+    "type": "Application"
+  },
+  {
+    "section": "Data Strategy & Quality",
+    "q": "Legal wants user data deleted after 90 days to minimize risk; data science wants years of history to train better models. How should a PM approach this conflict?",
+    "opts": [
+      "Side with legal - retention risk always outweighs any model value",
+      "Negotiate purpose-built retention with anonymization or aggregation",
+      "Keep all of the data secretly and hope that nobody ever audits it",
+      "Side with data science - model quality ultimately drives the revenue"
+    ],
+    "correct": 1,
+    "explanation": "This is a solvable trade-off, not a war: anonymized or aggregated derivatives often retain most training value at a fraction of the privacy exposure, and explicit purpose-based retention satisfies both risk and quality needs.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Model Evaluation & Quality",
+    "q": "For a spam filter, the team must tune the balance between blocking real emails (false positives) and letting spam through (false negatives). Users consider a lost legitimate email far worse than an occasional spam. What should this imply?",
+    "opts": [
+      "Optimize for recall above all - catch the maximum possible spam volume",
+      "Favor precision: block only when confident, accepting some inbox spam",
+      "Set the decision threshold at exactly 0.5 for mathematical fairness",
+      "Remove the filter and let users delete spam manually themselves"
+    ],
+    "correct": 1,
+    "explanation": "The error costs are asymmetric and users have told you which way. High precision on 'block' decisions protects the catastrophic error (lost real email) at the price of the tolerable one (visible spam).",
+    "type": "Application"
+  },
+  {
+    "section": "Model Evaluation & Quality",
+    "q": "A recommendation model improved offline metrics by 12%, but a live experiment shows no change in purchases or engagement. What is the most likely explanation a PM should explore?",
+    "opts": [
+      "The data scientists must have fabricated the offline test results",
+      "The experiment ran too long and the users simply became bored",
+      "The offline metric is a weak proxy - the metric-outcome link needs review",
+      "Online users are simply irrational, so their behavior tells the team nothing"
+    ],
+    "correct": 2,
+    "explanation": "Offline metrics measure agreement with logged history, not causal impact on behavior. The gap between 'better at predicting yesterday' and 'changing tomorrow' is one of the most common and expensive surprises in AI products.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Model Evaluation & Quality",
+    "q": "A junior data scientist reports a new model achieves 99.7% accuracy on a customer-value prediction task where the previous best was 78%. Before celebrating, what should the PM suspect and ask about?",
+    "opts": [
+      "That the junior scientist clearly deserves an immediate promotion",
+      "That the previous model team was incompetent and should be replaced",
+      "Data leakage contaminating training - too-good-to-be-true usually is",
+      "Nothing - improvements this large should be announced immediately"
+    ],
+    "correct": 2,
+    "explanation": "Implausibly large jumps are the classic signature of leakage - e.g., a feature that encodes the answer, or test rows seen during training. The model will collapse in production where the leaked signal doesn't exist.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Model Evaluation & Quality",
+    "q": "Reviewing an evaluation plan, a PM notices the model will be judged only by its average score across all users. What does this approach risk hiding?",
+    "opts": [
+      "The cost and infrastructure required to run the evaluation itself",
+      "The total training time the model needs before each new release",
+      "Nothing important - average scores capture everything that is relevant",
+      "Segment-concentrated failures that the average smooths over and hides"
+    ],
+    "correct": 3,
+    "explanation": "A model can average 90% while scoring 40% for one language or customer tier - and those users churn. Segmented evaluation and error analysis turn 'how good is it?' into 'who is it failing?', the actionable question.",
+    "type": "Theory"
+  },
+  {
+    "section": "Model Evaluation & Quality",
+    "q": "A team debates how to evaluate their new AI summary feature, since summaries have no single correct answer. Which evaluation approach fits generative outputs like this?",
+    "opts": [
+      "Counting the number of words contained in each generated summary",
+      "Rubric-based human evaluation on a golden set, with validated auto-scoring",
+      "Exact string matching against one single reference summary for each document",
+      "Whichever generated summary is longer is automatically the winner"
+    ],
+    "correct": 1,
+    "explanation": "Generative quality is multi-dimensional and reference-free. Rubric-scored human review on curated samples is the gold standard; automated judges can scale it, but only after demonstrating agreement with human raters.",
+    "type": "Theory"
+  },
+  {
+    "section": "Model Evaluation & Quality",
+    "q": "A search team can deploy a model that improves result relevance 8% but adds 900ms of latency, or keep the current fast model. Research shows users abandon searches that feel slow. How should the PM think about this?",
+    "opts": [
+      "Run both models live in production and show every user two separate result sets",
+      "Ship the better model right away - relevance always beats raw speed",
+      "Reject the new model outright - speed always beats relevance gains",
+      "Test the gain net of slowdown on real outcomes; try caching or distillation"
+    ],
+    "correct": 3,
+    "explanation": "Users experience the whole interaction, not the model in isolation. The deciding evidence is end-to-end behavior in an experiment; engineering techniques (distillation, caching, async ranking) often recover most of the gain without the cost.",
+    "type": "Application"
+  },
+  {
+    "section": "Model Evaluation & Quality",
+    "q": "The model for a new feature reaches 87% quality against a 90% target, and improvements have plateaued. Launch pressure is mounting. What framework should guide the ship/hold decision?",
+    "opts": [
+      "Outsource the decision to whichever stakeholder shouts the loudest",
+      "Ship it now - quality targets are aspirational while deadlines are real",
+      "Hold the launch until 90% is reached, no matter the cost or timeline",
+      "Re-examine error severity and mitigations, then decide with eyes open"
+    ],
+    "correct": 3,
+    "explanation": "Quality bars exist to protect users, but they're built on assumptions worth revisiting. Shipping a narrower scope where the model exceeds 90%, or adding review for low-confidence cases, often beats both blind shipping and indefinite delay.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Model Evaluation & Quality",
+    "q": "Two weeks before launch, a PM asks how the chatbot behaves on the 5% of queries where the model is least confident. The team hasn't looked. Why does this tail matter disproportionately?",
+    "opts": [
+      "It doesn't matter - 5% of queries is statistically negligible traffic",
+      "Because regulators audit only the worst 5% of chatbot interactions",
+      "Low-confidence queries usually come from automated bots rather than real humans",
+      "Tail failures shape trust and brand - the floor matters like the average"
+    ],
+    "correct": 3,
+    "explanation": "AI products are judged by their worst public moments more than their average ones. Reviewing the low-confidence tail - and designing fallbacks for it - is how PMs manage the difference between a quirky error and a viral embarrassment.",
+    "type": "Application"
+  },
+  {
+    "section": "Model Evaluation & Quality",
+    "q": "A PM requests that every model release be compared not just against the previous model's average score, but on a fixed set of previously-failed and high-stakes examples. What practice is this?",
+    "opts": [
+      "Deliberately overfitting the test set in order to inflate the reported scores",
+      "Cherry-picking favorable results to please the leadership team",
+      "A waste of engineering effort once a model improves on average",
+      "Regression testing for models - ensuring old failures don't silently return"
+    ],
+    "correct": 3,
+    "explanation": "Average improvement can hide specific regressions - a better model overall might newly fail the CEO-demo query or a safety-critical case. Curated regression suites give releases a memory.",
+    "type": "Theory"
+  },
+  {
+    "section": "Model Evaluation & Quality",
+    "q": "After launch, the team wants to know whether the AI feature is actually 'good.' The PM lists candidate signals: model accuracy on a test set, user acceptance rate of AI suggestions, task completion time, retention of feature users, and support complaints. How should these be organized?",
+    "opts": [
+      "Track only the complaint volume, since negative feedback is the most honest",
+      "Pick model accuracy alone, since it is the most scientific measure",
+      "Layer them: offline health checks, behavioral quality, business outcomes",
+      "Rotate the success metrics each month to keep the reporting varied"
+    ],
+    "correct": 2,
+    "explanation": "No single metric captures an AI feature. The layered model - model quality → user behavior → business outcome - both measures success and diagnoses failures (e.g., good model, bad UX shows up as a gap between layers).",
+    "type": "Application"
+  },
+  {
+    "section": "AI UX & Human-AI Interaction",
+    "q": "A medical-adjacent app displays AI risk assessments as definitive statements: 'You have low risk.' The model's actual confidence varies widely across cases. What UX principle is being violated?",
+    "opts": [
+      "Communicating uncertainty honestly - equal certainty miscalibrates trust",
+      "Minimalism - the interface currently displays far too many words",
+      "Consistency - all outputs should look identical regardless of confidence",
+      "Gamification - the risk scores should award points to engage users"
+    ],
+    "correct": 0,
+    "explanation": "Calibrated communication - ranges, qualifiers, confidence indicators, or routing low-confidence cases to humans - lets users weight AI output appropriately. False certainty is a design choice that becomes a liability.",
+    "type": "Application"
+  },
+  {
+    "section": "AI UX & Human-AI Interaction",
+    "q": "A PM designs what happens when the AI meeting-summarizer fails or produces low-confidence output. Which failure design is strongest?",
+    "opts": [
+      "Degrade gracefully: fall back to the transcript, explain in plain language",
+      "Show a technical error code and let the user work out what happened",
+      "Silently show nothing at all so that the failure goes unnoticed",
+      "Display the low-confidence summaries identically to the high-confidence ones"
+    ],
+    "correct": 0,
+    "explanation": "AI failures are routine events, so the product must keep working through them. Graceful degradation plus honest framing maintains trust; hidden or hard failures convert one bad model moment into abandoned features.",
+    "type": "Application"
+  },
+  {
+    "section": "AI UX & Human-AI Interaction",
+    "q": "A lending product uses a model to decline loan applications. Regulators and customers both demand to know why an application was denied. What does this requirement mean for the product?",
+    "opts": [
+      "A disclaimer that 'AI works in mysterious ways' satisfies the obligation",
+      "Customers should be told that the decision is final and confidential",
+      "Explainability by design - plain-language reasons, legally required in credit",
+      "Explanations are impossible for any model, so decline reasons cannot ever be given"
+    ],
+    "correct": 2,
+    "explanation": "Consequential decisions carry explanation obligations - legal ones in credit (e.g., adverse action notices). PMs must factor explainability into model selection and design the translation from model factors to honest, useful user-facing reasons.",
+    "type": "Scenario"
+  },
+  {
+    "section": "AI UX & Human-AI Interaction",
+    "q": "A team adds thumbs up/down buttons to AI answers and plans to retrain on this feedback. A PM cautions about what bias in this signal?",
+    "opts": [
+      "Voluntary feedback skews to a vocal minority - complement with implicit signals",
+      "Thumbs icons are culturally universal, so there is no bias to fear",
+      "Users press the feedback buttons with different fingers, adding purely random noise",
+      "Feedback buttons measurably slow down the page rendering speed"
+    ],
+    "correct": 0,
+    "explanation": "Explicit feedback is precious but biased toward extremes and power users. Pairing it with implicit signals (acceptance, edits, abandonment, regeneration) gives a truer picture of quality before retraining decisions.",
+    "type": "Theory"
+  },
+  {
+    "section": "AI UX & Human-AI Interaction",
+    "q": "Designing an AI contract-review tool, a PM must choose between full automation (AI approves/rejects clauses) and augmentation (AI flags risky clauses for lawyer review). The users are legal professionals reviewing high-stakes agreements. Which approach and why?",
+    "opts": [
+      "Full automation - it maximizes the efficiency story told to investors",
+      "Full automation, with an arbitration clause covering all of the AI's mistakes",
+      "Augmentation - AI compresses review time while experts keep accountability",
+      "Neither approach - lawyers will never accept any AI assistance at all"
+    ],
+    "correct": 2,
+    "explanation": "Automation suits high-volume, low-stakes, reversible decisions; augmentation suits consequential judgment calls. Expert users also adopt tools that respect their authority far more readily than tools that claim to replace it.",
+    "type": "Application"
+  },
+  {
+    "section": "AI UX & Human-AI Interaction",
+    "q": "At first use, an AI assistant can either claim broad ability ('Ask me anything!') or set specific expectations ('I'm best at drafting emails and summarizing docs - I sometimes make mistakes, so review before sending'). Which onboarding builds a healthier product relationship?",
+    "opts": [
+      "A 30-page capabilities and limitations document presented at signup",
+      "'Ask me anything' - bold capability claims drive stronger engagement",
+      "No onboarding at all - users prefer discovering the limits themselves",
+      "Specific expectation-setting - accurate framing of strengths and limits"
+    ],
+    "correct": 3,
+    "explanation": "Overpromising buys a great first impression and a brutal second one. Calibrated expectations mean errors land as 'it warned me' rather than 'it lied' - the difference between forgiveness and churn.",
+    "type": "Application"
+  },
+  {
+    "section": "AI UX & Human-AI Interaction",
+    "q": "User research shows people follow the AI assistant's suggestions even when wrong, saying 'the computer probably knows better.' For consequential recommendations, what design responsibility does this create?",
+    "opts": [
+      "Counteract automation bias: verification prompts, sources, added friction",
+      "Remove all human oversight since users prefer machine-made decisions",
+      "None - user deference means the assistant's design is clearly working",
+      "Increase the assistant's authority by giving it a much more confident tone"
+    ],
+    "correct": 0,
+    "explanation": "Automation bias - overtrusting machine output - is well documented. Where stakes are high, the design must actively invite scrutiny (show sources, express uncertainty, confirm irreversible actions) rather than exploit deference.",
+    "type": "Theory"
+  },
+  {
+    "section": "AI UX & Human-AI Interaction",
+    "q": "A PM is designing an AI feature that takes actions on the user's behalf (archiving emails, scheduling). Which capability most preserves user trust when the AI inevitably acts wrongly?",
+    "opts": [
+      "Hiding the AI's actions so that any mistakes simply go unnoticed",
+      "Visibility and reversibility - an activity log plus easy one-click undo",
+      "Disabling the entire feature after the first customer complaint",
+      "A monthly summary report describing all of the AI's activity in aggregate"
+    ],
+    "correct": 1,
+    "explanation": "Agentive features earn trust through transparency and cheap recovery. Undo converts errors from violations into minor corrections - and the corrections themselves become training signal.",
+    "type": "Application"
+  },
+  {
+    "section": "AI UX & Human-AI Interaction",
+    "q": "A news app's recommendation engine optimizes engagement so effectively that users increasingly see only viewpoints they already agree with, and longer-term satisfaction surveys decline. What product tension does this expose?",
+    "opts": [
+      "Users should be forced to read opposing viewpoints every single day",
+      "No real tension exists - engagement is the only metric that truly matters",
+      "Recommendation engines are inherently unethical and must be removed",
+      "Short-term engagement vs long-term value - objectives may need diversity"
+    ],
+    "correct": 3,
+    "explanation": "Models optimize exactly what you ask. When the proxy (clicks) diverges from real value (informed, satisfied users), the objective function is a product decision - adding diversity and long-term satisfaction terms realigns it.",
+    "type": "Scenario"
+  },
+  {
+    "section": "AI UX & Human-AI Interaction",
+    "q": "A user reports that the AI assistant gave a confidently wrong answer about the product's refund policy. Beyond fixing that answer, what should the PM ensure exists?",
+    "opts": [
+      "A legal disclaimer stating that AI answers are not contractually binding",
+      "Nothing further - one wrong answer is statistically expected behavior",
+      "A strict policy of never letting the AI answer any policy questions",
+      "A closed loop: easy reporting, triage into eval sets, fixes, and follow-up"
+    ],
+    "correct": 3,
+    "explanation": "User-reported errors are free quality assurance. Products that route reports into regression suites and knowledge fixes improve continuously; products that drop them repeat the same failures while losing user goodwill.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Experimentation & Metrics",
+    "q": "Launching a new recommendation model, a PM defines the A/B test plan. Revenue per session is the success metric. What else must the plan include?",
+    "opts": [
+      "Nothing further is needed - one clear success metric remains the gold standard",
+      "A backup success metric to switch to if revenue fails to move",
+      "Approval to keep extending the test until the results turn positive",
+      "Guardrail metrics to catch hidden harm, plus a predefined decision rule"
+    ],
+    "correct": 3,
+    "explanation": "A model can lift revenue while degrading latency, fairness, or long-term retention. Guardrails define 'success without unacceptable side effects,' and pre-registered decision rules prevent post-hoc rationalization.",
+    "type": "Application"
+  },
+  {
+    "section": "Experimentation & Metrics",
+    "q": "A PM must choose the primary metric for an AI writing assistant. Candidates: number of AI suggestions shown, suggestions accepted, documents completed using suggestions, and weekly retention of assistant users. Which direction is soundest?",
+    "opts": [
+      "Whichever metric the existing dashboard already happens to track",
+      "Suggestions shown - it grows the fastest and impresses leadership most",
+      "Acceptance rate paired with downstream completion and retention outcomes",
+      "The server uptime percentage of the suggestion-serving service"
+    ],
+    "correct": 2,
+    "explanation": "Volume of AI output is a vanity metric - a noisier assistant scores higher. Acceptance measures usefulness per suggestion; completion and retention confirm the help is real and durable.",
+    "type": "Application"
+  },
+  {
+    "section": "Experimentation & Metrics",
+    "q": "In week one, the new AI feature's experiment shows a striking 20% engagement lift. The PM resists shipping immediately. What effect justifies the caution, and what is the remedy?",
+    "opts": [
+      "The Hawthorne effect - the team is simply watching its users far too closely",
+      "The placebo effect - users merely imagine that the feature helps them",
+      "The novelty effect - curiosity-driven usage decays, so wait for stability",
+      "No effect justifies waiting - week-one experiment data is definitive"
+    ],
+    "correct": 2,
+    "explanation": "Shiny new AI features inflate early metrics as users explore. Distinguishing curiosity from durable value requires longer windows or cohort decay analysis - many AI features that 'won' week one are abandoned by week six.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Experimentation & Metrics",
+    "q": "Three days into a planned three-week experiment, results show the new model slightly ahead but not statistically significant. An executive asks to ship now since 'it's winning.' What should the PM explain?",
+    "opts": [
+      "Underpowered early reads often reverse - peeking inflates false wins",
+      "That the experiment should instead run for a full year to be safe",
+      "Agree and ship immediately - early experiment leads almost always hold",
+      "That statistics become optional when executives are this confident"
+    ],
+    "correct": 0,
+    "explanation": "Early peeks at noisy data produce false positives at high rates. Honoring the pre-committed duration and significance plan is what makes experiment results mean something; exceptions are for harm, not impatience.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Experimentation & Metrics",
+    "q": "After launching an AI auto-reply feature, response volume metrics soar, but a PM notices customer satisfaction with support interactions dipping and 'spoke to a human' requests rising. What is the disciplined interpretation?",
+    "opts": [
+      "Satisfaction surveys are unreliable and can safely be ignored here",
+      "Automation may be deflecting, not resolving - segment and rebalance",
+      "Ship even more automation - rising volume by itself proves success",
+      "Users will eventually adapt to the auto-replies given enough time"
+    ],
+    "correct": 1,
+    "explanation": "Counter-metrics exist to catch exactly this: activity up, outcomes down. Deflection that doesn't resolve issues shifts cost from support to customers - reading the metric pair together prevents declaring a quality regression a victory.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Experimentation & Metrics",
+    "q": "Before exposing users to a new fraud model, the team runs it silently in production for a month - scoring real transactions without acting on them - and compares its decisions against the live model and actual outcomes. What is this practice?",
+    "opts": [
+      "A canary deployment exposing one percent of users to the model",
+      "Shadow mode - validating real-world behavior with zero user risk",
+      "Regression testing performed entirely in the staging environment",
+      "A/B testing with two randomly assigned groups of production users"
+    ],
+    "correct": 1,
+    "explanation": "Shadow mode answers 'how would it have decided?' on live traffic with no user exposure - ideal for high-stakes models where wrong decisions are costly. It precedes canaries and A/B tests in risk-averse rollouts.",
+    "type": "Theory"
+  },
+  {
+    "section": "Experimentation & Metrics",
+    "q": "A support chatbot team celebrates an 80% 'deflection rate' (conversations that never reached a human). A skeptical PM asks for which complementary measurement?",
+    "opts": [
+      "The chatbot service's uptime percentage across the past quarter",
+      "The average number of words contained in each chatbot response",
+      "Whether deflected users actually resolved their issues - repeat contacts too",
+      "How many emoji characters the chatbot manages to use appropriately in each chat"
+    ],
+    "correct": 2,
+    "explanation": "Deflection conflates success with abandonment: a user who rage-quit counts the same as one who got an answer. Resolution-verified metrics separate genuine self-service from suppressed demand that resurfaces as churn.",
+    "type": "Application"
+  },
+  {
+    "section": "Experimentation & Metrics",
+    "q": "A mature recommendation system has been retrained and re-tuned dozens of times, each change winning its A/B test. A PM proposes maintaining a small long-term holdout group receiving the original simple experience. What does this enable?",
+    "opts": [
+      "Saving infrastructure costs on a small fraction of overall traffic",
+      "Nothing useful - past experiment wins already guarantee total impact",
+      "Measuring cumulative ecosystem effects that sequential tests miss",
+      "Punishing a randomly selected group of users in the name of science"
+    ],
+    "correct": 2,
+    "explanation": "Sequential A/B wins don't necessarily sum: effects interact, novelty fades, and metrics drift. Long-term holdouts are the audit that tells you what years of optimization actually bought.",
+    "type": "Theory"
+  },
+  {
+    "section": "Experimentation & Metrics",
+    "q": "An experiment on an AI feature shows flat results overall, but the PM digs in: new users show strong gains while power users show losses that cancel them out. What does this segmentation insight suggest?",
+    "opts": [
+      "Power users are simply wrong here and their losses should be ignored",
+      "Re-run the experiment repeatedly until the average turns positive",
+      "Report the flat blended average and kill the feature accordingly",
+      "Targeted rollout to helped segments; investigate the harmed segment"
+    ],
+    "correct": 3,
+    "explanation": "Averages hide heterogeneous effects. Segment-level analysis converts 'no effect' into an actionable strategy - ship where it wins, fix where it loses - which is often the real value of an experiment.",
+    "type": "Application"
+  },
+  {
+    "section": "Experimentation & Metrics",
+    "q": "Leadership asks how the AI portfolio is performing. The PM reports: 'Our models average 91% accuracy.' Why is this answer incomplete for a business audience, and what should accompany it?",
+    "opts": [
+      "Leadership should learn the ML metrics rather than ask for any translation",
+      "The answer simply needs more decimal places to earn credibility",
+      "It is complete - accuracy is the universal business metric for AI",
+      "Model metrics describe inputs - connect features to business outcomes"
+    ],
+    "correct": 3,
+    "explanation": "Executives fund outcomes, not accuracy points. Translating model performance into business impact - and being honest about where the link is unproven - is a core AI PM communication skill.",
+    "type": "Application"
+  },
+  {
+    "section": "LLM & Generative AI Products",
+    "q": "A customer-facing chatbot built on a large language model occasionally invents product specifications and cites nonexistent policies in fluent, confident prose. What is this failure mode and the standard architectural mitigation?",
+    "opts": [
+      "A prompt-wording bug that better grammar instructions would fix",
+      "Overfitting - best mitigated by retraining the model for many additional epochs",
+      "Hallucination - ground responses in retrieved sources and decline otherwise",
+      "A coordinated jailbreak being carried out by malicious users"
+    ],
+    "correct": 2,
+    "explanation": "LLMs generate plausible text, not verified facts. Retrieval-augmented generation anchors answers to your actual documents and enables 'I don't know' behavior - the single most important pattern for factual enterprise chatbots.",
+    "type": "Theory"
+  },
+  {
+    "section": "LLM & Generative AI Products",
+    "q": "A team wants their LLM product to answer questions about the company's frequently-changing internal documentation. They debate fine-tuning the model on the docs versus retrieval-augmented generation. Which consideration most favors RAG here?",
+    "opts": [
+      "RAG reflects document updates instantly; fine-tuned knowledge is frozen",
+      "RAG is preferable because it requires no engineering work at all",
+      "Fine-tuning on internal company documents is legally prohibited",
+      "RAG is always strictly superior to fine-tuning in every possible situation"
+    ],
+    "correct": 0,
+    "explanation": "The rule of thumb: RAG for knowledge (especially volatile knowledge, with citations), fine-tuning for behavior, tone, and format. Docs that change weekly make retraining-based knowledge a treadmill.",
+    "type": "Application"
+  },
+  {
+    "section": "LLM & Generative AI Products",
+    "q": "An LLM feature underperforms on quality. The team's options, roughly ordered by cost: improve prompts and add examples, add retrieval grounding, fine-tune, or train a custom model. How should a PM sequence these?",
+    "opts": [
+      "Start with fully custom model training to maximize long-term differentiation",
+      "Try all four approaches simultaneously with four separate teams",
+      "Skip directly to fine-tuning, since prompt work looks unprofessional",
+      "Climb cheapest-first: prompts, then retrieval, then fine-tuning if needed"
+    ],
+    "correct": 3,
+    "explanation": "Prompt and retrieval improvements are hours-to-days cheap and often close most of the gap. Fine-tuning and custom training add cost, maintenance, and iteration drag - justified only by measured shortfalls at cheaper levels.",
+    "type": "Application"
+  },
+  {
+    "section": "LLM & Generative AI Products",
+    "q": "A company is choosing between calling a commercial LLM API and self-hosting an open-weights model. Which factors should drive this decision?",
+    "opts": [
+      "Data sensitivity, quality needs, traffic economics, latency, ops capacity",
+      "Whichever option the engineering team finds more exciting to build",
+      "The API in every single case, because self-hosting models is now fully obsolete",
+      "Only the per-token price comparison between the two alternatives"
+    ],
+    "correct": 0,
+    "explanation": "It's a classic build-vs-buy with AI twists: APIs win on capability-per-effort and speed; self-hosting wins on data control, customization, and sometimes cost at high volume - if you have the MLOps muscle to run it.",
+    "type": "Theory"
+  },
+  {
+    "section": "LLM & Generative AI Products",
+    "q": "An LLM-powered feature is priced at a flat $10/month, but heavy users generate hundreds of long requests daily, and inference costs for the top 5% of users exceed their subscription revenue tenfold. What product responses fit this unit-economics problem?",
+    "opts": [
+      "Shut the feature down for everyone until the economics improve",
+      "Usage tiers, cheaper-model routing, caching, and cost-per-user tracking",
+      "Quietly degrade the output quality for all users equally to save money",
+      "Ignore the costs - power users are inherently valuable at any price"
+    ],
+    "correct": 1,
+    "explanation": "Generative features have real marginal costs, so pricing and architecture must respect usage distribution. Model routing, caching, and aligned pricing tiers keep the P&L healthy without punishing the median user.",
+    "type": "Scenario"
+  },
+  {
+    "section": "LLM & Generative AI Products",
+    "q": "Days after launch, users discover that asking the company's chatbot to 'role-play as an unrestricted AI' makes it produce off-brand and potentially harmful content, and screenshots spread on social media. What should the product have included, and what is the immediate response?",
+    "opts": [
+      "A legal warning added to the terms of service banning role-play prompts",
+      "Nothing could have prevented this - LLM behavior is uncontrollable",
+      "Layered guardrails and red-teaming; patch, review logs, communicate now",
+      "A switch to a rules-based chatbot limited to 50 canned answers"
+    ],
+    "correct": 2,
+    "explanation": "Jailbreaks are a known, testable risk class. Defense-in-depth - filters around the model, safety instructions, and pre-launch adversarial testing - plus rapid patch-and-monitor response is the standard playbook for public LLM products.",
+    "type": "Scenario"
+  },
+  {
+    "section": "LLM & Generative AI Products",
+    "q": "An LLM feature takes 12 seconds to generate full responses, and testing shows users abandon at around 4 seconds of silence. Without a faster model available, which UX technique most improves perceived performance?",
+    "opts": [
+      "A loading spinner accompanied by a randomly generated duration estimate message",
+      "Playing a pleasant sound while users wait for the full response",
+      "Streaming tokens immediately, with acknowledgment and headline-first structure",
+      "Limiting every response to a single sentence to cut generation time"
+    ],
+    "correct": 2,
+    "explanation": "Streaming converts 12 silent seconds into engaged reading time that starts in under a second - the standard generative UX pattern. Perceived latency, not just actual latency, drives abandonment.",
+    "type": "Application"
+  },
+  {
+    "section": "LLM & Generative AI Products",
+    "q": "A team uses a powerful LLM to automatically grade their own chatbot's responses during development. A PM insists on periodically checking the judge's scores against human expert ratings. Why?",
+    "opts": [
+      "Because human ratings are legally required for all software testing",
+      "Because the LLM judge might otherwise begin grading inconsistently",
+      "LLM judges have biases and drift - they need calibration against humans",
+      "To create enough busywork to justify the evaluation team's current headcount"
+    ],
+    "correct": 2,
+    "explanation": "Automated judges scale evaluation but inherit quirks - length bias, sycophancy, self-preference. Periodic human-agreement checks keep the speedometer honest before big decisions ride on it.",
+    "type": "Theory"
+  },
+  {
+    "section": "LLM & Generative AI Products",
+    "q": "Users want an LLM assistant to analyze their 300-page contracts, but the chosen model's context window fits roughly 100 pages. Which product approaches address this constraint?",
+    "opts": [
+      "Paste the full document text in twice so the model sees the content more often",
+      "Chunking with retrieval, hierarchical summaries, or a longer-context model",
+      "Tell users to shorten their contracts before uploading them",
+      "Increase the API timeout setting so the model gets more time"
+    ],
+    "correct": 1,
+    "explanation": "Context limits are a hard design constraint for document products. Retrieval-per-question and map-reduce summarization are the workhorse patterns; model selection (long-context variants) is the architectural alternative, each with cost and quality trade-offs.",
+    "type": "Application"
+  },
+  {
+    "section": "LLM & Generative AI Products",
+    "q": "A product is built tightly around one LLM provider's API. The provider then announces deprecation of the current model version with six months' notice, and the replacement behaves differently on key prompts. What practices reduce this category of risk?",
+    "opts": [
+      "A contract clause forbidding the vendor from ever changing models",
+      "An abstraction layer, a maintained eval suite, pinning, and alternate tests",
+      "Avoiding LLM technology entirely until the vendor market finally stabilizes",
+      "Choosing the smallest possible vendor so that they never update"
+    ],
+    "correct": 1,
+    "explanation": "Model churn is a fact of the LLM era. Portable architecture plus your own eval suite turns 'the vendor changed everything' from a crisis into a measured migration - the evals tell you exactly what broke.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Launch, MLOps & Lifecycle",
+    "q": "A team is replacing the recommendation model that drives 30% of revenue. Rather than switching all traffic at once, what rollout pattern fits, and why?",
+    "opts": [
+      "Staged rollout: shadow, then canary with guardrails, expanding stepwise",
+      "A big-bang launch - visible confidence reassures the leadership team",
+      "Launching at midnight when traffic is at its lowest, and hoping",
+      "Letting each engineer choose a rollout style for their own component freely"
+    ],
+    "correct": 0,
+    "explanation": "The higher the blast radius, the more gradual the exposure. Canary stages cap worst-case damage at a fraction of traffic while real-world evidence accumulates - and rollback is a routine lever, not an emergency.",
+    "type": "Application"
+  },
+  {
+    "section": "Launch, MLOps & Lifecycle",
+    "q": "Six months after a successful launch, an AI model's quality quietly degrades: user complaints rise though nothing was changed or deployed. What phenomenon should the team investigate first?",
+    "opts": [
+      "Users simply becoming more demanding for no identifiable reason",
+      "Code rot - unused code pathways decaying gradually over time",
+      "Drift - data and relationships shifted away from training conditions",
+      "A competitor deliberately sabotaging the model's production inputs"
+    ],
+    "correct": 2,
+    "explanation": "Models are snapshots of the world at training time; the world moves. Drift monitoring - comparing live input distributions and outcome rates against training baselines - is how 'nothing changed but it's worse' gets diagnosed.",
+    "type": "Theory"
+  },
+  {
+    "section": "Launch, MLOps & Lifecycle",
+    "q": "A PM asks the ML team 'how will we know when the model needs retraining?' Which answer reflects mature practice?",
+    "opts": [
+      "Monitored drift and performance thresholds trigger retraining, not guesswork",
+      "Models never need retraining once they have been launched",
+      "We will simply retrain whenever the users start complaining loudly enough about it",
+      "We retrain daily regardless of the cost or the measurable benefit"
+    ],
+    "correct": 0,
+    "explanation": "Retraining policy should be evidence-driven: monitored quality and drift metrics with defined triggers, balanced against retraining cost and risk. Complaint-driven retraining means users found the degradation first.",
+    "type": "Theory"
+  },
+  {
+    "section": "Launch, MLOps & Lifecycle",
+    "q": "A content platform's quality model is retrained monthly on fresh platform data. Over a year, an increasing share of platform content is itself AI-generated, much of it shaped by the model's own past decisions. What risk does this create?",
+    "opts": [
+      "A feedback loop amplifying its own biases - provenance-aware curation needed",
+      "Copyright infringement committed by the model against itself",
+      "Faster training convergence because the data is already familiar",
+      "None at all - having more training data is always strictly better for the model"
+    ],
+    "correct": 0,
+    "explanation": "When a model's outputs re-enter its training diet, errors compound quietly. Mature pipelines track data provenance, weight human-verified samples, and monitor for self-reinforcement effects.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Launch, MLOps & Lifecycle",
+    "q": "A new model version starts producing embarrassing outputs in production. The on-call engineer asks how to revert, and discovers the previous model version was overwritten and its configuration unrecorded. What MLOps capability was missing?",
+    "opts": [
+      "Model versioning and rollback - reverting should take minutes, not weeks",
+      "Slower release cycles so that mistakes happen less often overall",
+      "A larger GPU cluster so that full retraining finishes much faster",
+      "A second on-call engineer assigned to provide moral support during incidents"
+    ],
+    "correct": 0,
+    "explanation": "Rollback is the cheapest incident response there is - if versions exist. Versioned models, data, and configs are the AI equivalent of source control discipline, and a launch-readiness checklist item PMs should verify.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Launch, MLOps & Lifecycle",
+    "q": "The LLM API behind a customer-facing feature suffers a multi-hour outage. The feature simply shows a spinner forever, and support is flooded. What should the product have defined before launch?",
+    "opts": [
+      "A degradation plan: timeouts, fallback experience, alerting, and a runbook",
+      "Immediate legal action against the API provider for the downtime",
+      "A second, visually different spinner to add variety to the waiting",
+      "Nothing at all - third-party outages are entirely the vendor's responsibility"
+    ],
+    "correct": 0,
+    "explanation": "AI dependencies fail like any dependency. Defining the no-AI experience - and making it acceptable - is a product requirement; users forgive unavailability far more readily than infinite silence.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Launch, MLOps & Lifecycle",
+    "q": "A regulator asks a lender to explain a specific automated decision from 14 months ago. To answer credibly, what must the lender's systems have preserved?",
+    "opts": [
+      "An audit trail: model version, inputs, outputs, and thresholds applied",
+      "The names of the engineers who originally trained the model",
+      "Nothing extra - automated decisions are exempt from all explanation duties",
+      "Only the final decision letter that was sent to the customer"
+    ],
+    "correct": 0,
+    "explanation": "Consequential automated decisions need decision-time records: model version, inputs, outputs, and logic. Without versioned lineage, 'why was this customer declined?' becomes unanswerable - a compliance and trust failure.",
+    "type": "Application"
+  },
+  {
+    "section": "Launch, MLOps & Lifecycle",
+    "q": "After a viral moment, traffic to an AI feature grows 10x in a month. The experience still works, but the PM reviewing dashboards should watch which operational pair most closely?",
+    "opts": [
+      "The growth rate of the product's social media follower count",
+      "The total number of parameters in the underlying model",
+      "Latency under load and the inference cost trajectory as usage scales",
+      "Office attendance figures and the weekly meeting count of the ML team"
+    ],
+    "correct": 2,
+    "explanation": "Success stresses AI features in two ways: response times degrade under load, and per-request costs multiply. Watching p95 latency and cost-per-user during growth catches both before users or finance do.",
+    "type": "Application"
+  },
+  {
+    "section": "Launch, MLOps & Lifecycle",
+    "q": "An aging ML feature serves a shrinking user base, its maintainer left, its training pipeline runs on deprecated infrastructure, and its quality slowly erodes. Leadership keeps deferring a decision. What is the responsible PM move?",
+    "opts": [
+      "Rebrand the aging feature as a legacy premium offering instead",
+      "Let it run unmaintained indefinitely since it still technically works",
+      "Decide explicitly: invest in maintenance or deprecate with migration",
+      "Hide it from the navigation so that usage falls to zero naturally"
+    ],
+    "correct": 2,
+    "explanation": "Zombie models decay silently and fail publicly. AI features need lifecycle ownership to the end: deliberate invest-or-retire decisions, not abandonment in place.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Launch, MLOps & Lifecycle",
+    "q": "A PM building the launch checklist for a major AI feature wants the ML-specific additions beyond a normal software launch. Which set belongs on it?",
+    "opts": [
+      "A press embargo arrangement and a cake for the team on launch day",
+      "Registering the GPU hardware warranties before the launch date",
+      "Only the standard software launch checklist items - AI launches are identical anyway",
+      "Rollback plan, guardrails, drift monitoring, fallbacks, red-team, cost model"
+    ],
+    "correct": 3,
+    "explanation": "AI launches add probabilistic failure modes, adversarial users, drift, and per-use costs to the usual checklist. Each added item maps to a way AI features uniquely break after the launch tweet.",
+    "type": "Application"
+  },
+  {
+    "section": "Responsible AI & Compliance",
+    "q": "Before launching an AI resume-screening tool, testing reveals it recommends male candidates at a significantly higher rate for engineering roles, mirroring historical hiring patterns in the training data. What is the responsible product path?",
+    "opts": [
+      "A launch blocker: diagnose bias, test mitigations, add human oversight",
+      "Ship the tool as-is - the model simply reflects hiring reality",
+      "Remove the gender input fields, which guarantees the bias will disappear",
+      "Launch quietly and fix the disparity only if anyone notices it"
+    ],
+    "correct": 0,
+    "explanation": "Models trained on biased history reproduce it at scale. Removing explicit gender fields fails because proxies (names, schools, gaps) carry the signal - measured fairness testing, mitigation, and oversight are the standard, and employment AI is increasingly regulated.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Responsible AI & Compliance",
+    "q": "A PM planning AI features for a European market learns the EU AI Act applies. What is the Act's core structural idea that determines a product's obligations?",
+    "opts": [
+      "A flat tax applied to every AI product sold in the European market",
+      "All AI systems are banned outright from operating within the EU",
+      "Risk-based classification - obligations scale with the use-case risk",
+      "Only American companies are required to comply with its provisions"
+    ],
+    "correct": 2,
+    "explanation": "The AI Act regulates by what the system does, not what technology it uses: the same model can be minimal-risk in one product and high-risk in another. PMs must classify their use case early since high-risk classification drives major documentation, oversight, and quality obligations.",
+    "type": "Theory"
+  },
+  {
+    "section": "Responsible AI & Compliance",
+    "q": "A company's AI voice assistant sounds convincingly human, and call recordings show customers don't realize they're talking to a machine - some share information they say they'd never tell a bot. What principle is at stake?",
+    "opts": [
+      "Transparency - users should know when they are interacting with AI",
+      "Latency - the assistant responds far too quickly to seem human",
+      "Nothing is wrong - realistic AI voices are simply good engineering",
+      "Audio quality - the voice should sound more robotic for authenticity"
+    ],
+    "correct": 0,
+    "explanation": "Informed interaction is the baseline: several jurisdictions now mandate bot disclosure, and the trust cost of discovered deception far exceeds the conversion benefit of pretending. Disclose, and design the experience to be good anyway.",
+    "type": "Application"
+  },
+  {
+    "section": "Responsible AI & Compliance",
+    "q": "To avoid discrimination, a team removes race, gender, and age from their credit model's inputs. Testing still shows disparate outcomes by neighborhood. Why didn't removing protected attributes solve the problem?",
+    "opts": [
+      "The model is somehow still haunted by the deleted input columns",
+      "Disparate outcomes are fully acceptable as long as the inputs were neutral",
+      "Proxy variables reconstruct the signal - test outcomes, not just inputs",
+      "The fairness test itself must be wrong since the inputs were clean"
+    ],
+    "correct": 2,
+    "explanation": "'Fairness through blindness' fails because data is socially entangled - zip code famously proxies race. Responsible teams measure outcomes across groups and address disparities, rather than declaring victory at the input list.",
+    "type": "Application"
+  },
+  {
+    "section": "Responsible AI & Compliance",
+    "q": "A university deploys AI to flag exam cheating, with flagged students automatically failing the course. A PM advising them objects to one element of this design above all. Which?",
+    "opts": [
+      "Automatic punishment without human review, evidence, or an appeal path",
+      "Using artificial intelligence anywhere in education at all",
+      "The color scheme chosen for the cheating-flag review dashboard",
+      "Running the AI during the exam season when student stress is at its highest"
+    ],
+    "correct": 0,
+    "explanation": "False positives are statistically certain, and a wrongly failed student is a severe, contestable harm. Human review with appeal rights for high-stakes automated decisions is a core responsible-AI norm - and a legal requirement in several frameworks.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Responsible AI & Compliance",
+    "q": "A marketing team plans to use AI-generated images in a major campaign and asks the PM about legal exposure. Which considerations are currently most relevant?",
+    "opts": [
+      "AI-generated images are illegal for commercial use in every market",
+      "None at all - AI-generated content is automatically free of all rights issues",
+      "Only the resolution of the generated images matters legally",
+      "Unsettled copyright status, training-data similarity, disclosure, contracts"
+    ],
+    "correct": 3,
+    "explanation": "Generative IP law is actively evolving: protectability of outputs, infringement risk, and disclosure rules vary and shift. PMs shouldn't play lawyer - they should flag the categories of risk and route to counsel with good provenance records.",
+    "type": "Theory"
+  },
+  {
+    "section": "Responsible AI & Compliance",
+    "q": "Employees across a company paste customer names, contract values, and account details into a third-party AI chatbot to draft emails faster. The chatbot's consumer terms allow training on submitted content. What should the company's response be?",
+    "opts": [
+      "Ask the chatbot vendor nicely to forget the pasted customer data",
+      "Ban all AI tools permanently and monitor employee keystrokes",
+      "Ignore the practice entirely since the productivity gains outweigh any risk",
+      "A sanctioned enterprise tool, clear data policy, DLP guardrails, training"
+    ],
+    "correct": 3,
+    "explanation": "This is shadow AI - the modern shadow IT. Customer data flowing into consumer AI tools creates confidentiality and compliance exposure; the durable fix pairs governed alternatives with policy and technical guardrails, not prohibition theater.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Responsible AI & Compliance",
+    "q": "A data science team reports that improving their model's fairness on one metric (equal approval rates across groups) worsens another (equal accuracy across groups), and asks product to decide. What does this reflect?",
+    "opts": [
+      "A software bug - correctly built models satisfy every fairness definition at once",
+      "Proof that fairness in ML is impossible and should be abandoned",
+      "Something that should be kept hidden from the ethics committee",
+      "A real trade-off - choosing the fitting definition is a documented decision"
+    ],
+    "correct": 3,
+    "explanation": "Impossibility results show key fairness metrics can't all hold simultaneously. The product decision - which definition matches the harm you most need to prevent - should be made deliberately, documented, and defensible to stakeholders.",
+    "type": "Theory"
+  },
+  {
+    "section": "Responsible AI & Compliance",
+    "q": "A company's AI feature generates an offensive output that goes viral. Which incident response best protects users and the brand?",
+    "opts": [
+      "Stay completely silent until the news cycle finally moves on to other stories",
+      "Acknowledge fast, mitigate, find root cause, communicate, improve testing",
+      "Deny that the screenshot is real and threaten the original poster",
+      "Blame the model vendor by name in an official press release"
+    ],
+    "correct": 1,
+    "explanation": "AI incidents are reputational events with a playbook: speed, honesty, visible mitigation, and demonstrated learning. Denial and silence both extend the story and corrode trust in every other AI feature you ship.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Responsible AI & Compliance",
+    "q": "Rather than reviewing AI ethics issues after products are built, a PM proposes a lightweight assessment at design time: intended use, affected groups, failure harms, data provenance, and oversight plan. What makes this timing materially better?",
+    "opts": [
+      "It produces longer documents for the compliance archive to retain",
+      "It doesn't matter at what stage the ethics review actually happens",
+      "It lets the ethics team veto any products that they happen to dislike",
+      "Design-stage review changes the product cheaply, before costs are sunk"
+    ],
+    "correct": 3,
+    "explanation": "Ethics findings after build collide with momentum and sunk cost; the same findings at design redirect decisions when change is cheap. The lightweight, early pattern integrates responsibility into product development rather than auditing it afterward.",
+    "type": "Application"
+  },
+  {
+    "section": "AI Strategy & Business",
+    "q": "A company needs document-classification capability. Options: build a custom model (6 months, differentiating accuracy on their unique data), buy a vendor product (live in weeks, generic), or call a foundation-model API (days, pay-per-use). Which decision framework applies?",
+    "opts": [
+      "Always buy - building software capability in-house is now outdated",
+      "Build where unique data creates advantage; buy commodity; validate via API",
+      "Choose by coin flip, since the outcomes are fundamentally unknowable",
+      "Always build in-house - full capability ownership is strategically superior"
+    ],
+    "correct": 1,
+    "explanation": "Build-vs-buy-vs-API is a portfolio question: differentiation justifies build cost; commodity needs favor speed. The API-first-then-build path de-risks by proving value before the six-month investment.",
+    "type": "Application"
+  },
+  {
+    "section": "AI Strategy & Business",
+    "q": "A PM constructs the business case for an AI feature. Beyond development cost, which AI-specific cost lines must the model include for honest ROI?",
+    "opts": [
+      "Nothing extra is needed - AI feature costs simply mirror normal software costs",
+      "Usage-scaled inference, labeling, evaluation, retraining, human review",
+      "Only the one-time purchase price of the GPU training hardware",
+      "A flat 10% contingency line simply labeled as 'AI stuff'"
+    ],
+    "correct": 1,
+    "explanation": "AI features carry recurring costs traditional features don't: every use costs compute, quality requires continuous measurement, and models decay without retraining investment. ROI models that omit these flatter the project and ambush the P&L.",
+    "type": "Theory"
+  },
+  {
+    "section": "AI Strategy & Business",
+    "q": "An executive asks a PM to commit to a date when the AI feature will reach 95% accuracy. The current model sits at 86% and the path to 95% is unproven. How should the PM handle this commitment request?",
+    "opts": [
+      "Time-boxed experiments with checkpoints; quality as a trajectory",
+      "Refuse to discuss timelines of any kind for AI-related work",
+      "Commit to the requested date - visible confidence is leadership",
+      "Promise 95% now but privately plan to redefine accuracy later"
+    ],
+    "correct": 0,
+    "explanation": "Model improvement is partly research: effort doesn't guarantee outcome. Honest AI roadmapping commits to investigation cadence and decision points ('by Q3 we'll know if approach X reaches 92%'), preserving credibility that date-promises destroy.",
+    "type": "Scenario"
+  },
+  {
+    "section": "AI Strategy & Business",
+    "q": "Two startups use the same foundation-model API for legal document review. One builds workflow depth, gathers proprietary annotation data from user corrections, and fine-tunes on it. The other relies on the raw API with a thin UI. What strategic concept separates them?",
+    "opts": [
+      "The thin wrapper is stronger because it has far less to maintain",
+      "Branding - whichever startup has the better logo wins the category",
+      "Nothing separates them - both startups will perform identically in the market",
+      "Defensibility - proprietary data loops and workflow depth form the moat"
+    ],
+    "correct": 3,
+    "explanation": "When everyone rents the same model, the model isn't the moat. Proprietary feedback data, deep workflow lock-in, and accumulated domain assets are what make an AI product hard to copy.",
+    "type": "Application"
+  },
+  {
+    "section": "AI Strategy & Business",
+    "q": "A PM is pricing a new AI feature whose inference costs are significant. Marketing wants it free to drive adoption; finance wants full cost-plus pricing. Which pricing consideration is most distinctively important for AI features?",
+    "opts": [
+      "Charge customers by the number of model parameters they invoke",
+      "AI features should always be offered free of charge, forever",
+      "Price the new feature exactly at its serving cost with zero margin added",
+      "Consumption-aware pricing (tiers, caps) plus value-based price points"
+    ],
+    "correct": 3,
+    "explanation": "Unlike most software, AI features cost real money per use. Pricing structures that ignore consumption (unlimited free) invite negative-margin users; the craft is aligning price to value delivered while keeping usage economics sustainable.",
+    "type": "Application"
+  },
+  {
+    "section": "AI Strategy & Business",
+    "q": "Sales begins closing deals by describing the AI product as '100% accurate, fully autonomous, no human needed.' The product is good but meets none of those claims. What should the PM do?",
+    "opts": [
+      "Correct the claims and arm sales with accurate, compelling positioning",
+      "Add a disclaimer in 6-point font to the standard contract",
+      "Stay quiet for now - the closed deals are funding the roadmap",
+      "Make the product literally 100% accurate by next quarter to match the pitch"
+    ],
+    "correct": 0,
+    "explanation": "AI overpromising is a time bomb: disappointed customers churn loudly, and regulators (FTC among others) now act on deceptive AI claims. PMs own truthful capability narratives that sales can still win with.",
+    "type": "Scenario"
+  },
+  {
+    "section": "AI Strategy & Business",
+    "q": "A direct competitor launches a flashy AI assistant to press acclaim. The CEO demands a matching feature within a quarter. The PM's research suggests customers in this segment rarely use such assistants after week one. What is the strongest response?",
+    "opts": [
+      "Publicly mock the competitor's flashy new feature on social media channels",
+      "Bring evidence of real value vs novelty; tie any response to customer jobs",
+      "Resign from the role rather than build anything reactive at all",
+      "Build the clone immediately - competitive parity overrides evidence"
+    ],
+    "correct": 1,
+    "explanation": "Competitor launches are information, not instructions. Usage evidence and customer problems should drive the portfolio; if the data says novelty, the winning move may be a different AI investment - decided deliberately, with revisit triggers defined.",
+    "type": "Scenario"
+  },
+  {
+    "section": "AI Strategy & Business",
+    "q": "A company has one ML team and five AI feature proposals. The PM facilitates prioritization. Which evaluation lens fits AI portfolio decisions?",
+    "opts": [
+      "Simply fund the CEO's favorite proposal in order to simplify the internal politics",
+      "Score value, data readiness, feasibility, error tolerance, time-to-learning",
+      "Fund whichever proposal arrives with the most impressive demo",
+      "Fund all five proposals simultaneously at 20% effort apiece"
+    ],
+    "correct": 1,
+    "explanation": "AI prioritization adds data readiness, feasibility risk, and error economics to the usual value/effort math. Sequencing for early validated wins builds organizational trust that funds the ambitious second wave; fractional funding across five bets typically ships none.",
+    "type": "Application"
+  },
+  {
+    "section": "AI Strategy & Business",
+    "q": "A board member asks the PM: 'What is our AI strategy?' Which answer reflects sound strategic thinking rather than hype?",
+    "opts": [
+      "'Our AI strategy is simply whatever our top competitor happens to announce next quarter.'",
+      "'We will add AI to every screen of the product by this December.'",
+      "'We are waiting for AGI to arrive and make strategy unnecessary.'",
+      "'We focus AI where we hold unique data and clear user problems, with guardrails.'"
+    ],
+    "correct": 3,
+    "explanation": "An AI strategy is the company strategy expressed through AI choices: where unique advantages meet real problems, with measurable goals and governance. 'AI everywhere by December' is a slogan wearing a deadline.",
+    "type": "Application"
+  },
+  {
+    "section": "AI Strategy & Business",
+    "q": "After a year of AI investment, a PM reviews the portfolio: one feature drives measurable retention, two show flat metrics with modest usage, and one is unused. Leadership wants to double the overall AI budget. What is the disciplined recommendation?",
+    "opts": [
+      "Spread the doubled budget evenly across all four existing features",
+      "Return the budget to finance - AI investment has clearly peaked",
+      "Double down hard on the unused feature since it has the most upside left",
+      "Concentrate on the winner, set kill-or-fix deadlines, retire the unused"
+    ],
+    "correct": 3,
+    "explanation": "Portfolio discipline means feeding winners and pruning losers on evidence, not sentiment. Kill criteria with deadlines prevent zombie features from consuming the budget that should compound the proven success.",
+    "type": "Scenario"
+  }
+];
+const SECTIONS = [
+  {
+    "key": "AI Product Fundamentals",
+    "label": "Section A - AI Product Fundamentals",
+    "cls": "sec-fund",
+    "range": "Questions 1-10"
+  },
+  {
+    "key": "Discovery & Problem Fit",
+    "label": "Section B - Discovery & Problem Fit",
+    "cls": "sec-llm",
+    "range": "Questions 11-20"
+  },
+  {
+    "key": "Data Strategy & Quality",
+    "label": "Section C - Data Strategy & Quality",
+    "cls": "sec-rag",
+    "range": "Questions 21-30"
+  },
+  {
+    "key": "Model Evaluation & Quality",
+    "label": "Section D - Model Evaluation & Quality",
+    "cls": "sec-agent",
+    "range": "Questions 31-40"
+  },
+  {
+    "key": "AI UX & Human-AI Interaction",
+    "label": "Section E - AI UX & Human-AI Interaction",
+    "cls": "sec-ops",
+    "range": "Questions 41-50"
+  },
+  {
+    "key": "Experimentation & Metrics",
+    "label": "Section F - Experimentation & Metrics",
+    "cls": "sec-safe",
+    "range": "Questions 51-60"
+  },
+  {
+    "key": "LLM & Generative AI Products",
+    "label": "Section G - LLM & Generative AI Products",
+    "cls": "sec-fund",
+    "range": "Questions 61-70"
+  },
+  {
+    "key": "Launch, MLOps & Lifecycle",
+    "label": "Section H - Launch, MLOps & Lifecycle",
+    "cls": "sec-llm",
+    "range": "Questions 71-80"
+  },
+  {
+    "key": "Responsible AI & Compliance",
+    "label": "Section I - Responsible AI & Compliance",
+    "cls": "sec-rag",
+    "range": "Questions 81-90"
+  },
+  {
+    "key": "AI Strategy & Business",
+    "label": "Section J - AI Strategy & Business",
+    "cls": "sec-agent",
+    "range": "Questions 91-100"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+
+let mode = 'guided', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 2*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='02:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'
+       +     '<span class="q-type">'+escapeHtml(q.type||'Mixed')+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/100';
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/100';
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  if(pct>=0.9){ grade='Senior AI Product Leader'; blurb='Outstanding. You reason across data, models, UX, economics, and ethics with the judgement of a seasoned AI product leader.'; }
+  else if(pct>=0.75){ grade='Strong AI Product Manager'; blurb='Strong working AI product knowledge. Review missed items - they often hinge on metric-outcome gaps, error economics, data feasibility, or trust-building trade-offs.'; }
+  else if(pct>=0.6){ grade='Qualified AI Product Manager'; blurb='You have a working AI product foundation. Strengthen weaker sections to round out evaluation, experimentation, LLM economics, and lifecycle judgement.'; }
+  else if(pct>=0.4){ grade='Developing AI Product Manager'; blurb='AI product breadth is forming. Revisit fundamentals: when ML fits, data quality, precision vs recall, baselines, guardrail metrics, and designing for errors.'; }
+  else { grade='Begin the AI Product Journey'; blurb='Start with the basics: AI as a means not a goal, supervised vs unsupervised, data quality, error costs, simple baselines, and honest AI UX.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 100 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one question at a time. 2-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Certificate name</label>
+    <input id="chmlCertNameInput" type="text" maxlength="80" placeholder="Enter name for certificate" oninput="chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" type="button" onclick="chmlPrintCertificate()">Print / Save as PDF</button>
+    <button class="chml-cert-btn secondary" type="button" onclick="chmlHideCertificate()">Hide Certificate</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div><div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker"><span id="chmlCertExamKicker">Knowledge Hub Examination</span></div>
+      <h1 class="chml-cert-h1">Certificate of Completion</h1>
+      <div class="chml-cert-rule"></div>
+      <p class="chml-cert-pre">This certifies that</p>
+      <p class="chml-cert-name" id="chmlCertName">Learner</p>
+      <p class="chml-cert-body">has successfully completed the <b id="chmlCertExamName">Knowledge Hub Exam</b>.</p>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">0 / 0</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">-</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Quak Foo Lee</div><div class="chml-cert-sig-label">Chmltech Ltd.</div></div>
+        <div class="chml-cert-id">Certificate ID: <span id="chmlCertId">-</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertificateInstalled) return;
+  window.__chmlCertificateInstalled = true;
+  function textOf(sel){var el=document.querySelector(sel);return el?el.textContent.trim():'';}
+  function examTitle(){return textOf('h1.title')||textOf('header h1')||textOf('h1')||document.title.replace(/\s+/g,' ').trim()||'Knowledge Hub Exam';}
+  function parseFirstNumber(txt){var m=String(txt||'').match(/\d+/);return m?parseInt(m[0],10):null;}
+  function parseScoreTotal(){
+    var correct=parseFirstNumber(textOf('#rScore'));
+    var total=null;
+    var rt=textOf('#rTotal');
+    if(rt) total=parseFirstNumber(rt);
+    if(!total){var sb=textOf('.score-big');var m=sb.match(/\/\s*(\d+)/);if(m) total=parseInt(m[1],10);}
+    if(!total) total=parseFirstNumber(textOf('#progTotal'));
+    if(!total){var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;if(cards) total=cards;}
+    if(!correct && correct!==0) correct=parseFirstNumber(textOf('#scoreNum'));
+    return {correct:correct||0,total:total||0};
+  }
+  function totalFromBreakdown(byType){
+    if(!byType || typeof byType!=='object') return null;
+    var total=0, found=false;
+    Object.keys(byType).forEach(function(k){var v=byType[k];if(v&&typeof v==='object'){var n=v.t||v.total||v.count;if(typeof n==='number'){total+=n;found=true;}}});
+    return found?total:null;
+  }
+  function hashCode(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+  window.chmlUpdateCertificateName=function(name){document.getElementById('chmlCertName').textContent=(name||'').trim()||'Learner';};
+  window.chmlHideCertificate=function(){var c=document.getElementById('chmlCertificate');if(c)c.classList.remove('show');};
+  window.chmlPrintCertificate=function(){window.print();};
+  window.chmlRenderCertificate=function(correct,total,grade){
+    var cert=document.getElementById('chmlCertificate');if(!cert)return;
+    var title=examTitle();
+    var nameInput=document.getElementById('chmlCertNameInput');
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
+    var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
+    document.getElementById('chmlCertExamName').textContent=title;
+    document.getElementById('chmlCertName').textContent=learner;
+    document.getElementById('chmlCertScore').textContent=String(correct)+' / '+String(total||0)+(total?(' ('+Math.round((correct/total)*100)+'%)'):'');
+    document.getElementById('chmlCertDate').textContent=date;
+    document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
+    cert.classList.add('show');
+  };
+
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
+    var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){
+      var parsed=parseScoreTotal();
+      if(correct===null || isNaN(correct)) correct=parsed.correct;
+      if(!total) total=parsed.total;
+      if(total || correct || document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0);
+    },60);
+  }
+  if(typeof window.showResults==='function'){
+    var originalShowResults=window.showResults;
+    window.showResults=function(){var out=originalShowResults.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  if(typeof window.submitExam==='function'){
+    var originalSubmitExam=window.submitExam;
+    window.submitExam=function(){var out=originalSubmitExam.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  ['resetExam','newExam'].forEach(function(fn){
+    if(typeof window[fn]==='function'){
+      var original=window[fn];
+      window[fn]=function(){window.chmlHideCertificate();return original.apply(this,arguments);};
+    }
+  });
+})();
+</script>
+
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>
+
+
+
