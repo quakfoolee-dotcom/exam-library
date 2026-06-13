@@ -1,0 +1,1873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Git &amp; GitHub Foundations Part 2 — Mock Exam · 100Q (V1)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#161922;
+  --paper:#f0eee8;
+  --paper2:#e4e1d6;
+  --gold:#8e6b2e;
+  --gold-deep:#6c4f17;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  /* Seven domain accents — GitHub-world palette */
+  --d1:#1a6a35;   /* Git & GitHub Intro — forest green */
+  --d2:#0a5a8a;   /* Repositories — ocean blue */
+  --d3:#6b3ea6;   /* Collaboration — purple */
+  --d4:#c46b0e;   /* Modern Development — amber */
+  --d5:#2a7a7a;   /* Project Management — teal */
+  --d6:#a13141;   /* Privacy & Security — crimson */
+  --d7:#3a5a9a;   /* GitHub Community — slate blue */
+  --line:#cec7b3;
+  --shadow:rgba(22,18,8,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(26,106,53,.07), transparent 40%),
+    radial-gradient(circle at 88% 92%, rgba(107,62,166,.07), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.8rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5d544a;margin-bottom:22px}
+.exambar{
+  display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;
+  color:#4e463b;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4);
+}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5d544a;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6d6552;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(240,238,232,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--d1),var(--d3));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-d1{background:linear-gradient(100deg,var(--d1),#0d3d1e)}
+.sec-d2{background:linear-gradient(100deg,var(--d2),#063352)}
+.sec-d3{background:linear-gradient(100deg,var(--d3),#3d1f66)}
+.sec-d4{background:linear-gradient(100deg,var(--d4),#7a3f06)}
+.sec-d5{background:linear-gradient(100deg,var(--d5),#164848)}
+.sec-d6{background:linear-gradient(100deg,var(--d6),#611820)}
+.sec-d7{background:linear-gradient(100deg,var(--d7),#1e2f5c)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(22,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:5px 14px;border-radius:99px;color:#fff;box-shadow:0 2px 8px var(--shadow)}
+.q-text{font-size:1.1rem;line-height:1.55;margin-bottom:16px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:13px 16px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.45);transition:all .18s ease;font-size:1rem;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(142,107,46,.07);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s}
+.opt .otext{flex:1;padding-top:1px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(142,107,46,.1)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(142,107,46,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px;display:flex;align-items:center;gap:8px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:170px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5d544a;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 18px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:1.02rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Certification Preparation &middot; Git <span class="amp">&amp;</span> GitHub Foundations &middot; Part 2</div>
+    <h1 class="title">Git <span class="amp">&amp;</span> GitHub Foundations Exam <span class="amp">·</span> Part 2</h1>
+    <div class="byline">100 questions across all 7 official certification domains — repositories, collaboration, security, and beyond</div>
+    <div class="exambar">
+      <span><b>100</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>100</b> Marks</span>
+      <span>Exam Mode: <b>2 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/100</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">02:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/100</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired — exam auto-submitted at the 2-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    Git &amp; GitHub Foundations Part 2 &middot; 100 questions &middot; 7 domains &middot; V1 (Guided / Instant / Exam-with-Timer)
+    <div class="disclaimer">An independent study resource aligned with the GitHub Foundations certification exam domains. Questions are for preparation purposes only.</div>
+  </footer>
+</div>
+
+<!-- Certificate markup -->
+<div class="chml-cert-wrap" id="chmlCertificate">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Name on Certificate</label>
+    <input type="text" id="chmlCertNameInput" placeholder="Your Full Name" oninput="window.chmlUpdateCertificateName&&window.chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" onclick="window.print()">Print / Save PDF</button>
+    <button class="chml-cert-btn secondary" onclick="window.chmlHideCertificate&&window.chmlHideCertificate()">Close</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div>
+      <div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker">Certificate of Completion</div>
+      <div class="chml-cert-h1">Git &amp; GitHub Foundations · Part 2</div>
+      <div class="chml-cert-rule"></div>
+      <div class="chml-cert-pre">This certifies that</div>
+      <div class="chml-cert-name" id="chmlCertName">Your Name</div>
+      <div class="chml-cert-body">has successfully completed the Git &amp; GitHub Foundations Part 2 Mock Exam, demonstrating proficiency across all 7 certification domains including version control, collaboration, security, and modern development practices.</div>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">—</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Questions</div><div class="chml-cert-stat-v">100</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">—</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Chmltech Ltd.</div><div class="chml-cert-sig-label">Issuing Body</div></div>
+        <div class="chml-cert-id" id="chmlCertId">—</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Name modal -->
+<div class="chml-name-modal" id="chmlNameModal">
+  <div class="chml-name-card">
+    <h2>Enter Your Name</h2>
+    <p>Your name will appear on the certificate of completion after you finish the exam.</p>
+    <label for="chmlExamNameInput">Full Name</label>
+    <input type="text" id="chmlExamNameInput" placeholder="e.g. Alex Johnson" autocomplete="name">
+    <div class="chml-name-actions">
+      <button class="btn btn-ghost" onclick="window.chmlCancelNameModal&&window.chmlCancelNameModal()">Cancel</button>
+      <button class="btn btn-gold" onclick="window.chmlConfirmNameAndStart&&window.chmlConfirmNameAndStart()">Confirm &amp; Start</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+  /* ── DOMAIN 1: Introduction to Git and GitHub (Q1–Q20) ── */
+  {
+    "section": "Domain 1: Introduction to Git and GitHub",
+    "q": "A developer asks: 'What is the core purpose of version control?' Which answer is most accurate?",
+    "opts": [
+      "It compresses source files to reduce disk usage on developer machines.",
+      "It tracks changes to files over time so specific versions can be recalled later.",
+      "It automatically tests code every time a file is saved to the repository.",
+      "It replaces the need for code reviews by detecting logical errors automatically."
+    ],
+    "correct": 1,
+    "explanation": "Version control systems record every change made to a file or set of files over time, enabling you to recall specific versions later. This is the foundational purpose — it's not about compression, testing, or code review automation.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 1: Introduction to Git and GitHub",
+    "q": "Which statement best describes a distributed version control system (DVCS) compared to a centralized one?",
+    "opts": [
+      "In a DVCS, only one server holds the full repository history; clients hold only the latest snapshot.",
+      "In a DVCS, every client holds a full mirror of the repository including complete history.",
+      "A DVCS requires a constant internet connection to perform any operation including commits.",
+      "A DVCS stores file differences on each client but keeps the full history only on the server."
+    ],
+    "correct": 1,
+    "explanation": "In a distributed VCS like Git, every developer's local clone is a full mirror of the repository — complete history included. This means you can commit, branch, and view history offline. Centralized systems like SVN keep the authoritative history only on the server.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 1: Introduction to Git and GitHub",
+    "q": "A new team member asks: 'What is the difference between Git and GitHub?' Which answer is correct?",
+    "opts": [
+      "Git is the cloud hosting service; GitHub is the local version control tool installed on your machine.",
+      "Git and GitHub are interchangeable names for the same Microsoft product released in 2018.",
+      "Git is the distributed version control system; GitHub is a cloud platform that hosts Git repositories and adds collaboration features.",
+      "Git handles branch merging only; GitHub handles commits and file tracking in the repository."
+    ],
+    "correct": 2,
+    "explanation": "Git is the open-source distributed version control system (created by Linus Torvalds in 2005). GitHub is a cloud-based hosting platform built on top of Git that adds collaboration features like pull requests, issues, and Actions. You can use Git without GitHub, but not the reverse.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 1: Introduction to Git and GitHub",
+    "q": "What does a Git commit represent?",
+    "opts": [
+      "A request to merge one branch into another, pending review by a maintainer.",
+      "A snapshot of the project's tracked files at a specific point in time, with a message.",
+      "A connection between a local repository and a remote server on GitHub.",
+      "A permission grant that allows a collaborator to push to a protected branch."
+    ],
+    "correct": 1,
+    "explanation": "A commit is a snapshot of your staged changes saved to the local repository, accompanied by a commit message. Each commit has a unique SHA hash. Commits form the historical record of a project — they are not merge requests, remote links, or permission grants.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 1: Introduction to Git and GitHub",
+    "q": "A developer describes branching as 'creating a parallel universe for your code.' Which technical definition best matches this description?",
+    "opts": [
+      "Branching creates an encrypted backup of the repository stored on a remote server.",
+      "Branching duplicates all repository files onto a separate hard drive partition.",
+      "Branching creates a lightweight movable pointer to a commit, enabling isolated lines of development.",
+      "Branching merges two diverged lines of work and resolves all conflicts automatically."
+    ],
+    "correct": 2,
+    "explanation": "In Git, a branch is simply a lightweight movable pointer to a commit. Creating a branch lets you diverge from the main line of development and work in isolation without affecting the main codebase. Branches are cheap and fast in Git because they are just 41-byte files on disk.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 1: Introduction to Git and GitHub",
+    "q": "In Git terminology, what is a 'remote'?",
+    "opts": [
+      "A branch that has been deleted locally but still exists on the server.",
+      "A version of your project hosted on the internet or a network that you can push to and pull from.",
+      "A commit that has not yet been pushed to any branch on the server.",
+      "A local alias that speeds up file indexing during large repository operations."
+    ],
+    "correct": 1,
+    "explanation": "A remote in Git is a version of your repository hosted elsewhere — typically on GitHub, GitLab, or another server. The conventional default remote is named 'origin'. Remotes allow you to push your work and pull others' work, enabling collaboration.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 1: Introduction to Git and GitHub",
+    "q": "A junior developer wants to understand the GitHub Flow. Which sequence is correct?",
+    "opts": [
+      "Fork → tag → release → squash → close issue",
+      "Create a branch → add commits → open a pull request → discuss and review → merge",
+      "Clone → rebase → cherry-pick → stash → deploy",
+      "Push to main → create a hotfix → delete the repository → re-import from backup"
+    ],
+    "correct": 1,
+    "explanation": "The GitHub Flow is: (1) create a branch off main, (2) add commits with your changes, (3) open a pull request to propose your changes, (4) discuss and review with collaborators, (5) merge once approved. It's a lightweight, branch-based workflow designed for continuous delivery.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 1: Introduction to Git and GitHub",
+    "q": "Which of the following best describes a GitHub personal account?",
+    "opts": [
+      "An account type for companies only, requiring a verified tax ID to create.",
+      "A shared account used by all members of a development team under one username.",
+      "An individual account that owns repositories and can join organizations, representing a single person.",
+      "A read-only account that can view public repositories but cannot fork or star."
+    ],
+    "correct": 2,
+    "explanation": "A personal account on GitHub represents an individual and can own repositories directly. Personal accounts can be Free (unlimited public/private repos) or Pro (with advanced features). Personal accounts can also be members of organizations. Enterprise accounts are for large organizations.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 1: Introduction to Git and GitHub",
+    "q": "What is a key difference between GitHub Free and GitHub Pro for personal accounts?",
+    "opts": [
+      "GitHub Free accounts cannot create any private repositories.",
+      "GitHub Pro provides required code reviewers, advanced insights, and protected branch rules for private repos.",
+      "GitHub Free allows unlimited collaborators on all repository types including private ones.",
+      "GitHub Pro removes the 500 MB storage limit that applies to all Free accounts."
+    ],
+    "correct": 1,
+    "explanation": "GitHub Pro adds features for private repositories that Free does not include: required code reviewers, more GitHub Actions minutes, advanced repository insights, protected branches, code owners, auto-linked references, and GitHub Pages. Both Free and Pro support unlimited private repositories.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 1: Introduction to Git and GitHub",
+    "q": "A team manager asks about the difference between GitHub Team (organization) and GitHub Enterprise. What is the primary differentiator?",
+    "opts": [
+      "GitHub Team is for open-source projects only; GitHub Enterprise supports private repositories.",
+      "GitHub Enterprise adds SAML SSO, audit logs, IP allow lists, self-hosting options, and enterprise-scale policy management.",
+      "GitHub Team requires all members to have Pro personal accounts; Enterprise allows Free personal accounts.",
+      "GitHub Enterprise removes the branch protection feature that GitHub Team provides."
+    ],
+    "correct": 1,
+    "explanation": "GitHub Enterprise (Cloud or Server) adds capabilities for large organizations: SAML single sign-on, enterprise-managed users, audit log streaming, IP allow lists, GitHub Connect for hybrid deployments, and centralized policy management across multiple organizations.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 1: Introduction to Git and GitHub",
+    "q": "Which Markdown syntax creates a second-level heading?",
+    "opts": [
+      "** Heading **",
+      "## Heading",
+      "-- Heading --",
+      "{{h2}} Heading"
+    ],
+    "correct": 1,
+    "explanation": "In GitHub Flavored Markdown, headings are created with hash symbols: # for H1, ## for H2, ### for H3, and so on up to H6. Two hash symbols (##) produce a second-level heading. This syntax is rendered in issues, pull requests, READMEs, wikis, and comments.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 1: Introduction to Git and GitHub",
+    "q": "How do you create a task list item in GitHub Markdown that is already checked?",
+    "opts": [
+      "- [x] Task description",
+      "- [X] Task description (uppercase only)",
+      "- [*] Task description",
+      "- [done] Task description"
+    ],
+    "correct": 0,
+    "explanation": "GitHub Flavored Markdown task lists use `- [ ]` for an unchecked item and `- [x]` (lowercase or uppercase X) for a checked item. Task lists in issues and pull requests are interactive — clicking the checkbox updates the state without editing the Markdown source.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 1: Introduction to Git and GitHub",
+    "q": "A developer wants to use a slash command in a GitHub issue comment. What is the purpose of slash commands?",
+    "opts": [
+      "They run terminal commands on the GitHub server directly from a comment field.",
+      "They are shortcuts that insert reusable content blocks or trigger actions within GitHub's text editor.",
+      "They delete all comments in an issue thread that contain the specified keyword.",
+      "They translate Markdown content to HTML and display a preview in a new browser tab."
+    ],
+    "correct": 1,
+    "explanation": "Slash commands in GitHub's text editor (issues, PRs, discussions) are shortcuts that insert templates or trigger specific actions. For example, /code inserts a fenced code block, /saved-replies lets you use pre-written replies, and /label applies a label. They reduce repetitive formatting work.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 1: Introduction to Git and GitHub",
+    "q": "What is GitHub Desktop primarily designed for?",
+    "opts": [
+      "Running automated CI/CD pipelines and deployment workflows from a local computer.",
+      "A graphical application that allows users to interact with Git and GitHub without using the command line.",
+      "A web browser extension that adds a dark mode to github.com.",
+      "A tool exclusively for resolving merge conflicts in enterprise-scale monorepos."
+    ],
+    "correct": 1,
+    "explanation": "GitHub Desktop is a free, open-source GUI application that simplifies the Git workflow for those who prefer not to use the command line. It supports cloning repos, creating branches, making commits, creating pull requests, and resolving merge conflicts — all through a visual interface.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 1: Introduction to Git and GitHub",
+    "q": "Which feature is available in GitHub Mobile that makes it particularly useful for team leads on the go?",
+    "opts": [
+      "Running GitHub Actions workflows and monitoring live deployment logs.",
+      "Reviewing and merging pull requests, triaging issues, and managing notifications from a smartphone.",
+      "Editing repository files with a full integrated development environment on mobile.",
+      "Administering SAML SSO settings and enterprise security policies from a phone."
+    ],
+    "correct": 1,
+    "explanation": "GitHub Mobile allows you to review and respond to pull requests, triage and manage issues, receive and manage notifications, search GitHub, and merge pull requests — all from iOS or Android. It's designed for staying connected while away from a desk, not for full development or admin tasks.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 1: Introduction to Git and GitHub",
+    "q": "A developer runs `git init` in a folder. What does this command do?",
+    "opts": [
+      "It connects the folder to a remote repository on GitHub and downloads all branches.",
+      "It creates a new Git repository in the current directory by adding a hidden .git folder.",
+      "It resets the repository to the last committed state, discarding all uncommitted changes.",
+      "It initializes a GitHub Actions workflow in the repository's .github directory."
+    ],
+    "correct": 1,
+    "explanation": "`git init` initializes a new Git repository in the current directory by creating a hidden `.git` folder that stores the entire repository history and configuration. It does not communicate with GitHub — it only sets up local Git tracking.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 1: Introduction to Git and GitHub",
+    "q": "What is the staging area (index) in Git?",
+    "opts": [
+      "A remote server where changes are stored before a repository is made public.",
+      "An intermediate area where you prepare and organize changes before committing them to the repository.",
+      "A read-only copy of the repository used for code review by team members.",
+      "A conflict resolution interface that appears when two branches have diverging changes."
+    ],
+    "correct": 1,
+    "explanation": "The staging area (also called the index) is an intermediate layer in Git between your working directory and the repository. You use `git add` to stage changes, then `git commit` to save the staged snapshot. This two-step process lets you craft precise commits rather than committing all changes at once.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 1: Introduction to Git and GitHub",
+    "q": "Which command clones an existing remote repository to your local machine?",
+    "opts": [
+      "git pull origin main",
+      "git init --remote <url>",
+      "git clone <repository-url>",
+      "git fetch --all --clone"
+    ],
+    "correct": 2,
+    "explanation": "`git clone <url>` creates a local copy of a remote repository, including all branches, commits, and tags. It also sets up the remote named 'origin' pointing to the cloned URL. `git pull` fetches and merges; `git fetch` only downloads without merging; `git init` creates a new empty repo.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 1: Introduction to Git and GitHub",
+    "q": "A profile README on GitHub is displayed when which condition is met?",
+    "opts": [
+      "The user has at least 100 followers and has made 1,000 contributions in the past year.",
+      "The user creates a public repository with the same name as their GitHub username and adds a README.md.",
+      "The user upgrades to GitHub Pro and enables the profile README feature in settings.",
+      "The user pins six repositories to their profile and adds descriptions to all of them."
+    ],
+    "correct": 1,
+    "explanation": "A GitHub profile README is created by making a public repository whose name exactly matches your GitHub username, then adding a README.md to it. GitHub automatically displays this README at the top of your profile page. It's free for all account types.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 1: Introduction to Git and GitHub",
+    "q": "A team wants to configure their local Git client's identity before making any commits. Which two commands are needed?",
+    "opts": [
+      "git config --global user.name 'Name' and git config --global user.email 'email'",
+      "git set identity 'Name <email>' and git verify-identity",
+      "git login --user 'Name' and git auth --email 'email'",
+      "git profile --name 'Name' and git profile --email 'email'"
+    ],
+    "correct": 0,
+    "explanation": "Before making commits, Git requires a name and email for attribution. The commands are `git config --global user.name 'Your Name'` and `git config --global user.email 'you@example.com'`. The --global flag applies these settings to all repositories on the machine. Without them, commits may fail or use incorrect author info.",
+    "type": "Concept"
+  },
+
+  /* ── DOMAIN 2: Working with GitHub Repositories (Q21–Q35) ── */
+  {
+    "section": "Domain 2: Working with GitHub Repositories",
+    "q": "Which files are considered recommended repository files for open-source projects on GitHub?",
+    "opts": [
+      "README.md, DEPLOY.sh, and SECRETS.env",
+      "README.md, LICENSE, CONTRIBUTING.md, and CODEOWNERS",
+      "INSTALL.md, ROADMAP.txt, and VENDORS.lock",
+      "MANIFEST.in, SETUP.cfg, and pyproject.toml only"
+    ],
+    "correct": 1,
+    "explanation": "GitHub recommends including: README.md (project overview), LICENSE (legal terms of use), CONTRIBUTING.md (how to contribute), and CODEOWNERS (defines who reviews changes in specific files). These files help collaborators understand, use, and contribute to your project effectively.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 2: Working with GitHub Repositories",
+    "q": "A developer wants to create a new repository from an existing template. What is the benefit of using a repository template versus forking?",
+    "opts": [
+      "Template-created repos maintain a permanent link to the template, receiving automatic updates.",
+      "Template-created repos start with a clean history (no previous commits), unlike forks which inherit full history.",
+      "Repository templates are only available to GitHub Enterprise customers.",
+      "Forking always creates a private copy; templates always create a public copy."
+    ],
+    "correct": 1,
+    "explanation": "When you create a repository from a template, you get a fresh repository with only a single initial commit — no history from the template. A fork, by contrast, copies the entire commit history and maintains a link to the upstream. Templates are ideal for project starters where you don't need the template's history.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 2: Working with GitHub Repositories",
+    "q": "What is the purpose of the `.gitignore` file in a repository?",
+    "opts": [
+      "It lists maintainers who are allowed to approve pull requests targeting protected branches.",
+      "It specifies intentionally untracked files that Git should ignore and not include in commits.",
+      "It documents the project's code style and linting rules for contributors to follow.",
+      "It maps branch names to deployment environments for GitHub Actions workflows."
+    ],
+    "correct": 1,
+    "explanation": "`.gitignore` lists patterns for files and directories that Git should not track. Common examples include build artifacts, dependency directories (node_modules/), IDE settings, and secrets (.env). Ignored files won't be staged or committed even with `git add .`.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 2: Working with GitHub Repositories",
+    "q": "A repository is set to 'private.' What does this mean for visibility?",
+    "opts": [
+      "The repository is visible to anyone on the internet but cannot be forked.",
+      "The repository is only visible to the owner and explicitly granted collaborators or teams.",
+      "The repository is visible to all members of GitHub Enterprise but not the public.",
+      "The repository is archived — visible to everyone but read-only for all users."
+    ],
+    "correct": 1,
+    "explanation": "A private repository on GitHub is only visible to the owner (individual or organization) and collaborators who have been explicitly granted access. It is not searchable or viewable by the public. Organizations can also control private repo access through teams.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 2: Working with GitHub Repositories",
+    "q": "What does `git fetch` do compared to `git pull`?",
+    "opts": [
+      "`git fetch` downloads remote changes and immediately merges them into the current branch.",
+      "`git fetch` downloads remote changes but does not merge them; `git pull` fetches and merges.",
+      "`git fetch` deletes stale remote-tracking branches; `git pull` creates new local branches.",
+      "`git fetch` is the same as `git pull` but works only on protected branches."
+    ],
+    "correct": 1,
+    "explanation": "`git fetch` retrieves changes from the remote (updating remote-tracking branches like origin/main) but leaves your local working branch untouched. `git pull` = `git fetch` + `git merge` (or rebase). Fetching first lets you inspect incoming changes before integrating them.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 2: Working with GitHub Repositories",
+    "q": "A developer wants to see a history of all commits in the current branch. Which command lists them?",
+    "opts": [
+      "git status",
+      "git log",
+      "git diff HEAD",
+      "git show --history"
+    ],
+    "correct": 1,
+    "explanation": "`git log` displays the commit history of the current branch, showing each commit's SHA, author, date, and message. Common flags include `--oneline` (compact), `--graph` (ASCII branch tree), and `--all` (show all branches). `git status` shows working tree status; `git diff` shows unstaged changes.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 2: Working with GitHub Repositories",
+    "q": "What is an 'archived' repository on GitHub?",
+    "opts": [
+      "A repository that has been deleted but can be restored for 30 days.",
+      "A repository made read-only for everyone — issues, PRs, and pushes are disabled.",
+      "A repository that is private and only accessible by the owner.",
+      "A repository synced with a long-term support branch for stable deployments."
+    ],
+    "correct": 1,
+    "explanation": "Archiving a GitHub repository makes it read-only for everyone including the owner (via the UI). Issues, pull requests, comments, labels, milestones, projects, wiki, releases, commits, tags, and branches can still be viewed, but no new issues or pull requests can be opened and no pushes are accepted.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 2: Working with GitHub Repositories",
+    "q": "Which command creates a new local branch called 'feature/login' and switches to it immediately?",
+    "opts": [
+      "git branch feature/login",
+      "git checkout feature/login",
+      "git checkout -b feature/login",
+      "git switch --create feature/login"
+    ],
+    "correct": 2,
+    "explanation": "Both `git checkout -b feature/login` and `git switch -c feature/login` create a new branch and switch to it in one step. `git branch feature/login` only creates the branch without switching. `git checkout feature/login` switches to an existing branch (not creating it). Both -b and -c/-create forms work.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 2: Working with GitHub Repositories",
+    "q": "A team accidentally pushed sensitive API keys to a public GitHub repository. What is the most critical immediate step?",
+    "opts": [
+      "Delete the commit message but leave the commit in history to preserve the diff.",
+      "Make the repository private and assume the keys are now safe since they cannot be viewed.",
+      "Revoke and rotate the exposed keys immediately, then rewrite history to remove them.",
+      "Submit a GitHub support ticket and wait for them to scrub the keys from their servers."
+    ],
+    "correct": 2,
+    "explanation": "Any secret pushed to a public repo should be considered compromised — it may have already been scraped by bots. The critical first step is to revoke/rotate the exposed credentials immediately. Then use git filter-repo or BFG Repo Cleaner to rewrite history and force-push, and enable GitHub's secret scanning to prevent recurrence.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Domain 2: Working with GitHub Repositories",
+    "q": "What does `git stash` do?",
+    "opts": [
+      "It permanently deletes uncommitted changes from the working directory.",
+      "It temporarily shelves uncommitted changes so you can work on something else, then restores them later.",
+      "It creates a new commit from current unstaged changes without adding a message.",
+      "It moves a branch pointer to a specific commit without affecting the working directory."
+    ],
+    "correct": 1,
+    "explanation": "`git stash` saves your uncommitted changes (both staged and unstaged) onto a stash stack and reverts your working directory to match the last commit. You can switch branches, do other work, then run `git stash pop` to restore the stashed changes. Useful for context-switching without a half-done commit.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 2: Working with GitHub Repositories",
+    "q": "A contributor runs `git revert <commit-sha>`. What happens?",
+    "opts": [
+      "The specified commit is permanently erased from the repository's history.",
+      "A new commit is created that undoes the changes introduced by the specified commit.",
+      "All commits after the specified SHA are deleted and the HEAD moves back to it.",
+      "The working directory is reset to the specified commit but the history is unchanged."
+    ],
+    "correct": 1,
+    "explanation": "`git revert` creates a new commit that applies the inverse of the specified commit's changes, preserving the project history. It is safe to use on shared/public branches because it doesn't rewrite history. `git reset` moves HEAD (and can rewrite history), while revert adds a new undoing commit.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 2: Working with GitHub Repositories",
+    "q": "What is a Git tag, and how does it differ from a branch?",
+    "opts": [
+      "A tag is a movable pointer that tracks the latest commit; a branch is fixed to one commit.",
+      "A tag is a fixed pointer to a specific commit (often used for releases); a branch moves as new commits are added.",
+      "Tags and branches are identical in function — the names are interchangeable.",
+      "A tag stores the entire diff of a commit; a branch only stores the commit message."
+    ],
+    "correct": 1,
+    "explanation": "A Git tag is a fixed reference to a specific commit — it doesn't move as new commits are made. Tags are commonly used to mark release points (v1.0, v2.3.1). Branches, by contrast, are movable — the branch pointer advances to each new commit added to it. Annotated tags also store metadata like a message and GPG signature.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 2: Working with GitHub Repositories",
+    "q": "What does the CODEOWNERS file do in a GitHub repository?",
+    "opts": [
+      "It grants billing permissions to specific GitHub users in an organization.",
+      "It defines which individuals or teams are automatically requested for review when matching files change.",
+      "It lists all external libraries and their open-source licenses used by the project.",
+      "It restricts write access to the repository to the named owners only."
+    ],
+    "correct": 1,
+    "explanation": "The CODEOWNERS file maps file paths (using glob patterns) to GitHub users or teams who are automatically added as required reviewers when pull requests touch those files. For example, `*.js @frontend-team` means any PR changing JS files requests the frontend team's review. It lives in the root, docs/, or .github/ directory.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 2: Working with GitHub Repositories",
+    "q": "A developer wants to undo the last commit but keep the changes in the working directory. Which command achieves this?",
+    "opts": [
+      "git reset --hard HEAD~1",
+      "git reset --soft HEAD~1",
+      "git revert HEAD --no-commit",
+      "git checkout HEAD~1 -- ."
+    ],
+    "correct": 1,
+    "explanation": "`git reset --soft HEAD~1` moves the HEAD (and branch pointer) back one commit but leaves your changes staged in the index. `--mixed` (default) unstages them. `--hard` discards them entirely. `--soft` is useful when you made a commit too early and want to amend it or re-commit differently.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 2: Working with GitHub Repositories",
+    "q": "What is a GitHub Release, and how does it relate to Git tags?",
+    "opts": [
+      "A GitHub Release is a webhook that triggers a deployment pipeline when a tag is pushed.",
+      "A GitHub Release is a deployable iteration of software built on a Git tag, with release notes and binary assets.",
+      "A GitHub Release is an organization-level announcement distributed to all watchers by email.",
+      "GitHub Releases replace Git tags entirely — creating a release deletes the tag."
+    ],
+    "correct": 1,
+    "explanation": "A GitHub Release packages a specific tag's code with release notes, changelogs, and optional binary assets (installers, compiled binaries). It represents a deployable version of the project. Releases are built on top of Git tags — creating a release typically creates or references a tag. They appear on the repository's Releases page.",
+    "type": "Concept"
+  },
+
+  /* ── DOMAIN 3: Collaboration Features (Q36–Q55) ── */
+  {
+    "section": "Domain 3: Collaboration Features",
+    "q": "What is the primary purpose of a pull request (PR) on GitHub?",
+    "opts": [
+      "It automatically pulls the latest changes from the default branch into your feature branch.",
+      "It is a proposal to merge changes from one branch into another, enabling discussion and review.",
+      "It downloads artifacts from a completed GitHub Actions workflow to the local machine.",
+      "It notifies all repository watchers that a new release has been published."
+    ],
+    "correct": 1,
+    "explanation": "A pull request is a mechanism to propose that changes from one branch (often a feature branch) be merged into another (often main). It opens a discussion thread, enables code review with inline comments, shows a diff of all changes, and can be linked to CI/CD checks before merging.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 3: Collaboration Features",
+    "q": "What is the difference between a 'fork' and a 'clone' on GitHub?",
+    "opts": [
+      "A fork creates a server-side copy of a repository under your account; a clone creates a local copy on your machine.",
+      "A fork creates a local copy with no remote configured; a clone creates a server-side copy with full CI enabled.",
+      "Forks and clones are identical operations — GitHub uses the terms interchangeably.",
+      "A fork copies only the default branch; a clone copies all branches including protected ones."
+    ],
+    "correct": 0,
+    "explanation": "Forking creates a server-side copy of a repository under your GitHub account, letting you freely experiment without affecting the original. Cloning creates a local copy on your computer linked to a remote. The typical open-source workflow is: fork → clone your fork → branch → commit → push → open PR to the original.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 3: Collaboration Features",
+    "q": "A reviewer leaves a 'Request changes' review on a pull request. What does this mean?",
+    "opts": [
+      "The PR is approved and ready to merge after the author optionally considers the comments.",
+      "The reviewer has declined the PR permanently; it cannot be merged by anyone.",
+      "The reviewer requires specific changes to be made before the PR can be approved and merged.",
+      "The PR triggers a new CI workflow run and the reviewer is notified of the results."
+    ],
+    "correct": 2,
+    "explanation": "'Request changes' is a blocking review state. The pull request cannot be merged (on branches requiring approved reviews) until the reviewer approves — or the reviewer dismisses their own review — after the author has addressed the requested changes. It's different from a simple comment or approval.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 3: Collaboration Features",
+    "q": "What is a GitHub Issue used for?",
+    "opts": [
+      "Issues are automated scripts that run on a schedule to test repository integrity.",
+      "Issues are used to track tasks, bugs, feature requests, and other work items within a repository.",
+      "Issues are merge conflict markers that appear in files when two branches diverge.",
+      "Issues are billing alerts that notify organization owners when usage limits are reached."
+    ],
+    "correct": 1,
+    "explanation": "GitHub Issues are a lightweight project tracking tool built into every repository. They can represent bugs, feature requests, tasks, questions, or any work item. Issues support labels, milestones, assignees, linked PRs, and can be referenced in commits (e.g., 'Fixes #42' automatically closes the issue on merge).",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 3: Collaboration Features",
+    "q": "In a commit message, a developer writes 'Fixes #123'. What happens when this commit is merged into the default branch?",
+    "opts": [
+      "The commit is flagged for security review because external issue references are a potential injection risk.",
+      "Issue #123 is automatically closed and linked to the pull request or commit.",
+      "The commit is rejected because issue references are not valid in commit messages.",
+      "Issue #123 is converted into a pull request with the commit as its only change."
+    ],
+    "correct": 1,
+    "explanation": "GitHub recognizes closing keywords in commit messages and PR descriptions: 'Fixes', 'Closes', 'Resolves' (and others) followed by #issue-number. When the commit lands on the default branch (or when the linked PR merges), the referenced issue is automatically closed and cross-linked.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 3: Collaboration Features",
+    "q": "What is the purpose of GitHub Discussions compared to Issues?",
+    "opts": [
+      "Discussions are for code review comments only; Issues track deployments.",
+      "Discussions are open-ended conversational forums for community Q&A and ideas; Issues are for actionable work items.",
+      "Discussions replace pull requests in repositories that use the GitHub Flow.",
+      "Discussions are read-only announcements from maintainers; Issues allow community replies."
+    ],
+    "correct": 1,
+    "explanation": "GitHub Discussions is a community forum built into repositories. It's ideal for Q&A, sharing ideas, announcements, and polls — conversations that don't map cleanly to a specific actionable task. Issues are better for trackable, closeable work items. Discussions can be converted to issues if they evolve into actionable items.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 3: Collaboration Features",
+    "q": "A team uses Labels on GitHub Issues. What benefit do labels provide?",
+    "opts": [
+      "Labels encrypt issue content so only labeled assignees can read them.",
+      "Labels categorize and filter issues and pull requests, making it easier to prioritize and find work.",
+      "Labels automatically assign issues to specific team members based on keyword detection.",
+      "Labels trigger webhooks that notify external project management tools in real time."
+    ],
+    "correct": 1,
+    "explanation": "Labels are colored tags applied to issues and pull requests to categorize them (e.g., 'bug', 'enhancement', 'good first issue', 'help wanted'). They enable filtering — you can view all open bugs with label:bug. Labels don't auto-assign or encrypt content; they are purely for organization and discoverability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 3: Collaboration Features",
+    "q": "What is a GitHub Milestone?",
+    "opts": [
+      "A milestone is a performance benchmark that GitHub measures against your repository's CI pipeline.",
+      "A milestone is a way to group issues and pull requests toward a shared goal with an optional due date.",
+      "A milestone is a certificate issued when a repository reaches 1,000 stars.",
+      "A milestone is a saved search that automatically opens matching issues when created."
+    ],
+    "correct": 1,
+    "explanation": "Milestones group issues and pull requests to track progress toward a specific goal (such as a sprint, version release, or project phase). Each milestone shows a progress bar of open vs closed items and can have a title, description, and optional due date for time-boxed work.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 3: Collaboration Features",
+    "q": "A developer is asked to perform a 'code review' on a pull request. Which action is NOT part of a standard GitHub code review?",
+    "opts": [
+      "Adding inline comments on specific lines of the diff.",
+      "Submitting an 'Approve', 'Comment', or 'Request changes' review.",
+      "Running `git push --force` to overwrite the PR author's branch with corrections.",
+      "Suggesting specific code changes using the 'Suggest change' feature."
+    ],
+    "correct": 2,
+    "explanation": "Code review on GitHub involves reading the diff, leaving inline comments, suggesting changes, and submitting a formal review state (Approve/Comment/Request changes). Force-pushing to the author's branch from your account without permission is not a review action — it would overwrite their work and is considered bad practice.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 3: Collaboration Features",
+    "q": "What is the 'squash and merge' option when merging a pull request?",
+    "opts": [
+      "It merges all commits from the PR and creates a new merge commit with two parents.",
+      "It combines all commits in the PR into a single commit before merging into the base branch.",
+      "It rebases the PR commits on top of the base branch and then fast-forwards.",
+      "It deletes all commits in the PR and replaces them with the final file state as a single commit."
+    ],
+    "correct": 1,
+    "explanation": "Squash and merge condenses all commits in a pull request into a single commit on the base branch. This keeps the main branch history clean and linear while preserving the intent. The three merge strategies in GitHub are: Merge commit (preserves all commits + merge commit), Squash and merge (one commit), and Rebase and merge (rebases commits linearly).",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 3: Collaboration Features",
+    "q": "What are 'protected branches' in GitHub?",
+    "opts": [
+      "Branches that are encrypted with AES-256 and require a password to push to.",
+      "Branches with rules that prevent direct pushes, require PR reviews, or require passing status checks before merging.",
+      "Branches that are hidden from all contributors except the repository owner.",
+      "Branches that automatically rebase onto the default branch every 24 hours."
+    ],
+    "correct": 1,
+    "explanation": "Branch protection rules let repository admins enforce policies on branches (commonly main/master). Rules can require: pull request reviews before merging, status checks to pass, no force pushes, no deletions, signed commits, and linear history. Available features vary by GitHub plan.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 3: Collaboration Features",
+    "q": "A developer wants to propose a change to an open-source repository where they are not a collaborator. What is the correct workflow?",
+    "opts": [
+      "Request collaborator access, wait for approval, then push a branch directly.",
+      "Fork the repository, clone your fork, make changes on a branch, push to your fork, then open a PR to the original.",
+      "Clone the original repository directly, make changes on main, then push using admin credentials.",
+      "Email the maintainer with a diff file and ask them to apply it manually to the codebase."
+    ],
+    "correct": 1,
+    "explanation": "The standard open-source contribution workflow is: fork the repo (creating your own copy), clone your fork locally, create a feature branch, commit your changes, push to your fork, then open a pull request against the original repository. You don't need write access to the original to contribute this way.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Domain 3: Collaboration Features",
+    "q": "What is the purpose of 'GitHub Notifications' and how can they be managed?",
+    "opts": [
+      "Notifications are mandatory legal notices sent to all GitHub users by email that cannot be disabled.",
+      "Notifications alert you to activity on watched repositories, mentions, assigned issues and PRs; they can be filtered, muted, or customized per repository.",
+      "Notifications are GitHub's internal audit log system visible only to organization owners.",
+      "Notifications are automatic PR comments posted by GitHub bots when CI checks fail."
+    ],
+    "correct": 1,
+    "explanation": "GitHub sends notifications about repository activity you're subscribed to: issues/PRs you're mentioned in, assigned items, watched repositories, etc. You can manage them via the Notifications inbox (web, email, or Mobile), mark as done, mute threads, set custom watch levels per repo, and configure delivery preferences.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 3: Collaboration Features",
+    "q": "What does 'Watching' a repository on GitHub do?",
+    "opts": [
+      "Watching adds the repository to your stars list for quick access from your profile.",
+      "Watching forks the repository to your account so you can contribute to it directly.",
+      "Watching subscribes you to notifications for all activity in the repository.",
+      "Watching adds the repository to a private list only visible to you and the repo owner."
+    ],
+    "correct": 2,
+    "explanation": "Watching a repository subscribes you to notifications for all conversations: issues, pull requests, commits, releases, and security alerts. 'Starring' is different — it bookmarks the repo and shows appreciation. Options for watching include: 'Participating and @mentions only', 'All activity', 'Ignore', or 'Custom' (releases, issues, PRs, etc.).",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 3: Collaboration Features",
+    "q": "A team uses GitHub's 'Saved Replies' feature. What is its purpose?",
+    "opts": [
+      "Saved Replies store webhook responses for debugging API integration issues.",
+      "Saved Replies are pre-written comment templates you can reuse across issues and pull requests.",
+      "Saved Replies cache pull request review comments for offline access.",
+      "Saved Replies automatically respond to new issues matching a keyword pattern."
+    ],
+    "correct": 1,
+    "explanation": "Saved Replies let you create reusable response templates for common comments on issues and pull requests. For example, you might save a reply explaining contribution guidelines for first-time contributors. You access them via the speech bubble icon in the comment editor and can have up to 100 saved replies per user.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 3: Collaboration Features",
+    "q": "What is the purpose of 'Draft Pull Requests' on GitHub?",
+    "opts": [
+      "Draft PRs are automatically created when a branch is pushed but cannot be reviewed or commented on.",
+      "Draft PRs signal that a PR is a work in progress — they cannot be merged until marked as ready for review.",
+      "Draft PRs are deleted after 30 days if not converted to a full pull request.",
+      "Draft PRs skip all CI/CD checks to speed up iteration on early-stage work."
+    ],
+    "correct": 1,
+    "explanation": "Draft pull requests signal to collaborators that a PR is not yet ready for review or merge. They can still receive comments and CI checks run on them, but the 'Merge' button is disabled until the author marks it 'Ready for review'. Useful for sharing early work or work in progress without accidentally merging.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 3: Collaboration Features",
+    "q": "What is a merge conflict, and when does it occur?",
+    "opts": [
+      "A merge conflict occurs when a branch has more commits than the base branch and Git cannot decide which is correct.",
+      "A merge conflict occurs when the same lines in a file are changed differently in two branches being merged, and Git cannot automatically resolve the difference.",
+      "A merge conflict occurs when a repository has more than 100 open pull requests simultaneously.",
+      "A merge conflict occurs when a force push overwrites the remote branch history."
+    ],
+    "correct": 1,
+    "explanation": "A merge conflict occurs when Git cannot automatically reconcile differences between two branches — typically when the same lines of the same file were modified differently in each branch. You must manually resolve the conflict by choosing which version to keep (or combining them), then commit the resolution.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 3: Collaboration Features",
+    "q": "Which GitHub feature allows you to see which lines of code each person last modified and when?",
+    "opts": [
+      "GitHub Insights",
+      "git blame / GitHub Blame view",
+      "GitHub Pulse",
+      "GitHub Traffic analytics"
+    ],
+    "correct": 1,
+    "explanation": "`git blame` (and the equivalent GitHub Blame view on any file) shows the last commit that touched each line of a file, along with the commit SHA, author, and date. It's useful for understanding why a line was written a certain way. GitHub's blame view is accessible via the 'Blame' button in the file view.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 3: Collaboration Features",
+    "q": "What is GitHub Copilot, and in which environments does it operate?",
+    "opts": [
+      "GitHub Copilot is a CI/CD tool that auto-deploys code when a PR is merged.",
+      "GitHub Copilot is an AI-powered coding assistant that suggests code completions and helps generate, refactor, and debug code in editors like VS Code, JetBrains, and via chat.",
+      "GitHub Copilot is a security scanner that reviews PRs for known CVEs before merging.",
+      "GitHub Copilot is a project management tool that auto-assigns issues based on contributor expertise."
+    ],
+    "correct": 1,
+    "explanation": "GitHub Copilot is an AI pair programmer powered by OpenAI Codex/GPT models. It provides inline code suggestions, chat-based assistance, and supports refactoring and debugging. It integrates with VS Code, Visual Studio, JetBrains IDEs, Neovim, and GitHub.com (via Copilot Chat in PRs and issues).",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 3: Collaboration Features",
+    "q": "A repository maintainer wants to encourage first-time contributors. Which label is specifically designed to signal beginner-friendly issues?",
+    "opts": [
+      "priority: high",
+      "help wanted",
+      "good first issue",
+      "wontfix"
+    ],
+    "correct": 2,
+    "explanation": "'good first issue' is a special GitHub label that marks issues suitable for newcomers to a project. Issues with this label appear in GitHub's contributor discovery features and on the repository's Contribute page. 'help wanted' signals that maintainers want external help but may be more complex than a first issue.",
+    "type": "Concept"
+  },
+
+  /* ── DOMAIN 4: Modern Development (Q56–Q70) ── */
+  {
+    "section": "Domain 4: Modern Development",
+    "q": "What is GitHub Actions, and what type of automation does it enable?",
+    "opts": [
+      "GitHub Actions is a command-line tool for batch renaming files in a repository.",
+      "GitHub Actions is a CI/CD and automation platform built into GitHub that runs workflows in response to events like push, PR, or schedule.",
+      "GitHub Actions is a code review bot that automatically approves pull requests passing linting checks.",
+      "GitHub Actions is a project management feature that moves issues between columns based on due dates."
+    ],
+    "correct": 1,
+    "explanation": "GitHub Actions is GitHub's built-in automation platform. Workflows are defined in YAML files in `.github/workflows/`. They are triggered by events (push, pull_request, schedule, workflow_dispatch, etc.) and run jobs with steps on GitHub-hosted or self-hosted runners. Common uses: CI testing, CD deployment, issue automation, and release publishing.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 4: Modern Development",
+    "q": "In a GitHub Actions workflow YAML, what does the `on` key define?",
+    "opts": [
+      "The operating system of the runner that executes the workflow steps.",
+      "The trigger events that cause the workflow to run (e.g., push to main, pull_request opened).",
+      "The list of required permissions needed to access repository secrets.",
+      "The notification recipients who are emailed when the workflow fails."
+    ],
+    "correct": 1,
+    "explanation": "The `on` key in a GitHub Actions workflow file defines the events that trigger the workflow. Examples: `on: push` (any push), `on: pull_request: branches: [main]` (PRs targeting main), `on: schedule: cron: '0 0 * * *'` (daily). Multiple events can be listed.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 4: Modern Development",
+    "q": "What is a GitHub Codespace?",
+    "opts": [
+      "A Codespace is a static file hosting service for web applications built with GitHub Pages.",
+      "A Codespace is a cloud-hosted, containerized development environment that runs VS Code in the browser or desktop.",
+      "A Codespace is a read-only sandbox for testing pull request changes without cloning locally.",
+      "A Codespace is an encrypted vault for storing repository secrets and environment variables."
+    ],
+    "correct": 1,
+    "explanation": "GitHub Codespaces provides a fully configured cloud development environment — a container (devcontainer) running VS Code in your browser or connected to the VS Code desktop app. Each codespace is provisioned on demand, eliminating 'it works on my machine' problems. Configuration is stored in `.devcontainer/devcontainer.json`.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 4: Modern Development",
+    "q": "What is the purpose of a `devcontainer.json` file in a GitHub repository?",
+    "opts": [
+      "It defines Docker build instructions for deploying the application to production containers.",
+      "It configures the development container environment (image, extensions, tools) for GitHub Codespaces and VS Code Dev Containers.",
+      "It specifies which GitHub Actions runners are used when workflows are triggered.",
+      "It lists the branches that Codespaces are allowed to create environments from."
+    ],
+    "correct": 1,
+    "explanation": "`.devcontainer/devcontainer.json` defines the containerized development environment: the Docker image to use, VS Code extensions to install, port forwarding, post-create commands, and environment variables. It ensures all developers (and Codespaces) get a consistent, reproducible setup automatically.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 4: Modern Development",
+    "q": "What is GitHub Pages, and what type of content does it host?",
+    "opts": [
+      "GitHub Pages is a private wiki system restricted to organization members.",
+      "GitHub Pages hosts static websites directly from a GitHub repository, publicly accessible at github.io or a custom domain.",
+      "GitHub Pages is a file storage service for large binary assets like videos and design files.",
+      "GitHub Pages runs server-side code (Node.js, Python) for dynamic web applications."
+    ],
+    "correct": 1,
+    "explanation": "GitHub Pages hosts static websites (HTML, CSS, JavaScript, Markdown rendered via Jekyll) directly from a repository. Content can come from the root, a /docs folder, or a dedicated gh-pages branch. Free for public repos; also available on some paid plans for private repos. Ideal for documentation, portfolios, and project sites.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 4: Modern Development",
+    "q": "A developer wants to reuse a GitHub Actions workflow across multiple repositories without copying the YAML. What GitHub Actions feature enables this?",
+    "opts": [
+      "Matrix strategy — running the same job with different parameters across repositories.",
+      "Reusable workflows — a workflow can be called from another workflow in any repository.",
+      "Composite actions — packaging multiple steps into a single action stored in a repository.",
+      "Workflow templates — starter workflows that teams can fork and customize."
+    ],
+    "correct": 1,
+    "explanation": "Reusable workflows (introduced 2021) allow a workflow in one repository to be called from another using `uses: org/repo/.github/workflows/workflow.yml@main`. This avoids YAML duplication across many repositories. Composite actions package steps into a reusable action but remain within one workflow file's call.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 4: Modern Development",
+    "q": "What is the purpose of GitHub Secrets in the context of GitHub Actions?",
+    "opts": [
+      "Secrets store encrypted API keys, tokens, and passwords that workflows can access as environment variables without exposing values in logs.",
+      "Secrets are encrypted files that GitHub stores instead of Git objects when large binary assets are committed.",
+      "Secrets are audit trail entries recording who accessed a repository and when.",
+      "Secrets are branch protection settings that hide specific branches from non-admin contributors."
+    ],
+    "correct": 0,
+    "explanation": "GitHub Secrets are encrypted environment variables stored at the repository, environment, or organization level. Workflows access them via `${{ secrets.SECRET_NAME }}`. Secret values are redacted from workflow logs. They are ideal for API keys, tokens, and credentials needed by CI/CD pipelines without hardcoding them in code.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 4: Modern Development",
+    "q": "What is code scanning in GitHub, and what does CodeQL do?",
+    "opts": [
+      "Code scanning is a spell-checker that reviews README and documentation files for grammar errors.",
+      "Code scanning analyzes source code to detect security vulnerabilities; CodeQL is GitHub's semantic analysis engine that treats code as queryable data.",
+      "Code scanning is a dependency graph tool that lists all packages used in a repository.",
+      "Code scanning monitors Actions workflow logs for performance bottlenecks in CI pipelines."
+    ],
+    "correct": 1,
+    "explanation": "GitHub Code Scanning automatically analyzes code to find security vulnerabilities and coding errors. CodeQL is the underlying engine: it compiles code into a database and runs queries to surface CWEs (common weakness enumerations). Results appear as annotations on pull requests and in the Security tab. Also supports third-party SARIF tools.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 4: Modern Development",
+    "q": "What is Dependabot on GitHub, and what problem does it solve?",
+    "opts": [
+      "Dependabot monitors GitHub repository traffic and alerts when unusual access patterns are detected.",
+      "Dependabot automatically opens pull requests to update outdated or vulnerable dependencies in a repository.",
+      "Dependabot tracks the real-time dependency graph of all packages ever published to npm.",
+      "Dependabot is a GitHub Actions runner that specializes in building dependency-heavy Node.js projects."
+    ],
+    "correct": 1,
+    "explanation": "Dependabot checks your repository's dependency manifests (package.json, requirements.txt, pom.xml, etc.) against vulnerability databases and version registries. It automatically opens PRs to update vulnerable or outdated packages, keeping your supply chain current with minimal manual effort.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 4: Modern Development",
+    "q": "In GitHub Actions, what is a 'runner'?",
+    "opts": [
+      "A runner is a GitHub employee who manually executes workflow jobs on request.",
+      "A runner is the server (virtual machine or container) that executes the steps defined in a workflow job.",
+      "A runner is a YAML keyword that specifies which branch triggers a particular workflow.",
+      "A runner is a GitHub App that mediates between the Actions service and external deployment targets."
+    ],
+    "correct": 1,
+    "explanation": "A runner is a machine (GitHub-hosted or self-hosted) that executes jobs in a GitHub Actions workflow. GitHub-hosted runners are ephemeral VMs (ubuntu-latest, windows-latest, macos-latest). Self-hosted runners are machines you manage, useful for special hardware, on-premises deployments, or custom environments.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 4: Modern Development",
+    "q": "What is GitHub's secret scanning feature?",
+    "opts": [
+      "It scans pull request titles for profanity and flags them for moderation review.",
+      "It automatically detects known secret patterns (API keys, tokens) committed to repositories and alerts owners or revokes them.",
+      "It encrypts all repository files at rest using GitHub-managed keys.",
+      "It scans Actions workflow logs for performance outliers that indicate misconfigured runners."
+    ],
+    "correct": 1,
+    "explanation": "GitHub Secret Scanning detects known secret formats (AWS keys, GitHub tokens, Stripe keys, etc.) in repository code, commits, and issues. For public repos it alerts the relevant service provider who can auto-revoke the credential. For private repos (Advanced Security), it alerts repository admins. It covers 200+ secret patterns from 150+ service providers.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 4: Modern Development",
+    "q": "What does `git rebase` do, and when might you use it instead of merge?",
+    "opts": [
+      "Rebase creates a merge commit that combines two branches with all history preserved.",
+      "Rebase replays commits from one branch onto the tip of another, creating a linear history.",
+      "Rebase restores deleted branches by recovering commits from Git's reflog.",
+      "Rebase performs a fast-forward merge when the branches have not diverged."
+    ],
+    "correct": 1,
+    "explanation": "Rebase replays (re-applies) commits from your feature branch on top of the target branch, resulting in a linear commit history without a merge commit. Use it to keep feature branches up to date with main (before a PR) or to clean up local commits. Avoid rebasing commits already pushed to shared branches — it rewrites history.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 4: Modern Development",
+    "q": "A developer runs `git cherry-pick <sha>`. What does this command do?",
+    "opts": [
+      "It selects the best commit from a branch to use as the new default commit message template.",
+      "It applies the changes from a specific commit onto the current branch without merging the entire branch.",
+      "It marks a commit as the preferred version when resolving a three-way merge conflict.",
+      "It creates an annotated tag pointing to the specified commit SHA for release purposes."
+    ],
+    "correct": 1,
+    "explanation": "`git cherry-pick` applies the changes introduced by a specific commit (identified by its SHA) onto the current branch. Useful for backporting a bug fix to a release branch without merging all feature work. It creates a new commit with the same changes but a different SHA.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 4: Modern Development",
+    "q": "What is InnerSource, and how does GitHub support it?",
+    "opts": [
+      "InnerSource is GitHub's branding for all internal beta features before general availability.",
+      "InnerSource applies open-source collaboration practices (PRs, forks, issues) to internal private development within an organization.",
+      "InnerSource is a GitHub scanning feature that detects security vulnerabilities in proprietary codebases.",
+      "InnerSource is a GitHub plan tier between Team and Enterprise for mid-sized companies."
+    ],
+    "correct": 1,
+    "explanation": "InnerSource brings open-source practices (transparency, pull requests, issue tracking, forks, discoverability) to internal software development within a company. GitHub supports InnerSource through internal repositories (visible to all org members), GitHub Enterprise, organization-wide wikis, and cross-team collaboration features.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 4: Modern Development",
+    "q": "A team wants to run their Actions workflow on a specific Ubuntu version, not just 'ubuntu-latest'. How do they specify this?",
+    "opts": [
+      "Set the `runner-version` key in the workflow YAML under the `on` trigger.",
+      "In the job definition, set `runs-on: ubuntu-22.04` (or the desired version label).",
+      "Configure a self-hosted runner and tag it with the Ubuntu version string.",
+      "Add a `requirements.runner` file to the repository specifying the OS version."
+    ],
+    "correct": 1,
+    "explanation": "In GitHub Actions, the `runs-on` key in a job specifies the runner environment. Use a specific version label like `ubuntu-22.04`, `ubuntu-24.04`, `windows-2022`, or `macos-14` instead of the rolling `ubuntu-latest` label if you need reproducibility and don't want to pick up breaking changes when GitHub updates the latest label.",
+    "type": "Concept"
+  },
+
+  /* ── DOMAIN 5: Project Management (Q71–Q80) ── */
+  {
+    "section": "Domain 5: Project Management",
+    "q": "What is GitHub Projects (the new Projects experience), and how does it differ from classic Projects?",
+    "opts": [
+      "GitHub Projects is a code hosting alternative; classic Projects was GitHub's original billing system.",
+      "The new Projects is a flexible, spreadsheet/board/roadmap view that spans repositories and organizations; classic Projects was board-only and tied to a single repository.",
+      "GitHub Projects replaces GitHub Milestones entirely; classic Projects extended Milestones with kanban views.",
+      "New Projects require GitHub Enterprise; classic Projects were available on all free accounts."
+    ],
+    "correct": 1,
+    "explanation": "The new GitHub Projects (formerly 'Projects (beta)') is a powerful planning tool with spreadsheet (table), board (kanban), and roadmap (timeline) views. It can aggregate issues and PRs across multiple repositories and organizations, supports custom fields (text, number, date, single-select, iteration), and is available on all account types.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 5: Project Management",
+    "q": "A project manager wants to track a two-week sprint in GitHub Projects. Which field type should they use to define sprint iterations?",
+    "opts": [
+      "A 'Number' field set to the sprint count.",
+      "An 'Iteration' field that defines repeating time periods with custom duration.",
+      "A 'Date' field storing the sprint's start date only.",
+      "A 'Single-select' field with sprint names as options."
+    ],
+    "correct": 1,
+    "explanation": "GitHub Projects supports an 'Iteration' custom field that defines repeated time periods (sprints, weeks, months) each with a fixed duration and optional break periods between them. Items are assigned to an iteration, and you can filter the board/table by current or past iterations for sprint-based workflow.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 5: Project Management",
+    "q": "How can GitHub Issues be converted to tasks and tracked in GitHub Projects?",
+    "opts": [
+      "Issues cannot be added to Projects — only pull requests can be tracked in project boards.",
+      "Issues are added to a project manually or automatically via workflows, appear as items in the table/board, and can be converted to sub-issues using tasklists.",
+      "Issues must first be converted to milestones before they appear in a Project board.",
+      "Issues are automatically added to all active Projects whenever they are created in a repository."
+    ],
+    "correct": 1,
+    "explanation": "GitHub Issues can be added to Projects manually (via the issue sidebar or project UI) or automatically via project workflows (e.g., 'When an issue is opened, add to project'). Once in a project, issues appear as items that can be categorized, sorted, and filtered. GitHub also supports tasklists and sub-issues to break work into smaller units.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 5: Project Management",
+    "q": "What is the purpose of GitHub Project Workflows (automation)?",
+    "opts": [
+      "Project Workflows run CI tests automatically when items are moved between columns.",
+      "Project Workflows automatically update item fields (status, assignee, priority) based on events like issue creation or PR merge.",
+      "Project Workflows send email digests to all project members at a configurable time each day.",
+      "Project Workflows replace GitHub Actions for deployment automation within a project context."
+    ],
+    "correct": 1,
+    "explanation": "GitHub Projects built-in workflows automate item management: for example, 'When a pull request is merged → set Status to Done', or 'When an issue is closed → archive item'. These no-code automations reduce manual status updates. Custom automations can also be built with GitHub Actions using the GraphQL API.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 5: Project Management",
+    "q": "A developer references issue #50 inside a pull request description. Beyond cross-linking, what else can this reference trigger?",
+    "opts": [
+      "It automatically assigns the PR author as the issue's assignee.",
+      "When the PR merges into the default branch, the referenced issue can be automatically closed if a closing keyword is used.",
+      "It copies all issue labels to the pull request without any additional configuration.",
+      "It blocks the PR from merging until the referenced issue has at least one comment."
+    ],
+    "correct": 1,
+    "explanation": "Using a closing keyword (Closes, Fixes, Resolves) before an issue reference in a PR description or commit message automatically closes the issue when the PR merges into the default branch. Without a closing keyword, the reference only creates a cross-link between the PR and the issue for traceability.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 5: Project Management",
+    "q": "Which GitHub feature provides a visual timeline for tracking project work by date ranges?",
+    "opts": [
+      "The GitHub Insights contributor graph.",
+      "The Roadmap (timeline) view in GitHub Projects.",
+      "The GitHub Pulse activity report.",
+      "The GitHub dependency graph."
+    ],
+    "correct": 1,
+    "explanation": "The Roadmap view in GitHub Projects displays items as horizontal bars on a timeline, using date or iteration fields to define their start and end. It's ideal for planning releases, tracking milestones across time, and visualizing project progress in a Gantt-chart-style layout.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 5: Project Management",
+    "q": "What is the GitHub wiki, and how does it complement Issues?",
+    "opts": [
+      "The wiki stores automated workflow logs generated by GitHub Actions runs.",
+      "The wiki is a collaborative documentation space for long-form content (guides, architecture notes) that doesn't fit in Issues or READMEs.",
+      "The wiki replaces Issues for bug tracking in repositories that use GitHub Enterprise.",
+      "The wiki is a private note-taking area visible only to repository administrators."
+    ],
+    "correct": 1,
+    "explanation": "The GitHub Wiki is a space for collaborative documentation built into every repository. It supports Markdown and other markup languages. While Issues track specific tasks and conversations, the wiki is better for persistent reference content: API docs, architecture overviews, contribution guides, FAQs, and runbooks.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 5: Project Management",
+    "q": "A team wants to view only the issues assigned to a specific team member in their GitHub Project. Which feature supports this?",
+    "opts": [
+      "Branch protection filters that restrict view access by team membership.",
+      "Project views with filtering by Assignee field to display only items assigned to the selected person.",
+      "Repository settings that limit issue visibility to assigned contributors.",
+      "GitHub Insights team reports that aggregate issues per contributor."
+    ],
+    "correct": 1,
+    "explanation": "GitHub Projects supports rich filtering, grouping, and sorting. You can filter a view by the Assignee field (e.g., `assignee:@username`) to show only items assigned to a specific person. Views can be saved so team members can quickly switch between personal, sprint, or team-level perspectives.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 5: Project Management",
+    "q": "What are GitHub Insights and how can they help a project manager?",
+    "opts": [
+      "GitHub Insights are real-time notifications about competitor repositories with similar code.",
+      "GitHub Insights (repository and organization graphs) show contribution activity, code frequency, commit history, and traffic data to help managers understand team velocity and repo health.",
+      "GitHub Insights are AI-generated code review comments automatically posted on pull requests.",
+      "GitHub Insights provide legal compliance reports for GDPR and SOC 2 audits."
+    ],
+    "correct": 1,
+    "explanation": "GitHub's Insights tab (repository level) provides graphs for: contributors, commits, code frequency, dependency graph, network (fork graph), and traffic (page views, clones). Organization Insights (Enterprise) shows team productivity metrics. These data points help managers track velocity, identify bottlenecks, and understand repo usage.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 5: Project Management",
+    "q": "A repository owner wants to automatically move issues to 'In Progress' when a linked pull request is opened. Which GitHub feature should they configure?",
+    "opts": [
+      "A branch protection rule that monitors PR state and updates linked issue labels.",
+      "A GitHub Projects built-in workflow or a GitHub Actions workflow that reacts to pull_request events.",
+      "A GitHub Milestone that automatically advances when any linked PR reaches draft status.",
+      "A CODEOWNERS rule that assigns the issue to the PR author when a review is requested."
+    ],
+    "correct": 1,
+    "explanation": "GitHub Projects built-in workflows can automatically update item status based on pull request events. Alternatively, a GitHub Actions workflow triggered on `pull_request: opened` can use the GitHub API or GraphQL to update the linked issue's project field. Both approaches automate the manual step of moving cards.",
+    "type": "Concept"
+  },
+
+  /* ── DOMAIN 6: Privacy, Security, and Administration (Q81–Q92) ── */
+  {
+    "section": "Domain 6: Privacy, Security and Administration",
+    "q": "A GitHub organization admin wants to enforce that all members use two-factor authentication. How is this configured?",
+    "opts": [
+      "Each member must individually opt in to 2FA; organization admins cannot enforce it.",
+      "The admin enables '2FA requirement' in Organization Settings, which requires all members to have 2FA enabled or they are removed from the org.",
+      "2FA enforcement is only available for GitHub Enterprise Cloud and requires Microsoft Azure AD.",
+      "The admin sets a repository-level branch protection rule that blocks pushes from non-2FA accounts."
+    ],
+    "correct": 1,
+    "explanation": "Organization admins can require 2FA for all members via Settings > Authentication security. When enabled, any member without 2FA is removed from the organization (but not from GitHub). This is a GitHub Teams and Enterprise feature — free organizations cannot enforce 2FA organization-wide.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 6: Privacy, Security and Administration",
+    "q": "What are the repository permission levels available for organization repositories, from least to most privileged?",
+    "opts": [
+      "Read → Triage → Write → Maintain → Admin",
+      "View → Comment → Edit → Deploy → Admin",
+      "Guest → Member → Owner → Superadmin",
+      "Pull → Push → Merge → Release → Admin"
+    ],
+    "correct": 0,
+    "explanation": "GitHub organization repositories have five permission levels: Read (view and clone), Triage (manage issues/PRs without write), Write (push code), Maintain (manage repo settings without destructive actions), Admin (full control including sensitive settings). Teams and collaborators are assigned one of these levels.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 6: Privacy, Security and Administration",
+    "q": "What is SAML SSO in the context of GitHub Enterprise Cloud?",
+    "opts": [
+      "SAML SSO is GitHub's Static Analysis Markup Language for annotating security scan results.",
+      "SAML SSO allows organization members to authenticate with GitHub using their company identity provider (IdP), enabling centralized access control.",
+      "SAML SSO is a network protocol that encrypts all Git traffic between clients and GitHub servers.",
+      "SAML SSO is GitHub's method of signing commits automatically with organization-level GPG keys."
+    ],
+    "correct": 1,
+    "explanation": "SAML Single Sign-On (SSO) for GitHub Enterprise Cloud lets organizations link GitHub to their identity provider (Okta, Azure AD, Google Workspace, etc.). Members authenticate with their corporate identity instead of GitHub-only credentials. Admins can deprovision access centrally. SCIM provisioning can also automate team membership.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 6: Privacy, Security and Administration",
+    "q": "What is an audit log in GitHub organizations, and who can access it?",
+    "opts": [
+      "The audit log records all Git commits made in the organization and is accessible to all members.",
+      "The audit log records security-relevant events (member changes, permission updates, repo creation/deletion) and is accessible to organization owners and enterprise admins.",
+      "The audit log records Actions workflow run results and is accessible via the Actions tab to all contributors.",
+      "The audit log records pull request review comments and is accessible to the PR author and assigned reviewers."
+    ],
+    "correct": 1,
+    "explanation": "The organization audit log records security and administrative events: member additions/removals, permission changes, repository creation/deletion, Actions usage, OAuth authorizations, and more. Only organization owners (and enterprise owners for the enterprise log) can access it. Enterprise plans support streaming audit logs to external SIEM tools.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 6: Privacy, Security and Administration",
+    "q": "What is the purpose of a GitHub Personal Access Token (PAT)?",
+    "opts": [
+      "A PAT is a unique identifier assigned to each commit to ensure author attribution.",
+      "A PAT is an authentication token used in place of a password to authenticate with GitHub via HTTPS or API calls.",
+      "A PAT is a project access tag that restricts which team members can view specific repository branches.",
+      "A PAT is a payment authorization token required to enable GitHub Actions in private repositories."
+    ],
+    "correct": 1,
+    "explanation": "A Personal Access Token (PAT) is used for authentication with the GitHub API or for HTTPS Git operations in place of a password (GitHub deprecated password auth for Git in 2021). Fine-grained PATs (the newer type) allow scoped permissions per repository. Classic PATs use coarser scope. Tokens should be treated as secrets.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 6: Privacy, Security and Administration",
+    "q": "What are SSH keys used for in GitHub?",
+    "opts": [
+      "SSH keys encrypt the contents of a repository at rest for compliance with data security standards.",
+      "SSH keys authenticate a user to GitHub for Git operations (clone, push, pull) without requiring a username/password or PAT.",
+      "SSH keys are required to sign GitHub Actions workflow files to prevent unauthorized modification.",
+      "SSH keys grant organization owners access to all member accounts for administrative purposes."
+    ],
+    "correct": 1,
+    "explanation": "SSH keys provide a secure way to authenticate with GitHub for Git operations. You add your public key to GitHub (Settings > SSH and GPG keys) and keep the private key on your machine. When you push or pull via SSH (git@github.com:...), Git uses key-pair authentication instead of passwords or tokens.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 6: Privacy, Security and Administration",
+    "q": "What is the difference between organization owners and organization members in terms of GitHub permissions?",
+    "opts": [
+      "Owners can view only public repositories; members can view all repositories including private ones.",
+      "Owners have full administrative control over the organization including billing, member management, and security settings; members have access defined by their team roles.",
+      "Owners and members have identical permissions — the difference is only a display label in GitHub UI.",
+      "Members can approve Actions workflows; owners can only view workflow results without approving."
+    ],
+    "correct": 1,
+    "explanation": "Organization owners have full administrative permissions: they can manage members, teams, billing, security settings, OAuth app policies, Actions policies, and can delete the organization. Members have the permissions granted through their team memberships and repository roles, but lack org-level admin access.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 6: Privacy, Security and Administration",
+    "q": "A GitHub organization admin wants to restrict which third-party OAuth apps can access organization data. Where is this configured?",
+    "opts": [
+      "In each repository's Settings > Branches > Protected branches settings.",
+      "In Organization Settings > Third-party access, where admins can enforce an OAuth App policy requiring approval for each app.",
+      "In the individual member's account settings — each user controls their own OAuth app authorizations.",
+      "In GitHub Enterprise billing settings where app subscriptions are managed per organization."
+    ],
+    "correct": 1,
+    "explanation": "Organization admins can control third-party OAuth app access via Organization Settings > Third-party access (OAuth App policy). When 'Access restrictions' are enabled, approved apps can access the org's data; unapproved apps are blocked. Members can request access for apps they need, and owners approve or deny.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 6: Privacy, Security and Administration",
+    "q": "What does enabling 'Require signed commits' in branch protection do?",
+    "opts": [
+      "It requires all commits to be formatted using the Angular commit message convention.",
+      "It requires all commits pushed to the branch to be cryptographically signed (GPG or S/MIME), ensuring author authenticity.",
+      "It requires the CI status check 'commit-signing' to pass before any PR can merge.",
+      "It automatically signs all commits with the repository's default deploy key."
+    ],
+    "correct": 1,
+    "explanation": "When 'Require signed commits' is enabled as a branch protection rule, only commits with a verified GPG, S/MIME, or SSH signature can be pushed or merged into that branch. This prevents commit author spoofing, as unsigned commits (which can have any email as author) are rejected.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 6: Privacy, Security and Administration",
+    "q": "What is GitHub Advanced Security (GHAS), and for which repository types is it available by default?",
+    "opts": [
+      "GHAS is GitHub's premium CI/CD tier; it is available by default for all repositories.",
+      "GHAS bundles code scanning, secret scanning, and dependency review; it is available by default for all public repositories and requires a paid license for private repositories.",
+      "GHAS is GitHub's SAML SSO feature; it is only available for GitHub Enterprise Cloud.",
+      "GHAS is an enterprise firewall that blocks unauthorized API calls to GitHub's endpoints."
+    ],
+    "correct": 1,
+    "explanation": "GitHub Advanced Security includes code scanning, secret scanning (with push protection), and dependency review. For public repositories, GHAS features are enabled by default at no cost. For private and internal repositories, GHAS requires a GitHub Enterprise license (per active committer seat).",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 6: Privacy, Security and Administration",
+    "q": "A company wants all GitHub Enterprise users to authenticate through their corporate Okta tenant. What GitHub feature enables this?",
+    "opts": [
+      "GitHub Managed Users (EMU) with SAML SSO and SCIM provisioning from the Okta identity provider.",
+      "GitHub Actions environment protection rules with Okta integration for deployment approval.",
+      "GitHub Desktop SSO mode that connects to Okta's OAuth 2.0 endpoint for desktop authentication.",
+      "GitHub branch protection with IP allowlist restricting pushes to Okta network addresses."
+    ],
+    "correct": 0,
+    "explanation": "GitHub Enterprise Managed Users (EMU) lets an organization fully manage user accounts through their identity provider (Okta, Azure AD, etc.) via SAML SSO and SCIM. EMU users can only access the enterprise's organization — their GitHub accounts are provisioned and controlled entirely by the IdP, not self-managed.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 6: Privacy, Security and Administration",
+    "q": "What is the purpose of an IP allow list in a GitHub organization or enterprise?",
+    "opts": [
+      "It blocks specific IP addresses from viewing the organization's public repositories.",
+      "It restricts network access to the organization's resources to only the specified IP addresses or CIDR ranges.",
+      "It records all IP addresses of users who have ever accessed the organization's repositories.",
+      "It whitelists IP addresses for Dependabot pull requests to bypass branch protection requirements."
+    ],
+    "correct": 1,
+    "explanation": "The IP allow list (available on GitHub Enterprise Cloud and some Team plans) restricts access to organization resources (the web UI, API, and Git operations) to only the specified IP addresses or CIDR ranges. This is used to enforce that users access GitHub only from corporate networks or VPNs.",
+    "type": "Concept"
+  },
+
+  /* ── DOMAIN 7: Benefits of the GitHub Community (Q93–Q100) ── */
+  {
+    "section": "Domain 7: Benefits of the GitHub Community",
+    "q": "What is GitHub Sponsors, and what purpose does it serve?",
+    "opts": [
+      "GitHub Sponsors is a paid advertisement program allowing companies to promote products on repository pages.",
+      "GitHub Sponsors allows individuals and organizations to financially support open-source maintainers and projects they depend on.",
+      "GitHub Sponsors provides free GitHub Enterprise licenses to open-source projects that meet certain criteria.",
+      "GitHub Sponsors is a grant program run by Microsoft that funds open-source security audits."
+    ],
+    "correct": 1,
+    "explanation": "GitHub Sponsors is a funding platform built into GitHub that lets anyone financially support open-source contributors and projects. Developers can set up sponsorship tiers, and supporters (individuals or companies) can sponsor them monthly. GitHub covers payment processing fees and matches sponsors through GitHub Matching Fund (up to $5k in a developer's first year).",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 7: Benefits of the GitHub Community",
+    "q": "What does it mean to 'star' a repository on GitHub?",
+    "opts": [
+      "Starring forks the repository to your account and subscribes you to all future notifications.",
+      "Starring bookmarks the repository in your starred list, shows appreciation to maintainers, and is a public signal of interest.",
+      "Starring grants you write access to the repository to contribute directly.",
+      "Starring adds the repository to your GitHub Projects for tracking its issues and pull requests."
+    ],
+    "correct": 1,
+    "explanation": "Starring a repository bookmarks it in your GitHub Stars list for easy access later and signals appreciation to the maintainers. Stars are public — your starred repos are visible on your profile. Star counts are used by the community as a rough signal of project popularity. Starring does not subscribe you to notifications (watching does).",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 7: Benefits of the GitHub Community",
+    "q": "What is GitHub Explore, and how does it benefit developers?",
+    "opts": [
+      "GitHub Explore is a file browser for navigating codebases across branches and commits.",
+      "GitHub Explore surfaces trending repositories, topics, collections, and events to help developers discover new open-source projects.",
+      "GitHub Explore is a job board where developers can find open-source contributor positions.",
+      "GitHub Explore shows real-time metrics about the most-forked repositories in the last 24 hours only."
+    ],
+    "correct": 1,
+    "explanation": "GitHub Explore (explore.github.com) helps developers discover open-source projects through: trending repositories (by day/week/month/language), curated topic pages, collections, developer events, and showcase repositories. It's a gateway for finding interesting projects, learning from code, and connecting with communities.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 7: Benefits of the GitHub Community",
+    "q": "A developer wants to be recognized for their open-source contributions on GitHub. Which feature automatically awards recognition?",
+    "opts": [
+      "GitHub Certifications — earned by completing official GitHub training programs.",
+      "GitHub Achievements — badges automatically awarded on a profile for specific activities like first PR merged, sponsoring a developer, etc.",
+      "GitHub Stars program — a curated recognition program for the world's most influential developers.",
+      "GitHub Trophies — a third-party integration that counts stars, commits, and PRs for a profile card."
+    ],
+    "correct": 1,
+    "explanation": "GitHub Achievements are badge-style recognitions automatically awarded to your profile for specific milestones: first pull request merged (Pull Shark), first repository starred (Starstruck), joining GitHub Sponsors (Galaxy Brain), completing certain Actions, etc. They appear on your public profile as a visual record of your open-source journey.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 7: Benefits of the GitHub Community",
+    "q": "What is the GitHub Education program, and who is it designed for?",
+    "opts": [
+      "GitHub Education is a paid subscription that provides advanced IDE features to professional developers.",
+      "GitHub Education provides free access to GitHub tools (GitHub Pro, Copilot, and partner tools) for verified students, teachers, and schools.",
+      "GitHub Education is GitHub's internal training program for new GitHub employees.",
+      "GitHub Education is a repository template marketplace for educational institutions to share curricula."
+    ],
+    "correct": 1,
+    "explanation": "GitHub Education offers free resources to the academic community: students get the Student Developer Pack (GitHub Pro, Copilot, and tools from 100+ partner companies); teachers get the Teacher Toolbox and GitHub Classroom; schools get access to GitHub Enterprise. The goal is to give students and educators real-world tools at no cost.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 7: Benefits of the GitHub Community",
+    "q": "What is the GitHub Community Forum, and how does it differ from repository Issues?",
+    "opts": [
+      "The GitHub Community Forum is a private Slack workspace for GitHub employees and top contributors.",
+      "The GitHub Community Forum is a public platform for questions, discussions, and feedback about GitHub products and open-source development — not tied to any specific repository.",
+      "The GitHub Community Forum is GitHub's bug tracker where all product defects are reported and tracked.",
+      "The GitHub Community Forum is a feature in GitHub Enterprise where organizations create internal forums for their developers."
+    ],
+    "correct": 1,
+    "explanation": "The GitHub Community Forum (github.community) is a public discussion platform for GitHub users to ask questions, share knowledge, and give product feedback. It covers GitHub product categories (Actions, Codespaces, Copilot, etc.) and general open-source topics. Unlike repository Issues, it's a platform-wide community forum, not project-specific.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 7: Benefits of the GitHub Community",
+    "q": "What is an open-source license, and why is it important to include one in a public GitHub repository?",
+    "opts": [
+      "A license is optional and only needed if you plan to monetize the project commercially.",
+      "A license defines the terms under which others can use, copy, modify, and distribute the code; without one, the code is technically 'all rights reserved' even if publicly visible.",
+      "A license grants GitHub the right to display the repository's code on github.com.",
+      "A license is required only for repositories that use GitHub Actions for deployment."
+    ],
+    "correct": 1,
+    "explanation": "Without a license, copyright law defaults to 'all rights reserved' — even if the code is publicly visible, others technically have no legal right to use, copy, or modify it. Adding an OSI-approved license (MIT, Apache 2.0, GPL, etc.) clearly defines how others can engage with your code. GitHub's 'Choose a License' tool at choosealicense.com helps select the right one.",
+    "type": "Concept"
+  },
+  {
+    "section": "Domain 7: Benefits of the GitHub Community",
+    "q": "What is the GitHub Archive Program (Arctic Code Vault), and why is it significant?",
+    "opts": [
+      "The Archive Program automatically archives every repository after 12 months of inactivity.",
+      "The Archive Program preserves open-source code from active public repositories in long-term storage (including the Arctic World Archive) to protect humanity's digital heritage.",
+      "The Archive Program is a compliance feature that retains deleted repository data for 7 years for legal discovery.",
+      "The Archive Program creates daily encrypted snapshots of all private repositories for disaster recovery."
+    ],
+    "correct": 1,
+    "explanation": "The GitHub Archive Program aims to preserve open-source software for future generations. It stores snapshots of active public repositories in multiple long-term storage media including the Arctic World Archive (in a decommissioned mine in Svalbard, Norway) — designed to last 1,000+ years. Participants receive the Arctic Code Vault Contributor badge on their profile.",
+    "type": "Concept"
+  }
+];
+
+const SECTIONS = [
+  { key:"Domain 1: Introduction to Git and GitHub",       label:"Domain 1 — Introduction to Git and GitHub",       cls:"sec-d1", range:"Q1–Q20",  badge:"Introduction to Git and GitHub"  },
+  { key:"Domain 2: Working with GitHub Repositories",     label:"Domain 2 — Working with GitHub Repositories",     cls:"sec-d2", range:"Q21–Q35", badge:"Working with GitHub Repositories" },
+  { key:"Domain 3: Collaboration Features",               label:"Domain 3 — Collaboration Features",               cls:"sec-d3", range:"Q36–Q55", badge:"Collaboration Features" },
+  { key:"Domain 4: Modern Development",                   label:"Domain 4 — Modern Development",                   cls:"sec-d4", range:"Q56–Q70", badge:"Modern Development" },
+  { key:"Domain 5: Project Management",                   label:"Domain 5 — Project Management",                   cls:"sec-d5", range:"Q71–Q80", badge:"Project Management" },
+  { key:"Domain 6: Privacy, Security and Administration", label:"Domain 6 — Privacy, Security and Administration", cls:"sec-d6", range:"Q81–Q92", badge:"Privacy, Security and Administration" },
+  { key:"Domain 7: Benefits of the GitHub Community",     label:"Domain 7 — Benefits of the GitHub Community",     cls:"sec-d7", range:"Q93–Q100", badge:"Benefits of the GitHub Community"}
+];
+
+const LETTERS=['A','B','C','D'];
+const EXAM_DURATION_MS=2*60*60*1000;
+let mode='guided', current=0, answers=Array(100).fill(null), locked=Array(100).fill(false), submitted=false, timedOut=false, timerInterval=null, examEndTime=null;
+
+function escapeHtml(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function fmtHMS(ms){ const t=Math.max(0,Math.floor(ms/1000)); const h=Math.floor(t/3600),m=Math.floor((t%3600)/60),s=t%60; return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; }
+
+function sectionMeta(key){ return SECTIONS.find(s=>s.key===key)||null; }
+
+function setMode(m){
+  mode=m; submitted=false; timedOut=false;
+  document.querySelectorAll('.modebar button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('mode-'+m).classList.add('active');
+  const hints={ guided:'Guided Path: one question at a time. Pick an answer to unlock Continue.', instant:'Instant Feedback: all questions visible. Feedback appears immediately after selection.', exam:'Exam Mode: timed 2-hour session. No feedback until submission.' };
+  document.getElementById('modeHint').textContent=hints[m];
+  hideExamTimer();
+  if(m==='exam'){ answers=Array(100).fill(null); locked=Array(100).fill(false); current=0; startExamTimer(); }
+  else if(m==='guided'){ answers=Array(100).fill(null); locked=Array(100).fill(false); current=0; }
+  document.getElementById('results').classList.remove('show');
+  if(window.chmlHideCertificate) window.chmlHideCertificate();
+  build();
+}
+
+function tickExamTimer(){
+  if(!examEndTime) return;
+  const remain=examEndTime-Date.now();
+  const tv=document.getElementById('timerVal'), ts=document.getElementById('timerStat');
+  if(tv) tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000);
+  ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){ stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS; const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); } tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000); }
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){ stopExamTimer(); examEndTime=null; const ts=document.getElementById('timerStat'); if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='02:00:00'; } }
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; } else if(chosen===i) cls+=' sel';
+    const mark=isLocked?(i===q.correct?'\u2713':(i===chosen?'\u2717':'')):'';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.badge||sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'
+       +     sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn=last
+        ?'<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+        :'<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn=last
+        ?'<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+        :'<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){ if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; } else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; } }
+    else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){ const exp=document.getElementById('exp'+idx); if(exp) exp.classList.add('show'); }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/100';
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/100';
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  if(pct>=0.9){ grade='GitHub Foundations Ready'; blurb='Excellent command of all 7 domains. You are well prepared to sit the official GitHub Foundations certification exam.'; }
+  else if(pct>=0.75){ grade='Strong GitHub Practitioner'; blurb='Solid foundation across most domains. Review any sections below 75% — particularly security, administration, and modern development.'; }
+  else if(pct>=0.6){ grade='Developing Git & GitHub Skills'; blurb='Good progress. Revisit the domains where you lost points — focus on collaboration workflows, branch protection, and GitHub Actions concepts.'; }
+  else if(pct>=0.4){ grade='Foundations Building'; blurb='Core concepts are forming. Work through the Microsoft Learn GitHub Foundations path and the official study guide before your exam.'; }
+  else { grade='Start the Learning Path'; blurb='Begin with the Introduction to Git and GitHub modules on Microsoft Learn. Hands-on practice with a real repository will accelerate your understanding quickly.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.label.replace('Domain ','D'))+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+  document.getElementById('bottomActions').innerHTML='<button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>';
+}
+
+function reviewAnswers(){ renderReviewList(); setTimeout(()=>document.getElementById('exam').scrollIntoView({behavior:'smooth'}),100); }
+
+function resetExam(full){
+  answers=Array(100).fill(null); locked=Array(100).fill(false); submitted=false; timedOut=false; current=0;
+  document.getElementById('results').classList.remove('show');
+  if(window.chmlHideCertificate) window.chmlHideCertificate();
+  hideExamTimer();
+  if(full){ mode='guided'; document.querySelectorAll('.modebar button').forEach(b=>b.classList.remove('active')); document.getElementById('mode-guided').classList.add('active'); document.getElementById('modeHint').textContent='Guided Path: one question at a time. Pick an answer to unlock Continue.'; }
+  build();
+}
+
+build();
+</script>
+
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertScriptInstalled) return; window.__chmlCertScriptInstalled=true;
+  function pad2(n){return String(n).padStart(2,'0');}
+  function certId(){return 'GHF-'+Date.now().toString(36).toUpperCase();}
+  function certDate(){var d=new Date();return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());}
+  function totalFromBreakdown(bd){ if(!bd) return 0; if(typeof bd==='number') return bd; if(bd&&bd.length){ var t=0; for(var k in bd) t+=bd[k]; return t||QUESTIONS.length; } return QUESTIONS.length; }
+  function parseScoreTotal(){ var sc=document.getElementById('rScore'),tot=document.getElementById('totalCount'); return {correct:sc?parseInt(sc.textContent||'0',10):0,total:tot?parseInt(tot.textContent||'0',10):QUESTIONS.length}; }
+  window.chmlRenderCertificate=function(correct,total){
+    var wrap=document.getElementById('chmlCertificate'); if(!wrap) return;
+    var scoreEl=document.getElementById('chmlCertScore'); if(scoreEl) scoreEl.textContent=correct+'/'+(total||QUESTIONS.length);
+    var dateEl=document.getElementById('chmlCertDate'); if(dateEl) dateEl.textContent=certDate();
+    var idEl=document.getElementById('chmlCertId'); if(idEl) idEl.textContent=certId();
+    wrap.classList.add('show');
+    setTimeout(function(){wrap.scrollIntoView({behavior:'smooth',block:'start'});},80);
+  };
+  window.chmlHideCertificate=function(){ var wrap=document.getElementById('chmlCertificate'); if(wrap) wrap.classList.remove('show'); };
+  window.chmlUpdateCertificateName=function(name){ var el=document.getElementById('chmlCertName'); if(el) el.textContent=name||'Your Name'; };
+  window.chmlOpenNameModal=function(onConfirm){
+    window.chmlPendingExamStart=onConfirm;
+    var modal=document.getElementById('chmlNameModal'),input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){ var modal=document.getElementById('chmlNameModal'); if(modal) modal.classList.remove('show'); window.chmlPendingExamStart=null; };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput'); var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput'); if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart; window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){ if(m==='exam'&&!window.chmlExamLearnerName){ window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');}); return; } return originalSetMode.apply(this,arguments); };
+  }
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){ var parsed=parseScoreTotal(); if(correct===null||isNaN(correct)) correct=parsed.correct; if(!total) total=parsed.total; if(total||correct||document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0); },60);
+  }
+  if(typeof window.showResults==='function'){ var oSR=window.showResults; window.showResults=function(){var out=oSR.apply(this,arguments);renderFromArgs(arguments);return out;}; }
+  if(typeof window.submitExam==='function'){ var oSE=window.submitExam; window.submitExam=function(){var out=oSE.apply(this,arguments);renderFromArgs(arguments);return out;}; }
+  ['resetExam','newExam'].forEach(function(fn){ if(typeof window[fn]==='function'){ var orig=window[fn]; window[fn]=function(){window.chmlHideCertificate();return orig.apply(this,arguments);}; } });
+})();
+</script>
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return; window.__chmlQuestionPositionInstalled=true;
+  function isVisible(el){ if(!el) return false; var style=window.getComputedStyle(el); if(style.display==='none'||style.visibility==='hidden'||el.classList.contains('chml-oat-hidden')) return false; var rect=el.getBoundingClientRect(); return rect.width>0&&rect.height>0; }
+  function visibleQuestionCard(){ var selectors=['.q-card','.question-card','.question','.q']; for(var s=0;s<selectors.length;s++){ var list=document.querySelectorAll(selectors[s]); for(var i=0;i<list.length;i++){ if(isVisible(list[i])) return list[i]; } } return null; }
+  function isNavigationBlock(el){ if(!el||!el.classList) return false; return el.classList.contains('chml-oat-nav')||/nav|control|action/i.test(String(el.className||'')); }
+  function anchorFor(card){ if(!card) return null; var node=card.previousElementSibling; while(node&&(isNavigationBlock(node)||!isVisible(node))) node=node.previousElementSibling; if(node){ var cls=String(node.className||''); var text=String(node.textContent||'').replace(/\s+/g,' ').trim(); if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node; if(text&&text.length<=140&&!/back|continue|reset|submit/i.test(text)) return node; } return card; }
+  function hudOffset(){ var hud=document.querySelector('.hud,#hud,.topbar,.exam-hud'); var offset=24; if(hud&&isVisible(hud)){ var pos=window.getComputedStyle(hud).position; if(pos==='sticky'||pos==='fixed') offset+=hud.getBoundingClientRect().height; } return offset; }
+  function parseTotal(){ var totalEl=document.getElementById('totalCount')||document.getElementById('progTotal')||document.getElementById('rTotal'); var total=totalEl?parseInt(String(totalEl.textContent||'').replace(/[^0-9]/g,''),10):NaN; if(!total||!isFinite(total)){ var allCards=document.querySelectorAll('.q-card,.question-card,.question,.q').length; total=allCards||NaN; } return total; }
+  function parseQuestionNumber(card){ if(!card) return NaN; var label=card.querySelector('.qnum,.q-no,.q-number,h2,h3')||card; var text=String(label.textContent||'').replace(/\s+/g,' ').trim(); var match=text.match(/\bQ\s*0*(\d+)\b/i)||text.match(/\bQuestion\s*0*(\d+)\b/i); return match?parseInt(match[1],10):NaN; }
+  function syncVisibleProgress(card){ var current=parseQuestionNumber(card); var total=parseTotal(); if(!current||!isFinite(current)) return; var prog=document.getElementById('progCount'); if(prog) prog.textContent=String(current); var totalCount=document.getElementById('totalCount'); if(totalCount&&total&&isFinite(total)) totalCount.textContent=String(total); var progTotal=document.getElementById('progTotal'); if(progTotal&&total&&isFinite(total)) progTotal.textContent=String(total); var fill=document.getElementById('barFill'); if(fill&&total&&isFinite(total)) fill.style.width=(Math.max(0,Math.min(1,current/total))*100)+'%'; }
+  function scrollCurrentQuestion(){ var card=visibleQuestionCard(); if(!card) return; syncVisibleProgress(card); var target=anchorFor(card)||card; var y=target.getBoundingClientRect().top+window.pageYOffset-hudOffset(); window.scrollTo({top:Math.max(0,y),behavior:'smooth'}); }
+  function scheduleScroll(){ setTimeout(scrollCurrentQuestion,60); setTimeout(scrollCurrentQuestion,180); }
+  window.chmlScrollCurrentQuestion=scrollCurrentQuestion; window.chmlScheduleQuestionScroll=scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){ var fn=window[name]; if(typeof fn==='function'&&!fn.__chmlPositionWrapped){ window[name]=function(){var result=fn.apply(this,arguments);scheduleScroll();return result;}; window[name].__chmlPositionWrapped=true; } });
+  document.addEventListener('click',function(event){ var target=event.target; if(!target||!target.closest) return; var button=target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button'); if(!button) return; var label=String(button.textContent||'').replace(/\s+/g,' ').trim(); if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll(); },true);
+})();
+</script>
+</body>
+</html>
