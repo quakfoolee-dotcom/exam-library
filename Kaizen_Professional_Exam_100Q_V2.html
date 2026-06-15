@@ -1,0 +1,2141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaizen Professional Exam - 100Q (V2)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  /* Section palette \u2014 broader, engineering-themed */
+  --fund:#1f4a7d;
+  --llm:#5a2585;
+  --rag:#0e6b6a;
+  --agent:#a85410;
+  --ops:#226b2d;
+  --safe:#9b2c3a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(31,74,125,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.8rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--fund),var(--llm));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-fund{background:linear-gradient(100deg,var(--fund),#0c2541)}
+.sec-llm{background:linear-gradient(100deg,var(--llm),#311148)}
+.sec-rag{background:linear-gradient(100deg,var(--rag),#06403f)}
+.sec-agent{background:linear-gradient(100deg,var(--agent),#5e2d05)}
+.sec-ops{background:linear-gradient(100deg,var(--ops),#0e3d18)}
+.sec-safe{background:linear-gradient(100deg,var(--safe),#5b181f)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-type{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;border:1px solid currentColor;opacity:.85;color:var(--llm)}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.1rem;line-height:1.55;margin-bottom:16px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:13px 16px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.45);transition:all .18s ease;font-size:1rem;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.07);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s}
+.opt .otext{flex:1;padding-top:1px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.1)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px;display:flex;align-items:center;gap:8px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:180px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 18px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:1.02rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+<!-- V2 update: answer choices length-balanced within each question to reduce length-cue bias. -->
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Professional Examination &middot; Kaizen</div>
+    <h1 class="title">Kaizen <span class="amp">Professional</span> Exam</h1>
+    <div class="byline">Scenario-based professional questions across continuous improvement, gemba, waste, 5S, standard work, PDCA, flow, quality at the source, facilitation, metrics, and leadership</div>
+    <div class="exambar">
+      <span><b>100</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>100</b> Marks</span>
+      <span>Exam Mode: <b>2 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/100</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">02:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/100</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 2-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    Kaizen Professional Exam &middot; 100 scenario-based questions &middot; V2 (Guided / Instant / Exam-with-Timer)
+    <div class="disclaimer">An independent Kaizen and continuous-improvement study resource. Use your organization's standards, safety rules, customer requirements, and validated data when changing real processes.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "Kaizen Foundations & Mindset",
+    "q": "A plant manager tells the improvement team that Kaizen means asking every area to deliver one large annual cost-reduction project. The team wants to explain the concept accurately before launching the program.\n\nWhich statement best describes Kaizen in a professional operating system?",
+    "opts": [
+      "A cost-cutting method that removes labor from a process before the process design has been studied, but it misses value, in this scenario, for the next step.",
+      "A periodic breakthrough project owned mainly by specialists and launched only when performance is far from target, but it misses value, before wider rollout.",
+      "A housekeeping campaign that focuses on making the workplace look cleaner for visitors, auditors, and senior leaders, but it misses value, for the next step.",
+      "Continuous improvement through many small, disciplined changes made close to the work with participation from the people who perform and support the process."
+    ],
+    "correct": 3,
+    "explanation": "Kaizen is a daily improvement habit, not only a large project or appearance campaign. It combines small experiments, respect for people, and disciplined learning.",
+    "type": "Core Concept"
+  },
+  {
+    "section": "Kaizen Foundations & Mindset",
+    "q": "A supervisor receives three employee suggestions in one week. Two are small changes to tool placement and one is a request to revise a confusing handoff checklist. The supervisor says the ideas are too minor for the improvement register.\n\nWhat is the best Kaizen response?",
+    "opts": [
+      "Thank the employees but wait until enough suggestions accumulate to justify a formal capital project, but it misses value, for the next step.",
+      "Reject the tool-placement ideas because Kaizen should focus only on measurable financial savings, but it misses value, as a candidate answer.",
+      "Ask the employees to write a full business case before any change is allowed, but it misses value, in this scenario, with ownership assigned.",
+      "Visit the work area with the employees, clarify the problem each idea addresses, test the low-risk changes quickly, and capture the learning."
+    ],
+    "correct": 3,
+    "explanation": "Small ideas often reveal friction in the daily process. Kaizen leaders make it easy to test safe improvements and learn from them.",
+    "type": "Employee Involvement"
+  },
+  {
+    "section": "Kaizen Foundations & Mindset",
+    "q": "A production team says, 'We do not have problems here; we only have occasional operator mistakes.' The Kaizen facilitator wants to build a healthier improvement culture.\n\nWhich message is most aligned with Kaizen thinking?",
+    "opts": [
+      "Problems should be hidden until a complete solution is ready so morale is protected, but it misses learning, for the affected process.",
+      "Problems should be assigned to the lowest-level employee involved so accountability is clear, but it misses value, for the process gap.",
+      "Problems are mainly a sign that the previous improvement project failed, but it misses value, in this scenario, as the team’s response.",
+      "A visible problem is a valuable gap between current performance and the standard, and it gives the team a chance to improve the system."
+    ],
+    "correct": 3,
+    "explanation": "Kaizen treats problems as opportunities for learning. The goal is to expose gaps, understand causes, and improve the process without blame.",
+    "type": "Improvement Culture"
+  },
+  {
+    "section": "Kaizen Foundations & Mindset",
+    "q": "During a Kaizen briefing, an executive says the safest way to improve is to copy the best shift's method immediately across all shifts. The facilitator is concerned that the method has not been tested in other conditions.\n\nWhich principle should guide the team?",
+    "opts": [
+      "Copy the method immediately because variation in work methods is always unacceptable, but it misses value, under the current standard.",
+      "Ask each shift to invent its own improvement so local autonomy is preserved, but it misses value, in this scenario, for the next step.",
+      "Use PDCA thinking: understand the current condition, form a hypothesis, test in a controlled way, and standardize only after learning.",
+      "Delay all changes until a perfect future-state design is available, but it misses value, in this scenario, under the current standard."
+    ],
+    "correct": 2,
+    "explanation": "Kaizen favors fast learning, but not uncontrolled copying. A good practice should be understood, tested, adapted, and then standardized.",
+    "type": "PDCA Mindset"
+  },
+  {
+    "section": "Kaizen Foundations & Mindset",
+    "q": "A department head wants to use Kaizen to reduce staffing by 15 percent. Employees are beginning to stop reporting problems because they fear improvement ideas will eliminate jobs.\n\nWhat is the best professional stance?",
+    "opts": [
+      "Position Kaizen as a way to improve safety, quality, delivery, cost, and morale; make workforce-use decisions transparent and separate from idea submission.",
+      "Stop accepting employee ideas and assign all improvement work to external consultants, but it misses value, for the process gap, under the current standard.",
+      "Continue the program because fear can motivate people to find waste quickly, but it misses value and learning, in this scenario, under the current standard.",
+      "Focus all communications on financial savings and avoid discussing respect for people, but it misses value, for the process gap, under the current standard."
+    ],
+    "correct": 0,
+    "explanation": "Sustainable Kaizen depends on trust. Leaders should improve processes while treating people as contributors, not as disposable costs.",
+    "type": "Respect for People"
+  },
+  {
+    "section": "Kaizen Foundations & Mindset",
+    "q": "A team is debating whether Kaizen means small improvements only or whether it can support larger process redesign.\n\nWhich answer is most accurate?",
+    "opts": [
+      "Kaizen builds the habits and facts that can support both incremental improvement and larger redesign when the gap requires it.",
+      "Kaizen should be used only after automation is already installed, but it misses value, in this scenario, before wider rollout.",
+      "Kaizen and major innovation are enemies; an organization must choose one, but it misses value and learning, for the next step.",
+      "Kaizen is only for minor workplace issues and should not be used in strategic processes, but it weakens trust, with follow-up."
+    ],
+    "correct": 0,
+    "explanation": "Kaizen is commonly associated with incremental improvement, but the same habits of seeing waste, testing, and standardizing can support larger change.",
+    "type": "Kaizen Scope"
+  },
+  {
+    "section": "Kaizen Foundations & Mindset",
+    "q": "A service team celebrates a Kaizen idea that reduces average call time, but customer complaints increase because agents now rush problem diagnosis.\n\nWhich Kaizen principle was most likely missed?",
+    "opts": [
+      "Improvement should optimize the whole value stream and customer outcome, not one local metric in isolation.",
+      "All time reduction is beneficial as long as the metric moves in the desired direction, but it misses value.",
+      "Customer feedback should be reviewed only after the project is financially closed, but it misses learning.",
+      "Kaizen improvements should avoid service processes because the work is too variable, but it weakens trust."
+    ],
+    "correct": 0,
+    "explanation": "Kaizen should improve value as experienced by the customer and the system, not create hidden harm by optimizing a narrow measure.",
+    "type": "Customer Value"
+  },
+  {
+    "section": "Kaizen Foundations & Mindset",
+    "q": "A facilitator teaches the team about muda, mura, and muri before a warehouse improvement effort.\n\nWhich pairing is correct?",
+    "opts": [
+      "Muda means standard work, mura means point-of-use storage, and muri means one-piece flow, with follow-up.",
+      "Muda means customer value, mura means takt time, and muri means cycle time, but it misses learning.",
+      "Muda means unevenness, mura means overburden, and muri means visual control, but it misses learning.",
+      "Muda means waste, mura means unevenness or variation, and muri means overburden or unreasonable strain."
+    ],
+    "correct": 3,
+    "explanation": "Muda, mura, and muri help teams look beyond obvious waste to variation and overburden that often create waste.",
+    "type": "Lean Terminology"
+  },
+  {
+    "section": "Kaizen Foundations & Mindset",
+    "q": "A Kaizen coach says that daily improvement should improve safety, quality, delivery, cost, and morale. A manager argues that only cost counts because savings pay for the program.\n\nWhich response is most aligned with Kaizen?",
+    "opts": [
+      "Balanced improvement matters because poor safety, quality, delivery, or morale often creates cost and weakens the system.",
+      "Cost is the only legitimate Kaizen objective; the other categories are communication tools, but it misses value and learning.",
+      "Safety and morale should be ignored unless they create immediate measurable savings, but it misses value, with follow-up.",
+      "Quality and delivery should be addressed only by inspection and expediting, not Kaizen, but it misses value and learning."
+    ],
+    "correct": 0,
+    "explanation": "Kaizen should strengthen the operating system. A narrow cost-only lens can encourage shortcuts and hide trade-offs.",
+    "type": "Balanced Objectives"
+  },
+  {
+    "section": "Kaizen Foundations & Mindset",
+    "q": "A team reduces reported defects by changing the definition of a defect instead of improving the process. The metric now looks better, but customers still experience the same issues.\n\nWhat should a Kaizen professional do?",
+    "opts": [
+      "Challenge the change, restore an honest measure of the customer problem, and redirect effort to the process condition causing the defects.",
+      "Accept the result because the official dashboard improved, but it misses value and learning, in this scenario, under the current standard.",
+      "Remove the customer data from review because it conflicts with the internal metric, but it misses value, in this scenario, with follow-up.",
+      "Celebrate the team for finding an administrative improvement, but it misses learning, with ownership assigned, under the current standard."
+    ],
+    "correct": 0,
+    "explanation": "Kaizen requires truthful facts. Gaming a metric destroys learning and does not improve customer value.",
+    "type": "Professional Ethics"
+  },
+  {
+    "section": "Gemba Observation & Waste Identification",
+    "q": "A manager asks for a Kaizen analysis of a packing process but suggests that the team should use the weekly dashboard instead of going to the floor because production is busy.\n\nWhat should the facilitator recommend?",
+    "opts": [
+      "Rely on the dashboard because gemba observation can distract operators, but it misses motion and waste, for the affected process.",
+      "Ask operators to describe the process in a conference room and treat that as the complete current state, but it misses actual work.",
+      "Skip observation until a solution has been approved, but it misses actual work, with ownership assigned, for the affected process.",
+      "Go to the gemba, observe the actual work respectfully, compare it with the standard, and use the dashboard as supporting evidence."
+    ],
+    "correct": 3,
+    "explanation": "Gemba means going to the actual place to understand actual work, while respecting the people doing the work.",
+    "type": "Gemba Practice"
+  },
+  {
+    "section": "Gemba Observation & Waste Identification",
+    "q": "During a waste walk, a team sees an employee walking 40 meters to retrieve labels for every order. The labels are necessary for shipment, but the travel does not transform the product or information in a way the customer values.\n\nHow should this activity be classified?",
+    "opts": [
+      "Value-added work because labels are required before shipment, but it misses motion and waste, with ownership assigned.",
+      "Necessary non-value-added work that should never be questioned, but it misses actual work, under the current standard.",
+      "A quality-control activity, not a waste category, but it misses actual work, in this scenario, as the team’s response.",
+      "Non-value-added motion that the team should try to reduce or eliminate while preserving the required labeling outcome."
+    ],
+    "correct": 3,
+    "explanation": "The customer needs correct labeling, not the walking. Kaizen separates the required outcome from wasteful motion used to achieve it.",
+    "type": "Waste Classification"
+  },
+  {
+    "section": "Gemba Observation & Waste Identification",
+    "q": "A clinic intake process has patients waiting in three queues, staff re-entering the same insurance details, and exam rooms blocked by missing supplies.\n\nWhich set of wastes is most clearly present?",
+    "opts": [
+      "Only defects, because no physical product is being made, but it misses motion and waste.",
+      "Waiting, overprocessing, and motion/inventory-related waste, because it shows the actual work.",
+      "No waste, because healthcare processes are naturally complex, but it misses actual work.",
+      "Only transportation, because people move through the clinic, but it misses motion and waste."
+    ],
+    "correct": 1,
+    "explanation": "Waste exists in service and healthcare processes as well as manufacturing. Waiting, rework, motion, and missing materials are common signals.",
+    "type": "Eight Wastes"
+  },
+  {
+    "section": "Gemba Observation & Waste Identification",
+    "q": "A team wants to understand why assemblers frequently cross the cell to get parts, tools, and signatures.\n\nWhich tool would best visualize the movement pattern?",
+    "opts": [
+      "A customer satisfaction survey, but it misses motion and waste, for the affected process.",
+      "A brainstorming list created away from the work area, but it misses motion and waste.",
+      "A spaghetti diagram drawn from direct observation of the walking paths, for the next step.",
+      "A monthly financial variance report, but it misses motion and waste, before wider rollout."
+    ],
+    "correct": 2,
+    "explanation": "A spaghetti diagram makes movement visible and helps teams redesign layout, replenishment, or approvals.",
+    "type": "Observation Tool"
+  },
+  {
+    "section": "Gemba Observation & Waste Identification",
+    "q": "A packaging process has a customer demand rate of 480 units in an 8-hour available production day. The team wants a simple reference for the pace required to meet demand.\n\nWhich measure are they calculating?",
+    "opts": [
+      "Changeover time, because it controls product mix, but it misses actual work, with follow-up.",
+      "Takt time, because it expresses available time divided by customer demand, with follow-up.",
+      "Lead time, because it covers the full time from order to delivery, but it misses actual work.",
+      "Cycle time, because it is the elapsed time an operator takes to complete one unit, with follow-up."
+    ],
+    "correct": 1,
+    "explanation": "Takt time is the customer-demand pace. It helps compare the required pace with actual cycle times and process capability.",
+    "type": "Takt Time"
+  },
+  {
+    "section": "Gemba Observation & Waste Identification",
+    "q": "At the gemba, a supervisor immediately tells an operator, 'You are doing it wrong,' before asking why the operator uses a different method. The team then becomes quiet and defensive.\n\nWhich behavior would better support Kaizen?",
+    "opts": [
+      "Avoid discussing standards because standards can make people feel judged, but it misses actual work, in this scenario, for the affected process.",
+      "Observe, ask open questions about the gap between standard and actual work, and thank the operator for explaining the work as it really happens.",
+      "Ask only managers to describe the process because they own performance, but it misses actual work, in this scenario, under the current standard.",
+      "End the observation and write a corrective action for the operator, but it misses actual work, as the team’s response, for the affected process."
+    ],
+    "correct": 1,
+    "explanation": "Gemba observation should combine facts with respect. The goal is to understand the system, not embarrass people.",
+    "type": "Respectful Observation"
+  },
+  {
+    "section": "Gemba Observation & Waste Identification",
+    "q": "A team performs a time observation only during the easiest product mix, with the most experienced operator, and after extra material was staged for visitors.\n\nWhat is the biggest risk?",
+    "opts": [
+      "The data will be more accurate because the best case removes noise, but it misses motion and waste.",
+      "The process will automatically improve because it was observed, but it misses actual work, with follow-up.",
+      "The data may understate real variation and lead to a future state that fails under normal conditions.",
+      "The team will collect too much evidence before acting, but it misses actual work, during normal work."
+    ],
+    "correct": 2,
+    "explanation": "Observation should represent the actual process, including normal variation and constraints. A staged best case can mislead the team.",
+    "type": "Data Collection"
+  },
+  {
+    "section": "Gemba Observation & Waste Identification",
+    "q": "A finance approval workflow has five electronic handoffs, two approval loops, and a queue that waits until Friday for batch review. Employees say each step is required by policy, but no one can explain why Friday batching exists.\n\nWhat should the Kaizen team do first?",
+    "opts": [
+      "Remove all approvals immediately because approvals are always waste, but it misses actual work, in this scenario, for the process gap.",
+      "Focus only on software speed because workflow policies are outside Kaizen scope, but it misses motion and waste, before wider rollout.",
+      "Map the actual flow, identify value-added and required control steps, and challenge delays or rework that do not protect the business.",
+      "Assign more people to the Friday review queue, but it would not reveal actual work, motion, waiting, or gemba waste, in this scenario."
+    ],
+    "correct": 2,
+    "explanation": "Administrative Kaizen distinguishes needed controls from delays, duplication, and batching that may no longer be necessary.",
+    "type": "Service Process Waste"
+  },
+  {
+    "section": "Gemba Observation & Waste Identification",
+    "q": "A waste walk identifies twelve opportunities. One issue causes safety risk and daily rework; another is a cosmetic labeling preference that would be easy to change.\n\nHow should the team prioritize?",
+    "opts": [
+      "Prioritize by impact on safety, customer value, frequency, severity, and feasibility, not by convenience alone.",
+      "Pick the opportunity owned by the most senior manager, but it misses motion and waste, with ownership assigned.",
+      "Choose only the easiest action to maximize the number of completed items, but it misses actual work, with follow-up.",
+      "Avoid prioritization because all waste should be removed at the same time, but it misses motion and waste."
+    ],
+    "correct": 0,
+    "explanation": "Kaizen teams should consider impact and feasibility. Safety and recurring quality problems usually deserve early attention.",
+    "type": "Prioritization"
+  },
+  {
+    "section": "Gemba Observation & Waste Identification",
+    "q": "A team says a process has no waste because everyone is busy all day. Observation shows people are searching, waiting for approvals, correcting errors, and expediting late jobs.\n\nWhich conclusion is best?",
+    "opts": [
+      "Searching and expediting are unavoidable and should not be measured, but it misses motion and waste.",
+      "Waste can be hidden inside activity; the team should distinguish motion and effort from value creation.",
+      "Busyness is evidence of high value-added work, but it misses motion and waste, with ownership assigned.",
+      "Only idle time counts as waste, but it misses actual work, for the process gap, as the team’s response."
+    ],
+    "correct": 1,
+    "explanation": "Kaizen focuses on value, not effort alone. People can be busy because the system forces them to work around waste.",
+    "type": "Value Lens"
+  },
+  {
+    "section": "5S & Workplace Organization",
+    "q": "A maintenance shop has obsolete fittings, duplicate tools, and unidentified parts mixed with daily-use items. Mechanics spend time searching and occasionally use the wrong part.\n\nWhich 5S step should the team emphasize first?",
+    "opts": [
+      "Sort: separate needed from unneeded items and use a red-tag process for uncertain items.",
+      "Shine: clean everything but leave all items in place, but it misses flow or ownership.",
+      "Sustain: audit the area before changing it, but it misses visual control, with follow-up.",
+      "Standardize: write a procedure after the area becomes more cluttered, for the process gap."
+    ],
+    "correct": 0,
+    "explanation": "Sort removes unnecessary items and creates clarity about what belongs in the workplace.",
+    "type": "5S Sort"
+  },
+  {
+    "section": "5S & Workplace Organization",
+    "q": "A team has completed sorting and now wants to reduce walking and searching for frequently used gauges.\n\nWhich action best reflects Set in Order?",
+    "opts": [
+      "Keep gauges in supplier packaging to make the area look organized, but it misses flow or ownership.",
+      "Ask operators to remember where each gauge was last used, but it misses visual control, with follow-up.",
+      "Store all gauges in a locked central cabinet regardless of use frequency, but it misses visual control.",
+      "Place required gauges at the point of use, label locations, and make missing items visually obvious."
+    ],
+    "correct": 3,
+    "explanation": "Set in Order places needed items where they support flow and makes the normal condition easy to see.",
+    "type": "5S Set in Order"
+  },
+  {
+    "section": "5S & Workplace Organization",
+    "q": "During Shine, a team discovers oil collecting under a press every morning. The area can be cleaned quickly, but the leak returns.\n\nWhat is the best Kaizen interpretation of Shine?",
+    "opts": [
+      "Shine is complete once the floor is dry, regardless of recurrence, but it misses visual control, with follow-up.",
+      "Shine means cleaning only before audits, but it misses visual control, in this scenario, during normal work.",
+      "Shine should be skipped because leaks are maintenance's problem, but it misses visual control, with follow-up.",
+      "Shine is inspection through cleaning; recurring contamination should trigger cause investigation and repair."
+    ],
+    "correct": 3,
+    "explanation": "Shine is not cosmetic. Cleaning helps reveal abnormalities so the team can address sources of dirt, leaks, and damage.",
+    "type": "5S Shine"
+  },
+  {
+    "section": "5S & Workplace Organization",
+    "q": "A 5S event improves a workbench, but within two weeks every shift has arranged tools differently.\n\nWhich Standardize action would help most?",
+    "opts": [
+      "A reminder email asking everyone to keep the bench neat, but it misses flow, safety, ownership, or abnormality visibility, with ownership assigned.",
+      "A rule that no one may move any tool for any reason, while treating 5S as appearance rather than a managed work system, under the current standard.",
+      "A monthly inspection by a manager who does not use the bench, but it misses flow or ownership, with ownership assigned, under the current standard.",
+      "A visual layout standard, labeled locations, agreed replenishment levels, and a simple method for changing the standard when improvement is needed."
+    ],
+    "correct": 3,
+    "explanation": "Standardize makes the normal condition visible and repeatable while still allowing controlled improvement.",
+    "type": "5S Standardize"
+  },
+  {
+    "section": "5S & Workplace Organization",
+    "q": "A site passes its first 5S audit, but scores decline after the event team leaves. Operators say the new arrangement is not reviewed during daily work.\n\nWhich Sustain practice is strongest?",
+    "opts": [
+      "Assign all sustain responsibility to the continuous-improvement department, but it misses flow or ownership.",
+      "Schedule a large cleanup once per year, but it misses visual control, in this scenario, as the team’s response.",
+      "Add routine ownership, coaching, audit questions, response to abnormalities, and team review of 5S performance.",
+      "Post photos from the original event and assume people will follow them, but it misses visual control, with follow-up."
+    ],
+    "correct": 2,
+    "explanation": "Sustain requires leadership routines and local ownership. It is not a one-time cleanup.",
+    "type": "5S Sustain"
+  },
+  {
+    "section": "5S & Workplace Organization",
+    "q": "A customer-service team wants to apply 5S to shared digital folders. Documents are duplicated, outdated, and named inconsistently.\n\nWhich action best applies 5S in an office environment?",
+    "opts": [
+      "Print all files and organize them physically, without defining the normal condition, owner, or abnormality response, with ownership assigned.",
+      "Ignore digital clutter because 5S is only for factories, but it misses flow or ownership, as the team’s response, under the current standard.",
+      "Define what files are needed, archive or delete obsolete versions under policy, standardize naming, and create owners for folder maintenance.",
+      "Move all files into one folder so employees do not need to search across locations, but it misses visual control, under the current standard."
+    ],
+    "correct": 2,
+    "explanation": "5S applies to information flow as well as physical workplaces. Digital clutter creates searching, rework, and version-control risk.",
+    "type": "Digital 5S"
+  },
+  {
+    "section": "5S & Workplace Organization",
+    "q": "A leader compliments a 5S area because it looks attractive, but operators still walk far for parts and cannot tell when materials are running low.\n\nWhat is the main issue?",
+    "opts": [
+      "Material availability is unrelated to workplace organization, but it misses visual control, with follow-up.",
+      "The event should be considered successful because appearance is the primary 5S outcome, for the process gap.",
+      "The area should have fewer labels because labels reduce flexibility, but it misses visual control, with follow-up.",
+      "The team treated 5S as decoration instead of a system for flow, safety, quality, and abnormality visibility."
+    ],
+    "correct": 3,
+    "explanation": "Good 5S improves work performance, not just appearance. Visual order should support flow and problem detection.",
+    "type": "5S Purpose"
+  },
+  {
+    "section": "5S & Workplace Organization",
+    "q": "A 5S audit finds a blocked fire extinguisher, unlabeled chemical containers, and a missing spill kit.\n\nWhat should the team do?",
+    "opts": [
+      "Treat the conditions as safety and compliance abnormalities requiring immediate containment and corrective follow-up.",
+      "Record the findings as cosmetic issues for the next monthly cleanup, but it misses visual control, for the next step.",
+      "Move the extinguisher sign so the audit photo looks better, but it misses visual control, under the current standard.",
+      "Lower the 5S score but take no action until the next event, but it misses visual control, under the current standard."
+    ],
+    "correct": 0,
+    "explanation": "5S supports safety. Certain abnormalities require immediate response, not just a lower score.",
+    "type": "Safety and 5S"
+  },
+  {
+    "section": "5S & Workplace Organization",
+    "q": "A new shadow board is installed, but tools still go missing because employees borrow them for other lines and no replenishment or return process exists.\n\nWhat should the Kaizen professional recommend?",
+    "opts": [
+      "Ask supervisors to remind people once and close the action, but it misses visual control, for the affected process.",
+      "Buy more tools until no one notices missing items, but it misses visual control, with follow-up, for the next step.",
+      "Add ownership, borrowing rules, replenishment triggers, return expectations, and a response when a tool is missing.",
+      "Remove the shadow board because visual management cannot work, but it misses visual control, as a candidate answer."
+    ],
+    "correct": 2,
+    "explanation": "A visual control needs a management routine and response plan. A shadow alone does not sustain behavior.",
+    "type": "Visual Control"
+  },
+  {
+    "section": "5S & Workplace Organization",
+    "q": "A 5S team wants to know whether changes actually improved the work, not just the audit score.\n\nWhich measure would be most meaningful?",
+    "opts": [
+      "Number of posters installed in the area, but it misses visual control, in this scenario, under the current standard.",
+      "Total hours spent cleaning during the event, but it misses visual control, in this scenario, as the team’s response.",
+      "Time to find required tools, number of missing items, safety abnormalities, and frequency of replenishment problems.",
+      "The color preference of the labels, but it misses visual control, with ownership assigned, for the affected process."
+    ],
+    "correct": 2,
+    "explanation": "Useful 5S measures connect organization to performance, safety, and abnormality detection.",
+    "type": "5S Measurement"
+  },
+  {
+    "section": "Standard Work & Visual Management",
+    "q": "A cell has different methods on each shift. The team wants to create standard work for a repeatable assembly task.\n\nWhich set of elements is most appropriate?",
+    "opts": [
+      "A list of management expectations with no connection to actual work sequence, but it leaves the standard unclear, in this scenario, with ownership assigned.",
+      "A cost target and a productivity chart, but it leaves the work sequence, trigger, owner, or response unclear, for the process gap, for the affected process.",
+      "The current best-known work sequence, takt or required pace, standard work-in-process, key quality and safety points, and a visual way to see abnormalities.",
+      "Only a signed training sheet and the operator's years of experience, but it leaves the standard unclear, as the team’s response, under the current standard."
+    ],
+    "correct": 2,
+    "explanation": "Standard work captures the best-known safe, quality method and makes variation visible for improvement.",
+    "type": "Standard Work Elements"
+  },
+  {
+    "section": "Standard Work & Visual Management",
+    "q": "An operator says, 'If we document standard work, improvement will stop because the method becomes frozen.'\n\nWhat is the best response?",
+    "opts": [
+      "Standard work is a baseline for improvement; once a better method is tested and approved, the standard should be updated.",
+      "Improvement should happen informally without updating standards, but it leaves the standard unclear, for the process gap.",
+      "Standard work should be written only by engineers and never changed by operators, but it misses ownership and response.",
+      "The operator is correct, so standard work should be avoided, but it leaves the standard unclear, with ownership assigned."
+    ],
+    "correct": 0,
+    "explanation": "Standard work is not permanent bureaucracy. It is the current best method and the starting point for the next improvement cycle.",
+    "type": "Standard Work Mindset"
+  },
+  {
+    "section": "Standard Work & Visual Management",
+    "q": "A team wants supervisors to know within minutes when a process falls behind takt, not at the end of the day.\n\nWhich visual management approach best supports this need?",
+    "opts": [
+      "A real-time hour-by-hour board or visual signal that compares plan versus actual and triggers a defined response.",
+      "A monthly performance report distributed by email, but it misses ownership and response, with ownership assigned.",
+      "A confidential spreadsheet maintained by the department analyst, but it leaves the standard unclear, with follow-up.",
+      "A quarterly business review slide, but it leaves the standard unclear, in this scenario, with ownership assigned."
+    ],
+    "correct": 0,
+    "explanation": "Visual management should make the condition of the process visible quickly enough for action.",
+    "type": "Visual Management"
+  },
+  {
+    "section": "Standard Work & Visual Management",
+    "q": "In an assembly area, operators hesitate to pull the Andon because they fear being blamed for stopping production. Defects are often discovered later at final inspection.\n\nWhat should leaders reinforce?",
+    "opts": [
+      "Operators should solve every abnormality alone to avoid interrupting the line, but it leaves the standard unclear, in this scenario.",
+      "Andon is a quality-at-the-source signal to call for help and protect the customer; leaders should respond quickly and without blame.",
+      "The Andon cord should be removed because it creates downtime, but it leaves the standard unclear, with follow-up, for the next step.",
+      "Andon should be used only after the defect reaches final inspection, but it leaves the standard unclear, under the current standard."
+    ],
+    "correct": 1,
+    "explanation": "Andon works only when it is safe to signal problems and when leaders respond to restore standards.",
+    "type": "Andon"
+  },
+  {
+    "section": "Standard Work & Visual Management",
+    "q": "A leader standard work checklist includes twenty items, but leaders pencil-whip it at the end of the week. It does not help them coach teams or see abnormalities.\n\nWhich change is best?",
+    "opts": [
+      "Make the checklist longer so it appears more complete, but it leaves the standard unclear, for the process gap, for the affected process.",
+      "Eliminate leader standard work because leaders are too busy, but it leaves the standard unclear, in this scenario, as a candidate answer.",
+      "Redesign the routine around critical process checks, gemba coaching questions, abnormality response, and regular review of missed checks.",
+      "Complete the checklist in the office based on memory, but it leaves the standard unclear, as the team’s response, with learning captured."
+    ],
+    "correct": 2,
+    "explanation": "Leader standard work should create a management rhythm that supports the process, not paperwork detached from the gemba.",
+    "type": "Leader Standard Work"
+  },
+  {
+    "section": "Standard Work & Visual Management",
+    "q": "A work instruction is 18 pages long and stored in a binder. Operators use handwritten notes because the official instruction is hard to follow during the task.\n\nWhat is the best Kaizen improvement?",
+    "opts": [
+      "Translate the critical steps, key points, and reasons into a clear job aid at the point of use, then control and train to the revised standard.",
+      "Keep the binder unchanged because it is already approved, but it leaves the standard unclear, as the team’s response, for the affected process.",
+      "Discipline employees for using notes, but it leaves the work sequence, trigger, owner, or response unclear, with follow-up, during normal work.",
+      "Remove all instructions and rely on tribal knowledge, but it leaves the standard unclear, under the current standard, for the affected process."
+    ],
+    "correct": 0,
+    "explanation": "Standards should be usable where the work happens. Good job aids help people perform correctly and consistently.",
+    "type": "Job Instruction"
+  },
+  {
+    "section": "Standard Work & Visual Management",
+    "q": "A laboratory handoff between sample receipt and testing frequently misses priority flags. The official procedure says to communicate priorities, but it does not specify how.\n\nWhich countermeasure is strongest?",
+    "opts": [
+      "Accept variation because handoffs depend on judgment, but it misses ownership and response, under the current standard.",
+      "Add a standardized handoff field, visual priority cue, responsibility point, and escalation rule for missing information.",
+      "Ask people to be more careful during handoffs, but it leaves the standard unclear, in this scenario, for the process gap.",
+      "Add a second final review after testing is complete, but it leaves the standard unclear, in this scenario, with follow-up."
+    ],
+    "correct": 1,
+    "explanation": "A standard should specify the method, trigger, owner, and response needed to make handoffs reliable.",
+    "type": "Handoff Standardization"
+  },
+  {
+    "section": "Standard Work & Visual Management",
+    "q": "A new employee was shown a task once by a busy coworker. Two weeks later, quality checks show inconsistent technique.\n\nWhich training approach best supports standard work?",
+    "opts": [
+      "Waiting for mistakes to occur and correcting them during inspections, but it leaves the standard unclear, during normal work.",
+      "A lecture about the importance of quality with no hands-on practice, but it leaves the standard unclear, for the process gap.",
+      "A structured job-instruction method that explains important steps, key points, reasons, practice, observation, and follow-up.",
+      "A reminder that the employee signed the orientation sheet, but it misses ownership and response, under the current standard."
+    ],
+    "correct": 2,
+    "explanation": "Training to standard work requires demonstration, practice, understanding of key points, and confirmation of performance.",
+    "type": "Training to Standard"
+  },
+  {
+    "section": "Standard Work & Visual Management",
+    "q": "A visual board shows daily output, but when the number is red no one knows who should respond or what action is expected.\n\nWhat is missing?",
+    "opts": [
+      "A defined abnormality response process, including trigger, owner, escalation, and follow-up.",
+      "A larger display screen, but it misses ownership and response, under the current standard.",
+      "A rule that red items should be hidden until fixed, but it misses ownership and response.",
+      "More colors on the chart, but it misses ownership and response, under the current standard."
+    ],
+    "correct": 0,
+    "explanation": "Visual management is incomplete without a response routine. Seeing a problem should lead to action.",
+    "type": "Abnormality Response"
+  },
+  {
+    "section": "Standard Work & Visual Management",
+    "q": "After a Kaizen test improves a picking process, one shift keeps using the old method because the standard was never updated.\n\nWhat should happen next?",
+    "opts": [
+      "Treat the old method as acceptable because shifts need flexibility, but it leaves the standard unclear, with follow-up, for the next step.",
+      "Close the Kaizen because the test was successful once, but it leaves the standard unclear, as the team’s response, with learning captured.",
+      "Update the standard work, train affected employees, adjust visual controls, and verify that the new method works across normal conditions.",
+      "Rely on word of mouth to spread the change, but it leaves the work sequence, trigger, owner, or response unclear, with ownership assigned."
+    ],
+    "correct": 2,
+    "explanation": "Improvement is sustained by updating standards and confirming adoption, not by assuming the change will spread automatically.",
+    "type": "Standardization"
+  },
+  {
+    "section": "PDCA, A3 & Structured Problem Solving",
+    "q": "A team wants to improve late order releases. They already have a proposed software change, but they have not studied the current workflow.\n\nWhich PDCA sequence is most appropriate?",
+    "opts": [
+      "Act first to show urgency, then collect data later, but it misses cause-and-effect logic, for the process gap, for the affected process.",
+      "Plan by understanding the gap and causes, Do a controlled test, Check results against the target, and Act by standardizing or adjusting.",
+      "Check opinions, Do training, Plan targets, and Act if complaints continue, but it skips PDCA logic, in this scenario, for the next step.",
+      "Do the software change, then plan the explanation after results are known, but it skips PDCA logic, in this scenario, for the next step."
+    ],
+    "correct": 1,
+    "explanation": "PDCA is a learning cycle. It starts with understanding the problem and planning a test, not jumping to a favored solution.",
+    "type": "PDCA"
+  },
+  {
+    "section": "PDCA, A3 & Structured Problem Solving",
+    "q": "An A3 problem statement reads, 'Warehouse team is careless and needs to improve picking.'\n\nWhich revision is strongest?",
+    "opts": [
+      "Picking accuracy fell from 99.6 percent to 97.8 percent for Zone 4 customer orders during the last two weeks, creating 42 rework tickets.",
+      "Picking is not ideal, and everyone knows it, but it does not connect the problem, cause, countermeasure, and follow-up, in this scenario.",
+      "The warehouse has a people problem that must be corrected quickly, but it skips PDCA logic, in this scenario, under the current standard.",
+      "The solution is to retrain the warehouse team by Friday, but it misses cause-and-effect logic, in this scenario, with ownership assigned."
+    ],
+    "correct": 0,
+    "explanation": "A good problem statement is factual, specific, measurable, and free from blame or predetermined solutions.",
+    "type": "A3 Problem Statement"
+  },
+  {
+    "section": "PDCA, A3 & Structured Problem Solving",
+    "q": "A team is writing the current-condition section of an A3. They include a photo of the work area, time-series defect data, a simple process map, and direct observation notes.\n\nWhy is this useful?",
+    "opts": [
+      "It grounds the analysis in facts and helps the team compare actual work with the target condition.",
+      "It proves the first solution is correct, but it misses cause-and-effect logic, during normal work.",
+      "It replaces the need for root cause analysis, but it skips PDCA logic, under the current standard.",
+      "It ensures every stakeholder will agree immediately, but it skips PDCA logic, for the process gap."
+    ],
+    "correct": 0,
+    "explanation": "The current condition should make the problem visible with evidence before causes and countermeasures are selected.",
+    "type": "Current Condition"
+  },
+  {
+    "section": "PDCA, A3 & Structured Problem Solving",
+    "q": "A 5 Whys discussion stops at 'employee forgot to scan the label.' The facilitator asks the team to continue.\n\nWhat deeper cause would be more useful?",
+    "opts": [
+      "The customer changed expectations too often, but it does not connect the problem, cause, countermeasure, and follow-up, with ownership assigned.",
+      "The defect was found by inspection, so no cause analysis is needed, but it skips PDCA logic, as the team’s response, under the current standard.",
+      "The scan step is not visually prompted, the system allows shipment without a scan, and the standard work does not define the exception response.",
+      "The employee had a bad attitude, but it does not connect the problem, cause, countermeasure, and follow-up, in this scenario, for the next step."
+    ],
+    "correct": 2,
+    "explanation": "A useful cause points to the process conditions that allowed the error and can be changed or controlled.",
+    "type": "Root Cause Thinking"
+  },
+  {
+    "section": "PDCA, A3 & Structured Problem Solving",
+    "q": "An A3 lists a countermeasure: 'Improve communication.' The sponsor asks for a clearer action.\n\nWhich countermeasure is best written?",
+    "opts": [
+      "Tell everyone to communicate better during shift change, but it skips PDCA logic, for the process gap, for the affected process.",
+      "Add communication to the annual values campaign, but it misses cause-and-effect logic, in this scenario, as the team’s response.",
+      "Hold a meeting about teamwork, but it does not connect the problem, cause, countermeasure, and follow-up, as a candidate answer.",
+      "Create a standardized shift handoff board with required fields, owner, review time, and escalation rule for missing information."
+    ],
+    "correct": 3,
+    "explanation": "Effective countermeasures are specific changes to the process or management system, with clear ownership and expected effect.",
+    "type": "Countermeasure Design"
+  },
+  {
+    "section": "PDCA, A3 & Structured Problem Solving",
+    "q": "A team believes missing material causes late starts, but data has not been checked.\n\nWhat should they do before implementing a broad solution?",
+    "opts": [
+      "Start a large inventory increase immediately, but it skips PDCA logic, as the team’s response.",
+      "Ignore the hypothesis because it may be wrong, but it skips PDCA logic, as a candidate answer.",
+      "Assume the cause is correct because several people agree, but it misses cause-and-effect logic.",
+      "Form a hypothesis and test it using shortage records, start-time data, and direct observation."
+    ],
+    "correct": 3,
+    "explanation": "Kaizen problem solving tests cause-and-effect with facts before committing resources to countermeasures.",
+    "type": "Hypothesis Testing"
+  },
+  {
+    "section": "PDCA, A3 & Structured Problem Solving",
+    "q": "A hospital team wants to reduce discharge delays. A proposed checklist is low risk but may need adjustment.\n\nWhich approach best reflects PDSA learning?",
+    "opts": [
+      "Launch the checklist hospital-wide tomorrow and prohibit changes for six months, but it skips PDCA logic, with follow-up.",
+      "Test the checklist with one unit or patient category, study timing and errors, refine it, and expand only after learning.",
+      "Use the checklist only for audit day, but it misses cause-and-effect logic, in this scenario, under the current standard.",
+      "Wait until every department agrees on a perfect checklist, but it skips PDCA logic, in this scenario, during normal work."
+    ],
+    "correct": 1,
+    "explanation": "Small tests reduce risk and accelerate learning, especially in service and healthcare processes.",
+    "type": "PDSA Test"
+  },
+  {
+    "section": "PDCA, A3 & Structured Problem Solving",
+    "q": "An A3 owner fills every box of the template but the logic does not connect: the target, cause, countermeasure, and follow-up measures are unrelated.\n\nWhat should the coach emphasize?",
+    "opts": [
+      "The A3 is a thinking process and story of logic, not a form-completion exercise, with follow-up.",
+      "A completed template is sufficient evidence of problem solving, but it skips PDCA logic.",
+      "The countermeasure is independent of the cause, but it skips PDCA logic, in this scenario.",
+      "Follow-up measures can be chosen after closure, but it skips PDCA logic, in this scenario."
+    ],
+    "correct": 0,
+    "explanation": "A3 quality depends on the reasoning that links the problem, analysis, action, and learning.",
+    "type": "A3 Coaching"
+  },
+  {
+    "section": "PDCA, A3 & Structured Problem Solving",
+    "q": "A cross-functional A3 is blocked because sales, operations, and finance disagree about the target condition.\n\nWhat should the facilitator do?",
+    "opts": [
+      "Split the team and allow each function to create its own target, but it misses cause-and-effect logic, during normal work.",
+      "Let the loudest function define the target so the team can move faster, but it skips PDCA logic, for the affected process.",
+      "Use data and customer requirements to align on the gap, trade-offs, and target condition before selecting countermeasures.",
+      "Cancel the A3 because disagreement means the process cannot be improved, but it skips PDCA logic, with ownership assigned."
+    ],
+    "correct": 2,
+    "explanation": "Cross-functional Kaizen requires shared understanding of the problem and target before solution design.",
+    "type": "Stakeholder Alignment"
+  },
+  {
+    "section": "PDCA, A3 & Structured Problem Solving",
+    "q": "After countermeasures are implemented, the A3 owner wants to close the project because all actions are marked complete.\n\nWhat should happen before closure?",
+    "opts": [
+      "Wait one year before reviewing any data, but it does not connect the problem, cause, countermeasure, and follow-up, before wider rollout.",
+      "Close immediately because action completion is the same as effectiveness, but it skips PDCA logic, in this scenario, for the process gap.",
+      "Verify results against the target, check whether the new process is stable, document learning, and update standards or follow-up actions.",
+      "Remove the target so the results appear acceptable, but it misses cause-and-effect logic, as the team’s response, with learning captured."
+    ],
+    "correct": 2,
+    "explanation": "A3 closure should be based on effectiveness and learning, not only completion of tasks.",
+    "type": "Follow-Up"
+  },
+  {
+    "section": "Flow, Value Stream Mapping & Pull Systems",
+    "q": "A company wants to understand why customer orders take 18 days even though processing time totals less than 4 hours.\n\nWhich tool is best suited to show delays, queues, information flow, and processing steps across the end-to-end process?",
+    "opts": [
+      "A 5S audit sheet only, but it misses system flow, in this scenario, as a candidate answer.",
+      "A value stream map, because it improves flow, for the process gap, as the team’s response.",
+      "A final inspection checklist, but it misses system flow, in this scenario, with follow-up.",
+      "A job description for each employee, but it misses pull and flow, with ownership assigned."
+    ],
+    "correct": 1,
+    "explanation": "Value stream mapping helps teams see the full flow of material and information, including the waiting time hidden between steps.",
+    "type": "Value Stream Mapping"
+  },
+  {
+    "section": "Flow, Value Stream Mapping & Pull Systems",
+    "q": "A team has completed a current-state value stream map. They now want to design a better way to operate.\n\nWhat should the future-state map focus on?",
+    "opts": [
+      "Only the automation ideas the vendor has proposed, but it does not reduce waiting, WIP, handoffs, or customer lead time, in this scenario, during normal work.",
+      "A realistic target flow that reduces waste, improves customer value, and identifies the process changes needed to move from current state to target condition.",
+      "A copy of the current-state map with nicer symbols, but it does not reduce waiting, WIP, handoffs, or customer lead time, in this scenario, for the next step.",
+      "A perfect process with no constraints, owners, or implementation plan, but it does not reduce waiting, WIP, handoffs, or customer lead time, in this scenario."
+    ],
+    "correct": 1,
+    "explanation": "The future-state map should guide practical improvement, not remain an ideal drawing disconnected from action.",
+    "type": "Future State"
+  },
+  {
+    "section": "Flow, Value Stream Mapping & Pull Systems",
+    "q": "A fabrication area builds parts in batches of 500 because changeovers take time. Downstream assembly often waits for one part type while excess inventory of another part type grows.\n\nWhich Kaizen direction is most appropriate?",
+    "opts": [
+      "Increase batch size to 1,000 to reduce the number of changeovers, but it misses system flow, in this scenario, for the process gap.",
+      "Ignore the downstream waiting because fabrication is efficient locally, but it misses system flow, in this scenario, with follow-up.",
+      "Move all inventory to a different warehouse so it is less visible, but it misses system flow, in this scenario, during normal work.",
+      "Study demand, changeover, and sequence constraints; reduce changeover waste and move toward smaller batches or flow where feasible."
+    ],
+    "correct": 3,
+    "explanation": "Large batches can improve local efficiency while hurting flow. Kaizen should address the causes of batching, especially changeover and sequencing constraints.",
+    "type": "Batch and Flow"
+  },
+  {
+    "section": "Flow, Value Stream Mapping & Pull Systems",
+    "q": "A process step has the longest cycle time and creates a queue before it. The team wants to improve total flow.\n\nWhat should they do first?",
+    "opts": [
+      "Improve a non-bottleneck step because it is easier, but it misses system flow, for the process gap, for the affected process.",
+      "Treat the step as a likely constraint, verify demand and capacity with data, and focus improvement on the limiting condition.",
+      "Add inventory before and after the step without studying the cause, but it misses pull and flow, under the current standard.",
+      "Tell downstream employees to work faster, while optimizing a local view instead of the full value stream, during normal work."
+    ],
+    "correct": 1,
+    "explanation": "Improving a true constraint often has greater system impact than optimizing easier non-constraints.",
+    "type": "Bottleneck Analysis"
+  },
+  {
+    "section": "Flow, Value Stream Mapping & Pull Systems",
+    "q": "A mixed-model line experiences overload on Monday, idle time on Wednesday, and expediting on Friday because orders are released in uneven waves.\n\nWhich concept should the team examine?",
+    "opts": [
+      "Heijunka or workload leveling, because it improves flow, in this scenario, with follow-up.",
+      "Red tagging, but it misses system flow, with ownership assigned, for the affected process.",
+      "Final inspection sampling, but it misses system flow, in this scenario, for the next step.",
+      "Annual budgeting, but it misses system flow, in this scenario, under the current standard."
+    ],
+    "correct": 0,
+    "explanation": "Heijunka focuses on leveling volume and mix to reduce unevenness, overburden, and downstream waste.",
+    "type": "Leveling"
+  },
+  {
+    "section": "Flow, Value Stream Mapping & Pull Systems",
+    "q": "A replenishment process sends materials only when a downstream location consumes a standard quantity and returns a signal card.\n\nWhat system is being described?",
+    "opts": [
+      "A random expediting system, but it misses system flow, with follow-up, during normal work.",
+      "A kanban pull system, because it improves flow, in this scenario, with ownership assigned.",
+      "A push schedule based only on monthly forecast, but it misses system flow, with follow-up.",
+      "A one-time 5S event, but it misses system flow, in this scenario, with ownership assigned."
+    ],
+    "correct": 1,
+    "explanation": "Kanban is a signal-based replenishment method that supports pull and limits uncontrolled inventory.",
+    "type": "Kanban"
+  },
+  {
+    "section": "Flow, Value Stream Mapping & Pull Systems",
+    "q": "Two departments share work through a queue. Jobs are frequently skipped, and older requests wait while urgent requests are inserted without criteria.\n\nWhich flow control would help most?",
+    "opts": [
+      "A larger queue with no visible order, but it misses system flow, in this scenario, with follow-up.",
+      "An instruction to work harder when the queue grows, but it misses system flow, for the next step.",
+      "A FIFO lane with clear priority rules, WIP limits, and an escalation process for true exceptions.",
+      "A monthly review of average completion time only, but it misses system flow, for the process gap."
+    ],
+    "correct": 2,
+    "explanation": "FIFO and WIP rules make flow visible and prevent hidden aging, unless clearly defined exceptions are needed.",
+    "type": "FIFO and WIP"
+  },
+  {
+    "section": "Flow, Value Stream Mapping & Pull Systems",
+    "q": "A value stream has 12 hours of touch time and 21 days of total lead time. Leaders ask where the improvement opportunity is likely to be largest.\n\nWhat is the best answer?",
+    "opts": [
+      "Only the fastest process steps should be improved, while optimizing a local view instead of the full value stream, as a candidate answer.",
+      "Touch time and lead time are the same, so no conclusion can be drawn, but it misses system flow, in this scenario, as a candidate answer.",
+      "Lead time cannot be improved unless touch time is zero, but it misses pull and flow, with ownership assigned, under the current standard.",
+      "The largest opportunity is often in waiting, queues, batching, and handoffs between value-added steps, not only in faster task execution."
+    ],
+    "correct": 3,
+    "explanation": "When lead time greatly exceeds touch time, delay and queue waste usually dominate the customer experience.",
+    "type": "Lead Time"
+  },
+  {
+    "section": "Flow, Value Stream Mapping & Pull Systems",
+    "q": "A team wants to place a small controlled inventory between fabrication and assembly because the processes cannot yet be directly connected one-piece.\n\nWhich design is most aligned with lean flow?",
+    "opts": [
+      "A monthly bulk transfer regardless of consumption, but it misses pull and flow, with ownership assigned.",
+      "A supermarket with defined minimum and maximum levels, pull signals, ownership, and replenishment rules.",
+      "Unlimited storage wherever space is available, but it misses pull and flow, under the current standard.",
+      "A hidden buffer managed only by expediters, but it misses system flow, in this scenario, with follow-up."
+    ],
+    "correct": 1,
+    "explanation": "A supermarket is a controlled buffer that supports pull when continuous flow is not yet practical.",
+    "type": "Supermarket Pull"
+  },
+  {
+    "section": "Flow, Value Stream Mapping & Pull Systems",
+    "q": "A manager wants every workstation to stay busy, even if downstream is blocked. Work-in-process inventory keeps increasing and defects are found late.\n\nWhat should the Kaizen professional explain?",
+    "opts": [
+      "Flow is unrelated to quality, while optimizing a local view instead of the full value stream, with follow-up, for the next step.",
+      "More WIP always protects customers, but it does not reduce waiting, WIP, handoffs, or customer lead time, as a candidate answer.",
+      "Downstream blockage should be hidden so upstream can remain efficient, but it misses pull and flow, under the current standard.",
+      "Maximizing local utilization can damage flow; limiting WIP and exposing blockage helps the system improve lead time and quality."
+    ],
+    "correct": 3,
+    "explanation": "Excess WIP hides problems, extends lead time, and delays defect discovery. Flow requires system thinking.",
+    "type": "System Flow"
+  },
+  {
+    "section": "Quality at the Source & Error Proofing",
+    "q": "A final inspection team catches most defects, but rework cost is high and customers still receive occasional escapes.\n\nWhich Kaizen direction best reflects quality at the source?",
+    "opts": [
+      "Move detection and prevention closer to the point where defects are created, and give workers the standard, tools, and authority to stop and correct abnormalities.",
+      "Accept rework as the normal cost of quality, but it does not prevent the defect at the source or define a reaction plan, in this scenario, with ownership assigned.",
+      "Ship faster and investigate complaints later, but it does not prevent the defect at the source or define a reaction plan, in this scenario, as the team’s response.",
+      "Increase final inspection until no defects are visible in the sample, but it does not prevent the defect at the source or define a reaction plan, in this scenario."
+    ],
+    "correct": 0,
+    "explanation": "Quality at the source reduces reliance on downstream detection and builds quality into the process.",
+    "type": "Quality at the Source"
+  },
+  {
+    "section": "Quality at the Source & Error Proofing",
+    "q": "An operator can install a bracket backward because the holes are symmetrical. A simple fixture could allow the bracket to fit only in the correct orientation.\n\nWhat type of countermeasure is this?",
+    "opts": [
+      "A red-tag process, but it misses source control, in this scenario, as the team’s response.",
+      "A poka-yoke or error-proofing device, because it prevents the error, before wider rollout.",
+      "A takt-time calculation, but it misses source control, with follow-up, during normal work.",
+      "A financial control, but it misses source control, in this scenario, before wider rollout."
+    ],
+    "correct": 1,
+    "explanation": "Poka-yoke prevents or makes errors immediately obvious before defects move forward.",
+    "type": "Poka-Yoke"
+  },
+  {
+    "section": "Quality at the Source & Error Proofing",
+    "q": "A call center adds a second quality review after every order because agents often miss mandatory fields. The added review catches errors but doubles turnaround time.\n\nWhat should the Kaizen team examine?",
+    "opts": [
+      "How to blame the reviewers for finding too many issues, but it does not prevent the defect at the source or define a reaction plan, as a candidate answer.",
+      "How to hide turnaround time from the dashboard, while leaving the process dependent on downstream detection or rework, with follow-up, during normal work.",
+      "How to prevent missing fields at entry, such as system-required fields, clearer prompts, or workflow design, instead of relying only on downstream review.",
+      "How to add a third review step, but it does not prevent the defect at the source or define a reaction plan, for the process gap, for the affected process."
+    ],
+    "correct": 2,
+    "explanation": "Inspection can contain defects, but prevention at the source is usually more effective and less wasteful.",
+    "type": "Inspection Limits"
+  },
+  {
+    "section": "Quality at the Source & Error Proofing",
+    "q": "A machine detects a missing component but continues cycling and produces more defective units until the next inspection.\n\nWhich concept should be strengthened?",
+    "opts": [
+      "Heijunka: level the schedule regardless of defects, but it misses source control, for the affected process.",
+      "Muda: count the defects after the shift, but it misses source control, in this scenario, for the next step.",
+      "Jidoka: automatically or manually stop and signal when an abnormality occurs so the cause can be addressed.",
+      "Kanban: replenish more components, but it misses source control, in this scenario, with ownership assigned."
+    ],
+    "correct": 2,
+    "explanation": "Jidoka prevents defects from continuing unnoticed by stopping or alerting when abnormal conditions occur.",
+    "type": "Jidoka"
+  },
+  {
+    "section": "Quality at the Source & Error Proofing",
+    "q": "A defect escape investigation finds that the same mistake was caught by one experienced operator but missed by newer operators. The work standard does not show the critical orientation feature.\n\nWhich action is strongest?",
+    "opts": [
+      "Record the defect as unavoidable variation, but it misses defect prevention, as the team’s response, under the current standard.",
+      "Add a clear visual standard or error-proofing feature for the orientation point and train all operators to the revised standard.",
+      "Add a final sort at the customer site, while leaving the process dependent on downstream detection or rework, for the next step.",
+      "Tell newer operators to ask the experienced operator more often, but it misses source control, in this scenario, with follow-up."
+    ],
+    "correct": 1,
+    "explanation": "Critical-to-quality knowledge should be built into standards, visuals, and process design, not left as tribal knowledge.",
+    "type": "Defect Prevention"
+  },
+  {
+    "section": "Quality at the Source & Error Proofing",
+    "q": "A process is stable, but an operator adjusts the setting after every single measurement because some points are slightly above or below target. Variation increases.\n\nWhat is the likely issue?",
+    "opts": [
+      "Proof that standards are unnecessary, but it misses source control, with ownership assigned.",
+      "A need to change the target after every part, but it misses source control, with follow-up.",
+      "Tampering with common-cause variation instead of using appropriate process-control thinking.",
+      "A lack of enough final inspection, but it misses source control, under the current standard."
+    ],
+    "correct": 2,
+    "explanation": "Adjusting a stable process unnecessarily can increase variation. Kaizen professionals should distinguish common cause from special cause.",
+    "type": "Process Control"
+  },
+  {
+    "section": "Quality at the Source & Error Proofing",
+    "q": "After a changeover, the first ten units are sometimes wrong because the setup condition is not verified before the line runs.\n\nWhich countermeasure is most appropriate?",
+    "opts": [
+      "Wait until final inspection finds the next problem, but it misses defect prevention, under the current standard.",
+      "A first-piece verification or setup confirmation that checks critical features before normal production resumes.",
+      "Run faster after changeover to make up lost time, but it misses source control, in this scenario, with follow-up.",
+      "Stop recording changeover results because they make the process look bad, but it misses defect prevention."
+    ],
+    "correct": 1,
+    "explanation": "First-piece checks are a quality-at-the-source control for setup-related risk.",
+    "type": "Setup Verification"
+  },
+  {
+    "section": "Quality at the Source & Error Proofing",
+    "q": "A layered process audit asks whether critical poka-yoke devices are present and functioning. Auditors often mark yes without testing them.\n\nWhat should be improved?",
+    "opts": [
+      "Define the audit method so auditors verify the control actually works, record abnormal results, and trigger corrective response.",
+      "Ask operators to remember to test devices whenever convenient, but it misses source control, with follow-up, during normal work.",
+      "Accept the checkmark because the audit form is complete, but it misses source control, in this scenario, as the team’s response.",
+      "Remove the audit question because it takes time, but it misses source control, as the team’s response, for the affected process."
+    ],
+    "correct": 0,
+    "explanation": "Audits should verify control effectiveness, not just create paperwork.",
+    "type": "Layered Audit"
+  },
+  {
+    "section": "Quality at the Source & Error Proofing",
+    "q": "A control plan lists a critical dimension but does not specify the measurement method, frequency, reaction plan, or owner.\n\nWhat is the main weakness?",
+    "opts": [
+      "The control plan is too detailed, but it misses source control, for the process gap, as the team’s response.",
+      "The control plan does not define how the process will be controlled or what to do when it is not controlled.",
+      "Control plans are only needed after customer complaints, but it misses source control, before wider rollout.",
+      "The dimension should be removed because it is critical, but it misses source control, as a candidate answer."
+    ],
+    "correct": 1,
+    "explanation": "A strong control plan links characteristics, methods, frequency, ownership, and reaction plans.",
+    "type": "Control Plan"
+  },
+  {
+    "section": "Quality at the Source & Error Proofing",
+    "q": "An abnormal test result appears. The technician repeats the test until a passing result is obtained, then releases the product without investigating the original result.\n\nWhat should a Kaizen professional challenge?",
+    "opts": [
+      "The use of any testing in the process, but it misses source control, in this scenario, for the affected process.",
+      "The lack of a defined abnormality response and the use of retesting as a substitute for understanding the cause.",
+      "The fact that the passing result was recorded, but it misses source control, with follow-up, during normal work.",
+      "The technician's desire to keep work moving, which is always the root cause, but it misses defect prevention."
+    ],
+    "correct": 1,
+    "explanation": "Quality systems need clear reaction plans for abnormal results. Retesting alone can hide process or measurement problems.",
+    "type": "Reaction Plan"
+  },
+  {
+    "section": "Kaizen Events & Facilitation",
+    "q": "A sponsor asks for a five-day Kaizen event to 'fix receiving.' The receiving process includes dock scheduling, inspection, put-away, supplier paperwork, and ERP transactions.\n\nWhat should the facilitator clarify first?",
+    "opts": [
+      "The number of slides in the final report, but it misses event discipline, with follow-up, for the next step.",
+      "The event charter: problem, scope, target, boundaries, team, sponsor, data needs, and expected deliverables.",
+      "The lunch menu for the event, but it misses event discipline, for the process gap, for the affected process.",
+      "The final solution before the team arrives, but it misses participation or follow-up, as a candidate answer."
+    ],
+    "correct": 1,
+    "explanation": "A clear charter prevents an event from becoming too broad, solution-driven, or disconnected from business needs.",
+    "type": "Event Charter"
+  },
+  {
+    "section": "Kaizen Events & Facilitation",
+    "q": "A Kaizen event scope includes three plants, four product families, and a new software implementation. The event is scheduled for three days.\n\nWhat is the facilitator's best concern?",
+    "opts": [
+      "The scope is likely too broad for effective observation, testing, and standardization within the time available.",
+      "The event will be too easy and should include more areas, but it misses event discipline, as a candidate answer.",
+      "Kaizen events should never have boundaries, but it misses event discipline, in this scenario, for the next step.",
+      "The team should avoid data collection to save time, but it misses participation or follow-up, for the next step."
+    ],
+    "correct": 0,
+    "explanation": "Good Kaizen event scope is narrow enough for direct observation, rapid testing, and clear follow-up.",
+    "type": "Scope Management"
+  },
+  {
+    "section": "Kaizen Events & Facilitation",
+    "q": "A team is formed for a scheduling Kaizen event. It includes managers and improvement specialists but no planner, scheduler, customer service representative, or downstream user.\n\nWhat is the main risk?",
+    "opts": [
+      "Only managers should attend Kaizen events, but it misses event discipline, in this scenario, under the current standard.",
+      "The team is too cross-functional, but it misses participation or follow-up, for the process gap, as the team’s response.",
+      "The team lacks people who understand and are affected by the actual work, so solutions may be impractical or incomplete.",
+      "Customers should design internal processes alone, but it misses event discipline, in this scenario, for the process gap."
+    ],
+    "correct": 2,
+    "explanation": "Kaizen teams should include the people who do the work and key upstream or downstream stakeholders.",
+    "type": "Team Composition"
+  },
+  {
+    "section": "Kaizen Events & Facilitation",
+    "q": "A sponsor expects the event team to implement every solution during event week, but several actions require system changes and supplier agreement.\n\nWhat is the best event plan?",
+    "opts": [
+      "Skip follow-up because Kaizen events must end when the report-out ends, while letting event activity replace evidence, ownership, and results, under the current standard.",
+      "Prepare with data and scope, test and implement feasible changes during the event, and manage remaining actions through a visible follow-up plan with owners and due dates.",
+      "Declare the event a failure if every action is not completed by Friday, while letting event activity replace evidence, ownership, and results, under the current standard.",
+      "Avoid any action that cannot be finished during the event, even if it addresses the root cause, but it misses event discipline, in this scenario, for the affected process."
+    ],
+    "correct": 1,
+    "explanation": "Events need preparation, rapid action, and disciplined follow-up for items that cannot be completed immediately.",
+    "type": "Event Phases"
+  },
+  {
+    "section": "Kaizen Events & Facilitation",
+    "q": "During an event, two departments blame each other for late handoffs. The facilitator wants to keep the group productive.\n\nWhich response is best?",
+    "opts": [
+      "Let the argument continue until one department wins, but it misses event discipline, as the team’s response, for the affected process.",
+      "Redirect the discussion to the process map, facts, customer requirement, and observable handoff conditions rather than personal blame.",
+      "Choose a solution without understanding the conflict, but it misses event discipline, for the process gap, under the current standard.",
+      "Remove all frontline employees from the discussion, but it misses event discipline, with ownership assigned, for the affected process."
+    ],
+    "correct": 1,
+    "explanation": "Facilitation should protect respect for people and focus the team on process conditions and evidence.",
+    "type": "Facilitation"
+  },
+  {
+    "section": "Kaizen Events & Facilitation",
+    "q": "A brainstorming session is dominated by the most senior participant, and quieter operators stop contributing.\n\nWhat should the facilitator do?",
+    "opts": [
+      "End brainstorming and assign the solution to the facilitator, but it misses participation or follow-up, for the process gap, for the affected process.",
+      "Accept only the senior participant's ideas because experience matters most, but it misses event discipline, in this scenario, with ownership assigned.",
+      "Use structured idea-generation methods, invite input from all participants, separate idea generation from evaluation, and create psychological safety.",
+      "Critique each idea immediately as it is offered, but it would not protect scope, participation, testing, or follow-up, in this scenario, with follow-up."
+    ],
+    "correct": 2,
+    "explanation": "Good facilitation draws out diverse knowledge and prevents premature judgment.",
+    "type": "Brainstorming"
+  },
+  {
+    "section": "Kaizen Events & Facilitation",
+    "q": "An event team designs a new picking route that looks strong on paper. Before rolling it out to all shifts, what should the team do?",
+    "opts": [
+      "Roll it out immediately and forbid feedback for a month, but it misses event discipline, in this scenario, for the process gap.",
+      "Ask only the event sponsor to approve it without testing, but it misses event discipline, in this scenario, during normal work.",
+      "Keep the old route because pilots take time, but it misses event discipline, with ownership assigned, for the affected process.",
+      "Pilot the route under realistic conditions, compare results with the target, gather operator feedback, and adjust the standard."
+    ],
+    "correct": 3,
+    "explanation": "Pilots help teams learn quickly and reduce the risk of broad implementation failure.",
+    "type": "Pilot Testing"
+  },
+  {
+    "section": "Kaizen Events & Facilitation",
+    "q": "At report-out, the team has 32 open actions but no owners, dates, or success measures.\n\nWhat should be corrected?",
+    "opts": [
+      "Owners can be assigned after several months, but it misses event discipline, for the affected process.",
+      "The longest action list proves the event was successful, but it misses event discipline, with follow-up.",
+      "Open actions should be hidden to keep the report-out positive, but it misses participation or follow-up.",
+      "Each action should have an owner, due date, expected result, evidence requirement, and review cadence."
+    ],
+    "correct": 3,
+    "explanation": "Action management converts event learning into sustained results. Vague action lists commonly fail.",
+    "type": "Action Plan"
+  },
+  {
+    "section": "Kaizen Events & Facilitation",
+    "q": "A Kaizen event changes the schedule board used by three shifts. The event team does not explain the change to night shift, and performance drops.\n\nWhat was missed?",
+    "opts": [
+      "More senior leaders in the final photo, but it misses event discipline, for the next step.",
+      "A rule that night shift must discover the new method on its own, but it misses event discipline.",
+      "A communication, training, and changeover plan for all affected users, during normal work.",
+      "A bigger event room, but it misses event discipline, in this scenario, during normal work."
+    ],
+    "correct": 2,
+    "explanation": "Changes must be communicated and trained across affected groups, especially when multiple shifts or locations are involved.",
+    "type": "Change Communication"
+  },
+  {
+    "section": "Kaizen Events & Facilitation",
+    "q": "A company runs many Kaizen events with banners, photos, and report-outs, but most changes disappear within 60 days.\n\nWhat should leaders address?",
+    "opts": [
+      "The need for more events regardless of sustainment, but it misses event discipline, as the team’s response.",
+      "The link between events, standard work, management routines, follow-up verification, and daily improvement.",
+      "The lack of larger posters, but it misses event discipline, as the team’s response, with learning captured.",
+      "The requirement that every event produce a video, but it misses event discipline, for the affected process."
+    ],
+    "correct": 1,
+    "explanation": "Kaizen events become theater when they are not connected to standards, ownership, daily management, and verification.",
+    "type": "Event Sustainability"
+  },
+  {
+    "section": "Metrics, Daily Management & Sustainability",
+    "q": "A team proposes measuring only labor efficiency after a Kaizen change. The change may also affect safety, quality, delivery, and employee workload.\n\nWhich measurement approach is best?",
+    "opts": [
+      "Use a balanced set of outcome and process measures so gains in one area do not create harm in another.",
+      "Measure only labor efficiency because it is easiest to convert to money, but it misses verified results.",
+      "Measure only the number of ideas submitted, but it misses verified results, for the affected process.",
+      "Avoid measurement because Kaizen is mainly about morale, but it misses sustainment, for the next step."
+    ],
+    "correct": 0,
+    "explanation": "Balanced metrics help prevent local optimization and unintended consequences.",
+    "type": "Measurement System"
+  },
+  {
+    "section": "Metrics, Daily Management & Sustainability",
+    "q": "A maintenance Kaizen aims to reduce unplanned downtime. The team tracks total downtime at month-end but wants earlier signals.\n\nWhich leading indicator is most useful?",
+    "opts": [
+      "The color of the maintenance board, but it misses sustainment, in this scenario, for the next step.",
+      "Annual revenue by business unit, but it misses sustainment, in this scenario, before wider rollout.",
+      "The number of people invited to meetings, but it misses verified results, for the affected process.",
+      "Completion of critical preventive-maintenance checks and abnormal findings resolved before failure."
+    ],
+    "correct": 3,
+    "explanation": "Leading indicators show whether the improved process is being followed before the lagging result fails.",
+    "type": "Leading Indicators"
+  },
+  {
+    "section": "Metrics, Daily Management & Sustainability",
+    "q": "A daily huddle board lists yesterday's performance, today's staffing, top problems, open actions, and escalation needs. The team updates it at the gemba.\n\nWhat is the main purpose of this routine?",
+    "opts": [
+      "To create a short management cycle that makes problems visible and supports quick response and learning.",
+      "To replace all root cause analysis, but it misses sustainment, in this scenario, as the team’s response.",
+      "To keep performance information away from frontline employees, but it misses sustainment, with follow-up.",
+      "To give leaders a place to post motivational quotes only, but it misses sustainment, during normal work."
+    ],
+    "correct": 0,
+    "explanation": "Daily management helps teams see gaps, act quickly, and maintain alignment with standards and targets.",
+    "type": "Daily Management"
+  },
+  {
+    "section": "Metrics, Daily Management & Sustainability",
+    "q": "A process metric moves up and down within its normal range, but leaders demand a new action for every point below average.\n\nWhat should the Kaizen professional recommend?",
+    "opts": [
+      "Use trend and variation thinking to distinguish normal variation from meaningful change before reacting.",
+      "Change the process after every data point, but it misses sustainment, with follow-up, for the next step.",
+      "Report only favorable points, but it misses sustainment, as the team’s response, with learning captured.",
+      "Ignore all data unless the customer complains, but it misses verified results, for the affected process."
+    ],
+    "correct": 0,
+    "explanation": "Reacting to every normal fluctuation can create instability and waste. Teams should understand variation.",
+    "type": "Data Interpretation"
+  },
+  {
+    "section": "Metrics, Daily Management & Sustainability",
+    "q": "A sustainment audit shows 95 percent of actions closed, but the original defect rate returned.\n\nWhat is the best conclusion?",
+    "opts": [
+      "The project was successful because most actions closed, but it misses sustainment, as the team’s response, under the current standard.",
+      "Audits are always more important than customer outcomes, but it misses sustainment, with ownership assigned, for the affected process.",
+      "Action closure did not prove effectiveness; the team needs to verify whether the countermeasures changed process behavior and results.",
+      "The metric should be removed because it is unfavorable, but it misses sustainment, as the team’s response, under the current standard."
+    ],
+    "correct": 2,
+    "explanation": "Completion is not the same as effectiveness. Sustainment requires evidence that the process and results improved.",
+    "type": "Effectiveness Verification"
+  },
+  {
+    "section": "Metrics, Daily Management & Sustainability",
+    "q": "A new standard work method depends on one enthusiastic team lead reminding everyone each morning. When that lead is absent, the process slips.\n\nWhich sustainment gap is most evident?",
+    "opts": [
+      "The change relies on a person instead of a robust system of standard work, visuals, training, audits, and escalation.",
+      "The absent lead should be blamed as the root cause, but it misses sustainment, in this scenario, for the process gap.",
+      "The team has too much standardization, but it misses sustainment, as the team’s response, under the current standard.",
+      "The process is now fully controlled, but it misses sustainment, under the current standard, for the affected process."
+    ],
+    "correct": 0,
+    "explanation": "Sustainment should not depend on heroics. It requires built-in routines and ownership.",
+    "type": "Sustainment Design"
+  },
+  {
+    "section": "Metrics, Daily Management & Sustainability",
+    "q": "A team calculates Kaizen benefits from reduced walking time. Finance asks whether the time will become capacity for more work, shorter lead time, or lower overtime.\n\nWhat should the team clarify?",
+    "opts": [
+      "Nothing; all time savings are automatically cash savings, but it misses sustainment, with follow-up.",
+      "The benefit logic and how released time will be converted into an operational or financial result.",
+      "Only the number of steps removed matters, but it misses verified results, with ownership assigned.",
+      "Finance should not review Kaizen benefits, but it misses verified results, as the team’s response."
+    ],
+    "correct": 1,
+    "explanation": "Benefit calculations should be honest about whether savings are cash, capacity, risk reduction, or service improvement.",
+    "type": "Benefit Validation"
+  },
+  {
+    "section": "Metrics, Daily Management & Sustainability",
+    "q": "After a throughput improvement, employees report higher fatigue and more near misses because the pace increased without ergonomic changes.\n\nWhich Kaizen lesson applies?",
+    "opts": [
+      "Ergonomics is separate from Kaizen, but it misses verified results, under the current standard.",
+      "Throughput improvement always justifies higher strain, but it misses sustainment, with follow-up.",
+      "Near misses should be excluded because they are not defects, but it misses verified results.",
+      "Check for unintended consequences and include safety and workload measures in the control plan."
+    ],
+    "correct": 3,
+    "explanation": "Kaizen should reduce overburden, not transfer waste onto people. Safety and morale are critical measures.",
+    "type": "Unintended Consequences"
+  },
+  {
+    "section": "Metrics, Daily Management & Sustainability",
+    "q": "A visual board has charts, but employees say they do not know what is good, what is bad, or what action to take.\n\nWhat should be improved?",
+    "opts": [
+      "Add more charts until the board is full, but it misses sustainment, in this scenario, for the affected process.",
+      "Limit board access to managers, but it misses sustainment, with ownership assigned, under the current standard.",
+      "Add targets, abnormality thresholds, owners, action status, and escalation rules so the board guides decisions.",
+      "Move the board to a conference room, but it misses sustainment, as the team’s response, with learning captured."
+    ],
+    "correct": 2,
+    "explanation": "A visual board should turn data into shared understanding and action.",
+    "type": "Visual Metrics"
+  },
+  {
+    "section": "Metrics, Daily Management & Sustainability",
+    "q": "A successful Kaizen in one area may help similar areas, but the original team simply files the report.\n\nWhat should the organization do?",
+    "opts": [
+      "Keep the learning local to protect ownership, but it misses verified results, before wider rollout.",
+      "Wait until another area has the same failure, but it misses verified results, before wider rollout.",
+      "Use yokoten: share the learning, verify applicability, adapt the standard, and avoid blind copying.",
+      "Force every area to copy the solution exactly tomorrow, but it misses sustainment, with follow-up."
+    ],
+    "correct": 2,
+    "explanation": "Yokoten spreads learning across the organization while still checking local conditions.",
+    "type": "Knowledge Sharing"
+  },
+  {
+    "section": "Leadership, Strategy Deployment & Advanced Kaizen",
+    "q": "A company has dozens of local Kaizen ideas but little progress on its strategic goals for delivery and quality.\n\nWhich approach would better align improvement work?",
+    "opts": [
+      "Measure only the number of Kaizen events completed, but it misses Kaizen leadership, as the team’s response, for the affected process.",
+      "Stop all local improvement because only corporate projects matter, but it misses Kaizen leadership, with follow-up, for the next step.",
+      "Let every team improve whatever is easiest regardless of strategy, but it misses Kaizen leadership, with follow-up, for the next step.",
+      "Connect Kaizen priorities to strategy deployment, clear breakthrough objectives, process-level targets, and daily management routines."
+    ],
+    "correct": 3,
+    "explanation": "Strategy deployment helps align daily improvement with the few critical business gaps without eliminating local problem solving.",
+    "type": "Hoshin Alignment"
+  },
+  {
+    "section": "Leadership, Strategy Deployment & Advanced Kaizen",
+    "q": "A senior leader wants to support Kaizen but mainly asks for weekly slide decks. Teams say barriers remain unresolved at the gemba.\n\nWhich leadership behavior is most helpful?",
+    "opts": [
+      "Request more slides with smaller fonts, but it misses trust or strategy alignment, for the process gap, under the current standard.",
+      "Visit only when results are poor and assign blame, but it misses Kaizen leadership, as the team’s response, with learning captured.",
+      "Delegate all Kaizen responsibility to the continuous-improvement manager, but it misses Kaizen leadership, with ownership assigned.",
+      "Practice leader standard work: go see, ask about standards and problems, coach PDCA, remove barriers, and follow up on commitments."
+    ],
+    "correct": 3,
+    "explanation": "Leaders sustain Kaizen through routines that connect them to actual work, coaching, and barrier removal.",
+    "type": "Leadership Behavior"
+  },
+  {
+    "section": "Leadership, Strategy Deployment & Advanced Kaizen",
+    "q": "A coach asks a team, 'What is the target condition? What is the actual condition? What obstacles do you think are preventing you from reaching it? What is your next experiment?'\n\nWhich practice is the coach using?",
+    "opts": [
+      "Improvement Kata-style coaching, because it supports Kaizen leadership, for the next step.",
+      "A final inspection checklist, but it misses Kaizen leadership, under the current standard.",
+      "A red-tag auction, but it misses Kaizen leadership, in this scenario, for the process gap.",
+      "A financial close process, but it misses trust or strategy alignment, for the process gap."
+    ],
+    "correct": 0,
+    "explanation": "Improvement Kata builds scientific thinking through repeated coaching cycles toward a target condition.",
+    "type": "Coaching Kata"
+  },
+  {
+    "section": "Leadership, Strategy Deployment & Advanced Kaizen",
+    "q": "A leadership team launches ten strategic initiatives and asks every department to support all of them equally. Employees are confused about priorities.\n\nWhat should a Kaizen professional recommend?",
+    "opts": [
+      "Let each department choose different strategic priorities without alignment, but it misses Kaizen leadership, for the next step.",
+      "Narrow and sequence priorities, define clear targets, cascade responsibility, and review progress through a disciplined cadence.",
+      "Add more initiatives so every function feels represented, but it misses Kaizen leadership, in this scenario, during normal work.",
+      "Avoid targets because targets create pressure, but it misses Kaizen leadership, for the process gap, under the current standard."
+    ],
+    "correct": 1,
+    "explanation": "Strategy deployment requires focus. Too many priorities dilute problem-solving effort and daily management attention.",
+    "type": "Strategy Deployment"
+  },
+  {
+    "section": "Leadership, Strategy Deployment & Advanced Kaizen",
+    "q": "A product launch delay crosses engineering, purchasing, quality, and manufacturing. Each function improved its own tasks, but the total launch lead time did not improve.\n\nWhat should the team do?",
+    "opts": [
+      "Add a final expediting meeting after all delays occur, but it misses Kaizen leadership, in this scenario, for the next step.",
+      "Map and improve the cross-functional value stream, including handoffs, decision queues, rework loops, and shared governance.",
+      "Ask each function to optimize its own metric harder, but it misses Kaizen leadership, in this scenario, for the process gap.",
+      "Ignore handoffs because they do not belong to one function, but it misses trust or strategy alignment, before wider rollout."
+    ],
+    "correct": 1,
+    "explanation": "Advanced Kaizen often requires improving the flow across organizational boundaries, not only within silos.",
+    "type": "Cross-Functional Kaizen"
+  },
+  {
+    "section": "Leadership, Strategy Deployment & Advanced Kaizen",
+    "q": "A Kaizen change affects roles, routines, and performance visibility. Some employees resist because they do not understand the reason for change or how they will be supported.\n\nWhich change-management action is best?",
+    "opts": [
+      "Force compliance without discussion because Kaizen is always beneficial, but it misses Kaizen leadership, as the team’s response, for the affected process.",
+      "Hide the change until the launch date, but it misses leader coaching, aligned priorities, trust, or capability, in this scenario, for the affected process.",
+      "Assume resistance means the idea is wrong and abandon it immediately, but it misses Kaizen leadership, with ownership assigned, under the current standard.",
+      "Communicate the purpose and gap, involve affected people, provide training and support, listen to concerns, and reinforce the new standard through leaders."
+    ],
+    "correct": 3,
+    "explanation": "Respectful change management improves adoption by connecting purpose, participation, capability, and leadership follow-through.",
+    "type": "Change Management"
+  },
+  {
+    "section": "Leadership, Strategy Deployment & Advanced Kaizen",
+    "q": "An organization has a small group of improvement experts, but daily teams depend on them for every problem. Leaders want Kaizen to become part of normal work.\n\nWhat should they build?",
+    "opts": [
+      "A larger central team that owns all local issues forever, but it misses Kaizen leadership, with ownership assigned, for the affected process.",
+      "A suggestion box with no feedback process, but it misses leader coaching, aligned priorities, trust, or capability, for the affected process.",
+      "Capability in frontline problem solving, coaching, standard work, and daily management so improvement is distributed across the organization.",
+      "A rule that only experts may run Kaizen activities, but it misses trust or strategy alignment, for the process gap, for the affected process."
+    ],
+    "correct": 2,
+    "explanation": "Kaizen maturity grows when problem-solving capability is developed in the line organization, supported by coaches and leaders.",
+    "type": "Capability Building"
+  },
+  {
+    "section": "Leadership, Strategy Deployment & Advanced Kaizen",
+    "q": "A company buys a digital improvement platform and expects Kaizen participation to increase automatically. Six months later, few ideas are implemented.\n\nWhat is the most likely missing element?",
+    "opts": [
+      "A management system for coaching, prioritizing, testing, implementing, recognizing, and sustaining ideas; software alone does not create Kaizen culture.",
+      "More required fields in the software form, but it misses leader coaching, aligned priorities, trust, or capability, in this scenario, for the next step.",
+      "A ban on paper visual boards, but it misses leader coaching, aligned priorities, trust, or capability, as the team’s response, for the affected process.",
+      "A rule that all ideas must wait for annual review, while treating Kaizen as tools or reporting instead of a management system, for the affected process."
+    ],
+    "correct": 0,
+    "explanation": "Digital tools can support Kaizen, but they cannot replace leadership behavior, local routines, and rapid feedback.",
+    "type": "Digital Kaizen"
+  },
+  {
+    "section": "Leadership, Strategy Deployment & Advanced Kaizen",
+    "q": "A leader says, 'Once Kaizen removes waste, we can eliminate jobs and ask the remaining people to submit more ideas.' Participation quickly drops.\n\nWhat is the best interpretation?",
+    "opts": [
+      "The team lacks enough slogans, but it misses leader coaching, aligned priorities, trust, or capability, for the process gap, under the current standard.",
+      "Employees dislike all improvement regardless of leadership behavior, but it misses Kaizen leadership, with ownership assigned, for the affected process.",
+      "The leader has undermined respect for people and psychological safety, which are necessary for honest problem identification and continuous improvement.",
+      "The solution is to make idea submission mandatory and anonymous only, but it misses Kaizen leadership, as the team’s response, for the affected process."
+    ],
+    "correct": 2,
+    "explanation": "Kaizen depends on trust. Using employee ideas primarily to threaten jobs discourages the transparency needed for improvement.",
+    "type": "Respect and Trust"
+  },
+  {
+    "section": "Leadership, Strategy Deployment & Advanced Kaizen",
+    "q": "A mature Kaizen system is being assessed. The organization has idea boards, events, A3s, daily huddles, leader standard work, and strategy deployment.\n\nWhich evidence best indicates the system is truly working?",
+    "opts": [
+      "Problems are surfaced early, teams solve them using facts and standards, leaders coach and remove barriers, improvements sustain, and results improve in customer and business terms.",
+      "The continuous-improvement office produces a large monthly report, but it misses leader coaching, aligned priorities, trust, or capability, in this scenario, as the team’s response.",
+      "Every wall has a board, even if the boards are not used for decisions, but it misses leader coaching, aligned priorities, trust, or capability, in this scenario, during normal work.",
+      "The number of Kaizen events increases each year regardless of impact or sustainment, but it misses trust or strategy alignment, under the current standard, for the affected process."
+    ],
+    "correct": 0,
+    "explanation": "Kaizen maturity is shown by behavior and outcomes: visible problems, disciplined learning, leader engagement, sustained standards, and improved value.",
+    "type": "System Maturity"
+  }
+];
+const SECTIONS = [
+  {
+    "key": "Kaizen Foundations & Mindset",
+    "label": "Section A - Kaizen Foundations & Mindset",
+    "cls": "sec-fund",
+    "range": "Questions 1-10"
+  },
+  {
+    "key": "Gemba Observation & Waste Identification",
+    "label": "Section B - Gemba Observation & Waste Identification",
+    "cls": "sec-llm",
+    "range": "Questions 11-20"
+  },
+  {
+    "key": "5S & Workplace Organization",
+    "label": "Section C - 5S & Workplace Organization",
+    "cls": "sec-rag",
+    "range": "Questions 21-30"
+  },
+  {
+    "key": "Standard Work & Visual Management",
+    "label": "Section D - Standard Work & Visual Management",
+    "cls": "sec-agent",
+    "range": "Questions 31-40"
+  },
+  {
+    "key": "PDCA, A3 & Structured Problem Solving",
+    "label": "Section E - PDCA, A3 & Structured Problem Solving",
+    "cls": "sec-ops",
+    "range": "Questions 41-50"
+  },
+  {
+    "key": "Flow, Value Stream Mapping & Pull Systems",
+    "label": "Section F - Flow, Value Stream Mapping & Pull Systems",
+    "cls": "sec-safe",
+    "range": "Questions 51-60"
+  },
+  {
+    "key": "Quality at the Source & Error Proofing",
+    "label": "Section G - Quality at the Source & Error Proofing",
+    "cls": "sec-fund",
+    "range": "Questions 61-70"
+  },
+  {
+    "key": "Kaizen Events & Facilitation",
+    "label": "Section H - Kaizen Events & Facilitation",
+    "cls": "sec-llm",
+    "range": "Questions 71-80"
+  },
+  {
+    "key": "Metrics, Daily Management & Sustainability",
+    "label": "Section I - Metrics, Daily Management & Sustainability",
+    "cls": "sec-rag",
+    "range": "Questions 81-90"
+  },
+  {
+    "key": "Leadership, Strategy Deployment & Advanced Kaizen",
+    "label": "Section J - Leadership, Strategy Deployment & Advanced Kaizen",
+    "cls": "sec-agent",
+    "range": "Questions 91-100"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+
+let mode = 'guided', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 2*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='02:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'
+       +     '<span class="q-type">'+escapeHtml(q.type||'Mixed')+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/100';
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/100';
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  if(pct>=0.9){ grade='Kaizen Excellence Leader'; blurb='Outstanding. You connect respect for people, gemba facts, PDCA learning, standard work, flow, quality at the source, and sustainment into a mature improvement system.'; }
+  else if(pct>=0.75){ grade='Kaizen Professional'; blurb='Strong Kaizen judgment. Review missed items - they usually hinge on standardization, waste visibility, root-cause thinking, flow, measurement, or sustainment.'; }
+  else if(pct>=0.6){ grade='Kaizen Practitioner'; blurb='Solid working knowledge of continuous improvement. Strengthen weaker sections, especially gemba observation, PDCA, visual management, and control of improvements.'; }
+  else if(pct>=0.4){ grade='Developing Kaizen Practitioner'; blurb='Your Kaizen instincts are forming. Revisit the basics: customer value, waste, 5S, standard work, PDCA, quality at the source, and daily management.'; }
+  else { grade='Begin the Kaizen Journey'; blurb='Start with Kaizen fundamentals: go see the work, respect people, identify waste, test small changes, standardize what works, and sustain through daily management.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 100 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one question at a time. 2-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Certificate name</label>
+    <input id="chmlCertNameInput" type="text" maxlength="80" placeholder="Enter name for certificate" oninput="chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" type="button" onclick="chmlPrintCertificate()">Print / Save as PDF</button>
+    <button class="chml-cert-btn secondary" type="button" onclick="chmlHideCertificate()">Hide Certificate</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div><div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker"><span id="chmlCertExamKicker">Knowledge Hub Examination</span></div>
+      <h1 class="chml-cert-h1">Certificate of Completion</h1>
+      <div class="chml-cert-rule"></div>
+      <p class="chml-cert-pre">This certifies that</p>
+      <p class="chml-cert-name" id="chmlCertName">Learner</p>
+      <p class="chml-cert-body">has successfully completed the <b id="chmlCertExamName">Knowledge Hub Exam</b>.</p>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">0 / 0</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">-</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Quak Foo Lee</div><div class="chml-cert-sig-label">Chmltech Ltd.</div></div>
+        <div class="chml-cert-id">Certificate ID: <span id="chmlCertId">-</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertificateInstalled) return;
+  window.__chmlCertificateInstalled = true;
+  function textOf(sel){var el=document.querySelector(sel);return el?el.textContent.trim():'';}
+  function examTitle(){return textOf('h1.title')||textOf('header h1')||textOf('h1')||document.title.replace(/\s+/g,' ').trim()||'Knowledge Hub Exam';}
+  function parseFirstNumber(txt){var m=String(txt||'').match(/\d+/);return m?parseInt(m[0],10):null;}
+  function parseScoreTotal(){
+    var correct=parseFirstNumber(textOf('#rScore'));
+    var total=null;
+    var rt=textOf('#rTotal');
+    if(rt) total=parseFirstNumber(rt);
+    if(!total){var sb=textOf('.score-big');var m=sb.match(/\/\s*(\d+)/);if(m) total=parseInt(m[1],10);}
+    if(!total) total=parseFirstNumber(textOf('#progTotal'));
+    if(!total){var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;if(cards) total=cards;}
+    if(!correct && correct!==0) correct=parseFirstNumber(textOf('#scoreNum'));
+    return {correct:correct||0,total:total||0};
+  }
+  function totalFromBreakdown(byType){
+    if(!byType || typeof byType!=='object') return null;
+    var total=0, found=false;
+    Object.keys(byType).forEach(function(k){var v=byType[k];if(v&&typeof v==='object'){var n=v.t||v.total||v.count;if(typeof n==='number'){total+=n;found=true;}}});
+    return found?total:null;
+  }
+  function hashCode(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+  window.chmlUpdateCertificateName=function(name){document.getElementById('chmlCertName').textContent=(name||'').trim()||'Learner';};
+  window.chmlHideCertificate=function(){var c=document.getElementById('chmlCertificate');if(c)c.classList.remove('show');};
+  window.chmlPrintCertificate=function(){window.print();};
+  window.chmlRenderCertificate=function(correct,total,grade){
+    var cert=document.getElementById('chmlCertificate');if(!cert)return;
+    var title=examTitle();
+    var nameInput=document.getElementById('chmlCertNameInput');
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
+    var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
+    document.getElementById('chmlCertExamName').textContent=title;
+    document.getElementById('chmlCertName').textContent=learner;
+    document.getElementById('chmlCertScore').textContent=String(correct)+' / '+String(total||0)+(total?(' ('+Math.round((correct/total)*100)+'%)'):'');
+    document.getElementById('chmlCertDate').textContent=date;
+    document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
+    cert.classList.add('show');
+  };
+
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
+    var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){
+      var parsed=parseScoreTotal();
+      if(correct===null || isNaN(correct)) correct=parsed.correct;
+      if(!total) total=parsed.total;
+      if(total || correct || document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0);
+    },60);
+  }
+  if(typeof window.showResults==='function'){
+    var originalShowResults=window.showResults;
+    window.showResults=function(){var out=originalShowResults.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  if(typeof window.submitExam==='function'){
+    var originalSubmitExam=window.submitExam;
+    window.submitExam=function(){var out=originalSubmitExam.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  ['resetExam','newExam'].forEach(function(fn){
+    if(typeof window[fn]==='function'){
+      var original=window[fn];
+      window[fn]=function(){window.chmlHideCertificate();return original.apply(this,arguments);};
+    }
+  });
+})();
+</script>
+
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>
+
+
