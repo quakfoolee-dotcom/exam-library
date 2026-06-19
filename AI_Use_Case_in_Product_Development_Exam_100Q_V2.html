@@ -1,0 +1,2141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Use Case in Product Development Exam - 100Q (V2)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  /* Section palette \u2014 broader, engineering-themed */
+  --fund:#1f4a7d;
+  --llm:#5a2585;
+  --rag:#0e6b6a;
+  --agent:#a85410;
+  --ops:#226b2d;
+  --safe:#9b2c3a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(31,74,125,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.8rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--fund),var(--llm));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-fund{background:linear-gradient(100deg,var(--fund),#0c2541)}
+.sec-llm{background:linear-gradient(100deg,var(--llm),#311148)}
+.sec-rag{background:linear-gradient(100deg,var(--rag),#06403f)}
+.sec-agent{background:linear-gradient(100deg,var(--agent),#5e2d05)}
+.sec-ops{background:linear-gradient(100deg,var(--ops),#0e3d18)}
+.sec-safe{background:linear-gradient(100deg,var(--safe),#5b181f)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-type{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;border:1px solid currentColor;opacity:.85;color:var(--llm)}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.1rem;line-height:1.55;margin-bottom:16px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:13px 16px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.45);transition:all .18s ease;font-size:1rem;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.07);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s}
+.opt .otext{flex:1;padding-top:1px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.1)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px;display:flex;align-items:center;gap:8px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:180px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 18px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:1.02rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+<!-- V2: Product Development question bank with varied answer-option wording, rearranged order, unique scenarios, and length-balanced options. -->
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">AI Use Case Series &middot; Product Development</div>
+    <h1 class="title">AI Use Case <span class="amp">in Product Development</span> Exam</h1>
+    <div class="byline">Scenario-based questions across product strategy, customer discovery, ideation, requirements, UX design, prototyping, engineering validation, experimentation, quality, launch, lifecycle feedback, governance, and scalable product AI delivery</div>
+    <div class="exambar">
+      <span><b>100</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>100</b> Marks</span>
+      <span>Exam Mode: <b>2 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/100</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">02:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/100</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 2-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    AI Use Case in Product Development Exam &middot; 100 scenario-based questions &middot; V2 (Guided / Instant / Exam-with-Timer)
+    <div class="disclaimer">An independent AI use-case study resource for product leaders, product managers, designers, engineers, researchers, consultants, and innovation teams. Use validated customer evidence, product analytics, engineering data, cybersecurity controls, privacy requirements, regulatory obligations, responsible AI governance, and professional judgment before deploying AI in real products.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "Ideation, Concept Screening & Roadmapping",
+    "q": "A cross-functional team uses generative AI to create hundreds of feature ideas, but the workshop ends with no screening criteria.\n\nWhat should be validated before the team scales this use case?",
+    "opts": [
+      "Apply explicit filters for customer problem, differentiation, feasibility, risk, and evidence.",
+      "Fund AI ideation screening mainly because it sounds innovative in the roadmap presentation.",
+      "Let a vendor clean idea list for AI ideation screening without shared definitions or acceptance rules.",
+      "Track AI ideation screening usage alone, even if the workflow still fails to improve concept quality."
+    ],
+    "correct": 0,
+    "explanation": "For AI ideation screening, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Idea Screening"
+  },
+  {
+    "section": "Discovery, Portfolio & Business Value",
+    "q": "A field-service software team wants an AI feature for technicians, but no one has mapped which repair decisions create the longest delays.\n\nWhat should be built into the product-development workflow?",
+    "opts": [
+      "Rely on leadership preference for technician decision mapping instead of testing the problem with target users.",
+      "Map technician decision points, baseline delay cost, workflow owner, and adoption risk in pilot.",
+      "Give teams a short note for technician decision mapping with no escalation, monitoring, or rollback path.",
+      "Ask every squad to use technician decision mapping the same way even when risks and users differ."
+    ],
+    "correct": 1,
+    "explanation": "For technician decision mapping, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Use-Case Framing"
+  },
+  {
+    "section": "Experimentation, Product Analytics & Growth",
+    "q": "A product team wants to A/B test an AI onboarding assistant, but users may be exposed through shared workspaces across both groups.\n\nHow should the product leader frame this decision?",
+    "opts": [
+      "Let a vendor clean experiment data for onboarding assistant experiment without shared definitions or acceptance rules.",
+      "Track onboarding assistant experiment usage alone, even if the workflow still fails to improve activation lift.",
+      "Design randomization, contamination controls, success metrics, and support guardrails before launch.",
+      "Convert onboarding assistant experiment into backlog stories before validating who needs the decision support."
+    ],
+    "correct": 2,
+    "explanation": "For onboarding assistant experiment, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Experiment Design"
+  },
+  {
+    "section": "Data, Governance & Product AI Operating Model",
+    "q": "A product organization stores customer, usage, telemetry, and support data in separate systems with conflicting account IDs.\n\nWhat should be built into the product-development workflow?",
+    "opts": [
+      "Scale product data model across product lines before testing risk, support load, or segment effects.",
+      "Show a polished demo for product data model first, then decide later whether it solves a real problem.",
+      "Push product data model through communication alone while incentives and decision rights stay unclear.",
+      "Create a governed product data model with identity resolution, owners, definitions, and lineage."
+    ],
+    "correct": 3,
+    "explanation": "For product data model, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Data Model"
+  },
+  {
+    "section": "Design, Prototyping & UX Validation",
+    "q": "A UX team tests an AI search prototype, but the prototype gives polished answers even when catalog data is incomplete.\n\nHow should the product leader frame this decision?",
+    "opts": [
+      "Flag uncertainty, show sources, test recovery paths, and measure trust under missing data before scaling.",
+      "Count AI outputs for AI search prototype instead of user trust, adoption, and behavior change.",
+      "Convert AI search prototype into backlog stories before validating who needs the decision support.",
+      "Build AI search prototype from the easiest available prototype data and postpone source mapping until rollout."
+    ],
+    "correct": 0,
+    "explanation": "For AI search prototype, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Trust Testing"
+  },
+  {
+    "section": "Customer Insights, Research & Voice of Customer",
+    "q": "A product team reads thousands of app-store reviews but only discusses the loudest complaints during roadmap meetings.\n\nWhat is the best next step for the product team?",
+    "opts": [
+      "Assume teams will maintain app-review insight mining without owners, monitoring, or funding clarity.",
+      "Cluster review themes, quantify affected segments, link examples, and preserve source traceability.",
+      "Turn app-review insight mining into a prototype now, then backfill evidence after sponsors react.",
+      "Remove review gates for app-review insight mining and add privacy, safety, and support controls later."
+    ],
+    "correct": 1,
+    "explanation": "For app-review insight mining, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Review Mining"
+  },
+  {
+    "section": "Quality, Safety, Compliance & Risk",
+    "q": "A product team wants AI to recommend machine settings to operators, but wrong settings could damage equipment.\n\nWhich control or design choice would make the use case stronger?",
+    "opts": [
+      "Convert operator setting recommendation into backlog stories before validating who needs the decision support.",
+      "Let a vendor clean control limits for operator setting recommendation without shared definitions or acceptance rules.",
+      "Use risk assessment, validated limits, human confirmation, logging, and rollback controls with care.",
+      "Skip release controls for operator setting recommendation because the idea is exploratory and not yet core."
+    ],
+    "correct": 2,
+    "explanation": "For operator setting recommendation, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Safety Control"
+  },
+  {
+    "section": "Requirements, PRDs & Backlog Decisions",
+    "q": "A product manager uses AI to draft a PRD from Slack messages, but the source discussion includes unresolved disagreements.\n\nWhich option best connects AI capability to product outcomes?",
+    "opts": [
+      "Turn PRD generation into a prototype now, then backfill evidence after sponsors react.",
+      "Count AI outputs for PRD generation instead of requirement clarity, adoption, and behavior change.",
+      "Close the PRD generation pilot after one positive review without testing exception paths.",
+      "Ground the PRD in approved decisions, unresolved questions, assumptions, and named owners."
+    ],
+    "correct": 3,
+    "explanation": "For PRD generation, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "PRD Governance"
+  },
+  {
+    "section": "Launch, Lifecycle & Feedback Loops",
+    "q": "A product launch includes an AI help assistant, but support teams have not defined which questions should escalate to humans.\n\nWhich control or design choice would make the use case stronger?",
+    "opts": [
+      "Define escalation rules, approved sources, confidence thresholds, and feedback capture now before scaling.",
+      "Fund launch support assistant mainly because it sounds innovative in the roadmap presentation.",
+      "Let a vendor clean knowledge base for launch support assistant without shared definitions or acceptance rules.",
+      "Declare launch support assistant successful when model scores improve, even if support resolution stays flat."
+    ],
+    "correct": 0,
+    "explanation": "For launch support assistant, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Launch Support"
+  },
+  {
+    "section": "Engineering, Simulation & Technical Feasibility",
+    "q": "A battery product team wants AI to predict thermal risk during fast charging, but sensor coverage differs across prototypes.\n\nWhat is the best next step for the product team?",
+    "opts": [
+      "Prioritize battery thermal model by technical curiosity rather than unmet user need or adoption friction.",
+      "Validate thermal predictions against instrumented tests, sensor gaps, and operating ranges.",
+      "Remove review gates for battery thermal model and add privacy, safety, and support controls later.",
+      "Ask every squad to use battery thermal model the same way even when risks and users differ."
+    ],
+    "correct": 1,
+    "explanation": "For battery thermal model, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Simulation Validation"
+  },
+  {
+    "section": "Discovery, Portfolio & Business Value",
+    "q": "A consumer electronics group has twelve AI accessory concepts after an executive workshop and only one prototype budget for the quarter.\n\nWhich option best connects AI capability to product outcomes?",
+    "opts": [
+      "Let a vendor clean concept evidence for accessory concept portfolio without shared definitions or acceptance rules.",
+      "Track accessory concept portfolio usage alone, even if the workflow still fails to improve prototype ROI.",
+      "Score concepts by customer value, feasibility, margin impact, data readiness, and risk in pilot before scaling.",
+      "Convert accessory concept portfolio into backlog stories before validating who needs the decision support."
+    ],
+    "correct": 2,
+    "explanation": "For accessory concept portfolio, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Portfolio Prioritization"
+  },
+  {
+    "section": "Experimentation, Product Analytics & Growth",
+    "q": "A collaboration tool adds an AI summarizer, but dashboard views only show that summaries were generated, not whether work improved.\n\nWhich action best protects value, users, and delivery discipline?",
+    "opts": [
+      "Skip release controls for AI summarizer analytics because the idea is exploratory and not yet core.",
+      "Turn AI summarizer analytics into a prototype now, then backfill evidence after sponsors react.",
+      "Ask every squad to use AI summarizer analytics the same way even when risks and users differ.",
+      "Measure decision speed, rework, user adoption, quality ratings, and downstream outcomes."
+    ],
+    "correct": 3,
+    "explanation": "For AI summarizer analytics, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Outcome Measurement"
+  },
+  {
+    "section": "Data, Governance & Product AI Operating Model",
+    "q": "A product team wants every squad to build AI features, but no one owns model risk, monitoring, prompt standards, or user feedback loops.\n\nWhich option best connects AI capability to product outcomes?",
+    "opts": [
+      "Assign product, data, engineering, legal, security, and operations accountabilities clearly.",
+      "Track AI feature governance usage alone, even if the workflow still fails to improve ownership clarity.",
+      "Let internal opinions define AI feature governance before observing real work and customer behavior.",
+      "Build AI feature governance from the easiest available team roles and postpone source mapping until rollout."
+    ],
+    "correct": 0,
+    "explanation": "For AI feature governance, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Operating Model"
+  },
+  {
+    "section": "Design, Prototyping & UX Validation",
+    "q": "A design team generates wireframes for a clinician dashboard, but some layouts hide critical alerts below the fold.\n\nWhich action best protects value, users, and delivery discipline?",
+    "opts": [
+      "Ask every squad to use clinician dashboard prototype the same way even when risks and users differ.",
+      "Evaluate prototypes against clinical priority, visibility, workflow timing, and safety needs now.",
+      "Fund clinician dashboard prototype mainly because it sounds innovative in the roadmap presentation.",
+      "Remove review gates for clinician dashboard prototype and add privacy, safety, and support controls later."
+    ],
+    "correct": 1,
+    "explanation": "For clinician dashboard prototype, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Safety UX"
+  },
+  {
+    "section": "Customer Insights, Research & Voice of Customer",
+    "q": "A B2B platform has many interview transcripts from buyers, users, and admins, but product managers summarize them differently.\n\nWhich AI-enabled approach is most appropriate here?",
+    "opts": [
+      "Convert interview synthesis into backlog stories before validating who needs the decision support.",
+      "Build interview synthesis from the easiest available transcripts and postpone source mapping until rollout.",
+      "Use AI to code transcripts against a shared taxonomy, then review themes with researchers.",
+      "Skip release controls for interview synthesis because the idea is exploratory and not yet core."
+    ],
+    "correct": 2,
+    "explanation": "For interview synthesis, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Research Synthesis"
+  },
+  {
+    "section": "Quality, Safety, Compliance & Risk",
+    "q": "A health app wants AI to classify symptoms, but the marketing page describes the feature as diagnostic support.\n\nHow should the product leader frame this decision?",
+    "opts": [
+      "Fund health-app symptom feature mainly because it sounds innovative in the roadmap presentation.",
+      "Declare health-app symptom feature successful when model scores improve, even if claim compliance stays flat.",
+      "Close the health-app symptom feature pilot after one positive review without testing exception paths.",
+      "Align claims with intended use, clinical evidence, regulatory review, and escalation guidance."
+    ],
+    "correct": 3,
+    "explanation": "For health-app symptom feature, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Regulatory Claims"
+  },
+  {
+    "section": "Requirements, PRDs & Backlog Decisions",
+    "q": "A team wants AI to write acceptance criteria for a claims-submission feature used by customers and back-office reviewers.\n\nWhat is the best next step for the product team?",
+    "opts": [
+      "Generate criteria by role, workflow, edge case, data state, and testable outcome for target users.",
+      "Fund acceptance criteria generation mainly because it sounds innovative in the roadmap presentation.",
+      "Let a vendor clean process rules for acceptance criteria generation without shared definitions or acceptance rules.",
+      "Declare acceptance criteria generation successful when model scores improve, even if story readiness stays flat."
+    ],
+    "correct": 0,
+    "explanation": "For acceptance criteria generation, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Acceptance Criteria"
+  },
+  {
+    "section": "Launch, Lifecycle & Feedback Loops",
+    "q": "A mobile app receives negative reviews after an AI feature release, but feedback mixes bugs, confusion, price concerns, and privacy worries.\n\nHow should the product leader frame this decision?",
+    "opts": [
+      "Convert post-launch review mining into backlog stories before validating who needs the decision support.",
+      "Classify reviews by theme, severity, segment, version, and needed product action with review.",
+      "Let the tool for post-launch review mining use broad files without approved sources, logs, or fallback rules.",
+      "Ask every squad to use post-launch review mining the same way even when risks and users differ."
+    ],
+    "correct": 1,
+    "explanation": "For post-launch review mining, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Review Triage"
+  },
+  {
+    "section": "Engineering, Simulation & Technical Feasibility",
+    "q": "A mechanical team uses generative design for a lightweight bracket, but the first designs are hard to manufacture at volume.\n\nWhich AI-enabled approach is most appropriate here?",
+    "opts": [
+      "Let a vendor clean CAD constraints for generative bracket design without shared definitions or acceptance rules.",
+      "Track generative bracket design usage alone, even if the workflow still fails to improve manufacturing feasibility.",
+      "Constrain design generation by loads, materials, process capability, cost, and inspection limits.",
+      "Convert generative bracket design into backlog stories before validating who needs the decision support."
+    ],
+    "correct": 2,
+    "explanation": "For generative bracket design, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Generative Design"
+  },
+  {
+    "section": "Ideation, Concept Screening & Roadmapping",
+    "q": "A product council likes an AI concierge concept because it sounds innovative, but no customer has asked for concierge support.\n\nWhich control or design choice would make the use case stronger?",
+    "opts": [
+      "Skip release controls for AI concierge concept because the idea is exploratory and not yet core.",
+      "Turn AI concierge concept into a prototype now, then backfill evidence after sponsors react.",
+      "Ask every squad to use AI concierge concept the same way even when risks and users differ.",
+      "Test the concept against jobs-to-be-done, willingness to pay, trust, and usage frequency."
+    ],
+    "correct": 3,
+    "explanation": "For AI concierge concept, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Concept Validation"
+  },
+  {
+    "section": "Experimentation, Product Analytics & Growth",
+    "q": "A product analytics team sees high AI feature usage from power users, while new users ignore the same feature.\n\nWhat should be built into the product-development workflow?",
+    "opts": [
+      "Segment adoption by user maturity, job, account context, onboarding path, and value realized now.",
+      "Track feature adoption segmentation usage alone, even if the workflow still fails to improve new-user activation.",
+      "Convert feature adoption segmentation into backlog stories before validating who needs the decision support.",
+      "Let a vendor clean product events for feature adoption segmentation without shared definitions or acceptance rules."
+    ],
+    "correct": 0,
+    "explanation": "For feature adoption segmentation, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Adoption Segmentation"
+  },
+  {
+    "section": "Data, Governance & Product AI Operating Model",
+    "q": "A generative feature uses product documents, but teams cannot prove which source version produced a customer-facing answer.\n\nWhat is the best next step for the product team?",
+    "opts": [
+      "Ask every squad to use source lineage control the same way even when risks and users differ.",
+      "Maintain source lineage, retrieval logs, versioning, review status, and answer traceability.",
+      "Fund source lineage control mainly because it sounds innovative in the roadmap presentation.",
+      "Remove review gates for source lineage control and add privacy, safety, and support controls later."
+    ],
+    "correct": 1,
+    "explanation": "For source lineage control, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Lineage"
+  },
+  {
+    "section": "Design, Prototyping & UX Validation",
+    "q": "A fintech app wants an AI coach persona, but early testers say the tone feels judgmental when explaining spending patterns.\n\nWhat should be built into the product-development workflow?",
+    "opts": [
+      "Convert AI coach persona into backlog stories before validating who needs the decision support.",
+      "Let a vendor clean usability sessions for AI coach persona without shared definitions or acceptance rules.",
+      "Test tone, emotional impact, user control, and opt-out paths with target segments before scaling.",
+      "Skip release controls for AI coach persona because the idea is exploratory and not yet core."
+    ],
+    "correct": 2,
+    "explanation": "For AI coach persona, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Tone Validation"
+  },
+  {
+    "section": "Customer Insights, Research & Voice of Customer",
+    "q": "A hardware startup wants to survey early adopters, but the team worries the questions will confirm the founder's favorite feature.\n\nWhat should be validated before the team scales this use case?",
+    "opts": [
+      "Fund survey design mainly because it sounds innovative in the roadmap presentation.",
+      "Track survey design usage alone, even if the workflow still fails to improve hypothesis quality.",
+      "Close the survey design pilot after one positive review without testing exception paths.",
+      "Use AI to draft neutral questions, test bias, and align survey items to hypotheses."
+    ],
+    "correct": 3,
+    "explanation": "For survey design, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Survey Quality"
+  },
+  {
+    "section": "Quality, Safety, Compliance & Risk",
+    "q": "A connected toy uses AI voice features, raising concerns about children, consent, recordings, and content filtering.\n\nWhich action best protects value, users, and delivery discipline?",
+    "opts": [
+      "Define data minimization, parental consent, retention, moderation, and security testing clearly.",
+      "Fund connected toy voice feature mainly because it sounds innovative in the roadmap presentation.",
+      "Let a vendor clean audio data for connected toy voice feature without shared definitions or acceptance rules.",
+      "Track connected toy voice feature usage alone, even if the workflow still fails to improve child safety."
+    ],
+    "correct": 0,
+    "explanation": "For connected toy voice feature, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Child Privacy"
+  },
+  {
+    "section": "Requirements, PRDs & Backlog Decisions",
+    "q": "A backlog contains duplicate requests for export, reporting, and alerts under different names across three customer segments.\n\nWhich AI-enabled approach is most appropriate here?",
+    "opts": [
+      "Convert backlog deduplication into backlog stories before validating who needs the decision support.",
+      "Cluster similar requests, preserve segment context, and show value differences before merging.",
+      "Let the tool for backlog deduplication use broad files without approved sources, logs, or fallback rules.",
+      "Ask every squad to use backlog deduplication the same way even when risks and users differ."
+    ],
+    "correct": 1,
+    "explanation": "For backlog deduplication, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Backlog Hygiene"
+  },
+  {
+    "section": "Launch, Lifecycle & Feedback Loops",
+    "q": "A connected appliance shows rising warranty claims in one climate region after a new smart-control update.\n\nWhich action best protects value, users, and delivery discipline?",
+    "opts": [
+      "Let a vendor clean warranty records for warranty signal loop without shared definitions or acceptance rules.",
+      "Track warranty signal loop usage alone, even if the workflow still fails to improve claim reduction.",
+      "Link claims to firmware version, environment, usage mode, batch, and service outcomes before scaling.",
+      "Convert warranty signal loop into backlog stories before validating who needs the decision support."
+    ],
+    "correct": 2,
+    "explanation": "For warranty signal loop, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Warranty Analytics"
+  },
+  {
+    "section": "Engineering, Simulation & Technical Feasibility",
+    "q": "A materials team asks AI to suggest substitutes for a wearable device band after a supplier shortage.\n\nWhat should be validated before the team scales this use case?",
+    "opts": [
+      "Skip release controls for material substitution because the idea is exploratory and not yet core.",
+      "Turn material substitution into a prototype now, then backfill evidence after sponsors react.",
+      "Assume teams will maintain material substitution without owners, monitoring, or funding clarity.",
+      "Rank substitutes by biocompatibility, durability, cost, supplier readiness, and test evidence."
+    ],
+    "correct": 3,
+    "explanation": "For material substitution, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Material Selection"
+  },
+  {
+    "section": "Ideation, Concept Screening & Roadmapping",
+    "q": "A design team generates many dashboard layouts with AI, but each layout emphasizes different metrics and decision flows.\n\nHow should the product leader frame this decision?",
+    "opts": [
+      "Evaluate layouts against target decisions, cognitive load, data trust, and action clarity now before scaling.",
+      "Track dashboard concept selection usage alone, even if the workflow still fails to improve decision clarity.",
+      "Let internal opinions define dashboard concept selection before observing real work and customer behavior.",
+      "Assume workflow maps is reliable enough for dashboard concept selection because it already exists in business systems."
+    ],
+    "correct": 0,
+    "explanation": "For dashboard concept selection, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Concept Evaluation"
+  },
+  {
+    "section": "Discovery, Portfolio & Business Value",
+    "q": "A medical-device startup wants AI to recommend product settings, but clinical risk and regulatory evidence are not yet understood.\n\nWhat is the best next step for the product team?",
+    "opts": [
+      "Ask every squad to use device setting recommendation the same way even when risks and users differ.",
+      "Define intended use, risk class, evidence needs, human oversight, and validation scope with care.",
+      "Fund device setting recommendation mainly because it sounds innovative in the roadmap presentation.",
+      "Remove review gates for device setting recommendation and add privacy, safety, and support controls later."
+    ],
+    "correct": 1,
+    "explanation": "For device setting recommendation, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Intended Use"
+  },
+  {
+    "section": "Data, Governance & Product AI Operating Model",
+    "q": "A model evaluation process reports accuracy, but the product team also needs to know user trust, latency, cost, and safety impact.\n\nWhich AI-enabled approach is most appropriate here?",
+    "opts": [
+      "Convert model evaluation scorecard into backlog stories before validating who needs the decision support.",
+      "Let a vendor clean evaluation data for model evaluation scorecard without shared definitions or acceptance rules.",
+      "Evaluate models with quality, user outcome, latency, cost, safety, and segment metrics clearly.",
+      "Skip release controls for model evaluation scorecard because the idea is exploratory and not yet core."
+    ],
+    "correct": 2,
+    "explanation": "For model evaluation scorecard, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Evaluation Design"
+  },
+  {
+    "section": "Design, Prototyping & UX Validation",
+    "q": "A design-system team wants an AI assistant to generate components, but designers worry it will create inconsistent interaction states.\n\nWhich option best connects AI capability to product outcomes?",
+    "opts": [
+      "Fund design-system assistant mainly because it sounds innovative in the roadmap presentation.",
+      "Declare design-system assistant successful when model scores improve, even if component consistency stays flat.",
+      "Assume teams will maintain design-system assistant without owners, monitoring, or funding clarity.",
+      "Limit generation to approved tokens, components, states, and accessibility rules before launch."
+    ],
+    "correct": 3,
+    "explanation": "For design-system assistant, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Design System Governance"
+  },
+  {
+    "section": "Customer Insights, Research & Voice of Customer",
+    "q": "A subscription product loses accounts after onboarding, yet support tickets are stored separately from product analytics.\n\nWhich control or design choice would make the use case stronger?",
+    "opts": [
+      "Join churned-account tickets with usage events to identify friction before expansion efforts before scaling.",
+      "Fund onboarding churn analysis mainly because it sounds innovative in the roadmap presentation.",
+      "Let a vendor clean support tickets for onboarding churn analysis without shared definitions or acceptance rules.",
+      "Declare onboarding churn analysis successful when model scores improve, even if activation rate stays flat."
+    ],
+    "correct": 0,
+    "explanation": "For onboarding churn analysis, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Churn Insight"
+  },
+  {
+    "section": "Quality, Safety, Compliance & Risk",
+    "q": "A hiring-related product feature ranks candidate-fit recommendations for customers, and bias could affect downstream decisions.\n\nWhat should be built into the product-development workflow?",
+    "opts": [
+      "Convert candidate-fit model into backlog stories before validating who needs the decision support.",
+      "Test for bias, explainability, data representativeness, human review, and appeal paths.",
+      "Let the tool for candidate-fit model use broad files without approved sources, logs, or fallback rules.",
+      "Ask every squad to use candidate-fit model the same way even when risks and users differ."
+    ],
+    "correct": 1,
+    "explanation": "For candidate-fit model, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Bias Review"
+  },
+  {
+    "section": "Requirements, PRDs & Backlog Decisions",
+    "q": "A platform team wants an AI dependency map, but architecture notes, Jira tickets, and API contracts are not consistently linked.\n\nWhat should be validated before the team scales this use case?",
+    "opts": [
+      "Let a vendor clean architecture records for dependency mapping without shared definitions or acceptance rules.",
+      "Declare dependency mapping successful when model scores improve, even if release predictability stays flat.",
+      "Build traceability between tickets, APIs, services, owners, risks, and release dependencies.",
+      "Convert dependency mapping into backlog stories before validating who needs the decision support."
+    ],
+    "correct": 2,
+    "explanation": "For dependency mapping, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Dependency Management"
+  },
+  {
+    "section": "Launch, Lifecycle & Feedback Loops",
+    "q": "A product team has a launch readiness checklist, but AI risks are reviewed separately and late in the release process.\n\nWhat should be built into the product-development workflow?",
+    "opts": [
+      "Skip release controls for AI release readiness because the idea is exploratory and not yet core.",
+      "Turn AI release readiness into a prototype now, then backfill evidence after sponsors react.",
+      "Ask every squad to use AI release readiness the same way even when risks and users differ.",
+      "Add AI data, model, security, legal, support, and monitoring gates to release readiness."
+    ],
+    "correct": 3,
+    "explanation": "For AI release readiness, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Release Gate"
+  },
+  {
+    "section": "Engineering, Simulation & Technical Feasibility",
+    "q": "An embedded-software group wants AI to generate firmware tests for a connected sensor product.\n\nWhich control or design choice would make the use case stronger?",
+    "opts": [
+      "Generate tests from requirements, state transitions, fault modes, and hardware interfaces before scaling.",
+      "Track firmware test generation usage alone, even if the workflow still fails to improve defect detection.",
+      "Convert firmware test generation into backlog stories before validating who needs the decision support.",
+      "Let a vendor clean firmware specs for firmware test generation without shared definitions or acceptance rules."
+    ],
+    "correct": 0,
+    "explanation": "For firmware test generation, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Test Generation"
+  },
+  {
+    "section": "Ideation, Concept Screening & Roadmapping",
+    "q": "A product owner wants AI to rank roadmap items, but strategic themes, technical dependencies, and regulatory deadlines are mixed together.\n\nWhich action best protects value, users, and delivery discipline?",
+    "opts": [
+      "Close the roadmap ranking model pilot after one positive review without testing exception paths.",
+      "Separate value, dependency, deadline, risk, and learning criteria before ranking roadmap choices.",
+      "Pick the flashiest model capability for roadmap ranking model, then search for a workflow it might support.",
+      "Skip release controls for roadmap ranking model because the idea is exploratory and not yet core."
+    ],
+    "correct": 1,
+    "explanation": "For roadmap ranking model, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Roadmap Scoring"
+  },
+  {
+    "section": "Discovery, Portfolio & Business Value",
+    "q": "An industrial IoT product team is debating AI diagnostics, predictive alerts, and an operator assistant without agreeing on the buying trigger.\n\nWhich AI-enabled approach is most appropriate here?",
+    "opts": [
+      "Rely on leadership preference for industrial IoT roadmap instead of testing the problem with target users.",
+      "Let a vendor clean machine telemetry for industrial IoT roadmap without shared definitions or acceptance rules.",
+      "Identify the buyer decision, downtime value, user workflow, install constraints, and data path.",
+      "Skip release controls for industrial IoT roadmap because the idea is exploratory and not yet core."
+    ],
+    "correct": 2,
+    "explanation": "For industrial IoT roadmap, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Buying Trigger"
+  },
+  {
+    "section": "Experimentation, Product Analytics & Growth",
+    "q": "A SaaS company predicts churn risk, but customer-success teams need product actions, not only an account score.\n\nWhich option best connects AI capability to product outcomes?",
+    "opts": [
+      "Fund churn signal actioning mainly because it sounds innovative in the roadmap presentation.",
+      "Declare churn signal actioning successful when model scores improve, even if retention rate stays flat.",
+      "Close the churn signal actioning pilot after one positive review without testing exception paths.",
+      "Translate churn signals into feature gaps, workflow issues, owner actions, and playbooks."
+    ],
+    "correct": 3,
+    "explanation": "For churn signal actioning, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Churn Playbook"
+  },
+  {
+    "section": "Design, Prototyping & UX Validation",
+    "q": "An e-learning product uses AI to personalize lesson paths, but some students lose track of what they have already completed.\n\nWhat is the best next step for the product team?",
+    "opts": [
+      "Prototype progress cues, learner control, explanation, and path recovery before scaling safely.",
+      "Fund adaptive lesson prototype mainly because it sounds innovative in the roadmap presentation.",
+      "Let a vendor clean learner events for adaptive lesson prototype without shared definitions or acceptance rules.",
+      "Declare adaptive lesson prototype successful when model scores improve, even if learning continuity stays flat."
+    ],
+    "correct": 0,
+    "explanation": "For adaptive lesson prototype, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Adaptive UX"
+  },
+  {
+    "section": "Customer Insights, Research & Voice of Customer",
+    "q": "A gaming studio watches social channels for player feedback, but sentiment swings after streamer events distort daily priorities.\n\nHow should the product leader frame this decision?",
+    "opts": [
+      "Convert social listening triage into backlog stories before validating who needs the decision support.",
+      "Separate event noise from recurring player pain, segment cohorts, and track persistent themes.",
+      "Let the tool for social listening triage use broad files without approved sources, logs, or fallback rules.",
+      "Ask every squad to use social listening triage the same way even when risks and users differ."
+    ],
+    "correct": 1,
+    "explanation": "For social listening triage, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Social Signal Quality"
+  },
+  {
+    "section": "Quality, Safety, Compliance & Risk",
+    "q": "A warranty analytics tool predicts likely defects, but service teams may overreact to weak signals from a small batch.\n\nWhich option best connects AI capability to product outcomes?",
+    "opts": [
+      "Let a vendor clean warranty claims for defect prediction without shared definitions or acceptance rules.",
+      "Track defect prediction usage alone, even if the workflow still fails to improve warranty reduction.",
+      "Validate defect signals by batch, severity, confidence, root cause, and field evidence.",
+      "Convert defect prediction into backlog stories before validating who needs the decision support."
+    ],
+    "correct": 2,
+    "explanation": "For defect prediction, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Defect Signal Validation"
+  },
+  {
+    "section": "Requirements, PRDs & Backlog Decisions",
+    "q": "A regulated device team must trace requirements from user need through design input, verification, and release evidence.\n\nWhich control or design choice would make the use case stronger?",
+    "opts": [
+      "Give teams a short note for requirements traceability with no escalation, monitoring, or rollback path.",
+      "Fund requirements traceability mainly because it sounds innovative in the roadmap presentation.",
+      "Ask every squad to use requirements traceability the same way even when risks and users differ.",
+      "Create governed trace links across needs, requirements, tests, results, and approvals clearly."
+    ],
+    "correct": 3,
+    "explanation": "For requirements traceability, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Traceability"
+  },
+  {
+    "section": "Launch, Lifecycle & Feedback Loops",
+    "q": "An old AI feature has low usage but still creates maintenance cost, model monitoring work, and documentation burden.\n\nWhich option best connects AI capability to product outcomes?",
+    "opts": [
+      "Evaluate sunset using usage, value, customer commitments, replacement path, and support impact.",
+      "Count AI outputs for AI feature retirement instead of maintenance cost, adoption, and behavior change.",
+      "Convert AI feature retirement into backlog stories before validating who needs the decision support.",
+      "Let a vendor clean usage data for AI feature retirement without shared definitions or acceptance rules."
+    ],
+    "correct": 0,
+    "explanation": "For AI feature retirement, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Feature Sunset"
+  },
+  {
+    "section": "Engineering, Simulation & Technical Feasibility",
+    "q": "A manufacturer builds a digital twin for a new pump, but the twin uses lab data that differs from customer operating conditions.\n\nHow should the product leader frame this decision?",
+    "opts": [
+      "Close the pump digital twin pilot after one positive review without testing exception paths.",
+      "Calibrate the twin with field ranges, wear patterns, installation variance, and validation tests.",
+      "Show a polished demo for pump digital twin first, then decide later whether it solves a real problem.",
+      "Skip release controls for pump digital twin because the idea is exploratory and not yet core."
+    ],
+    "correct": 1,
+    "explanation": "For pump digital twin, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Digital Twin"
+  },
+  {
+    "section": "Ideation, Concept Screening & Roadmapping",
+    "q": "A packaging team creates AI-generated sustainability claims for a new product line before legal and materials evidence are ready.\n\nWhat should be built into the product-development workflow?",
+    "opts": [
+      "Rely on leadership preference for sustainable packaging claims instead of testing the problem with target users.",
+      "Build sustainable packaging claims from the easiest available materials data and postpone source mapping until rollout.",
+      "Screen claims against materials evidence, substantiation rules, customer value, and brand risk before scaling.",
+      "Give teams a short note for sustainable packaging claims with no escalation, monitoring, or rollback path."
+    ],
+    "correct": 2,
+    "explanation": "For sustainable packaging claims, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Claim Screening"
+  },
+  {
+    "section": "Discovery, Portfolio & Business Value",
+    "q": "A smart-home portfolio has aging products with rising support cost, while leadership wants more AI features rather than lifecycle cleanup.\n\nWhat should be validated before the team scales this use case?",
+    "opts": [
+      "Fund smart-home lifecycle portfolio mainly because it sounds innovative in the roadmap presentation.",
+      "Track smart-home lifecycle portfolio usage alone, even if the workflow still fails to improve support cost.",
+      "Ask every squad to use smart-home lifecycle portfolio the same way even when risks and users differ.",
+      "Compare AI investment with sunset, redesign, support automation, and retention economics with care."
+    ],
+    "correct": 3,
+    "explanation": "For smart-home lifecycle portfolio, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Portfolio Economics"
+  },
+  {
+    "section": "Experimentation, Product Analytics & Growth",
+    "q": "A mobile product wants AI nudges to help users complete setup, but too many prompts may feel intrusive.\n\nWhat is the best next step for the product team?",
+    "opts": [
+      "Test timing, frequency, relevance, opt-out, and incremental completion impact.",
+      "Fund setup nudges mainly because it sounds innovative in the roadmap presentation.",
+      "Let a vendor clean session data for setup nudges without shared definitions or acceptance rules.",
+      "Declare setup nudges successful when model scores improve, even if completion rate stays flat."
+    ],
+    "correct": 0,
+    "explanation": "For setup nudges, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Nudge Design"
+  },
+  {
+    "section": "Data, Governance & Product AI Operating Model",
+    "q": "A vendor offers an AI SDK for rapid product integration, but the contract is unclear on data retention and model training rights.\n\nWhat should be validated before the team scales this use case?",
+    "opts": [
+      "Let internal opinions define AI SDK vendor review before observing real work and customer behavior.",
+      "Review data rights, retention, audit access, security, exit path, and performance obligations.",
+      "Remove review gates for AI SDK vendor review and add privacy, safety, and support controls later.",
+      "Close the AI SDK vendor review pilot after one positive review without testing exception paths."
+    ],
+    "correct": 1,
+    "explanation": "For AI SDK vendor review, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Vendor Governance"
+  },
+  {
+    "section": "Customer Insights, Research & Voice of Customer",
+    "q": "A sales team tags lost deals inconsistently, making it hard to know whether product gaps or pricing caused missed opportunities.\n\nWhich action best protects value, users, and delivery discipline?",
+    "opts": [
+      "Let a vendor clean CRM notes for lost-deal product gaps without shared definitions or acceptance rules.",
+      "Track lost-deal product gaps usage alone, even if the workflow still fails to improve win rate.",
+      "Normalize loss reasons, compare with CRM notes, and validate themes with win-loss interviews.",
+      "Convert lost-deal product gaps into backlog stories before validating who needs the decision support."
+    ],
+    "correct": 2,
+    "explanation": "For lost-deal product gaps, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Win-Loss Analysis"
+  },
+  {
+    "section": "Quality, Safety, Compliance & Risk",
+    "q": "A product adds location-based recommendations, but the feature could reveal sensitive routines if data is mishandled.\n\nWhat is the best next step for the product team?",
+    "opts": [
+      "Skip release controls for location recommendation because the idea is exploratory and not yet core.",
+      "Turn location recommendation into a prototype now, then backfill evidence after sponsors react.",
+      "Ask every squad to use location recommendation the same way even when risks and users differ.",
+      "Complete privacy impact review, consent design, minimization, retention, and access controls."
+    ],
+    "correct": 3,
+    "explanation": "For location recommendation, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Privacy Impact"
+  },
+  {
+    "section": "Requirements, PRDs & Backlog Decisions",
+    "q": "A marketplace wants AI to draft seller requirements, but policy, fraud, payment, and support teams each define edge cases differently.\n\nHow should the product leader frame this decision?",
+    "opts": [
+      "Reconcile edge cases across functions, then generate requirements with source references clearly.",
+      "Track seller requirement alignment usage alone, even if the workflow still fails to improve edge-case coverage.",
+      "Convert seller requirement alignment into backlog stories before validating who needs the decision support.",
+      "Let a vendor clean policy notes for seller requirement alignment without shared definitions or acceptance rules."
+    ],
+    "correct": 0,
+    "explanation": "For seller requirement alignment, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Cross-Functional Requirements"
+  },
+  {
+    "section": "Launch, Lifecycle & Feedback Loops",
+    "q": "A product expansion into Japan requires AI-generated content to fit language, culture, legal terms, and support policies.\n\nWhat is the best next step for the product team?",
+    "opts": [
+      "Ask every squad to use localized AI content the same way even when risks and users differ.",
+      "Localize with native review, policy alignment, cultural testing, and source control now.",
+      "Fund localized AI content mainly because it sounds innovative in the roadmap presentation.",
+      "Remove review gates for localized AI content and add privacy, safety, and support controls later."
+    ],
+    "correct": 1,
+    "explanation": "For localized AI content, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Localization"
+  },
+  {
+    "section": "Engineering, Simulation & Technical Feasibility",
+    "q": "A hardware team wants AI to predict tolerance stack-up issues before tooling, but historical drawings use inconsistent dimension labels.\n\nWhich action best protects value, users, and delivery discipline?",
+    "opts": [
+      "Convert tolerance risk prediction into backlog stories before validating who needs the decision support.",
+      "Let a vendor clean drawing data for tolerance risk prediction without shared definitions or acceptance rules.",
+      "Normalize dimension data, link tolerances to functions, and compare predictions with builds.",
+      "Skip release controls for tolerance risk prediction because the idea is exploratory and not yet core."
+    ],
+    "correct": 2,
+    "explanation": "For tolerance risk prediction, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Tolerance Analysis"
+  },
+  {
+    "section": "Ideation, Concept Screening & Roadmapping",
+    "q": "An automotive product group wants AI concepts for in-car personalization, but drivers may be distracted by adaptive interfaces.\n\nWhich option best connects AI capability to product outcomes?",
+    "opts": [
+      "Fund in-car personalization concept mainly because it sounds innovative in the roadmap presentation.",
+      "Track in-car personalization concept usage alone, even if the workflow still fails to improve driver safety.",
+      "Assume teams will maintain in-car personalization concept without owners, monitoring, or funding clarity.",
+      "Assess usefulness, distraction risk, safety context, fallback design, and driver control with care."
+    ],
+    "correct": 3,
+    "explanation": "For in-car personalization concept, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Safety Concept Review"
+  },
+  {
+    "section": "Discovery, Portfolio & Business Value",
+    "q": "A food-delivery app proposes an AI meal planner, but finance questions whether it improves frequency or only creates a flashy demo.\n\nWhich control or design choice would make the use case stronger?",
+    "opts": [
+      "Link the feature to order frequency, basket value, retention, operational load, and test design.",
+      "Fund meal-planner business case mainly because it sounds innovative in the roadmap presentation.",
+      "Let a vendor clean loyalty behavior for meal-planner business case without shared definitions or acceptance rules.",
+      "Declare meal-planner business case successful when model scores improve, even if order frequency stays flat."
+    ],
+    "correct": 0,
+    "explanation": "For meal-planner business case, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Business Case"
+  },
+  {
+    "section": "Experimentation, Product Analytics & Growth",
+    "q": "A product manager tests AI-generated pricing suggestions for a new plan, but marketing campaigns also change during the test period.\n\nWhich AI-enabled approach is most appropriate here?",
+    "opts": [
+      "Convert pricing experiment into backlog stories before validating who needs the decision support.",
+      "Control for campaign effects, segment mix, seasonality, margin, and willingness to pay.",
+      "Skip release controls for pricing experiment because the idea is exploratory and not yet core.",
+      "Ask every squad to use pricing experiment the same way even when risks and users differ."
+    ],
+    "correct": 1,
+    "explanation": "For pricing experiment, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Pricing Test"
+  },
+  {
+    "section": "Data, Governance & Product AI Operating Model",
+    "q": "A product team uploads proprietary design files to public AI tools to speed concept generation before IP rules are defined.\n\nWhich control or design choice would make the use case stronger?",
+    "opts": [
+      "Assume design files is reliable enough for product IP protection because it already exists in business systems.",
+      "Track product IP protection usage alone, even if the workflow still fails to improve IP safety.",
+      "Set approved tools, IP restrictions, data classification, access controls, and review rules before scaling.",
+      "Convert product IP protection into backlog stories before validating who needs the decision support."
+    ],
+    "correct": 2,
+    "explanation": "For product IP protection, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "IP Governance"
+  },
+  {
+    "section": "Design, Prototyping & UX Validation",
+    "q": "A product team wants AI to rewrite onboarding microcopy, but legal terms and consent statements must remain exact.\n\nWhich AI-enabled approach is most appropriate here?",
+    "opts": [
+      "Skip release controls for onboarding copy assistant because the idea is exploratory and not yet core.",
+      "Turn onboarding copy assistant into a prototype now, then backfill evidence after sponsors react.",
+      "Ask every squad to use onboarding copy assistant the same way even when risks and users differ.",
+      "Separate editable guidance copy from locked legal text and require content review with review."
+    ],
+    "correct": 3,
+    "explanation": "For onboarding copy assistant, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Content Control"
+  },
+  {
+    "section": "Quality, Safety, Compliance & Risk",
+    "q": "A risk team wants AI to support FMEA updates, but historical incident data underreports near misses from early prototypes.\n\nWhich AI-enabled approach is most appropriate here?",
+    "opts": [
+      "Combine historical failures with expert review, near-miss capture, and scenario stress testing.",
+      "Track FMEA augmentation usage alone, even if the workflow still fails to improve risk detection clearly.",
+      "Prioritize FMEA augmentation by technical curiosity rather than unmet user need or adoption friction.",
+      "Build FMEA augmentation from the easiest available incident records and postpone source mapping until rollout."
+    ],
+    "correct": 0,
+    "explanation": "For FMEA augmentation, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "FMEA Support"
+  },
+  {
+    "section": "Requirements, PRDs & Backlog Decisions",
+    "q": "A hardware team asks AI to turn engineering constraints into product backlog items, but many constraints are assumptions, not confirmed limits.\n\nWhich action best protects value, users, and delivery discipline?",
+    "opts": [
+      "Close the constraint-to-backlog conversion pilot after one positive review without testing exception paths.",
+      "Tag constraints as verified, assumed, or unknown and route uncertain items for validation with care.",
+      "Fund constraint-to-backlog conversion mainly because it sounds innovative in the roadmap presentation.",
+      "Give teams a short note for constraint-to-backlog conversion with no escalation, monitoring, or rollback path."
+    ],
+    "correct": 1,
+    "explanation": "For constraint-to-backlog conversion, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Constraint Validation"
+  },
+  {
+    "section": "Launch, Lifecycle & Feedback Loops",
+    "q": "A launch dashboard shows installs and signups, but not whether users trust and rely on the AI feature after first use.\n\nWhich AI-enabled approach is most appropriate here?",
+    "opts": [
+      "Let internal opinions define post-launch health dashboard before observing real work and customer behavior.",
+      "Build post-launch health dashboard from the easiest available feature telemetry and postpone source mapping until rollout.",
+      "Track repeat use, accepted suggestions, edits, trust ratings, errors, and escalations with care before scaling.",
+      "Remove review gates for post-launch health dashboard and add privacy, safety, and support controls later."
+    ],
+    "correct": 2,
+    "explanation": "For post-launch health dashboard, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Health Monitoring"
+  },
+  {
+    "section": "Engineering, Simulation & Technical Feasibility",
+    "q": "A platform API team wants AI to find performance bottlenecks before a public developer launch.\n\nWhat should be built into the product-development workflow?",
+    "opts": [
+      "Pick the flashiest model capability for API performance testing, then search for a workflow it might support.",
+      "Declare API performance testing successful when model scores improve, even if developer experience stays flat.",
+      "Close the API performance testing pilot after one positive review without testing exception paths.",
+      "Test realistic traffic, dependency latency, error patterns, scaling limits, and rollback triggers."
+    ],
+    "correct": 3,
+    "explanation": "For API performance testing, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Performance Testing"
+  },
+  {
+    "section": "Ideation, Concept Screening & Roadmapping",
+    "q": "A consumer-goods team asks AI for lower-cost packaging ideas, but operations warns some ideas will slow filling lines.\n\nWhat is the best next step for the product team?",
+    "opts": [
+      "Screen concepts by unit cost, line speed, manufacturability, supplier readiness, and waste with care.",
+      "Turn packaging redesign concepts into a prototype now, then backfill evidence after sponsors react.",
+      "Let a vendor clean line constraints for packaging redesign concepts without shared definitions or acceptance rules.",
+      "Track packaging redesign concepts usage alone, even if the workflow still fails to improve unit cost and throughput."
+    ],
+    "correct": 0,
+    "explanation": "For packaging redesign concepts, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Manufacturability Screening"
+  },
+  {
+    "section": "Discovery, Portfolio & Business Value",
+    "q": "A clean-tech hardware team wants an AI optimization module before the core device has passed reliability tests in the target environment.\n\nHow should the product leader frame this decision?",
+    "opts": [
+      "Convert clean-tech module readiness into backlog stories before validating who needs the decision support.",
+      "Gate AI scope behind reliability evidence, customer value, sensor availability, and serviceability.",
+      "Let the tool for clean-tech module readiness use broad files without approved sources, logs, or fallback rules.",
+      "Ask every squad to use clean-tech module readiness the same way even when risks and users differ."
+    ],
+    "correct": 1,
+    "explanation": "For clean-tech module readiness, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Feasibility Gate"
+  },
+  {
+    "section": "Experimentation, Product Analytics & Growth",
+    "q": "A growth team claims an AI recommendation improved retention because users who clicked it stayed longer.\n\nWhat should be validated before the team scales this use case?",
+    "opts": [
+      "Let a vendor clean clickstream data for recommendation uplift analysis without shared definitions or acceptance rules.",
+      "Track recommendation uplift analysis usage alone, even if the workflow still fails to improve retention lift.",
+      "Check causal lift with controlled tests, confounding review, and segment-level effects with review before scaling.",
+      "Convert recommendation uplift analysis into backlog stories before validating who needs the decision support."
+    ],
+    "correct": 2,
+    "explanation": "For recommendation uplift analysis, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Causal Inference"
+  },
+  {
+    "section": "Data, Governance & Product AI Operating Model",
+    "q": "Several squads reuse prompts and evaluation examples informally, causing inconsistent outputs across related product experiences.\n\nHow should the product leader frame this decision?",
+    "opts": [
+      "Skip release controls for prompt library reuse because the idea is exploratory and not yet core.",
+      "Turn prompt library reuse into a prototype now, then backfill evidence after sponsors react.",
+      "Close the prompt library reuse pilot after one positive review without testing exception paths.",
+      "Create a prompt and evaluation library with owners, versions, test cases, and reuse guidance."
+    ],
+    "correct": 3,
+    "explanation": "For prompt library reuse, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Prompt Operations"
+  },
+  {
+    "section": "Design, Prototyping & UX Validation",
+    "q": "A travel app considers a generative itinerary designer, but users need to compare options rather than accept one confident plan.\n\nWhat should be validated before the team scales this use case?",
+    "opts": [
+      "Design comparison views, constraints, uncertainty, editable preferences, and fallback search before scaling.",
+      "Track itinerary prototype usage alone, even if the workflow still fails to improve trip planning success.",
+      "Let internal opinions define itinerary prototype before observing real work and customer behavior.",
+      "Build itinerary prototype from the easiest available travel preferences and postpone source mapping until rollout."
+    ],
+    "correct": 0,
+    "explanation": "For itinerary prototype, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Comparative UX"
+  },
+  {
+    "section": "Customer Insights, Research & Voice of Customer",
+    "q": "A robotics team collects field-observation notes from factory visits, but engineers rarely see the workflow constraints behind feature requests.\n\nWhat should be built into the product-development workflow?",
+    "opts": [
+      "Assume teams will maintain field-observation synthesis without owners, monitoring, or funding clarity.",
+      "Summarize observations into jobs, constraints, environment factors, and evidence-backed opportunities.",
+      "Turn field-observation synthesis into a prototype now, then backfill evidence after sponsors react.",
+      "Remove review gates for field-observation synthesis and add privacy, safety, and support controls later."
+    ],
+    "correct": 1,
+    "explanation": "For field-observation synthesis, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Ethnographic Insight"
+  },
+  {
+    "section": "Requirements, PRDs & Backlog Decisions",
+    "q": "A mobile app team wants an AI roadmap assistant to shift features when API delivery dates change during the quarter.\n\nWhat should be built into the product-development workflow?",
+    "opts": [
+      "Let internal opinions define roadmap scenario planning before observing real work and customer behavior.",
+      "Build roadmap scenario planning from the easiest available release plans and postpone source mapping until rollout.",
+      "Model schedule scenarios with dependencies, customer promises, risk, and decision thresholds now.",
+      "Remove review gates for roadmap scenario planning and add privacy, safety, and support controls later."
+    ],
+    "correct": 2,
+    "explanation": "For roadmap scenario planning, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Scenario Planning"
+  },
+  {
+    "section": "Launch, Lifecycle & Feedback Loops",
+    "q": "A customer-success team wants AI to identify accounts ready for expansion based on product usage and support history.\n\nWhat should be validated before the team scales this use case?",
+    "opts": [
+      "Fund expansion readiness scoring mainly because it sounds innovative in the roadmap presentation.",
+      "Declare expansion readiness scoring successful when model scores improve, even if expansion conversion stays flat.",
+      "Assume teams will maintain expansion readiness scoring without owners, monitoring, or funding clarity.",
+      "Combine usage depth, outcome milestones, satisfaction, support friction, and account context now."
+    ],
+    "correct": 3,
+    "explanation": "For expansion readiness scoring, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Expansion Signal"
+  },
+  {
+    "section": "Engineering, Simulation & Technical Feasibility",
+    "q": "An additive-manufacturing team wants AI to recommend print parameters for a new aerospace component.\n\nWhich option best connects AI capability to product outcomes?",
+    "opts": [
+      "Constrain recommendations by material, geometry, qualification data, inspection, and process windows.",
+      "Fund print-parameter recommendation mainly because it sounds innovative in the roadmap presentation.",
+      "Let a vendor clean process data for print-parameter recommendation without shared definitions or acceptance rules.",
+      "Declare print-parameter recommendation successful when model scores improve, even if part qualification stays flat."
+    ],
+    "correct": 0,
+    "explanation": "For print-parameter recommendation, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Process Window"
+  },
+  {
+    "section": "Ideation, Concept Screening & Roadmapping",
+    "q": "A SaaS vendor considers bundling an AI assistant into the premium tier, but customer segments value different outcomes.\n\nWhich AI-enabled approach is most appropriate here?",
+    "opts": [
+      "Rely on leadership preference for AI bundle design instead of testing the problem with target users.",
+      "Model bundle fit by segment need, willingness to pay, margin, adoption friction, and support load.",
+      "Let the tool for AI bundle design use broad files without approved sources, logs, or fallback rules.",
+      "Push AI bundle design through communication alone while incentives and decision rights stay unclear."
+    ],
+    "correct": 1,
+    "explanation": "For AI bundle design, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Bundle Strategy"
+  },
+  {
+    "section": "Discovery, Portfolio & Business Value",
+    "q": "A fintech product manager wants an AI budgeting coach, but customers may treat suggestions as financial advice rather than planning support.\n\nWhich action best protects value, users, and delivery discipline?",
+    "opts": [
+      "Let a vendor clean transaction patterns for budgeting coach promise without shared definitions or acceptance rules.",
+      "Track budgeting coach promise usage alone, even if the workflow still fails to improve behavior change.",
+      "Clarify user promise, advice boundary, disclaimer, escalation path, and measurable behavior change.",
+      "Convert budgeting coach promise into backlog stories before validating who needs the decision support."
+    ],
+    "correct": 2,
+    "explanation": "For budgeting coach promise, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Promise Boundary"
+  },
+  {
+    "section": "Experimentation, Product Analytics & Growth",
+    "q": "A product team wants an AI dashboard, but the app does not log whether users accept, edit, reject, or ignore AI suggestions.\n\nWhich control or design choice would make the use case stronger?",
+    "opts": [
+      "Give teams a short note for AI instrumentation plan with no escalation, monitoring, or rollback path.",
+      "Fund AI instrumentation plan mainly because it sounds innovative in the roadmap presentation.",
+      "Ask every squad to use AI instrumentation plan the same way even when risks and users differ.",
+      "Instrument suggestion lifecycle events, user context, edits, outcomes, and feedback reasons."
+    ],
+    "correct": 3,
+    "explanation": "For AI instrumentation plan, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Instrumentation"
+  },
+  {
+    "section": "Data, Governance & Product AI Operating Model",
+    "q": "A live product AI feature depends on a model that may need retraining, rollback, and incident response after release.\n\nWhich action best protects value, users, and delivery discipline?",
+    "opts": [
+      "Implement MLOps with monitoring, drift alerts, versioning, rollback, and support playbooks.",
+      "Track product MLOps usage alone, even if the workflow still fails to improve service reliability.",
+      "Prioritize product MLOps by technical curiosity rather than unmet user need or adoption friction.",
+      "Let a vendor clean model telemetry for product MLOps without shared definitions or acceptance rules."
+    ],
+    "correct": 0,
+    "explanation": "For product MLOps, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "MLOps"
+  },
+  {
+    "section": "Design, Prototyping & UX Validation",
+    "q": "A team uses AI to simulate user journeys, but the simulated users do not represent novice, expert, or accessibility needs.\n\nWhich control or design choice would make the use case stronger?",
+    "opts": [
+      "Ask every squad to use user-journey simulation the same way even when risks and users differ.",
+      "Validate simulations with real research personas, edge cases, and observed behavior data.",
+      "Release user-journey simulation quickly and let early complaints reveal the product gaps.",
+      "Remove review gates for user-journey simulation and add privacy, safety, and support controls later."
+    ],
+    "correct": 1,
+    "explanation": "For user-journey simulation, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Simulation Validity"
+  },
+  {
+    "section": "Customer Insights, Research & Voice of Customer",
+    "q": "An accessibility advisory group provides detailed feedback, but design teams translate it into vague backlog items.\n\nWhich option best connects AI capability to product outcomes?",
+    "opts": [
+      "Let internal opinions define accessibility VOC translation before observing real work and customer behavior.",
+      "Build accessibility VOC translation from the easiest available advisory comments and postpone source mapping until rollout.",
+      "Convert feedback into accessibility needs, acceptance tests, severity, and user-impact evidence before scaling.",
+      "Remove review gates for accessibility VOC translation and add privacy, safety, and support controls later."
+    ],
+    "correct": 2,
+    "explanation": "For accessibility VOC translation, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Accessibility Research"
+  },
+  {
+    "section": "Quality, Safety, Compliance & Risk",
+    "q": "A regulated product uses AI to recommend maintenance intervals, and auditors need proof that recommendations were validated.\n\nWhat should be validated before the team scales this use case?",
+    "opts": [
+      "Fund maintenance recommendation evidence mainly because it sounds innovative in the roadmap presentation.",
+      "Declare maintenance recommendation evidence successful when model scores improve, even if audit readiness stays flat.",
+      "Close the maintenance recommendation evidence pilot after one positive review without testing exception paths.",
+      "Maintain validation records, data lineage, model versioning, test results, and approval evidence safely."
+    ],
+    "correct": 3,
+    "explanation": "For maintenance recommendation evidence, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Validation Evidence"
+  },
+  {
+    "section": "Launch, Lifecycle & Feedback Loops",
+    "q": "A release manager uses AI to draft release notes, but customers need clear impact, limitations, and action steps.\n\nWhich control or design choice would make the use case stronger?",
+    "opts": [
+      "Generate notes from approved changes, user impact, limitations, actions, and support links before scaling.",
+      "Release release-note generation quickly and let early complaints reveal the product gaps as a shortcut.",
+      "Build release-note generation from the easiest available change records and postpone source mapping until rollout.",
+      "Declare release-note generation successful when model scores improve, even if customer adoption stays flat."
+    ],
+    "correct": 0,
+    "explanation": "For release-note generation, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Release Communication"
+  },
+  {
+    "section": "Engineering, Simulation & Technical Feasibility",
+    "q": "A product cost team wants AI to suggest BOM alternatives without disrupting certifications and service parts.\n\nWhat is the best next step for the product team?",
+    "opts": [
+      "Prioritize BOM alternative analysis by technical curiosity rather than unmet user need or adoption friction.",
+      "Evaluate alternatives against cost, availability, certification impact, compatibility, and lifecycle risk.",
+      "Let the tool for BOM alternative analysis use broad files without approved sources, logs, or fallback rules.",
+      "Assign BOM alternative analysis to engineering only and leave support, training, and operations undefined."
+    ],
+    "correct": 1,
+    "explanation": "For BOM alternative analysis, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "BOM Optimization"
+  },
+  {
+    "section": "Ideation, Concept Screening & Roadmapping",
+    "q": "A product strategy team asks AI to propose a three-year roadmap, but the prompt contains only a broad market category.\n\nWhat should be validated before the team scales this use case?",
+    "opts": [
+      "Assume market notes is reliable enough for AI roadmap generation because it already exists in business systems.",
+      "Track AI roadmap generation usage alone, even if the workflow still fails to improve strategic fit.",
+      "Ground roadmap generation in target customers, capabilities, constraints, evidence, and scenarios.",
+      "Convert AI roadmap generation into backlog stories before validating who needs the decision support."
+    ],
+    "correct": 2,
+    "explanation": "For AI roadmap generation, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Roadmap Grounding"
+  },
+  {
+    "section": "Discovery, Portfolio & Business Value",
+    "q": "An education platform can pilot an AI tutor with universities, corporate training clients, or independent learners, each with different needs.\n\nWhat should be built into the product-development workflow?",
+    "opts": [
+      "Skip release controls for AI tutor segment selection because the idea is exploratory and not yet core.",
+      "Turn AI tutor segment selection into a prototype now, then backfill evidence after sponsors react.",
+      "Ask every squad to use AI tutor segment selection the same way even when risks and users differ.",
+      "Choose a pilot segment by learning pain, data access, adoption sponsor, and feedback speed."
+    ],
+    "correct": 3,
+    "explanation": "For AI tutor segment selection, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Pilot Segment"
+  },
+  {
+    "section": "Experimentation, Product Analytics & Growth",
+    "q": "An executive asks for one product AI metric, but teams optimize adoption, quality, revenue, trust, and risk differently.\n\nHow should the product leader frame this decision?",
+    "opts": [
+      "Build a metrics tree with north-star, driver, guardrail, and diagnostic measures with care before scaling.",
+      "Declare product AI metrics tree successful when model scores improve, even if balanced scorecard stays flat.",
+      "Convert product AI metrics tree into backlog stories before validating who needs the decision support.",
+      "Let a vendor clean KPI definitions for product AI metrics tree without shared definitions or acceptance rules."
+    ],
+    "correct": 0,
+    "explanation": "For product AI metrics tree, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Metric Design"
+  },
+  {
+    "section": "Data, Governance & Product AI Operating Model",
+    "q": "A company has product managers interested in AI, but teams lack a repeatable method for moving from idea to governed release.\n\nWhat should be built into the product-development workflow?",
+    "opts": [
+      "Ask every squad to use AI product development lifecycle the same way even when risks and users differ.",
+      "Define stage gates for discovery, data readiness, prototype, validation, launch, and monitoring now.",
+      "Fund AI product development lifecycle mainly because it sounds innovative in the roadmap presentation.",
+      "Remove review gates for AI product development lifecycle and add privacy, safety, and support controls later."
+    ],
+    "correct": 1,
+    "explanation": "For AI product development lifecycle, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Lifecycle Governance"
+  },
+  {
+    "section": "Design, Prototyping & UX Validation",
+    "q": "A researcher summarizes moderated test notes with AI, but the summary loses exact quotes that explain confusion during checkout.\n\nHow should the product leader frame this decision?",
+    "opts": [
+      "Convert usability note synthesis into backlog stories before validating who needs the decision support.",
+      "Let a vendor clean test recordings for usability note synthesis without shared definitions or acceptance rules.",
+      "Keep linked quotes, timestamps, severity, task context, and researcher review in the synthesis.",
+      "Skip release controls for usability note synthesis because the idea is exploratory and not yet core."
+    ],
+    "correct": 2,
+    "explanation": "For usability note synthesis, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "UX Evidence"
+  },
+  {
+    "section": "Customer Insights, Research & Voice of Customer",
+    "q": "A product strategist wants to mine competitor reviews, but leadership may confuse competitor complaints with the company's own customer needs.\n\nWhat is the best next step for the product team?",
+    "opts": [
+      "Fund competitor review analysis mainly because it sounds innovative in the roadmap presentation as a shortcut.",
+      "Declare competitor review analysis successful when model scores improve, even if differentiation clarity stays flat.",
+      "Close the competitor review analysis pilot after one positive review without testing exception paths.",
+      "Compare competitor themes with target segments, switching triggers, and internal customer evidence."
+    ],
+    "correct": 3,
+    "explanation": "For competitor review analysis, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Competitive Insight"
+  },
+  {
+    "section": "Quality, Safety, Compliance & Risk",
+    "q": "A messaging product adds AI auto-replies, but attackers could use prompt injection to make replies leak private information.\n\nWhich control or design choice would make the use case stronger?",
+    "opts": [
+      "Run misuse testing, prompt-injection defenses, output filters, and red-team reviews with care before scaling.",
+      "Fund auto-reply misuse testing mainly because it sounds innovative in the roadmap presentation as a shortcut.",
+      "Let a vendor clean conversation data for auto-reply misuse testing without shared definitions or acceptance rules.",
+      "Declare auto-reply misuse testing successful when model scores improve, even if security resilience stays flat."
+    ],
+    "correct": 0,
+    "explanation": "For auto-reply misuse testing, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Abuse Testing"
+  },
+  {
+    "section": "Requirements, PRDs & Backlog Decisions",
+    "q": "A product catalog team uses many inconsistent attribute names, making it difficult to define requirements for search and recommendations.\n\nWhich option best connects AI capability to product outcomes?",
+    "opts": [
+      "Convert product taxonomy requirements into backlog stories before validating who needs the decision support.",
+      "Create a governed taxonomy with attribute owners, definitions, examples, and quality checks now.",
+      "Skip release controls for product taxonomy requirements because the idea is exploratory and not yet core.",
+      "Ask every squad to use product taxonomy requirements the same way even when risks and users differ."
+    ],
+    "correct": 1,
+    "explanation": "For product taxonomy requirements, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Taxonomy Requirements"
+  },
+  {
+    "section": "Engineering, Simulation & Technical Feasibility",
+    "q": "A reliability group wants AI to predict failures from accelerated life testing before the product enters field trials.\n\nWhich AI-enabled approach is most appropriate here?",
+    "opts": [
+      "Build reliability prediction from the easiest available test data and postpone source mapping until rollout.",
+      "Declare reliability prediction successful when model scores improve, even if warranty risk stays flat.",
+      "Combine test stress profiles, failure modes, confidence intervals, and field-use assumptions.",
+      "Convert reliability prediction into backlog stories before validating who needs the decision support."
+    ],
+    "correct": 2,
+    "explanation": "For reliability prediction, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Reliability Modeling"
+  },
+  {
+    "section": "Ideation, Concept Screening & Roadmapping",
+    "q": "A startup wants to pick one of four AI product directions before validating the riskiest assumption for each direction.\n\nWhich control or design choice would make the use case stronger?",
+    "opts": [
+      "Give teams a short note for concept assumption testing with no escalation, monitoring, or rollback path.",
+      "Release concept assumption testing quickly and let early complaints reveal the product gaps.",
+      "Ask every squad to use concept assumption testing the same way even when risks and users differ.",
+      "List critical assumptions, design cheap tests, and compare learning value before commitment."
+    ],
+    "correct": 3,
+    "explanation": "For concept assumption testing, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Assumption Testing"
+  },
+  {
+    "section": "Discovery, Portfolio & Business Value",
+    "q": "A smart-lock company must decide whether to build its own AI anomaly detector or partner with a security analytics vendor.\n\nWhich option best connects AI capability to product outcomes?",
+    "opts": [
+      "Compare build-partner options by strategic control, data rights, security, cost, and time to learn now.",
+      "Track build versus partner choice usage alone, even if the workflow still fails to improve time to validated learning.",
+      "Let internal opinions define build versus partner choice before observing real work and customer behavior.",
+      "Assume access events is reliable enough for build versus partner choice because it already exists in business systems."
+    ],
+    "correct": 0,
+    "explanation": "For build versus partner choice, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Build Partner Decision"
+  },
+  {
+    "section": "Experimentation, Product Analytics & Growth",
+    "q": "A personalization model performs well at launch, then loses relevance after seasonal behavior and catalog changes.\n\nWhich action best protects value, users, and delivery discipline?",
+    "opts": [
+      "Close the personalization drift monitoring pilot after one positive review without testing exception paths.",
+      "Monitor drift, content freshness, segment performance, feedback, and retraining triggers for target users.",
+      "Turn personalization drift monitoring into a prototype now, then backfill evidence after sponsors react.",
+      "Skip release controls for personalization drift monitoring because the idea is exploratory and not yet core."
+    ],
+    "correct": 1,
+    "explanation": "For personalization drift monitoring, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Model Drift"
+  },
+  {
+    "section": "Data, Governance & Product AI Operating Model",
+    "q": "A product group wants to scale AI features across multiple product lines after two pilots, but each pilot used different metrics and controls.\n\nWhich option best connects AI capability to product outcomes?",
+    "opts": [
+      "Let internal opinions define AI scale playbook before observing real work and customer behavior.",
+      "Build AI scale playbook from the easiest available pilot evidence and postpone source mapping until rollout.",
+      "Create a scale playbook with reusable patterns, metrics, risk controls, and decision rights.",
+      "Give teams a short note for AI scale playbook with no escalation, monitoring, or rollback path."
+    ],
+    "correct": 2,
+    "explanation": "For AI scale playbook, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Scaling Model"
+  },
+  {
+    "section": "Design, Prototyping & UX Validation",
+    "q": "A product designer wants AI-generated code from mockups, but engineers worry visual fidelity will hide accessibility and performance issues.\n\nWhich action best protects value, users, and delivery discipline?",
+    "opts": [
+      "Turn design-to-code prototype into a prototype now, then backfill evidence after sponsors react.",
+      "Count AI outputs for design-to-code prototype instead of implementation quality, adoption, and behavior change.",
+      "Ask every squad to use design-to-code prototype the same way even when risks and users differ.",
+      "Review generated code for accessibility, responsiveness, maintainability, and performance safely."
+    ],
+    "correct": 3,
+    "explanation": "For design-to-code prototype, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Design-to-Code Review"
+  },
+  {
+    "section": "Customer Insights, Research & Voice of Customer",
+    "q": "A youth-focused app wants AI research summaries, but privacy rules limit what individual behavior data can be used.\n\nWhich AI-enabled approach is most appropriate here?",
+    "opts": [
+      "Design privacy-safe aggregation, consent checks, minimization, and researcher access controls.",
+      "Turn privacy-safe research into a prototype now, then backfill evidence after sponsors react.",
+      "Let a vendor clean behavior data for privacy-safe research without shared definitions or acceptance rules.",
+      "Declare privacy-safe research successful when model scores improve, even if research compliance stays flat."
+    ],
+    "correct": 0,
+    "explanation": "For privacy-safe research, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Research Privacy"
+  },
+  {
+    "section": "Quality, Safety, Compliance & Risk",
+    "q": "A vehicle-assist feature can suggest actions, but the driver must remain in control during uncertain conditions.\n\nHow should the product leader frame this decision?",
+    "opts": [
+      "Convert vehicle-assist controls into backlog stories before validating who needs the decision support.",
+      "Design confidence thresholds, driver override, alerts, fallback behavior, and event logs.",
+      "Give teams a short note for vehicle-assist controls with no escalation, monitoring, or rollback path.",
+      "Ask every squad to use vehicle-assist controls the same way even when risks and users differ."
+    ],
+    "correct": 1,
+    "explanation": "For vehicle-assist controls, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Human Override"
+  },
+  {
+    "section": "Requirements, PRDs & Backlog Decisions",
+    "q": "A product leader lets AI rewrite roadmap narratives each month, but executives cannot tell what changed from the approved version.\n\nWhat is the best next step for the product team?",
+    "opts": [
+      "Let a vendor clean roadmap decks for roadmap narrative control without shared definitions or acceptance rules.",
+      "Declare roadmap narrative control successful when model scores improve, even if decision traceability stays flat.",
+      "Version roadmap narratives with change rationale, source evidence, approvals, and impacts safely.",
+      "Prioritize roadmap narrative control by technical curiosity rather than unmet user need or adoption friction."
+    ],
+    "correct": 2,
+    "explanation": "For roadmap narrative control, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Version Control"
+  },
+  {
+    "section": "Launch, Lifecycle & Feedback Loops",
+    "q": "A field-service product collects technician feedback after launch, but comments are free text and rarely reach engineering teams.\n\nHow should the product leader frame this decision?",
+    "opts": [
+      "Scale field feedback loop across product lines before testing risk, support load, or segment effects.",
+      "Show a polished demo for field feedback loop first, then decide later whether it solves a real problem.",
+      "Push field feedback loop through communication alone while incentives and decision rights stay unclear.",
+      "Convert feedback into defect themes, usability issues, environment factors, and engineering tickets."
+    ],
+    "correct": 3,
+    "explanation": "For field feedback loop, the product-development decision should be grounded in user value, evidence, delivery feasibility, governance, and a measurable outcome rather than AI novelty alone.",
+    "type": "Feedback Conversion"
+  }
+];
+const SECTIONS = [
+  {
+    "key": "Discovery, Portfolio & Business Value",
+    "label": "Section A - Discovery, Portfolio & Business Value",
+    "cls": "sec-fund",
+    "range": "10 questions"
+  },
+  {
+    "key": "Customer Insights, Research & Voice of Customer",
+    "label": "Section B - Customer Insights, Research & Voice of Customer",
+    "cls": "sec-llm",
+    "range": "10 questions"
+  },
+  {
+    "key": "Ideation, Concept Screening & Roadmapping",
+    "label": "Section C - Ideation, Concept Screening & Roadmapping",
+    "cls": "sec-rag",
+    "range": "10 questions"
+  },
+  {
+    "key": "Requirements, PRDs & Backlog Decisions",
+    "label": "Section D - Requirements, PRDs & Backlog Decisions",
+    "cls": "sec-agent",
+    "range": "10 questions"
+  },
+  {
+    "key": "Design, Prototyping & UX Validation",
+    "label": "Section E - Design, Prototyping & UX Validation",
+    "cls": "sec-ops",
+    "range": "10 questions"
+  },
+  {
+    "key": "Engineering, Simulation & Technical Feasibility",
+    "label": "Section F - Engineering, Simulation & Technical Feasibility",
+    "cls": "sec-safe",
+    "range": "10 questions"
+  },
+  {
+    "key": "Experimentation, Product Analytics & Growth",
+    "label": "Section G - Experimentation, Product Analytics & Growth",
+    "cls": "sec-fund",
+    "range": "10 questions"
+  },
+  {
+    "key": "Quality, Safety, Compliance & Risk",
+    "label": "Section H - Quality, Safety, Compliance & Risk",
+    "cls": "sec-llm",
+    "range": "10 questions"
+  },
+  {
+    "key": "Launch, Lifecycle & Feedback Loops",
+    "label": "Section I - Launch, Lifecycle & Feedback Loops",
+    "cls": "sec-rag",
+    "range": "10 questions"
+  },
+  {
+    "key": "Data, Governance & Product AI Operating Model",
+    "label": "Section J - Data, Governance & Product AI Operating Model",
+    "cls": "sec-agent",
+    "range": "10 questions"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+
+let mode = 'guided', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 2*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='02:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'
+       +     '<span class="q-type">'+escapeHtml(q.type||'Mixed')+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/100';
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/100';
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  if(pct>=0.9){ grade='Product AI Use-Case Excellence'; blurb='Outstanding. You connect product strategy, customer evidence, design validation, engineering feasibility, experimentation, governance, launch readiness, and measurable product outcomes.'; }
+  else if(pct>=0.75){ grade='Product AI Use-Case Practitioner Ready'; blurb='Strong product AI judgment. Review missed items - they usually hinge on user evidence, requirement clarity, technical feasibility, safety, adoption, governance, or value measurement.'; }
+  else if(pct>=0.6){ grade='Product AI Practitioner'; blurb='Solid working knowledge. Strengthen weaker areas such as discovery, VOC, PRDs, UX validation, simulation, analytics, quality controls, launch feedback, and product AI governance.'; }
+  else if(pct>=0.4){ grade='Developing Product AI Practitioner'; blurb='Your product AI instincts are forming. Revisit fundamentals such as defining the customer problem, validating data, testing assumptions, managing risk, and measuring outcomes.'; }
+  else { grade='Begin Product AI Fundamentals Review'; blurb='Start with product AI basics: define the user decision, validate customer evidence, confirm feasibility, protect users, test with controlled pilots, and scale only with proof.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 100 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one question at a time. 2-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Certificate name</label>
+    <input id="chmlCertNameInput" type="text" maxlength="80" placeholder="Enter name for certificate" oninput="chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" type="button" onclick="chmlPrintCertificate()">Print / Save as PDF</button>
+    <button class="chml-cert-btn secondary" type="button" onclick="chmlHideCertificate()">Hide Certificate</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div><div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker"><span id="chmlCertExamKicker">Knowledge Hub Examination</span></div>
+      <h1 class="chml-cert-h1">Certificate of Completion</h1>
+      <div class="chml-cert-rule"></div>
+      <p class="chml-cert-pre">This certifies that</p>
+      <p class="chml-cert-name" id="chmlCertName">Learner</p>
+      <p class="chml-cert-body">has successfully completed the <b id="chmlCertExamName">Knowledge Hub Exam</b>.</p>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">0 / 0</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">-</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Quak Foo Lee</div><div class="chml-cert-sig-label">Chmltech Ltd.</div></div>
+        <div class="chml-cert-id">Certificate ID: <span id="chmlCertId">-</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertificateInstalled) return;
+  window.__chmlCertificateInstalled = true;
+  function textOf(sel){var el=document.querySelector(sel);return el?el.textContent.trim():'';}
+  function examTitle(){return textOf('h1.title')||textOf('header h1')||textOf('h1')||document.title.replace(/\s+/g,' ').trim()||'Knowledge Hub Exam';}
+  function parseFirstNumber(txt){var m=String(txt||'').match(/\d+/);return m?parseInt(m[0],10):null;}
+  function parseScoreTotal(){
+    var correct=parseFirstNumber(textOf('#rScore'));
+    var total=null;
+    var rt=textOf('#rTotal');
+    if(rt) total=parseFirstNumber(rt);
+    if(!total){var sb=textOf('.score-big');var m=sb.match(/\/\s*(\d+)/);if(m) total=parseInt(m[1],10);}
+    if(!total) total=parseFirstNumber(textOf('#progTotal'));
+    if(!total){var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;if(cards) total=cards;}
+    if(!correct && correct!==0) correct=parseFirstNumber(textOf('#scoreNum'));
+    return {correct:correct||0,total:total||0};
+  }
+  function totalFromBreakdown(byType){
+    if(!byType || typeof byType!=='object') return null;
+    var total=0, found=false;
+    Object.keys(byType).forEach(function(k){var v=byType[k];if(v&&typeof v==='object'){var n=v.t||v.total||v.count;if(typeof n==='number'){total+=n;found=true;}}});
+    return found?total:null;
+  }
+  function hashCode(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+  window.chmlUpdateCertificateName=function(name){document.getElementById('chmlCertName').textContent=(name||'').trim()||'Learner';};
+  window.chmlHideCertificate=function(){var c=document.getElementById('chmlCertificate');if(c)c.classList.remove('show');};
+  window.chmlPrintCertificate=function(){window.print();};
+  window.chmlRenderCertificate=function(correct,total,grade){
+    var cert=document.getElementById('chmlCertificate');if(!cert)return;
+    var title=examTitle();
+    var nameInput=document.getElementById('chmlCertNameInput');
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
+    var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
+    document.getElementById('chmlCertExamName').textContent=title;
+    document.getElementById('chmlCertName').textContent=learner;
+    document.getElementById('chmlCertScore').textContent=String(correct)+' / '+String(total||0)+(total?(' ('+Math.round((correct/total)*100)+'%)'):'');
+    document.getElementById('chmlCertDate').textContent=date;
+    document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
+    cert.classList.add('show');
+  };
+
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
+    var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){
+      var parsed=parseScoreTotal();
+      if(correct===null || isNaN(correct)) correct=parsed.correct;
+      if(!total) total=parsed.total;
+      if(total || correct || document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0);
+    },60);
+  }
+  if(typeof window.showResults==='function'){
+    var originalShowResults=window.showResults;
+    window.showResults=function(){var out=originalShowResults.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  if(typeof window.submitExam==='function'){
+    var originalSubmitExam=window.submitExam;
+    window.submitExam=function(){var out=originalSubmitExam.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  ['resetExam','newExam'].forEach(function(fn){
+    if(typeof window[fn]==='function'){
+      var original=window[fn];
+      window[fn]=function(){window.chmlHideCertificate();return original.apply(this,arguments);};
+    }
+  });
+})();
+</script>
+
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>
+
+

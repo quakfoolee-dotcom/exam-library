@@ -1,0 +1,2142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Use Case in Human Resources Exam - 100Q (V1)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  /* Section palette \u2014 broader, engineering-themed */
+  --fund:#1f4a7d;
+  --llm:#5a2585;
+  --rag:#0e6b6a;
+  --agent:#a85410;
+  --ops:#226b2d;
+  --safe:#9b2c3a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(31,74,125,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.8rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--fund),var(--llm));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-fund{background:linear-gradient(100deg,var(--fund),#0c2541)}
+.sec-llm{background:linear-gradient(100deg,var(--llm),#311148)}
+.sec-rag{background:linear-gradient(100deg,var(--rag),#06403f)}
+.sec-agent{background:linear-gradient(100deg,var(--agent),#5e2d05)}
+.sec-ops{background:linear-gradient(100deg,var(--ops),#0e3d18)}
+.sec-safe{background:linear-gradient(100deg,var(--safe),#5b181f)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-type{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;border:1px solid currentColor;opacity:.85;color:var(--llm)}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.1rem;line-height:1.55;margin-bottom:16px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:13px 16px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.45);transition:all .18s ease;font-size:1rem;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.07);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s}
+.opt .otext{flex:1;padding-top:1px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.1)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px;display:flex;align-items:center;gap:8px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:180px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 18px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:1.02rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+<!-- V1: AI Use Case in Human Resources question bank with rearranged question order, unique HR scenarios, and length-balanced options. -->
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">AI Use Case Series &middot; Human Resources</div>
+    <h1 class="title">AI Use Case <span class="amp">in Human Resources</span> Exam</h1>
+    <div class="byline">Scenario-based questions across HR strategy, recruiting, workforce planning, employee experience, learning, performance, retention, compensation, payroll, compliance, employee relations, responsible AI, HR data, and scaling</div>
+    <div class="exambar">
+      <span><b>100</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>100</b> Marks</span>
+      <span>Exam Mode: <b>2 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/100</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">02:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/100</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 2-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    AI Use Case in Human Resources Exam &middot; 100 scenario-based questions &middot; V1 (Guided / Instant / Exam-with-Timer)
+    <div class="disclaimer">An independent AI use-case study resource for HR leaders, people managers, consultants, and transformation teams. Use validated HR data, privacy controls, employment-law requirements, human review, employee communications, cybersecurity controls, and professional judgment before deploying AI in real HR operations.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "Payroll, Time, Compliance & Employee Relations",
+    "q": "An HR compliance team tracks mandatory certifications, licenses, and training renewals in spreadsheets, causing late renewals in regulated roles.\n\nWhich AI use case creates value?",
+    "opts": [
+      "Predict renewal risk, prioritize reminders, verify evidence, and escalate overdue records with documented checks",
+      "Optimize credential compliance monitor for speed first and postpone fairness, privacy, and policy checks",
+      "Expand credential compliance monitor across regions before local rules, languages, and support channels are ready",
+      "Judge credential compliance monitor by activity volume while employee outcomes and risk evidence stay secondary"
+    ],
+    "correct": 0,
+    "explanation": "Credential monitoring should detect renewal risk and drive evidence-based escalations.",
+    "type": "Compliance Monitoring"
+  },
+  {
+    "section": "Recruiting, Screening & Candidate Experience",
+    "q": "A campus recruiting model gives high scores to applicants from schools that historically supplied successful hires, while community-college candidates rarely pass the screen.\n\nWhich review should occur before the model is used?",
+    "opts": [
+      "Launch campus hiring model from a polished demo before HR validates data quality and process fit",
+      "Test school-prestige proxies, adverse impact, job relevance, and alternative evidence with logs",
+      "Treat campus hiring model exceptions as low priority until the quarterly governance meeting occurs",
+      "Use campus hiring model as the final decision source and review only when complaints arrive"
+    ],
+    "correct": 1,
+    "explanation": "Education proxies can reproduce historical bias unless job relevance and adverse-impact evidence are reviewed.",
+    "type": "Fairness Testing"
+  },
+  {
+    "section": "Learning, Development & Knowledge Management",
+    "q": "A frontline workforce has low literacy variation and limited desktop access, making long written training modules ineffective.\n\nWhich operating approach is most appropriate?",
+    "opts": [
+      "Train managers to trust frontline learning design scores and discourage documented override discussions",
+      "Roll out frontline learning design to all groups before baselines, review owners, and escalation paths are set",
+      "Use plain-language microlearning, audio support, visuals, and checked comprehension using approved controls",
+      "Keep the old workflow unchanged and add frontline learning design outputs without owner accountability"
+    ],
+    "correct": 2,
+    "explanation": "Inclusive learning design should fit workforce access, literacy, language, and comprehension needs.",
+    "type": "Inclusive Learning"
+  },
+  {
+    "section": "Performance, Feedback & Talent Reviews",
+    "q": "A company wants AI to align individual objectives with company strategy, but some roles contribute indirectly through risk, service quality, or capability building.\n\nWhich goal design is best?",
+    "opts": [
+      "Launch goal alignment assistant from a polished demo before HR validates data quality and process fit",
+      "Treat goal alignment assistant exceptions as low priority until the quarterly governance meeting occurs",
+      "Use goal alignment assistant as the final decision source and review only when complaints arrive",
+      "Translate strategy into role-relevant outcomes, leading indicators, and manager review using controls"
+    ],
+    "correct": 3,
+    "explanation": "Goal AI should connect strategy to role-specific outcomes and leading indicators with manager review.",
+    "type": "Goal Setting"
+  },
+  {
+    "section": "Retention, Engagement & Workforce Wellbeing",
+    "q": "An engagement survey has thousands of comments about workload, tools, supervisors, career paths, and scheduling fairness.\n\nWhich AI analysis would help most?",
+    "opts": [
+      "Cluster themes by driver, team, severity, sentiment, and accountable action owner using approved controls",
+      "Let the vendor control engagement comment analysis rules, data mapping, and issue closure outside HR review",
+      "Train managers to trust engagement comment analysis scores and discourage documented override discussions",
+      "Roll out engagement comment analysis to all groups before baselines, review owners, and escalation paths are set"
+    ],
+    "correct": 0,
+    "explanation": "Employee comments become actionable when grouped by drivers, severity, context, and ownership.",
+    "type": "Engagement Analytics"
+  },
+  {
+    "section": "Learning, Development & Knowledge Management",
+    "q": "An HR team wants to identify managers who need coaching, but available data includes engagement comments, turnover, grievances, and team performance.\n\nWhich approach is most responsible?",
+    "opts": [
+      "Keep the old workflow unchanged and add manager coaching prioritizer outputs without owner accountability",
+      "Use multiple signals as development prompts with review, context, and support resources with HR review",
+      "Collect extra data for manager coaching prioritizer because it may be useful for unrelated future analysis",
+      "Optimize manager coaching prioritizer for speed first and postpone fairness, privacy, and policy checks"
+    ],
+    "correct": 1,
+    "explanation": "Manager coaching AI should support development using contextual signals and review, not create punitive labels.",
+    "type": "Manager Development"
+  },
+  {
+    "section": "Workforce Planning, Skills & Internal Mobility",
+    "q": "An engineering firm needs to staff a project quickly, but project managers usually pick people they already know rather than searching across the company.\n\nWhich AI use case would improve matching?",
+    "opts": [
+      "Keep the old workflow unchanged and add project staffing recommender outputs without owner accountability",
+      "Collect extra data for project staffing recommender because it may be useful for unrelated future analysis",
+      "Recommend candidates using verified skills, availability, experience, interests, and constraints",
+      "Optimize project staffing recommender for speed first and postpone fairness, privacy, and policy checks"
+    ],
+    "correct": 2,
+    "explanation": "Project staffing AI should match verified capability, availability, experience, preferences, and operating constraints.",
+    "type": "Talent Matching"
+  },
+  {
+    "section": "DEI, Privacy, Fairness & Responsible AI",
+    "q": "An HR team wants to use sentiment analysis on Slack messages to detect low morale, but employees have not consented and may expect private communication context.\n\nWhich action is most responsible?",
+    "opts": [
+      "Train managers to trust workplace sentiment mining scores and discourage documented override discussions",
+      "Roll out workplace sentiment mining to all groups before baselines, review owners, and escalation paths are set",
+      "Keep the old workflow unchanged and add workplace sentiment mining outputs without owner accountability",
+      "Pause until purpose, consent basis, minimization, notice, and safeguards are approved and exception records"
+    ],
+    "correct": 3,
+    "explanation": "Workplace communication analytics require strong purpose, transparency, minimization, and privacy safeguards.",
+    "type": "Employee Privacy"
+  },
+  {
+    "section": "Compensation, Benefits & Total Rewards",
+    "q": "A total-rewards dashboard combines payroll, benefits, bonus, recognition, and learning investment, but employees may misunderstand estimates as guarantees.\n\nWhich design control should be added?",
+    "opts": [
+      "Show data sources, estimate limits, update date, definitions, and HR support link using approved controls",
+      "Train managers to trust total rewards statement scores and discourage documented override discussions",
+      "Roll out total rewards statement to all groups before baselines, review owners, and escalation paths are set",
+      "Keep the old workflow unchanged and add total rewards statement outputs without owner accountability"
+    ],
+    "correct": 0,
+    "explanation": "Total-rewards AI should provide transparency about sources, limits, definitions, and support.",
+    "type": "Employee Communication"
+  },
+  {
+    "section": "DEI, Privacy, Fairness & Responsible AI",
+    "q": "An employee-surveillance vendor claims it can measure productivity from keyboard activity, application use, and webcam attention during remote work.\n\nWhat should HR evaluate first?",
+    "opts": [
+      "Treat productivity surveillance tool exceptions as low priority until the quarterly governance meeting occurs",
+      "Assess proportionality, privacy, worker notice, bias risk, and less intrusive alternatives under policy rules",
+      "Use productivity surveillance tool as the final decision source and review only when complaints arrive with logs",
+      "Report productivity surveillance tool success from dashboard views while service quality and trust are unmeasured"
+    ],
+    "correct": 1,
+    "explanation": "Monitoring tools require proportionality, privacy, transparency, fairness, and necessity review.",
+    "type": "Privacy Impact"
+  },
+  {
+    "section": "Workforce Planning, Skills & Internal Mobility",
+    "q": "A utility company sees many senior technicians nearing retirement, yet leadership cannot see which sites will lose critical expertise first.\n\nWhich analytic view is most useful?",
+    "opts": [
+      "Launch retirement risk heatmap from a polished demo before HR validates data quality and process fit",
+      "Treat retirement risk heatmap exceptions as low priority until the quarterly governance meeting occurs",
+      "Map critical roles, retirement risk, skill depth, successor readiness, and location exposure",
+      "Use retirement risk heatmap as the final decision source and review only when complaints arrive"
+    ],
+    "correct": 2,
+    "explanation": "Succession analytics should connect risk timing with criticality, skills coverage, successor readiness, and location exposure.",
+    "type": "Succession Analytics"
+  },
+  {
+    "section": "Compensation, Benefits & Total Rewards",
+    "q": "A benefits team wants to identify which employees may value childcare, mental-health support, commuter subsidies, or retirement education.\n\nWhich design is most respectful?",
+    "opts": [
+      "Roll out benefits personalization model to all groups before baselines, review owners, and escalation paths are set",
+      "Keep the old workflow unchanged and add benefits personalization model outputs without owner accountability",
+      "Collect extra data for benefits personalization model because it may be useful for unrelated future analysis",
+      "Use voluntary preferences, aggregated patterns, privacy limits, and opt-in communications and exception records"
+    ],
+    "correct": 3,
+    "explanation": "Benefits personalization should rely on respectful data use, aggregation, privacy limits, and opt-in choices.",
+    "type": "Personalization"
+  },
+  {
+    "section": "Payroll, Time, Compliance & Employee Relations",
+    "q": "A company changes its harassment policy and wants to ensure employees receive the right explanation for their location, role, and language preference.\n\nWhich rollout approach is strongest?",
+    "opts": [
+      "Target communications by audience, local rule, language, completion, and comprehension check with audit logs",
+      "Use policy change communication as the final decision source and review only when complaints arrive in pilot",
+      "Report policy change communication success from dashboard views while service quality and trust are unmeasured",
+      "Let the vendor control policy change communication rules, data mapping, and issue closure outside HR review"
+    ],
+    "correct": 0,
+    "explanation": "Policy rollout AI should tailor messaging while preserving local rule accuracy and comprehension evidence.",
+    "type": "Policy Rollout"
+  },
+  {
+    "section": "Workforce Planning, Skills & Internal Mobility",
+    "q": "A professional-services firm has employees with strong skills in hidden communities of practice, but the HRIS only records job titles and departments.\n\nWhich AI capability could reveal talent supply better?",
+    "opts": [
+      "Launch expertise discovery graph from a polished demo before HR validates data quality and process fit",
+      "Build a skills graph from validated project, learning, credential, and manager evidence using controls",
+      "Treat expertise discovery graph exceptions as low priority until the quarterly governance meeting occurs",
+      "Use expertise discovery graph as the final decision source and review only when complaints arrive"
+    ],
+    "correct": 1,
+    "explanation": "A skills graph can reveal capability beyond job titles when evidence sources are validated and governed.",
+    "type": "Skills Graph"
+  },
+  {
+    "section": "Recruiting, Screening & Candidate Experience",
+    "q": "A recruiting team wants AI to summarize references and background notes, but some references contain subjective comments unrelated to job requirements.\n\nWhich workflow is most appropriate?",
+    "opts": [
+      "Roll out reference summary workflow to all groups before baselines, review owners, and escalation paths are set",
+      "Keep the old workflow unchanged and add reference summary workflow outputs without owner accountability",
+      "Summarize structured evidence, flag subjective claims, and require recruiter validation with documented checks",
+      "Collect extra data for reference summary workflow because it may be useful for unrelated future analysis"
+    ],
+    "correct": 2,
+    "explanation": "Reference summaries should separate job-related evidence from subjective statements and remain subject to HR validation.",
+    "type": "Evidence Review"
+  },
+  {
+    "section": "Retention, Engagement & Workforce Wellbeing",
+    "q": "New hires in technical support leave within six months, and exit interviews mention training gaps, unclear expectations, and stressful escalations.\n\nWhich retention intervention is most targeted?",
+    "opts": [
+      "Use early-tenure churn model as the final decision source and review only when complaints arrive with logs",
+      "Report early-tenure churn model success from dashboard views while service quality and trust are unmeasured",
+      "Let the vendor control early-tenure churn model rules, data mapping, and issue closure outside HR review",
+      "Flag onboarding risks and trigger coaching, skills support, workload review, and check-ins using controls"
+    ],
+    "correct": 3,
+    "explanation": "Early-tenure retention AI should connect risk signals to supportive onboarding and manager actions.",
+    "type": "Early-Tenure Retention"
+  },
+  {
+    "section": "AI Strategy, Governance & HR Operating Model",
+    "q": "A global company wants one HR AI assistant for all regions, but local teams cite different employment laws, languages, data residency rules, and works-council expectations.\n\nWhat operating model best supports rollout?",
+    "opts": [
+      "Use a global core with local policy validation, translation review, and rollout gates and owner review",
+      "Keep the old workflow unchanged and add global HR assistant rollout outputs without owner accountability",
+      "Collect extra data for global HR assistant rollout because it may be useful for unrelated future analysis",
+      "Optimize global HR assistant rollout for speed first and postpone fairness, privacy, and policy checks"
+    ],
+    "correct": 0,
+    "explanation": "Global HR AI needs common standards while respecting local law, language, policy, data residency, and employee-relations requirements.",
+    "type": "Operating Model"
+  },
+  {
+    "section": "Payroll, Time, Compliance & Employee Relations",
+    "q": "HR receives anonymous hotline reports, and leaders want AI to identify themes without exposing reporters or victims.\n\nWhich analytic boundary is appropriate?",
+    "opts": [
+      "Expand hotline theme analytics across regions before local rules, languages, and support channels are ready",
+      "Aggregate themes, redact identifiers, protect access, and escalate urgent risk separately using controls",
+      "Judge hotline theme analytics by activity volume while employee outcomes and risk evidence stay secondary",
+      "Launch hotline theme analytics from a polished demo before HR validates data quality and process fit"
+    ],
+    "correct": 1,
+    "explanation": "Hotline analytics should protect confidentiality while surfacing aggregate themes and urgent risks.",
+    "type": "Confidentiality"
+  },
+  {
+    "section": "AI Strategy, Governance & HR Operating Model",
+    "q": "An HR vendor proposes a black-box employee risk model, and the contract gives little detail about training data, monitoring, audit logs, or model-change notification.\n\nWhich vendor-control step is most important before purchase?",
+    "opts": [
+      "Roll out HR AI vendor review to all groups before baselines, review owners, and escalation paths are set",
+      "Keep the old workflow unchanged and add HR AI vendor review outputs without owner accountability",
+      "Require data lineage, model limits, audit rights, monitoring duties, and change notice with audit logs",
+      "Collect extra data for HR AI vendor review because it may be useful for unrelated future analysis"
+    ],
+    "correct": 2,
+    "explanation": "HR vendor governance should cover data lineage, explainability limits, audit access, monitoring obligations, and model-change controls.",
+    "type": "Vendor Governance"
+  },
+  {
+    "section": "Performance, Feedback & Talent Reviews",
+    "q": "A leadership team wants a dashboard predicting high performers, but the model uses bonus history, manager ratings, and project visibility as strong signals.\n\nWhich model risk is most important?",
+    "opts": [
+      "Expand high-performer prediction model across regions before local rules, languages, and support channels are ready",
+      "Judge high-performer prediction model by activity volume while employee outcomes and risk evidence stay secondary",
+      "Launch high-performer prediction model from a polished demo before HR validates data quality and process fit",
+      "Historical recognition signals may encode bias and need validation against job outcomes and exception records"
+    ],
+    "correct": 3,
+    "explanation": "Past recognition can be biased, so predictive models must be validated against role-relevant outcomes.",
+    "type": "Model Risk"
+  },
+  {
+    "section": "Retention, Engagement & Workforce Wellbeing",
+    "q": "A wellbeing vendor offers individual stress predictions from email metadata, meeting load, and calendar activity, but employees have not been consulted.\n\nWhat should HR do before considering the tool?",
+    "opts": [
+      "Run privacy, ethics, worker-consultation, purpose-limit, and support-benefit reviews and exception records",
+      "Report stress prediction vendor success from dashboard views while service quality and trust are unmeasured",
+      "Let the vendor control stress prediction vendor rules, data mapping, and issue closure outside HR review",
+      "Train managers to trust stress prediction vendor scores and discourage documented override discussions"
+    ],
+    "correct": 0,
+    "explanation": "Sensitive wellbeing AI requires privacy, ethical, consultation, purpose, and benefit reviews before adoption.",
+    "type": "Wellbeing Governance"
+  },
+  {
+    "section": "DEI, Privacy, Fairness & Responsible AI",
+    "q": "Employees learn that AI is being used in HR and start asking whether it affects hiring, pay, promotion, scheduling, or discipline.\n\nWhich transparency response is best?",
+    "opts": [
+      "Train managers to trust HR AI transparency statement scores and discourage documented override discussions",
+      "Explain use cases, data categories, human review, rights, limits, and contact channels and exception records",
+      "Roll out HR AI transparency statement to all groups before baselines, review owners, and escalation paths are set",
+      "Keep the old workflow unchanged and add HR AI transparency statement outputs without owner accountability"
+    ],
+    "correct": 1,
+    "explanation": "Employees need clear information about AI use, data, human review, rights, limitations, and support contacts.",
+    "type": "Transparency"
+  },
+  {
+    "section": "Payroll, Time, Compliance & Employee Relations",
+    "q": "An employee asks whether their leave request qualifies under policy, but eligibility depends on tenure, location, leave type, documentation, and prior balances.\n\nHow should AI support the decision?",
+    "opts": [
+      "Keep the old workflow unchanged and add leave eligibility assistant outputs without owner accountability",
+      "Collect extra data for leave eligibility assistant because it may be useful for unrelated future analysis",
+      "Guide intake, gather required facts, cite policy, and route approval to HR using approved controls",
+      "Optimize leave eligibility assistant for speed first and postpone fairness, privacy, and policy checks"
+    ],
+    "correct": 2,
+    "explanation": "Leave AI can guide fact collection and policy explanation while leaving eligibility decisions to authorized HR review.",
+    "type": "Leave Management"
+  },
+  {
+    "section": "Compensation, Benefits & Total Rewards",
+    "q": "A recruiter asks AI to suggest salary offers, but local market data, pay bands, internal equity, and candidate location all matter.\n\nWhich offer-design approach is best?",
+    "opts": [
+      "Treat salary offer recommender exceptions as low priority until the quarterly governance meeting occurs",
+      "Use salary offer recommender as the final decision source and review only when complaints arrive for audit",
+      "Report salary offer recommender success from dashboard views while service quality and trust are unmeasured",
+      "Recommend ranges using market data, internal equity, location, band rules, and approvals with HR review"
+    ],
+    "correct": 3,
+    "explanation": "Offer guidance should combine market, internal equity, location, band, and approval constraints.",
+    "type": "Offer Governance"
+  },
+  {
+    "section": "Workforce Planning, Skills & Internal Mobility",
+    "q": "A contact center experiences Monday spikes, late-Friday idle time, and repeated overtime, but staffing plans still use monthly averages.\n\nWhich design choice makes the use case safer?",
+    "opts": [
+      "Forecast demand by interval and align staffing with skills, queues, and service levels using approved controls",
+      "Report contact-center workforce forecast success from dashboard views while service quality and trust are unmeasured",
+      "Let the vendor control contact-center workforce forecast rules, data mapping, and issue closure outside HR review",
+      "Train managers to trust contact-center workforce forecast scores and discourage documented override discussions"
+    ],
+    "correct": 0,
+    "explanation": "Workforce forecasts should reflect time-based demand, skills, service levels, and queue mix rather than monthly averages.",
+    "type": "Workforce Forecasting"
+  },
+  {
+    "section": "Performance, Feedback & Talent Reviews",
+    "q": "A manager asks AI to draft a performance improvement plan after several missed deadlines, but the employee recently changed teams and role expectations were unclear.\n\nWhich first step is most appropriate?",
+    "opts": [
+      "Collect extra data for performance improvement draft because it may be useful for unrelated future analysis",
+      "Clarify expectations, timeline evidence, support offered, and HR review before drafting and exception records",
+      "Optimize performance improvement draft for speed first and postpone fairness, privacy, and policy checks",
+      "Expand performance improvement draft across regions before local rules, languages, and support channels are ready"
+    ],
+    "correct": 1,
+    "explanation": "PIP-related AI should verify expectations, evidence, support, and HR review before producing action language.",
+    "type": "Employee Relations"
+  },
+  {
+    "section": "Compensation, Benefits & Total Rewards",
+    "q": "Managers want compensation recommendations during annual planning, but finance, HR, and legal each use different rules for budget, range position, and equity adjustments.\n\nWhat should the model encode?",
+    "opts": [
+      "Train managers to trust compensation planning tool scores and discourage documented override discussions",
+      "Roll out compensation planning tool to all groups before baselines, review owners, and escalation paths are set",
+      "Apply budget, range, performance, equity, approval, and exception rules consistently using approved controls",
+      "Keep the old workflow unchanged and add compensation planning tool outputs without owner accountability"
+    ],
+    "correct": 2,
+    "explanation": "Compensation AI should apply agreed decision rules and capture exceptions for review.",
+    "type": "Comp Planning"
+  },
+  {
+    "section": "Learning, Development & Knowledge Management",
+    "q": "A learning platform recommends leadership courses to employees, but it mainly promotes popular content and ignores career goals and skill gaps.\n\nHow should recommendations improve?",
+    "opts": [
+      "Expand learning recommender across regions before local rules, languages, and support channels are ready",
+      "Judge learning recommender by activity volume while employee outcomes and risk evidence stay secondary",
+      "Launch learning recommender from a polished demo before HR validates data quality and process fit",
+      "Use role aspirations, skill evidence, proficiency gaps, and validated course outcomes with HR review"
+    ],
+    "correct": 3,
+    "explanation": "Learning recommendations should connect employee goals and skills gaps to content with proven outcomes.",
+    "type": "Recommendation Design"
+  },
+  {
+    "section": "AI Strategy, Governance & HR Operating Model",
+    "q": "A CEO asks HR to automate every people process within a year after seeing impressive vendor demos, while the HRIS team warns that job, skills, and manager data are inconsistent.\n\nHow should HR structure the roadmap?",
+    "opts": [
+      "Sequence quick wins, data cleanup, governance, manager adoption, and scaling waves with documented checks",
+      "Let the vendor control enterprise HR AI plan rules, data mapping, and issue closure outside HR review",
+      "Train managers to trust enterprise HR AI plan scores and discourage documented override discussions",
+      "Roll out enterprise HR AI plan to all groups before baselines, review owners, and escalation paths are set"
+    ],
+    "correct": 0,
+    "explanation": "A useful roadmap balances visible value with data readiness, governance, workflow adoption, and staged scaling.",
+    "type": "Roadmap Design"
+  },
+  {
+    "section": "Retention, Engagement & Workforce Wellbeing",
+    "q": "A retailer wants to predict which employees may resign, but leaders plan to give managers individual risk scores without context or support guidance.\n\nWhich design is more responsible?",
+    "opts": [
+      "Use attrition risk model as the final decision source and review only when complaints arrive in pilot",
+      "Use aggregate drivers and manager action guidance, with careful individual review limits under policy",
+      "Report attrition risk model success from dashboard views while service quality and trust are unmeasured",
+      "Let the vendor control attrition risk model rules, data mapping, and issue closure outside HR review"
+    ],
+    "correct": 1,
+    "explanation": "Attrition AI should focus on actionable drivers and support, not opaque labels that may stigmatize employees.",
+    "type": "Retention Analytics"
+  },
+  {
+    "section": "Payroll, Time, Compliance & Employee Relations",
+    "q": "A payroll chatbot answers questions about deductions, taxes, and pay timing, but employees may enter bank details or personal identifiers into chat.\n\nWhich data-protection control is needed?",
+    "opts": [
+      "Expand payroll chatbot across regions before local rules, languages, and support channels are ready",
+      "Judge payroll chatbot by activity volume while employee outcomes and risk evidence stay secondary",
+      "Mask sensitive fields, limit retention, authenticate users, and route complex issues using controls",
+      "Launch payroll chatbot from a polished demo before HR validates data quality and process fit"
+    ],
+    "correct": 2,
+    "explanation": "Payroll assistants require authentication, masking, retention limits, and escalation for sensitive matters.",
+    "type": "Privacy Control"
+  },
+  {
+    "section": "DEI, Privacy, Fairness & Responsible AI",
+    "q": "A model predicts leadership potential, but it was trained mostly on historic executive profiles from one demographic group.\n\nWhich risk is most serious?",
+    "opts": [
+      "Launch leadership potential model from a polished demo before HR validates data quality and process fit",
+      "Treat leadership potential model exceptions as low priority until the quarterly governance meeting occurs",
+      "Use leadership potential model as the final decision source and review only when complaints arrive",
+      "The model may replicate historical access bias rather than true future capability with employee notice"
+    ],
+    "correct": 3,
+    "explanation": "Leadership models trained on historical profiles can reproduce patterns of unequal access and visibility.",
+    "type": "Bias Risk"
+  },
+  {
+    "section": "Payroll, Time, Compliance & Employee Relations",
+    "q": "A unionized workplace considers AI shift recommendations that may affect overtime, seniority, and bidding rights.\n\nWhat must be reviewed before pilot use?",
+    "opts": [
+      "Check collective-agreement rules, seniority logic, notice duties, and grievance pathways with audit logs",
+      "Launch union shift recommendation from a polished demo before HR validates data quality and process fit",
+      "Treat union shift recommendation exceptions as low priority until the quarterly governance meeting occurs",
+      "Use union shift recommendation as the final decision source and review only when complaints arrive"
+    ],
+    "correct": 0,
+    "explanation": "Unionized scheduling AI must respect agreement terms, seniority, notice requirements, and dispute processes.",
+    "type": "Labor Relations"
+  },
+  {
+    "section": "Performance, Feedback & Talent Reviews",
+    "q": "An employee requests explanation after an AI-supported review summary influenced their development rating.\n\nWhat should HR be able to provide?",
+    "opts": [
+      "Optimize review explanation request for speed first and postpone fairness, privacy, and policy checks",
+      "Provide source evidence, reviewer decision rationale, correction path, and appeal process with audit logs",
+      "Expand review explanation request across regions before local rules, languages, and support channels are ready",
+      "Judge review explanation request by activity volume while employee outcomes and risk evidence stay secondary"
+    ],
+    "correct": 1,
+    "explanation": "Employees need traceable evidence, human rationale, correction rights, and appeal paths for consequential review support.",
+    "type": "Explainability"
+  },
+  {
+    "section": "Learning, Development & Knowledge Management",
+    "q": "Employees complete many courses, yet managers still report low capability in data analysis, coaching, and conflict resolution.\n\nWhich metric should L&D emphasize?",
+    "opts": [
+      "Let the vendor control learning effectiveness dashboard rules, data mapping, and issue closure outside HR review",
+      "Train managers to trust learning effectiveness dashboard scores and discourage documented override discussions",
+      "Measure skill application, manager observation, business outcome, and retention of learning using approved controls",
+      "Roll out learning effectiveness dashboard to all groups before baselines, review owners, and escalation paths are set"
+    ],
+    "correct": 2,
+    "explanation": "Learning success should be measured by applied capability and business outcomes, not completion counts alone.",
+    "type": "Learning Metrics"
+  },
+  {
+    "section": "AI Strategy, Governance & HR Operating Model",
+    "q": "An HR transformation office has twenty AI ideas across recruiting, learning, employee service, compensation, and workforce planning, but only three pilots can be funded.\n\nWhich prioritization approach is most disciplined?",
+    "opts": [
+      "Roll out AI pilot portfolio to all groups before baselines, review owners, and escalation paths are set",
+      "Keep the old workflow unchanged and add AI pilot portfolio outputs without owner accountability",
+      "Collect extra data for AI pilot portfolio because it may be useful for unrelated future analysis",
+      "Score ideas by value, feasibility, data readiness, risk, and accountable owner and exception records"
+    ],
+    "correct": 3,
+    "explanation": "Portfolio choices should compare business value, feasibility, data availability, risk exposure, and operational ownership.",
+    "type": "Portfolio Prioritization"
+  },
+  {
+    "section": "Workforce Planning, Skills & Internal Mobility",
+    "q": "A finance department is adopting a new ERP, and HR needs to identify who requires training, who can become a super user, and where backfill is needed.\n\nWhich data foundation is required first?",
+    "opts": [
+      "Connect role impact, skills gaps, learning paths, workload, and backfill needs using approved controls",
+      "Use ERP workforce readiness plan as the final decision source and review only when complaints arrive in pilot",
+      "Report ERP workforce readiness plan success from dashboard views while service quality and trust are unmeasured",
+      "Let the vendor control ERP workforce readiness plan rules, data mapping, and issue closure outside HR review"
+    ],
+    "correct": 0,
+    "explanation": "Workforce readiness for system change requires role-impact mapping, gap analysis, training, workload, and backfill planning.",
+    "type": "Change Readiness"
+  },
+  {
+    "section": "AI Strategy, Governance & HR Operating Model",
+    "q": "A pilot team claims success because HR staff like the AI tool, but employees were not told how the tool affects service routing, data use, or escalation rights.\n\nWhat should be added before expansion?",
+    "opts": [
+      "Roll out employee communication plan to all groups before baselines, review owners, and escalation paths are set",
+      "Publish clear notices, escalation paths, data-use boundaries, and feedback channels and exception records",
+      "Keep the old workflow unchanged and add employee communication plan outputs without owner accountability",
+      "Collect extra data for employee communication plan because it may be useful for unrelated future analysis"
+    ],
+    "correct": 1,
+    "explanation": "Trust improves when employees understand AI use, data boundaries, escalation options, and feedback mechanisms.",
+    "type": "Transparency"
+  },
+  {
+    "section": "Workforce Planning, Skills & Internal Mobility",
+    "q": "A retailer is deciding whether to add staff, redeploy associates, or change hours for stores with different traffic patterns and turnover trends.\n\nWhich workforce model is most useful?",
+    "opts": [
+      "Expand store labor scenario model across regions before local rules, languages, and support channels are ready",
+      "Judge store labor scenario model by activity volume while employee outcomes and risk evidence stay secondary",
+      "Run scenarios using traffic, conversion, labor cost, turnover, service targets, and constraints using controls",
+      "Launch store labor scenario model from a polished demo before HR validates data quality and process fit"
+    ],
+    "correct": 2,
+    "explanation": "Scenario models help compare labor actions across demand, cost, turnover, service level, and operational constraints.",
+    "type": "Scenario Planning"
+  },
+  {
+    "section": "Compensation, Benefits & Total Rewards",
+    "q": "Employees ignore retirement education emails because the messages feel generic and arrive during peak work periods.\n\nWhich communication approach is better?",
+    "opts": [
+      "Optimize retirement education nudge for speed first and postpone fairness, privacy, and policy checks",
+      "Expand retirement education nudge across regions before local rules, languages, and support channels are ready",
+      "Judge retirement education nudge by activity volume while employee outcomes and risk evidence stay secondary",
+      "Segment messages by life stage, consent, timing, channel preference, and policy limits with employee notice"
+    ],
+    "correct": 3,
+    "explanation": "Rewards communications should be relevant, timely, permission-aware, and compliant with policy limits.",
+    "type": "Rewards Communication"
+  },
+  {
+    "section": "Workforce Planning, Skills & Internal Mobility",
+    "q": "A manufacturer wants to know which employees can operate new automation equipment, but skills records are free-text, outdated, and scattered across supervisors' spreadsheets.\n\nWhich foundation should be built first?",
+    "opts": [
+      "Create a governed skills taxonomy, evidence rules, validation workflow, and refresh cycle with logs",
+      "Collect extra data for skills inventory because it may be useful for unrelated future analysis",
+      "Optimize skills inventory for speed first and postpone fairness, privacy, and policy checks",
+      "Expand skills inventory across regions before local rules, languages, and support channels are ready"
+    ],
+    "correct": 0,
+    "explanation": "Skills intelligence depends on a maintained taxonomy, evidence rules, validation, and refresh discipline.",
+    "type": "Skills Data"
+  },
+  {
+    "section": "Compensation, Benefits & Total Rewards",
+    "q": "A sales-incentive plan rewards short-term volume, but leaders worry it may encourage low-margin deals and poor customer handoffs.\n\nWhich governance decision is most important?",
+    "opts": [
+      "Expand incentive plan analysis across regions before local rules, languages, and support channels are ready",
+      "Simulate incentives against margin, retention, behavior risk, fairness, and payout cost with HR review",
+      "Judge incentive plan analysis by activity volume while employee outcomes and risk evidence stay secondary",
+      "Launch incentive plan analysis from a polished demo before HR validates data quality and process fit"
+    ],
+    "correct": 1,
+    "explanation": "Incentive analytics should evaluate behavior, margin, retention, fairness, and cost consequences.",
+    "type": "Incentive Design"
+  },
+  {
+    "section": "Recruiting, Screening & Candidate Experience",
+    "q": "A hiring manager asks AI to create a job description for a new operations role, but the manager has not clarified accountabilities, grade, competencies, or success measures.\n\nWhat should HR do before generating the posting?",
+    "opts": [
+      "Judge job description draft by activity volume while employee outcomes and risk evidence stay secondary",
+      "Launch job description draft from a polished demo before HR validates data quality and process fit",
+      "Clarify accountabilities, competencies, grade, success measures, and approval owner and owner review",
+      "Treat job description draft exceptions as low priority until the quarterly governance meeting occurs"
+    ],
+    "correct": 2,
+    "explanation": "Job descriptions should be generated from validated role design, not from vague prompts.",
+    "type": "Role Design"
+  },
+  {
+    "section": "Learning, Development & Knowledge Management",
+    "q": "A senior engineer is retiring, and much of their expertise lives in informal notes, project memories, and troubleshooting stories.\n\nWhich AI use case helps preserve knowledge?",
+    "opts": [
+      "Launch expert knowledge capture from a polished demo before HR validates data quality and process fit",
+      "Treat expert knowledge capture exceptions as low priority until the quarterly governance meeting occurs",
+      "Use expert knowledge capture as the final decision source and review only when complaints arrive",
+      "Capture interviews, tag decision patterns, link artifacts, and validate guidance with peers in pilot"
+    ],
+    "correct": 3,
+    "explanation": "Knowledge capture should preserve context, decision patterns, artifacts, and peer validation.",
+    "type": "Knowledge Capture"
+  },
+  {
+    "section": "AI Strategy, Governance & HR Operating Model",
+    "q": "A company wants to reuse employee performance notes, health-benefit data, learning records, and messaging metadata for multiple AI pilots because the data already exists.\n\nWhich governance decision is most important?",
+    "opts": [
+      "Define purpose limits, minimization, consent basis, access controls, and retention rules with HR review",
+      "Train managers to trust employee data reuse scores and discourage documented override discussions",
+      "Roll out employee data reuse to all groups before baselines, review owners, and escalation paths are set",
+      "Keep the old workflow unchanged and add employee data reuse outputs without owner accountability"
+    ],
+    "correct": 0,
+    "explanation": "Employee data should be reused only within defined purpose, minimization, lawful basis, access, and retention boundaries.",
+    "type": "Data Governance"
+  },
+  {
+    "section": "Workforce Planning, Skills & Internal Mobility",
+    "q": "A hospital wants to cross-train employees for surge capacity, but training seats are limited and managers disagree on who should be prioritized.\n\nWhich decision model should be used?",
+    "opts": [
+      "Use cross-training prioritizer as the final decision source and review only when complaints arrive in pilot",
+      "Prioritize based on demand risk, skill adjacency, availability, equity, and service impact with HR review",
+      "Report cross-training prioritizer success from dashboard views while service quality and trust are unmeasured",
+      "Let the vendor control cross-training prioritizer rules, data mapping, and issue closure outside HR review"
+    ],
+    "correct": 1,
+    "explanation": "Cross-training decisions should balance operational risk, skill adjacency, capacity, equity, and service outcomes.",
+    "type": "Cross-Training"
+  },
+  {
+    "section": "DEI, Privacy, Fairness & Responsible AI",
+    "q": "Managers want explanations for AI-generated retention insights, but the vendor only provides a risk number and a color-coded label.\n\nWhat should HR require?",
+    "opts": [
+      "Launch retention score explanation from a polished demo before HR validates data quality and process fit",
+      "Treat retention score explanation exceptions as low priority until the quarterly governance meeting occurs",
+      "Require factor explanations, confidence limits, data sources, and human decision guidance with audit logs",
+      "Use retention score explanation as the final decision source and review only when complaints arrive"
+    ],
+    "correct": 2,
+    "explanation": "Consequential HR predictions need explanations, confidence limits, data context, and guidance for human use.",
+    "type": "Explainability"
+  },
+  {
+    "section": "Compensation, Benefits & Total Rewards",
+    "q": "A manufacturer has overtime costs rising at several sites, but leaders cannot tell whether the cause is vacancies, scheduling rules, training gaps, or demand spikes.\n\nWhich AI analysis would help most?",
+    "opts": [
+      "Judge overtime cost analysis by activity volume while employee outcomes and risk evidence stay secondary",
+      "Launch overtime cost analysis from a polished demo before HR validates data quality and process fit",
+      "Treat overtime cost analysis exceptions as low priority until the quarterly governance meeting occurs",
+      "Break down overtime by demand, vacancies, skills, scheduling rules, and supervisor practices in pilot"
+    ],
+    "correct": 3,
+    "explanation": "Overtime analytics should identify operational drivers before recommending pay or staffing changes.",
+    "type": "Cost Diagnostics"
+  },
+  {
+    "section": "HR Service Delivery & Employee Experience",
+    "q": "A company wants AI to send employees nudges about benefits, learning, goals, and policy tasks, but employees already complain about notification overload.\n\nHow should nudges be controlled?",
+    "opts": [
+      "Prioritize nudges by relevance, timing, consent, fatigue limits, and opt-out rules and exception records",
+      "Optimize employee nudge engine for speed first and postpone fairness, privacy, and policy checks",
+      "Expand employee nudge engine across regions before local rules, languages, and support channels are ready",
+      "Judge employee nudge engine by activity volume while employee outcomes and risk evidence stay secondary"
+    ],
+    "correct": 0,
+    "explanation": "Employee nudges should be relevant, timed, consent-aware, limited by fatigue controls, and optional where appropriate.",
+    "type": "Nudge Design"
+  },
+  {
+    "section": "Recruiting, Screening & Candidate Experience",
+    "q": "A retailer finds that AI-generated job postings sound energetic but may discourage older applicants, caregivers, and candidates without elite-brand experience.\n\nHow should the content workflow be changed?",
+    "opts": [
+      "Use job posting generator as the final decision source and review only when complaints arrive in pilot",
+      "Check inclusive language, essential criteria, pay clarity, and recruiter approval under policy rules",
+      "Report job posting generator success from dashboard views while service quality and trust are unmeasured",
+      "Let the vendor control job posting generator rules, data mapping, and issue closure outside HR review"
+    ],
+    "correct": 1,
+    "explanation": "Job-content AI should improve clarity and inclusion while keeping qualifications job-related and reviewed.",
+    "type": "Job-Ad Governance"
+  },
+  {
+    "section": "Retention, Engagement & Workforce Wellbeing",
+    "q": "A company wants AI to generate stay-interview questions for employees in hard-to-fill roles, but managers usually ask generic questions.\n\nWhich prompt design is best?",
+    "opts": [
+      "Collect extra data for stay-interview assistant because it may be useful for unrelated future analysis",
+      "Optimize stay-interview assistant for speed first and postpone fairness, privacy, and policy checks",
+      "Tailor questions to role, tenure, aspirations, engagement drivers, and manager follow-up and owner review",
+      "Expand stay-interview assistant across regions before local rules, languages, and support channels are ready"
+    ],
+    "correct": 2,
+    "explanation": "Stay-interview AI should support thoughtful conversations linked to role context and follow-through.",
+    "type": "Stay Interviews"
+  },
+  {
+    "section": "HR Service Delivery & Employee Experience",
+    "q": "Managers want AI to draft employee letters for schedule changes, role changes, and return-to-work notices, but HR worries about legal wording.\n\nWhich workflow is safest?",
+    "opts": [
+      "Report employee letter drafting success from dashboard views while service quality and trust are unmeasured",
+      "Let the vendor control employee letter drafting rules, data mapping, and issue closure outside HR review",
+      "Train managers to trust employee letter drafting scores and discourage documented override discussions",
+      "Generate drafts from approved templates and require HR review before sending and exception records"
+    ],
+    "correct": 3,
+    "explanation": "AI-drafted employee communications should use approved templates and remain subject to HR review.",
+    "type": "Document Drafting"
+  },
+  {
+    "section": "DEI, Privacy, Fairness & Responsible AI",
+    "q": "A recruiting model shows higher rejection rates for candidates with career gaps, which may affect caregivers, disabled candidates, and older workers.\n\nWhich design choice makes the use case safer?",
+    "opts": [
+      "Test job relevance, adverse impact, alternative evidence, and reasonable accommodation risk with employee notice",
+      "Train managers to trust career-gap screening feature scores and discourage documented override discussions",
+      "Roll out career-gap screening feature to all groups before baselines, review owners, and escalation paths are set",
+      "Keep the old workflow unchanged and add career-gap screening feature outputs without owner accountability"
+    ],
+    "correct": 0,
+    "explanation": "Screening features should be tested for job relevance, adverse impact, alternatives, and accommodation concerns.",
+    "type": "Adverse Impact"
+  },
+  {
+    "section": "Learning, Development & Knowledge Management",
+    "q": "A sales team wants a coaching assistant that reviews call transcripts and recommends practice topics, but managers worry about surveillance.\n\nWhich boundary improves trust?",
+    "opts": [
+      "Judge sales coaching assistant by activity volume while employee outcomes and risk evidence stay secondary",
+      "Use coaching consent, aggregate trends, private feedback rules, and manager-use limits with HR review",
+      "Launch sales coaching assistant from a polished demo before HR validates data quality and process fit",
+      "Treat sales coaching assistant exceptions as low priority until the quarterly governance meeting occurs"
+    ],
+    "correct": 1,
+    "explanation": "Coaching AI should have clear consent, privacy boundaries, aggregation choices, and limits on managerial use.",
+    "type": "Coaching Governance"
+  },
+  {
+    "section": "HR Service Delivery & Employee Experience",
+    "q": "A benefits chatbot gives confident answers about eligibility, but employees sometimes need personalized advice based on family status and local rules.\n\nHow should the team redesign the use case?",
+    "opts": [
+      "Keep the old workflow unchanged and add benefits chatbot outputs without owner accountability",
+      "Collect extra data for benefits chatbot because it may be useful for unrelated future analysis",
+      "Provide general guidance, confirm source rules, and escalate individualized decisions",
+      "Optimize benefits chatbot for speed first and postpone fairness, privacy, and policy checks"
+    ],
+    "correct": 2,
+    "explanation": "Benefits AI should separate general guidance from personalized determinations that require authorized review.",
+    "type": "Benefits Support"
+  },
+  {
+    "section": "Retention, Engagement & Workforce Wellbeing",
+    "q": "Absence patterns rise in one warehouse, but HR is unsure whether the cause is shift design, commute changes, supervisor issues, or health and safety concerns.\n\nHow should AI support diagnosis?",
+    "opts": [
+      "Let the vendor control absence pattern analysis rules, data mapping, and issue closure outside HR review",
+      "Train managers to trust absence pattern analysis scores and discourage documented override discussions",
+      "Roll out absence pattern analysis to all groups before baselines, review owners, and escalation paths are set",
+      "Stratify absence by shift, role, location, tenure, supervisor, and known workplace changes with HR review"
+    ],
+    "correct": 3,
+    "explanation": "Absence analytics should identify patterns by operational context before drawing conclusions.",
+    "type": "Absence Analytics"
+  },
+  {
+    "section": "DEI, Privacy, Fairness & Responsible AI",
+    "q": "A hiring AI tool is accessible only through a timed video exercise, creating barriers for candidates with disabilities or low bandwidth.\n\nWhich design control is required?",
+    "opts": [
+      "Provide accessible alternatives, accommodation routing, timing flexibility, and validation evidence",
+      "Treat video hiring assessment exceptions as low priority until the quarterly governance meeting occurs",
+      "Use video hiring assessment as the final decision source and review only when complaints arrive in pilot",
+      "Report video hiring assessment success from dashboard views while service quality and trust are unmeasured"
+    ],
+    "correct": 0,
+    "explanation": "Hiring assessments need accessibility alternatives, accommodation routes, flexible design, and validation.",
+    "type": "Accessibility"
+  },
+  {
+    "section": "HR Service Delivery & Employee Experience",
+    "q": "Employees cannot find policies because the intranet search returns old PDFs, duplicate pages, and regionally irrelevant guidance.\n\nWhich data cleanup is required first?",
+    "opts": [
+      "Judge HR knowledge search by activity volume while employee outcomes and risk evidence stay secondary",
+      "Clean policy ownership, version status, region tags, effective dates, and search metadata in pilot",
+      "Launch HR knowledge search from a polished demo before HR validates data quality and process fit",
+      "Treat HR knowledge search exceptions as low priority until the quarterly governance meeting occurs"
+    ],
+    "correct": 1,
+    "explanation": "Knowledge AI works only when policies have ownership, version control, region tags, effective dates, and metadata.",
+    "type": "Knowledge Management"
+  },
+  {
+    "section": "DEI, Privacy, Fairness & Responsible AI",
+    "q": "A model that performed well last year starts giving poor recommendations after a merger, new HRIS fields, and changed job architecture.\n\nWhich AI control detects this issue?",
+    "opts": [
+      "Train managers to trust HR model drift monitor scores and discourage documented override discussions",
+      "Roll out HR model drift monitor to all groups before baselines, review owners, and escalation paths are set",
+      "Monitor drift, data changes, outcome quality, fairness metrics, and retraining triggers and owner review",
+      "Keep the old workflow unchanged and add HR model drift monitor outputs without owner accountability"
+    ],
+    "correct": 2,
+    "explanation": "HR models need ongoing monitoring for drift, data changes, performance, fairness, and retraining needs.",
+    "type": "Model Monitoring"
+  },
+  {
+    "section": "Learning, Development & Knowledge Management",
+    "q": "An L&D team uses generative AI to create training modules quickly, but subject-matter experts find outdated facts and unsupported claims.\n\nWhich content control is needed?",
+    "opts": [
+      "Use AI training content creation as the final decision source and review only when complaints arrive with logs",
+      "Report AI training content creation success from dashboard views while service quality and trust are unmeasured",
+      "Let the vendor control AI training content creation rules, data mapping, and issue closure outside HR review",
+      "Require source grounding, SME review, version control, and learner feedback loops and exception records"
+    ],
+    "correct": 3,
+    "explanation": "Generated learning content needs source grounding, expert review, version control, and feedback-based improvement.",
+    "type": "Content Governance"
+  },
+  {
+    "section": "DEI, Privacy, Fairness & Responsible AI",
+    "q": "An AI tool recommends disciplinary action after policy violations, but line managers may treat its output as authoritative.\n\nWhich boundary should be set?",
+    "opts": [
+      "Use AI only for evidence organization, with HR-led judgment and documented review through local validation",
+      "Optimize disciplinary recommendation tool for speed first and postpone fairness, privacy, and policy checks",
+      "Expand disciplinary recommendation tool across regions before local rules, languages, and support channels are ready",
+      "Judge disciplinary recommendation tool by activity volume while employee outcomes and risk evidence stay secondary"
+    ],
+    "correct": 0,
+    "explanation": "Employee discipline should not be automated; AI can organize evidence while HR retains judgment and accountability.",
+    "type": "Human Oversight"
+  },
+  {
+    "section": "Recruiting, Screening & Candidate Experience",
+    "q": "A candidate chatbot answers questions about accommodations, visas, salary range, and application status across multiple countries.\n\nWhich control should be included in the pilot?",
+    "opts": [
+      "Keep the old workflow unchanged and add candidate chatbot outputs without owner accountability",
+      "Answer approved FAQs, disclose limitations, protect privacy, and route sensitive requests",
+      "Collect extra data for candidate chatbot because it may be useful for unrelated future analysis",
+      "Optimize candidate chatbot for speed first and postpone fairness, privacy, and policy checks"
+    ],
+    "correct": 1,
+    "explanation": "Candidate chatbots should use approved content, state limits, protect candidate data, and escalate sensitive matters.",
+    "type": "Candidate Experience"
+  },
+  {
+    "section": "Workforce Planning, Skills & Internal Mobility",
+    "q": "A startup grew quickly and now has unclear spans of control, duplicated roles, and uneven manager workloads across departments.\n\nWhich AI-supported analysis fits the issue?",
+    "opts": [
+      "Treat organization design analysis exceptions as low priority until the quarterly governance meeting occurs",
+      "Use organization design analysis as the final decision source and review only when complaints arrive with logs",
+      "Analyze spans, layers, role duplication, workload signals, and decision bottlenecks using approved controls",
+      "Report organization design analysis success from dashboard views while service quality and trust are unmeasured"
+    ],
+    "correct": 2,
+    "explanation": "Org-design analytics can reveal structure, workload, duplication, and decision-flow problems.",
+    "type": "Org Design"
+  },
+  {
+    "section": "Payroll, Time, Compliance & Employee Relations",
+    "q": "A company uses contractors, temps, and part-time employees across provinces and wants AI to flag classification risks.\n\nWhat should the model evaluate?",
+    "opts": [
+      "Collect extra data for worker classification risk because it may be useful for unrelated future analysis",
+      "Optimize worker classification risk for speed first and postpone fairness, privacy, and policy checks",
+      "Expand worker classification risk across regions before local rules, languages, and support channels are ready",
+      "Review work control, duration, dependency, jurisdiction rules, contract terms, and approvals using controls"
+    ],
+    "correct": 3,
+    "explanation": "Worker-classification AI should assess control, duration, dependency, jurisdiction, contract terms, and approval evidence.",
+    "type": "Classification Compliance"
+  },
+  {
+    "section": "Recruiting, Screening & Candidate Experience",
+    "q": "A software company uses AI to transcribe interviews and suggest competency scores, but candidates are not told that automated analysis is being used.\n\nWhat control should be included before rollout?",
+    "opts": [
+      "Add candidate notice, structured rubrics, reviewer signoff, and bias monitoring with documented checks",
+      "Roll out interview scoring assistant to all groups before baselines, review owners, and escalation paths are set",
+      "Keep the old workflow unchanged and add interview scoring assistant outputs without owner accountability",
+      "Collect extra data for interview scoring assistant because it may be useful for unrelated future analysis"
+    ],
+    "correct": 0,
+    "explanation": "Interview assistants need candidate transparency, structured rubrics, human review, and bias monitoring.",
+    "type": "Interview Controls"
+  },
+  {
+    "section": "HR Service Delivery & Employee Experience",
+    "q": "An HR service center receives cases about payroll, benefits, harassment concerns, leave, and system access, but everything enters the same queue.\n\nHow should AI support triage?",
+    "opts": [
+      "Roll out HR case triage to all groups before baselines, review owners, and escalation paths are set",
+      "Classify case type, urgency, sensitivity, owner, SLA, and required escalation path using controls",
+      "Keep the old workflow unchanged and add HR case triage outputs without owner accountability",
+      "Collect extra data for HR case triage because it may be useful for unrelated future analysis"
+    ],
+    "correct": 1,
+    "explanation": "Case-triage AI should identify category, urgency, sensitivity, ownership, service target, and escalation requirements.",
+    "type": "Case Routing"
+  },
+  {
+    "section": "AI Strategy, Governance & HR Operating Model",
+    "q": "HR analytics, legal, IT security, and business leaders disagree on who can approve AI use cases that influence hiring, promotion, pay, or employee relations.\n\nWhich governance structure is most appropriate?",
+    "opts": [
+      "Let the vendor control HR AI approval board rules, data mapping, and issue closure outside HR review",
+      "Train managers to trust HR AI approval board scores and discourage documented override discussions",
+      "Create a cross-functional review board with risk tiers and accountable signoffs using approved controls",
+      "Roll out HR AI approval board to all groups before baselines, review owners, and escalation paths are set"
+    ],
+    "correct": 2,
+    "explanation": "High-impact people decisions need cross-functional governance, risk tiers, and named approval responsibilities.",
+    "type": "Governance Model"
+  },
+  {
+    "section": "Retention, Engagement & Workforce Wellbeing",
+    "q": "A professional-services firm sees burnout complaints after several project deadlines, but utilization data alone does not explain who is at risk.\n\nWhich approach creates the strongest pilot?",
+    "opts": [
+      "Roll out burnout early-warning analysis to all groups before baselines, review owners, and escalation paths are set",
+      "Keep the old workflow unchanged and add burnout early-warning analysis outputs without owner accountability",
+      "Collect extra data for burnout early-warning analysis because it may be useful for unrelated future analysis",
+      "Combine workload, recovery time, travel, role pressure, manager review, and support options with employee notice"
+    ],
+    "correct": 3,
+    "explanation": "Wellbeing signals should combine multiple workload and recovery indicators with supportive review and resources.",
+    "type": "Wellbeing Analytics"
+  },
+  {
+    "section": "AI Strategy, Governance & HR Operating Model",
+    "q": "A CHRO wants a dashboard showing AI value, but current proposals report only prompt counts, chatbot sessions, and documents generated by HR staff.\n\nWhich measurement approach is stronger?",
+    "opts": [
+      "Track cycle time, quality, employee impact, adoption, risk events, and savings using approved controls",
+      "Use HR AI value dashboard as the final decision source and review only when complaints arrive in pilot",
+      "Report HR AI value dashboard success from dashboard views while service quality and trust are unmeasured",
+      "Let the vendor control HR AI value dashboard rules, data mapping, and issue closure outside HR review"
+    ],
+    "correct": 0,
+    "explanation": "AI value should be measured through HR outcomes, service quality, adoption, risk signals, and financial impact, not activity counts alone.",
+    "type": "Outcome Metrics"
+  },
+  {
+    "section": "HR Service Delivery & Employee Experience",
+    "q": "Employee-service surveys show frustration, but comments are unstructured and spread across tickets, pulse surveys, exit interviews, and chat transcripts.\n\nWhich analysis would help HR act?",
+    "opts": [
+      "Use employee voice analytics as the final decision source and review only when complaints arrive in pilot",
+      "Cluster feedback themes by journey step, severity, location, and responsible owner and exception records",
+      "Report employee voice analytics success from dashboard views while service quality and trust are unmeasured",
+      "Let the vendor control employee voice analytics rules, data mapping, and issue closure outside HR review"
+    ],
+    "correct": 1,
+    "explanation": "Employee voice analytics should turn unstructured feedback into prioritized themes with owners and context.",
+    "type": "Employee Listening"
+  },
+  {
+    "section": "Learning, Development & Knowledge Management",
+    "q": "A company rolls out cybersecurity training to every employee, but incidents show that engineers, sales staff, and executives face different risk situations.\n\nWhich AI learning design is better?",
+    "opts": [
+      "Treat role-based cybersecurity learning exceptions as low priority until the quarterly governance meeting occurs",
+      "Use role-based cybersecurity learning as the final decision source and review only when complaints arrive with logs",
+      "Personalize scenarios by role, risk exposure, prior performance, and required controls using approved controls",
+      "Report role-based cybersecurity learning success from dashboard views while service quality and trust are unmeasured"
+    ],
+    "correct": 2,
+    "explanation": "Learning AI should adapt content to role-specific risk, prior knowledge, and required behaviors.",
+    "type": "Adaptive Learning"
+  },
+  {
+    "section": "HR Service Delivery & Employee Experience",
+    "q": "Employees ask the HR helpdesk the same questions about vacation carryover, parental leave, overtime rules, and benefits eligibility.\n\nWhich assistant design is most appropriate?",
+    "opts": [
+      "Use HR policy assistant as the final decision source and review only when complaints arrive with logs",
+      "Report HR policy assistant success from dashboard views while service quality and trust are unmeasured",
+      "Let the vendor control HR policy assistant rules, data mapping, and issue closure outside HR review",
+      "Ground answers in approved policies, show sources, and route complex cases to HR and owner review"
+    ],
+    "correct": 3,
+    "explanation": "Employee-facing HR assistants need approved sources, source visibility, and escalation for complex or sensitive cases.",
+    "type": "Policy Assistant"
+  },
+  {
+    "section": "Retention, Engagement & Workforce Wellbeing",
+    "q": "A hybrid-work policy allows team discretion, but employees believe decisions are inconsistent and career impact is unclear.\n\nWhich AI-supported view could help HR?",
+    "opts": [
+      "Analyze outcomes, collaboration patterns, fairness signals, productivity, and employee sentiment",
+      "Launch hybrid work analytics from a polished demo before HR validates data quality and process fit",
+      "Treat hybrid work analytics exceptions as low priority until the quarterly governance meeting occurs",
+      "Use hybrid work analytics as the final decision source and review only when complaints arrive"
+    ],
+    "correct": 0,
+    "explanation": "Hybrid-work analytics should examine outcomes, collaboration, fairness, productivity, and employee sentiment together.",
+    "type": "Hybrid Work"
+  },
+  {
+    "section": "Payroll, Time, Compliance & Employee Relations",
+    "q": "Employee-relations specialists write long investigation notes, and leaders want AI summaries for case review meetings.\n\nWhich control should be included in the pilot?",
+    "opts": [
+      "Optimize employee-relations summarizer for speed first and postpone fairness, privacy, and policy checks",
+      "Preserve source links, chronology, allegations, evidence gaps, confidentiality, and review signoff under policy",
+      "Expand employee-relations summarizer across regions before local rules, languages, and support channels are ready",
+      "Judge employee-relations summarizer by activity volume while employee outcomes and risk evidence stay secondary"
+    ],
+    "correct": 1,
+    "explanation": "Employee-relations summaries must protect chronology, sources, confidentiality, gaps, and human review.",
+    "type": "ER Case Control"
+  },
+  {
+    "section": "AI Strategy, Governance & HR Operating Model",
+    "q": "A business unit wants its own HR AI tool outside central governance because it can move faster than the enterprise HR transformation program.\n\nHow should the request be handled?",
+    "opts": [
+      "Use shadow HR AI tool as the final decision source and review only when complaints arrive in review",
+      "Report shadow HR AI tool success from dashboard views while service quality and trust are unmeasured",
+      "Route it through intake, risk review, security checks, and shared control standards with audit logs",
+      "Let the vendor control shadow HR AI tool rules, data mapping, and issue closure outside HR review"
+    ],
+    "correct": 2,
+    "explanation": "Decentralized HR AI can move quickly only if it still follows common intake, risk, security, and control standards.",
+    "type": "Intake Control"
+  },
+  {
+    "section": "Compensation, Benefits & Total Rewards",
+    "q": "A compensation team wants to use external salary surveys scraped from job ads, but job titles and remote-work assumptions vary widely.\n\nWhich data-quality step is required?",
+    "opts": [
+      "Keep the old workflow unchanged and add market pay data enrichment outputs without owner accountability",
+      "Collect extra data for market pay data enrichment because it may be useful for unrelated future analysis",
+      "Optimize market pay data enrichment for speed first and postpone fairness, privacy, and policy checks",
+      "Normalize roles, locations, seniority, remote assumptions, and confidence levels before use with logs"
+    ],
+    "correct": 3,
+    "explanation": "Market-pay AI needs role, location, seniority, remote, and confidence normalization before decision use.",
+    "type": "Market Data Quality"
+  },
+  {
+    "section": "Recruiting, Screening & Candidate Experience",
+    "q": "Recruiters spend many hours coordinating interviews across time zones, shift workers, hiring managers, and candidates who request accommodations.\n\nWhich AI use case fits best?",
+    "opts": [
+      "Optimize schedules using availability, time zones, accessibility needs, and service targets with logs",
+      "Keep the old workflow unchanged and add interview scheduling tool outputs without owner accountability",
+      "Collect extra data for interview scheduling tool because it may be useful for unrelated future analysis",
+      "Optimize interview scheduling tool for speed first and postpone fairness, privacy, and policy checks"
+    ],
+    "correct": 0,
+    "explanation": "Scheduling AI should solve coordination constraints while respecting accessibility, candidate experience, and service levels.",
+    "type": "Scheduling Optimization"
+  },
+  {
+    "section": "Performance, Feedback & Talent Reviews",
+    "q": "A company wants to use AI to recommend promotion readiness, but prior promotion data may reflect historical bias across departments.\n\nWhat should happen before recommendations are used?",
+    "opts": [
+      "Expand promotion readiness model across regions before local rules, languages, and support channels are ready",
+      "Validate criteria, test adverse impact, review evidence, and require panel judgment and exception records",
+      "Judge promotion readiness model by activity volume while employee outcomes and risk evidence stay secondary",
+      "Launch promotion readiness model from a polished demo before HR validates data quality and process fit"
+    ],
+    "correct": 1,
+    "explanation": "Promotion AI must be based on validated criteria, fairness testing, evidence review, and human panel judgment.",
+    "type": "Promotion Governance"
+  },
+  {
+    "section": "Retention, Engagement & Workforce Wellbeing",
+    "q": "Managers receive an attrition dashboard but do not know which interventions are appropriate for pay concerns, career stagnation, workload, or conflict.\n\nWhich action should HR take first?",
+    "opts": [
+      "Use retention action playbook as the final decision source and review only when complaints arrive in review",
+      "Report retention action playbook success from dashboard views while service quality and trust are unmeasured",
+      "Link risk drivers to approved interventions, owners, timing, and outcome tracking using approved controls",
+      "Let the vendor control retention action playbook rules, data mapping, and issue closure outside HR review"
+    ],
+    "correct": 2,
+    "explanation": "Retention analytics should connect risk drivers to approved actions and follow-up metrics.",
+    "type": "Action Playbook"
+  },
+  {
+    "section": "Performance, Feedback & Talent Reviews",
+    "q": "An AI tool summarizes year-round feedback for annual reviews, but it may overemphasize recent events and ignore important project context.\n\nWhich control reduces review distortion?",
+    "opts": [
+      "Judge feedback summarizer by activity volume while employee outcomes and risk evidence stay secondary",
+      "Launch feedback summarizer from a polished demo before HR validates data quality and process fit",
+      "Treat feedback summarizer exceptions as low priority until the quarterly governance meeting occurs",
+      "Show source events, time coverage, missing context, and manager confirmation steps with HR review"
+    ],
+    "correct": 3,
+    "explanation": "Review summaries should expose source coverage, time weighting, gaps, and confirmation before use.",
+    "type": "Summary Validation"
+  },
+  {
+    "section": "Learning, Development & Knowledge Management",
+    "q": "A regulated business wants AI-generated quizzes, but the answers must be defensible for compliance training and audit records.\n\nWhich control should be included?",
+    "opts": [
+      "Tie each question to policy sources, approval records, pass criteria, and audit logs using approved controls",
+      "Roll out compliance quiz generator to all groups before baselines, review owners, and escalation paths are set",
+      "Keep the old workflow unchanged and add compliance quiz generator outputs without owner accountability",
+      "Collect extra data for compliance quiz generator because it may be useful for unrelated future analysis"
+    ],
+    "correct": 0,
+    "explanation": "Compliance assessments need source traceability, approval evidence, scoring rules, and audit logs.",
+    "type": "Assessment Control"
+  },
+  {
+    "section": "Recruiting, Screening & Candidate Experience",
+    "q": "A hospital recruiting team receives thousands of nursing applications, and recruiters want AI to rank candidates before anyone reviews the files.\n\nWhich design is safest for the first pilot?",
+    "opts": [
+      "Let the vendor control nursing application screen rules, data mapping, and issue closure outside HR review",
+      "Use job-related criteria, validate fairness, keep recruiter review, and log overrides and exception records",
+      "Train managers to trust nursing application screen scores and discourage documented override discussions",
+      "Roll out nursing application screen to all groups before baselines, review owners, and escalation paths are set"
+    ],
+    "correct": 1,
+    "explanation": "Recruiting AI should be grounded in job-related criteria, validated for fairness, reviewed by humans, and monitored through override records.",
+    "type": "Screening Design"
+  },
+  {
+    "section": "Compensation, Benefits & Total Rewards",
+    "q": "Employees often choose benefits poorly because plan language is complex, and HR wants AI to explain options during open enrollment.\n\nWhich boundary should be set for the assistant?",
+    "opts": [
+      "Launch benefits enrollment assistant from a polished demo before HR validates data quality and process fit",
+      "Treat benefits enrollment assistant exceptions as low priority until the quarterly governance meeting occurs",
+      "Explain plan rules using approved content and route personal financial advice requests with employee notice",
+      "Use benefits enrollment assistant as the final decision source and review only when complaints arrive"
+    ],
+    "correct": 2,
+    "explanation": "Benefits AI should explain approved plan information while routing individualized advice to qualified channels.",
+    "type": "Benefits Guidance"
+  },
+  {
+    "section": "Performance, Feedback & Talent Reviews",
+    "q": "Managers write performance reviews in very different styles, and some employees receive vague comments that are hard to translate into development actions.\n\nWhich AI use case is most useful?",
+    "opts": [
+      "Roll out performance review writing support to all groups before baselines, review owners, and escalation paths are set",
+      "Keep the old workflow unchanged and add performance review writing support outputs without owner accountability",
+      "Collect extra data for performance review writing support because it may be useful for unrelated future analysis",
+      "Suggest clearer evidence-based feedback while preserving manager judgment and calibration and exception records"
+    ],
+    "correct": 3,
+    "explanation": "Performance AI can improve clarity when it uses evidence, keeps manager ownership, and supports calibration.",
+    "type": "Feedback Quality"
+  },
+  {
+    "section": "Learning, Development & Knowledge Management",
+    "q": "A plant is introducing collaborative robots, and leaders need operators to learn safe setup, abnormal-stop response, and maintenance handoff steps.\n\nWhat is the best next step before rollout?",
+    "opts": [
+      "Create scenario practice with feedback, safety rules, assessment, and supervisor signoff using controls",
+      "Launch cobot training simulator from a polished demo before HR validates data quality and process fit",
+      "Treat cobot training simulator exceptions as low priority until the quarterly governance meeting occurs",
+      "Use cobot training simulator as the final decision source and review only when complaints arrive"
+    ],
+    "correct": 0,
+    "explanation": "Simulation-based learning can build practical competence when tied to safety rules, feedback, assessment, and signoff.",
+    "type": "Scenario Training"
+  },
+  {
+    "section": "Recruiting, Screening & Candidate Experience",
+    "q": "A high-volume call-center recruiter wants AI to reject applicants automatically if resumes lack exact keywords from the current posting.\n\nWhich approach reduces false rejection risk?",
+    "opts": [
+      "Treat keyword screening model exceptions as low priority until the quarterly governance meeting occurs",
+      "Use skills equivalence, candidate context, audit sampling, and recruiter exception review using controls",
+      "Use keyword screening model as the final decision source and review only when complaints arrive with logs",
+      "Report keyword screening model success from dashboard views while service quality and trust are unmeasured"
+    ],
+    "correct": 1,
+    "explanation": "Keyword matching should account for equivalent skills and include audit sampling and human exception review.",
+    "type": "False-Reject Control"
+  },
+  {
+    "section": "AI Strategy, Governance & HR Operating Model",
+    "q": "A mid-sized logistics company wants to announce AI for HR, but leaders have not agreed whether the main pain is turnover, hiring cycle time, payroll errors, or manager capability.\n\nWhich first step creates the strongest use-case foundation?",
+    "opts": [
+      "Train managers to trust HR AI roadmap scores and discourage documented override discussions",
+      "Roll out HR AI roadmap to all groups before baselines, review owners, and escalation paths are set",
+      "Define the decision, baseline, owner, risk tier, and measurable HR outcome with documented checks",
+      "Keep the old workflow unchanged and add HR AI roadmap outputs without owner accountability"
+    ],
+    "correct": 2,
+    "explanation": "A strong HR AI use case begins with a specific people decision, baseline, accountable owner, risk classification, and measurable outcome.",
+    "type": "Use-Case Framing"
+  },
+  {
+    "section": "Performance, Feedback & Talent Reviews",
+    "q": "A continuous feedback app generates suggested comments for peers, but employees fear generic praise will replace genuine discussion.\n\nWhich measurement plan best tests value and risk?",
+    "opts": [
+      "Keep the old workflow unchanged and add peer feedback assistant outputs without owner accountability",
+      "Collect extra data for peer feedback assistant because it may be useful for unrelated future analysis",
+      "Optimize peer feedback assistant for speed first and postpone fairness, privacy, and policy checks",
+      "Use prompts to improve specificity while encouraging personal examples and dialogue using controls"
+    ],
+    "correct": 3,
+    "explanation": "Peer-feedback AI should help employees express specific observations, not create impersonal filler.",
+    "type": "Feedback Culture"
+  },
+  {
+    "section": "Recruiting, Screening & Candidate Experience",
+    "q": "An internal mobility team wants AI to recommend open roles to employees, but managers worry the tool will encourage top performers to leave their departments.\n\nWhich design choice supports adoption?",
+    "opts": [
+      "Match skills and aspirations while giving managers workforce-planning visibility using approved controls",
+      "Use internal mobility recommender as the final decision source and review only when complaints arrive in pilot",
+      "Report internal mobility recommender success from dashboard views while service quality and trust are unmeasured",
+      "Let the vendor control internal mobility recommender rules, data mapping, and issue closure outside HR review"
+    ],
+    "correct": 0,
+    "explanation": "Internal mobility AI should support employee growth and help managers plan capability transitions.",
+    "type": "Internal Mobility"
+  },
+  {
+    "section": "Workforce Planning, Skills & Internal Mobility",
+    "q": "A bank wants to forecast skills needed for AI adoption, cybersecurity, compliance, and digital service work over the next three years.\n\nWhich planning output would be most actionable?",
+    "opts": [
+      "Report future skills roadmap success from dashboard views while service quality and trust are unmeasured",
+      "Create a skills-gap roadmap with build, buy, borrow, automate, and redeploy actions with audit logs",
+      "Let the vendor control future skills roadmap rules, data mapping, and issue closure outside HR review",
+      "Train managers to trust future skills roadmap scores and discourage documented override discussions"
+    ],
+    "correct": 1,
+    "explanation": "Strategic workforce planning should convert skill demand into clear talent actions across build, buy, borrow, automate, and redeploy choices.",
+    "type": "Strategic Workforce Planning"
+  },
+  {
+    "section": "Performance, Feedback & Talent Reviews",
+    "q": "A talent marketplace recommends stretch assignments, but employees with lower manager visibility are rarely selected for high-profile projects.\n\nWhich fairness control should be added?",
+    "opts": [
+      "Use stretch assignment matcher as the final decision source and review only when complaints arrive in review",
+      "Report stretch assignment matcher success from dashboard views while service quality and trust are unmeasured",
+      "Monitor selection patterns, skill evidence, manager nominations, and access equity using approved controls",
+      "Let the vendor control stretch assignment matcher rules, data mapping, and issue closure outside HR review"
+    ],
+    "correct": 2,
+    "explanation": "Opportunity-matching AI should examine who receives access, not only who is already visible.",
+    "type": "Opportunity Equity"
+  },
+  {
+    "section": "Retention, Engagement & Workforce Wellbeing",
+    "q": "A leadership team asks for a morale score by department, but small teams worry that comments could be reidentified.\n\nWhich privacy control is necessary?",
+    "opts": [
+      "Keep the old workflow unchanged and add department morale dashboard outputs without owner accountability",
+      "Collect extra data for department morale dashboard because it may be useful for unrelated future analysis",
+      "Optimize department morale dashboard for speed first and postpone fairness, privacy, and policy checks",
+      "Apply aggregation thresholds, redaction, access limits, and safe reporting rules and exception records"
+    ],
+    "correct": 3,
+    "explanation": "Employee listening dashboards need aggregation, redaction, access control, and reporting thresholds.",
+    "type": "Listening Privacy"
+  },
+  {
+    "section": "HR Service Delivery & Employee Experience",
+    "q": "New hires receive many emails during onboarding and miss important tasks such as tax forms, equipment pickup, training, and manager check-ins.\n\nWhich AI use case could improve onboarding?",
+    "opts": [
+      "Personalize onboarding tasks by role, location, start date, and completion status using approved controls",
+      "Expand onboarding journey copilot across regions before local rules, languages, and support channels are ready",
+      "Judge onboarding journey copilot by activity volume while employee outcomes and risk evidence stay secondary",
+      "Launch onboarding journey copilot from a polished demo before HR validates data quality and process fit"
+    ],
+    "correct": 0,
+    "explanation": "Onboarding AI should tailor tasks using role, location, timing, dependencies, and completion data.",
+    "type": "Onboarding"
+  },
+  {
+    "section": "Payroll, Time, Compliance & Employee Relations",
+    "q": "Hourly employees sometimes forget punches, and supervisors manually edit time records without consistent notes.\n\nWhich timekeeping use case fits best?",
+    "opts": [
+      "Judge timecard exception assistant by activity volume while employee outcomes and risk evidence stay secondary",
+      "Detect missing punches, pattern risks, supervisor edits, and required documentation and exception records",
+      "Launch timecard exception assistant from a polished demo before HR validates data quality and process fit",
+      "Treat timecard exception assistant exceptions as low priority until the quarterly governance meeting occurs"
+    ],
+    "correct": 1,
+    "explanation": "Timecard AI should detect exceptions and preserve documentation for payroll and compliance review.",
+    "type": "Timekeeping"
+  },
+  {
+    "section": "HR Service Delivery & Employee Experience",
+    "q": "An HR portal supports English only, while front-line employees in several locations prefer other languages and mobile-first access.\n\nWhich AI-enabled design improves inclusion?",
+    "opts": [
+      "Expand multilingual HR portal across regions before local rules, languages, and support channels are ready",
+      "Judge multilingual HR portal by activity volume while employee outcomes and risk evidence stay secondary",
+      "Offer reviewed translations, plain-language summaries, mobile access, and escalation paths with HR review",
+      "Launch multilingual HR portal from a polished demo before HR validates data quality and process fit"
+    ],
+    "correct": 2,
+    "explanation": "Multilingual HR tools should include reviewed translations, accessible summaries, mobile usability, and escalation routes.",
+    "type": "Accessibility"
+  },
+  {
+    "section": "Performance, Feedback & Talent Reviews",
+    "q": "A talent review meeting uses nine-box ratings, but leaders disagree about potential because each department defines it differently.\n\nWhich AI-enabled improvement would help most?",
+    "opts": [
+      "Optimize talent calibration support for speed first and postpone fairness, privacy, and policy checks",
+      "Expand talent calibration support across regions before local rules, languages, and support channels are ready",
+      "Judge talent calibration support by activity volume while employee outcomes and risk evidence stay secondary",
+      "Standardize indicators, surface evidence, compare rating patterns, and flag inconsistencies with HR review"
+    ],
+    "correct": 3,
+    "explanation": "Talent calibration improves when definitions, evidence, rating patterns, and inconsistencies are visible.",
+    "type": "Calibration"
+  },
+  {
+    "section": "DEI, Privacy, Fairness & Responsible AI",
+    "q": "A company wants to collect employee skills by scraping resumes, internal profiles, learning records, and collaboration data.\n\nWhich data foundation is required first?",
+    "opts": [
+      "Collect only necessary evidence with notice, access limits, correction rights, and retention rules with audit logs",
+      "Let the vendor control employee skills data collection rules, data mapping, and issue closure outside HR review",
+      "Train managers to trust employee skills data collection scores and discourage documented override discussions",
+      "Roll out employee skills data collection to all groups before baselines, review owners, and escalation paths are set"
+    ],
+    "correct": 0,
+    "explanation": "Skills data collection should be necessary, transparent, access-controlled, correctable, and time-limited.",
+    "type": "Data Minimization"
+  },
+  {
+    "section": "Compensation, Benefits & Total Rewards",
+    "q": "A company suspects pay inequity across gender and ethnicity groups, but HR only compares average salaries without controlling for role level, tenure, location, and performance factors.\n\nWhich AI-enabled analysis is more credible?",
+    "opts": [
+      "Let the vendor control pay equity analysis rules, data mapping, and issue closure outside HR review",
+      "Model pay drivers with approved factors, equity tests, legal review, and remediation plans with logs",
+      "Train managers to trust pay equity analysis scores and discourage documented override discussions",
+      "Roll out pay equity analysis to all groups before baselines, review owners, and escalation paths are set"
+    ],
+    "correct": 1,
+    "explanation": "Pay-equity analytics require appropriate factors, fairness testing, legal review, and documented remediation.",
+    "type": "Pay Equity"
+  },
+  {
+    "section": "HR Service Delivery & Employee Experience",
+    "q": "An HR operations team wants to use AI summaries of employee cases, but summaries may omit key dates, commitments, or sensitive context.\n\nWhich quality control is required?",
+    "opts": [
+      "Collect extra data for HR case summarizer because it may be useful for unrelated future analysis",
+      "Optimize HR case summarizer for speed first and postpone fairness, privacy, and policy checks",
+      "Link summaries to source records, highlight uncertainty, and require owner confirmation using controls",
+      "Expand HR case summarizer across regions before local rules, languages, and support channels are ready"
+    ],
+    "correct": 2,
+    "explanation": "Case summaries should preserve source traceability, uncertainty, and owner confirmation before action.",
+    "type": "Summary Control"
+  },
+  {
+    "section": "Payroll, Time, Compliance & Employee Relations",
+    "q": "A payroll team finds duplicate direct-deposit changes and unusual off-cycle payments during a system migration.\n\nWhich AI control should be applied?",
+    "opts": [
+      "Launch payroll anomaly detection from a polished demo before HR validates data quality and process fit",
+      "Treat payroll anomaly detection exceptions as low priority until the quarterly governance meeting occurs",
+      "Use payroll anomaly detection as the final decision source and review only when complaints arrive",
+      "Flag unusual payment patterns with payroll review, evidence links, and resolution logs using controls"
+    ],
+    "correct": 3,
+    "explanation": "Payroll anomaly AI should support reviewer investigation with evidence and logged resolution.",
+    "type": "Payroll Controls"
+  }
+];
+
+const SECTIONS = [
+  {
+    "key": "AI Strategy, Governance & HR Operating Model",
+    "label": "Section A - AI Strategy, Governance & HR Operating Model",
+    "cls": "sec-fund",
+    "range": "10 questions"
+  },
+  {
+    "key": "Recruiting, Screening & Candidate Experience",
+    "label": "Section B - Recruiting, Screening & Candidate Experience",
+    "cls": "sec-llm",
+    "range": "10 questions"
+  },
+  {
+    "key": "Workforce Planning, Skills & Internal Mobility",
+    "label": "Section C - Workforce Planning, Skills & Internal Mobility",
+    "cls": "sec-agent",
+    "range": "10 questions"
+  },
+  {
+    "key": "HR Service Delivery & Employee Experience",
+    "label": "Section D - HR Service Delivery & Employee Experience",
+    "cls": "sec-rag",
+    "range": "10 questions"
+  },
+  {
+    "key": "Learning, Development & Knowledge Management",
+    "label": "Section E - Learning, Development & Knowledge Management",
+    "cls": "sec-ops",
+    "range": "10 questions"
+  },
+  {
+    "key": "Performance, Feedback & Talent Reviews",
+    "label": "Section F - Performance, Feedback & Talent Reviews",
+    "cls": "sec-safe",
+    "range": "10 questions"
+  },
+  {
+    "key": "Retention, Engagement & Workforce Wellbeing",
+    "label": "Section G - Retention, Engagement & Workforce Wellbeing",
+    "cls": "sec-fund",
+    "range": "10 questions"
+  },
+  {
+    "key": "Compensation, Benefits & Total Rewards",
+    "label": "Section H - Compensation, Benefits & Total Rewards",
+    "cls": "sec-llm",
+    "range": "10 questions"
+  },
+  {
+    "key": "Payroll, Time, Compliance & Employee Relations",
+    "label": "Section I - Payroll, Time, Compliance & Employee Relations",
+    "cls": "sec-rag",
+    "range": "10 questions"
+  },
+  {
+    "key": "DEI, Privacy, Fairness & Responsible AI",
+    "label": "Section J - DEI, Privacy, Fairness & Responsible AI",
+    "cls": "sec-agent",
+    "range": "10 questions"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+
+let mode = 'guided', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 2*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='02:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'
+       +     '<span class="q-type">'+escapeHtml(q.type||'Mixed')+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/100';
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/100';
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  if(pct>=0.9){ grade='Finance AI Use-Case Excellence'; blurb='Outstanding. You connect finance AI strategy, accounting operations, FP&A, controls, data readiness, governance, experimentation, and scalable value delivery.'; }
+  else if(pct>=0.75){ grade='Finance AI Use-Case Practitioner Ready'; blurb='Strong finance AI judgment. Review missed items - they usually hinge on data quality, use-case fit, internal controls, auditability, governance, or value measurement.'; }
+  else if(pct>=0.6){ grade='Finance AI Practitioner'; blurb='Solid working knowledge. Strengthen weaker areas such as AP, AR, FP&A, close, treasury, audit, tax, MLOps, metrics, and governance.'; }
+  else if(pct>=0.4){ grade='Developing Finance AI Practitioner'; blurb='Your finance AI instincts are forming. Revisit fundamentals such as finance value, baseline measurement, data readiness, controls, feedback loops, and human oversight.'; }
+  else { grade='Begin Finance AI Fundamentals Review'; blurb='Start with finance AI basics: define the business decision, measure the baseline, validate data, manage controls, run controlled pilots, and scale only with evidence.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 100 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one question at a time. 2-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Certificate name</label>
+    <input id="chmlCertNameInput" type="text" maxlength="80" placeholder="Enter name for certificate" oninput="chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" type="button" onclick="chmlPrintCertificate()">Print / Save as PDF</button>
+    <button class="chml-cert-btn secondary" type="button" onclick="chmlHideCertificate()">Hide Certificate</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div><div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker"><span id="chmlCertExamKicker">Knowledge Hub Examination</span></div>
+      <h1 class="chml-cert-h1">Certificate of Completion</h1>
+      <div class="chml-cert-rule"></div>
+      <p class="chml-cert-pre">This certifies that</p>
+      <p class="chml-cert-name" id="chmlCertName">Learner</p>
+      <p class="chml-cert-body">has successfully completed the <b id="chmlCertExamName">Knowledge Hub Exam</b>.</p>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">0 / 0</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">-</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Quak Foo Lee</div><div class="chml-cert-sig-label">Chmltech Ltd.</div></div>
+        <div class="chml-cert-id">Certificate ID: <span id="chmlCertId">-</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertificateInstalled) return;
+  window.__chmlCertificateInstalled = true;
+  function textOf(sel){var el=document.querySelector(sel);return el?el.textContent.trim():'';}
+  function examTitle(){return textOf('h1.title')||textOf('header h1')||textOf('h1')||document.title.replace(/\s+/g,' ').trim()||'Knowledge Hub Exam';}
+  function parseFirstNumber(txt){var m=String(txt||'').match(/\d+/);return m?parseInt(m[0],10):null;}
+  function parseScoreTotal(){
+    var correct=parseFirstNumber(textOf('#rScore'));
+    var total=null;
+    var rt=textOf('#rTotal');
+    if(rt) total=parseFirstNumber(rt);
+    if(!total){var sb=textOf('.score-big');var m=sb.match(/\/\s*(\d+)/);if(m) total=parseInt(m[1],10);}
+    if(!total) total=parseFirstNumber(textOf('#progTotal'));
+    if(!total){var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;if(cards) total=cards;}
+    if(!correct && correct!==0) correct=parseFirstNumber(textOf('#scoreNum'));
+    return {correct:correct||0,total:total||0};
+  }
+  function totalFromBreakdown(byType){
+    if(!byType || typeof byType!=='object') return null;
+    var total=0, found=false;
+    Object.keys(byType).forEach(function(k){var v=byType[k];if(v&&typeof v==='object'){var n=v.t||v.total||v.count;if(typeof n==='number'){total+=n;found=true;}}});
+    return found?total:null;
+  }
+  function hashCode(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+  window.chmlUpdateCertificateName=function(name){document.getElementById('chmlCertName').textContent=(name||'').trim()||'Learner';};
+  window.chmlHideCertificate=function(){var c=document.getElementById('chmlCertificate');if(c)c.classList.remove('show');};
+  window.chmlPrintCertificate=function(){window.print();};
+  window.chmlRenderCertificate=function(correct,total,grade){
+    var cert=document.getElementById('chmlCertificate');if(!cert)return;
+    var title=examTitle();
+    var nameInput=document.getElementById('chmlCertNameInput');
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
+    var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
+    document.getElementById('chmlCertExamName').textContent=title;
+    document.getElementById('chmlCertName').textContent=learner;
+    document.getElementById('chmlCertScore').textContent=String(correct)+' / '+String(total||0)+(total?(' ('+Math.round((correct/total)*100)+'%)'):'');
+    document.getElementById('chmlCertDate').textContent=date;
+    document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
+    cert.classList.add('show');
+  };
+
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
+    var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){
+      var parsed=parseScoreTotal();
+      if(correct===null || isNaN(correct)) correct=parsed.correct;
+      if(!total) total=parsed.total;
+      if(total || correct || document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0);
+    },60);
+  }
+  if(typeof window.showResults==='function'){
+    var originalShowResults=window.showResults;
+    window.showResults=function(){var out=originalShowResults.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  if(typeof window.submitExam==='function'){
+    var originalSubmitExam=window.submitExam;
+    window.submitExam=function(){var out=originalSubmitExam.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  ['resetExam','newExam'].forEach(function(fn){
+    if(typeof window[fn]==='function'){
+      var original=window[fn];
+      window[fn]=function(){window.chmlHideCertificate();return original.apply(this,arguments);};
+    }
+  });
+})();
+</script>
+
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>
+
+

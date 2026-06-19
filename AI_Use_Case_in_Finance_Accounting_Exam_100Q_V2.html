@@ -1,0 +1,2142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Use Case in Finance &amp; Accounting Exam - 100Q (V2)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  /* Section palette \u2014 broader, engineering-themed */
+  --fund:#1f4a7d;
+  --llm:#5a2585;
+  --rag:#0e6b6a;
+  --agent:#a85410;
+  --ops:#226b2d;
+  --safe:#9b2c3a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(31,74,125,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.8rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--fund),var(--llm));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-fund{background:linear-gradient(100deg,var(--fund),#0c2541)}
+.sec-llm{background:linear-gradient(100deg,var(--llm),#311148)}
+.sec-rag{background:linear-gradient(100deg,var(--rag),#06403f)}
+.sec-agent{background:linear-gradient(100deg,var(--agent),#5e2d05)}
+.sec-ops{background:linear-gradient(100deg,var(--ops),#0e3d18)}
+.sec-safe{background:linear-gradient(100deg,var(--safe),#5b181f)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-type{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;border:1px solid currentColor;opacity:.85;color:var(--llm)}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.1rem;line-height:1.55;margin-bottom:16px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:13px 16px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.45);transition:all .18s ease;font-size:1rem;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.07);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s}
+.opt .otext{flex:1;padding-top:1px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.1)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px;display:flex;align-items:center;gap:8px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:180px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 18px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:1.02rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+<!-- V2: Rewritten and rearranged Finance & Accounting question bank with varied prompts and answer selections. -->
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">AI Use Case Series &middot; Finance &amp; Accounting</div>
+    <h1 class="title">AI Use Case <span class="amp">in Finance &amp; Accounting</span> Exam</h1>
+    <div class="byline">Scenario-based questions across treasury, AP, FP&amp;A, AR, revenue assurance, record-to-report, audit controls, tax, payroll, procurement finance, ERP data, security, governance, ROI, and scaling</div>
+    <div class="exambar">
+      <span><b>100</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>100</b> Marks</span>
+      <span>Exam Mode: <b>2 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/100</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">02:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/100</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 2-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    AI Use Case in Finance &amp; Accounting Exam &middot; 100 scenario-based questions &middot; V2 (Guided / Instant / Exam-with-Timer)
+    <div class="disclaimer">An independent AI use-case study resource for finance and accounting leaders, controllers, accountants, auditors, FP&amp;A teams, treasury teams, tax teams, payroll teams, procurement finance teams, consultants, and transformation teams. Use validated ERP data, internal controls, cybersecurity controls, tax and compliance requirements, audit evidence, privacy rules, and professional judgment before deploying AI in real finance or accounting operations.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "Treasury, Cash & Working Capital",
+    "q": "Bank-fee invoices include thousands of lockbox, wire, card, and merchant-service charges, and the treasury analyst only reviews summary totals once a quarter.\n\nWhich AI analysis is most useful?",
+    "opts": [
+      "Detect fee leakage by bank, service code, volume, contract rate, and exception",
+      "Approve the bank invoice if the total charge is within last quarter average with log",
+      "Review only the largest bank account and assume small fees are immaterial with proof",
+      "Ask relationship managers to explain variances without transaction evidence"
+    ],
+    "correct": 0,
+    "explanation": "Bank-fee AI should reconcile transaction-level charges to contracts and exception patterns.",
+    "type": "Bank Fee Analytics"
+  },
+  {
+    "section": "Treasury, Cash & Working Capital",
+    "q": "A multi-entity distributor updates its 13-week cash forecast from bank balances only, while AP runs, payroll dates, tax installments, credit-card deposits, and customer promises sit in other systems.\n\nWhat should the AI forecasting design add first?",
+    "opts": [
+      "Project next week by multiplying today cash by the prior monthly growth rate",
+      "Link bank, AP, AR, payroll, tax, and sales promises into one forecast view",
+      "Wait for month-end close before issuing any liquidity warning to treasury",
+      "Use one cash curve for every entity even when cycles and restrictions differ"
+    ],
+    "correct": 1,
+    "explanation": "Treasury forecasting needs transaction timing across sources, not just the opening bank balance.",
+    "type": "Cash Forecast Data Design"
+  },
+  {
+    "section": "Treasury, Cash & Working Capital",
+    "q": "Intercompany cash pooling creates daily transfers, and one entity repeatedly shows unexplained balances after local banking cutoffs and tax restrictions.\n\nWhich monitoring design would help treasury investigate?",
+    "opts": [
+      "Treat residual balances as timing noise unless they remain after year-end close",
+      "Force all entities into one pooling rule and ignore local banking constraints",
+      "Flag pool anomalies by entity, cutoff, tax rule, transfer path, and approver",
+      "Move cash automatically between entities before approval and restriction checks"
+    ],
+    "correct": 2,
+    "explanation": "Cash-pool monitoring must respect entity, banking, tax, cutoff, and approval context.",
+    "type": "Cash Pool Anomaly Monitoring"
+  },
+  {
+    "section": "Treasury, Cash & Working Capital",
+    "q": "A treasury team wants AI to schedule supplier payments, but procurement is negotiating terms and operations has unresolved quality holds on several invoices.\n\nWhich payment recommendation boundary is safest?",
+    "opts": [
+      "Pay the oldest invoices first because aging is the clearest process signal with policy",
+      "Capture every discount automatically even when cash headroom is unknown with limit",
+      "Let suppliers choose payment timing through a portal without finance review with owner",
+      "Suggest payment timing only after terms, holds, disputes, and liquidity are checked"
+    ],
+    "correct": 3,
+    "explanation": "Payment optimization must respect invoice status, commercial terms, disputes, and cash constraints.",
+    "type": "Payment Timing Controls"
+  },
+  {
+    "section": "Treasury, Cash & Working Capital",
+    "q": "A buyer proposes supplier-finance offers to improve working capital, but finance worries about margin, supplier health, accounting treatment, and program fairness.\n\nWhich evaluation is most complete?",
+    "opts": [
+      "Assess cash benefit, supplier risk, fee economics, accounting impact, and policy fit",
+      "Offer the program to every supplier with open invoices to simplify rollout with policy",
+      "Approve only by annual spend and ignore small but financially weak suppliers with limit",
+      "Measure success by enrollment count before checking cash and margin outcomes with check"
+    ],
+    "correct": 0,
+    "explanation": "Supplier-finance AI should weigh cash benefit against economics, supplier risk, accounting, and policy constraints.",
+    "type": "Supplier Finance Evaluation"
+  },
+  {
+    "section": "Treasury, Cash & Working Capital",
+    "q": "The CFO asks which working-capital action to pursue first: tighter collections, early-payment discounts, inventory reduction, or vendor-term extension.\n\nHow should the AI recommendation rank opportunities?",
+    "opts": [
+      "Rank actions by easiest spreadsheet calculation so decisions move faster",
+      "Rank actions by cash impact, margin effect, risk, effort, owner, and timing",
+      "Choose the option that improves cash today and ignore customer or supplier risk",
+      "Prioritize the action with the largest gross amount before feasibility review"
+    ],
+    "correct": 1,
+    "explanation": "Working-capital AI should compare economic impact with risk, timing, feasibility, and accountability.",
+    "type": "Working Capital Prioritization"
+  },
+  {
+    "section": "Treasury, Cash & Working Capital",
+    "q": "A controller receives cash-shortfall alerts after a bank-feed delay, and the false alarms make operating leaders ignore the warning emails during peak season.\n\nWhich control would make alerts more trustworthy?",
+    "opts": [
+      "Increase alert volume so managers learn to notice the most urgent messages",
+      "Suppress alerts until auditors confirm the model missed a real shortfall",
+      "Show data freshness, confidence, trigger reason, and owner response status",
+      "Route every forecast movement to the CFO without materiality thresholds"
+    ],
+    "correct": 2,
+    "explanation": "Liquidity alerts should explain why they fired and whether source data is fresh enough to trust.",
+    "type": "Alert Reliability"
+  },
+  {
+    "section": "Treasury, Cash & Working Capital",
+    "q": "A finance chatbot receives a request to prepare a wire transfer after a vendor emails new banking instructions during a busy payment week.\n\nWhich workflow is appropriate?",
+    "opts": [
+      "Generate the wire file directly because the request came from a known vendor with audit",
+      "Update the vendor bank record first and ask AP to document evidence later with source",
+      "Trust the invoice attachment if the amount matches the open payable balance with queue",
+      "Start a verification case with vendor validation, approval routing, and fraud checks"
+    ],
+    "correct": 3,
+    "explanation": "AI should assist verification and routing for banking changes, not initiate payment from unverified instructions.",
+    "type": "Payment Fraud Prevention"
+  },
+  {
+    "section": "Treasury, Cash & Working Capital",
+    "q": "A global firm has euro invoices, Canadian payroll, U.S. debt service, and yen purchases, but exposure reports are copied from spreadsheets by entity each Friday.\n\nWhich AI-enabled treasury use case fits best?",
+    "opts": [
+      "Consolidate exposure by currency, entity, timing, policy limit, and hedge status",
+      "Net every currency into one dollar value and ignore maturity and hedge policy with source",
+      "Use last quarter exchange rates until the annual treasury review is complete with queue",
+      "Let the model place hedge trades before approval, limits, and evidence exist with risk"
+    ],
+    "correct": 0,
+    "explanation": "FX analytics must preserve currency, timing, entity, and policy context before hedge decisions are made.",
+    "type": "FX Exposure Analytics"
+  },
+  {
+    "section": "Treasury, Cash & Working Capital",
+    "q": "A treasury assistant is asked whether the company will breach a debt covenant if EBITDA drops, but the debt agreement, addenda, and board-approved definitions differ from generic formulas.\n\nWhat should the assistant rely on?",
+    "opts": [
+      "Answer using a public covenant template because most agreements use similar terms with queue",
+      "Retrieve answers from approved debt documents, definitions, calculations, and review logs",
+      "Give a yes-or-no answer without showing the documents and assumptions used with file",
+      "Let business leaders change covenant definitions inside the chat session with risk"
+    ],
+    "correct": 1,
+    "explanation": "Covenant copilots must be grounded in approved agreements, definitions, assumptions, and review evidence.",
+    "type": "Covenant Assistant Control"
+  },
+  {
+    "section": "Accounts Payable, Spend & Expense Automation",
+    "q": "An invoice-coding model learned from two years of history, but the company changed its chart of accounts and added new project-cost centers.\n\nWhich retraining approach is appropriate?",
+    "opts": [
+      "Keep the old coding model because historical invoices are the largest dataset with note",
+      "Let AP clerks correct errors silently without capturing retraining evidence with file",
+      "Use current master data, reviewed examples, confidence thresholds, and feedback loops",
+      "Map new accounts to old categories until year-end because reporting will adjust with risk"
+    ],
+    "correct": 2,
+    "explanation": "Invoice coding models need current master data, reviewed labels, confidence thresholds, and feedback capture.",
+    "type": "Invoice Coding Governance"
+  },
+  {
+    "section": "Accounts Payable, Spend & Expense Automation",
+    "q": "AP receives invoices where the PO price matches, but goods receipts are partial and tax codes differ between supplier documents and the ERP record.\n\nWhat should the AI matching workflow do?",
+    "opts": [
+      "Post the invoice because two-way matching already proves the purchase occurred",
+      "Send every mismatch to the CFO so AP avoids judgment on materiality with file",
+      "Ignore tax differences until the indirect tax return is prepared later",
+      "Match PO, receipt, tax, quantity, tolerance, and confidence before posting"
+    ],
+    "correct": 3,
+    "explanation": "AP matching AI should reconcile price, receipt, quantity, tax, tolerance, and confidence before posting.",
+    "type": "Three-Way Match Automation"
+  },
+  {
+    "section": "Accounts Payable, Spend & Expense Automation",
+    "q": "OCR performs poorly on invoices because suppliers upload rotated scans, faded images, mixed currencies, and handwritten delivery notes.\n\nWhat should be improved before scale-up?",
+    "opts": [
+      "Set portal standards, image checks, currency rules, confidence scoring, and review",
+      "Accept all documents as-is because large language models can infer missing data with note",
+      "Measure success by files ingested before checking downstream correction effort with rule",
+      "Train only on clean invoices so the model learns the ideal future process with case"
+    ],
+    "correct": 0,
+    "explanation": "AP AI depends on document standards, input validation, confidence scoring, and review paths.",
+    "type": "Document Quality Readiness"
+  },
+  {
+    "section": "Accounts Payable, Spend & Expense Automation",
+    "q": "Employees submit meal receipts, rideshare trips, and client gifts through a mobile app, and policy violations are usually found after reimbursement.\n\nWhich AI expense control is best?",
+    "opts": [
+      "Approve expenses quickly and ask internal audit to sample exceptions quarterly with case",
+      "Check policy, receipt detail, location, attendee, limit, and exception reason upfront",
+      "Flag every receipt from a new merchant even when the policy allows the spend with test",
+      "Let employees choose their own categories without policy and tax validation with rule"
+    ],
+    "correct": 1,
+    "explanation": "Expense AI should evaluate receipts and context against policy before payment while explaining exceptions.",
+    "type": "Expense Policy Automation"
+  },
+  {
+    "section": "Accounts Payable, Spend & Expense Automation",
+    "q": "Vendors email AP for payment status, missing remittances, and dispute updates, distracting the specialists who resolve invoice exceptions.\n\nWhich assistant design is appropriate?",
+    "opts": [
+      "Let the chatbot promise payment dates based on the vendor requested due date",
+      "Use generic answers so no internal invoice or payment data is exposed",
+      "Ground replies in invoice, payment, remittance, dispute, and policy records",
+      "Forward every vendor question to the AP manager to avoid automation risk"
+    ],
+    "correct": 2,
+    "explanation": "AP service assistants should answer from governed finance records and escalate uncertain cases.",
+    "type": "Vendor Inquiry Assistant"
+  },
+  {
+    "section": "Accounts Payable, Spend & Expense Automation",
+    "q": "AP exceptions pile up in one queue, mixing missing receipts, pricing disputes, tax errors, duplicate warnings, and blocked vendors.\n\nHow should AI improve the workflow?",
+    "opts": [
+      "Sort exceptions alphabetically by vendor so clerks can work the list evenly with log",
+      "Close low-value exceptions automatically because they rarely affect the accounts with test",
+      "Send all exceptions to procurement first even when receipt or tax owns the cause",
+      "Classify exception type, root owner, aging risk, value, and recommended next step"
+    ],
+    "correct": 3,
+    "explanation": "Exception AI should route work by reason, owner, risk, value, and next action rather than one shared queue.",
+    "type": "AP Exception Routing"
+  },
+  {
+    "section": "Accounts Payable, Spend & Expense Automation",
+    "q": "A supplier sends the same invoice through email, a vendor portal, and an EDI feed, but file names and invoice images are slightly different.\n\nWhich duplicate-detection design is strongest?",
+    "opts": [
+      "Compare vendor, invoice number, amount, dates, bank data, and document fingerprint",
+      "Treat records as unique whenever the PDF file name or email subject changes with log",
+      "Let the payment run find duplicates after invoices are already approved with proof",
+      "Search only exact invoice numbers and ignore supplier formatting variations"
+    ],
+    "correct": 0,
+    "explanation": "Duplicate detection should use multiple invoice, supplier, banking, and document signals.",
+    "type": "Duplicate Invoice Detection"
+  },
+  {
+    "section": "Accounts Payable, Spend & Expense Automation",
+    "q": "The AP dashboard shows invoice aging, but finance cannot tell whether delays come from buyers, receiving, tax review, vendor setup, or approval rules.\n\nWhich analytics view is most useful?",
+    "opts": [
+      "Show one total aging number because executives do not need operational detail with proof",
+      "Break aging by blocker, owner, queue, PO status, receipt status, tax, and value",
+      "Rank buyers by invoice count without checking value, cause, or ownership with review",
+      "Hide vendor-setup delays because master data is outside the AP process map with owner"
+    ],
+    "correct": 1,
+    "explanation": "AP analytics should expose blocker reason, ownership, status, and financial impact.",
+    "type": "AP Bottleneck Analytics"
+  },
+  {
+    "section": "Accounts Payable, Spend & Expense Automation",
+    "q": "A vendor asks AP to change remittance banking after a domain lookalike email, and the master-data clerk is under pressure to release a payment batch.\n\nWhat control should the automation trigger?",
+    "opts": [
+      "Update the bank record if the email signature matches the vendor contact name with review",
+      "Approve the change because delayed payment may damage supplier relationships with limit",
+      "Hold the change until independent vendor validation and dual approval are complete",
+      "Ask the requester to confirm by replying to the same email thread only with owner"
+    ],
+    "correct": 2,
+    "explanation": "Bank changes require independent verification, approval evidence, and payment hold controls.",
+    "type": "Vendor Master Fraud Control"
+  },
+  {
+    "section": "Accounts Payable, Spend & Expense Automation",
+    "q": "AP wants straight-through processing for utility invoices, but unusual tax, new suppliers, and non-PO charges sometimes appear in the same feed.\n\nWhich automation boundary is safest?",
+    "opts": [
+      "Post every recurring invoice because repeat suppliers are always low risk with limit",
+      "Route all invoices for manual review so the AI pilot avoids any control risk with owner",
+      "Ignore non-PO invoices during the pilot because they slow automation metrics with policy",
+      "Allow auto-posting only inside approved supplier, tolerance, tax, and risk limits"
+    ],
+    "correct": 3,
+    "explanation": "Straight-through AP processing should have explicit supplier, tolerance, tax, and risk thresholds.",
+    "type": "STP Boundary Design"
+  },
+  {
+    "section": "FP&A, Budgeting & Decision Intelligence",
+    "q": "Several leaders request capital for automation, a warehouse retrofit, CRM expansion, analytics, and product tooling, but finance lacks a consistent ranking method.\n\nWhich decision model is strongest?",
+    "opts": [
+      "Score projects by NPV, risk, capacity, dependency, strategy, and scenario effect",
+      "Rank proposals by the seniority of the sponsor to reduce approval conflict with policy",
+      "Approve the largest project because transformational work needs bold funding with limit",
+      "Divide budget equally across functions so each team receives visible support with check"
+    ],
+    "correct": 0,
+    "explanation": "Capital allocation AI should evaluate financial return, risk, dependencies, capacity, and strategy.",
+    "type": "Capital Prioritization"
+  },
+  {
+    "section": "FP&A, Budgeting & Decision Intelligence",
+    "q": "Revenue misses forecast because finance extends last year sales while ignoring price changes, churn, channel mix, promotions, and sales-capacity limits.\n\nWhich forecasting design is better?",
+    "opts": [
+      "Extend last year revenue by the average growth rate and smooth the outliers with audit with check",
+      "Build a driver model using price, volume, churn, mix, capacity, and seasonality with source",
+      "Ask sales for one number and avoid challenging optimistic pipeline assumptions with policy with queue",
+      "Use the budget target as the forecast so departments stay aligned to plan with check with policy"
+    ],
+    "correct": 1,
+    "explanation": "FP&A forecasting should model the business drivers behind performance, not only historical totals.",
+    "type": "Driver-Based Forecasting"
+  },
+  {
+    "section": "FP&A, Budgeting & Decision Intelligence",
+    "q": "The annual budget is outdated by March, but leadership waits for the next quarterly cycle before responding to new demand and cost signals.\n\nWhich practice should AI support?",
+    "opts": [
+      "Keep the original annual budget unchanged so teams remain accountable to plan with check",
+      "Update only after year-end because frequent forecasts can confuse leaders with source",
+      "Refresh rolling forecasts with actuals, leading indicators, owner inputs, and risks",
+      "Let the model change targets automatically without management approval with audit"
+    ],
+    "correct": 2,
+    "explanation": "Rolling forecasts help teams adapt plans as actuals, leading indicators, and risks change.",
+    "type": "Rolling Forecast Cadence"
+  },
+  {
+    "section": "FP&A, Budgeting & Decision Intelligence",
+    "q": "The CFO wants to test a demand slowdown, delayed hiring, higher freight, and weaker currency before finalizing the operating plan.\n\nWhich AI-enabled FP&A use case fits?",
+    "opts": [
+      "Create one pessimistic case by reducing every revenue line by the same percent with audit",
+      "Update the scenario after the board approves the plan and execution begins with source",
+      "Ignore operational constraints because finance can adjust assumptions manually with queue",
+      "Run scenario planning with linked drivers, sensitivities, constraints, and actions"
+    ],
+    "correct": 3,
+    "explanation": "Scenario planning should link drivers, assumptions, constraints, sensitivities, and response actions.",
+    "type": "Scenario Planning"
+  },
+  {
+    "section": "FP&A, Budgeting & Decision Intelligence",
+    "q": "Executives ask why the revenue forecast changed from last week, but the analyst can show only a new number and a confidence score.\n\nWhich explanation feature is needed?",
+    "opts": [
+      "Explain changes by driver, data source, assumption, owner, and version trail",
+      "Hide driver detail so leaders trust the model instead of debating inputs",
+      "Show only the confidence score because model explainability slows meetings",
+      "Store version history outside the forecast tool to keep the interface simple"
+    ],
+    "correct": 0,
+    "explanation": "FP&A AI needs traceable drivers, assumptions, data sources, owners, and version history.",
+    "type": "Forecast Explainability"
+  },
+  {
+    "section": "FP&A, Budgeting & Decision Intelligence",
+    "q": "Sales leaders submit optimistic pipeline updates, and the forecast repeatedly overstates revenue for late-stage opportunities.\n\nHow should the forecast adjust for bias?",
+    "opts": [
+      "Accept the sales forecast because account owners are closest to customers with risk",
+      "Compare stages to win rates, aging, conversion history, slippage, and overrides",
+      "Reduce every opportunity by the same discount to create a conservative plan with file",
+      "Remove pipeline detail from review so executives debate only the total number with queue"
+    ],
+    "correct": 1,
+    "explanation": "Pipeline forecasts should use conversion history, aging, slippage, and documented overrides.",
+    "type": "Pipeline Bias Correction"
+  },
+  {
+    "section": "FP&A, Budgeting & Decision Intelligence",
+    "q": "Department budget files use different inflation rates, headcount start dates, vendor increases, and exchange-rate assumptions.\n\nHow can AI improve the budget review?",
+    "opts": [
+      "Average all submitted assumptions so the final budget appears balanced with file",
+      "Approve the first complete workbook because later submissions slow the cycle with risk",
+      "Find conflicting assumptions, missing fields, version issues, and unusual movements",
+      "Let each department keep private assumptions until the board review package with note"
+    ],
+    "correct": 2,
+    "explanation": "Budget AI can detect assumption conflicts, missing inputs, version mismatches, and outliers before review.",
+    "type": "Budget Consistency Review"
+  },
+  {
+    "section": "FP&A, Budgeting & Decision Intelligence",
+    "q": "A machine-learning forecast tests well on history but fails after a pricing-policy change and a new customer segment launch.\n\nWhich validation should be added?",
+    "opts": [
+      "Validate only on the longest historical period to maximize training evidence",
+      "Ignore structural changes because the model will self-correct over time",
+      "Close validation once the model beats a spreadsheet on one prior quarter",
+      "Backtest by period, segment, driver change, horizon, and business event"
+    ],
+    "correct": 3,
+    "explanation": "Forecast validation should test performance across segments, horizons, driver changes, and events.",
+    "type": "Forecast Model Validation"
+  },
+  {
+    "section": "FP&A, Budgeting & Decision Intelligence",
+    "q": "Variance commentary is drafted by different analysts, and some explanations contradict the approved ledger, CRM report, or operating KPI pack.\n\nWhich generative AI control is required?",
+    "opts": [
+      "Ground commentary in approved sources, thresholds, drivers, and reviewer signoff",
+      "Let the model write fluent commentary and ask analysts to fix errors later with note",
+      "Use prior-month commentary as the main source because it sounds familiar with case",
+      "Publish only favorable explanations so managers focus on positive trends with rule"
+    ],
+    "correct": 0,
+    "explanation": "Generated finance narratives must be grounded in approved data and reviewed before release.",
+    "type": "Variance Narrative Control"
+  },
+  {
+    "section": "FP&A, Budgeting & Decision Intelligence",
+    "q": "A services company forecasts labor cost poorly because hiring delays, attrition, utilization, overtime, bill rates, and contractor use are tracked separately.\n\nWhich AI use case would help?",
+    "opts": [
+      "Hold labor cost flat until HR confirms every new role has an accepted offer with rule",
+      "Forecast workforce cost from hiring timing, attrition, utilization, overtime, and rates",
+      "Use headcount only and ignore productivity, mix, overtime, and contractor usage with case",
+      "Ask managers to absorb all labor pressure so the forecast remains on budget with test"
+    ],
+    "correct": 1,
+    "explanation": "Workforce forecasting should connect hiring, attrition, utilization, overtime, contractor use, and rates.",
+    "type": "Workforce Cost Forecasting"
+  },
+  {
+    "section": "Accounts Receivable, Billing & Revenue Assurance",
+    "q": "A generative tool drafts collection emails, but some messages imply penalties and concessions not allowed in company policy or local law.\n\nWhich guardrail is needed?",
+    "opts": [
+      "Let collectors edit AI drafts after sending if customers complain about tone with rule",
+      "Maximize urgency in every message because faster payment is the main goal with log",
+      "Use approved tone, policy clauses, regional rules, review levels, and escalation paths",
+      "Use one global template for all customers because consistency is safer with test"
+    ],
+    "correct": 2,
+    "explanation": "Collection messages need controlled tone, legal boundaries, review, and escalation rules.",
+    "type": "Dunning Communication Governance"
+  },
+  {
+    "section": "Accounts Receivable, Billing & Revenue Assurance",
+    "q": "A project-services firm misses billing milestones because contracts, delivery signoffs, usage files, and change orders live in separate systems.\n\nWhich AI use case reduces revenue leakage?",
+    "opts": [
+      "Bill only when the project manager remembers to send finance a status note with test",
+      "Use standard monthly billing even when contracts have milestone clauses with proof",
+      "Ignore change orders until customers dispute the final invoice amount with log",
+      "Extract billing triggers and match them to delivery evidence, usage, and invoices"
+    ],
+    "correct": 3,
+    "explanation": "Revenue leakage can be reduced by linking contract terms to delivery and invoice evidence.",
+    "type": "Billing Trigger Extraction"
+  },
+  {
+    "section": "Accounts Receivable, Billing & Revenue Assurance",
+    "q": "Subscription invoices are wrong when plan changes, usage tiers, discounts, and proration rules interact mid-cycle.\n\nWhich validation design is appropriate?",
+    "opts": [
+      "Test bills against contract rules, usage, discounts, proration, and edge cases",
+      "Approve invoices if the total revenue looks close to the prior month total with log",
+      "Let customers identify subscription errors after invoices are delivered with proof",
+      "Simplify proration by charging the highest plan rate for the full period with review"
+    ],
+    "correct": 0,
+    "explanation": "Complex recurring billing needs validation against contracts, usage, discounts, proration, and test cases.",
+    "type": "Subscription Billing Validation"
+  },
+  {
+    "section": "Accounts Receivable, Billing & Revenue Assurance",
+    "q": "Collectors call customers by largest overdue balance, but some strategic accounts have approved disputes while smaller accounts are close to default.\n\nHow should AI prioritize outreach?",
+    "opts": [
+      "Call the oldest invoice first because aging alone defines collection priority",
+      "Rank by payment risk, value, dispute status, promise history, and cash timing",
+      "Send identical reminders to every customer to keep treatment consistent",
+      "Escalate all overdue accounts to legal once they pass the first due date"
+    ],
+    "correct": 1,
+    "explanation": "Collections AI should consider risk, value, dispute status, promises, and cash timing.",
+    "type": "Collections Prioritization"
+  },
+  {
+    "section": "Accounts Receivable, Billing & Revenue Assurance",
+    "q": "Finance needs a better allowance for doubtful accounts as risk changes by sector, region, customer age, and macro conditions.\n\nWhich model approach is strongest?",
+    "opts": [
+      "Use the same reserve percent for every customer to keep the estimate simple with review",
+      "Decrease reserves when sales volume rises because growth signals strength with owner",
+      "Estimate loss using segmented aging, payment behavior, macro factors, and review",
+      "Let the model book provision entries without controller review or support with limit"
+    ],
+    "correct": 2,
+    "explanation": "Expected loss estimates should combine receivable aging, behavior, segmentation, macro signals, and review.",
+    "type": "Bad-Debt Provision Modeling"
+  },
+  {
+    "section": "Accounts Receivable, Billing & Revenue Assurance",
+    "q": "A distributor offers credit to new buyers with limited history, and manual approval varies widely by sales region.\n\nWhich AI-assisted design is strongest?",
+    "opts": [
+      "Approve credit if the first order is profitable and sales leadership supports it with owner",
+      "Reject new customers without two years of history to avoid model uncertainty with limit",
+      "Let AI set credit limits without documented policy, overrides, or monitoring with policy",
+      "Score credit using payment signals, exposure, order pattern, financials, and review"
+    ],
+    "correct": 3,
+    "explanation": "Credit AI should combine risk signals with exposure limits, policy rules, and human review.",
+    "type": "Credit Risk Scoring"
+  },
+  {
+    "section": "Accounts Receivable, Billing & Revenue Assurance",
+    "q": "Cash application staff match bank deposits to invoices when remittances arrive from portals, emails, lockbox files, and short payment notes.\n\nWhich AI capability fits the process?",
+    "opts": [
+      "Match cash using payer, amount, reference, timing, deductions, and confidence",
+      "Post unmatched cash to suspense indefinitely so month-end can close faster with check",
+      "Match only exact invoice numbers and reject split payments automatically with policy",
+      "Apply payments to the oldest invoices even when remittance evidence differs with limit"
+    ],
+    "correct": 0,
+    "explanation": "Cash-application AI should combine payment, remittance, deduction, and confidence signals.",
+    "type": "Cash Application"
+  },
+  {
+    "section": "Accounts Receivable, Billing & Revenue Assurance",
+    "q": "Treasury asks AR for weekly cash-inflow estimates, but the current forecast uses total open receivables without customer-specific behavior.\n\nWhich signal set is best?",
+    "opts": [
+      "Use total AR balance and divide it evenly across the next four weeks with audit with queue",
+      "Forecast receipts from aging, payer history, disputes, promises, seasonality, and terms",
+      "Forecast only from due date because most customers intend to pay on time with policy with check",
+      "Exclude disputed invoices completely even when partial payment is likely with source with risk"
+    ],
+    "correct": 1,
+    "explanation": "AR cash forecasts should include payer behavior, dispute status, promises, terms, and seasonality.",
+    "type": "AR Cash Forecasting"
+  },
+  {
+    "section": "Accounts Receivable, Billing & Revenue Assurance",
+    "q": "A manufacturer has short-paid invoices, but credit memos, delivery claims, price differences, freight charges, and tax disputes are mixed in one code.\n\nWhich analysis creates the most value?",
+    "opts": [
+      "Close every small deduction as immaterial without checking recurring leakage with check",
+      "Ask collectors to write longer notes while keeping the same dispute codes with audit",
+      "Classify dispute reasons and link them to pricing, logistics, tax, and contract fixes",
+      "Treat disputes as customer behavior rather than internal process evidence with source"
+    ],
+    "correct": 2,
+    "explanation": "Dispute AI should turn deductions into categories that reveal fixable revenue leakage.",
+    "type": "Dispute Root-Cause Analytics"
+  },
+  {
+    "section": "Accounts Receivable, Billing & Revenue Assurance",
+    "q": "Finance suspects after-hours service fees are not billed when customers request special handling through operations rather than sales channels.\n\nWhich AI control would help?",
+    "opts": [
+      "Add a generic service surcharge to all invoices and reverse it if customers object with audit",
+      "Ask operations to email finance manually whenever special work occurs with source with risk",
+      "Analyze only billed fees because unbilled events are hard to measure reliably with queue",
+      "Compare contracts, orders, service events, rate cards, and invoices for missed fees"
+    ],
+    "correct": 3,
+    "explanation": "Revenue assurance AI should reconcile contract terms, operational events, rates, and billing outputs.",
+    "type": "Revenue Leakage Detection"
+  },
+  {
+    "section": "Record-to-Report, Close & Consolidation",
+    "q": "A consolidation mapping change sends several local accounts into the wrong group-reporting line, but the error is not noticed until draft reporting.\n\nWhich control should AI support?",
+    "opts": [
+      "Validate mapping changes against ownership, impact, prior use, and approval history",
+      "Allow entity accountants to change mappings when local reporting requires it with source",
+      "Review mappings annually because frequent checks slow close consolidation with queue",
+      "Fix mapping errors through top-side entries after draft reports are issued with risk"
+    ],
+    "correct": 0,
+    "explanation": "Mapping changes need impact analysis, ownership, approval, and validation before consolidation.",
+    "type": "Account Mapping Control"
+  },
+  {
+    "section": "Record-to-Report, Close & Consolidation",
+    "q": "During close, hundreds of manual journals are posted near midnight, and reviewers struggle to identify unusual accounts, preparers, descriptions, and approvals.\n\nWhich AI control is most relevant?",
+    "opts": [
+      "Approve journals automatically when the preparer has posted similar entries before",
+      "Flag journal anomalies by account, amount, timing, preparer, pattern, and approval",
+      "Review only the highest dollar journals and ignore unusual low-value patterns",
+      "Suppress alerts during close because teams already face deadline pressure"
+    ],
+    "correct": 1,
+    "explanation": "Journal analytics should identify unusual combinations and route them for evidence-based review.",
+    "type": "Journal Anomaly Detection"
+  },
+  {
+    "section": "Record-to-Report, Close & Consolidation",
+    "q": "Management reporting narratives are generated from a spreadsheet copied from multiple systems, and finance cannot prove which source produced each number.\n\nWhat should be required before release?",
+    "opts": [
+      "Publish the report if the narrative reads clearly and variance themes sound likely with risk",
+      "Use screenshots as source evidence because system extracts take too much time with note",
+      "Tie narrative statements to governed numbers, source lineage, and reviewer evidence",
+      "Let business units edit financial explanations without change tracking with file with case"
+    ],
+    "correct": 2,
+    "explanation": "Financial narratives should be traceable to governed data, source lineage, and review evidence.",
+    "type": "Reporting Narrative Lineage"
+  },
+  {
+    "section": "Record-to-Report, Close & Consolidation",
+    "q": "Intercompany balances do not eliminate because entities use different product codes, exchange rates, cutoff dates, and local reclassifications.\n\nWhich AI analysis would help?",
+    "opts": [
+      "Force eliminate the difference at group level and analyze details next quarter with file",
+      "Ask each entity to reclass all differences into one clearing account manually with case",
+      "Assume mismatches are immaterial if consolidated revenue still ties out with note",
+      "Match intercompany breaks by entity, counterparty, currency, cutoff, and mapping"
+    ],
+    "correct": 3,
+    "explanation": "Intercompany AI should expose mismatch drivers by entity, timing, currency, and mapping.",
+    "type": "Intercompany Matching"
+  },
+  {
+    "section": "Record-to-Report, Close & Consolidation",
+    "q": "A finance leader wants continuous close dashboards, but some subledgers still load late and manual adjustments are outside the reporting warehouse.\n\nWhich readiness check comes first?",
+    "opts": [
+      "Confirm feed timeliness, adjustment capture, reconciliation status, and data lineage",
+      "Launch dashboards immediately because visibility will force process discipline with note",
+      "Hide manual adjustments until close ends so interim numbers appear stable with rule",
+      "Use trial-balance totals only and ignore subledger and adjustment detail with case"
+    ],
+    "correct": 0,
+    "explanation": "Continuous close depends on timely feeds, adjustments, reconciliations, and traceable data.",
+    "type": "Continuous Close Readiness"
+  },
+  {
+    "section": "Record-to-Report, Close & Consolidation",
+    "q": "Accruals are estimated from prior months even though open purchase orders, receipts, service tickets, and supplier confirmations are available.\n\nWhich design improves accrual quality?",
+    "opts": [
+      "Roll forward last month accrual because it is faster and familiar to reviewers with case",
+      "Estimate accruals from POs, receipts, service evidence, history, and owner review",
+      "Book all open POs as accruals regardless of receipt or service evidence with rule",
+      "Wait for supplier invoices before recognizing expenses already incurred with test"
+    ],
+    "correct": 1,
+    "explanation": "Accrual AI should combine operational evidence, history, and finance review for period-end estimates.",
+    "type": "Accrual Estimation"
+  },
+  {
+    "section": "Record-to-Report, Close & Consolidation",
+    "q": "A reconciliation tool marks accounts as complete when balances match, but supporting schedules, aging details, and unresolved differences are not always reviewed.\n\nWhich certification rule is safest?",
+    "opts": [
+      "Certify all zero-balance accounts because no variance can exist there with log with review",
+      "Close reconciliations once the preparer clicks complete in the workflow with rule with test",
+      "Certify only when balance, evidence, aging, exceptions, and reviewer signoff align",
+      "Sample support after close so the team can meet the reporting deadline with proof"
+    ],
+    "correct": 2,
+    "explanation": "Reconciliations should be certified only with evidence, exception review, and signoff.",
+    "type": "Reconciliation Certification"
+  },
+  {
+    "section": "Record-to-Report, Close & Consolidation",
+    "q": "The external-reporting team uses AI to update disclosure drafts, but accounting standards, legal review comments, and prior-year wording must all be controlled.\n\nWhich governance step is essential?",
+    "opts": [
+      "Let the model update disclosure wording from public-company examples online with test",
+      "Use the prior-year disclosure unless the auditors specifically object with log",
+      "Accept the fluent draft if totals agree with the financial statements with proof",
+      "Generate drafts from approved templates, standards references, comments, and versions"
+    ],
+    "correct": 3,
+    "explanation": "Disclosure AI needs approved sources, version control, standards references, and review.",
+    "type": "Disclosure Draft Governance"
+  },
+  {
+    "section": "Record-to-Report, Close & Consolidation",
+    "q": "Lease accounting data comes from contracts, amendments, embedded service terms, and renewal notices stored across shared drives.\n\nWhich AI-assisted process is best?",
+    "opts": [
+      "Extract lease terms, dates, payments, options, and changes with accounting review",
+      "Use the original contract summary forever unless a site manager reports a change with log",
+      "Let the model update lease schedules without controller approval or evidence with review",
+      "Treat every service contract as non-lease until auditors request support with proof"
+    ],
+    "correct": 0,
+    "explanation": "AI can help extract lease terms, but accounting review and evidence remain necessary.",
+    "type": "Lease Data Extraction"
+  },
+  {
+    "section": "Record-to-Report, Close & Consolidation",
+    "q": "Close tasks are marked done, but reviewers later find missing evidence, late feeds, and unapproved spreadsheet adjustments.\n\nHow should close orchestration improve?",
+    "opts": [
+      "Close tasks when assigned owners click complete to keep the dashboard green with owner",
+      "Track task status by evidence, dependency, feed status, risk, and reviewer signoff",
+      "Use one checklist for every entity regardless of system, risk, and materiality with proof",
+      "Move late tasks outside the close tool so executives see fewer delays with review"
+    ],
+    "correct": 1,
+    "explanation": "Close AI should manage dependencies, evidence, risks, late feeds, and review status.",
+    "type": "Close Workflow Intelligence"
+  },
+  {
+    "section": "Audit, Controls & Compliance Monitoring",
+    "q": "Control exceptions are marked resolved after process owners promise to retrain staff, but repeated failures appear in the next testing cycle.\n\nWhat should the workflow require?",
+    "opts": [
+      "Close exceptions once the owner replies that the team understands the issue with review",
+      "Extend deadlines automatically so dashboards do not show overdue items with owner",
+      "Track remediation owner, root cause, action evidence, retest result, and due date",
+      "Accept training as a universal corrective action without retesting controls with limit"
+    ],
+    "correct": 2,
+    "explanation": "Control remediation should include ownership, evidence, root cause, retesting, and due dates.",
+    "type": "Remediation Evidence Tracking"
+  },
+  {
+    "section": "Audit, Controls & Compliance Monitoring",
+    "q": "A SOX control team reviews high-risk transactions quarterly, but unusual vendor changes and manual journals occur throughout the period.\n\nWhich AI use case improves monitoring?",
+    "opts": [
+      "Replace the control owner with automated alerts and remove manual review steps with owner",
+      "Review only quarter-end samples because interim alerts create extra workload with policy",
+      "Close exceptions once an email is sent, even if remediation is not verified with limit",
+      "Continuously flag high-risk transactions with owner, evidence, threshold, and status"
+    ],
+    "correct": 3,
+    "explanation": "Control monitoring AI should flag risks continuously while preserving ownership and evidence.",
+    "type": "Continuous Control Monitoring"
+  },
+  {
+    "section": "Audit, Controls & Compliance Monitoring",
+    "q": "A payment-risk model works well for one entity but declines sharply after a new ERP rollout and supplier-master cleanup.\n\nWhich monitoring is required?",
+    "opts": [
+      "Monitor drift, data quality, false positives, overrides, and business-change events",
+      "Assume model accuracy will recover after users add enough new transactions with limit",
+      "Turn off override capture so users can work faster during the transition with check",
+      "Use the old entity's performance metrics for all sites until year-end with policy"
+    ],
+    "correct": 0,
+    "explanation": "Finance models require monitoring for drift, data-quality shifts, false positives, and overrides.",
+    "type": "Model Drift Monitoring"
+  },
+  {
+    "section": "Audit, Controls & Compliance Monitoring",
+    "q": "Internal audit wants to use AI for sample selection, but the population includes invoices, journals, credit memos, and vendor changes with different risk patterns.\n\nWhat sampling design is strongest?",
+    "opts": [
+      "Sample the easiest records to retrieve so auditors can test more items quickly with policy",
+      "Select samples by risk, coverage, anomaly pattern, materiality, and audit objective",
+      "Use a random sample only and ignore known risk indicators and control changes with audit",
+      "Ask process owners to choose samples because they know which items matter with check"
+    ],
+    "correct": 1,
+    "explanation": "Audit sampling should align to risk, coverage, materiality, and audit objectives.",
+    "type": "Risk-Based Audit Sampling"
+  },
+  {
+    "section": "Audit, Controls & Compliance Monitoring",
+    "q": "External auditors ask how an AI recommendation led to a manual journal investigation, but finance cannot reproduce the input data or model version used.\n\nWhich capability is missing?",
+    "opts": [
+      "Store only the final journal decision because auditors test the accounting result with check",
+      "Ask reviewers to remember why the alert mattered during audit fieldwork with audit",
+      "Retain prompt, input snapshot, model version, output, reviewer action, and evidence",
+      "Delete intermediate AI records so sensitive finance data is less exposed with source"
+    ],
+    "correct": 2,
+    "explanation": "AI-assisted controls need reproducible inputs, model versions, outputs, decisions, and evidence.",
+    "type": "AI Decision Audit Trail"
+  },
+  {
+    "section": "Audit, Controls & Compliance Monitoring",
+    "q": "Employees ask a finance policy chatbot whether gift cards, mileage, subscriptions, and remote-work purchases are reimbursable.\n\nWhich RAG control is required?",
+    "opts": [
+      "Use the open web for policy answers because it provides broader examples with audit",
+      "Let the chatbot decide exceptions without supervisor or finance approval with queue",
+      "Remove citations so employees receive a faster and cleaner response with source",
+      "Answer from approved policies with version date, source link, and escalation path"
+    ],
+    "correct": 3,
+    "explanation": "Policy assistants must ground answers in controlled sources and escalate uncertain cases.",
+    "type": "Policy Assistant Governance"
+  },
+  {
+    "section": "Audit, Controls & Compliance Monitoring",
+    "q": "A growing company has users who can create vendors, approve invoices, and release payments after role changes and emergency access grants.\n\nWhich control analysis is needed?",
+    "opts": [
+      "Detect segregation conflicts by role, transaction, emergency access, and approval path",
+      "Assume manager approval compensates for all role conflicts in the ERP with queue",
+      "Review access annually because frequent checks disrupt finance operations with risk",
+      "Remove access from all finance users and let IT process transactions instead with source"
+    ],
+    "correct": 0,
+    "explanation": "SOD AI should evaluate conflicting roles, transactions, emergency access, and approvals.",
+    "type": "Segregation of Duties Analytics"
+  },
+  {
+    "section": "Audit, Controls & Compliance Monitoring",
+    "q": "A vendor offers an AI control-monitoring platform that processes invoice data, bank details, and employee expense records outside the company environment.\n\nWhat must be assessed before deployment?",
+    "opts": [
+      "Approve the vendor if the demo finds more anomalies than current reports with file",
+      "Review data residency, security, access, model use, retention, and audit rights",
+      "Send a full data extract for testing before legal and security finish review with queue",
+      "Rely on the vendor's marketing materials as sufficient control evidence with risk"
+    ],
+    "correct": 1,
+    "explanation": "External AI platforms need vendor, data, security, retention, model-use, and audit-rights review.",
+    "type": "Third-Party AI Risk"
+  },
+  {
+    "section": "Audit, Controls & Compliance Monitoring",
+    "q": "A fraud model flags an employee expense cluster as suspicious, but travel schedules, client events, and policy exceptions may explain the pattern.\n\nHow should the alert be handled?",
+    "opts": [
+      "Classify every anomaly as fraud so investigators can close the case later with file",
+      "Notify the employee immediately before evidence is preserved and reviewed with note",
+      "Triage with context, evidence, explanation, investigator review, and case outcome",
+      "Ignore the alert if the total amount is below the formal approval threshold with risk"
+    ],
+    "correct": 2,
+    "explanation": "Fraud anomalies require contextual investigation, explanation, evidence, and case outcome tracking.",
+    "type": "Fraud Alert Triage"
+  },
+  {
+    "section": "Audit, Controls & Compliance Monitoring",
+    "q": "A finance operations team changes model thresholds for journal anomaly alerts because close workload is high, but no one documents the rationale.\n\nWhich governance control is needed?",
+    "opts": [
+      "Let analysts change thresholds during close as long as total alerts decrease",
+      "Freeze thresholds forever so audit evidence remains stable over time",
+      "Hide threshold rules from control owners so they cannot manipulate alerts",
+      "Require threshold-change rationale, approval, test results, and audit trail"
+    ],
+    "correct": 3,
+    "explanation": "Finance-control models need documented rationale, approval, testing, and traceability for threshold changes.",
+    "type": "Model Threshold Governance"
+  },
+  {
+    "section": "Tax, Payroll & Regulatory Finance",
+    "q": "A regulated finance report pulls numbers from ERP, treasury, tax, and spreadsheet adjustments, but reviewers cannot trace the figures back to source systems.\n\nWhich requirement is most important?",
+    "opts": [
+      "Maintain lineage, reconciliation, transformation rules, signoff, and submission logs",
+      "Submit the report when totals agree with last year's format and headings with note with case",
+      "Use screenshots from systems as the main source of regulatory evidence with rule with log",
+      "Let the model rebuild missing support after the regulator asks questions with test"
+    ],
+    "correct": 0,
+    "explanation": "Regulatory reporting needs traceable source data, transformation logic, reconciliation, and signoff.",
+    "type": "Regulatory Reporting Lineage"
+  },
+  {
+    "section": "Tax, Payroll & Regulatory Finance",
+    "q": "A marketplace sells products across provinces and states, and taxability depends on product attributes, exemptions, customer location, and delivery method.\n\nWhich AI tax design is safest?",
+    "opts": [
+      "Use product titles alone because they are visible on every order record with rule",
+      "Classify tax with product attributes, jurisdiction rules, exemptions, and review",
+      "Apply the highest rate everywhere to reduce underpayment risk and audit effort with case",
+      "Let the model update tax codes in production without tax-owner approval with test"
+    ],
+    "correct": 1,
+    "explanation": "Tax AI should use governed product data, jurisdiction rules, exemptions, and tax review.",
+    "type": "Indirect Tax Classification"
+  },
+  {
+    "section": "Tax, Payroll & Regulatory Finance",
+    "q": "An online seller may cross economic nexus thresholds in multiple jurisdictions, but sales, returns, marketplace facilitator data, and exemption sales are scattered.\n\nWhat should the AI monitor?",
+    "opts": [
+      "Review nexus only once a year because tax registration changes are slow",
+      "Count gross web sales only and ignore returns, exemptions, and marketplace rules",
+      "Track taxable activity by jurisdiction, channel, threshold, exemption, and date",
+      "Register everywhere immediately without checking threshold and compliance burden"
+    ],
+    "correct": 2,
+    "explanation": "Nexus monitoring should track jurisdiction thresholds using governed sales, returns, channel, and exemption data.",
+    "type": "Nexus Monitoring"
+  },
+  {
+    "section": "Tax, Payroll & Regulatory Finance",
+    "q": "Customers submit exemption certificates in different formats, and missing or expired certificates are usually discovered during audit preparation.\n\nWhich AI control should be added?",
+    "opts": [
+      "Accept certificates if the customer has been exempt in prior orders with log",
+      "Store certificate images without linking them to invoices and jurisdictions with test",
+      "Ignore certificate expiry until the tax authority requests support later with proof",
+      "Validate certificates for customer, jurisdiction, product scope, expiry, and evidence"
+    ],
+    "correct": 3,
+    "explanation": "Certificate validation should check scope, jurisdiction, expiry, customer linkage, and evidence.",
+    "type": "Exemption Certificate Validation"
+  },
+  {
+    "section": "Tax, Payroll & Regulatory Finance",
+    "q": "A finance team maps local statutory accounts to group reporting lines, but changes in local chart design create inconsistent regulatory and management reporting.\n\nWhich AI control would help?",
+    "opts": [
+      "Detect mapping conflicts by local account, statutory rule, group line, and approval",
+      "Let local teams map accounts freely because statutory reporting is their responsibility",
+      "Correct mapping issues only after external auditors identify differences with log",
+      "Use the nearest group account name even when the statutory nature differs with proof"
+    ],
+    "correct": 0,
+    "explanation": "Mapping AI should identify conflicts between local statutory accounts, group reporting, and approvals.",
+    "type": "Statutory Mapping Control"
+  },
+  {
+    "section": "Tax, Payroll & Regulatory Finance",
+    "q": "A payroll clerk receives requests to change bank accounts, tax status, and pay rates through emails and shared spreadsheets.\n\nWhich workflow control is required?",
+    "opts": [
+      "Allow the clerk to update data quickly and reconcile changes after payroll run with proof",
+      "Route master-data changes through identity checks, approvals, logs, and cutoff rules",
+      "Approve changes when the request comes from a manager already in the org chart with owner",
+      "Batch all payroll changes at month-end even if the next pay run is affected with review"
+    ],
+    "correct": 1,
+    "explanation": "Payroll master-data changes require identity validation, approval, logging, and cutoff controls.",
+    "type": "Payroll Master Data Control"
+  },
+  {
+    "section": "Tax, Payroll & Regulatory Finance",
+    "q": "The tax team wants an assistant to summarize rules for R&D credits, cross-border services, and filing deadlines.\n\nWhat should make the answer usable?",
+    "opts": [
+      "Answer from general web snippets because tax rules are widely discussed online with review",
+      "Return a confident answer without references to keep the workflow lightweight with limit",
+      "Provide controlled citations, jurisdiction, effective date, assumptions, and reviewer path",
+      "Use the newest article found even if it conflicts with approved tax memos with owner"
+    ],
+    "correct": 2,
+    "explanation": "Tax research assistants need controlled sources, dates, jurisdiction, assumptions, and review.",
+    "type": "Tax Research Assistant"
+  },
+  {
+    "section": "Tax, Payroll & Regulatory Finance",
+    "q": "Employees ask a payroll chatbot about deductions, benefits, statutory holidays, and leave balances across different provinces.\n\nWhich design prevents incorrect guidance?",
+    "opts": [
+      "Give general payroll advice and remind employees to verify it on their own with check with audit",
+      "Use one national answer to avoid confusing employees with regional differences with owner with limit",
+      "Let the chatbot change deductions directly when employees ask during chat with policy with source",
+      "Ground replies in approved payroll policies, jurisdiction rules, employee data, and escalation"
+    ],
+    "correct": 3,
+    "explanation": "Payroll assistants must use approved policy, jurisdiction, and employee-specific context with escalation.",
+    "type": "Payroll Policy Assistant"
+  },
+  {
+    "section": "Tax, Payroll & Regulatory Finance",
+    "q": "Payroll has unusual overtime spikes in one site, but managers say the pattern reflects training, vacancies, and production recovery.\n\nHow should AI investigate the anomaly?",
+    "opts": [
+      "Compare overtime to schedule, approvals, vacancies, training, policy, and history",
+      "Treat every overtime spike as payroll fraud until the employee explains it with policy",
+      "Ignore overtime anomalies if the total payroll file balances to the ledger with check",
+      "Ask HR to approve the payroll run first and investigate after employees are paid with limit"
+    ],
+    "correct": 0,
+    "explanation": "Payroll anomalies need context from schedules, approvals, staffing, policy, and history.",
+    "type": "Payroll Anomaly Analysis"
+  },
+  {
+    "section": "Tax, Payroll & Regulatory Finance",
+    "q": "Transfer-pricing analysts compare service charges across entities, but support documents, intercompany invoices, headcount metrics, and agreements are inconsistent.\n\nWhich AI use case fits best?",
+    "opts": [
+      "Allocate costs evenly across entities because it is easier to explain globally with policy",
+      "Map charges to agreements, allocation keys, invoices, support, and exception evidence",
+      "Use prior-year support documents if the entity structure appears similar with audit",
+      "Let local entities edit allocation keys without group tax review with check with source"
+    ],
+    "correct": 1,
+    "explanation": "AI can help connect transfer-pricing charges to agreements, allocation keys, and evidence.",
+    "type": "Transfer-Pricing Support"
+  },
+  {
+    "section": "Procurement Finance & Contract Analytics",
+    "q": "Several service contracts auto-renew unless cancellation notices are sent 90 days before expiry, but owners track renewal dates manually.\n\nWhich AI workflow is most useful?",
+    "opts": [
+      "Renew all contracts automatically to avoid disrupting business operations with source",
+      "Cancel contracts if usage is low without owner, legal, and vendor review with audit",
+      "Extract renewal clauses, notice dates, owners, cost, usage, and decision deadlines",
+      "Track only contract end dates and ignore notice windows and termination clauses with check"
+    ],
+    "correct": 2,
+    "explanation": "Renewal analytics should identify notice deadlines, owners, costs, usage, and decision points.",
+    "type": "Contract Renewal Intelligence"
+  },
+  {
+    "section": "Procurement Finance & Contract Analytics",
+    "q": "Procurement signs contracts with rebates, volume tiers, early-payment terms, and price-escalation clauses, but finance rarely captures all terms in ERP.\n\nWhich AI capability would reduce leakage?",
+    "opts": [
+      "Rely on buyers to remember contract terms when invoices arrive months later with queue",
+      "Use invoice price as truth even when contracts include discounts and rebates with audit",
+      "Book rebates only when suppliers voluntarily issue credit memos with source with risk",
+      "Extract commercial terms and reconcile them to POs, invoices, rebates, and accruals"
+    ],
+    "correct": 3,
+    "explanation": "Contract analytics can reduce leakage by connecting commercial terms to procurement and accounting records.",
+    "type": "Contract Term Extraction"
+  },
+  {
+    "section": "Procurement Finance & Contract Analytics",
+    "q": "Buyers want a generative AI tool to prepare negotiation briefs, but it may reveal confidential targets or use outdated contract terms.\n\nWhich control is required?",
+    "opts": [
+      "Ground briefs in approved data, mask sensitive targets, cite sources, and review output",
+      "Let buyers paste supplier emails and private targets into any public chatbot with queue",
+      "Use prior negotiation notes even if ownership and confidentiality are unclear with risk",
+      "Generate aggressive tactics without checking ethics, policy, or relationship risk with source"
+    ],
+    "correct": 0,
+    "explanation": "Negotiation copilots need approved sources, sensitive-data controls, citations, and human review.",
+    "type": "Negotiation Assistant Governance"
+  },
+  {
+    "section": "Procurement Finance & Contract Analytics",
+    "q": "A critical supplier shows slower delivery, rising prices, deteriorating credit signals, and news of plant disruption, but finance sees the risk only after expedite fees appear.\n\nWhich monitoring design is strongest?",
+    "opts": [
+      "Rank supplier risk only by annual spend because larger suppliers matter most with note with rule",
+      "Score supplier risk from delivery, spend, credit, price, disruption, and dependency signals",
+      "Wait for procurement to report problems because external signals can be noisy with queue with risk",
+      "Remove suppliers immediately when any negative news article appears online with file with case"
+    ],
+    "correct": 1,
+    "explanation": "Supplier-risk AI should combine financial, operational, external, spend, and dependency signals.",
+    "type": "Supplier Financial Risk"
+  },
+  {
+    "section": "Procurement Finance & Contract Analytics",
+    "q": "Finance discovers vendors with similar names and addresses were created separately after acquisitions, fragmenting spend and payment terms.\n\nWhich master-data use case fits?",
+    "opts": [
+      "Merge vendors only when names match exactly to avoid false positives with file",
+      "Ignore duplicate vendors because local teams know their own suppliers with note",
+      "Match vendor entities using name, address, tax ID, bank, contract, and spend signals",
+      "Use one global vendor number without checking tax, legal, and bank evidence with risk"
+    ],
+    "correct": 2,
+    "explanation": "Vendor-master AI should match entities using multiple identifiers and require evidence-based review.",
+    "type": "Vendor Entity Resolution"
+  },
+  {
+    "section": "Procurement Finance & Contract Analytics",
+    "q": "Finance suspects maverick spend, but invoices, corporate cards, purchase orders, and employee reimbursements are reviewed separately.\n\nHow should AI detect the pattern?",
+    "opts": [
+      "Review only purchase orders because non-PO spend is too fragmented to analyze with case",
+      "Ask departments to self-report policy bypasses during quarterly meetings with note",
+      "Assume low-value spend is harmless because each transaction is below threshold with file",
+      "Connect spend across POs, cards, invoices, reimbursements, supplier, and category"
+    ],
+    "correct": 3,
+    "explanation": "Maverick spend analytics should connect spend channels, suppliers, categories, and policies.",
+    "type": "Maverick Spend Detection"
+  },
+  {
+    "section": "Procurement Finance & Contract Analytics",
+    "q": "Spend analytics reports classify similar suppliers under office, IT, marketing, and consulting because descriptions differ across entities.\n\nWhich AI use case fits best?",
+    "opts": [
+      "Normalize supplier and spend categories using text, GL, PO, contract, and review rules",
+      "Classify spend only by GL account because finance already approves the ledger with note",
+      "Keep local categories so each entity can analyze spend in its own language with rule",
+      "Treat uncategorized spend as miscellaneous until the next sourcing cycle with case"
+    ],
+    "correct": 0,
+    "explanation": "Spend AI should normalize categories using multiple procurement and finance signals with review.",
+    "type": "Spend Classification"
+  },
+  {
+    "section": "Procurement Finance & Contract Analytics",
+    "q": "A supplier claims compliance with insurance, safety, sustainability, and financial requirements, but documents are expired or inconsistent across portals.\n\nWhich AI control would support onboarding?",
+    "opts": [
+      "Approve onboarding if the supplier checked every compliance box in the portal with case",
+      "Validate documents for issuer, expiry, requirement, supplier entity, and exception",
+      "Review documents manually only after the first purchase order is issued with rule",
+      "Use the parent-company certificate for every subsidiary without entity review"
+    ],
+    "correct": 1,
+    "explanation": "Document AI should validate supplier evidence against requirements, entities, dates, and exceptions.",
+    "type": "Supplier Document Validation"
+  },
+  {
+    "section": "Procurement Finance & Contract Analytics",
+    "q": "Purchase requests for software, equipment, and services bypass preferred suppliers and approval limits because managers describe similar needs differently.\n\nWhich AI control would help?",
+    "opts": [
+      "Approve requests if the department still has budget remaining this month with test",
+      "Let requesters decide whether policy applies because they know the business need with rule",
+      "Check requests against policy, preferred supplier, budget, category, and approval path",
+      "Route every purchase request to legal so finance avoids policy judgments with log"
+    ],
+    "correct": 2,
+    "explanation": "AI can guide requesters to policy-compliant sourcing, budget, and approval paths.",
+    "type": "Purchase Request Compliance"
+  },
+  {
+    "section": "Procurement Finance & Contract Analytics",
+    "q": "A cost analyst sees raw-material price increases, but cannot tell whether changes reflect market movement, supplier margin, volume mix, or specification changes.\n\nWhich AI analysis is best?",
+    "opts": [
+      "Accept price increases when suppliers provide a general inflation explanation with proof",
+      "Compare only invoice totals and ignore unit price, mix, and specification changes with test",
+      "Reject all increases until suppliers prove every cost element independently with log",
+      "Compare price variance to market index, specification, volume, supplier, and contract"
+    ],
+    "correct": 3,
+    "explanation": "Procurement finance AI should decompose price movement into market, mix, supplier, and contract drivers.",
+    "type": "Price Variance Analytics"
+  },
+  {
+    "section": "ERP Data, Integration, MLOps & Security",
+    "q": "Auditors ask where a reported KPI came from, but the dashboard blends ERP extracts, spreadsheet adjustments, and AI classifications.\n\nWhat capability is missing?",
+    "opts": [
+      "Track source lineage, transformations, model classifications, manual edits, and signoff",
+      "Store only the final KPI because audit teams test totals, not data pipelines with log with proof",
+      "Let the dashboard owner explain the logic verbally during fieldwork with review with limit",
+      "Use row counts as evidence that the pipeline loaded the full population with owner with policy"
+    ],
+    "correct": 0,
+    "explanation": "Finance AI outputs need traceable lineage through sources, transformations, classifications, and approvals.",
+    "type": "Data Lineage for AI Outputs"
+  },
+  {
+    "section": "ERP Data, Integration, MLOps & Security",
+    "q": "Finance teams define customer, vendor, product, cost center, and profit center differently across ERP, CRM, procurement, and data warehouse tables.\n\nWhat foundation is needed before scaling AI?",
+    "opts": [
+      "Train separate models for each system so local definitions stay untouched with owner",
+      "Create governed definitions, ownership, quality rules, lineage, and stewardship",
+      "Use the largest table as truth and ignore conflicting business definitions with proof",
+      "Ask report users to resolve definition conflicts when reviewing outputs with review"
+    ],
+    "correct": 1,
+    "explanation": "Finance AI requires governed definitions, ownership, quality rules, lineage, and stewardship.",
+    "type": "Finance Data Governance"
+  },
+  {
+    "section": "ERP Data, Integration, MLOps & Security",
+    "q": "A forecasting model uses data from acquired systems, but missing fields are silently filled with zeros during the ETL process.\n\nWhich quality control is needed?",
+    "opts": [
+      "Let the model learn around missing values because larger data improves accuracy with review",
+      "Fill missing values with zero so the pipeline never stops during close with owner",
+      "Validate completeness, default values, reconciliation totals, exceptions, and owners",
+      "Exclude acquired data entirely until every historical record is perfect with limit"
+    ],
+    "correct": 2,
+    "explanation": "AI pipelines need validation for completeness, defaults, reconciliation, exceptions, and ownership.",
+    "type": "Data Quality Control"
+  },
+  {
+    "section": "ERP Data, Integration, MLOps & Security",
+    "q": "A finance LLM pilot includes invoices, employee expense receipts, bank details, and customer collection notes in prompts.\n\nWhich security design is required?",
+    "opts": [
+      "Permit all finance users to test prompts because access issues slow learning with owner",
+      "Remove logs to protect privacy even if auditability is lost in the pilot with limit",
+      "Use public chat tools for low-value invoices because risk is limited there with policy",
+      "Apply data minimization, masking, access controls, logging, and approved model use"
+    ],
+    "correct": 3,
+    "explanation": "Finance AI must protect sensitive financial, employee, banking, and customer data.",
+    "type": "Sensitive Data Protection"
+  },
+  {
+    "section": "ERP Data, Integration, MLOps & Security",
+    "q": "The IT team wants to connect a finance AI tool to ERP tables, but finance is unsure which read, write, approval, and posting permissions are required.\n\nWhich principle should guide the design?",
+    "opts": [
+      "Grant least-privilege access by use case, environment, action, data class, and owner",
+      "Grant broad admin access during the pilot so integration issues are easier to fix with limit",
+      "Use shared passwords because service accounts add unnecessary overhead with policy",
+      "Allow write access by default and rely on reviews to catch unwanted changes with check"
+    ],
+    "correct": 0,
+    "explanation": "Finance AI integrations should use least privilege across environments, actions, data classes, and ownership.",
+    "type": "Least-Privilege Architecture"
+  },
+  {
+    "section": "ERP Data, Integration, MLOps & Security",
+    "q": "A controller wants AI to suggest journal entries, but testing directly in production could affect ledgers and downstream reporting.\n\nWhich deployment path is safest?",
+    "opts": [
+      "Enable production suggestions for all preparers and fix mistakes during review with policy",
+      "Test in sandbox with synthetic and historical data before controlled production use",
+      "Disable audit logging in test because no real entries are posted there with check",
+      "Skip sandbox testing if the vendor has customers in similar industries with audit"
+    ],
+    "correct": 1,
+    "explanation": "Finance AI should be tested in safe environments before any production ledger impact.",
+    "type": "ERP Sandbox Testing"
+  },
+  {
+    "section": "ERP Data, Integration, MLOps & Security",
+    "q": "A cash forecast model updates nightly, but payment holds, customer promises, and bank transactions change throughout the day.\n\nWhich integration decision matters most?",
+    "opts": [
+      "Refresh every data feed in real time even when decisions are weekly with audit with queue",
+      "Keep all updates nightly because finance systems should avoid operational noise with check",
+      "Match update frequency to decision timing, materiality, source reliability, and cost",
+      "Use manual CSV uploads so analysts can inspect data before every forecast with source"
+    ],
+    "correct": 2,
+    "explanation": "AI integrations should match the cadence and reliability needed for the actual finance decision.",
+    "type": "Integration Frequency Design"
+  },
+  {
+    "section": "ERP Data, Integration, MLOps & Security",
+    "q": "A finance AI tool recommends an incorrect accrual because an upstream receipt feed failed, but the issue is noticed only after the close package is distributed.\n\nWhat operational response should exist?",
+    "opts": [
+      "Wait for the next close cycle to correct the accrual if the amount is small with audit with source",
+      "Ask users to stop relying on the tool until the vendor explains the issue with queue with file",
+      "Delete the failed recommendation so reports no longer show the error trail with risk with note",
+      "Use incident playbooks with owner, impact, rollback, correction, and communication steps"
+    ],
+    "correct": 3,
+    "explanation": "AI-enabled finance workflows need incident response, impact assessment, rollback, correction, and communication.",
+    "type": "AI Incident Response"
+  },
+  {
+    "section": "ERP Data, Integration, MLOps & Security",
+    "q": "An invoice-coding model gets worse after a new acquisition, new cost centers, and supplier normalization project change the input distribution.\n\nWhich MLOps practice is needed?",
+    "opts": [
+      "Monitor drift, label quality, confidence, overrides, retraining triggers, and release notes",
+      "Retrain every day automatically so the model stays close to current data with risk with note",
+      "Ignore overrides because user corrections may reflect inconsistent habits with file with case",
+      "Use the acquired company's model directly because it already knows suppliers with source with queue"
+    ],
+    "correct": 0,
+    "explanation": "Finance models need drift monitoring, label governance, override capture, and controlled retraining.",
+    "type": "Finance Model Operations"
+  },
+  {
+    "section": "ERP Data, Integration, MLOps & Security",
+    "q": "An AI assistant gives different AP answers to clerks, managers, and auditors because permissions are not aligned with ERP roles.\n\nWhich access model is needed?",
+    "opts": [
+      "Give every user read access so the assistant can answer quickly and completely with queue",
+      "Enforce role-based retrieval, row-level security, policy scope, and response logging",
+      "Hide all source links so users cannot tell when permissions differ with risk with note",
+      "Use one service account for all prompts because it simplifies integration with file"
+    ],
+    "correct": 1,
+    "explanation": "Finance assistants must respect ERP permissions, row-level security, and auditable logging.",
+    "type": "Role-Based Retrieval"
+  },
+  {
+    "section": "AI Governance, ROI & Scaling Discipline",
+    "q": "A finance AI roadmap has many pilots, but leaders cannot see which ones reduce cost, release cash, improve controls, or shorten decision cycles.\n\nWhich portfolio dashboard is most useful?",
+    "opts": [
+      "Show a list of tools purchased because spending proves commitment to AI with note with rule",
+      "Rank projects by technical novelty so leaders support innovation themes with case with test",
+      "Show value delivered, risk status, adoption, control impact, cost, and next decision",
+      "Report only model accuracy because it is the clearest AI-specific measure with risk with file"
+    ],
+    "correct": 2,
+    "explanation": "An AI portfolio dashboard should report value, risk, adoption, control impact, cost, and decisions.",
+    "type": "AI Portfolio Dashboard"
+  },
+  {
+    "section": "AI Governance, ROI & Scaling Discipline",
+    "q": "The CFO has twenty proposed AI ideas across AP, AR, tax, close, treasury, audit, FP&A, and procurement, but only five can be piloted.\n\nWhich prioritization method is most disciplined?",
+    "opts": [
+      "Pick the ideas with the best vendor demos so executives see progress quickly with file",
+      "Fund one idea in every function even if data and ownership are weak with note",
+      "Choose only generative AI ideas because they appear more innovative with case",
+      "Score use cases by value, risk, data readiness, feasibility, owner, and controls"
+    ],
+    "correct": 3,
+    "explanation": "Finance AI use cases should be prioritized by value, feasibility, risk, data readiness, controls, and ownership.",
+    "type": "Finance AI Portfolio Prioritization"
+  },
+  {
+    "section": "AI Governance, ROI & Scaling Discipline",
+    "q": "A controller worries that AI will make preparers less skilled because they may accept suggestions without understanding accounting rationale.\n\nWhich adoption design supports capability building?",
+    "opts": [
+      "Require rationale display, reviewer questions, training, feedback, and competency checks",
+      "Hide rationale so preparers focus on speed rather than second-guessing models with case",
+      "Replace training with AI prompts because the system can explain tasks on demand with note",
+      "Limit AI to expert users only so junior staff never depend on recommendations with rule"
+    ],
+    "correct": 0,
+    "explanation": "Finance AI adoption should preserve professional judgment through rationale, training, review, and feedback.",
+    "type": "Human Capability Design"
+  },
+  {
+    "section": "AI Governance, ROI & Scaling Discipline",
+    "q": "Finance, IT, risk, audit, tax, and business operations disagree on who approves finance AI models and who owns daily exceptions.\n\nWhat operating model is needed?",
+    "opts": [
+      "Let IT own all AI because the solution depends on systems and integrations with test",
+      "Define owners for value, data, model, control, security, change, and operations",
+      "Let each function make separate AI decisions to avoid governance delays with rule",
+      "Ask vendors to manage approvals because they understand the technology best with case"
+    ],
+    "correct": 1,
+    "explanation": "Finance AI needs clear ownership across value, data, model, controls, security, change, and operations.",
+    "type": "AI Operating Model"
+  },
+  {
+    "section": "AI Governance, ROI & Scaling Discipline",
+    "q": "After several finance AI pilots, teams keep asking for new tools but do not retire old dashboards, spreadsheets, and manual approvals.\n\nWhich scaling discipline is missing?",
+    "opts": [
+      "Keep old processes in parallel indefinitely so every stakeholder feels safe with log",
+      "Scale new tools first and update procedures once users stop using old reports with rule",
+      "Retire duplicate work, update SOPs, change controls, train users, and monitor outcomes",
+      "Add more dashboards so managers can compare AI output to every legacy view with test"
+    ],
+    "correct": 2,
+    "explanation": "AI scaling requires standard updates, control changes, training, outcome monitoring, and retirement of duplicate work.",
+    "type": "Process Integration After AI"
+  },
+  {
+    "section": "AI Governance, ROI & Scaling Discipline",
+    "q": "An AI model makes recommendations that affect payment timing, credit limits, and collection outreach, but stakeholders worry about hidden bias and unfair treatment.\n\nWhich governance review is required?",
+    "opts": [
+      "Rely on aggregate profit improvement because fairness is not a finance metric with test",
+      "Hide model factors so users cannot game payment and credit decisions with log",
+      "Avoid human overrides because they introduce inconsistent treatment risk with proof",
+      "Test fairness, explainability, override rights, policy fit, and outcome monitoring"
+    ],
+    "correct": 3,
+    "explanation": "Finance AI should be reviewed for explainability, fairness, policy fit, overrides, and outcomes.",
+    "type": "Responsible Finance AI"
+  },
+  {
+    "section": "AI Governance, ROI & Scaling Discipline",
+    "q": "An AP pilot claims success because users scanned more invoices, but cycle time, exception rate, rework, payment accuracy, and controls are unchanged.\n\nWhich measurement package is better?",
+    "opts": [
+      "Measure cycle time, accuracy, exception rate, control quality, cost, and user adoption",
+      "Use login counts as the main success measure because adoption drives value with log with proof",
+      "Report the number of AI suggestions even when users reject most of them with review with limit",
+      "Declare success when the pilot dashboard looks cleaner than the old report with owner"
+    ],
+    "correct": 0,
+    "explanation": "Finance AI pilots should be measured by business outcomes, control quality, and adoption, not activity alone.",
+    "type": "Pilot Outcome Metrics"
+  },
+  {
+    "section": "AI Governance, ROI & Scaling Discipline",
+    "q": "A business case promises savings from headcount reduction, but the pilot mainly reduces rework, improves cycle time, and catches control exceptions earlier.\n\nHow should benefits be framed?",
+    "opts": [
+      "Report only headcount reduction because executives understand cost savings best with proof",
+      "Separate labor capacity, rework reduction, risk avoidance, cash impact, and service gain",
+      "Ignore control benefits because they are hard to translate into financial value with owner",
+      "Count every AI recommendation as a dollar saving even if no action changes with review"
+    ],
+    "correct": 1,
+    "explanation": "Finance AI value should separate capacity, quality, risk, cash, and service outcomes.",
+    "type": "AI Benefit Realization"
+  },
+  {
+    "section": "AI Governance, ROI & Scaling Discipline",
+    "q": "A successful invoice pilot works for one business unit, but other units have different ERPs, tax rules, supplier formats, approval matrices, and languages.\n\nWhat should happen before enterprise rollout?",
+    "opts": [
+      "Deploy the same workflow everywhere because standardization is the main benefit with review",
+      "Skip localization so teams are forced to adopt the future-state design with owner",
+      "Assess process variation, data gaps, control differences, localization, and support needs",
+      "Roll out first and document local exceptions after errors appear in production with limit"
+    ],
+    "correct": 2,
+    "explanation": "Scaling AI requires understanding process, data, control, localization, and support differences.",
+    "type": "Scaling Readiness"
+  },
+  {
+    "section": "AI Governance, ROI & Scaling Discipline",
+    "q": "A predictive collections pilot performs below target after three months, but the team wants to keep refining because the model is interesting.\n\nWhat should governance define?",
+    "opts": [
+      "Continue the pilot until the team finds a segment where the model looks good with owner",
+      "Scale the model anyway because early adoption is more important than ROI with policy",
+      "Stop all AI work in collections because one model missed its target with limit",
+      "Set continue, pivot, scale, or stop criteria based on value, risk, and learning"
+    ],
+    "correct": 3,
+    "explanation": "Pilots need explicit decision gates based on value, risk, adoption, and learning evidence.",
+    "type": "Pilot Decision Gates"
+  }
+];
+
+const SECTIONS = [
+  {
+    "key": "Treasury, Cash & Working Capital",
+    "label": "Section A - Treasury, Cash & Working Capital",
+    "cls": "sec-fund",
+    "range": "Questions 1-10"
+  },
+  {
+    "key": "Accounts Payable, Spend & Expense Automation",
+    "label": "Section B - Accounts Payable, Spend & Expense Automation",
+    "cls": "sec-llm",
+    "range": "Questions 11-20"
+  },
+  {
+    "key": "FP&A, Budgeting & Decision Intelligence",
+    "label": "Section C - FP&A, Budgeting & Decision Intelligence",
+    "cls": "sec-agent",
+    "range": "Questions 21-30"
+  },
+  {
+    "key": "Accounts Receivable, Billing & Revenue Assurance",
+    "label": "Section D - Accounts Receivable, Billing & Revenue Assurance",
+    "cls": "sec-rag",
+    "range": "Questions 31-40"
+  },
+  {
+    "key": "Record-to-Report, Close & Consolidation",
+    "label": "Section E - Record-to-Report, Close & Consolidation",
+    "cls": "sec-ops",
+    "range": "Questions 41-50"
+  },
+  {
+    "key": "Audit, Controls & Compliance Monitoring",
+    "label": "Section F - Audit, Controls & Compliance Monitoring",
+    "cls": "sec-safe",
+    "range": "Questions 51-60"
+  },
+  {
+    "key": "Tax, Payroll & Regulatory Finance",
+    "label": "Section G - Tax, Payroll & Regulatory Finance",
+    "cls": "sec-fund",
+    "range": "Questions 61-70"
+  },
+  {
+    "key": "Procurement Finance & Contract Analytics",
+    "label": "Section H - Procurement Finance & Contract Analytics",
+    "cls": "sec-llm",
+    "range": "Questions 71-80"
+  },
+  {
+    "key": "ERP Data, Integration, MLOps & Security",
+    "label": "Section I - ERP Data, Integration, MLOps & Security",
+    "cls": "sec-rag",
+    "range": "Questions 81-90"
+  },
+  {
+    "key": "AI Governance, ROI & Scaling Discipline",
+    "label": "Section J - AI Governance, ROI & Scaling Discipline",
+    "cls": "sec-agent",
+    "range": "Questions 91-100"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+
+let mode = 'guided', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 2*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='02:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'
+       +     '<span class="q-type">'+escapeHtml(q.type||'Mixed')+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/100';
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/100';
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  if(pct>=0.9){ grade='Finance AI Use-Case Excellence'; blurb='Outstanding. You connect finance AI strategy, accounting operations, FP&A, controls, data readiness, governance, experimentation, and scalable value delivery.'; }
+  else if(pct>=0.75){ grade='Finance AI Use-Case Practitioner Ready'; blurb='Strong finance AI judgment. Review missed items - they usually hinge on data quality, use-case fit, internal controls, auditability, governance, or value measurement.'; }
+  else if(pct>=0.6){ grade='Finance AI Practitioner'; blurb='Solid working knowledge. Strengthen weaker areas such as AP, AR, FP&A, close, treasury, audit, tax, MLOps, metrics, and governance.'; }
+  else if(pct>=0.4){ grade='Developing Finance AI Practitioner'; blurb='Your finance AI instincts are forming. Revisit fundamentals such as finance value, baseline measurement, data readiness, controls, feedback loops, and human oversight.'; }
+  else { grade='Begin Finance AI Fundamentals Review'; blurb='Start with finance AI basics: define the business decision, measure the baseline, validate data, manage controls, run controlled pilots, and scale only with evidence.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 100 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one question at a time. 2-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Certificate name</label>
+    <input id="chmlCertNameInput" type="text" maxlength="80" placeholder="Enter name for certificate" oninput="chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" type="button" onclick="chmlPrintCertificate()">Print / Save as PDF</button>
+    <button class="chml-cert-btn secondary" type="button" onclick="chmlHideCertificate()">Hide Certificate</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div><div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker"><span id="chmlCertExamKicker">Knowledge Hub Examination</span></div>
+      <h1 class="chml-cert-h1">Certificate of Completion</h1>
+      <div class="chml-cert-rule"></div>
+      <p class="chml-cert-pre">This certifies that</p>
+      <p class="chml-cert-name" id="chmlCertName">Learner</p>
+      <p class="chml-cert-body">has successfully completed the <b id="chmlCertExamName">Knowledge Hub Exam</b>.</p>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">0 / 0</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">-</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Quak Foo Lee</div><div class="chml-cert-sig-label">Chmltech Ltd.</div></div>
+        <div class="chml-cert-id">Certificate ID: <span id="chmlCertId">-</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertificateInstalled) return;
+  window.__chmlCertificateInstalled = true;
+  function textOf(sel){var el=document.querySelector(sel);return el?el.textContent.trim():'';}
+  function examTitle(){return textOf('h1.title')||textOf('header h1')||textOf('h1')||document.title.replace(/\s+/g,' ').trim()||'Knowledge Hub Exam';}
+  function parseFirstNumber(txt){var m=String(txt||'').match(/\d+/);return m?parseInt(m[0],10):null;}
+  function parseScoreTotal(){
+    var correct=parseFirstNumber(textOf('#rScore'));
+    var total=null;
+    var rt=textOf('#rTotal');
+    if(rt) total=parseFirstNumber(rt);
+    if(!total){var sb=textOf('.score-big');var m=sb.match(/\/\s*(\d+)/);if(m) total=parseInt(m[1],10);}
+    if(!total) total=parseFirstNumber(textOf('#progTotal'));
+    if(!total){var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;if(cards) total=cards;}
+    if(!correct && correct!==0) correct=parseFirstNumber(textOf('#scoreNum'));
+    return {correct:correct||0,total:total||0};
+  }
+  function totalFromBreakdown(byType){
+    if(!byType || typeof byType!=='object') return null;
+    var total=0, found=false;
+    Object.keys(byType).forEach(function(k){var v=byType[k];if(v&&typeof v==='object'){var n=v.t||v.total||v.count;if(typeof n==='number'){total+=n;found=true;}}});
+    return found?total:null;
+  }
+  function hashCode(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+  window.chmlUpdateCertificateName=function(name){document.getElementById('chmlCertName').textContent=(name||'').trim()||'Learner';};
+  window.chmlHideCertificate=function(){var c=document.getElementById('chmlCertificate');if(c)c.classList.remove('show');};
+  window.chmlPrintCertificate=function(){window.print();};
+  window.chmlRenderCertificate=function(correct,total,grade){
+    var cert=document.getElementById('chmlCertificate');if(!cert)return;
+    var title=examTitle();
+    var nameInput=document.getElementById('chmlCertNameInput');
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
+    var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
+    document.getElementById('chmlCertExamName').textContent=title;
+    document.getElementById('chmlCertName').textContent=learner;
+    document.getElementById('chmlCertScore').textContent=String(correct)+' / '+String(total||0)+(total?(' ('+Math.round((correct/total)*100)+'%)'):'');
+    document.getElementById('chmlCertDate').textContent=date;
+    document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
+    cert.classList.add('show');
+  };
+
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
+    var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){
+      var parsed=parseScoreTotal();
+      if(correct===null || isNaN(correct)) correct=parsed.correct;
+      if(!total) total=parsed.total;
+      if(total || correct || document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0);
+    },60);
+  }
+  if(typeof window.showResults==='function'){
+    var originalShowResults=window.showResults;
+    window.showResults=function(){var out=originalShowResults.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  if(typeof window.submitExam==='function'){
+    var originalSubmitExam=window.submitExam;
+    window.submitExam=function(){var out=originalSubmitExam.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  ['resetExam','newExam'].forEach(function(fn){
+    if(typeof window[fn]==='function'){
+      var original=window[fn];
+      window[fn]=function(){window.chmlHideCertificate();return original.apply(this,arguments);};
+    }
+  });
+})();
+</script>
+
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>
+
+
