@@ -52,32 +52,44 @@ for (const entry of catalogEntries) {
   }
 }
 
-const rootHtmlFiles = fs.readdirSync(root)
-  .filter((name) => name.endsWith('.html') && name !== 'index.html');
+function auditRedirectFiles(directory, label) {
+  if (!fs.existsSync(directory)) return 0;
 
-let redirectCount = 0;
-for (const file of rootHtmlFiles) {
-  const filePath = path.join(root, file);
-  const source = fs.readFileSync(filePath, 'utf8');
-  const target = extractRedirectTarget(source);
-  if (!target) continue;
+  let count = 0;
+  const htmlFiles = fs.readdirSync(directory)
+    .filter((name) => name.endsWith('.html') && !(directory === root && name === 'index.html'));
 
-  redirectCount += 1;
-  const resolvedTarget = path.resolve(root, target);
-  if (!resolvedTarget.startsWith(root + path.sep)) {
-    errors.push(`Redirect escapes repo root: ${file} -> ${target}`);
-    continue;
+  for (const file of htmlFiles) {
+    const filePath = path.join(directory, file);
+    const source = fs.readFileSync(filePath, 'utf8');
+    const target = extractRedirectTarget(source);
+    if (!target) continue;
+
+    count += 1;
+    const resolvedTarget = path.resolve(directory, target);
+    if (!resolvedTarget.startsWith(root + path.sep)) {
+      errors.push(`Redirect escapes repo root: ${toDisplay(path.relative(root, filePath))} -> ${target}`);
+      continue;
+    }
+
+    if (!fs.existsSync(resolvedTarget)) {
+      errors.push(`Missing redirect target: ${toDisplay(path.relative(root, filePath))} -> ${target}`);
+      continue;
+    }
+
+    const targetFromRoot = toDisplay(path.relative(root, resolvedTarget));
+    const catalogUsesTarget = catalogEntries.some((entry) => entry.href === targetFromRoot);
+    if (!catalogUsesTarget) {
+      warnings.push(`${label} redirect target is not listed in catalog: ${toDisplay(path.relative(root, filePath))} -> ${target}`);
+    }
   }
 
-  if (!fs.existsSync(resolvedTarget)) {
-    errors.push(`Missing redirect target: ${file} -> ${target}`);
-  }
-
-  const catalogUsesTarget = catalogEntries.some((entry) => entry.href === target);
-  if (!catalogUsesTarget) {
-    warnings.push(`Redirect target is not listed in catalog: ${file} -> ${target}`);
-  }
+  return count;
 }
+
+const rootRedirectCount = auditRedirectFiles(root, 'Root');
+const archiveRedirectCount = auditRedirectFiles(path.join(root, 'Archive'), 'Archive');
+const redirectCount = rootRedirectCount + archiveRedirectCount;
 
 if (errors.length || warnings.length) {
   for (const warning of warnings) console.warn(`WARN: ${warning}`);
