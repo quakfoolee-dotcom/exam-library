@@ -1,0 +1,2145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full Stack Developer Exam · 100Q (V1)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  /* Section accents (full-stack-themed) */
+  --data:#1f4a7d;
+  --clf:#0e6b6a;
+  --dl:#a83410;
+  --nlp:#5a2585;
+  --llm:#226b2d;
+  --ops:#9b2c3a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+  /* Code block colors */
+  --code-bg:#1d2330;
+  --code-fg:#d8d4c4;
+  --code-comment:#8f96a8;
+  --code-blank-bg:#5a3a0d;
+  --code-blank-fg:#ffd57a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(31,74,125,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.6rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--data),var(--ops));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-data{background:linear-gradient(100deg,var(--data),#0c2541)}
+.sec-clf{background:linear-gradient(100deg,var(--clf),#06403f)}
+.sec-dl{background:linear-gradient(100deg,var(--dl),#5e1f05)}
+.sec-nlp{background:linear-gradient(100deg,var(--nlp),#311148)}
+.sec-llm{background:linear-gradient(100deg,var(--llm),#0e3d18)}
+.sec-ops{background:linear-gradient(100deg,var(--ops),#5b181f)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.06rem;line-height:1.55;margin-bottom:14px;font-weight:500}
+.q-code{
+  font-family:'JetBrains Mono',monospace;font-size:.86rem;line-height:1.55;
+  background:var(--code-bg);color:var(--code-fg);
+  padding:14px 16px;margin:0 0 16px;border-radius:4px;
+  overflow-x:auto;white-space:pre;
+  border:1px solid #2a3142;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.q-code .blank{
+  background:var(--code-blank-bg);color:var(--code-blank-fg);
+  padding:1px 6px;border-radius:3px;font-weight:700;
+  border:1px dashed #c89542;
+}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:11px 14px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.55);transition:all .18s ease;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.08);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s;margin-top:1px}
+.opt .otext{flex:1;font-family:'JetBrains Mono',monospace;font-size:.86rem;line-height:1.5;word-break:break-word;padding-top:3px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.12)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center;font-family:'JetBrains Mono',monospace}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.95rem;font-family:'JetBrains Mono',monospace;word-break:break-word}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:180px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 16px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:.98rem}
+  .q-code{font-size:.78rem}
+  .opt .otext{font-size:.78rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Full Stack Developer Examination &middot; Coding + Theory</div>
+    <h1 class="title">Full Stack Developer Exam</h1>
+    <div class="byline">100 coding-format and theory questions across front-end UI, back-end APIs, databases, authentication, security, testing, DevOps, and full-stack architecture</div>
+    <div class="exambar">
+      <span><b>100</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>100</b> Marks</span>
+      <span>Exam Mode: <b>2 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/100</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">02:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/100</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 2-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    Full Stack Developer Exam &middot; 100 coding-format and theory case questions
+    <div class="disclaimer">An independent full-stack development study resource. Framework, database, browser, and cloud behavior may vary &mdash; always verify implementation details against your project stack and official documentation.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "Full-Stack Foundations, HTTP & Client-Server Flow",
+    "q": "A product page loads in the browser, then requests product data from /api/products/42. Which statement best describes the full-stack flow?",
+    "code": "",
+    "opts": [
+      "The database sends HTML directly to the browser",
+      "The browser requests UI code, then calls the API for data",
+      "The CSS file performs the product lookup",
+      "The DNS server renders the product page"
+    ],
+    "correct": 1,
+    "explanation": "In a typical full-stack app, the browser loads front-end assets and then calls back-end APIs for data."
+  },
+  {
+    "section": "Full-Stack Foundations, HTTP & Client-Server Flow",
+    "q": "A form submits new customer data to the server and expects the server to create a record. Which HTTP method is usually the best fit?",
+    "code": "",
+    "opts": [
+      "GET",
+      "POST",
+      "HEAD",
+      "TRACE"
+    ],
+    "correct": 1,
+    "explanation": "POST is commonly used when the server creates a new resource from submitted data."
+  },
+  {
+    "section": "Full-Stack Foundations, HTTP & Client-Server Flow",
+    "q": "A browser receives an API response with Content-Type: application/json. What should the front end usually do before using the data?",
+    "code": "",
+    "opts": [
+      "Append the body as CSS",
+      "Run the body as a script",
+      "Store the body in DNS",
+      "Parse the body as JSON"
+    ],
+    "correct": 3,
+    "explanation": "JSON responses should be parsed into data structures before rendering or processing."
+  },
+  {
+    "section": "Full-Stack Foundations, HTTP & Client-Server Flow",
+    "q": "A user tries to open /dashboard directly in a single-page app and gets a server 404. What is the likely missing server configuration?",
+    "code": "",
+    "opts": [
+      "Force all API calls to use POST",
+      "Disable JavaScript on that route",
+      "Fallback routing to the SPA entry file",
+      "Hash every password on page load"
+    ],
+    "correct": 2,
+    "explanation": "Client-side routes need the server to return the SPA entry file so the client router can resolve the path."
+  },
+  {
+    "section": "Full-Stack Foundations, HTTP & Client-Server Flow",
+    "q": "A front end deployed at https://app.example.com calls an API at https://api.example.com. Which browser mechanism may block the call if headers are not configured?",
+    "code": "",
+    "opts": [
+      "CORS",
+      "SFTP",
+      "Cron",
+      "SMTP"
+    ],
+    "correct": 0,
+    "explanation": "CORS controls whether browsers permit cross-origin requests from one origin to another."
+  },
+  {
+    "section": "Full-Stack Foundations, HTTP & Client-Server Flow",
+    "q": "A complex cross-origin request uses a custom header and JSON body. Which request may the browser send before the real request?",
+    "code": "",
+    "opts": [
+      "An OPTIONS preflight",
+      "A DNS zone transfer",
+      "A database migration",
+      "A WebSocket close frame"
+    ],
+    "correct": 0,
+    "explanation": "Browsers use OPTIONS preflight requests to check whether certain cross-origin requests are allowed."
+  },
+  {
+    "section": "Full-Stack Foundations, HTTP & Client-Server Flow",
+    "q": "An API returns 401 Unauthorized to a web client. What should the full-stack app usually infer?",
+    "code": "",
+    "opts": [
+      "The request was accepted but queued",
+      "The route moved permanently",
+      "The file was cached successfully",
+      "Authentication is missing or invalid"
+    ],
+    "correct": 3,
+    "explanation": "401 normally means the client must authenticate or provide valid credentials."
+  },
+  {
+    "section": "Full-Stack Foundations, HTTP & Client-Server Flow",
+    "q": "An API returns 403 Forbidden after a user is logged in. What is the most likely meaning?",
+    "code": "",
+    "opts": [
+      "The JSON parser failed",
+      "The HTTP method is safe",
+      "The page needs more CSS",
+      "The user lacks permission"
+    ],
+    "correct": 3,
+    "explanation": "403 means the server understood the request but refuses it, often because authorization failed."
+  },
+  {
+    "section": "Full-Stack Foundations, HTTP & Client-Server Flow",
+    "q": "A front end needs to fetch only the fields used by a profile card while avoiding multiple REST calls. Which API style often supports this cleanly?",
+    "code": "",
+    "opts": [
+      "CSV download",
+      "GraphQL query",
+      "FTP mirror",
+      "SMTP relay"
+    ],
+    "correct": 1,
+    "explanation": "GraphQL lets clients request a specific shape of data from a single endpoint."
+  },
+  {
+    "section": "Full-Stack Foundations, HTTP & Client-Server Flow",
+    "q": "A team needs real-time chat updates without repeated polling. Which communication pattern is most appropriate?",
+    "code": "",
+    "opts": [
+      "WebSocket connection",
+      "Static file hashing",
+      "Database seed script",
+      "HTML meta refresh"
+    ],
+    "correct": 0,
+    "explanation": "WebSockets support bidirectional real-time communication between browser and server."
+  },
+  {
+    "section": "Full-Stack Foundations, HTTP & Client-Server Flow",
+    "q": "The front end calls fetch('/api/tasks') and receives a response. Which line correctly reads a JSON response body?",
+    "code": "const res = await fetch('/api/tasks');\nconst data = ???;",
+    "opts": [
+      "const data = res.bodyText();",
+      "const data = await res.json();",
+      "const data = JSON(res);",
+      "const data = await res.css();"
+    ],
+    "correct": 1,
+    "explanation": "The Fetch API exposes res.json() to parse the response body as JSON asynchronously."
+  },
+  {
+    "section": "Full-Stack Foundations, HTTP & Client-Server Flow",
+    "q": "A full-stack team writes an OpenAPI document before building a feature. What is the main value?",
+    "code": "",
+    "opts": [
+      "It replaces all unit tests",
+      "It defines the API contract clearly",
+      "It compresses image files",
+      "It stores production secrets"
+    ],
+    "correct": 1,
+    "explanation": "An API contract aligns front-end and back-end expectations for routes, payloads, and responses."
+  },
+  {
+    "section": "Full-Stack Foundations, HTTP & Client-Server Flow",
+    "q": "A browser requests /assets/app.9f3a.js with a content hash in the filename. Which cache strategy is usually appropriate?",
+    "code": "",
+    "opts": [
+      "Cache it for a long time",
+      "Disable all browser caching",
+      "Treat it as a password",
+      "Send it only over FTP"
+    ],
+    "correct": 0,
+    "explanation": "Hashed asset filenames can be cached aggressively because a content change creates a new filename."
+  },
+  {
+    "section": "Full-Stack Foundations, HTTP & Client-Server Flow",
+    "q": "A server renders the first HTML page with data already included, then the browser attaches event handlers. What is this process commonly called?",
+    "code": "",
+    "opts": [
+      "Garbage collection",
+      "Hydration",
+      "Database sharding",
+      "Port forwarding"
+    ],
+    "correct": 1,
+    "explanation": "Hydration attaches client-side behavior to markup that was rendered on the server."
+  },
+  {
+    "section": "Full-Stack Foundations, HTTP & Client-Server Flow",
+    "q": "A Backends-for-Frontends pattern is introduced for mobile and web clients. What problem does it mainly address?",
+    "code": "",
+    "opts": [
+      "It deletes the need for databases",
+      "It hides all source maps",
+      "It forces one UI framework",
+      "It tailors APIs to client needs"
+    ],
+    "correct": 3,
+    "explanation": "A BFF can shape responses and workflows for a specific client experience without overloading one generic API."
+  },
+  {
+    "section": "Front-End Engineering, UX, Accessibility & State",
+    "q": "A checkout form needs an accessible text field for email. Which HTML pattern best connects label and input?",
+    "code": "???",
+    "opts": [
+      "<label for='email'>Email</label><input id='email'>",
+      "<input name='email'><span>Email</span>",
+      "<div>Email</div><input id='email'>",
+      "<label>Email</label><input>"
+    ],
+    "correct": 0,
+    "explanation": "Using label for and matching input id creates an explicit accessible relationship."
+  },
+  {
+    "section": "Front-End Engineering, UX, Accessibility & State",
+    "q": "A page layout has a header, sidebar, main area, and footer. Which CSS tool is usually strongest for two-dimensional page layout?",
+    "code": "",
+    "opts": [
+      "CSS Grid",
+      "Array reduce",
+      "HTTP cookie",
+      "SQL index"
+    ],
+    "correct": 0,
+    "explanation": "CSS Grid is designed for rows and columns, making it effective for two-dimensional layouts."
+  },
+  {
+    "section": "Front-End Engineering, UX, Accessibility & State",
+    "q": "A button click should update visible UI without reloading the whole page. What should the front end update?",
+    "code": "",
+    "opts": [
+      "Application state",
+      "The DNS record",
+      "The server port",
+      "The SSL certificate"
+    ],
+    "correct": 0,
+    "explanation": "Interactive UIs update state, then re-render the affected view from that state."
+  },
+  {
+    "section": "Front-End Engineering, UX, Accessibility & State",
+    "q": "A search box fires an API request on every keystroke and overloads the backend. Which front-end technique helps most?",
+    "code": "",
+    "opts": [
+      "Memoize the database",
+      "Debounce the input",
+      "Raise the z-index",
+      "Disable semantic tags"
+    ],
+    "correct": 1,
+    "explanation": "Debouncing waits for typing to pause before sending the request, reducing unnecessary calls."
+  },
+  {
+    "section": "Front-End Engineering, UX, Accessibility & State",
+    "q": "An image conveys the meaning of a warning state. What accessibility attribute should describe that meaning?",
+    "code": "",
+    "opts": [
+      "width",
+      "alt",
+      "loading",
+      "class"
+    ],
+    "correct": 1,
+    "explanation": "Meaningful images need useful alt text so assistive technology can convey the purpose."
+  },
+  {
+    "section": "Front-End Engineering, UX, Accessibility & State",
+    "q": "A front-end route /orders/:orderId displays one order page. What is orderId in the client router?",
+    "code": "",
+    "opts": [
+      "A route parameter",
+      "A CSS custom property",
+      "A response cookie",
+      "A build artifact"
+    ],
+    "correct": 0,
+    "explanation": "A dynamic segment in a client route is a route parameter used by the component."
+  },
+  {
+    "section": "Front-End Engineering, UX, Accessibility & State",
+    "q": "A component receives data from its parent and should not mutate it directly. What are these incoming values commonly called?",
+    "code": "",
+    "opts": [
+      "Props",
+      "Selectors",
+      "Migrations",
+      "Sockets"
+    ],
+    "correct": 0,
+    "explanation": "Props are values passed into a component; the component should treat them as inputs."
+  },
+  {
+    "section": "Front-End Engineering, UX, Accessibility & State",
+    "q": "Two sibling components need to share the same selected customer. What state-management move is often simplest?",
+    "code": "",
+    "opts": [
+      "Duplicate the state twice",
+      "Store it in localStorage only",
+      "Lift state to their parent",
+      "Put it in the CSS file"
+    ],
+    "correct": 2,
+    "explanation": "Lifting shared state to a common parent keeps siblings consistent without duplication."
+  },
+  {
+    "section": "Front-End Engineering, UX, Accessibility & State",
+    "q": "A UI needs a large chart library only on the analytics page. Which technique reduces the initial bundle size?",
+    "code": "",
+    "opts": [
+      "Use inline passwords",
+      "Lazy-load that route",
+      "Add more global CSS",
+      "Turn off minification"
+    ],
+    "correct": 1,
+    "explanation": "Lazy loading splits code so rarely used features do not increase the first page bundle."
+  },
+  {
+    "section": "Front-End Engineering, UX, Accessibility & State",
+    "q": "A front-end component must render a list of users. Why should each item have a stable key?",
+    "code": "",
+    "opts": [
+      "To force a network reload",
+      "To encrypt each user's email",
+      "To help the renderer track item identity",
+      "To create a database index"
+    ],
+    "correct": 2,
+    "explanation": "Stable keys help UI libraries reconcile list items accurately across updates."
+  },
+  {
+    "section": "Front-End Engineering, UX, Accessibility & State",
+    "q": "A developer inserts user comments into the DOM with innerHTML. What is the primary risk?",
+    "code": "",
+    "opts": [
+      "Slow DNS lookups",
+      "Cross-site scripting",
+      "Higher color contrast",
+      "Broken media queries"
+    ],
+    "correct": 1,
+    "explanation": "Unsanitized HTML insertion can execute attacker-controlled scripts in the browser."
+  },
+  {
+    "section": "Front-End Engineering, UX, Accessibility & State",
+    "q": "A responsive page should show one column on mobile and three columns on desktop. Which CSS feature usually controls the breakpoint?",
+    "code": "",
+    "opts": [
+      "Media queries",
+      "SQL transactions",
+      "HTTP status codes",
+      "JWT claims"
+    ],
+    "correct": 0,
+    "explanation": "Media queries apply CSS rules based on viewport size and other device conditions."
+  },
+  {
+    "section": "Front-End Engineering, UX, Accessibility & State",
+    "q": "A form shows client-side validation messages, but the server still repeats validation. Why?",
+    "code": "",
+    "opts": [
+      "CSS cannot style invalid inputs",
+      "Server validation is optional",
+      "HTML forms cannot submit JSON",
+      "Client validation is only a convenience"
+    ],
+    "correct": 3,
+    "explanation": "Client checks improve usability, but only server-side validation protects the system."
+  },
+  {
+    "section": "Front-End Engineering, UX, Accessibility & State",
+    "q": "A component recalculates an expensive filtered list on every render even when inputs do not change. Which optimization is appropriate?",
+    "code": "",
+    "opts": [
+      "Increase cookie size",
+      "Drop the API contract",
+      "Memoize the derived value",
+      "Use a weaker password hash"
+    ],
+    "correct": 2,
+    "explanation": "Memoization can reuse derived values when their dependencies have not changed."
+  },
+  {
+    "section": "Front-End Engineering, UX, Accessibility & State",
+    "q": "A front end needs to show a loading state while data is being requested. Which state set is most useful?",
+    "code": "",
+    "opts": [
+      "port, host, subnet",
+      "table, row, index",
+      "loading, data, error",
+      "height, width, radius"
+    ],
+    "correct": 2,
+    "explanation": "Async UI commonly tracks loading, successful data, and error states."
+  },
+  {
+    "section": "Back-End APIs, Services & Business Logic",
+    "q": "A REST API should retrieve a single user by ID. Which route is most conventional?",
+    "code": "",
+    "opts": [
+      "PATCH /users/all",
+      "POST /get-user",
+      "DELETE /users",
+      "GET /users/:id"
+    ],
+    "correct": 3,
+    "explanation": "GET on a resource path with an ID is the conventional read pattern for one resource."
+  },
+  {
+    "section": "Back-End APIs, Services & Business Logic",
+    "q": "A controller contains SQL, payment rules, email templates, and response formatting. What refactor usually improves maintainability?",
+    "code": "",
+    "opts": [
+      "Separate controller, service, and repository responsibilities",
+      "Move every line into one file",
+      "Place business rules in CSS",
+      "Use only global variables"
+    ],
+    "correct": 0,
+    "explanation": "Layering keeps request handling, business rules, and persistence concerns easier to test and change."
+  },
+  {
+    "section": "Back-End APIs, Services & Business Logic",
+    "q": "An endpoint receives an unknown request body shape. What should the backend do before business logic runs?",
+    "code": "",
+    "opts": [
+      "Trust the front end",
+      "Validate and normalize input",
+      "Write it directly to logs",
+      "Return a static HTML file"
+    ],
+    "correct": 1,
+    "explanation": "Backends should validate, coerce, and reject invalid input before applying business rules."
+  },
+  {
+    "section": "Back-End APIs, Services & Business Logic",
+    "q": "An authentication middleware runs before protected route handlers. What is its main purpose?",
+    "code": "",
+    "opts": [
+      "Compile Sass into CSS",
+      "Create database indexes",
+      "Resize all user images",
+      "Verify request identity"
+    ],
+    "correct": 3,
+    "explanation": "Authentication middleware checks credentials before protected route logic executes."
+  },
+  {
+    "section": "Back-End APIs, Services & Business Logic",
+    "q": "A payment creation request may be retried after a timeout. Which design prevents duplicate charges?",
+    "code": "",
+    "opts": [
+      "Remove request validation",
+      "Disable HTTPS",
+      "Use an idempotency key",
+      "Return plain text only"
+    ],
+    "correct": 2,
+    "explanation": "An idempotency key lets the server recognize and safely reuse the result of a repeated creation request."
+  },
+  {
+    "section": "Back-End APIs, Services & Business Logic",
+    "q": "A list endpoint returns many records and should avoid loading all rows at once. Which feature should the API provide?",
+    "code": "",
+    "opts": [
+      "Inline scripts",
+      "Pagination",
+      "Hardcoded admin tokens",
+      "A single giant response"
+    ],
+    "correct": 1,
+    "explanation": "Pagination limits response size and allows clients to request data in manageable chunks."
+  },
+  {
+    "section": "Back-End APIs, Services & Business Logic",
+    "q": "An API receives too many requests from one client. Which status code communicates rate limiting?",
+    "code": "",
+    "opts": [
+      "201 Created",
+      "429 Too Many Requests",
+      "304 Not Modified",
+      "101 Switching Protocols"
+    ],
+    "correct": 1,
+    "explanation": "429 indicates the client has sent too many requests in a given period."
+  },
+  {
+    "section": "Back-End APIs, Services & Business Logic",
+    "q": "A user registration endpoint should send a welcome email without delaying the response. Which backend pattern fits best?",
+    "code": "",
+    "opts": [
+      "Synchronous sleep loop",
+      "CSS animation queue",
+      "Background job queue",
+      "Client-side database migration"
+    ],
+    "correct": 2,
+    "explanation": "A background job lets the API respond quickly while the email is processed asynchronously."
+  },
+  {
+    "section": "Back-End APIs, Services & Business Logic",
+    "q": "A server-side function calls an external API with async/await. What should the route include for reliability?",
+    "code": "",
+    "opts": [
+      "A hidden DOM node",
+      "A second package lock",
+      "Error handling around awaits",
+      "More CSS specificity"
+    ],
+    "correct": 2,
+    "explanation": "Awaited operations can reject or time out, so the route needs structured error handling."
+  },
+  {
+    "section": "Back-End APIs, Services & Business Logic",
+    "q": "A service calls an unreliable third-party API. Which retry policy is usually safest?",
+    "code": "",
+    "opts": [
+      "Retry instantly forever",
+      "Retry with exponential backoff and limits",
+      "Retry only in the browser console",
+      "Retry by changing the SQL schema"
+    ],
+    "correct": 1,
+    "explanation": "Limited exponential backoff reduces load while giving transient failures time to recover."
+  },
+  {
+    "section": "Back-End APIs, Services & Business Logic",
+    "q": "A team wants to trace one user request across front end, API, worker, and database logs. What should be propagated?",
+    "code": "",
+    "opts": [
+      "A correlation/request ID",
+      "A random CSS class",
+      "The user's raw password",
+      "A browser zoom value"
+    ],
+    "correct": 0,
+    "explanation": "A request or correlation ID connects related logs and traces across layers."
+  },
+  {
+    "section": "Back-End APIs, Services & Business Logic",
+    "q": "An API response should not expose password_hash or internal_notes fields from the user table. What object should be returned instead?",
+    "code": "",
+    "opts": [
+      "A response DTO/view model",
+      "A stack trace",
+      "A raw database row",
+      "A migration file"
+    ],
+    "correct": 0,
+    "explanation": "A DTO or view model exposes only the fields intended for the client."
+  },
+  {
+    "section": "Back-End APIs, Services & Business Logic",
+    "q": "A public API needs a breaking change while existing clients still depend on the old format. Which approach is most practical?",
+    "code": "",
+    "opts": [
+      "Silently change all fields",
+      "Delete the old route today",
+      "Block all mobile clients",
+      "Introduce a versioned API"
+    ],
+    "correct": 3,
+    "explanation": "Versioning lets old clients continue using the previous contract while new clients adopt the change."
+  },
+  {
+    "section": "Back-End APIs, Services & Business Logic",
+    "q": "An upload endpoint accepts profile photos. Which backend control is important?",
+    "code": "",
+    "opts": [
+      "Serve uploads with admin cookies",
+      "Trust the filename extension only",
+      "Store uploads as passwords",
+      "Limit size and validate file type"
+    ],
+    "correct": 3,
+    "explanation": "Servers should enforce size limits, validate content expectations, and store uploaded files safely."
+  },
+  {
+    "section": "Back-End APIs, Services & Business Logic",
+    "q": "An API must update only the provided fields of a product, not replace the entire product. Which HTTP method commonly fits this partial update?",
+    "code": "",
+    "opts": [
+      "GET",
+      "OPTIONS",
+      "PATCH",
+      "HEAD"
+    ],
+    "correct": 2,
+    "explanation": "PATCH is commonly used for partial updates to a resource."
+  },
+  {
+    "section": "Databases, Persistence, Caching & Data Integrity",
+    "q": "A customer can place many orders, and each order belongs to one customer. Where should the foreign key usually live?",
+    "code": "",
+    "opts": [
+      "In DNS as customer_name",
+      "In the CSS bundle as order_id",
+      "In the orders table as customer_id",
+      "In the browser cache only"
+    ],
+    "correct": 2,
+    "explanation": "The many-side table usually stores the foreign key that points to the one-side table."
+  },
+  {
+    "section": "Databases, Persistence, Caching & Data Integrity",
+    "q": "Students can enroll in many courses, and courses can contain many students. What table is normally added?",
+    "code": "",
+    "opts": [
+      "A duplicate courses table",
+      "A single text column of IDs",
+      "A junction table for enrollments",
+      "A cookie named courses"
+    ],
+    "correct": 2,
+    "explanation": "A junction table resolves a many-to-many relationship into two one-to-many relationships."
+  },
+  {
+    "section": "Databases, Persistence, Caching & Data Integrity",
+    "q": "A query frequently filters users by email. What database feature usually improves lookup speed?",
+    "code": "",
+    "opts": [
+      "A larger image sprite",
+      "A longer JWT",
+      "An index on email",
+      "A wider HTML table"
+    ],
+    "correct": 2,
+    "explanation": "An index on a frequently searched column can reduce lookup cost, though it adds write overhead."
+  },
+  {
+    "section": "Databases, Persistence, Caching & Data Integrity",
+    "q": "A checkout operation must create an order and reduce inventory. If inventory update fails, the order should not remain. What should wrap both changes?",
+    "code": "",
+    "opts": [
+      "A media query",
+      "A database transaction",
+      "A CSS reset",
+      "A browser redirect"
+    ],
+    "correct": 1,
+    "explanation": "A transaction ensures related database changes commit together or roll back together."
+  },
+  {
+    "section": "Databases, Persistence, Caching & Data Integrity",
+    "q": "Which ACID property means all steps in a transaction succeed together or none are applied?",
+    "code": "",
+    "opts": [
+      "Minification",
+      "Specificity",
+      "Hydration",
+      "Atomicity"
+    ],
+    "correct": 3,
+    "explanation": "Atomicity means a transaction is treated as one indivisible unit of work."
+  },
+  {
+    "section": "Databases, Persistence, Caching & Data Integrity",
+    "q": "A backend builds a SQL statement using user input. Which approach best prevents SQL injection?",
+    "code": "",
+    "opts": [
+      "String concatenation",
+      "Longer table names",
+      "Client-side sorting",
+      "Parameterized queries"
+    ],
+    "correct": 3,
+    "explanation": "Parameterized queries keep user input separate from SQL code."
+  },
+  {
+    "section": "Databases, Persistence, Caching & Data Integrity",
+    "q": "A production schema needs a new nullable column. What is the usual controlled way to apply this change?",
+    "code": "",
+    "opts": [
+      "Edit the database manually only",
+      "Change the CSS file",
+      "Run a versioned migration",
+      "Ask users to refresh twice"
+    ],
+    "correct": 2,
+    "explanation": "Versioned migrations make schema changes repeatable across environments."
+  },
+  {
+    "section": "Databases, Persistence, Caching & Data Integrity",
+    "q": "A page loads 50 orders, then runs one extra query per order to fetch items. What problem is this?",
+    "code": "",
+    "opts": [
+      "CORS preflight",
+      "Cookie overflow",
+      "N+1 query pattern",
+      "Cache hit"
+    ],
+    "correct": 2,
+    "explanation": "N+1 queries happen when one initial query triggers many additional per-row queries."
+  },
+  {
+    "section": "Databases, Persistence, Caching & Data Integrity",
+    "q": "Two users edit the same profile at the same time. Which strategy can detect the second write is based on stale data?",
+    "code": "",
+    "opts": [
+      "Bigger button padding",
+      "Optimistic locking with a version field",
+      "A random alt attribute",
+      "A new DNS record"
+    ],
+    "correct": 1,
+    "explanation": "Optimistic locking compares a version or timestamp before saving concurrent changes."
+  },
+  {
+    "section": "Databases, Persistence, Caching & Data Integrity",
+    "q": "A product catalog stores flexible attributes that vary widely across product types. Which database style may fit this document-shaped data?",
+    "code": "",
+    "opts": [
+      "A font CDN",
+      "A document database",
+      "A CSS preprocessor",
+      "A reverse proxy only"
+    ],
+    "correct": 1,
+    "explanation": "Document databases can be useful when records have flexible nested structures."
+  },
+  {
+    "section": "Databases, Persistence, Caching & Data Integrity",
+    "q": "A service caches product details in Redis. What is the hardest ongoing correctness concern?",
+    "code": "",
+    "opts": [
+      "The cache uses RAM",
+      "The API has routes",
+      "Cache invalidation",
+      "The UI has buttons"
+    ],
+    "correct": 2,
+    "explanation": "Caching improves speed, but stale data and invalidation rules must be designed carefully."
+  },
+  {
+    "section": "Databases, Persistence, Caching & Data Integrity",
+    "q": "A users table must prevent two accounts from using the same email address. What database constraint should be added?",
+    "code": "",
+    "opts": [
+      "NOT NULL on created_at",
+      "UNIQUE on email",
+      "CHECK on display_name length",
+      "FOREIGN KEY on password"
+    ],
+    "correct": 1,
+    "explanation": "A UNIQUE constraint enforces that no two rows share the same email value."
+  },
+  {
+    "section": "Databases, Persistence, Caching & Data Integrity",
+    "q": "An offset-paginated endpoint gets slower on very deep pages. Which alternative often scales better?",
+    "code": "",
+    "opts": [
+      "Cursor-based pagination",
+      "Inline style pagination",
+      "Password-based pagination",
+      "CSS-only pagination"
+    ],
+    "correct": 0,
+    "explanation": "Cursor pagination can avoid scanning/skipping large numbers of rows on deep pages."
+  },
+  {
+    "section": "Databases, Persistence, Caching & Data Integrity",
+    "q": "A child order row references a customer_id that does not exist. What should a foreign key prevent?",
+    "code": "",
+    "opts": [
+      "Responsive design",
+      "CSS duplication",
+      "Invalid referential data",
+      "API response caching"
+    ],
+    "correct": 2,
+    "explanation": "Foreign keys preserve referential integrity between related tables."
+  },
+  {
+    "section": "Databases, Persistence, Caching & Data Integrity",
+    "q": "Why do web services use database connection pools?",
+    "code": "",
+    "opts": [
+      "To reuse limited database connections efficiently",
+      "To remove the need for indexes",
+      "To render HTML in the database",
+      "To make passwords reversible"
+    ],
+    "correct": 0,
+    "explanation": "Connection pools reuse database connections and prevent every request from opening a new connection."
+  },
+  {
+    "section": "Authentication, Authorization, Security & Privacy",
+    "q": "A backend stores user passwords. Which storage approach is appropriate?",
+    "code": "",
+    "opts": [
+      "Plain text in the users table",
+      "Base64 encoding in a cookie",
+      "A slow salted hash such as bcrypt or Argon2",
+      "A reversible value in localStorage"
+    ],
+    "correct": 2,
+    "explanation": "Passwords should be stored using a slow salted password hash, not plain text or reversible encoding."
+  },
+  {
+    "section": "Authentication, Authorization, Security & Privacy",
+    "q": "A JWT is signed but not encrypted. What should developers assume about its payload?",
+    "code": "",
+    "opts": [
+      "It is impossible to decode",
+      "It is safe for passwords",
+      "It bypasses authorization",
+      "It can be read by holders"
+    ],
+    "correct": 3,
+    "explanation": "Signed JWT payloads are integrity-protected, but they are usually readable unless encrypted separately."
+  },
+  {
+    "section": "Authentication, Authorization, Security & Privacy",
+    "q": "A refresh token is stored in the browser. Which cookie setting helps prevent JavaScript from reading it?",
+    "code": "",
+    "opts": [
+      "HttpOnly",
+      "z-index",
+      "aria-hidden",
+      "max-width"
+    ],
+    "correct": 0,
+    "explanation": "HttpOnly cookies are not accessible to client-side JavaScript."
+  },
+  {
+    "section": "Authentication, Authorization, Security & Privacy",
+    "q": "A site uses cookie-based authentication. Which attack can cause a victim's browser to submit unwanted state-changing requests?",
+    "code": "",
+    "opts": [
+      "Image compression",
+      "Tree shaking",
+      "Code splitting",
+      "CSRF"
+    ],
+    "correct": 3,
+    "explanation": "CSRF abuses ambient cookies by causing the browser to send authenticated requests."
+  },
+  {
+    "section": "Authentication, Authorization, Security & Privacy",
+    "q": "A developer says CORS is enough to secure an API. Why is that wrong?",
+    "code": "",
+    "opts": [
+      "CORS is only for SQL queries",
+      "CORS hashes passwords automatically",
+      "CORS is a browser policy, not authorization",
+      "CORS blocks server-to-server calls"
+    ],
+    "correct": 2,
+    "explanation": "CORS restricts browser reads from other origins; it does not replace authentication or authorization."
+  },
+  {
+    "section": "Authentication, Authorization, Security & Privacy",
+    "q": "A support user should read customer records but not export the full database. Which security principle applies?",
+    "code": "",
+    "opts": [
+      "Maximum privilege",
+      "Open redirect",
+      "Global admin by default",
+      "Least privilege"
+    ],
+    "correct": 3,
+    "explanation": "Least privilege grants only the access needed for the role."
+  },
+  {
+    "section": "Authentication, Authorization, Security & Privacy",
+    "q": "An app uses a third-party identity provider and receives an authorization code in the redirect. What should the backend exchange it for?",
+    "code": "",
+    "opts": [
+      "A CSS token",
+      "Tokens from the provider",
+      "A service worker",
+      "A database migration"
+    ],
+    "correct": 1,
+    "explanation": "In authorization-code flows, the server exchanges the code for tokens with the identity provider."
+  },
+  {
+    "section": "Authentication, Authorization, Security & Privacy",
+    "q": "What does HTTPS primarily protect in a full-stack application?",
+    "code": "",
+    "opts": [
+      "Data in transit between client and server",
+      "Data after it is printed",
+      "Database schema naming",
+      "CSS selector order"
+    ],
+    "correct": 0,
+    "explanation": "HTTPS uses TLS to protect traffic in transit from eavesdropping and tampering."
+  },
+  {
+    "section": "Authentication, Authorization, Security & Privacy",
+    "q": "A repository accidentally contains API keys. What is the correct response?",
+    "code": "",
+    "opts": [
+      "Keep them because the repo is private",
+      "Move them to a CSS file",
+      "Rename the variables only",
+      "Rotate the keys and remove the secrets"
+    ],
+    "correct": 3,
+    "explanation": "Exposed secrets should be revoked or rotated, then removed from source history and configuration."
+  },
+  {
+    "section": "Authentication, Authorization, Security & Privacy",
+    "q": "A system grants actions based on roles such as admin, manager, and viewer. What model is this?",
+    "code": "",
+    "opts": [
+      "RBAC",
+      "SSR hydration",
+      "CDN routing",
+      "DOM diffing"
+    ],
+    "correct": 0,
+    "explanation": "Role-based access control maps permissions to roles assigned to users."
+  },
+  {
+    "section": "Authentication, Authorization, Security & Privacy",
+    "q": "A user is logged in but cannot approve refunds. Which check decides whether that action is allowed?",
+    "code": "",
+    "opts": [
+      "Authentication",
+      "Minification",
+      "Responsive layout",
+      "Authorization"
+    ],
+    "correct": 3,
+    "explanation": "Authentication identifies the user; authorization decides what the user can do."
+  },
+  {
+    "section": "Authentication, Authorization, Security & Privacy",
+    "q": "A front end must reduce the impact of injected scripts. Which response header can restrict allowed script sources?",
+    "code": "",
+    "opts": [
+      "Accept-Language",
+      "Content-Security-Policy",
+      "Cache-Status",
+      "X-Page-Color"
+    ],
+    "correct": 1,
+    "explanation": "A Content-Security-Policy can limit where scripts, styles, and other resources may load from."
+  },
+  {
+    "section": "Authentication, Authorization, Security & Privacy",
+    "q": "A password reset link is emailed to a user. Which design is safest?",
+    "code": "",
+    "opts": [
+      "User's current password in email",
+      "Permanent token in the URL",
+      "One-time token with short expiry",
+      "Shared token for all users"
+    ],
+    "correct": 2,
+    "explanation": "Password reset tokens should be single-use, hard to guess, and short-lived."
+  },
+  {
+    "section": "Authentication, Authorization, Security & Privacy",
+    "q": "A hidden admin field is removed from the UI, but an attacker sends it in a raw HTTP request. Where must enforcement occur?",
+    "code": "",
+    "opts": [
+      "Only in the HTML template",
+      "Only in the color theme",
+      "In the user's screen size",
+      "On the server authorization layer"
+    ],
+    "correct": 3,
+    "explanation": "Security decisions must be enforced on the server because clients can be modified."
+  },
+  {
+    "section": "Authentication, Authorization, Security & Privacy",
+    "q": "A user logs in successfully after using a session ID created before login. What should the server do to reduce session fixation risk?",
+    "code": "",
+    "opts": [
+      "Make the cookie readable by scripts",
+      "Store the password in the URL",
+      "Disable TLS",
+      "Rotate the session ID"
+    ],
+    "correct": 3,
+    "explanation": "Regenerating the session ID after login helps prevent fixation of a known session identifier."
+  },
+  {
+    "section": "Testing, Debugging, Maintainability & Team Workflow",
+    "q": "A pure function calculates tax from subtotal and province. Which test type is the smallest useful check?",
+    "code": "",
+    "opts": [
+      "End-to-end test only",
+      "Load test",
+      "Unit test",
+      "Chaos test"
+    ],
+    "correct": 2,
+    "explanation": "A unit test is ideal for isolated deterministic logic such as a tax calculation."
+  },
+  {
+    "section": "Testing, Debugging, Maintainability & Team Workflow",
+    "q": "A test starts the API, writes to a test database, then verifies the JSON response. What type of test is this?",
+    "code": "",
+    "opts": [
+      "Integration test",
+      "Lint rule",
+      "Visual snapshot only",
+      "Color contrast audit"
+    ],
+    "correct": 0,
+    "explanation": "Integration tests verify that multiple layers work together, such as API and database."
+  },
+  {
+    "section": "Testing, Debugging, Maintainability & Team Workflow",
+    "q": "A test opens the browser, logs in, adds an item to cart, and completes checkout. What is this usually called?",
+    "code": "",
+    "opts": [
+      "End-to-end test",
+      "Package install",
+      "Static analysis",
+      "Schema migration"
+    ],
+    "correct": 0,
+    "explanation": "End-to-end tests exercise a realistic user path across the full system."
+  },
+  {
+    "section": "Testing, Debugging, Maintainability & Team Workflow",
+    "q": "A front-end team and API team want to detect response-shape changes before release. Which test type is most targeted?",
+    "code": "",
+    "opts": [
+      "DNS lookup test",
+      "Font rendering test",
+      "Contract test",
+      "Manual screenshot only"
+    ],
+    "correct": 2,
+    "explanation": "Contract tests verify that providers and consumers agree on request and response shapes."
+  },
+  {
+    "section": "Testing, Debugging, Maintainability & Team Workflow",
+    "q": "A payment provider charges money in production. How should automated tests usually handle it?",
+    "code": "",
+    "opts": [
+      "Call the live charge endpoint",
+      "Use a mock or sandbox provider",
+      "Disable all assertions",
+      "Commit real card numbers"
+    ],
+    "correct": 1,
+    "explanation": "External side effects should use mocks, fakes, or sandbox environments in automated tests."
+  },
+  {
+    "section": "Testing, Debugging, Maintainability & Team Workflow",
+    "q": "A team wants every pull request checked before merge. What should the CI pipeline run?",
+    "code": "",
+    "opts": [
+      "Only the homepage manually",
+      "Production deploy first",
+      "Automated tests and linting",
+      "Database deletion scripts"
+    ],
+    "correct": 2,
+    "explanation": "CI should run automated quality checks before code is merged or deployed."
+  },
+  {
+    "section": "Testing, Debugging, Maintainability & Team Workflow",
+    "q": "Two developers keep formatting the same file differently. Which tooling reduces this noise?",
+    "code": "",
+    "opts": [
+      "A longer sprint name",
+      "A private browser tab",
+      "A new favicon",
+      "Shared formatter configuration"
+    ],
+    "correct": 3,
+    "explanation": "A shared formatter removes style debates and reduces noisy diffs."
+  },
+  {
+    "section": "Testing, Debugging, Maintainability & Team Workflow",
+    "q": "A code review finds a function that both renders UI and writes to the database. What maintainability concern is most relevant?",
+    "code": "",
+    "opts": [
+      "Too many alt tags",
+      "Mixed responsibilities",
+      "Missing DNS cache",
+      "Excessive color contrast"
+    ],
+    "correct": 1,
+    "explanation": "Mixing unrelated responsibilities makes code harder to test, reason about, and change safely."
+  },
+  {
+    "section": "Testing, Debugging, Maintainability & Team Workflow",
+    "q": "A risky feature should be deployed dark and enabled for selected users later. What mechanism supports this?",
+    "code": "",
+    "opts": [
+      "Global CSS reset",
+      "Hardcoded password",
+      "SQL injection",
+      "Feature flag"
+    ],
+    "correct": 3,
+    "explanation": "Feature flags separate deployment from release and support gradual rollout."
+  },
+  {
+    "section": "Testing, Debugging, Maintainability & Team Workflow",
+    "q": "A bug is fixed after production failure. What test should be added to prevent the same bug returning?",
+    "code": "",
+    "opts": [
+      "A manual-only checklist",
+      "A logo export",
+      "A DNS record",
+      "A regression test"
+    ],
+    "correct": 3,
+    "explanation": "A regression test captures the failing behavior so future changes do not reintroduce it."
+  },
+  {
+    "section": "Testing, Debugging, Maintainability & Team Workflow",
+    "q": "A TypeScript type says user.email is string, but the API may omit it. What should the team align?",
+    "code": "",
+    "opts": [
+      "Runtime contract and static types",
+      "Only the theme colors",
+      "The office Wi-Fi name",
+      "The footer copyright"
+    ],
+    "correct": 0,
+    "explanation": "Static types should reflect actual API contracts, including optional or nullable fields."
+  },
+  {
+    "section": "Testing, Debugging, Maintainability & Team Workflow",
+    "q": "A production issue spans browser, API, and database latency. Which observability signal helps connect the timeline across services?",
+    "code": "",
+    "opts": [
+      "Git branch names",
+      "CSS variables",
+      "Distributed traces",
+      "Image alt text"
+    ],
+    "correct": 2,
+    "explanation": "Distributed tracing links work across service boundaries and helps locate bottlenecks."
+  },
+  {
+    "section": "Testing, Debugging, Maintainability & Team Workflow",
+    "q": "A failed API call should not leave the user staring at a blank page. What should the UI provide?",
+    "code": "",
+    "opts": [
+      "A hidden admin panel",
+      "A raw stack trace to everyone",
+      "An infinite spinner only",
+      "A graceful error state"
+    ],
+    "correct": 3,
+    "explanation": "Good UI handles failure with a clear error state and a possible recovery path."
+  },
+  {
+    "section": "Testing, Debugging, Maintainability & Team Workflow",
+    "q": "A team needs generated client types and clear API documentation. Which artifact commonly supports both?",
+    "code": "",
+    "opts": [
+      "JPEG screenshot",
+      "OpenAPI specification",
+      "robots.txt only",
+      "A CSS reset file"
+    ],
+    "correct": 1,
+    "explanation": "OpenAPI can document endpoints and support generation of clients, mocks, and tests."
+  },
+  {
+    "section": "Testing, Debugging, Maintainability & Team Workflow",
+    "q": "A developer changes database behavior. Which review question is most important for production safety?",
+    "code": "",
+    "opts": [
+      "Will the change migrate and roll back safely?",
+      "Does the button have a new emoji?",
+      "Can the CSS remove all margins?",
+      "Is the screenshot file smaller?"
+    ],
+    "correct": 0,
+    "explanation": "Database changes need safe migration, rollback, and compatibility planning."
+  },
+  {
+    "section": "DevOps, Deployment, Observability & System Design",
+    "q": "A developer says, 'It works on my machine,' but fails in staging. Which tool helps package the runtime consistently?",
+    "code": "",
+    "opts": [
+      "Browser bookmark",
+      "Docker container",
+      "Plain text README only",
+      "Manual cache clearing"
+    ],
+    "correct": 1,
+    "explanation": "Containers package application dependencies and runtime configuration more consistently across environments."
+  },
+  {
+    "section": "DevOps, Deployment, Observability & System Design",
+    "q": "A full-stack app needs different API keys in local, staging, and production. Where should these values come from?",
+    "code": "",
+    "opts": [
+      "Hardcoded source files",
+      "Client-visible CSS",
+      "Public HTML comments",
+      "Environment-specific configuration"
+    ],
+    "correct": 3,
+    "explanation": "Environment-specific configuration keeps deploy-time settings separate from code."
+  },
+  {
+    "section": "DevOps, Deployment, Observability & System Design",
+    "q": "A release runs the new version beside the old version, then switches traffic after health checks pass. What deployment pattern is this?",
+    "code": "",
+    "opts": [
+      "Big-bang migration",
+      "Manual FTP overwrite",
+      "Localhost tunneling",
+      "Blue-green deployment"
+    ],
+    "correct": 3,
+    "explanation": "Blue-green deployment keeps old and new environments available and switches traffic when ready."
+  },
+  {
+    "section": "DevOps, Deployment, Observability & System Design",
+    "q": "A load balancer needs to know whether an instance can receive traffic. What endpoint should the service expose?",
+    "code": "",
+    "opts": [
+      "/health or /ready",
+      "/admin/delete-all",
+      "/debug/secrets",
+      "/favicon.ico only"
+    ],
+    "correct": 0,
+    "explanation": "Health or readiness endpoints let infrastructure route traffic only to healthy instances."
+  },
+  {
+    "section": "DevOps, Deployment, Observability & System Design",
+    "q": "A web API is scaled from two to ten instances. Which design makes horizontal scaling easier?",
+    "code": "",
+    "opts": [
+      "Write uploads to local temp forever",
+      "Store sessions only in process memory",
+      "Keep request state outside the instance",
+      "Require sticky sessions for all data"
+    ],
+    "correct": 2,
+    "explanation": "Stateless instances or shared external state make it easier to add and remove servers."
+  },
+  {
+    "section": "DevOps, Deployment, Observability & System Design",
+    "q": "A global app serves JavaScript, CSS, and images slowly to distant users. Which infrastructure improves static asset delivery?",
+    "code": "",
+    "opts": [
+      "A longer JWT",
+      "A local-only database",
+      "A CDN",
+      "A manual spreadsheet"
+    ],
+    "correct": 2,
+    "explanation": "A CDN caches static assets near users to reduce latency and origin load."
+  },
+  {
+    "section": "DevOps, Deployment, Observability & System Design",
+    "q": "An API receives occasional expensive report requests that take minutes. What architecture prevents request timeouts and protects the API?",
+    "code": "",
+    "opts": [
+      "Use a queue and worker process",
+      "Run reports in the request thread only",
+      "Disable all logging",
+      "Put the report in a cookie"
+    ],
+    "correct": 0,
+    "explanation": "Queues and workers move long-running tasks out of the synchronous request path."
+  },
+  {
+    "section": "DevOps, Deployment, Observability & System Design",
+    "q": "A team defines an SLO for checkout availability. What does the SLO represent?",
+    "code": "",
+    "opts": [
+      "A CSS naming rule",
+      "A target reliability level",
+      "A package manager lock",
+      "A database table name"
+    ],
+    "correct": 1,
+    "explanation": "An SLO sets a measurable reliability target for a user-facing service."
+  },
+  {
+    "section": "DevOps, Deployment, Observability & System Design",
+    "q": "A service emits logs, metrics, and traces. What is the main operational purpose?",
+    "code": "",
+    "opts": [
+      "To improve font selection",
+      "To replace authentication",
+      "To delete old branches",
+      "To understand system behavior"
+    ],
+    "correct": 3,
+    "explanation": "Observability data helps teams detect, diagnose, and understand production behavior."
+  },
+  {
+    "section": "DevOps, Deployment, Observability & System Design",
+    "q": "A 12-factor style app should write logs in a way the platform can collect. Where should application logs go?",
+    "code": "",
+    "opts": [
+      "Standard output/error streams",
+      "Only into the browser DOM",
+      "Inside compiled CSS",
+      "Into user cookies"
+    ],
+    "correct": 0,
+    "explanation": "Writing logs to stdout/stderr lets deployment platforms collect, route, and store them."
+  }
+];
+const SECTIONS  = [
+  {
+    "key": "Full-Stack Foundations, HTTP & Client-Server Flow",
+    "label": "Section A — Full-Stack Foundations, HTTP & Client-Server Flow",
+    "cls": "sec-data",
+    "range": "Questions 1–15"
+  },
+  {
+    "key": "Front-End Engineering, UX, Accessibility & State",
+    "label": "Section B — Front-End Engineering, UX, Accessibility & State",
+    "cls": "sec-clf",
+    "range": "Questions 16–30"
+  },
+  {
+    "key": "Back-End APIs, Services & Business Logic",
+    "label": "Section C — Back-End APIs, Services & Business Logic",
+    "cls": "sec-dl",
+    "range": "Questions 31–45"
+  },
+  {
+    "key": "Databases, Persistence, Caching & Data Integrity",
+    "label": "Section D — Databases, Persistence, Caching & Data Integrity",
+    "cls": "sec-nlp",
+    "range": "Questions 46–60"
+  },
+  {
+    "key": "Authentication, Authorization, Security & Privacy",
+    "label": "Section E — Authentication, Authorization, Security & Privacy",
+    "cls": "sec-llm",
+    "range": "Questions 61–75"
+  },
+  {
+    "key": "Testing, Debugging, Maintainability & Team Workflow",
+    "label": "Section F — Testing, Debugging, Maintainability & Team Workflow",
+    "cls": "sec-ops",
+    "range": "Questions 76–90"
+  },
+  {
+    "key": "DevOps, Deployment, Observability & System Design",
+    "label": "Section G — DevOps, Deployment, Observability & System Design",
+    "cls": "sec-data",
+    "range": "Questions 91–100"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+
+let mode = 'guided', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 2*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function renderCode(code){
+  // Escape HTML, then highlight ??? as the blank marker
+  return escapeHtml(code).replace(/\?\?\?/g, '<span class="blank">???</span>');
+}
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='02:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  const codeBlock = q.code ? '<pre class="q-code">'+renderCode(q.code)+'</pre>' : '';
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   codeBlock
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/100';
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/100';
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  if(pct>=0.9){ grade='Senior SQL Practitioner'; blurb='Outstanding. You know the canonical APIs across the ML stack \u2014 data, sklearn, PyTorch, NLP, LLMs, and MLOps \u2014 with strong fluency.'; }
+  else if(pct>=0.75){ grade='Strong SQL Practitioner'; blurb='Strong working command of ML programming. Review missed items \u2014 most failures cluster around specific library APIs or signatures.'; }
+  else if(pct>=0.6){ grade='Qualified SQL Practitioner'; blurb='You can write practical SQL queries and reason about core database behavior. Sharpen edge cases such as HAVING vs WHERE, NULL logic, composite joins, and indexing.'; }
+  else if(pct>=0.4){ grade='Developing SQL Practitioner'; blurb='SQL fluency is forming. Practice writing queries from business scenarios, then compare your results against row counts and expected outputs.'; }
+  else { grade='Begin the SQL Journey'; blurb='Start by writing simple end-to-end pipelines: pandas \u2192 sklearn fit/predict \u2192 evaluation. Then PyTorch training loops, then HuggingFace, then LLM APIs.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 100 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one question at a time. 2-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Certificate name</label>
+    <input id="chmlCertNameInput" type="text" maxlength="80" placeholder="Enter name for certificate" oninput="chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" type="button" onclick="chmlPrintCertificate()">Print / Save as PDF</button>
+    <button class="chml-cert-btn secondary" type="button" onclick="chmlHideCertificate()">Hide Certificate</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div><div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker"><span id="chmlCertExamKicker">Knowledge Hub Examination</span></div>
+      <h1 class="chml-cert-h1">Certificate of Completion</h1>
+      <div class="chml-cert-rule"></div>
+      <p class="chml-cert-pre">This certifies that</p>
+      <p class="chml-cert-name" id="chmlCertName">Learner</p>
+      <p class="chml-cert-body">has successfully completed the <b id="chmlCertExamName">Knowledge Hub Exam</b>.</p>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">0 / 0</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">-</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Quak Foo Lee</div><div class="chml-cert-sig-label">Chmltech Ltd.</div></div>
+        <div class="chml-cert-id">Certificate ID: <span id="chmlCertId">-</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertificateInstalled) return;
+  window.__chmlCertificateInstalled = true;
+  function textOf(sel){var el=document.querySelector(sel);return el?el.textContent.trim():'';}
+  function examTitle(){return textOf('h1.title')||textOf('header h1')||textOf('h1')||document.title.replace(/\s+/g,' ').trim()||'Knowledge Hub Exam';}
+  function parseFirstNumber(txt){var m=String(txt||'').match(/\d+/);return m?parseInt(m[0],10):null;}
+  function parseScoreTotal(){
+    var correct=parseFirstNumber(textOf('#rScore'));
+    var total=null;
+    var rt=textOf('#rTotal');
+    if(rt) total=parseFirstNumber(rt);
+    if(!total){var sb=textOf('.score-big');var m=sb.match(/\/\s*(\d+)/);if(m) total=parseInt(m[1],10);}
+    if(!total) total=parseFirstNumber(textOf('#progTotal'));
+    if(!total){var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;if(cards) total=cards;}
+    if(!correct && correct!==0) correct=parseFirstNumber(textOf('#scoreNum'));
+    return {correct:correct||0,total:total||0};
+  }
+  function totalFromBreakdown(byType){
+    if(!byType || typeof byType!=='object') return null;
+    var total=0, found=false;
+    Object.keys(byType).forEach(function(k){var v=byType[k];if(v&&typeof v==='object'){var n=v.t||v.total||v.count;if(typeof n==='number'){total+=n;found=true;}}});
+    return found?total:null;
+  }
+  function hashCode(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+  window.chmlUpdateCertificateName=function(name){document.getElementById('chmlCertName').textContent=(name||'').trim()||'Learner';};
+  window.chmlHideCertificate=function(){var c=document.getElementById('chmlCertificate');if(c)c.classList.remove('show');};
+  window.chmlPrintCertificate=function(){window.print();};
+  window.chmlRenderCertificate=function(correct,total,grade){
+    var cert=document.getElementById('chmlCertificate');if(!cert)return;
+    var title=examTitle();
+    var nameInput=document.getElementById('chmlCertNameInput');
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
+    var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
+    document.getElementById('chmlCertExamName').textContent=title;
+    document.getElementById('chmlCertName').textContent=learner;
+    document.getElementById('chmlCertScore').textContent=String(correct)+' / '+String(total||0)+(total?(' ('+Math.round((correct/total)*100)+'%)'):'');
+    document.getElementById('chmlCertDate').textContent=date;
+    document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
+    cert.classList.add('show');
+  };
+
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
+    var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){
+      var parsed=parseScoreTotal();
+      if(correct===null || isNaN(correct)) correct=parsed.correct;
+      if(!total) total=parsed.total;
+      if(total || correct || document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0);
+    },60);
+  }
+  if(typeof window.showResults==='function'){
+    var originalShowResults=window.showResults;
+    window.showResults=function(){var out=originalShowResults.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  if(typeof window.submitExam==='function'){
+    var originalSubmitExam=window.submitExam;
+    window.submitExam=function(){var out=originalSubmitExam.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  ['resetExam','newExam'].forEach(function(fn){
+    if(typeof window[fn]==='function'){
+      var original=window[fn];
+      window[fn]=function(){window.chmlHideCertificate();return original.apply(this,arguments);};
+    }
+  });
+})();
+</script>
+
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>

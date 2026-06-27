@@ -1,0 +1,2163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Software Acceptance Testing Exam &middot; 100Q (V1)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  /* Section accents (full-stack-themed) */
+  --data:#1f4a7d;
+  --clf:#0e6b6a;
+  --dl:#a83410;
+  --nlp:#5a2585;
+  --llm:#226b2d;
+  --ops:#9b2c3a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+  /* Code block colors */
+  --code-bg:#1d2330;
+  --code-fg:#d8d4c4;
+  --code-comment:#8f96a8;
+  --code-blank-bg:#5a3a0d;
+  --code-blank-fg:#ffd57a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(31,74,125,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.6rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--data),var(--ops));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-data{background:linear-gradient(100deg,var(--data),#0c2541)}
+.sec-clf{background:linear-gradient(100deg,var(--clf),#06403f)}
+.sec-dl{background:linear-gradient(100deg,var(--dl),#5e1f05)}
+.sec-nlp{background:linear-gradient(100deg,var(--nlp),#311148)}
+.sec-llm{background:linear-gradient(100deg,var(--llm),#0e3d18)}
+.sec-ops{background:linear-gradient(100deg,var(--ops),#5b181f)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.06rem;line-height:1.55;margin-bottom:14px;font-weight:500}
+.q-code{
+  font-family:'JetBrains Mono',monospace;font-size:.86rem;line-height:1.55;
+  background:var(--code-bg);color:var(--code-fg);
+  padding:14px 16px;margin:0 0 16px;border-radius:4px;
+  overflow-x:auto;white-space:pre;
+  border:1px solid #2a3142;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.q-code .blank{
+  background:var(--code-blank-bg);color:var(--code-blank-fg);
+  padding:1px 6px;border-radius:3px;font-weight:700;
+  border:1px dashed #c89542;
+}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:11px 14px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.55);transition:all .18s ease;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.08);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s;margin-top:1px}
+.opt .otext{flex:1;font-family:'JetBrains Mono',monospace;font-size:.86rem;line-height:1.5;word-break:break-word;padding-top:3px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.12)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center;font-family:'JetBrains Mono',monospace}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.95rem;font-family:'JetBrains Mono',monospace;word-break:break-word}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:180px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 16px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:.98rem}
+  .q-code{font-size:.78rem}
+  .opt .otext{font-size:.78rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Software Acceptance Testing Examination &middot; UAT + Release Readiness</div>
+    <h1 class="title">Software Acceptance Testing Exam</h1>
+    <div class="byline">100 scenario questions across acceptance criteria, UAT planning, business scenarios, environments, BDD, non-functional acceptance, defects, sign-off, compliance, and release readiness</div>
+    <div class="exambar">
+      <span><b>100</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>100</b> Marks</span>
+      <span>Exam Mode: <b>2 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/100</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">02:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/100</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 2-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    Software Acceptance Testing Exam &middot; 100 UAT and release acceptance scenario questions
+    <div class="disclaimer">An independent software acceptance testing study resource. Adapt examples to your organization, product risk, regulatory obligations, and stakeholder sign-off process.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "Acceptance Testing Foundations",
+    "q": "A team says all unit and integration tests pass, so UAT is unnecessary. What should happen before the feature can be accepted?",
+    "code": "",
+    "opts": [
+      "Use acceptance testing to confirm the product meets business needs and is acceptable to users.",
+      "Approve the acceptance decision from a demo of \"team says all unit and integration tests pass, so UAT is unnecessary\" without documented user execution, evidence, or sign-off.",
+      "Replace the acceptance decision with exploratory comments only, without pass/fail criteria or reproducible steps.",
+      "Evaluate the acceptance decision only on desktop even though supported users rely on other devices or browsers."
+    ],
+    "correct": 0,
+    "explanation": "Use acceptance testing to confirm the product meets business needs and is acceptable to users. Technical tests do not replace business validation."
+  },
+  {
+    "section": "Acceptance Testing Foundations",
+    "q": "A feature meets the technical specification but users cannot complete their workflow. Which response best supports verification vs validation?",
+    "code": "",
+    "opts": [
+      "Accept the acceptance decision because the screen matches the design mockup, even though the workflow outcome was not validated.",
+      "Recognize that verification passed but validation failed because the solution does not satisfy real use.",
+      "Approve the acceptance decision but leave workarounds, open defects, and conditions undocumented.",
+      "Approve the acceptance decision from a demo of \"feature meets the technical specification but users cannot complete their workflow\" without documented user execution, evidence, or sign-off."
+    ],
+    "correct": 1,
+    "explanation": "Recognize that verification passed but validation failed because the solution does not satisfy real use. Acceptance testing emphasizes fitness for purpose."
+  },
+  {
+    "section": "Acceptance Testing Foundations",
+    "q": "Stakeholders disagree about which workflows are in UAT scope. What is the strongest UAT decision?",
+    "code": "",
+    "opts": [
+      "Accept the acceptance decision based on old requirements and ignore criteria changes agreed during refinement.",
+      "Close the acceptance decision once a defect ticket exists, before triage, fix decision, or acceptance retest.",
+      "Define included and excluded workflows, roles, data, environments, and decision criteria before execution.",
+      "Accept the acceptance decision because the screen matches the design mockup, even though the workflow outcome was not validated."
+    ],
+    "correct": 2,
+    "explanation": "Define included and excluded workflows, roles, data, environments, and decision criteria before execution. Clear scope prevents late disputes."
+  },
+  {
+    "section": "Acceptance Testing Foundations",
+    "q": "UAT is scheduled while critical system test defects remain open. Which option gives stakeholders usable acceptance evidence?",
+    "code": "",
+    "opts": [
+      "Start the acceptance decision before the build, data, accounts, and support channel are ready.",
+      "Treat the acceptance decision as complete after one happy-path script and skip exception, role, data, and integration variants.",
+      "Accept the acceptance decision based on old requirements and ignore criteria changes agreed during refinement.",
+      "Use entry criteria such as stable build, completed system testing, known defects, data readiness, and trained users."
+    ],
+    "correct": 3,
+    "explanation": "Use entry criteria such as stable build, completed system testing, known defects, data readiness, and trained users. UAT should not absorb uncontrolled upstream instability."
+  },
+  {
+    "section": "Acceptance Testing Foundations",
+    "q": "UAT has many passed tests but two severe defects remain. How should the team validate exit criteria?",
+    "code": "",
+    "opts": [
+      "Decide completion using exit criteria, open-defect severity, business risk, and stakeholder approval.",
+      "Move the acceptance decision decisions into informal chat so they cannot be audited or linked to requirements.",
+      "Classify blocked scenarios in the acceptance decision as passed so the UAT dashboard reaches the target completion rate.",
+      "Start the acceptance decision before the build, data, accounts, and support channel are ready."
+    ],
+    "correct": 0,
+    "explanation": "Decide completion using exit criteria, open-defect severity, business risk, and stakeholder approval. Pass count alone is not enough for release acceptance."
+  },
+  {
+    "section": "Acceptance Testing Foundations",
+    "q": "Only developers attend UAT sessions for a finance workflow. What would make the acceptance result defensible?",
+    "code": "",
+    "opts": [
+      "Use perfect test data for the acceptance decision and avoid historical, migrated, invalid, or edge-case records.",
+      "Include business representatives or empowered product owners who can judge acceptability.",
+      "Use production personal data for the acceptance decision without masking, approval, or retention controls.",
+      "Move the acceptance decision decisions into informal chat so they cannot be audited or linked to requirements."
+    ],
+    "correct": 1,
+    "explanation": "Include business representatives or empowered product owners who can judge acceptability. Acceptance decisions need business authority."
+  },
+  {
+    "section": "Acceptance Testing Foundations",
+    "q": "A user verbally says the feature seems fine. Which choice best reflects business readiness rather than technical completion?",
+    "code": "",
+    "opts": [
+      "Use product-owner preference as approval for the acceptance decision, even when impacted operational users were not represented.",
+      "Evaluate the acceptance decision only on desktop even though supported users rely on other devices or browsers.",
+      "Capture test results, observations, defects, screenshots if useful, and formal sign-off status.",
+      "Use perfect test data for the acceptance decision and avoid historical, migrated, invalid, or edge-case records."
+    ],
+    "correct": 2,
+    "explanation": "Capture test results, observations, defects, screenshots if useful, and formal sign-off status. Acceptance evidence supports release decisions and audit needs."
+  },
+  {
+    "section": "Acceptance Testing Foundations",
+    "q": "The same developer who built a workflow approves it on behalf of users. What should the UAT lead do next?",
+    "code": "",
+    "opts": [
+      "Use automated checks alone for the acceptance decision when the question is usability, process fit, or business judgment.",
+      "Approve the acceptance decision from a demo of \"same developer who built a workflow approves it on behalf of users\" without documented user execution, evidence, or sign-off.",
+      "Use product-owner preference as approval for the acceptance decision, even when impacted operational users were not represented.",
+      "Separate maker review from business acceptance whenever practical."
+    ],
+    "correct": 3,
+    "explanation": "Separate maker review from business acceptance whenever practical. Independent acceptance reduces blind spots."
+  },
+  {
+    "section": "Acceptance Testing Foundations",
+    "q": "There is not enough time to test every low-value report variation. Which option handles Risk-based acceptance with appropriate governance?",
+    "code": "",
+    "opts": [
+      "Prioritize high-frequency, high-impact, regulated, and recently changed workflows.",
+      "Approve the acceptance decision without checking downstream reports, audit trails, notifications, or reconciliation points.",
+      "Accept the acceptance decision because the screen matches the design mockup, even though the workflow outcome was not validated.",
+      "Use automated checks alone for the acceptance decision when the question is usability, process fit, or business judgment."
+    ],
+    "correct": 0,
+    "explanation": "Prioritize high-frequency, high-impact, regulated, and recently changed workflows. Acceptance effort should follow business risk."
+  },
+  {
+    "section": "Acceptance Testing Foundations",
+    "q": "The feature works in a demo but support teams have no runbook. What should be clarified before sign-off?",
+    "code": "",
+    "opts": [
+      "Defer the acceptance decision to the first week after launch and call production complaints the real acceptance cycle.",
+      "Include operational readiness items in acceptance when they affect real use.",
+      "Accept the acceptance decision based on old requirements and ignore criteria changes agreed during refinement.",
+      "Approve the acceptance decision without checking downstream reports, audit trails, notifications, or reconciliation points."
+    ],
+    "correct": 1,
+    "explanation": "Include operational readiness items in acceptance when they affect real use. Acceptance can include supportability, training, and operations."
+  },
+  {
+    "section": "Requirements and Acceptance Criteria",
+    "q": "A story says the app should be fast and easy to use. Which approach best protects the release decision?",
+    "code": "",
+    "opts": [
+      "Approve the acceptance criteria with unresolved severe defects because the release date has already been announced.",
+      "Rewrite acceptance criteria into observable conditions with thresholds or examples.",
+      "Start the acceptance criteria before the build, data, accounts, and support channel are ready.",
+      "Defer the acceptance criteria to the first week after launch and call production complaints the real acceptance cycle."
+    ],
+    "correct": 1,
+    "explanation": "Rewrite acceptance criteria into observable conditions with thresholds or examples. Vague criteria cannot be objectively accepted."
+  },
+  {
+    "section": "Requirements and Acceptance Criteria",
+    "q": "A user story bundles account creation, billing, reporting, and migration. What evidence would be most useful for go/no-go review?",
+    "code": "",
+    "opts": [
+      "Count training attendance as proof of the acceptance criteria, even though users never completed the workflow.",
+      "Move the acceptance criteria decisions into informal chat so they cannot be audited or linked to requirements.",
+      "Split the story into smaller valuable slices with separate acceptance criteria.",
+      "Approve the acceptance criteria with unresolved severe defects because the release date has already been announced."
+    ],
+    "correct": 2,
+    "explanation": "Split the story into smaller valuable slices with separate acceptance criteria. Oversized stories make acceptance unclear."
+  },
+  {
+    "section": "Requirements and Acceptance Criteria",
+    "q": "A product owner wants shared understanding of a discount rule. Which answer makes Given-when-then observable and testable?",
+    "code": "",
+    "opts": [
+      "Treat a vendor test certificate as complete the acceptance criteria for local configuration and business process needs.",
+      "Use perfect test data for the acceptance criteria and avoid historical, migrated, invalid, or edge-case records.",
+      "Count training attendance as proof of the acceptance criteria, even though users never completed the workflow.",
+      "Express examples in Given-When-Then form to clarify preconditions, actions, and outcomes."
+    ],
+    "correct": 3,
+    "explanation": "Express examples in Given-When-Then form to clarify preconditions, actions, and outcomes. Structured examples reduce ambiguity."
+  },
+  {
+    "section": "Requirements and Acceptance Criteria",
+    "q": "Criteria describe only successful password reset. What is the right way to involve business stakeholders?",
+    "code": "",
+    "opts": [
+      "Add rejected, expired, reused, and invalid-token scenarios.",
+      "Let developers certify the acceptance criteria on behalf of business users because the technical test suite passed.",
+      "Use product-owner preference as approval for the acceptance criteria, even when impacted operational users were not represented.",
+      "Treat a vendor test certificate as complete the acceptance criteria for local configuration and business process needs."
+    ],
+    "correct": 0,
+    "explanation": "Add rejected, expired, reused, and invalid-token scenarios. Acceptance should cover expected failure behavior."
+  },
+  {
+    "section": "Requirements and Acceptance Criteria",
+    "q": "A requirement says managers approve expenses over a threshold. Which option avoids mistaking activity for acceptance?",
+    "code": "",
+    "opts": [
+      "Run the acceptance criteria in an environment with missing integrations and still claim end-to-end business acceptance.",
+      "Capture thresholds, currencies, delegation rules, audit trail, and exception handling as acceptance criteria.",
+      "Use automated checks alone for the acceptance criteria when the question is usability, process fit, or business judgment.",
+      "Let developers certify the acceptance criteria on behalf of business users because the technical test suite passed."
+    ],
+    "correct": 1,
+    "explanation": "Capture thresholds, currencies, delegation rules, audit trail, and exception handling as acceptance criteria. Business rules need precise acceptance examples."
+  },
+  {
+    "section": "Requirements and Acceptance Criteria",
+    "q": "A customer portal must support month-end traffic. What should be documented before approval?",
+    "code": "",
+    "opts": [
+      "Validate the acceptance criteria only with administrator accounts and miss ordinary user permission limits.",
+      "Approve the acceptance criteria without checking downstream reports, audit trails, notifications, or reconciliation points.",
+      "Define response time, concurrency, availability, and degradation expectations.",
+      "Run the acceptance criteria in an environment with missing integrations and still claim end-to-end business acceptance."
+    ],
+    "correct": 2,
+    "explanation": "Define response time, concurrency, availability, and degradation expectations. Nonfunctional needs can be acceptance criteria."
+  },
+  {
+    "section": "Requirements and Acceptance Criteria",
+    "q": "A regulator asks which requirements were accepted. Which step would improve confidence in traceability?",
+    "code": "",
+    "opts": [
+      "Sign off the acceptance criteria by email without identifying release version, scope, approver authority, or residual risk.",
+      "Defer the acceptance criteria to the first week after launch and call production complaints the real acceptance cycle.",
+      "Validate the acceptance criteria only with administrator accounts and miss ordinary user permission limits.",
+      "Link each acceptance test result to requirements, user stories, or controls."
+    ],
+    "correct": 3,
+    "explanation": "Link each acceptance test result to requirements, user stories, or controls. Traceability supports audit and coverage analysis."
+  },
+  {
+    "section": "Requirements and Acceptance Criteria",
+    "q": "Acceptance criteria change midway through testing. How should the team treat this UAT risk?",
+    "code": "",
+    "opts": [
+      "Record the change, assess retest needs, and get stakeholder agreement.",
+      "Keep the acceptance criteria in scope after a major late change, but do not adjust schedule, data, or retest coverage.",
+      "Approve the acceptance criteria with unresolved severe defects because the release date has already been announced.",
+      "Sign off the acceptance criteria by email without identifying release version, scope, approver authority, or residual risk."
+    ],
+    "correct": 0,
+    "explanation": "Record the change, assess retest needs, and get stakeholder agreement. Changing the target requires controlled communication."
+  },
+  {
+    "section": "Requirements and Acceptance Criteria",
+    "q": "Users debate edge cases during story refinement. Which response best aligns with release readiness?",
+    "code": "",
+    "opts": [
+      "Ask a single expert user to approve the acceptance criteria for every role, region, and skill level.",
+      "Use example mapping to identify rules, examples, questions, and assumptions.",
+      "Count training attendance as proof of the acceptance criteria, even though users never completed the workflow.",
+      "Keep the acceptance criteria in scope after a major late change, but do not adjust schedule, data, or retest coverage."
+    ],
+    "correct": 1,
+    "explanation": "Use example mapping to identify rules, examples, questions, and assumptions. Examples expose gaps before development."
+  },
+  {
+    "section": "Requirements and Acceptance Criteria",
+    "q": "A story enters development with unresolved acceptance questions. What should be included in the acceptance record?",
+    "code": "",
+    "opts": [
+      "Skip retesting the acceptance criteria after a fix because the developer says the defect is resolved.",
+      "Treat a vendor test certificate as complete the acceptance criteria for local configuration and business process needs.",
+      "Hold the story until key acceptance assumptions are clarified or explicitly tracked.",
+      "Ask a single expert user to approve the acceptance criteria for every role, region, and skill level."
+    ],
+    "correct": 2,
+    "explanation": "Hold the story until key acceptance assumptions are clarified or explicitly tracked. Ready stories reduce rework."
+  },
+  {
+    "section": "UAT Planning and Stakeholder Coordination",
+    "q": "A release manager asks who will test what and when. Which choice keeps Uat plan tied to user value?",
+    "code": "",
+    "opts": [
+      "Let each department define the UAT plan differently during execution instead of agreeing before testing starts.",
+      "Let developers certify the UAT plan on behalf of business users because the technical test suite passed.",
+      "Create a UAT plan covering scope, schedule, participants, roles, environments, data, risks, and reporting.",
+      "Skip retesting the UAT plan after a fix because the developer says the defect is resolved."
+    ],
+    "correct": 2,
+    "explanation": "Create a UAT plan covering scope, schedule, participants, roles, environments, data, risks, and reporting. UAT coordination needs a plan."
+  },
+  {
+    "section": "UAT Planning and Stakeholder Coordination",
+    "q": "Only expert users are invited to test a workflow used by new employees. What should happen before the test is counted as passed?",
+    "code": "",
+    "opts": [
+      "Use completion percentage as the only release signal for the UAT plan, ignoring severity and business impact.",
+      "Run the UAT plan in an environment with missing integrations and still claim end-to-end business acceptance.",
+      "Let each department define the UAT plan differently during execution instead of agreeing before testing starts.",
+      "Include representative users across roles, skill levels, and business contexts."
+    ],
+    "correct": 3,
+    "explanation": "Include representative users across roles, skill levels, and business contexts. Representative testers reveal real adoption issues."
+  },
+  {
+    "section": "UAT Planning and Stakeholder Coordination",
+    "q": "UAT participants do not understand the new process. Which next step would prevent a weak sign-off?",
+    "code": "",
+    "opts": [
+      "Provide concise orientation and test scripts without coaching them into expected answers.",
+      "Record the UAT plan only as a meeting note, with no criteria, result, owner, defect link, or version.",
+      "Validate the UAT plan only with administrator accounts and miss ordinary user permission limits.",
+      "Use completion percentage as the only release signal for the UAT plan, ignoring severity and business impact."
+    ],
+    "correct": 0,
+    "explanation": "Provide concise orientation and test scripts without coaching them into expected answers. Users need enough context to test realistically."
+  },
+  {
+    "section": "UAT Planning and Stakeholder Coordination",
+    "q": "Critical approvers are unavailable during the UAT window. What is the most appropriate acceptance-testing response?",
+    "code": "",
+    "opts": [
+      "Replace the UAT plan with exploratory comments only, without pass/fail criteria or reproducible steps.",
+      "Secure stakeholder availability and escalation paths before the test cycle starts.",
+      "Sign off the UAT plan by email without identifying release version, scope, approver authority, or residual risk.",
+      "Record the UAT plan only as a meeting note, with no criteria, result, owner, defect link, or version."
+    ],
+    "correct": 1,
+    "explanation": "Secure stakeholder availability and escalation paths before the test cycle starts. UAT often fails from coordination, not test design."
+  },
+  {
+    "section": "UAT Planning and Stakeholder Coordination",
+    "q": "Defects accumulate but stakeholders learn about them late. Which option gives the best evidence for communication cadence?",
+    "code": "",
+    "opts": [
+      "Approve the UAT plan but leave workarounds, open defects, and conditions undocumented.",
+      "Keep the UAT plan in scope after a major late change, but do not adjust schedule, data, or retest coverage.",
+      "Use regular status updates showing progress, blockers, defects, and decisions needed.",
+      "Replace the UAT plan with exploratory comments only, without pass/fail criteria or reproducible steps."
+    ],
+    "correct": 2,
+    "explanation": "Use regular status updates showing progress, blockers, defects, and decisions needed. Timely communication supports release decisions."
+  },
+  {
+    "section": "UAT Planning and Stakeholder Coordination",
+    "q": "A user can find defects but cannot approve release acceptance. What should happen before the feature can be accepted?",
+    "code": "",
+    "opts": [
+      "Close the UAT plan once a defect ticket exists, before triage, fix decision, or acceptance retest.",
+      "Ask a single expert user to approve the UAT plan for every role, region, and skill level.",
+      "Approve the UAT plan but leave workarounds, open defects, and conditions undocumented.",
+      "Clarify who executes tests, who triages, and who has sign-off authority."
+    ],
+    "correct": 3,
+    "explanation": "Clarify who executes tests, who triages, and who has sign-off authority. Execution and approval roles may differ."
+  },
+  {
+    "section": "UAT Planning and Stakeholder Coordination",
+    "q": "Multiple teams need the same shared test environment. Which response best supports environment booking?",
+    "code": "",
+    "opts": [
+      "Reserve environment windows and coordinate refreshes, integrations, and data locks.",
+      "Treat the UAT plan as complete after one happy-path script and skip exception, role, data, and integration variants.",
+      "Skip retesting the UAT plan after a fix because the developer says the defect is resolved.",
+      "Close the UAT plan once a defect ticket exists, before triage, fix decision, or acceptance retest."
+    ],
+    "correct": 0,
+    "explanation": "Reserve environment windows and coordinate refreshes, integrations, and data locks. Shared environments require scheduling discipline."
+  },
+  {
+    "section": "UAT Planning and Stakeholder Coordination",
+    "q": "UAT users get stuck and message developers individually. What is the strongest UAT decision?",
+    "code": "",
+    "opts": [
+      "Classify blocked scenarios in the UAT plan as passed so the UAT dashboard reaches the target completion rate.",
+      "Set up a support channel, triage lead, and response expectations.",
+      "Let each department define the UAT plan differently during execution instead of agreeing before testing starts.",
+      "Treat the UAT plan as complete after one happy-path script and skip exception, role, data, and integration variants."
+    ],
+    "correct": 1,
+    "explanation": "Set up a support channel, triage lead, and response expectations. A clear support path keeps UAT organized."
+  },
+  {
+    "section": "UAT Planning and Stakeholder Coordination",
+    "q": "Stakeholders do not know which scenarios are most important. Which option gives stakeholders usable acceptance evidence?",
+    "code": "",
+    "opts": [
+      "Use production personal data for the UAT plan without masking, approval, or retention controls.",
+      "Use completion percentage as the only release signal for the UAT plan, ignoring severity and business impact.",
+      "Brief participants on critical workflows, known risks, and evidence expectations.",
+      "Classify blocked scenarios in the UAT plan as passed so the UAT dashboard reaches the target completion rate."
+    ],
+    "correct": 2,
+    "explanation": "Brief participants on critical workflows, known risks, and evidence expectations. Risk awareness improves test focus."
+  },
+  {
+    "section": "UAT Planning and Stakeholder Coordination",
+    "q": "A release has no documented acceptance owner. How should the team validate governance?",
+    "code": "",
+    "opts": [
+      "Evaluate the UAT plan only on desktop even though supported users rely on other devices or browsers.",
+      "Record the UAT plan only as a meeting note, with no criteria, result, owner, defect link, or version.",
+      "Use production personal data for the UAT plan without masking, approval, or retention controls.",
+      "Assign accountable business ownership for final acceptance decisions."
+    ],
+    "correct": 3,
+    "explanation": "Assign accountable business ownership for final acceptance decisions. Release acceptance needs clear authority."
+  },
+  {
+    "section": "Scenario and Test Design for Acceptance",
+    "q": "A claims feature has separate tests for each screen. What would make the acceptance result defensible?",
+    "code": "",
+    "opts": [
+      "Approve the scenario set from a demo of \"claims feature has separate tests for each screen\" without documented user execution, evidence, or sign-off.",
+      "Replace the scenario set with exploratory comments only, without pass/fail criteria or reproducible steps.",
+      "Evaluate the scenario set only on desktop even though supported users rely on other devices or browsers.",
+      "Add end-to-end business scenarios that follow a claim from intake through resolution."
+    ],
+    "correct": 3,
+    "explanation": "Add end-to-end business scenarios that follow a claim from intake through resolution. Acceptance validates complete user outcomes."
+  },
+  {
+    "section": "Scenario and Test Design for Acceptance",
+    "q": "The same workflow behaves differently for clerk, supervisor, and auditor roles. Which choice best reflects business readiness rather than technical completion?",
+    "code": "",
+    "opts": [
+      "Design scenarios for each role and permission boundary.",
+      "Accept the scenario set because the screen matches the design mockup, even though the workflow outcome was not validated.",
+      "Approve the scenario set but leave workarounds, open defects, and conditions undocumented.",
+      "Approve the scenario set from a demo of \"same workflow behaves differently for clerk, supervisor, and auditor roles\" without documented user execution, evidence, or sign-off."
+    ],
+    "correct": 0,
+    "explanation": "Design scenarios for each role and permission boundary. Role differences often determine acceptability."
+  },
+  {
+    "section": "Scenario and Test Design for Acceptance",
+    "q": "A checkout workflow has never been tested with a valid normal order. What should the UAT lead do next?",
+    "code": "",
+    "opts": [
+      "Accept the scenario set based on old requirements and ignore criteria changes agreed during refinement.",
+      "Include the primary happy path as a baseline acceptance scenario.",
+      "Close the scenario set once a defect ticket exists, before triage, fix decision, or acceptance retest.",
+      "Accept the scenario set because the screen matches the design mockup, even though the workflow outcome was not validated."
+    ],
+    "correct": 1,
+    "explanation": "Include the primary happy path as a baseline acceptance scenario. The main value path must work before edge cases matter."
+  },
+  {
+    "section": "Scenario and Test Design for Acceptance",
+    "q": "An approval workflow has no test for rejected submissions. Which option handles Exception path with appropriate governance?",
+    "code": "",
+    "opts": [
+      "Start the scenario set before the build, data, accounts, and support channel are ready.",
+      "Treat the scenario set as complete after one happy-path script and skip exception, role, data, and integration variants.",
+      "Add scenarios for rejection, resubmission, cancellation, timeout, and escalation.",
+      "Accept the scenario set based on old requirements and ignore criteria changes agreed during refinement."
+    ],
+    "correct": 2,
+    "explanation": "Add scenarios for rejection, resubmission, cancellation, timeout, and escalation. Business exceptions are part of real use."
+  },
+  {
+    "section": "Scenario and Test Design for Acceptance",
+    "q": "A discount rule changes at 100 units. What should be clarified before sign-off?",
+    "code": "",
+    "opts": [
+      "Move the scenario set decisions into informal chat so they cannot be audited or linked to requirements.",
+      "Classify blocked scenarios in the scenario set as passed so the UAT dashboard reaches the target completion rate.",
+      "Start the scenario set before the build, data, accounts, and support channel are ready.",
+      "Test values below, at, and above the threshold in realistic orders."
+    ],
+    "correct": 3,
+    "explanation": "Test values below, at, and above the threshold in realistic orders. Boundary cases reveal rule interpretation defects."
+  },
+  {
+    "section": "Scenario and Test Design for Acceptance",
+    "q": "Acceptance tests use only one customer type. Which approach best protects the release decision?",
+    "code": "",
+    "opts": [
+      "Include realistic variations such as new, returning, exempt, international, and restricted customers if relevant.",
+      "Use perfect test data for the scenario set and avoid historical, migrated, invalid, or edge-case records.",
+      "Use production personal data for the scenario set without masking, approval, or retention controls.",
+      "Move the scenario set decisions into informal chat so they cannot be audited or linked to requirements."
+    ],
+    "correct": 0,
+    "explanation": "Include realistic variations such as new, returning, exempt, international, and restricted customers if relevant. Business behavior often varies by data attributes."
+  },
+  {
+    "section": "Scenario and Test Design for Acceptance",
+    "q": "Scripted scenarios pass but users suspect workflow friction. What evidence would be most useful for go/no-go review?",
+    "code": "",
+    "opts": [
+      "Use product-owner preference as approval for the scenario set, even when impacted operational users were not represented.",
+      "Add time-boxed exploratory sessions around realistic tasks and capture observations.",
+      "Evaluate the scenario set only on desktop even though supported users rely on other devices or browsers.",
+      "Use perfect test data for the scenario set and avoid historical, migrated, invalid, or edge-case records."
+    ],
+    "correct": 1,
+    "explanation": "Add time-boxed exploratory sessions around realistic tasks and capture observations. Exploration finds usability and process issues scripts miss."
+  },
+  {
+    "section": "Scenario and Test Design for Acceptance",
+    "q": "An order accepted in the app must appear in ERP. Which answer makes Cross-system scenario observable and testable?",
+    "code": "",
+    "opts": [
+      "Use automated checks alone for the scenario set when the question is usability, process fit, or business judgment.",
+      "Approve the scenario set from a demo of \"order accepted in the app must appear in ERP\" without documented user execution, evidence, or sign-off.",
+      "Test the full integration path and reconciliation points across systems.",
+      "Use product-owner preference as approval for the scenario set, even when impacted operational users were not represented."
+    ],
+    "correct": 2,
+    "explanation": "Test the full integration path and reconciliation points across systems. Acceptance often depends on downstream outcomes."
+  },
+  {
+    "section": "Scenario and Test Design for Acceptance",
+    "q": "Public users must submit a form without assistance. What is the right way to involve business stakeholders?",
+    "code": "",
+    "opts": [
+      "Approve the scenario set without checking downstream reports, audit trails, notifications, or reconciliation points.",
+      "Accept the scenario set because the screen matches the design mockup, even though the workflow outcome was not validated.",
+      "Use automated checks alone for the scenario set when the question is usability, process fit, or business judgment.",
+      "Include keyboard, screen reader, error messaging, and focus behavior acceptance checks."
+    ],
+    "correct": 3,
+    "explanation": "Include keyboard, screen reader, error messaging, and focus behavior acceptance checks. Accessibility affects whether real users can accept the product."
+  },
+  {
+    "section": "Scenario and Test Design for Acceptance",
+    "q": "The product will launch in multiple regions. Which option avoids mistaking activity for acceptance?",
+    "code": "",
+    "opts": [
+      "Test language, formats, currencies, time zones, and region-specific rules.",
+      "Defer the scenario set to the first week after launch and call production complaints the real acceptance cycle.",
+      "Accept the scenario set based on old requirements and ignore criteria changes agreed during refinement.",
+      "Approve the scenario set without checking downstream reports, audit trails, notifications, or reconciliation points."
+    ],
+    "correct": 0,
+    "explanation": "Test language, formats, currencies, time zones, and region-specific rules. Localization defects can block acceptance in target markets."
+  },
+  {
+    "section": "Business Data, Environments and Integrations",
+    "q": "UAT data contains only perfect records. What should be documented before approval?",
+    "code": "",
+    "opts": [
+      "Prepare realistic valid, invalid, historical, edge, and migrated data sets.",
+      "Approve the environment and data setup with unresolved severe defects because the release date has already been announced.",
+      "Start the environment and data setup before the build, data, accounts, and support channel are ready.",
+      "Defer the environment and data setup to the first week after launch and call production complaints the real acceptance cycle."
+    ],
+    "correct": 0,
+    "explanation": "Prepare realistic valid, invalid, historical, edge, and migrated data sets. Acceptance needs data that resembles actual business conditions."
+  },
+  {
+    "section": "Business Data, Environments and Integrations",
+    "q": "Users request production customer data for convenience. Which step would improve confidence in data privacy?",
+    "code": "",
+    "opts": [
+      "Count training attendance as proof of the environment and data setup, even though users never completed the workflow.",
+      "Use masked, synthetic, or approved data handling that meets privacy requirements.",
+      "Move the environment and data setup decisions into informal chat so they cannot be audited or linked to requirements.",
+      "Approve the environment and data setup with unresolved severe defects because the release date has already been announced."
+    ],
+    "correct": 1,
+    "explanation": "Use masked, synthetic, or approved data handling that meets privacy requirements. UAT must not create unnecessary data exposure."
+  },
+  {
+    "section": "Business Data, Environments and Integrations",
+    "q": "The UAT environment uses a simplified rules engine. How should the team treat this UAT risk?",
+    "code": "",
+    "opts": [
+      "Treat a vendor test certificate as complete the environment and data setup for local configuration and business process needs.",
+      "Use perfect test data for the environment and data setup and avoid historical, migrated, invalid, or edge-case records.",
+      "Document the difference and avoid claiming acceptance for behavior not represented in UAT.",
+      "Count training attendance as proof of the environment and data setup, even though users never completed the workflow."
+    ],
+    "correct": 2,
+    "explanation": "Document the difference and avoid claiming acceptance for behavior not represented in UAT. Environment gaps limit confidence."
+  },
+  {
+    "section": "Business Data, Environments and Integrations",
+    "q": "A payment gateway is stubbed in UAT. Which response best aligns with release readiness?",
+    "code": "",
+    "opts": [
+      "Let developers certify the environment and data setup on behalf of business users because the technical test suite passed.",
+      "Use product-owner preference as approval for the environment and data setup, even when impacted operational users were not represented.",
+      "Treat a vendor test certificate as complete the environment and data setup for local configuration and business process needs.",
+      "Clearly mark what is and is not accepted, and plan separate validation for the real integration."
+    ],
+    "correct": 3,
+    "explanation": "Clearly mark what is and is not accepted, and plan separate validation for the real integration. Stubs help testing but reduce end-to-end proof."
+  },
+  {
+    "section": "Business Data, Environments and Integrations",
+    "q": "UAT users overwrite each other testing the same accounts. What should be included in the acceptance record?",
+    "code": "",
+    "opts": [
+      "Create data reset and reservation procedures for scenarios.",
+      "Run the environment and data setup in an environment with missing integrations and still claim end-to-end business acceptance.",
+      "Use automated checks alone for the environment and data setup when the question is usability, process fit, or business judgment.",
+      "Let developers certify the environment and data setup on behalf of business users because the technical test suite passed."
+    ],
+    "correct": 0,
+    "explanation": "Create data reset and reservation procedures for scenarios. Data control prevents false failures and confusion."
+  },
+  {
+    "section": "Business Data, Environments and Integrations",
+    "q": "Historical records must move to a new platform. Which choice keeps Migration acceptance tied to user value?",
+    "code": "",
+    "opts": [
+      "Validate the environment and data setup only with administrator accounts and miss ordinary user permission limits.",
+      "Validate migrated counts, field mappings, referential integrity, and representative record behavior.",
+      "Approve the environment and data setup without checking downstream reports, audit trails, notifications, or reconciliation points.",
+      "Run the environment and data setup in an environment with missing integrations and still claim end-to-end business acceptance."
+    ],
+    "correct": 1,
+    "explanation": "Validate migrated counts, field mappings, referential integrity, and representative record behavior. Migration acceptance needs both data and workflow checks."
+  },
+  {
+    "section": "Business Data, Environments and Integrations",
+    "q": "A nightly job updates statuses used by the business. What should happen before the test is counted as passed?",
+    "code": "",
+    "opts": [
+      "Sign off the environment and data setup by email without identifying release version, scope, approver authority, or residual risk.",
+      "Defer the environment and data setup to the first week after launch and call production complaints the real acceptance cycle.",
+      "Include batch schedules, cutoffs, retries, and reconciliation in acceptance scenarios.",
+      "Validate the environment and data setup only with administrator accounts and miss ordinary user permission limits."
+    ],
+    "correct": 2,
+    "explanation": "Include batch schedules, cutoffs, retries, and reconciliation in acceptance scenarios. Time-based processing affects real operations."
+  },
+  {
+    "section": "Business Data, Environments and Integrations",
+    "q": "A partner system sends files with occasional format variations. Which next step would prevent a weak sign-off?",
+    "code": "",
+    "opts": [
+      "Keep the environment and data setup in scope after a major late change, but do not adjust schedule, data, or retest coverage.",
+      "Approve the environment and data setup with unresolved severe defects because the release date has already been announced.",
+      "Sign off the environment and data setup by email without identifying release version, scope, approver authority, or residual risk.",
+      "Test representative partner files and error handling for malformed or late files."
+    ],
+    "correct": 3,
+    "explanation": "Test representative partner files and error handling for malformed or late files. Acceptance should include realistic partner behavior."
+  },
+  {
+    "section": "Business Data, Environments and Integrations",
+    "q": "UAT accounts all have administrator rights. What is the most appropriate acceptance-testing response?",
+    "code": "",
+    "opts": [
+      "Use role-appropriate accounts so permissions and workflow constraints are tested.",
+      "Ask a single expert user to approve the environment and data setup for every role, region, and skill level.",
+      "Count training attendance as proof of the environment and data setup, even though users never completed the workflow.",
+      "Keep the environment and data setup in scope after a major late change, but do not adjust schedule, data, or retest coverage."
+    ],
+    "correct": 0,
+    "explanation": "Use role-appropriate accounts so permissions and workflow constraints are tested. Admin-only testing hides access defects."
+  },
+  {
+    "section": "Business Data, Environments and Integrations",
+    "q": "UAT starts before email, printing, and reporting integrations are configured. Which option gives the best evidence for environment readiness checklist?",
+    "code": "",
+    "opts": [
+      "Skip retesting the environment and data setup after a fix because the developer says the defect is resolved.",
+      "Use an environment readiness checklist before inviting users to test.",
+      "Treat a vendor test certificate as complete the environment and data setup for local configuration and business process needs.",
+      "Ask a single expert user to approve the environment and data setup for every role, region, and skill level."
+    ],
+    "correct": 1,
+    "explanation": "Use an environment readiness checklist before inviting users to test. Missing integrations waste user time and distort results."
+  },
+  {
+    "section": "Agile, BDD and Continuous Acceptance",
+    "q": "Developers, testers, and product owners interpret a story differently. What should happen before the feature can be accepted?",
+    "code": "",
+    "opts": [
+      "Let each department define the continuous acceptance flow differently during execution instead of agreeing before testing starts.",
+      "Hold a three-amigos conversation to align rules, examples, and assumptions.",
+      "Let developers certify the continuous acceptance flow on behalf of business users because the technical test suite passed.",
+      "Skip retesting the continuous acceptance flow after a fix because the developer says the defect is resolved."
+    ],
+    "correct": 1,
+    "explanation": "Hold a three-amigos conversation to align rules, examples, and assumptions. Shared understanding prevents acceptance disputes."
+  },
+  {
+    "section": "Agile, BDD and Continuous Acceptance",
+    "q": "BDD scenarios exist but are outdated after rule changes. Which response best supports living documentation?",
+    "code": "",
+    "opts": [
+      "Use completion percentage as the only release signal for the continuous acceptance flow, ignoring severity and business impact.",
+      "Run the continuous acceptance flow in an environment with missing integrations and still claim end-to-end business acceptance.",
+      "Keep executable examples aligned with current business behavior.",
+      "Let each department define the continuous acceptance flow differently during execution instead of agreeing before testing starts."
+    ],
+    "correct": 2,
+    "explanation": "Keep executable examples aligned with current business behavior. Living documentation is valuable only when maintained."
+  },
+  {
+    "section": "Agile, BDD and Continuous Acceptance",
+    "q": "A stable critical workflow is tested manually every sprint. What is the strongest UAT decision?",
+    "code": "",
+    "opts": [
+      "Record the continuous acceptance flow only as a meeting note, with no criteria, result, owner, defect link, or version.",
+      "Validate the continuous acceptance flow only with administrator accounts and miss ordinary user permission limits.",
+      "Use completion percentage as the only release signal for the continuous acceptance flow, ignoring severity and business impact.",
+      "Automate high-value repeatable acceptance checks while retaining exploratory business review."
+    ],
+    "correct": 3,
+    "explanation": "Automate high-value repeatable acceptance checks while retaining exploratory business review. Automation frees UAT effort for judgment-based work."
+  },
+  {
+    "section": "Agile, BDD and Continuous Acceptance",
+    "q": "A team waits until release week to review completed stories. Which option gives stakeholders usable acceptance evidence?",
+    "code": "",
+    "opts": [
+      "Accept stories continuously within the sprint using agreed criteria.",
+      "Replace the continuous acceptance flow with exploratory comments only, without pass/fail criteria or reproducible steps.",
+      "Sign off the continuous acceptance flow by email without identifying release version, scope, approver authority, or residual risk.",
+      "Record the continuous acceptance flow only as a meeting note, with no criteria, result, owner, defect link, or version."
+    ],
+    "correct": 0,
+    "explanation": "Accept stories continuously within the sprint using agreed criteria. Early acceptance reduces release bottlenecks."
+  },
+  {
+    "section": "Agile, BDD and Continuous Acceptance",
+    "q": "A story is marked done before product owner review. How should the team validate definition of done?",
+    "code": "",
+    "opts": [
+      "Approve the continuous acceptance flow but leave workarounds, open defects, and conditions undocumented.",
+      "Include acceptance review, tests, documentation, and known defect handling in done criteria.",
+      "Keep the continuous acceptance flow in scope after a major late change, but do not adjust schedule, data, or retest coverage.",
+      "Replace the continuous acceptance flow with exploratory comments only, without pass/fail criteria or reproducible steps."
+    ],
+    "correct": 1,
+    "explanation": "Include acceptance review, tests, documentation, and known defect handling in done criteria. Done should reflect releasable value."
+  },
+  {
+    "section": "Agile, BDD and Continuous Acceptance",
+    "q": "A feature is complete but hidden behind a flag. What would make the acceptance result defensible?",
+    "code": "",
+    "opts": [
+      "Close the continuous acceptance flow once a defect ticket exists, before triage, fix decision, or acceptance retest.",
+      "Ask a single expert user to approve the continuous acceptance flow for every role, region, and skill level.",
+      "Accept both enabled behavior and safe disabled behavior if the flag will ship.",
+      "Approve the continuous acceptance flow but leave workarounds, open defects, and conditions undocumented."
+    ],
+    "correct": 2,
+    "explanation": "Accept both enabled behavior and safe disabled behavior if the flag will ship. Flag behavior is part of the release."
+  },
+  {
+    "section": "Agile, BDD and Continuous Acceptance",
+    "q": "Acceptance questions appear only after coding starts. Which choice best reflects business readiness rather than technical completion?",
+    "code": "",
+    "opts": [
+      "Treat the continuous acceptance flow as complete after one happy-path script and skip exception, role, data, and integration variants.",
+      "Skip retesting the continuous acceptance flow after a fix because the developer says the defect is resolved.",
+      "Close the continuous acceptance flow once a defect ticket exists, before triage, fix decision, or acceptance retest.",
+      "Raise ambiguous rules during refinement and capture open questions."
+    ],
+    "correct": 3,
+    "explanation": "Raise ambiguous rules during refinement and capture open questions. Earlier clarification lowers rework."
+  },
+  {
+    "section": "Agile, BDD and Continuous Acceptance",
+    "q": "Users find workflow issues only after production launch. What should the UAT lead do next?",
+    "code": "",
+    "opts": [
+      "Introduce demos, prototypes, and incremental acceptance feedback before final UAT.",
+      "Classify blocked scenarios in the continuous acceptance flow as passed so the UAT dashboard reaches the target completion rate.",
+      "Let each department define the continuous acceptance flow differently during execution instead of agreeing before testing starts.",
+      "Treat the continuous acceptance flow as complete after one happy-path script and skip exception, role, data, and integration variants."
+    ],
+    "correct": 0,
+    "explanation": "Introduce demos, prototypes, and incremental acceptance feedback before final UAT. Continuous acceptance improves fit."
+  },
+  {
+    "section": "Agile, BDD and Continuous Acceptance",
+    "q": "All BDD scenarios pass but users dislike the workflow. Which option handles Automation limits with appropriate governance?",
+    "code": "",
+    "opts": [
+      "Use production personal data for the continuous acceptance flow without masking, approval, or retention controls.",
+      "Use automation for repeatable facts and human UAT for usability, judgment, and process fit.",
+      "Use completion percentage as the only release signal for the continuous acceptance flow, ignoring severity and business impact.",
+      "Classify blocked scenarios in the continuous acceptance flow as passed so the UAT dashboard reaches the target completion rate."
+    ],
+    "correct": 1,
+    "explanation": "Use automation for repeatable facts and human UAT for usability, judgment, and process fit. Automated acceptance cannot replace human judgment."
+  },
+  {
+    "section": "Agile, BDD and Continuous Acceptance",
+    "q": "A small change affects an established user journey. What should be clarified before sign-off?",
+    "code": "",
+    "opts": [
+      "Evaluate the continuous acceptance flow only on desktop even though supported users rely on other devices or browsers.",
+      "Record the continuous acceptance flow only as a meeting note, with no criteria, result, owner, defect link, or version.",
+      "Run acceptance regression scenarios for the impacted journey before release.",
+      "Use production personal data for the continuous acceptance flow without masking, approval, or retention controls."
+    ],
+    "correct": 2,
+    "explanation": "Run acceptance regression scenarios for the impacted journey before release. Existing accepted behavior must remain acceptable."
+  },
+  {
+    "section": "Nonfunctional and Operational Acceptance",
+    "q": "A reporting page returns correct data but takes 45 seconds. Which approach best protects the release decision?",
+    "code": "",
+    "opts": [
+      "Approve the operational acceptance check from a demo of \"reporting page returns correct data but takes 45 seconds\" without documented user execution, evidence, or sign-off.",
+      "Replace the operational acceptance check with exploratory comments only, without pass/fail criteria or reproducible steps.",
+      "Check against agreed performance acceptance thresholds and business tolerance.",
+      "Evaluate the operational acceptance check only on desktop even though supported users rely on other devices or browsers."
+    ],
+    "correct": 2,
+    "explanation": "Check against agreed performance acceptance thresholds and business tolerance. Correctness alone may not meet operational needs."
+  },
+  {
+    "section": "Nonfunctional and Operational Acceptance",
+    "q": "A service meets functional needs but has no failover plan. What evidence would be most useful for go/no-go review?",
+    "code": "",
+    "opts": [
+      "Accept the operational acceptance check because the screen matches the design mockup, even though the workflow outcome was not validated.",
+      "Approve the operational acceptance check but leave workarounds, open defects, and conditions undocumented.",
+      "Approve the operational acceptance check from a demo of \"service meets functional needs but has no failover plan\" without documented user execution, evidence, or sign-off.",
+      "Evaluate availability, recovery, and continuity criteria for business-critical use."
+    ],
+    "correct": 3,
+    "explanation": "Evaluate availability, recovery, and continuity criteria for business-critical use. Operational resilience can be part of acceptance."
+  },
+  {
+    "section": "Nonfunctional and Operational Acceptance",
+    "q": "A portal is accepted by users but lacks role restrictions. Which answer makes Security acceptance observable and testable?",
+    "code": "",
+    "opts": [
+      "Include security and access-control acceptance checks for sensitive workflows.",
+      "Accept the operational acceptance check based on old requirements and ignore criteria changes agreed during refinement.",
+      "Close the operational acceptance check once a defect ticket exists, before triage, fix decision, or acceptance retest.",
+      "Accept the operational acceptance check because the screen matches the design mockup, even though the workflow outcome was not validated."
+    ],
+    "correct": 0,
+    "explanation": "Include security and access-control acceptance checks for sensitive workflows. A usable system is not acceptable if it exposes data."
+  },
+  {
+    "section": "Nonfunctional and Operational Acceptance",
+    "q": "Support teams have no knowledge base for the new feature. What is the right way to involve business stakeholders?",
+    "code": "",
+    "opts": [
+      "Start the operational acceptance check before the build, data, accounts, and support channel are ready.",
+      "Verify support documentation, escalation paths, and known issue handling.",
+      "Treat the operational acceptance check as complete after one happy-path script and skip exception, role, data, and integration variants.",
+      "Accept the operational acceptance check based on old requirements and ignore criteria changes agreed during refinement."
+    ],
+    "correct": 1,
+    "explanation": "Verify support documentation, escalation paths, and known issue handling. Acceptance includes readiness to operate the feature."
+  },
+  {
+    "section": "Nonfunctional and Operational Acceptance",
+    "q": "A process change affects hundreds of users. Which option avoids mistaking activity for acceptance?",
+    "code": "",
+    "opts": [
+      "Move the operational acceptance check decisions into informal chat so they cannot be audited or linked to requirements.",
+      "Classify blocked scenarios in the operational acceptance check as passed so the UAT dashboard reaches the target completion rate.",
+      "Confirm training materials, communication, and transition support are ready.",
+      "Start the operational acceptance check before the build, data, accounts, and support channel are ready."
+    ],
+    "correct": 2,
+    "explanation": "Confirm training materials, communication, and transition support are ready. Adoption can block business acceptance."
+  },
+  {
+    "section": "Nonfunctional and Operational Acceptance",
+    "q": "A workflow creates legally important records. What should be documented before approval?",
+    "code": "",
+    "opts": [
+      "Use perfect test data for the operational acceptance check and avoid historical, migrated, invalid, or edge-case records.",
+      "Use production personal data for the operational acceptance check without masking, approval, or retention controls.",
+      "Move the operational acceptance check decisions into informal chat so they cannot be audited or linked to requirements.",
+      "Validate backup, restore, retention, and recovery expectations."
+    ],
+    "correct": 3,
+    "explanation": "Validate backup, restore, retention, and recovery expectations. Records must survive operational failures."
+  },
+  {
+    "section": "Nonfunctional and Operational Acceptance",
+    "q": "Users report failures but support cannot trace transactions. Which step would improve confidence in observability?",
+    "code": "",
+    "opts": [
+      "Include logging, audit trails, dashboards, and correlation IDs in operational acceptance.",
+      "Use product-owner preference as approval for the operational acceptance check, even when impacted operational users were not represented.",
+      "Evaluate the operational acceptance check only on desktop even though supported users rely on other devices or browsers.",
+      "Use perfect test data for the operational acceptance check and avoid historical, migrated, invalid, or edge-case records."
+    ],
+    "correct": 0,
+    "explanation": "Include logging, audit trails, dashboards, and correlation IDs in operational acceptance. Supportability depends on observability."
+  },
+  {
+    "section": "Nonfunctional and Operational Acceptance",
+    "q": "The user base includes multiple browsers and devices. How should the team treat this UAT risk?",
+    "code": "",
+    "opts": [
+      "Use automated checks alone for the operational acceptance check when the question is usability, process fit, or business judgment.",
+      "Test supported platforms defined in acceptance criteria.",
+      "Approve the operational acceptance check from a demo of \"user base includes multiple browsers and devices\" without documented user execution, evidence, or sign-off.",
+      "Use product-owner preference as approval for the operational acceptance check, even when impacted operational users were not represented."
+    ],
+    "correct": 1,
+    "explanation": "Test supported platforms defined in acceptance criteria. Unsupported or untested platforms can cause adoption issues."
+  },
+  {
+    "section": "Nonfunctional and Operational Acceptance",
+    "q": "Users complete the task but make frequent avoidable errors. Which response best aligns with release readiness?",
+    "code": "",
+    "opts": [
+      "Approve the operational acceptance check without checking downstream reports, audit trails, notifications, or reconciliation points.",
+      "Accept the operational acceptance check because the screen matches the design mockup, even though the workflow outcome was not validated.",
+      "Capture usability findings and decide whether they block acceptance based on impact.",
+      "Use automated checks alone for the operational acceptance check when the question is usability, process fit, or business judgment."
+    ],
+    "correct": 2,
+    "explanation": "Capture usability findings and decide whether they block acceptance based on impact. Efficiency and error rate affect acceptability."
+  },
+  {
+    "section": "Nonfunctional and Operational Acceptance",
+    "q": "A workflow stores records longer than business policy allows. What should be included in the acceptance record?",
+    "code": "",
+    "opts": [
+      "Defer the operational acceptance check to the first week after launch and call production complaints the real acceptance cycle.",
+      "Accept the operational acceptance check based on old requirements and ignore criteria changes agreed during refinement.",
+      "Approve the operational acceptance check without checking downstream reports, audit trails, notifications, or reconciliation points.",
+      "Validate retention, archival, deletion, and legal hold behavior."
+    ],
+    "correct": 3,
+    "explanation": "Validate retention, archival, deletion, and legal hold behavior. Data lifecycle rules can be acceptance requirements."
+  },
+  {
+    "section": "Defect Triage and Change Control",
+    "q": "A UAT user reports \"it does not work\". Which choice keeps Defect quality tied to user value?",
+    "code": "",
+    "opts": [
+      "Approve the triage decision with unresolved severe defects because the release date has already been announced.",
+      "Start the triage decision before the build, data, accounts, and support channel are ready.",
+      "Defer the triage decision to the first week after launch and call production complaints the real acceptance cycle.",
+      "Capture steps, role, data, expected result, actual result, environment, and evidence."
+    ],
+    "correct": 3,
+    "explanation": "Capture steps, role, data, expected result, actual result, environment, and evidence. Actionable defects reduce back-and-forth."
+  },
+  {
+    "section": "Defect Triage and Change Control",
+    "q": "Users mark every inconvenience as critical. What should happen before the test is counted as passed?",
+    "code": "",
+    "opts": [
+      "Use agreed severity definitions tied to business impact and workarounds.",
+      "Count training attendance as proof of the triage decision, even though users never completed the workflow.",
+      "Move the triage decision decisions into informal chat so they cannot be audited or linked to requirements.",
+      "Approve the triage decision with unresolved severe defects because the release date has already been announced."
+    ],
+    "correct": 0,
+    "explanation": "Use agreed severity definitions tied to business impact and workarounds. Consistent severity supports fair triage."
+  },
+  {
+    "section": "Defect Triage and Change Control",
+    "q": "A high-severity edge case has a simple workaround. Which next step would prevent a weak sign-off?",
+    "code": "",
+    "opts": [
+      "Treat a vendor test certificate as complete the triage decision for local configuration and business process needs.",
+      "Separate severity from priority and decide fix timing with business owners.",
+      "Use perfect test data for the triage decision and avoid historical, migrated, invalid, or edge-case records.",
+      "Count training attendance as proof of the triage decision, even though users never completed the workflow."
+    ],
+    "correct": 1,
+    "explanation": "Separate severity from priority and decide fix timing with business owners. Triage weighs impact, urgency, workaround, and release risk."
+  },
+  {
+    "section": "Defect Triage and Change Control",
+    "q": "A UAT defect is fixed by developers. What is the most appropriate acceptance-testing response?",
+    "code": "",
+    "opts": [
+      "Let developers certify the triage decision on behalf of business users because the technical test suite passed.",
+      "Use product-owner preference as approval for the triage decision, even when impacted operational users were not represented.",
+      "Retest the original scenario and related regression paths before closure.",
+      "Treat a vendor test certificate as complete the triage decision for local configuration and business process needs."
+    ],
+    "correct": 2,
+    "explanation": "Retest the original scenario and related regression paths before closure. Closure needs confirmation by acceptance testers or owners."
+  },
+  {
+    "section": "Defect Triage and Change Control",
+    "q": "Users request a new feature during UAT. Which option gives the best evidence for change request?",
+    "code": "",
+    "opts": [
+      "Run the triage decision in an environment with missing integrations and still claim end-to-end business acceptance.",
+      "Use automated checks alone for the triage decision when the question is usability, process fit, or business judgment.",
+      "Let developers certify the triage decision on behalf of business users because the technical test suite passed.",
+      "Log it as a change request unless it is needed to meet agreed acceptance criteria."
+    ],
+    "correct": 3,
+    "explanation": "Log it as a change request unless it is needed to meet agreed acceptance criteria. UAT should distinguish defects from new scope."
+  },
+  {
+    "section": "Defect Triage and Change Control",
+    "q": "A minor defect will ship with release notes. What should happen before the feature can be accepted?",
+    "code": "",
+    "opts": [
+      "Document the known issue, workaround, owner, and target fix date.",
+      "Validate the triage decision only with administrator accounts and miss ordinary user permission limits.",
+      "Approve the triage decision without checking downstream reports, audit trails, notifications, or reconciliation points.",
+      "Run the triage decision in an environment with missing integrations and still claim end-to-end business acceptance."
+    ],
+    "correct": 0,
+    "explanation": "Document the known issue, workaround, owner, and target fix date. Accepted defects should be visible and managed."
+  },
+  {
+    "section": "Defect Triage and Change Control",
+    "q": "Defects remain unreviewed for several days during UAT. Which response best supports triage cadence?",
+    "code": "",
+    "opts": [
+      "Sign off the triage decision by email without identifying release version, scope, approver authority, or residual risk.",
+      "Hold regular triage with product, testing, development, and business decision-makers.",
+      "Defer the triage decision to the first week after launch and call production complaints the real acceptance cycle.",
+      "Validate the triage decision only with administrator accounts and miss ordinary user permission limits."
+    ],
+    "correct": 1,
+    "explanation": "Hold regular triage with product, testing, development, and business decision-makers. Fast triage protects the UAT timeline."
+  },
+  {
+    "section": "Defect Triage and Change Control",
+    "q": "Several test cases cannot run because a prerequisite service is down. What is the strongest UAT decision?",
+    "code": "",
+    "opts": [
+      "Keep the triage decision in scope after a major late change, but do not adjust schedule, data, or retest coverage.",
+      "Approve the triage decision with unresolved severe defects because the release date has already been announced.",
+      "Track blocked status separately and resolve environment blockers before judging results.",
+      "Sign off the triage decision by email without identifying release version, scope, approver authority, or residual risk."
+    ],
+    "correct": 2,
+    "explanation": "Track blocked status separately and resolve environment blockers before judging results. Blocked tests are not passes or fails."
+  },
+  {
+    "section": "Defect Triage and Change Control",
+    "q": "Many UAT defects trace to misunderstood requirements. Which option gives stakeholders usable acceptance evidence?",
+    "code": "",
+    "opts": [
+      "Ask a single expert user to approve the triage decision for every role, region, and skill level.",
+      "Count training attendance as proof of the triage decision, even though users never completed the workflow.",
+      "Keep the triage decision in scope after a major late change, but do not adjust schedule, data, or retest coverage.",
+      "Feed root causes back into refinement, examples, and review practices."
+    ],
+    "correct": 3,
+    "explanation": "Feed root causes back into refinement, examples, and review practices. UAT defects can reveal upstream process gaps."
+  },
+  {
+    "section": "Defect Triage and Change Control",
+    "q": "A late stakeholder wants to add a new department to UAT scope. How should the team validate scope control?",
+    "code": "",
+    "opts": [
+      "Assess schedule, data, risk, and approval impact before changing scope.",
+      "Skip retesting the triage decision after a fix because the developer says the defect is resolved.",
+      "Treat a vendor test certificate as complete the triage decision for local configuration and business process needs.",
+      "Ask a single expert user to approve the triage decision for every role, region, and skill level."
+    ],
+    "correct": 0,
+    "explanation": "Assess schedule, data, risk, and approval impact before changing scope. Uncontrolled scope changes can invalidate the plan."
+  },
+  {
+    "section": "Compliance, Audit and Formal Sign-Off",
+    "q": "A regulated workflow passes testing but no approver signs the record. What would make the acceptance result defensible?",
+    "code": "",
+    "opts": [
+      "Obtain documented sign-off from authorized stakeholders with scope and version identified.",
+      "Let each department define the sign-off record differently during execution instead of agreeing before testing starts.",
+      "Let developers certify the sign-off record on behalf of business users because the technical test suite passed.",
+      "Skip retesting the sign-off record after a fix because the developer says the defect is resolved."
+    ],
+    "correct": 0,
+    "explanation": "Obtain documented sign-off from authorized stakeholders with scope and version identified. Formal acceptance requires traceable approval."
+  },
+  {
+    "section": "Compliance, Audit and Formal Sign-Off",
+    "q": "Acceptance evidence is scattered across chats and screenshots. Which choice best reflects business readiness rather than technical completion?",
+    "code": "",
+    "opts": [
+      "Use completion percentage as the only release signal for the sign-off record, ignoring severity and business impact.",
+      "Store results, defects, approvals, and evidence in a controlled repository or test management system.",
+      "Run the sign-off record in an environment with missing integrations and still claim end-to-end business acceptance.",
+      "Let each department define the sign-off record differently during execution instead of agreeing before testing starts."
+    ],
+    "correct": 1,
+    "explanation": "Store results, defects, approvals, and evidence in a controlled repository or test management system. Auditability depends on organized records."
+  },
+  {
+    "section": "Compliance, Audit and Formal Sign-Off",
+    "q": "The implementer wants to approve their own regulated change. What should the UAT lead do next?",
+    "code": "",
+    "opts": [
+      "Record the sign-off record only as a meeting note, with no criteria, result, owner, defect link, or version.",
+      "Validate the sign-off record only with administrator accounts and miss ordinary user permission limits.",
+      "Use independent review or authorized business approval where required.",
+      "Use completion percentage as the only release signal for the sign-off record, ignoring severity and business impact."
+    ],
+    "correct": 2,
+    "explanation": "Use independent review or authorized business approval where required. Segregation reduces conflict of interest."
+  },
+  {
+    "section": "Compliance, Audit and Formal Sign-Off",
+    "q": "A system captures approvals electronically. Which option handles Electronic records with appropriate governance?",
+    "code": "",
+    "opts": [
+      "Replace the sign-off record with exploratory comments only, without pass/fail criteria or reproducible steps.",
+      "Sign off the sign-off record by email without identifying release version, scope, approver authority, or residual risk.",
+      "Record the sign-off record only as a meeting note, with no criteria, result, owner, defect link, or version.",
+      "Validate identity, timestamp, immutability, and retrieval requirements as applicable."
+    ],
+    "correct": 3,
+    "explanation": "Validate identity, timestamp, immutability, and retrieval requirements as applicable. Electronic approval controls can be compliance-critical."
+  },
+  {
+    "section": "Compliance, Audit and Formal Sign-Off",
+    "q": "The accepted workflow differs from the approved business procedure. What should be clarified before sign-off?",
+    "code": "",
+    "opts": [
+      "Resolve the mismatch by updating the procedure or the system before final acceptance.",
+      "Approve the sign-off record but leave workarounds, open defects, and conditions undocumented.",
+      "Keep the sign-off record in scope after a major late change, but do not adjust schedule, data, or retest coverage.",
+      "Replace the sign-off record with exploratory comments only, without pass/fail criteria or reproducible steps."
+    ],
+    "correct": 0,
+    "explanation": "Resolve the mismatch by updating the procedure or the system before final acceptance. A compliant system must align with controlled procedures."
+  },
+  {
+    "section": "Compliance, Audit and Formal Sign-Off",
+    "q": "A medical-adjacent product needs release documentation. Which approach best protects the release decision?",
+    "code": "",
+    "opts": [
+      "Close the sign-off record once a defect ticket exists, before triage, fix decision, or acceptance retest.",
+      "Compile requirements traceability, protocols, results, deviations, approvals, and summary report.",
+      "Ask a single expert user to approve the sign-off record for every role, region, and skill level.",
+      "Approve the sign-off record but leave workarounds, open defects, and conditions undocumented."
+    ],
+    "correct": 1,
+    "explanation": "Compile requirements traceability, protocols, results, deviations, approvals, and summary report. Validation packages prove intended use was tested."
+  },
+  {
+    "section": "Compliance, Audit and Formal Sign-Off",
+    "q": "A required acceptance step was skipped by mistake. What evidence would be most useful for go/no-go review?",
+    "code": "",
+    "opts": [
+      "Treat the sign-off record as complete after one happy-path script and skip exception, role, data, and integration variants.",
+      "Skip retesting the sign-off record after a fix because the developer says the defect is resolved.",
+      "Document the deviation, assess impact, perform corrective testing if needed, and get approval.",
+      "Close the sign-off record once a defect ticket exists, before triage, fix decision, or acceptance retest."
+    ],
+    "correct": 2,
+    "explanation": "Document the deviation, assess impact, perform corrective testing if needed, and get approval. Deviations must be controlled."
+  },
+  {
+    "section": "Compliance, Audit and Formal Sign-Off",
+    "q": "Project teams plan to delete UAT evidence after release. Which answer makes Retention observable and testable?",
+    "code": "",
+    "opts": [
+      "Classify blocked scenarios in the sign-off record as passed so the UAT dashboard reaches the target completion rate.",
+      "Let each department define the sign-off record differently during execution instead of agreeing before testing starts.",
+      "Treat the sign-off record as complete after one happy-path script and skip exception, role, data, and integration variants.",
+      "Retain acceptance evidence according to policy, contract, or regulatory requirements."
+    ],
+    "correct": 3,
+    "explanation": "Retain acceptance evidence according to policy, contract, or regulatory requirements. Evidence may be needed long after release."
+  },
+  {
+    "section": "Compliance, Audit and Formal Sign-Off",
+    "q": "A vendor delivers a configured module. What is the right way to involve business stakeholders?",
+    "code": "",
+    "opts": [
+      "Confirm vendor evidence, perform customer-specific acceptance, and document responsibilities.",
+      "Use production personal data for the sign-off record without masking, approval, or retention controls.",
+      "Use completion percentage as the only release signal for the sign-off record, ignoring severity and business impact.",
+      "Classify blocked scenarios in the sign-off record as passed so the UAT dashboard reaches the target completion rate."
+    ],
+    "correct": 0,
+    "explanation": "Confirm vendor evidence, perform customer-specific acceptance, and document responsibilities. Vendor testing rarely replaces local acceptance."
+  },
+  {
+    "section": "Compliance, Audit and Formal Sign-Off",
+    "q": "Stakeholders approve only if two minor issues are fixed next sprint. Which option avoids mistaking activity for acceptance?",
+    "code": "",
+    "opts": [
+      "Evaluate the sign-off record only on desktop even though supported users rely on other devices or browsers.",
+      "Record conditional approval with exact conditions, owners, dates, and residual risk.",
+      "Record the sign-off record only as a meeting note, with no criteria, result, owner, defect link, or version.",
+      "Use production personal data for the sign-off record without masking, approval, or retention controls."
+    ],
+    "correct": 1,
+    "explanation": "Record conditional approval with exact conditions, owners, dates, and residual risk. Conditional sign-off needs clarity to avoid misunderstanding."
+  },
+  {
+    "section": "Release Readiness and Post-Acceptance Learning",
+    "q": "UAT is 95% complete with one unresolved high-risk workflow. What should be documented before approval?",
+    "code": "",
+    "opts": [
+      "Approve the release recommendation from a demo of \"UAT is 95% complete with one unresolved high-risk workflow\" without documented user execution, evidence, or sign-off.",
+      "Make a go/no-go recommendation based on business risk, not only completion percentage.",
+      "Replace the release recommendation with exploratory comments only, without pass/fail criteria or reproducible steps.",
+      "Evaluate the release recommendation only on desktop even though supported users rely on other devices or browsers."
+    ],
+    "correct": 1,
+    "explanation": "Make a go/no-go recommendation based on business risk, not only completion percentage. A small untested area can carry major risk."
+  },
+  {
+    "section": "Release Readiness and Post-Acceptance Learning",
+    "q": "Executives ask for a concise UAT status. Which step would improve confidence in readiness dashboard?",
+    "code": "",
+    "opts": [
+      "Accept the release recommendation because the screen matches the design mockup, even though the workflow outcome was not validated.",
+      "Approve the release recommendation but leave workarounds, open defects, and conditions undocumented.",
+      "Report progress, pass/fail/blockers, open defect severity, risks, decisions needed, and confidence level.",
+      "Approve the release recommendation from a demo of \"Executives ask for a concise UAT status\" without documented user execution, evidence, or sign-off."
+    ],
+    "correct": 2,
+    "explanation": "Report progress, pass/fail/blockers, open defect severity, risks, decisions needed, and confidence level. Status reporting should support decisions."
+  },
+  {
+    "section": "Release Readiness and Post-Acceptance Learning",
+    "q": "The product passes UAT but deployment runbooks are missing. How should the team treat this UAT risk?",
+    "code": "",
+    "opts": [
+      "Accept the release recommendation based on old requirements and ignore criteria changes agreed during refinement.",
+      "Close the release recommendation once a defect ticket exists, before triage, fix decision, or acceptance retest.",
+      "Accept the release recommendation because the screen matches the design mockup, even though the workflow outcome was not validated.",
+      "Include deployment, rollback, support, training, data, and communication readiness in final checks."
+    ],
+    "correct": 3,
+    "explanation": "Include deployment, rollback, support, training, data, and communication readiness in final checks. Release success depends on more than feature acceptance."
+  },
+  {
+    "section": "Release Readiness and Post-Acceptance Learning",
+    "q": "Full rollout risk is high for a new operational workflow. Which response best aligns with release readiness?",
+    "code": "",
+    "opts": [
+      "Use a pilot or phased rollout with feedback and rollback criteria.",
+      "Start the release recommendation before the build, data, accounts, and support channel are ready.",
+      "Treat the release recommendation as complete after one happy-path script and skip exception, role, data, and integration variants.",
+      "Accept the release recommendation based on old requirements and ignore criteria changes agreed during refinement."
+    ],
+    "correct": 0,
+    "explanation": "Use a pilot or phased rollout with feedback and rollback criteria. Pilots reduce risk and validate real-world acceptance."
+  },
+  {
+    "section": "Release Readiness and Post-Acceptance Learning",
+    "q": "A major release changes daily work for frontline users. What should be included in the acceptance record?",
+    "code": "",
+    "opts": [
+      "Move the release recommendation decisions into informal chat so they cannot be audited or linked to requirements.",
+      "Plan hypercare support, monitoring, issue intake, and rapid triage after launch.",
+      "Classify blocked scenarios in the release recommendation as passed so the UAT dashboard reaches the target completion rate.",
+      "Start the release recommendation before the build, data, accounts, and support channel are ready."
+    ],
+    "correct": 1,
+    "explanation": "Plan hypercare support, monitoring, issue intake, and rapid triage after launch. Post-release support protects adoption."
+  },
+  {
+    "section": "Release Readiness and Post-Acceptance Learning",
+    "q": "UAT revealed repeated late requirement changes. Which choice keeps Lessons learned tied to user value?",
+    "code": "",
+    "opts": [
+      "Use perfect test data for the release recommendation and avoid historical, migrated, invalid, or edge-case records.",
+      "Use production personal data for the release recommendation without masking, approval, or retention controls.",
+      "Hold a retrospective and improve refinement, examples, stakeholder engagement, and entry criteria.",
+      "Move the release recommendation decisions into informal chat so they cannot be audited or linked to requirements."
+    ],
+    "correct": 2,
+    "explanation": "Hold a retrospective and improve refinement, examples, stakeholder engagement, and entry criteria. Learning improves the next acceptance cycle."
+  },
+  {
+    "section": "Release Readiness and Post-Acceptance Learning",
+    "q": "A feature is accepted but expected efficiency gains are uncertain. What should happen before the test is counted as passed?",
+    "code": "",
+    "opts": [
+      "Use product-owner preference as approval for the release recommendation, even when impacted operational users were not represented.",
+      "Evaluate the release recommendation only on desktop even though supported users rely on other devices or browsers.",
+      "Use perfect test data for the release recommendation and avoid historical, migrated, invalid, or edge-case records.",
+      "Track post-release outcome metrics agreed with business stakeholders."
+    ],
+    "correct": 3,
+    "explanation": "Track post-release outcome metrics agreed with business stakeholders. Acceptance confirms readiness; benefits may need later measurement."
+  },
+  {
+    "section": "Release Readiness and Post-Acceptance Learning",
+    "q": "Several low-priority issues are moved past release. Which next step would prevent a weak sign-off?",
+    "code": "",
+    "opts": [
+      "Keep a visible backlog with owners, target dates, and risk acceptance.",
+      "Use automated checks alone for the release recommendation when the question is usability, process fit, or business judgment.",
+      "Approve the release recommendation from a demo of \"Several low-priority issues are moved past release\" without documented user execution, evidence, or sign-off.",
+      "Use product-owner preference as approval for the release recommendation, even when impacted operational users were not represented."
+    ],
+    "correct": 0,
+    "explanation": "Keep a visible backlog with owners, target dates, and risk acceptance. Deferred work should not disappear."
+  },
+  {
+    "section": "Release Readiness and Post-Acceptance Learning",
+    "q": "Users need to know what changed at launch. What is the most appropriate acceptance-testing response?",
+    "code": "",
+    "opts": [
+      "Approve the release recommendation without checking downstream reports, audit trails, notifications, or reconciliation points.",
+      "Prepare release communications explaining impact, timing, support, and known issues.",
+      "Accept the release recommendation because the screen matches the design mockup, even though the workflow outcome was not validated.",
+      "Use automated checks alone for the release recommendation when the question is usability, process fit, or business judgment."
+    ],
+    "correct": 1,
+    "explanation": "Prepare release communications explaining impact, timing, support, and known issues. Clear communication improves adoption."
+  },
+  {
+    "section": "Release Readiness and Post-Acceptance Learning",
+    "q": "All critical scenarios pass and minor issues have accepted workarounds. Which option gives the best evidence for final recommendation?",
+    "code": "",
+    "opts": [
+      "Defer the release recommendation to the first week after launch and call production complaints the real acceptance cycle.",
+      "Accept the release recommendation based on old requirements and ignore criteria changes agreed during refinement.",
+      "Recommend release with documented residual risks, approvals, and monitoring plan.",
+      "Approve the release recommendation without checking downstream reports, audit trails, notifications, or reconciliation points."
+    ],
+    "correct": 2,
+    "explanation": "Recommend release with documented residual risks, approvals, and monitoring plan. A mature recommendation states both confidence and remaining risk."
+  }
+];
+const SECTIONS  = [
+  {
+    "key": "Acceptance Testing Foundations",
+    "label": "Section A - Acceptance Testing Foundations",
+    "cls": "sec-data",
+    "range": "Questions 1-10"
+  },
+  {
+    "key": "Requirements and Acceptance Criteria",
+    "label": "Section B - Requirements and Acceptance Criteria",
+    "cls": "sec-clf",
+    "range": "Questions 11-20"
+  },
+  {
+    "key": "UAT Planning and Stakeholder Coordination",
+    "label": "Section C - UAT Planning and Stakeholder Coordination",
+    "cls": "sec-dl",
+    "range": "Questions 21-30"
+  },
+  {
+    "key": "Scenario and Test Design for Acceptance",
+    "label": "Section D - Scenario and Test Design for Acceptance",
+    "cls": "sec-nlp",
+    "range": "Questions 31-40"
+  },
+  {
+    "key": "Business Data, Environments and Integrations",
+    "label": "Section E - Business Data, Environments and Integrations",
+    "cls": "sec-llm",
+    "range": "Questions 41-50"
+  },
+  {
+    "key": "Agile, BDD and Continuous Acceptance",
+    "label": "Section F - Agile, BDD and Continuous Acceptance",
+    "cls": "sec-ops",
+    "range": "Questions 51-60"
+  },
+  {
+    "key": "Nonfunctional and Operational Acceptance",
+    "label": "Section G - Nonfunctional and Operational Acceptance",
+    "cls": "sec-data",
+    "range": "Questions 61-70"
+  },
+  {
+    "key": "Defect Triage and Change Control",
+    "label": "Section H - Defect Triage and Change Control",
+    "cls": "sec-clf",
+    "range": "Questions 71-80"
+  },
+  {
+    "key": "Compliance, Audit and Formal Sign-Off",
+    "label": "Section I - Compliance, Audit and Formal Sign-Off",
+    "cls": "sec-dl",
+    "range": "Questions 81-90"
+  },
+  {
+    "key": "Release Readiness and Post-Acceptance Learning",
+    "label": "Section J - Release Readiness and Post-Acceptance Learning",
+    "cls": "sec-nlp",
+    "range": "Questions 91-100"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+
+let mode = 'guided', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 2*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function renderCode(code){
+  // Escape HTML, then highlight ??? as the blank marker
+  return escapeHtml(code).replace(/\?\?\?/g, '<span class="blank">???</span>');
+}
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='02:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  const codeBlock = q.code ? '<pre class="q-code">'+renderCode(q.code)+'</pre>' : '';
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   codeBlock
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/100';
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/100';
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  if(pct>=0.9){ grade='Acceptance Testing Lead'; blurb='Excellent command of UAT planning, acceptance criteria, evidence, stakeholder decision-making, and release readiness.'; }
+  else if(pct>=0.75){ grade='Strong UAT Practitioner'; blurb='Strong practical readiness. Review missed domains around criteria quality, business workflow coverage, and sign-off evidence.'; }
+  else if(pct>=0.6){ grade='Developing Acceptance Tester'; blurb='Good foundation. Practice converting business needs into verifiable scenarios and clear release evidence.'; }
+  else if(pct>=0.4){ grade='Acceptance Foundations Building'; blurb='Core concepts are forming. Focus on acceptance criteria, UAT roles, realistic data, and defect triage.'; }
+  else { grade='Begin the UAT Path'; blurb='Start with business requirements, user workflows, simple scenarios, and documented pass/fail evidence.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 100 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one question at a time. 2-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Certificate name</label>
+    <input id="chmlCertNameInput" type="text" maxlength="80" placeholder="Enter name for certificate" oninput="chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" type="button" onclick="chmlPrintCertificate()">Print / Save as PDF</button>
+    <button class="chml-cert-btn secondary" type="button" onclick="chmlHideCertificate()">Hide Certificate</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div><div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker"><span id="chmlCertExamKicker">Knowledge Hub Examination</span></div>
+      <h1 class="chml-cert-h1">Certificate of Completion</h1>
+      <div class="chml-cert-rule"></div>
+      <p class="chml-cert-pre">This certifies that</p>
+      <p class="chml-cert-name" id="chmlCertName">Learner</p>
+      <p class="chml-cert-body">has successfully completed the <b id="chmlCertExamName">Knowledge Hub Exam</b>.</p>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">0 / 0</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">-</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Quak Foo Lee</div><div class="chml-cert-sig-label">Chmltech Ltd.</div></div>
+        <div class="chml-cert-id">Certificate ID: <span id="chmlCertId">-</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertificateInstalled) return;
+  window.__chmlCertificateInstalled = true;
+  function textOf(sel){var el=document.querySelector(sel);return el?el.textContent.trim():'';}
+  function examTitle(){return textOf('h1.title')||textOf('header h1')||textOf('h1')||document.title.replace(/\s+/g,' ').trim()||'Knowledge Hub Exam';}
+  function parseFirstNumber(txt){var m=String(txt||'').match(/\d+/);return m?parseInt(m[0],10):null;}
+  function parseScoreTotal(){
+    var correct=parseFirstNumber(textOf('#rScore'));
+    var total=null;
+    var rt=textOf('#rTotal');
+    if(rt) total=parseFirstNumber(rt);
+    if(!total){var sb=textOf('.score-big');var m=sb.match(/\/\s*(\d+)/);if(m) total=parseInt(m[1],10);}
+    if(!total) total=parseFirstNumber(textOf('#progTotal'));
+    if(!total){var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;if(cards) total=cards;}
+    if(!correct && correct!==0) correct=parseFirstNumber(textOf('#scoreNum'));
+    return {correct:correct||0,total:total||0};
+  }
+  function totalFromBreakdown(byType){
+    if(!byType || typeof byType!=='object') return null;
+    var total=0, found=false;
+    Object.keys(byType).forEach(function(k){var v=byType[k];if(v&&typeof v==='object'){var n=v.t||v.total||v.count;if(typeof n==='number'){total+=n;found=true;}}});
+    return found?total:null;
+  }
+  function hashCode(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+  window.chmlUpdateCertificateName=function(name){document.getElementById('chmlCertName').textContent=(name||'').trim()||'Learner';};
+  window.chmlHideCertificate=function(){var c=document.getElementById('chmlCertificate');if(c)c.classList.remove('show');};
+  window.chmlPrintCertificate=function(){window.print();};
+  window.chmlRenderCertificate=function(correct,total,grade){
+    var cert=document.getElementById('chmlCertificate');if(!cert)return;
+    var title=examTitle();
+    var nameInput=document.getElementById('chmlCertNameInput');
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
+    var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
+    document.getElementById('chmlCertExamName').textContent=title;
+    document.getElementById('chmlCertName').textContent=learner;
+    document.getElementById('chmlCertScore').textContent=String(correct)+' / '+String(total||0)+(total?(' ('+Math.round((correct/total)*100)+'%)'):'');
+    document.getElementById('chmlCertDate').textContent=date;
+    document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
+    cert.classList.add('show');
+  };
+
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
+    var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){
+      var parsed=parseScoreTotal();
+      if(correct===null || isNaN(correct)) correct=parsed.correct;
+      if(!total) total=parsed.total;
+      if(total || correct || document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0);
+    },60);
+  }
+  if(typeof window.showResults==='function'){
+    var originalShowResults=window.showResults;
+    window.showResults=function(){var out=originalShowResults.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  if(typeof window.submitExam==='function'){
+    var originalSubmitExam=window.submitExam;
+    window.submitExam=function(){var out=originalSubmitExam.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  ['resetExam','newExam'].forEach(function(fn){
+    if(typeof window[fn]==='function'){
+      var original=window[fn];
+      window[fn]=function(){window.chmlHideCertificate();return original.apply(this,arguments);};
+    }
+  });
+})();
+</script>
+
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>
