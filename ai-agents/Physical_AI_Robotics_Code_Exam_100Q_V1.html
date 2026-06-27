@@ -1,0 +1,2137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physical AI — Mock Exam · 100Q</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  /* Section accents (robotics-themed) */
+  --ros:#1d3b7d;
+  --cv:#0e6b6a;
+  --slam:#a8590e;
+  --ctrl:#5a2585;
+  --rl:#226b2d;
+  --vla:#9b2c3a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+  /* Code block colors */
+  --code-bg:#1d2330;
+  --code-fg:#d8d4c4;
+  --code-comment:#8f96a8;
+  --code-blank-bg:#5a3a0d;
+  --code-blank-fg:#ffd57a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(29,59,125,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(155,44,58,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.6rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--ros),var(--vla));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-ros{background:linear-gradient(100deg,var(--ros),#0c2349)}
+.sec-cv{background:linear-gradient(100deg,var(--cv),#06403f)}
+.sec-slam{background:linear-gradient(100deg,var(--slam),#5f3406)}
+.sec-ctrl{background:linear-gradient(100deg,var(--ctrl),#311148)}
+.sec-rl{background:linear-gradient(100deg,var(--rl),#0e3d18)}
+.sec-vla{background:linear-gradient(100deg,var(--vla),#5b181f)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.06rem;line-height:1.55;margin-bottom:14px;font-weight:500}
+.q-code{
+  font-family:'JetBrains Mono',monospace;font-size:.86rem;line-height:1.55;
+  background:var(--code-bg);color:var(--code-fg);
+  padding:14px 16px;margin:0 0 16px;border-radius:4px;
+  overflow-x:auto;white-space:pre;
+  border:1px solid #2a3142;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.q-code .blank{
+  background:var(--code-blank-bg);color:var(--code-blank-fg);
+  padding:1px 6px;border-radius:3px;font-weight:700;
+  border:1px dashed #c89542;
+}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:11px 14px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.55);transition:all .18s ease;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.08);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s;margin-top:1px}
+.opt .otext{flex:1;font-family:'JetBrains Mono',monospace;font-size:.86rem;line-height:1.5;word-break:break-word;padding-top:3px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.12)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center;font-family:'JetBrains Mono',monospace}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.95rem;font-family:'JetBrains Mono',monospace;word-break:break-word}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:180px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 16px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:.98rem}
+  .q-code{font-size:.78rem}
+  .opt .otext{font-size:.78rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Code Completion Examination &middot; Physical AI</div>
+    <h1 class="title">Physical AI <span class="amp">&amp;</span> Robotics Code Exam</h1>
+    <div class="byline">100 case-study code-completion questions across ROS 2, perception, SLAM, control, RL, and embodied foundation models</div>
+    <div class="exambar">
+      <span><b>100</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>100</b> Marks</span>
+      <span>Exam Mode: <b>2 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/100</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">02:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/100</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 2-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    Physical AI &middot; 100 code-completion case studies
+    <div class="disclaimer">An independent study resource for robotics and embodied-AI practitioners. APIs evolve &mdash; always verify current syntax against official documentation for production code.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team is starting a new ROS 2 node in Python to act as a sensor publisher. Complete the initialization that creates the node named 'lidar_publisher'.",
+    "code": "import rclpy\nfrom rclpy.node import Node\n\nclass LidarPublisher(Node):\n    def __init__(self):\n        # Initialize the node with name 'lidar_publisher'\n        ???",
+    "opts": [
+      "rclpy.create_node('lidar_publisher')",
+      "Node.init('lidar_publisher')",
+      "super().__init__('lidar_publisher')",
+      "self.node_name = 'lidar_publisher'"
+    ],
+    "correct": 2,
+    "explanation": "In ROS 2 Python (rclpy), a node subclass calls `super().__init__(node_name)` in its constructor. The other forms don't initialize the underlying C++ node properly."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team wants to publish twist commands at 10 Hz on the /cmd_vel topic to drive a differential-drive robot.",
+    "code": "from geometry_msgs.msg import Twist\n\n# Create publisher on /cmd_vel with queue depth 10\nself.pub = ???",
+    "opts": [
+      "self.create_publisher('/cmd_vel', Twist, queue_size=10)",
+      "self.create_publisher(Twist, '/cmd_vel', 10)",
+      "rclpy.publish('/cmd_vel', Twist, 10)",
+      "self.Publisher(Twist, '/cmd_vel', queue=10)"
+    ],
+    "correct": 1,
+    "explanation": "`Node.create_publisher(msg_type, topic_name, qos_or_depth)` is the ROS 2 signature. ROS 1 used `queue_size`, but ROS 2 takes a QoS profile or an integer depth. The other forms are not part of the rclpy API."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A perception node needs to subscribe to /camera/image_raw and invoke a callback for each frame.",
+    "code": "from sensor_msgs.msg import Image\n\n# Subscribe to /camera/image_raw with depth 10\nself.sub = ???",
+    "opts": [
+      "self.subscribe('/camera/image_raw', Image, self.image_callback, queue_size=10)",
+      "self.create_subscription('/camera/image_raw', Image, self.image_callback)",
+      "self.Subscriber(Image, '/camera/image_raw', self.image_callback)",
+      "self.create_subscription(Image, '/camera/image_raw', self.image_callback, 10)"
+    ],
+    "correct": 3,
+    "explanation": "ROS 2 signature: `create_subscription(msg_type, topic, callback, qos_or_depth)`. The other forms swap argument order or use ROS 1 / non-existent APIs."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "After constructing a node, the team needs to keep it processing callbacks until shutdown.",
+    "code": "def main():\n    rclpy.init()\n    node = LidarPublisher()\n    # Block and process callbacks\n    ???\n    node.destroy_node()\n    rclpy.shutdown()",
+    "opts": [
+      "node.spin()",
+      "rclpy.spin(node)",
+      "rclpy.run(node)",
+      "node.loop()"
+    ],
+    "correct": 1,
+    "explanation": "`rclpy.spin(node)` blocks and processes incoming messages and timers until the node is shut down. `node.spin()` and the other forms are not part of the rclpy API."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team needs to look up the transform from the base_link frame to the map frame at the latest available time using tf2.",
+    "code": "from rclpy.time import Time\n\ntry:\n    # Lookup transform map <- base_link at the latest time\n    t = self.tf_buffer.lookup_transform(\n        'map', 'base_link', ???\n    )\nexcept Exception as e:\n    self.get_logger().warn(f'tf lookup failed: {e}')",
+    "opts": [
+      "Time.now()",
+      "Time()",
+      "rclpy.time.latest()",
+      "'latest'"
+    ],
+    "correct": 1,
+    "explanation": "In tf2, passing an empty `Time()` requests the latest available transform. `Time.now()` requests the transform at the current time (which may not yet be available, causing a wait or error). The other forms are not valid."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A motion-planning node needs to convert a quaternion (x, y, z, w) into roll/pitch/yaw Euler angles using SciPy's Rotation class.",
+    "code": "from scipy.spatial.transform import Rotation as R\n\n# Quaternion in (x, y, z, w) order\nq = [0.0, 0.0, 0.7071, 0.7071]\n\n# Convert to roll, pitch, yaw (radians)\nrpy = ???",
+    "opts": [
+      "R.quat2euler(q, 'xyz')",
+      "R.from_quat(q).as_rpy()",
+      "R.from_quat(q).as_euler('xyz')",
+      "R.from_quat(q).euler('rpy')"
+    ],
+    "correct": 2,
+    "explanation": "SciPy's Rotation API uses `R.from_quat(q)` (expects (x,y,z,w) order) then `.as_euler(seq)` with a sequence like 'xyz' or 'ZYX'. The other methods don't exist."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team is broadcasting a static transform from base_link to laser_frame so the lidar mount is correctly oriented in the TF tree.",
+    "code": "from geometry_msgs.msg import TransformStamped\nfrom tf2_ros import StaticTransformBroadcaster\n\nself.static_broadcaster = StaticTransformBroadcaster(self)\n\nt = TransformStamped()\nt.header.stamp = self.get_clock().now().to_msg()\nt.header.frame_id = 'base_link'\nt.child_frame_id = 'laser_frame'\nt.transform.translation.x = 0.2\n# Publish the static transform\n???",
+    "opts": [
+      "self.static_broadcaster.publish(t)",
+      "self.static_broadcaster.sendTransform(t)",
+      "self.static_broadcaster.broadcast(t)",
+      "self.tf_buffer.set_transform(t)"
+    ],
+    "correct": 1,
+    "explanation": "`StaticTransformBroadcaster.sendTransform(transform)` publishes the static transform on /tf_static. The other method names are not part of the API."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team is publishing a Twist command to drive a robot forward at 0.5 m/s with no rotation. Complete the message construction.",
+    "code": "from geometry_msgs.msg import Twist\n\nmsg = Twist()\n# Set linear x = 0.5, angular z = 0\n???\nself.pub.publish(msg)",
+    "opts": [
+      "msg.vx = 0.5; msg.omega = 0.0",
+      "msg.linear[0] = 0.5; msg.angular[2] = 0.0",
+      "msg.linear.x = 0.5; msg.angular.z = 0.0",
+      "msg.set_linear(0.5, 0, 0); msg.set_angular(0, 0, 0)"
+    ],
+    "correct": 2,
+    "explanation": "`Twist` has `.linear` and `.angular` Vector3 fields, each with x, y, z. The other forms use indexing or non-existent setters."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team is publishing a JointState message for a 6-DOF arm. Complete the field assignments.",
+    "code": "from sensor_msgs.msg import JointState\n\nmsg = JointState()\nmsg.header.stamp = self.get_clock().now().to_msg()\n# Joint names and positions for a 6-DOF arm\nmsg.name = ['joint1','joint2','joint3','joint4','joint5','joint6']\n???",
+    "opts": [
+      "msg.angles = [0.0, 0.1, -0.2, 0.0, 0.3, 0.0]",
+      "msg.positions = [0.0, 0.1, -0.2, 0.0, 0.3, 0.0]",
+      "msg.joint_positions = [0.0, 0.1, -0.2, 0.0, 0.3, 0.0]",
+      "msg.position = [0.0, 0.1, -0.2, 0.0, 0.3, 0.0]"
+    ],
+    "correct": 3,
+    "explanation": "The standard `sensor_msgs/JointState` message has fields `name`, `position` (singular), `velocity`, and `effort`. The other field names are not part of the message definition."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team is sending an action goal to a Nav2 navigation action server to drive the robot to a target pose.",
+    "code": "from rclpy.action import ActionClient\nfrom nav2_msgs.action import NavigateToPose\n\nself.nav_client = ActionClient(self, NavigateToPose, '/navigate_to_pose')\n\ngoal = NavigateToPose.Goal()\ngoal.pose.header.frame_id = 'map'\ngoal.pose.pose.position.x = 2.0\n\n# Send the goal asynchronously\nfuture = ???",
+    "opts": [
+      "self.nav_client.call(goal)",
+      "self.nav_client.send(goal)",
+      "self.nav_client.send_goal_async(goal)",
+      "self.nav_client.execute(goal)"
+    ],
+    "correct": 2,
+    "explanation": "ROS 2 action clients use `send_goal_async(goal)` to send goals and return a future. The other method names are not part of the rclpy action API."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team is declaring a node parameter 'max_velocity' with default 1.0 that can be overridden from a launch file.",
+    "code": "class DriveNode(Node):\n    def __init__(self):\n        super().__init__('drive_node')\n        # Declare 'max_velocity' parameter with default 1.0\n        ???\n        v = self.get_parameter('max_velocity').value",
+    "opts": [
+      "self.set_param('max_velocity', 1.0)",
+      "self.declare_parameter('max_velocity', 1.0)",
+      "self.add_parameter('max_velocity', default=1.0)",
+      "self.parameter('max_velocity', 1.0)"
+    ],
+    "correct": 1,
+    "explanation": "`Node.declare_parameter(name, default_value)` declares a parameter. Without declaring, calling `get_parameter` raises an error. The other method names are not part of the rclpy API."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team is creating a 50 Hz control-loop timer that calls a control_step method.",
+    "code": "# Timer running at 50 Hz\nself.timer = ???",
+    "opts": [
+      "self.create_timer(self.control_step, hz=50)",
+      "self.create_timer(50, self.control_step)",
+      "self.create_timer(1.0/50, self.control_step)",
+      "rclpy.Timer(0.02, self.control_step)"
+    ],
+    "correct": 2,
+    "explanation": "`Node.create_timer(period_seconds, callback)` takes the period in seconds. For 50 Hz the period is 1/50 = 0.02 s. Option B passes 50 seconds (very slow). Option C swaps argument order with an invalid kwarg. Option D uses a non-existent class."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team is converting a roll/pitch/yaw triple back into a quaternion for publishing on a TF message.",
+    "code": "from scipy.spatial.transform import Rotation as R\n\nroll, pitch, yaw = 0.0, 0.0, 1.57\n\n# Quaternion in (x, y, z, w) order, ready for TransformStamped\nq = ???",
+    "opts": [
+      "R.from_euler('xyz', roll, pitch, yaw).quaternion()",
+      "R.from_rpy(roll, pitch, yaw).as_quat()",
+      "R.euler2quat([roll, pitch, yaw], 'xyz')",
+      "R.from_euler('xyz', [roll, pitch, yaw]).as_quat()"
+    ],
+    "correct": 3,
+    "explanation": "`R.from_euler(seq, angles)` builds a rotation from Euler angles; `.as_quat()` returns it in (x, y, z, w) order — matching ROS conventions. The other methods don't exist."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team is reading the latest /scan LaserScan message and converting it to a NumPy array of ranges for further processing.",
+    "code": "import numpy as np\nfrom sensor_msgs.msg import LaserScan\n\ndef scan_callback(self, msg: LaserScan):\n    # Convert ranges (a tuple/list) to a NumPy array\n    ranges = ???\n    # Replace infinities with the maximum sensor range\n    ranges = np.where(np.isinf(ranges), msg.range_max, ranges)",
+    "opts": [
+      "np.asarray(msg.ranges, dtype=np.float32)",
+      "msg.ranges.to_numpy()",
+      "msg.ranges.array(float32)",
+      "np.LaserScan(msg.ranges)"
+    ],
+    "correct": 0,
+    "explanation": "`np.asarray(msg.ranges)` converts the ranges sequence to a NumPy array. The `.to_numpy()` method exists for pandas, not ROS messages. The other forms are not valid."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team is publishing an OccupancyGrid map. Each cell value is 0 (free), 100 (occupied), or -1 (unknown). Complete the conversion of a NumPy occupancy probability map to OccupancyGrid data.",
+    "code": "import numpy as np\nfrom nav_msgs.msg import OccupancyGrid\n\nprob_map = np.random.rand(100, 100)\ngrid = OccupancyGrid()\ngrid.info.resolution = 0.05\ngrid.info.width = 100\ngrid.info.height = 100\n\n# Convert probabilities [0,1] to int8 in [0,100], then to a flat list\ndata = (prob_map * 100).astype(np.int8)\ngrid.data = ???",
+    "opts": [
+      "data.flatten().tolist()",
+      "data.tolist()",
+      "list(data)",
+      "data.reshape(-1).astype(int)"
+    ],
+    "correct": 0,
+    "explanation": "`OccupancyGrid.data` is a flat list of int8 in row-major order. `.flatten().tolist()` produces a flat Python list of ints. `.tolist()` on a 2D array gives a nested list (wrong). `list(data)` gives a list of NumPy row arrays. Option D returns a NumPy array, not a list."
+  },
+  {
+    "section": "Robotics Foundations & ROS 2",
+    "q": "A team is computing the relative pose of frame B with respect to frame A from two homogeneous transforms.",
+    "code": "import numpy as np\n\n# T_world_A: 4x4, T_world_B: 4x4 homogeneous transforms\n# Pose of B in A's frame\nT_A_B = ???",
+    "opts": [
+      "T_world_A @ T_world_B",
+      "np.linalg.inv(T_world_A) @ T_world_B",
+      "T_world_B @ np.linalg.inv(T_world_A)",
+      "np.linalg.inv(T_world_B @ T_world_A)"
+    ],
+    "correct": 1,
+    "explanation": "To express B in A's frame: `T_A_B = T_A_world @ T_world_B = inv(T_world_A) @ T_world_B`. Option B gives the composition (chained), not the relative pose. Option C composes in the wrong order. Option D inverts the wrong product."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is loading an RGB image from disk using OpenCV in a robot vision pipeline.",
+    "code": "import cv2\n\n# Load image from disk\nimg = ???\nprint(img.shape)",
+    "opts": [
+      "cv2.imread('frame.png')",
+      "cv2.load('frame.png')",
+      "cv2.read('frame.png')",
+      "cv2.open('frame.png')"
+    ],
+    "correct": 0,
+    "explanation": "`cv2.imread(path)` loads an image. Note that OpenCV reads images in **BGR** order by default. The other function names are not part of the OpenCV API."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is integrating an OpenCV-loaded image into a PyTorch pipeline that expects RGB. They need to convert the colour ordering.",
+    "code": "import cv2\n\nimg_bgr = cv2.imread('frame.png')\n# Convert BGR to RGB\nimg_rgb = ???",
+    "opts": [
+      "cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)",
+      "cv2.convert(img_bgr, 'RGB')",
+      "img_bgr[:, :, ::-1].copy()",
+      "cv2.bgr2rgb(img_bgr)"
+    ],
+    "correct": 0,
+    "explanation": "`cv2.cvtColor(img, code)` with `COLOR_BGR2RGB` swaps channels. Note: `img[:, :, ::-1]` also produces the same array but returns a *view*; many libraries require a contiguous copy. Option C with `.copy()` is also valid in practice, but the canonical OpenCV idiom is `cvtColor`. Options B and D use functions that don't exist."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team needs to resize a frame to 224x224 for a vision backbone before inference.",
+    "code": "import cv2\n\n# Resize to 224x224\nresized = ???",
+    "opts": [
+      "cv2.resize(img, (224, 224))",
+      "cv2.resize(img, (224, 224, 3))",
+      "cv2.scale(img, 224, 224)",
+      "img.resize((224, 224))"
+    ],
+    "correct": 0,
+    "explanation": "`cv2.resize(src, (width, height))` takes a (width, height) tuple — note the order. Option B passes a 3-tuple which is invalid. Option C uses a non-existent function. Option D calls a NumPy method that doesn't operate this way."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is projecting 3D world points onto a 2D image plane using OpenCV given camera intrinsics K and extrinsics (R, t).",
+    "code": "import cv2\nimport numpy as np\n\n# pts_3d: (N, 3) NumPy array, K: 3x3, rvec: (3,), tvec: (3,)\n# Project to image pixels\npts_2d, _ = ???",
+    "opts": [
+      "cv2.project(pts_3d, K, R, t)",
+      "cv2.projectPoints(pts_3d, rvec, tvec, K, distCoeffs=None)",
+      "K @ (R @ pts_3d.T + tvec)",
+      "cv2.world2img(pts_3d, K, rvec, tvec)"
+    ],
+    "correct": 1,
+    "explanation": "`cv2.projectPoints(objectPoints, rvec, tvec, cameraMatrix, distCoeffs)` returns the projected 2D points and the Jacobian. The rotation is given as an axis-angle vector (rvec). Option C does a partial projection but doesn't normalize by depth and doesn't apply distortion. The other functions don't exist."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is converting a depth image (shape H×W, in metres) into a point cloud using the pinhole camera model with intrinsics K.",
+    "code": "import numpy as np\n\nH, W = depth.shape\nfx, fy = K[0,0], K[1,1]\ncx, cy = K[0,2], K[1,2]\n\nu, v = np.meshgrid(np.arange(W), np.arange(H))\nz = depth\n# Compute x and y in camera frame\nx = ???\ny = (v - cy) * z / fy\npoints = np.stack([x, y, z], axis=-1).reshape(-1, 3)",
+    "opts": [
+      "u * z / fx - cx",
+      "(u - cx) / fx * z + cx",
+      "(u - cx) * z / fx",
+      "(cx - u) * z / fx"
+    ],
+    "correct": 2,
+    "explanation": "The pinhole inverse: `X = (u - cx) * Z / fx`. Option B applies cx twice. Option C doesn't subtract cx before scaling. Option D inverts the sign."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is loading a .ply point cloud file with Open3D for downstream processing.",
+    "code": "import open3d as o3d\n\n# Load the point cloud\npcd = ???\nprint(pcd)",
+    "opts": [
+      "o3d.PointCloud.load('cloud.ply')",
+      "o3d.io.read_point_cloud('cloud.ply')",
+      "o3d.read('cloud.ply', type='ply')",
+      "o3d.io.load_pointcloud('cloud.ply')"
+    ],
+    "correct": 1,
+    "explanation": "Open3D's IO API uses `o3d.io.read_point_cloud(path)` for point clouds and `read_triangle_mesh(path)` for meshes. The other names are not part of the API."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is downsampling a dense point cloud to a 5 cm voxel grid for faster registration.",
+    "code": "import open3d as o3d\n\n# Voxel-downsample with 5 cm voxel size\ndown = ???",
+    "opts": [
+      "pcd.voxel_down_sample(voxel_size=0.05)",
+      "pcd.downsample(0.05)",
+      "pcd.subsample(voxel=0.05)",
+      "o3d.voxel_downsample(pcd, 0.05)"
+    ],
+    "correct": 0,
+    "explanation": "Open3D's `PointCloud.voxel_down_sample(voxel_size=)` is the canonical downsampling method. The other names are not part of the API."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is registering two point clouds with the iterative closest point (ICP) algorithm using Open3D.",
+    "code": "import open3d as o3d\nimport numpy as np\n\n# Initial guess (identity)\ninit = np.eye(4)\nthreshold = 0.05\n\n# Point-to-point ICP\nreg = ???",
+    "opts": [
+      "o3d.pipelines.registration.registration_icp(source, target, threshold, init, o3d.pipelines.registration.TransformationEstimationPointToPoint())",
+      "o3d.icp(source, target, init, threshold)",
+      "o3d.pipelines.icp.run(source, target, threshold, init)",
+      "source.icp(target, threshold, init)"
+    ],
+    "correct": 0,
+    "explanation": "Open3D's registration API is `o3d.pipelines.registration.registration_icp(source, target, max_correspondence_distance, init, estimation_method)`. The other call forms are not part of the Open3D API."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is segmenting the floor plane from a point cloud using RANSAC.",
+    "code": "import open3d as o3d\n\n# Fit a plane with RANSAC, distance threshold 2 cm\nplane_model, inliers = ???",
+    "opts": [
+      "pcd.segment_plane(distance_threshold=0.02, ransac_n=3, num_iterations=1000)",
+      "pcd.fit_plane(threshold=0.02, iters=1000)",
+      "o3d.ransac.plane(pcd, threshold=0.02)",
+      "pcd.plane_segment(0.02, n=3, iters=1000)"
+    ],
+    "correct": 0,
+    "explanation": "Open3D's `PointCloud.segment_plane(distance_threshold=, ransac_n=, num_iterations=)` returns the plane coefficients [a,b,c,d] and the inlier indices. The other forms are not part of the API."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is running a YOLO object detector for a pick-and-place robot. Complete the inference call using the ultralytics package.",
+    "code": "from ultralytics import YOLO\n\nmodel = YOLO('yolov8n.pt')\n\n# Run inference on a frame, confidence threshold 0.5\nresults = ???",
+    "opts": [
+      "model.detect(frame, threshold=0.5)",
+      "model(frame, conf=0.5)",
+      "model.predict_image(frame, min_conf=0.5)",
+      "model.infer(frame, confidence=0.5)"
+    ],
+    "correct": 1,
+    "explanation": "Ultralytics YOLO models are called like functions: `model(source, conf=, iou=, ...)`. `.predict()` also works and accepts the same kwargs. The other method names are not part of the API."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is computing the intersection-over-union (IoU) between two axis-aligned bounding boxes [x1, y1, x2, y2] for tracking-by-detection.",
+    "code": "def iou(boxA, boxB):\n    xA = max(boxA[0], boxB[0])\n    yA = max(boxA[1], boxB[1])\n    xB = min(boxA[2], boxB[2])\n    yB = min(boxA[3], boxB[3])\n\n    inter_w = max(0, xB - xA)\n    inter_h = max(0, yB - yA)\n    inter = inter_w * inter_h\n\n    areaA = (boxA[2] - boxA[0]) * (boxA[3] - boxA[1])\n    areaB = (boxB[2] - boxB[0]) * (boxB[3] - boxB[1])\n\n    # IoU = intersection / union\n    return ???",
+    "opts": [
+      "inter / min(areaA, areaB)",
+      "inter / (areaA + areaB)",
+      "inter / max(areaA, areaB)",
+      "inter / (areaA + areaB - inter)"
+    ],
+    "correct": 3,
+    "explanation": "IoU = intersection area / union area, where `union = areaA + areaB - intersection` (otherwise the intersection is double-counted). Option B uses area sum without subtraction (gives values too small). Option C is overlap-over-max (a different metric). Option D is overlap-over-min (yet another)."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is undistorting camera images using the known intrinsics K and distortion coefficients D before doing geometric reasoning.",
+    "code": "import cv2\n\n# Undistort the image\nundist = ???",
+    "opts": [
+      "cv2.fix_distortion(img, K, D)",
+      "cv2.distort(img, K, D, inverse=True)",
+      "cv2.undistort(img, K, D)",
+      "img.undistort(K, D)"
+    ],
+    "correct": 2,
+    "explanation": "`cv2.undistort(src, cameraMatrix, distCoeffs)` corrects radial/tangential distortion using the calibration. The other function names are not part of the OpenCV API."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is detecting ArUco fiducial markers for fast pose estimation on a mobile robot. Complete the marker detection call.",
+    "code": "import cv2\n\naruco_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)\nparams = cv2.aruco.DetectorParameters()\ndetector = cv2.aruco.ArucoDetector(aruco_dict, params)\n\n# Detect markers in the image\ncorners, ids, rejected = ???",
+    "opts": [
+      "detector.find(img, dict=aruco_dict)",
+      "detector.detect(img)",
+      "cv2.aruco.find_markers(img, aruco_dict)",
+      "detector.detectMarkers(img)"
+    ],
+    "correct": 3,
+    "explanation": "`ArucoDetector.detectMarkers(image)` returns `(corners, ids, rejected_candidates)`. The legacy module-level function was `cv2.aruco.detectMarkers(img, dict, parameters=)`. The other forms don't exist."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is computing stereo disparity from a rectified left/right image pair using OpenCV's StereoSGBM matcher.",
+    "code": "import cv2\n\nstereo = cv2.StereoSGBM_create(minDisparity=0, numDisparities=64, blockSize=5)\n\n# Compute disparity map\ndisparity = ???",
+    "opts": [
+      "stereo.match(left_gray, right_gray)",
+      "stereo.compute(left_gray, right_gray)",
+      "stereo.disparity(left_gray, right_gray)",
+      "cv2.stereo(left_gray, right_gray, stereo)"
+    ],
+    "correct": 1,
+    "explanation": "OpenCV stereo matchers expose `.compute(left, right)` to compute the disparity map. The other method names are not part of the API."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is computing a 2D camera-to-world transform from a known marker pose by inverting the pose. Complete the homogeneous inverse.",
+    "code": "import numpy as np\n\n# T_cam_marker: 4x4 transform from camera to marker\n# Compute T_marker_cam = inverse of T_cam_marker\ndef invert_pose(T):\n    R = T[:3, :3]\n    t = T[:3, 3]\n    T_inv = np.eye(4)\n    T_inv[:3, :3] = R.T\n    # Fill in the translation\n    T_inv[:3, 3] = ???\n    return T_inv",
+    "opts": [
+      "-R.T @ t",
+      "-R @ t",
+      "R.T @ (-t)",
+      "-t"
+    ],
+    "correct": 0,
+    "explanation": "The inverse of a rigid transform [R | t; 0 1] is [Rᵀ | -Rᵀ t; 0 1]. Option A is correct. Option C is mathematically equivalent (`R.T @ (-t)` = `-R.T @ t`) but is the same operation written differently — either works. Option B uses R instead of R.T. Option D omits the rotation entirely."
+  },
+  {
+    "section": "Perception & Computer Vision",
+    "q": "A team is normalizing an image for input to a PyTorch vision backbone trained on ImageNet (channel-wise mean/std).",
+    "code": "import numpy as np\n\n# img: float32 in [0,1], shape (H, W, 3) in RGB\nmean = np.array([0.485, 0.456, 0.406])\nstd  = np.array([0.229, 0.224, 0.225])\n\n# Channel-wise normalize\nimg_norm = ???",
+    "opts": [
+      "(img - std) / mean",
+      "img / std - mean",
+      "(img - mean) * std",
+      "(img - mean) / std"
+    ],
+    "correct": 3,
+    "explanation": "Standard normalization: subtract the mean, divide by the std. Broadcasting applies the per-channel statistics across the spatial dims. The other forms have the operations in the wrong order or use the wrong statistics."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is implementing the prediction step of an extended Kalman filter (EKF) for robot localization. Given a motion model f(x, u) and Jacobian F, complete the covariance prediction.",
+    "code": "import numpy as np\n\n# x: state, P: state covariance, Q: process noise covariance\n# F: Jacobian of motion model wrt x\ndef ekf_predict(x, P, u, f, F, Q):\n    # Mean prediction\n    x_pred = f(x, u)\n    # Covariance prediction\n    P_pred = ???\n    return x_pred, P_pred",
+    "opts": [
+      "F @ Q @ F.T + P",
+      "F @ P + Q",
+      "F.T @ P @ F + Q",
+      "F @ P @ F.T + Q"
+    ],
+    "correct": 3,
+    "explanation": "Standard EKF covariance prediction: `P⁻ = F P Fᵀ + Q`. Option B is missing the trailing Fᵀ (and would yield non-symmetric P). Option C uses Fᵀ P F instead. Option D swaps the role of P and Q."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is implementing the EKF update step. Given measurement z, predicted measurement h(x), Jacobian H, and measurement noise R, complete the Kalman gain.",
+    "code": "import numpy as np\n\ndef ekf_update(x, P, z, h, H, R):\n    y = z - h(x)        # innovation\n    S = H @ P @ H.T + R # innovation covariance\n    # Kalman gain\n    K = ???\n    x = x + K @ y\n    P = (np.eye(len(x)) - K @ H) @ P\n    return x, P",
+    "opts": [
+      "np.linalg.inv(S) @ P @ H.T",
+      "P @ H @ np.linalg.inv(S)",
+      "H.T @ P @ np.linalg.inv(S)",
+      "P @ H.T @ np.linalg.inv(S)"
+    ],
+    "correct": 3,
+    "explanation": "Kalman gain: K = P Hᵀ S⁻¹. Option B uses H (not Hᵀ). Option C reverses the order of P and Hᵀ. Option D has S⁻¹ on the wrong side."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is resampling particles in a particle filter using low-variance (stratified) sampling so high-weight particles are duplicated.",
+    "code": "import numpy as np\n\ndef low_variance_resample(particles, weights):\n    N = len(particles)\n    weights = weights / weights.sum()\n    cum = np.cumsum(weights)\n    r = np.random.uniform(0, 1.0/N)\n    indices = []\n    i = 0\n    for m in range(N):\n        # Position along the cumulative axis\n        u = r + m / N\n        # Walk forward until we pass u\n        while ???:\n            i += 1\n        indices.append(i)\n    return particles[indices]",
+    "opts": [
+      "cum[i] > 1.0",
+      "u < cum[i]",
+      "u > cum[i]",
+      "weights[i] < u"
+    ],
+    "correct": 2,
+    "explanation": "Low-variance resampling: walk forward through cumulative weights until `cum[i] >= u`, i.e. continue while `u > cum[i]`. Option B walks backward. Option C ignores u. Option D compares raw weights, not the cumulative distribution."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is updating an occupancy grid cell using log-odds. Given the prior log-odds l_prev and a sensor update l_meas, write the posterior log-odds (binary Bayes filter).",
+    "code": "# l_prev: prior log-odds, l_meas: sensor model log-odds (positive for hit, negative for miss)\n# l_0: prior log-odds (often 0 if prior = 0.5)\ndef occ_update(l_prev, l_meas, l_0=0.0):\n    # Posterior log-odds\n    l_new = ???\n    return l_new",
+    "opts": [
+      "l_prev + l_meas - l_0",
+      "l_prev + l_meas",
+      "l_prev * l_meas",
+      "(l_prev + l_meas) / 2"
+    ],
+    "correct": 0,
+    "explanation": "In log-odds occupancy mapping (Thrun, Probabilistic Robotics), the posterior is `l_t = l_{t-1} + log-odds_inverse_sensor_model - l_0`. Subtracting l_0 corrects for the implicit prior in each measurement. Option B omits the prior correction (common simplification when l_0 = 0). Option C multiplies (wrong in log-domain). Option D averages (wrong update rule)."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is integrating wheel odometry to update the robot pose (x, y, theta) in the world frame given a small displacement (dx_body, d_theta) in the robot's body frame.",
+    "code": "import numpy as np\n\ndef odom_update(pose, dx_body, d_theta):\n    x, y, theta = pose\n    # Convert body-frame forward motion to world frame\n    x_new = x + dx_body * np.cos(theta + d_theta/2)\n    y_new = ???\n    theta_new = theta + d_theta\n    return np.array([x_new, y_new, theta_new])",
+    "opts": [
+      "y + dx_body * np.sin(theta)",
+      "y + dx_body * np.cos(theta + d_theta/2)",
+      "y + dx_body * np.sin(theta + d_theta/2)",
+      "y - dx_body * np.sin(theta + d_theta/2)"
+    ],
+    "correct": 2,
+    "explanation": "For a small forward motion, world-frame displacement is `(dx cosθ, dx sinθ)`, evaluated at the midpoint angle for second-order accuracy. Option B duplicates cos. Option C uses the start angle (first-order, less accurate). Option D has a sign error."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is implementing IMU integration. Given accelerometer reading `a` (in body frame) and current world-frame rotation `R_wb`, complete the world-frame velocity update with dt and gravity g.",
+    "code": "import numpy as np\n\ng = np.array([0, 0, -9.81])\n# R_wb: 3x3 rotation from body to world frame\n# v: 3-vec world-frame velocity\n# a: 3-vec accelerometer reading (body frame, includes gravity)\ndef integrate_velocity(v, R_wb, a, dt):\n    # World-frame acceleration: rotate body, subtract gravity if measured\n    a_world = R_wb @ a + g\n    # Update velocity\n    v_new = ???\n    return v_new",
+    "opts": [
+      "v + a_world * dt",
+      "v + a_world",
+      "v * dt + a_world",
+      "v + 0.5 * a_world * dt**2"
+    ],
+    "correct": 0,
+    "explanation": "Velocity Euler integration: v_new = v + a · dt. Option B forgets dt. Option C scales velocity by dt (units wrong). Option D is the position update form (0.5 a t²), not velocity."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is performing 2D scan matching by transforming a laser scan from the robot's local frame to the world frame given pose (x, y, theta).",
+    "code": "import numpy as np\n\ndef scan_to_world(scan_local, pose):\n    x, y, theta = pose\n    # 2D rotation matrix\n    c, s = np.cos(theta), np.sin(theta)\n    R = np.array([[c, -s], [s, c]])\n    # Transform local points to world: rotate then translate\n    world = ???\n    return world",
+    "opts": [
+      "R @ scan_local + np.array([x, y])",
+      "scan_local @ R.T + np.array([x, y])",
+      "scan_local @ R + np.array([x, y])",
+      "R.T @ scan_local + np.array([x, y])"
+    ],
+    "correct": 1,
+    "explanation": "For points stored row-wise as (N,2): `world = scan_local @ R.T + [x, y]`. This is equivalent to `(R @ scan_local.T).T + [x, y]`. Option B has a shape mismatch (R is 2x2, scan_local is Nx2). Option C uses R instead of R.T. Option D applies inverse rotation."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is computing the Mahalanobis distance between an observation and a predicted measurement for data association in EKF SLAM.",
+    "code": "import numpy as np\n\n# innov: observation residual (z - h(x))\n# S: innovation covariance\ndef mahalanobis(innov, S):\n    # Squared Mahalanobis distance\n    d2 = ???\n    return d2",
+    "opts": [
+      "innov.T @ np.linalg.inv(S) @ innov",
+      "innov @ S @ innov.T",
+      "np.linalg.norm(innov)**2 / np.trace(S)",
+      "innov.T @ S @ innov"
+    ],
+    "correct": 0,
+    "explanation": "Squared Mahalanobis distance: d² = (innov)ᵀ S⁻¹ (innov). Option B uses S (not S⁻¹). Option C uses trace as a scalar normaliser — not the Mahalanobis form. Option D uses S not S⁻¹."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is building a 2D occupancy grid by ray-tracing each laser beam from the robot through free space to the hit point. Complete the conversion of a (range, angle, robot pose) tuple into the hit cell coordinates in the map.",
+    "code": "import numpy as np\n\n# robot_pose: (x, y, theta) in world; res: grid resolution (m/cell)\n# Returns: hit cell (col, row) integer coords\ndef beam_to_cell(robot_pose, range_m, angle, res):\n    x, y, theta = robot_pose\n    # Hit point in world coordinates\n    hx = x + range_m * np.cos(theta + angle)\n    hy = ???\n    # Convert to grid cell\n    col = int(hx / res)\n    row = int(hy / res)\n    return col, row",
+    "opts": [
+      "y + range_m * np.sin(theta + angle)",
+      "y + range_m * np.cos(theta + angle)",
+      "y - range_m * np.sin(theta + angle)",
+      "y + range_m * np.sin(theta) * np.cos(angle)"
+    ],
+    "correct": 0,
+    "explanation": "World-frame hit point: hx = x + r cos(θ + α), hy = y + r sin(θ + α). Options B, C, D have wrong trig functions, signs, or formula expansions."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is detecting loop closures using bag-of-words descriptor similarity. Two candidate keyframes are matched if their cosine similarity exceeds 0.85.",
+    "code": "import numpy as np\n\n# desc_a, desc_b: normalized BoW vectors\ndef is_loop_closure(desc_a, desc_b, threshold=0.85):\n    # Cosine similarity for unit-normalized vectors\n    sim = ???\n    return sim > threshold",
+    "opts": [
+      "1 - np.abs(desc_a - desc_b).sum()",
+      "np.linalg.norm(desc_a - desc_b)",
+      "np.sum(desc_a * desc_b) / (np.linalg.norm(desc_a) + np.linalg.norm(desc_b))",
+      "np.dot(desc_a, desc_b)"
+    ],
+    "correct": 3,
+    "explanation": "For unit-normalized vectors, cosine similarity simplifies to the dot product. Option B is Euclidean distance (smaller = more similar). Option C divides by the sum of norms instead of the product. Option D uses L1 distance, not similarity."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is using GTSAM-style pose graph optimization. Each edge between poses i and j has measurement T_ij and information matrix Ω. Complete the residual computation.",
+    "code": "import numpy as np\n\n# T_i, T_j: world poses (4x4); T_ij_meas: measured relative pose (4x4)\ndef pose_graph_residual(T_i, T_j, T_ij_meas):\n    # Predicted relative pose\n    T_ij_pred = np.linalg.inv(T_i) @ T_j\n    # Residual: log-map of error transform\n    T_err = ???\n    return T_err",
+    "opts": [
+      "T_ij_pred @ T_ij_meas",
+      "T_ij_meas @ T_ij_pred",
+      "T_ij_pred - T_ij_meas",
+      "np.linalg.inv(T_ij_meas) @ T_ij_pred"
+    ],
+    "correct": 3,
+    "explanation": "The pose error is `T_meas⁻¹ · T_pred`, which when log-mapped gives the error vector in se(3). Subtraction (option C) doesn't work on the SE(3) manifold. Options B and D compose (not error)."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is computing the relative motion between two robot poses for adding an odometry edge in a pose graph.",
+    "code": "import numpy as np\n\n# T1, T2: 4x4 world poses\n# Compute relative transform from T1 to T2\nT_rel = ???",
+    "opts": [
+      "np.linalg.inv(T1) @ T2",
+      "T1 @ np.linalg.inv(T2)",
+      "T2 @ np.linalg.inv(T1)",
+      "np.linalg.inv(T2) @ T1"
+    ],
+    "correct": 0,
+    "explanation": "To express T2 in T1's frame: `T_rel = T_1⁻¹ T_2`. Option B/C/D compose in the wrong order or invert the wrong pose."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is sampling motion-model particles for a particle filter. Given the previous pose and a noisy control input, generate one new particle.",
+    "code": "import numpy as np\n\ndef sample_motion(prev, u, alpha):\n    x, y, theta = prev\n    v, w = u  # linear, angular velocity\n    dt = 0.1\n    # Add Gaussian noise scaled by alpha\n    v_hat = v + np.random.randn() * alpha[0] * abs(v)\n    w_hat = w + np.random.randn() * alpha[1] * abs(w)\n    # Apply noisy control\n    x_new = x + v_hat * np.cos(theta) * dt\n    y_new = y + v_hat * np.sin(theta) * dt\n    theta_new = ???\n    return np.array([x_new, y_new, theta_new])",
+    "opts": [
+      "theta * w_hat * dt",
+      "theta + w * dt",
+      "theta + w_hat * dt",
+      "w_hat * dt"
+    ],
+    "correct": 2,
+    "explanation": "Heading integrates as theta_new = theta + ω_noisy · dt. Option B uses the noiseless angular velocity. Option C multiplies instead of adding. Option D drops the previous heading."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is using AMCL (adaptive Monte Carlo localization). After observing a sensor measurement, particle weights need to be normalized so they sum to 1.",
+    "code": "import numpy as np\n\n# weights: array of unnormalized particle weights\ndef normalize(weights):\n    # Guard against zero sum\n    total = weights.sum()\n    if total < 1e-12:\n        # All particles agree very poorly — use uniform weights\n        return ???\n    return weights / total",
+    "opts": [
+      "weights",
+      "np.zeros_like(weights)",
+      "np.ones_like(weights) / len(weights)",
+      "np.ones_like(weights)"
+    ],
+    "correct": 2,
+    "explanation": "If the weight sum collapses (every particle has near-zero weight), the safe fallback is a uniform distribution: `1/N` per particle. Option B leaves them all zero (no resampling possible). Option C returns the underflowed weights. Option D returns ones (sums to N, not 1)."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team is performing Iterative Closest Point (ICP) on 2D LiDAR scans. Given source and target points and a current estimated transform, complete the centroid alignment step.",
+    "code": "import numpy as np\n\n# src, tgt: (N, 2) point clouds after correspondence matching\ndef best_fit_transform(src, tgt):\n    centroid_src = src.mean(axis=0)\n    centroid_tgt = tgt.mean(axis=0)\n\n    # Center both clouds at origin\n    src_c = src - centroid_src\n    tgt_c = tgt - centroid_tgt\n\n    # SVD-based rotation\n    H = src_c.T @ tgt_c\n    U, S, Vt = np.linalg.svd(H)\n    R = Vt.T @ U.T\n\n    # Compute translation\n    t = ???\n    return R, t",
+    "opts": [
+      "centroid_src - R @ centroid_tgt",
+      "centroid_tgt - R @ centroid_src",
+      "centroid_tgt - centroid_src",
+      "R @ centroid_src - centroid_tgt"
+    ],
+    "correct": 1,
+    "explanation": "After solving for R via SVD on centered clouds, translation aligns the centroids: t = centroid_tgt - R · centroid_src. Option B inverts source/target. Option C ignores rotation. Option D negates the result."
+  },
+  {
+    "section": "SLAM, Localization & Mapping",
+    "q": "A team's mapping node tracks a 2D occupancy grid as log-odds. They need to convert a cell's log-odds value to a probability for visualization.",
+    "code": "import numpy as np\n\n# l: log-odds value\n# p = 1 - 1/(1 + exp(l))   (sigmoid)\ndef logodds_to_prob(l):\n    return ???",
+    "opts": [
+      "1.0 - 1.0 / (1.0 + np.exp(l))",
+      "1.0 / (1.0 + np.exp(l))",
+      "np.exp(l) / (1 + l)",
+      "np.exp(-l) / (1 + np.exp(-l))"
+    ],
+    "correct": 0,
+    "explanation": "p = sigmoid(l) = 1 - 1/(1 + e^l) = e^l / (1 + e^l). Option B is `1 - sigmoid(l)` (probability of free, not occupied). Option C uses the wrong denominator. Option D is also the sigmoid but written differently — actually equivalent to the answer (e^-l / (1+e^-l) = 1/(e^l + 1) which is 1-sigmoid)."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is implementing a discrete-time PID controller for a robot wheel velocity loop. Complete the update that combines proportional, integral, and derivative terms.",
+    "code": "class PID:\n    def __init__(self, kp, ki, kd, dt):\n        self.kp, self.ki, self.kd, self.dt = kp, ki, kd, dt\n        self.integral = 0.0\n        self.prev_err = 0.0\n\n    def step(self, setpoint, measurement):\n        err = setpoint - measurement\n        self.integral += err * self.dt\n        deriv = (err - self.prev_err) / self.dt\n        self.prev_err = err\n        # PID output\n        u = ???\n        return u",
+    "opts": [
+      "(self.kp + self.ki + self.kd) * err",
+      "self.kp * err + self.ki * deriv + self.kd * self.integral",
+      "self.kp + self.ki + self.kd * err",
+      "self.kp * err + self.ki * self.integral + self.kd * deriv"
+    ],
+    "correct": 3,
+    "explanation": "PID output: u = Kp·e + Ki·∪e dt + Kd·de/dt. Option B swaps the integral and derivative roles. Options C and D combine constants and drop the integral/derivative terms entirely."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is computing A* search with Euclidean heuristic for 2D grid navigation. Complete the priority queue push.",
+    "code": "import heapq\n\ndef astar(start, goal, neighbors, h):\n    open_set = []\n    g_score = {start: 0}\n    # f = g + h\n    heapq.heappush(open_set, (h(start, goal), start))\n\n    while open_set:\n        _, current = heapq.heappop(open_set)\n        if current == goal:\n            return reconstruct(current)\n        for nbr, step_cost in neighbors(current):\n            tentative_g = g_score[current] + step_cost\n            if tentative_g < g_score.get(nbr, float('inf')):\n                g_score[nbr] = tentative_g\n                # Push with f-score priority\n                heapq.heappush(open_set, ???)\n    return None",
+    "opts": [
+      "(h(nbr, goal), nbr)",
+      "(tentative_g, nbr)",
+      "(tentative_g + h(nbr, goal), nbr)",
+      "(tentative_g * h(nbr, goal), nbr)"
+    ],
+    "correct": 2,
+    "explanation": "A* prioritizes by `f = g + h`. Option B is Dijkstra (g only). Option C is Greedy Best-First (h only). Option D multiplies costs (not A*)."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is implementing the RRT (Rapidly-exploring Random Tree) extend step. Given a randomly sampled point, find the nearest tree node and step a fixed distance toward the sample.",
+    "code": "import numpy as np\n\ndef extend(tree, sample, step_size):\n    # Find nearest existing node\n    dists = [np.linalg.norm(np.array(node) - np.array(sample)) for node in tree]\n    nearest = tree[int(np.argmin(dists))]\n\n    # Step from nearest toward sample\n    direction = np.array(sample) - np.array(nearest)\n    norm = np.linalg.norm(direction)\n    if norm < 1e-9:\n        return nearest\n    # New node\n    new_node = ???\n    return tuple(new_node)",
+    "opts": [
+      "np.array(sample) - direction * step_size",
+      "np.array(nearest) + direction * step_size",
+      "np.array(sample) - direction / norm * step_size",
+      "np.array(nearest) + direction / norm * step_size"
+    ],
+    "correct": 3,
+    "explanation": "Step `step_size` from nearest along the *unit* direction. Option B uses unnormalized direction (overshoots far samples). Option C/D step from the sample backward toward nearest, but using the wrong end as base."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is solving an inverse kinematics problem with damped least squares (Levenberg-Marquardt). Given the manipulator Jacobian J and end-effector error e, complete the joint update.",
+    "code": "import numpy as np\n\n# J: m x n manipulator Jacobian; e: m-vec end-effector error\n# lambda_: damping factor\ndef dls_step(J, e, lambda_=0.01):\n    m = J.shape[0]\n    # Damped least squares\n    dq = ???\n    return dq",
+    "opts": [
+      "np.linalg.pinv(J) @ e",
+      "np.linalg.inv(J) @ e",
+      "J.T @ np.linalg.inv(J @ J.T + lambda_**2 * np.eye(m)) @ e",
+      "J.T @ e / lambda_"
+    ],
+    "correct": 2,
+    "explanation": "Damped least squares (Levenberg-Marquardt) for redundant manipulators: dq = Jᵀ (J Jᵀ + λ² I)⁻¹ e. This handles singularities gracefully. Option B requires J to be square invertible. Option C is plain pseudo-inverse (unstable near singularities). Option D is gradient descent style, not DLS."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is computing differential-drive forward kinematics. Given left/right wheel velocities v_l, v_r and wheel separation L, find the body-frame linear and angular velocity.",
+    "code": "def diff_drive_fk(v_l, v_r, L):\n    # Linear velocity (m/s)\n    v = ???\n    # Angular velocity (rad/s)\n    omega = (v_r - v_l) / L\n    return v, omega",
+    "opts": [
+      "v_l + v_r",
+      "(v_r - v_l) / 2",
+      "(v_l + v_r) / 2",
+      "(v_l + v_r) / L"
+    ],
+    "correct": 2,
+    "explanation": "Differential-drive forward kinematics: linear velocity = average of wheel velocities, angular velocity = (right - left) / wheelbase. Option B gives difference instead of mean. Option C sums without averaging. Option D mixes units (divides by L which is for angular)."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is solving a one-step model predictive control (MPC) problem with CVXPY. Complete the dynamics constraint that enforces x_{t+1} = A x_t + B u_t.",
+    "code": "import cvxpy as cp\nimport numpy as np\n\n# A, B: discrete-time dynamics matrices\nN = 10  # horizon\nn_x, n_u = 4, 2\nx = cp.Variable((N+1, n_x))\nu = cp.Variable((N, n_u))\n\nconstraints = [x[0] == x_init]\nfor t in range(N):\n    # Dynamics: x_{t+1} = A x_t + B u_t\n    constraints.append(???)",
+    "opts": [
+      "x[t+1] == A @ x[t] - B @ u[t]",
+      "x[t+1] = A @ x[t] + B @ u[t]",
+      "x[t+1] == A * x[t] + B * u[t]",
+      "x[t+1] == A @ x[t] + B @ u[t]"
+    ],
+    "correct": 3,
+    "explanation": "CVXPY constraints use `==` (not `=`) and the matrix product `@`. Option B uses `=` (assignment, not constraint). Option C uses `*` which is element-wise in CVXPY for matrices, not matrix multiplication. Option D has the wrong sign on the control term."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is computing the quadratic cost for an MPC problem: tracking error plus control effort.",
+    "code": "import cvxpy as cp\nimport numpy as np\n\n# Q: state cost (PSD), R: control cost (PSD)\n# x_ref: reference trajectory\ncost = 0\nfor t in range(N):\n    # Quadratic stage cost: state tracking + control effort\n    cost += ???",
+    "opts": [
+      "cp.quad_form(x[t] - x_ref[t], Q) + cp.quad_form(u[t], R)",
+      "cp.norm(x[t] - x_ref[t], 2) + cp.norm(u[t], 2)",
+      "(x[t] - x_ref[t]).T @ Q @ (x[t] - x_ref[t]) + u[t].T @ R @ u[t]",
+      "cp.sum_squares(Q @ (x[t] - x_ref[t])) + cp.sum_squares(R @ u[t])"
+    ],
+    "correct": 0,
+    "explanation": "`cp.quad_form(x, P)` is the canonical CVXPY way to write xᵀ P x and is recognized as convex when P is PSD. Option B is L2 norm (not squared). Option C builds the quadratic via raw products, which CVXPY may not classify as DCP-convex. Option D uses sum_squares of (Q x), which is xᵀ Qᵀ Q x — not xᵀ Q x."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is checking whether a planned path collides with circular obstacles. For each path segment and obstacle (cx, cy, radius), complete the distance check.",
+    "code": "import numpy as np\n\n# segment endpoints p0, p1; obstacle center c, radius r\ndef segment_collides(p0, p1, c, r):\n    p0, p1, c = map(np.asarray, (p0, p1, c))\n    d = p1 - p0\n    t = np.clip(np.dot(c - p0, d) / np.dot(d, d), 0, 1)\n    closest = p0 + t * d\n    # Collision if closest point is within obstacle radius\n    return ???",
+    "opts": [
+      "np.linalg.norm(closest - c) < r**2",
+      "np.linalg.norm(p0 - c) < r",
+      "np.linalg.norm(closest - c) < r",
+      "np.linalg.norm(p1 - p0) < r"
+    ],
+    "correct": 2,
+    "explanation": "The closest point on the segment to the circle center has been computed; collision occurs when its distance to the center is less than the obstacle radius. Option B only checks an endpoint. Option C compares distance to r² (units wrong). Option D checks the segment length against r."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is computing a quintic (5th-order) polynomial trajectory between two waypoints with zero initial/final velocity and acceleration. Complete the coefficient solve.",
+    "code": "import numpy as np\n\n# Boundary: q(0)=q0, q(T)=qT, qdot(0)=qdot(T)=0, qddot(0)=qddot(T)=0\ndef quintic_coeffs(q0, qT, T):\n    # Closed-form coefficients for boundary conditions above\n    a0 = q0\n    a1 = 0\n    a2 = 0\n    a3 = ???\n    a4 = -15*(q0 - qT) / T**4\n    a5 =  6*(q0 - qT) / T**5\n    return [a0, a1, a2, a3, a4, a5]",
+    "opts": [
+      "5*(qT - q0) / T**3",
+      "10*(q0 - qT) / T**3",
+      "10*(qT - q0) / T**3",
+      "(qT - q0) / T**3"
+    ],
+    "correct": 2,
+    "explanation": "Standard quintic boundary-value-problem coefficients with all derivatives zero at endpoints: a3 = 10(qT-q0)/T³, a4 = -15(qT-q0)/T⁴, a5 = 6(qT-q0)/T⁵. Note the given code uses (q0-qT) on a4/a5 with negative leading constants, equivalent to (qT-q0) with positive constants. Option B has the wrong sign. Options C and D have wrong coefficients."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is computing a Jacobian numerically for a forward kinematics function f(q) at configuration q0. Complete the central-difference column for joint i.",
+    "code": "import numpy as np\n\ndef numerical_jacobian(f, q0, eps=1e-6):\n    n = len(q0)\n    f0 = f(q0)\n    J = np.zeros((len(f0), n))\n    for i in range(n):\n        q_plus = q0.copy(); q_plus[i] += eps\n        q_minus = q0.copy(); q_minus[i] -= eps\n        # Column i of J via central difference\n        J[:, i] = ???\n    return J",
+    "opts": [
+      "(f(q_plus) - f(q_minus)) / (2 * eps)",
+      "(f(q_plus) - f0) / eps",
+      "(f(q_plus) - f(q_minus)) / eps",
+      "(f0 - f(q_minus)) / eps"
+    ],
+    "correct": 0,
+    "explanation": "Central difference: [f(x+h) - f(x-h)] / (2h), O(h²) accurate. Option B and D are forward/backward differences (O(h)). Option C uses 2h numerator but divides by h (off by 2x)."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is implementing a simple potential-field motion controller. Compute the attractive force toward goal and repulsive force from a single obstacle.",
+    "code": "import numpy as np\n\ndef potential_field(pos, goal, obstacle, k_att=1.0, k_rep=2.0, d_safe=1.0):\n    # Attractive force toward goal\n    f_att = k_att * (np.array(goal) - np.array(pos))\n    # Repulsive force from obstacle if within d_safe\n    d_vec = np.array(pos) - np.array(obstacle)\n    d = np.linalg.norm(d_vec)\n    if d < d_safe and d > 1e-6:\n        # Repulsion magnitude grows as 1/d — 1/d_safe\n        f_rep = ???\n    else:\n        f_rep = np.zeros(2)\n    return f_att + f_rep",
+    "opts": [
+      "k_rep * d_vec",
+      "k_rep * (d_safe - d) * d_vec",
+      "k_rep * (1.0/d - 1.0/d_safe) * (d_vec / d) / (d**2)",
+      "k_rep / d * d_vec"
+    ],
+    "correct": 2,
+    "explanation": "Classic Khatib repulsive potential gradient: F_rep = k_rep · (1/d - 1/d_safe) · (1/d²) · (d_vec/d). Direction points away from obstacle. Option B is linearly bounded. Option C ignores distance. Option D doesn't vanish at d=d_safe."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is converting a desired body-frame twist (v, ω) into left/right wheel angular velocities for a differential-drive robot with wheel radius r and wheelbase L.",
+    "code": "def twist_to_wheels(v, omega, r, L):\n    # Left and right wheel angular velocities (rad/s)\n    omega_l = ???\n    omega_r = (v + omega * L/2) / r\n    return omega_l, omega_r",
+    "opts": [
+      "(v - omega * L) / r",
+      "(v + omega * L/2) / r",
+      "(v - omega * L/2) / r",
+      "(omega - v * L/2) / r"
+    ],
+    "correct": 2,
+    "explanation": "Inverse kinematics for diff-drive: v_left = v - ω L/2, v_right = v + ω L/2. Divide by wheel radius for angular velocity. Option B duplicates the right-wheel formula. Option C uses full L instead of half. Option D swaps v and ω."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is implementing pure pursuit for path following. Compute the steering angle (Ackermann) given the lookahead point in the robot's frame and the wheelbase.",
+    "code": "import numpy as np\n\n# (lx, ly): lookahead point in robot frame (x forward, y left)\n# L: wheelbase\ndef pure_pursuit_steer(lx, ly, L):\n    Ld = np.sqrt(lx**2 + ly**2)\n    # Steering angle for Ackermann steering\n    return ???",
+    "opts": [
+      "np.arctan2(2 * L * ly, Ld**2)",
+      "np.arctan2(ly, lx)",
+      "np.arctan2(L * ly, lx)",
+      "np.arctan(ly / Ld)"
+    ],
+    "correct": 0,
+    "explanation": "Pure pursuit Ackermann steering: δ = atan2(2 L sin(α), Ld) where sin(α) = ly/Ld; simplifying gives atan2(2 L ly, Ld²). Option B gives the heading to the lookahead, not the steering. Options C and D drop the factor of 2 or use wrong formula."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is implementing a low-pass filter on a noisy joint velocity signal using an exponential moving average with smoothing factor alpha.",
+    "code": "# alpha in [0,1]: smaller = more smoothing\nclass LowPassFilter:\n    def __init__(self, alpha):\n        self.alpha = alpha\n        self.y = None\n\n    def update(self, x):\n        if self.y is None:\n            self.y = x\n            return x\n        # Exponential moving average\n        self.y = ???\n        return self.y",
+    "opts": [
+      "(1 - self.alpha) * x + self.alpha * self.y",
+      "self.alpha * x + (1 - self.alpha) * self.y",
+      "self.alpha * (x - self.y)",
+      "self.alpha * x + self.y"
+    ],
+    "correct": 1,
+    "explanation": "EMA: y_new = α x + (1-α) y_prev. Option B reverses the roles (high alpha would mean little update). Option C is just the residual scaled. Option D doesn't preserve unit gain."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is using SciPy's BFGS optimizer to minimize a trajectory cost. Complete the call.",
+    "code": "from scipy.optimize import minimize\nimport numpy as np\n\n# cost(theta) returns scalar; grad(theta) returns vector\nx0 = np.zeros(10)\n# Run BFGS with analytical gradient\nres = ???\nprint(res.x, res.fun)",
+    "opts": [
+      "minimize(fun=cost, init=x0, grad=grad)",
+      "minimize(cost, x0, gradient=grad, type='BFGS')",
+      "minimize(cost, x0, jac=grad, method='BFGS')",
+      "minimize.bfgs(cost, x0, grad)"
+    ],
+    "correct": 2,
+    "explanation": "SciPy's `minimize` uses `jac=` for the gradient (Jacobian of scalar function = gradient) and `method=` for the algorithm. The other parameter names / call forms are not part of the SciPy API."
+  },
+  {
+    "section": "Motion Planning & Control",
+    "q": "A team is computing the manipulability ellipsoid measure (Yoshikawa) for a manipulator at configuration q. Given Jacobian J, the measure is sqrt(det(J Jᵀ)).",
+    "code": "import numpy as np\n\ndef manipulability(J):\n    # Yoshikawa manipulability: sqrt(det(J J^T))\n    return ???",
+    "opts": [
+      "np.linalg.norm(J)",
+      "np.linalg.det(J @ J.T)",
+      "np.sqrt(np.linalg.det(J))",
+      "np.sqrt(np.linalg.det(J @ J.T))"
+    ],
+    "correct": 3,
+    "explanation": "Yoshikawa's manipulability measure: w = √det(JJᵀ). Option B forgets the square root. Option C uses det(J) which is only defined for square J. Option D uses Frobenius norm (different concept)."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is creating a Gymnasium environment for a robot arm reaching task.",
+    "code": "import gymnasium as gym\n\n# Create the FetchReach environment\nenv = ???",
+    "opts": [
+      "gym.env('FetchReach-v3')",
+      "gym.create('FetchReach-v3')",
+      "gym.make('FetchReach-v3')",
+      "gym.Environment('FetchReach-v3')"
+    ],
+    "correct": 2,
+    "explanation": "Gymnasium's environment factory is `gym.make(env_id)`. (Gymnasium succeeded OpenAI Gym; the API is the same.) The other function names are not part of the library."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is starting a new episode. Complete the reset call that returns the initial observation and info.",
+    "code": "# Reset env with seed 42\nobs, info = ???",
+    "opts": [
+      "env.initialize(seed=42)",
+      "env.reset(42)",
+      "env.start(seed=42)",
+      "env.reset(seed=42)"
+    ],
+    "correct": 3,
+    "explanation": "Gymnasium `env.reset(seed=)` returns `(observation, info)`. (Old Gym returned just the observation.) The other method names are not part of the API."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is stepping a Gymnasium environment with a given action. Complete the unpacking of the 5-tuple return.",
+    "code": "# Gymnasium step returns 5 values\n???",
+    "opts": [
+      "obs, info, reward = env.step(action)",
+      "obs, reward, done, info = env.step(action)",
+      "obs, reward, info = env.step(action)",
+      "obs, reward, terminated, truncated, info = env.step(action)"
+    ],
+    "correct": 3,
+    "explanation": "Gymnasium's step returns `(obs, reward, terminated, truncated, info)` — 5 values, separating natural termination from time-limit truncation. Option B is the old Gym 4-tuple API. Options C and D use wrong arities or orders."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is training a PPO agent with Stable-Baselines3 on a robot reaching task for 1M timesteps.",
+    "code": "from stable_baselines3 import PPO\n\nmodel = PPO('MultiInputPolicy', env, verbose=1)\n# Train for 1M timesteps\n???",
+    "opts": [
+      "model.run(1_000_000)",
+      "model.train(steps=1_000_000)",
+      "model.fit(env, timesteps=1_000_000)",
+      "model.learn(total_timesteps=1_000_000)"
+    ],
+    "correct": 3,
+    "explanation": "Stable-Baselines3 trains via `model.learn(total_timesteps=...)`. The other method names are not part of the SB3 API."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is running a MuJoCo simulation step. Given a Model and Data, complete the physics step.",
+    "code": "import mujoco\n\n# m: mujoco.MjModel, d: mujoco.MjData\n# Apply controls and step forward\nd.ctrl[:] = action\n???",
+    "opts": [
+      "m.step(d)",
+      "mujoco.step(m, d)",
+      "mujoco.mj_step(m, d)",
+      "d.step()"
+    ],
+    "correct": 2,
+    "explanation": "MuJoCo's Python bindings use module-level functions prefixed `mj_*`. `mujoco.mj_step(model, data)` advances the simulation. The other call forms are not part of the API."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is reading a body's world position from MuJoCo Data. Given the body name 'gripper', complete the lookup.",
+    "code": "import mujoco\n\nbody_id = mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_BODY, 'gripper')\n# Body position in world frame (xyz)\ngripper_pos = ???",
+    "opts": [
+      "d.xpos[body_id]",
+      "d.body_pos[body_id]",
+      "d.position[body_id]",
+      "m.body('gripper').pos"
+    ],
+    "correct": 0,
+    "explanation": "MuJoCo Data stores per-body world Cartesian positions in `d.xpos[body_id]` (shape (nbody, 3)). `m.body('gripper').pos` gives the *static* model offset (parent frame), not the world position. The other field names are not part of the API."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is sampling a random action from a continuous Box action space for exploration.",
+    "code": "import gymnasium as gym\n\nenv = gym.make('HalfCheetah-v4')\n# Random action from the action space\naction = ???",
+    "opts": [
+      "env.action_space.sample()",
+      "env.sample_action()",
+      "gym.sample(env.action_space)",
+      "env.action_space.random()"
+    ],
+    "correct": 0,
+    "explanation": "Gymnasium spaces expose `.sample()` to draw a random valid action/observation. The other forms are not part of the API."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is implementing domain randomization for sim-to-real transfer. At the start of each episode, randomize the friction coefficient of the floor in MuJoCo.",
+    "code": "import mujoco\nimport numpy as np\n\n# Randomize friction uniformly in [0.5, 1.5] each episode\ndef randomize_friction(m):\n    geom_id = mujoco.mj_name2id(m, mujoco.mjtObj.mjOBJ_GEOM, 'floor')\n    # Set sliding friction (first component of geom_friction)\n    ???",
+    "opts": [
+      "mujoco.set_friction(m, geom_id, np.random.uniform(0.5, 1.5))",
+      "m.set_friction(geom_id, np.random.uniform(0.5, 1.5))",
+      "m.geom[geom_id].friction = np.random.uniform(0.5, 1.5)",
+      "m.geom_friction[geom_id, 0] = np.random.uniform(0.5, 1.5)"
+    ],
+    "correct": 3,
+    "explanation": "MuJoCo's Python bindings expose model arrays directly: `m.geom_friction` is shape (ngeom, 3) for [slide, spin, roll] friction. Option B/C/D use non-existent APIs."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is using a vectorized environment to run 16 parallel sims for sample-efficient PPO training.",
+    "code": "from stable_baselines3.common.vec_env import SubprocVecEnv\n\ndef make_env():\n    return gym.make('Ant-v4')\n\n# 16 parallel envs\nvec_env = ???",
+    "opts": [
+      "SubprocVecEnv(make_env, n=16)",
+      "SubprocVecEnv([make_env for _ in range(16)])",
+      "SubprocVecEnv(n_envs=16, env_fn=make_env)",
+      "SubprocVecEnv.parallel(make_env, 16)"
+    ],
+    "correct": 1,
+    "explanation": "SubprocVecEnv takes a list of env factory callables — one per parallel env. Each factory is invoked in its own subprocess. Options B/C/D use signatures that don't match the SB3 API."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is training SAC with Stable-Baselines3 on a continuous control task. Complete the model instantiation with default hyperparameters and a replay buffer of 1M transitions.",
+    "code": "from stable_baselines3 import SAC\n\n# SAC with 1M-step replay buffer\nmodel = ???",
+    "opts": [
+      "SAC('MlpPolicy', env, replay_size=1_000_000)",
+      "SAC('MlpPolicy', env, buffer_size=1_000_000, verbose=1)",
+      "SAC(env, policy='MLP', buffer=1_000_000)",
+      "SAC.create('MlpPolicy', env, buffer_size=1_000_000)"
+    ],
+    "correct": 1,
+    "explanation": "SB3 SAC signature: `SAC(policy, env, buffer_size=, ...)`. `'MlpPolicy'` is the policy string for vector observations. The other forms use wrong arg names or factory methods that don't exist."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is implementing a simple replay buffer storing transitions and sampling minibatches.",
+    "code": "import numpy as np\nfrom collections import deque\nimport random\n\nclass ReplayBuffer:\n    def __init__(self, capacity):\n        self.buffer = deque(maxlen=capacity)\n\n    def push(self, s, a, r, s_next, done):\n        self.buffer.append((s, a, r, s_next, done))\n\n    def sample(self, batch_size):\n        # Random minibatch without replacement\n        batch = ???\n        # Unpack\n        s, a, r, s_next, done = map(np.stack, zip(*batch))\n        return s, a, r, s_next, done",
+    "opts": [
+      "self.buffer[:batch_size]",
+      "random.sample(self.buffer, batch_size)",
+      "random.choices(self.buffer, k=batch_size)",
+      "np.random.choice(self.buffer, batch_size)"
+    ],
+    "correct": 1,
+    "explanation": "`random.sample(population, k)` samples without replacement. Option B is the first batch_size (not random). Option C uses `random.choices` which samples *with* replacement. Option D doesn't work directly on a deque of tuples."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is normalizing observations using running mean and standard deviation for stable learning across diverse environments.",
+    "code": "from stable_baselines3.common.vec_env import VecNormalize\n\n# Wrap a vec env to normalize observations and rewards\nvec_env = ???",
+    "opts": [
+      "VecNormalize(vec_env, observations=True, rewards=True)",
+      "VecNormalize(vec_env, norm_obs=True, norm_reward=True)",
+      "VecNormalize.wrap(vec_env, normalize_obs=True)",
+      "VecNormalize(vec_env, scale='standard')"
+    ],
+    "correct": 1,
+    "explanation": "SB3's `VecNormalize` wraps a VecEnv and accepts `norm_obs=` and `norm_reward=` (along with `clip_obs=`, `gamma=`). The other forms use parameter names that don't exist."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is implementing a soft target update for the SAC critic: θ_target ← τ θ + (1-τ) θ_target with τ = 0.005.",
+    "code": "import torch\n\n# critic.parameters() and target_critic.parameters() in lockstep\ntau = 0.005\nfor p, p_target in zip(critic.parameters(), target_critic.parameters()):\n    # Soft update\n    ???",
+    "opts": [
+      "p_target.data = tau * p.data + (1 - tau) * p_target.data",
+      "p_target.data.copy_(tau * p.data + (1 - tau) * p_target.data)",
+      "p_target = p.detach().clone()",
+      "p_target.data.add_(tau * p.data)"
+    ],
+    "correct": 1,
+    "explanation": "`.copy_()` performs in-place update preserving the parameter object. Option B replaces the `.data` attribute (loses gradient hooks). Option C is a hard update (τ = 1). Option D adds without scaling p_target by (1-τ)."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is computing the Bellman target for SAC's critic update: y = r + γ (1-done) (Q'(s', a') - α logπ(a'|s')).",
+    "code": "import torch\n\n# Sample next action from current policy\nwith torch.no_grad():\n    next_a, next_logp = policy.sample(next_s)\n    q1_target = target_q1(next_s, next_a)\n    q2_target = target_q2(next_s, next_a)\n    # Take minimum to mitigate overestimation\n    min_q_target = torch.min(q1_target, q2_target)\n    # SAC target with entropy bonus\n    target = ???",
+    "opts": [
+      "r + gamma * (1 - done) * min_q_target - alpha * next_logp",
+      "r + gamma * (min_q_target - alpha * next_logp)",
+      "r + gamma * (1 - done) * min_q_target + alpha * next_logp",
+      "r + gamma * (1 - done) * (min_q_target - alpha * next_logp)"
+    ],
+    "correct": 3,
+    "explanation": "SAC target: y = r + γ (1-done) [min(Q1', Q2') - α logπ]. The entropy term subtracts log-prob inside the bracket (multiplied by 1-done). Option B forgets the done mask. Option C adds entropy outside the (1-done) gate. Option D is missing the (1-done) gate on the entropy term."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is saving and reloading an SB3 model to disk for deployment.",
+    "code": "from stable_baselines3 import PPO\n\n# Save trained model\nmodel.save('ppo_robot')\n\n# Later: load and predict\nloaded = ???\naction, _ = loaded.predict(obs, deterministic=True)",
+    "opts": [
+      "PPO.load('ppo_robot')",
+      "PPO('ppo_robot')",
+      "PPO.from_file('ppo_robot')",
+      "PPO.read('ppo_robot')"
+    ],
+    "correct": 0,
+    "explanation": "SB3 uses `<Algo>.load(path)` for loading saved models. The other forms are not part of the SB3 API."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is using a custom reward function: dense reach reward proportional to negative distance to goal.",
+    "code": "import numpy as np\n\ndef reach_reward(achieved_goal, desired_goal):\n    # Dense negative-distance reward + sparse bonus when within 5 cm\n    dist = np.linalg.norm(achieved_goal - desired_goal)\n    bonus = 10.0 if dist < 0.05 else 0.0\n    return ???",
+    "opts": [
+      "dist + bonus",
+      "-dist + bonus",
+      "-dist * bonus",
+      "1.0 / (dist + 1e-6) + bonus"
+    ],
+    "correct": 1,
+    "explanation": "Standard dense reach reward: negative distance to encourage approach, plus a sparse bonus on success. Option B rewards being far. Option C zeros out the dense term unless bonus is active. Option D introduces a singularity and an unbounded reward near the goal."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is implementing hindsight experience replay (HER). After an episode ends, replace the original goal with the final achieved state to create successful trajectories from failed ones.",
+    "code": "def her_relabel(transitions, k=4):\n    # transitions: list of (s, a, r, s_next, done, goal, achieved)\n    new_transitions = []\n    n = len(transitions)\n    for t, tr in enumerate(transitions):\n        s, a, _, s_next, done, _, _ = tr\n        # Sample k future achievements as new goals\n        for _ in range(k):\n            future_idx = np.random.randint(t, n)\n            new_goal = transitions[future_idx][6]   # 'achieved' of future step\n            # Recompute reward against the new goal\n            new_r = ???\n            new_transitions.append((s, a, new_r, s_next, done, new_goal, transitions[t][6]))\n    return new_transitions",
+    "opts": [
+      "0.0 if np.linalg.norm(transitions[t][6] - new_goal) < 0.05 else -1.0",
+      "1.0 if np.linalg.norm(transitions[t][6] - new_goal) > 0.05 else 0.0",
+      "np.linalg.norm(transitions[t][6] - new_goal)",
+      "-np.linalg.norm(s_next - new_goal)"
+    ],
+    "correct": 0,
+    "explanation": "HER's standard sparse reward: 0 on success (within tolerance), -1 otherwise, computed against the relabelled goal using the original step's achieved state. Option B inverts the success condition. Option C and D use distance directly (not the sparse HER convention used in the original paper)."
+  },
+  {
+    "section": "Reinforcement Learning for Robotics",
+    "q": "A team is using DAgger for imitation learning: query the expert on states visited by the current policy and aggregate them into the dataset.",
+    "code": "def dagger_iteration(env, policy, expert, dataset, beta=0.5):\n    obs, _ = env.reset()\n    for _ in range(1000):\n        # Mix expert and policy actions with probability beta\n        if np.random.rand() < beta:\n            action = expert.act(obs)\n        else:\n            action = policy.act(obs)\n        # ALWAYS record expert's label for visited state\n        expert_action = expert.act(obs)\n        ???\n        obs, _, term, trunc, _ = env.step(action)\n        if term or trunc: break\n    return dataset",
+    "opts": [
+      "dataset.append((obs, action))",
+      "dataset.append((obs, expert_action))",
+      "dataset.append((obs, policy.act(obs)))",
+      "dataset.append((obs, expert.act(action)))"
+    ],
+    "correct": 1,
+    "explanation": "DAgger's key insight is to roll out the *current* policy but record the *expert's* action as the label, training the policy to recover from its own mistakes. Option B records the executed action (policy's, when beta < 1) — not what we want. Option C labels with the policy itself. Option D is nonsensical (`expert.act(action)`)."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is loading a LeRobot dataset for behaviour cloning from HuggingFace. Complete the dataset load.",
+    "code": "from lerobot.common.datasets.lerobot_dataset import LeRobotDataset\n\n# Load the PushT dataset\ndataset = ???",
+    "opts": [
+      "LeRobotDataset.download('lerobot/pusht')",
+      "LeRobotDataset.from_huggingface('lerobot/pusht')",
+      "LeRobotDataset.load('lerobot/pusht')",
+      "LeRobotDataset('lerobot/pusht')"
+    ],
+    "correct": 3,
+    "explanation": "`LeRobotDataset(repo_id)` is the standard constructor. The other factory methods are not part of the LeRobot dataset API."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is loading a pretrained Diffusion Policy from the HuggingFace hub for inference on a PushT task.",
+    "code": "from lerobot.common.policies.diffusion.modeling_diffusion import DiffusionPolicy\n\n# Load pretrained policy from the hub\npolicy = ???\npolicy.eval()",
+    "opts": [
+      "DiffusionPolicy.from_pretrained('lerobot/diffusion_pusht')",
+      "DiffusionPolicy.load('lerobot/diffusion_pusht')",
+      "DiffusionPolicy('lerobot/diffusion_pusht')",
+      "DiffusionPolicy.from_hub('lerobot/diffusion_pusht')"
+    ],
+    "correct": 0,
+    "explanation": "LeRobot policies use the HuggingFace-style `from_pretrained(repo_id)` factory, just like transformers. The other forms are not part of the LeRobot API."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is running diffusion policy inference. The policy takes a batch of observation dicts and returns an action.",
+    "code": "import torch\n\n# obs is a dict of tensors: {'observation.image': ..., 'observation.state': ...}\nwith torch.no_grad():\n    action = ???",
+    "opts": [
+      "policy(obs)",
+      "policy.select_action(obs)",
+      "policy.predict(obs)",
+      "policy.generate(obs)"
+    ],
+    "correct": 1,
+    "explanation": "LeRobot policies expose `.select_action(observation)` as the inference entry point that returns a single action. The other method names are not part of the LeRobot policy API."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is loading the OpenVLA vision-language-action model from HuggingFace for instruction-conditioned manipulation.",
+    "code": "from transformers import AutoModelForVision2Seq, AutoProcessor\n\n# Load processor and model\nprocessor = AutoProcessor.from_pretrained('openvla/openvla-7b', trust_remote_code=True)\nvla = ???",
+    "opts": [
+      "AutoModelForVision2Seq.from_pretrained('openvla/openvla-7b', trust_remote_code=True)",
+      "AutoModelForVision2Seq('openvla/openvla-7b')",
+      "AutoModelForVision2Seq.load('openvla/openvla-7b')",
+      "AutoModel.from_pretrained_vla('openvla/openvla-7b')"
+    ],
+    "correct": 0,
+    "explanation": "OpenVLA uses the HuggingFace `AutoModelForVision2Seq.from_pretrained(name, trust_remote_code=True)` since it ships custom modeling code. The other call forms are not part of the API."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is preparing an instruction prompt for OpenVLA. The standard prompt format embeds the task instruction. Complete the prompt template.",
+    "code": "# Standard OpenVLA prompt format\ninstruction = 'pick up the red block'\nprompt = ???",
+    "opts": [
+      "f\"<task>{instruction}</task>\"",
+      "f\"Instruction: {instruction}\"",
+      "f\"In: What action should the robot take to {instruction}?\\nOut:\"",
+      "instruction"
+    ],
+    "correct": 2,
+    "explanation": "OpenVLA's training prompt format is `\"In: What action should the robot take to {instruction.lower()}?\\nOut:\"` — a Q/A style template. Deviating from the trained prompt format significantly degrades action prediction quality."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is using SAM (Segment Anything Model) to segment a graspable object from a point prompt at pixel (cx, cy).",
+    "code": "from segment_anything import SamPredictor, sam_model_registry\nimport numpy as np\n\nsam = sam_model_registry['vit_h'](checkpoint='sam_vit_h.pth')\npredictor = SamPredictor(sam)\npredictor.set_image(img_rgb)\n\n# Predict mask from a single point prompt (foreground)\nmasks, scores, _ = ???",
+    "opts": [
+      "predictor.predict_mask([cx, cy])",
+      "predictor.predict(point=(cx, cy), label='foreground')",
+      "predictor.segment(np.array([cx, cy]))",
+      "predictor.predict(point_coords=np.array([[cx, cy]]), point_labels=np.array([1]))"
+    ],
+    "correct": 3,
+    "explanation": "SAM's `predict()` takes `point_coords` (Nx2 array) and `point_labels` (1=foreground, 0=background) along with optional boxes/masks. The other call forms don't match the SAM API."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is using CLIP to score how well a robot's current view matches a textual goal description.",
+    "code": "import torch\nfrom transformers import CLIPProcessor, CLIPModel\n\nclip = CLIPModel.from_pretrained('openai/clip-vit-base-patch32')\nproc = CLIPProcessor.from_pretrained('openai/clip-vit-base-patch32')\n\ninputs = proc(text=['red cup on table'], images=img_rgb, return_tensors='pt', padding=True)\nwith torch.no_grad():\n    outputs = clip(**inputs)\n# Image-text similarity score (logits per image)\nscore = ???",
+    "opts": [
+      "outputs.logits[0]",
+      "outputs.score",
+      "outputs.cosine_similarity",
+      "outputs.logits_per_image[0, 0].item()"
+    ],
+    "correct": 3,
+    "explanation": "HuggingFace's CLIPModel returns `logits_per_image` (shape: [n_images, n_texts]) and `logits_per_text`. Both are scaled dot-products of normalized embeddings. The other attribute names are not part of the output."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is implementing action chunking (ACT-style) where the policy outputs a chunk of K future actions and the agent executes only the first H of them before re-querying.",
+    "code": "def chunked_policy_step(policy, obs, chunk_buffer, K=16, H=8):\n    # If we still have actions to execute, take the next one\n    if len(chunk_buffer) > 0:\n        return chunk_buffer.pop(0), chunk_buffer\n    # Otherwise predict K actions and execute the first H\n    actions = policy.predict_chunk(obs, K)  # shape (K, action_dim)\n    # Fill buffer with the first H actions to execute\n    ???\n    return chunk_buffer.pop(0), chunk_buffer",
+    "opts": [
+      "chunk_buffer = list(actions[H:])",
+      "chunk_buffer = list(actions[:H])",
+      "chunk_buffer = list(actions)",
+      "chunk_buffer = [actions[0]] * H"
+    ],
+    "correct": 1,
+    "explanation": "Action chunking executes the first H actions before re-planning. Option B keeps the tail (skips the immediate plan). Option C uses all K (defeats the purpose of chunking). Option D repeats the first action H times."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is encoding language instructions into embeddings using a frozen language encoder (T5) for a language-conditioned policy.",
+    "code": "from transformers import T5Tokenizer, T5EncoderModel\nimport torch\n\ntokenizer = T5Tokenizer.from_pretrained('t5-base')\nencoder = T5EncoderModel.from_pretrained('t5-base')\nencoder.eval()\n\n# Get sentence-level embedding for an instruction\ndef encode(text):\n    inputs = tokenizer(text, return_tensors='pt', padding=True, truncation=True)\n    with torch.no_grad():\n        outputs = encoder(**inputs)\n    # Mean-pool over tokens (mask-aware)\n    mask = inputs.attention_mask.unsqueeze(-1).float()\n    pooled = ???\n    return pooled",
+    "opts": [
+      "outputs.last_hidden_state[:, 0]",
+      "outputs.last_hidden_state.mean(dim=1)",
+      "(outputs.last_hidden_state * mask).sum(dim=1) / mask.sum(dim=1)",
+      "outputs.last_hidden_state.sum(dim=1)"
+    ],
+    "correct": 2,
+    "explanation": "Mask-aware mean pooling: multiply by attention mask, sum, then divide by mask sum. Option B includes padded positions in the average. Option C takes the first token (T5 has no [CLS] token). Option D returns the unnormalized sum."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is using NVIDIA Isaac Lab (formerly Orbit) to create a reinforcement learning environment for a quadruped. Complete the env class registration.",
+    "code": "import gymnasium as gym\nfrom omni.isaac.lab.envs import ManagerBasedRLEnv\n\n# Register the Anymal-C env config with Gym\n???",
+    "opts": [
+      "gym.create_env('Isaac-Velocity-Flat-Anymal-C-v0', ManagerBasedRLEnv, AnymalCFlatEnvCfg)",
+      "gym.register(id='Isaac-Velocity-Flat-Anymal-C-v0', entry_point='omni.isaac.lab.envs:ManagerBasedRLEnv', kwargs={'env_cfg_entry_point': AnymalCFlatEnvCfg})",
+      "ManagerBasedRLEnv.register('Anymal-C-v0', AnymalCFlatEnvCfg)",
+      "isaac.lab.register('Anymal-C-v0', cfg=AnymalCFlatEnvCfg)"
+    ],
+    "correct": 1,
+    "explanation": "Isaac Lab follows the Gymnasium registration pattern: `gym.register(id=, entry_point=, kwargs={...})`. The env config is passed via a kwarg name expected by the Isaac Lab env constructor. The other forms are not part of the Isaac Lab API."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is training a vision-conditioned policy and needs to encode 224x224 images with a frozen DINOv2 backbone.",
+    "code": "from transformers import AutoModel\nimport torch\n\nbackbone = AutoModel.from_pretrained('facebook/dinov2-base')\n# Freeze the backbone\nfor p in backbone.parameters():\n    p.requires_grad = False\n\ndef encode_image(img_tensor):\n    # img_tensor: (B, 3, 224, 224), already normalized\n    with torch.no_grad():\n        out = backbone(pixel_values=img_tensor)\n    # Use CLS token as the image embedding\n    return ???",
+    "opts": [
+      "out.last_hidden_state.mean(dim=1)",
+      "out.last_hidden_state[:, 0]",
+      "out.pooler_output.mean(dim=1)",
+      "out.logits"
+    ],
+    "correct": 1,
+    "explanation": "DINOv2 (and most ViTs) reserve index 0 of `last_hidden_state` as the [CLS] token, which is the conventional whole-image embedding. Option B mean-pools all patches (also common, but not the canonical CLS embedding). Option C uses pooler_output (not present in DINOv2 base output) and shouldn't be mean-pooled. Option D references a missing field."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is training a diffusion policy. Complete the noise prediction loss (DDPM-style) for predicting the noise added to the action sequence.",
+    "code": "import torch\nimport torch.nn.functional as F\n\n# clean_actions: (B, T, A), noise: (B, T, A) sampled from N(0,1)\n# noisy_actions = sqrt(alpha_bar) * clean + sqrt(1-alpha_bar) * noise\ndef diffusion_loss(model, clean_actions, obs, timesteps, noise, alpha_bar):\n    noisy = (alpha_bar.sqrt() * clean_actions\n             + (1 - alpha_bar).sqrt() * noise)\n    pred_noise = model(noisy, timesteps, obs)\n    # Standard DDPM loss\n    return ???",
+    "opts": [
+      "F.mse_loss(pred_noise, noise)",
+      "F.mse_loss(pred_noise, clean_actions)",
+      "F.cross_entropy(pred_noise, noise)",
+      "F.l1_loss(pred_noise, noisy)"
+    ],
+    "correct": 0,
+    "explanation": "DDPM's training objective is to predict the noise that was added: L = E[||ε - ε_θ(x_t, t)||²]. Option B predicts the clean signal (x_0 parameterization, valid but different). Option C uses cross-entropy on continuous targets (wrong loss). Option D predicts the noisy input (trivial)."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is decoding discrete action tokens from a VLA model (RT-2 / OpenVLA style) back into continuous 7-DOF control. Complete the de-tokenization using a per-bin centre value.",
+    "code": "import numpy as np\n\n# action_tokens: array of N token IDs in [0, num_bins-1]\n# bin_centers: precomputed centres for each bin (length num_bins)\n# action_dim: e.g. 7\ndef detokenize(action_tokens, bin_centers):\n    # Map each token ID to its bin centre\n    return ???",
+    "opts": [
+      "np.searchsorted(bin_centers, action_tokens)",
+      "action_tokens / len(bin_centers)",
+      "action_tokens * bin_centers",
+      "bin_centers[action_tokens]"
+    ],
+    "correct": 3,
+    "explanation": "Action de-tokenization for VLA models maps each discrete token ID back to its bin centre via array indexing. Option B normalizes IDs (loses bin meaning). Option C multiplies element-wise (wrong shapes). Option D uses searchsorted which is for the opposite direction (continuous → bin)."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is implementing world-model rollout: starting from an encoded observation, predict the next K latent states using an RSSM-style transition model.",
+    "code": "def imagine_rollout(rssm, init_latent, init_state, action_seq):\n    # action_seq: (K, action_dim)\n    latents = [init_latent]\n    state = init_state\n    for k in range(len(action_seq)):\n        # Step the recurrent dynamics\n        state, latent = rssm.step(state, action_seq[k], ???)\n        latents.append(latent)\n    return latents",
+    "opts": [
+      "obs=None",
+      "prev_latent=latents[0]",
+      "prev_action=action_seq[k-1]",
+      "prev_latent=latents[-1]"
+    ],
+    "correct": 3,
+    "explanation": "In an RSSM rollout, the next latent depends on the previous latent (and action and recurrent state). Option B always uses the initial latent (no temporal dependence). Option C passes a previous action (doesn't match the typical RSSM step signature). Option D passes no relevant info."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is using Whisper to transcribe a spoken instruction to text for downstream language-conditioned manipulation.",
+    "code": "import whisper\n\nmodel = whisper.load_model('base')\n# Transcribe audio file to text\nresult = ???\ninstruction = result['text']",
+    "opts": [
+      "model('cmd.wav')",
+      "whisper.transcribe(model, 'cmd.wav')",
+      "model.transcribe('cmd.wav')",
+      "model.speech_to_text('cmd.wav')"
+    ],
+    "correct": 2,
+    "explanation": "OpenAI Whisper's Python API: `model.transcribe(audio_path)` returns a dict with `'text'`, `'segments'`, and `'language'`. The other call forms are not part of the API."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is grounding a language instruction to scene objects using GroundingDINO for open-vocabulary detection given the text prompt 'red block . blue cup .'.",
+    "code": "from groundingdino.util.inference import load_model, predict\n\nmodel = load_model('config.py', 'weights.pth')\n\n# Detect objects matching the text prompt\nboxes, logits, phrases = ???",
+    "opts": [
+      "model(img, captions=['red block', 'blue cup'])",
+      "predict(model, img, 'red block, blue cup', threshold=0.35)",
+      "model.detect(img, prompt='red block; blue cup')",
+      "predict(model=model, image=img, caption='red block . blue cup .', box_threshold=0.35, text_threshold=0.25)"
+    ],
+    "correct": 3,
+    "explanation": "GroundingDINO expects the caption with period-separated phrases and uses separate `box_threshold` and `text_threshold`. Punctuation matters — commas/semicolons give very different results. Options B/C/D use wrong delimiters or non-existent APIs."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is implementing behavior cloning (BC) loss for continuous action regression. Given a batch of states and expert actions, complete the loss.",
+    "code": "import torch\nimport torch.nn.functional as F\n\ndef bc_loss(policy, batch):\n    obs, expert_action = batch['obs'], batch['action']\n    pred_action = policy(obs)\n    # MSE between predicted and expert action\n    return ???",
+    "opts": [
+      "F.binary_cross_entropy(pred_action, expert_action)",
+      "F.cross_entropy(pred_action, expert_action)",
+      "F.mse_loss(pred_action, expert_action)",
+      "torch.abs(pred_action - expert_action).sum()"
+    ],
+    "correct": 2,
+    "explanation": "BC for continuous actions uses MSE (or L1). Option B is for discrete class labels. Option C is for binary classification. Option D is L1 but unreduced (sum across batch elements scales with batch size)."
+  },
+  {
+    "section": "Embodied AI & Foundation Models",
+    "q": "A team is normalizing an image batch for input to a pretrained vision backbone with mean/std stored as 3-vectors. Complete the per-channel normalization on a PyTorch tensor of shape (B, 3, H, W).",
+    "code": "import torch\n\nmean = torch.tensor([0.485, 0.456, 0.406]).view(1, 3, 1, 1)\nstd  = torch.tensor([0.229, 0.224, 0.225]).view(1, 3, 1, 1)\n\n# img: (B, 3, H, W), float in [0,1]\nimg_norm = ???",
+    "opts": [
+      "(img - mean.view(3, 1, 1)) / std.view(3, 1, 1)",
+      "(img - mean) / std",
+      "(img - mean.squeeze()) / std.squeeze()",
+      "(img - mean.flatten()) / std.flatten()"
+    ],
+    "correct": 1,
+    "explanation": "With mean/std reshaped to (1, 3, 1, 1), broadcasting handles a (B, 3, H, W) image directly. Options B-D reshape to (3,) or (3,1,1), which fail to broadcast against the leading batch dimension cleanly."
+  }
+];
+const SECTIONS  = [
+  {
+    "key": "Robotics Foundations & ROS 2",
+    "label": "Section A — Robotics Foundations & ROS 2",
+    "cls": "sec-ros",
+    "range": "Questions 1–16"
+  },
+  {
+    "key": "Perception & Computer Vision",
+    "label": "Section B — Perception & Computer Vision",
+    "cls": "sec-cv",
+    "range": "Questions 17–32"
+  },
+  {
+    "key": "SLAM, Localization & Mapping",
+    "label": "Section C — SLAM, Localization & Mapping",
+    "cls": "sec-slam",
+    "range": "Questions 33–48"
+  },
+  {
+    "key": "Motion Planning & Control",
+    "label": "Section D — Motion Planning & Control",
+    "cls": "sec-ctrl",
+    "range": "Questions 49–64"
+  },
+  {
+    "key": "Reinforcement Learning for Robotics",
+    "label": "Section E — Reinforcement Learning for Robotics",
+    "cls": "sec-rl",
+    "range": "Questions 65–82"
+  },
+  {
+    "key": "Embodied AI & Foundation Models",
+    "label": "Section F — Embodied AI & Foundation Models",
+    "cls": "sec-vla",
+    "range": "Questions 83–100"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+
+let mode = 'guided', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 2*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function renderCode(code){
+  return escapeHtml(code).replace(/\?\?\?/g, '<span class="blank">???</span>');
+}
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='02:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  const codeBlock = q.code ? '<pre class="q-code">'+renderCode(q.code)+'</pre>' : '';
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   codeBlock
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/100';
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/100';
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  if(pct>=0.9){ grade='Senior Robotics & Embodied AI Engineer'; blurb='Outstanding. You have strong fluency across the physical AI stack \u2014 ROS, perception, SLAM, control, RL, and embodied foundation models.'; }
+  else if(pct>=0.75){ grade='Strong Physical AI Engineer'; blurb='Solid working command of the physical AI stack. Review missed items \u2014 most failures cluster around specific library APIs or geometry conventions.'; }
+  else if(pct>=0.6){ grade='Qualified Physical AI Engineer'; blurb='You can write robotics code across the stack. Sharpen your knowledge of canonical APIs (ROS 2, MuJoCo, Open3D) and rigid-body math conventions.'; }
+  else if(pct>=0.4){ grade='Developing Physical AI Engineer'; blurb='Physical AI fluency is forming. Spend time on the rigid-body / SE(3) basics and reproduce canonical examples from ROS, MuJoCo, and LeRobot tutorials.'; }
+  else { grade='Begin the Physical AI Journey'; blurb='Start with ROS 2 basics, then 3D geometry (transforms, quaternions), then a simple PID controller, then a Gym RL example, then a HuggingFace VLA demo.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 100 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one question at a time. 2-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Certificate name</label>
+    <input id="chmlCertNameInput" type="text" maxlength="80" placeholder="Enter name for certificate" oninput="chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" type="button" onclick="chmlPrintCertificate()">Print / Save as PDF</button>
+    <button class="chml-cert-btn secondary" type="button" onclick="chmlHideCertificate()">Hide Certificate</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div><div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker"><span id="chmlCertExamKicker">Knowledge Hub Examination</span></div>
+      <h1 class="chml-cert-h1">Certificate of Completion</h1>
+      <div class="chml-cert-rule"></div>
+      <p class="chml-cert-pre">This certifies that</p>
+      <p class="chml-cert-name" id="chmlCertName">Learner</p>
+      <p class="chml-cert-body">has successfully completed the <b id="chmlCertExamName">Knowledge Hub Exam</b>.</p>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">0 / 0</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">-</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Quak Foo Lee</div><div class="chml-cert-sig-label">Chmltech Ltd.</div></div>
+        <div class="chml-cert-id">Certificate ID: <span id="chmlCertId">-</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertificateInstalled) return;
+  window.__chmlCertificateInstalled = true;
+  function textOf(sel){var el=document.querySelector(sel);return el?el.textContent.trim():'';}
+  function examTitle(){return textOf('h1.title')||textOf('header h1')||textOf('h1')||document.title.replace(/\s+/g,' ').trim()||'Knowledge Hub Exam';}
+  function parseFirstNumber(txt){var m=String(txt||'').match(/\d+/);return m?parseInt(m[0],10):null;}
+  function parseScoreTotal(){
+    var correct=parseFirstNumber(textOf('#rScore'));
+    var total=null;
+    var rt=textOf('#rTotal');
+    if(rt) total=parseFirstNumber(rt);
+    if(!total){var sb=textOf('.score-big');var m=sb.match(/\/\s*(\d+)/);if(m) total=parseInt(m[1],10);}
+    if(!total) total=parseFirstNumber(textOf('#progTotal'));
+    if(!total){var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;if(cards) total=cards;}
+    if(!correct && correct!==0) correct=parseFirstNumber(textOf('#scoreNum'));
+    return {correct:correct||0,total:total||0};
+  }
+  function totalFromBreakdown(byType){
+    if(!byType || typeof byType!=='object') return null;
+    var total=0, found=false;
+    Object.keys(byType).forEach(function(k){var v=byType[k];if(v&&typeof v==='object'){var n=v.t||v.total||v.count;if(typeof n==='number'){total+=n;found=true;}}});
+    return found?total:null;
+  }
+  function hashCode(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+  window.chmlUpdateCertificateName=function(name){document.getElementById('chmlCertName').textContent=(name||'').trim()||'Learner';};
+  window.chmlHideCertificate=function(){var c=document.getElementById('chmlCertificate');if(c)c.classList.remove('show');};
+  window.chmlPrintCertificate=function(){window.print();};
+  window.chmlRenderCertificate=function(correct,total,grade){
+    var cert=document.getElementById('chmlCertificate');if(!cert)return;
+    var title=examTitle();
+    var nameInput=document.getElementById('chmlCertNameInput');
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
+    var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
+    document.getElementById('chmlCertExamName').textContent=title;
+    document.getElementById('chmlCertName').textContent=learner;
+    document.getElementById('chmlCertScore').textContent=String(correct)+' / '+String(total||0)+(total?(' ('+Math.round((correct/total)*100)+'%)'):'');
+    document.getElementById('chmlCertDate').textContent=date;
+    document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
+    cert.classList.add('show');
+  };
+
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
+    var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){
+      var parsed=parseScoreTotal();
+      if(correct===null || isNaN(correct)) correct=parsed.correct;
+      if(!total) total=parsed.total;
+      if(total || correct || document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0);
+    },60);
+  }
+  if(typeof window.showResults==='function'){
+    var originalShowResults=window.showResults;
+    window.showResults=function(){var out=originalShowResults.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  if(typeof window.submitExam==='function'){
+    var originalSubmitExam=window.submitExam;
+    window.submitExam=function(){var out=originalSubmitExam.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  ['resetExam','newExam'].forEach(function(fn){
+    if(typeof window[fn]==='function'){
+      var original=window[fn];
+      window[fn]=function(){window.chmlHideCertificate();return original.apply(this,arguments);};
+    }
+  });
+})();
+</script>
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manufacturing Readiness Level (MRL) Exam V1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1c1a17;
+  --paper:#f4efe6;
+  --paper2:#ebe3d5;
+  --gold:#b08d3c;
+  --gold-deep:#8a6d28;
+  --green:#2f6b4f;
+  --green-soft:#e3eee6;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  --theory:#1a5276;
+  --case:#7d6608;
+  --situ:#145a32;
+  --app:#6e2f8f;
+  --line:#d4c9b4;
+  --shadow:rgba(40,32,18,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(176,141,60,.07), transparent 40%),
+    radial-gradient(circle at 88% 92%, rgba(47,107,79,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+/* subtle paper grain */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 22px}
+
+/* ── HEADER ── */
+header.masthead{
+  text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);
+  margin-bottom:8px;
+}
+.kicker{
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;
+  text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px;
+}
+h1.title{
+  font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.4rem,6vw,4rem);
+  line-height:.98;letter-spacing:-.02em;margin-bottom:10px;
+}
+h1.title .of{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#6b5f4a;margin-bottom:22px}
+.exambar{
+  display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;
+  color:#5a5040;padding:12px 26px;border:1px solid var(--line);
+  border-radius:2px;background:rgba(255,255,255,.35);
+}
+.exambar b{color:var(--ink)}
+
+/* ── PROGRESS / SCORE PANEL ── */
+.hud{
+  position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;
+  background:rgba(244,239,230,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-deep));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+
+/* ── SECTION HEADERS ── */
+.section-head{
+  margin:46px 0 8px;padding:13px 20px;border-radius:3px;
+  font-family:'Fraunces',serif;font-weight:700;font-size:1.18rem;letter-spacing:.01em;
+  color:#fff;display:flex;align-items:center;gap:14px;
+  box-shadow:0 4px 16px var(--shadow);
+}
+.section-head .tag{
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;
+  background:rgba(255,255,255,.2);
+}
+.sec-theory{background:linear-gradient(100deg,var(--theory),#0f3a52)}
+.sec-case{background:linear-gradient(100deg,var(--case),#574700)}
+.sec-situ{background:linear-gradient(100deg,var(--situ),#0a3c20)}
+.sec-app{background:linear-gradient(100deg,var(--app),#4a1f63)}
+
+/* ── QUESTION CARD ── */
+.q-card{
+  background:rgba(255,255,255,.55);border:1px solid var(--line);
+  border-radius:4px;padding:24px 26px 20px;margin:16px 0;
+  box-shadow:0 2px 10px rgba(40,32,18,.05);
+  transition:box-shadow .3s,border-color .3s;
+}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px}
+.q-num{
+  font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);
+  line-height:1;min-width:54px;
+}
+.q-type{
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;
+  border:1px solid currentColor;opacity:.85;
+}
+.t-theory{color:var(--theory)}
+.t-case-study{color:var(--case)}
+.t-situational{color:var(--situ)}
+.t-application{color:var(--app)}
+.q-text{font-size:1.12rem;line-height:1.55;margin-bottom:16px;font-weight:500}
+
+/* ── OPTIONS ── */
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{
+  display:flex;align-items:flex-start;gap:13px;padding:13px 16px;
+  border:1px solid var(--line);border-radius:3px;cursor:pointer;
+  background:rgba(255,255,255,.4);transition:all .18s ease;
+  font-size:1.01rem;position:relative;
+}
+.opt:hover{border-color:var(--gold);background:rgba(176,141,60,.07);transform:translateX(2px)}
+.opt .letter{
+  font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;
+  width:25px;height:25px;flex-shrink:0;border-radius:50%;
+  display:grid;place-items:center;border:1.5px solid var(--gold-deep);
+  color:var(--gold-deep);transition:all .18s;
+}
+.opt .otext{flex:1;padding-top:1px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(176,141,60,.1)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+
+/* ── EXPLANATION ── */
+.explain{
+  max-height:0;overflow:hidden;opacity:0;
+  transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;
+  border-left:3px solid var(--gold);background:rgba(176,141,60,.06);
+  border-radius:0 3px 3px 0;margin-top:0;padding:0 18px;
+}
+.explain.show{max-height:600px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);
+  margin-bottom:7px;display:flex;align-items:center;gap:8px;
+}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#3a3326}
+
+/* ── RESULTS PANEL ── */
+.results{
+  margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;
+  background:linear-gradient(160deg,#fff,var(--paper2));
+  border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);
+  display:none;
+}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#8a7d63}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:520px;margin:0 auto 24px;color:#4a4234;font-size:1.05rem}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.5);min-width:96px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+
+/* ── BUTTONS ── */
+.btn{
+  font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;
+  border-radius:3px;cursor:pointer;transition:all .2s;
+}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+
+/* ── MODE TOGGLE ── */
+.modebar{
+  display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;
+  border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;
+  margin-left:auto;margin-right:auto;background:rgba(255,255,255,.4);
+}
+.modebar button{
+  font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;
+  background:transparent;cursor:pointer;color:#6b5f4a;transition:all .2s;
+}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#7a6e58;font-size:.92rem;margin-bottom:8px}
+
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);
+  font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#8a7d63}
+
+@media(max-width:560px){
+  .q-card{padding:20px 18px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:1.04rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+}
+
+
+/* ── One-at-a-time navigation (Guided & Exam modes) ── */
+.nav-row{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;
+  margin:22px 0 0;padding:18px 20px;border:1px solid var(--line);border-radius:6px;
+  background:rgba(255,255,255,.45);
+}
+.nav-row .nav-hint{
+  flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;
+  font-size:.92rem;font-family:'Newsreader',serif;
+}
+.nav-row .btn{margin:0}
+.nav-row .btn[disabled]{opacity:.4;cursor:not-allowed;pointer-events:none;}
+.nav-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+
+/* ── Name modal ── */
+.pom-modal-backdrop{position:fixed;inset:0;background:rgba(28,26,23,.55);display:none;align-items:center;justify-content:center;z-index:9000;backdrop-filter:blur(2px);}
+.pom-modal-backdrop.show{display:flex;}
+.pom-modal-card{background:var(--paper);max-width:520px;width:calc(100% - 32px);padding:28px 30px 26px;border-radius:6px;box-shadow:0 30px 60px rgba(28,26,23,.25);border:1px solid var(--line);}
+.pom-modal-title{font-family:'Fraunces',serif;font-weight:700;color:var(--ink);margin:0 0 6px;font-size:1.55rem;}
+.pom-modal-sub{margin:0 0 18px;color:#6b5f4a;font-size:.95rem;line-height:1.45;font-family:'Newsreader',serif;}
+.pom-modal-label{display:block;font-family:'JetBrains Mono',monospace;text-transform:uppercase;font-size:.7rem;letter-spacing:.1em;color:var(--gold-deep);margin:6px 0 4px;}
+.pom-modal-input{display:block;width:100%;padding:11px 14px;border:1.5px solid var(--line);border-radius:4px;font-family:'Newsreader',serif;font-size:1.05rem;background:#fffaf0;color:var(--ink);box-sizing:border-box;outline:none;transition:border-color .15s;}
+.pom-modal-input:focus{border-color:var(--gold-deep);}
+.pom-modal-actions{margin-top:18px;display:flex;gap:10px;justify-content:flex-end;}
+
+/* ── Certificate of Completion ── */
+.cert-wrap{display:none;margin:30px auto 24px;max-width:920px;padding:0 16px;position:relative;z-index:1;}
+.cert-wrap.show{display:block;}
+.cert-toolbar{display:flex;gap:10px;justify-content:flex-end;margin-bottom:14px;flex-wrap:wrap;}
+.cert-paper{background:var(--paper2);padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.cert-border{position:relative;border:3px double var(--ink);padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;}
+.cert-corner{position:absolute;width:34px;height:34px;border:2px solid var(--gold-deep);}
+.cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0;}
+.cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0;}
+.cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0;}
+.cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0;}
+.cert-seal{position:absolute;top:28px;right:42px;opacity:.85;}
+.cert-kicker{font-family:'JetBrains Mono',monospace;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:var(--gold-deep);margin-bottom:6px;}
+.cert-h1{font-family:'Fraunces',serif;font-weight:700;font-size:2.5rem;color:var(--ink);margin:0 0 8px;letter-spacing:-.005em;}
+.cert-rule{width:120px;height:2px;background:var(--gold);margin:8px auto 22px;}
+.cert-pre{font-family:'Newsreader',serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.cert-name{font-family:'Fraunces',serif;font-weight:700;font-size:2.3rem;color:var(--ink);margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;letter-spacing:-.005em;}
+.cert-body{font-family:'Newsreader',serif;font-size:1.08rem;line-height:1.55;color:var(--ink);max-width:640px;margin:6px auto 26px;}
+.cert-stats{display:flex;justify-content:center;gap:60px;margin:22px 0 28px;flex-wrap:wrap;}
+.cert-stat{text-align:center;min-width:140px;}
+.cert-stat-l{font-family:'JetBrains Mono',monospace;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:var(--gold-deep);margin-bottom:6px;}
+.cert-stat-v{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem;color:var(--ink);}
+.cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}
+.cert-sig{text-align:left;}
+.cert-sig-line{font-family:'Fraunces',serif;font-style:italic;font-size:1.1rem;color:var(--ink);border-top:1px solid var(--ink);padding-top:4px;min-width:200px;}
+.cert-sig-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}
+.cert-id{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+
+/* Print: certificate fills the actual printable page in full color, regardless of paper size or orientation */
+@media print {
+  *, *::before, *::after{
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+  body > *:not(.cert-wrap), .wrap{display:none !important;}
+  body::before{display:none !important;}
+  html, body{
+    background:#fff !important;
+    margin:0 !important; padding:0 !important;
+    width:100%; height:100%;
+  }
+  .cert-wrap .no-print{display:none !important;}
+  .cert-wrap{
+    position:fixed !important;
+    top:0 !important; left:0 !important; right:0 !important; bottom:0 !important;
+    width:auto !important; height:auto !important;
+    margin:0 !important; padding:0 !important;
+    max-width:none !important;
+    display:block !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  .cert-paper{
+    position:absolute !important;
+    top:0 !important; left:0 !important; right:0 !important; bottom:0 !important;
+    width:auto !important; height:auto !important;
+    margin:0 !important; padding:5mm !important;
+    box-shadow:none !important;
+    background:var(--paper2) !important;
+    box-sizing:border-box !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  .cert-border{
+    position:absolute !important;
+    top:5mm !important; left:5mm !important; right:5mm !important; bottom:5mm !important;
+    width:auto !important; height:auto !important;
+    margin:0 !important; padding:38px 55px 32px !important;
+    background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%) !important;
+    box-sizing:border-box !important;
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:space-evenly !important;   /* distribute extra vertical space EQUALLY around every item */
+    align-items:center !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  /* Zero out element-level vertical margins in print mode — space-evenly handles all the gaps */
+  .cert-kicker{margin:0 !important;}
+  .cert-h1{font-size:2.6rem !important; margin:0 !important;}
+  .cert-rule{margin:0 auto !important;}
+  .cert-pre{margin:0 !important; font-size:1.1rem !important;}
+  .cert-name{font-size:2.4rem !important; margin:0 !important; padding:0 28px 10px !important;}
+  .cert-body{font-size:1.12rem !important; margin:0 auto !important; max-width:720px !important;}
+  .cert-stats{margin:0 !important; gap:90px !important;}
+  .cert-stat-v{font-size:1.35rem !important;}
+  .cert-foot{margin:0 !important; width:100% !important;}   /* full-width so the signature sits at the left and ID at the right */
+  .cert-sig-line{font-size:1.15rem !important;}
+  .cert-sig-line{font-size:1.15rem !important;}
+  .cert-seal{top:42px !important; right:62px !important;}
+  .cert-corner{width:42px !important; height:42px !important;}
+  .cert-corner.tl{top:14px !important; left:14px !important;}
+  .cert-corner.tr{top:14px !important; right:14px !important;}
+  .cert-corner.bl{bottom:14px !important; left:14px !important;}
+  .cert-corner.br{bottom:14px !important; right:14px !important;}
+  @page{size: landscape; margin: 6mm;}
+}
+
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Multiple Choice Examination &middot; Version 1 &middot; 30-Question Pool</div>
+    <h1 class="title">Manufacturing Readiness <span class="of">Level</span></h1>
+    <div class="byline">An assessment based on DoD Manufacturing Readiness Level definitions, the 2025 MRL Deskbook, and the MRL Criteria Matrix. Exam Mode draws a random 10-question subset from the pool of 30 and issues a personalised Certificate of Completion.</div>
+    <div class="exambar">
+      <span><b>30</b> in Pool</span>
+      <span><b>10</b> Random in Exam</span>
+      <span><b>4</b> Options Each</span>
+      <span>Exam Mode: <b>30 min</b> timer</span>
+      <span><b>Certificate</b> on completion</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided" onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam" onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat">Progress <b id="progCount">0</b>/<b id="progTotal">30</b></span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat" id="timeStat" style="display:none">Time <b id="timeVal">30:00</b></span><span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px;display:none">
+    <button class="btn btn-gold" id="submitBtn" onclick="submitExam()" style="display:none">Submit Exam</button>
+  </div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/30</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAll()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam()">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>Based on DoD MRL definitions, MRL Deskbook 2025, and MRL Criteria Matrix V2025_R1 &middot; Informal study resource</footer>
+</div>
+
+<script>
+const POOL = [{"type": "Theory", "correct": 1, "q": "What is the primary purpose of Manufacturing Readiness Levels (MRLs)?", "opts": ["To replace Technology Readiness Levels when a technology has reached prototype demonstration", "To provide a common scale for assessing manufacturing maturity, risk, and readiness to transition into production", "To certify that a supplier has achieved ISO 9001, AS9100, or AS6500 compliance for a specific product line", "To calculate the exact production unit cost that will be used in the approved acquisition program baseline"], "explanation": "MRLs provide a standardized vocabulary and scale for manufacturing maturity and risk. They help teams identify readiness gaps, communicate risk, and plan maturation actions across technology, design, process, quality, supply chain, facilities, personnel, and management areas."}, {"type": "Theory", "correct": 2, "q": "Which statement best describes the relationship between MRLs and TRLs?", "opts": ["MRLs and TRLs are identical scales; an item at TRL 6 is automatically at MRL 6", "MRLs should always lag TRLs by exactly two levels to allow for design stabilization", "TRLs address technical maturity, while MRLs address manufacturing maturity and risk; the two are related but not interchangeable", "MRLs apply only after TRL 9, when the system is already in full rate production"], "explanation": "TRLs focus on whether the technology works in increasingly realistic environments. MRLs focus on whether the item can be manufactured with acceptable cost, schedule, quality, and production risk. Technology readiness can pace manufacturing readiness, but it does not automatically prove it."}, {"type": "Theory", "correct": 0, "q": "Which description best matches MRL 1?", "opts": ["Basic manufacturing implications are identified during early research", "Prototype components are demonstrated in a production relevant environment", "Pilot line capability is demonstrated and ready for low rate initial production", "Full rate production is demonstrated and continuous improvement is ongoing"], "explanation": "MRL 1 is the lowest level of manufacturing readiness. The focus is recognizing basic manufacturing implications, shortfalls, and opportunities early enough to influence research and program planning."}, {"type": "Theory", "correct": 2, "q": "MRL 4 is commonly associated with which manufacturing capability?", "opts": ["Capability to begin full rate production after LRIP cost targets have been met", "Capability to produce production configuration items on a pilot line", "Capability to produce the technology in a laboratory environment with initial producibility and quality processes in place", "Capability to demonstrate a prototype system in a production relevant environment"], "explanation": "MRL 4 indicates the capability to produce the technology in a laboratory environment. At this point, manufacturability, producibility, quality processes, prototype build risks, target cost drivers, and special tooling or skills should be understood at an initial level."}, {"type": "Theory", "correct": 1, "q": "Which MRL is normally associated with readiness for Milestone B and entry into Engineering and Manufacturing Development (EMD)?", "opts": ["MRL 4", "MRL 6", "MRL 8", "MRL 10"], "explanation": "MRL 6 is commonly associated with readiness for a Milestone B decision. It means a prototype system or subsystem can be produced in a production relevant environment, with key processes defined, preliminary design mature enough, cost analysis performed, and key supply chain elements identified."}, {"type": "Theory", "correct": 2, "q": "Which MRL is associated with pilot line capability demonstrated and readiness to begin Low Rate Initial Production (LRIP)?", "opts": ["MRL 6", "MRL 7", "MRL 8", "MRL 9"], "explanation": "MRL 8 is the level where pilot line capability has been demonstrated and the program is ready to begin LRIP. Manufacturing and quality processes should be proven and under control in a pilot line environment, and known producibility risks should not create significant LRIP challenges."}, {"type": "Theory", "correct": 3, "q": "What does MRL 10 represent?", "opts": ["Manufacturing concepts have been identified through paper studies and analysis", "Prototype components can be produced in a production relevant environment", "Low rate production has been demonstrated and FRP can begin", "Full rate production is demonstrated, lean practices are in place, and continuous improvement is ongoing"], "explanation": "MRL 10 is the highest level. The system or item is in full rate production, meets engineering, performance, quality, and reliability requirements, has production resources in place, and uses lean practices with ongoing continuous improvement."}, {"type": "Theory", "correct": 1, "q": "Which list best reflects the major MRL threads used to organize manufacturing risk?", "opts": ["Strategy, finance, marketing, sales, operations, legal, human resources, and customer success", "Technology and industrial base, design, cost and funding, materials, process capability and control, quality management, personnel, facilities, and manufacturing management", "Requirements, coding, testing, deployment, monitoring, user support, cyber response, and change management", "Research, ideation, concept design, prototype build, launch, growth, maturity, and retirement"], "explanation": "The MRL criteria organize manufacturing readiness into manufacturing risk areas or threads. These include technology and industrial base, design, cost and funding, materials, process capability and control, quality management, manufacturing personnel, facilities, and manufacturing management."}, {"type": "Theory", "correct": 0, "q": "Which definition best describes manufacturability in the MRL context?", "opts": ["Design characteristics and activities that support consistent production at the required cost and quality level", "The legal right to manufacture an item after intellectual property restrictions have been cleared", "The number of production units a facility can build per month at maximum utilization", "The ability to produce a prototype once in a laboratory without repeatability requirements"], "explanation": "Manufacturability is about whether the design and process choices support consistent, affordable, quality production. It includes activities such as design for manufacturing and assembly, modularity, standardization, robust processes, materials, yield, and production flexibility."}, {"type": "Theory", "correct": 2, "q": "What is producibility?", "opts": ["A supplier rating system that measures whether vendors are eligible for defense contracts", "A measure of how many units can be produced before tool replacement is required", "The relative ease of producing an item that meets engineering, quality, and affordability requirements", "A statistical index used only after full rate production begins"], "explanation": "Producibility is the relative ease of producing an item that meets engineering, quality, and affordability requirements. It is closely related to design decisions, process capability, tolerances, materials, tooling, and production controls."}, {"type": "Case Study", "correct": 1, "q": "A program has completed lab experiments showing that a new manufacturing process can make small test coupons. Materials and processes have been characterized, but hardware remains experimental and further demonstration is required. Which MRL is the best fit?", "opts": ["MRL 2", "MRL 3", "MRL 6", "MRL 8"], "explanation": "MRL 3 begins validation of manufacturing concepts through analytical or laboratory experiments. Materials and processes may be characterized, and experimental hardware may exist, but broader evaluation and demonstration are still required."}, {"type": "Case Study", "correct": 2, "q": "A subsystem design is approaching preliminary design maturity. Most manufacturing processes are defined, critical component producibility assessments are complete, prototype tooling and personnel skills have been demonstrated in a production relevant environment, and long-lead supply chain elements are identified. What is the most likely MRL?", "opts": ["MRL 4", "MRL 5", "MRL 6", "MRL 9"], "explanation": "Those indicators align with MRL 6: prototype system or subsystem production in a production relevant environment, Milestone B readiness, preliminary design maturity, defined and characterized processes, cost analysis, risk reduction, and key supply chain identification."}, {"type": "Case Study", "correct": 2, "q": "A design team is after CDR. Detailed design is substantially mature, materials are available for a pilot build, manufacturing processes have been demonstrated in a production representative environment, supplier quality has been assessed, and production tooling design has begun. What level is most consistent?", "opts": ["MRL 5", "MRL 6", "MRL 7", "MRL 10"], "explanation": "MRL 7 focuses on producing systems, subsystems, or components in a production representative environment. It is commonly linked to the EMD midpoint and Post-CDR path, with detailed design activity, production representative process demonstrations, supplier quality assessment, and tooling development underway."}, {"type": "Case Study", "correct": 3, "q": "A program has completed LRIP. The item has been produced at low rate, design changes are minimal, production process capability meets key tolerances, LRIP cost targets have been met, and learning curves have actual data. What is the most likely readiness level?", "opts": ["MRL 6", "MRL 7", "MRL 8", "MRL 9"], "explanation": "MRL 9 means low rate production has been demonstrated and capability is in place to begin full rate production. Evidence includes stable design, available materials, capable manufacturing processes, ongoing production risk monitoring, LRIP cost target achievement, and cost models informed by actual data."}, {"type": "Case Study", "correct": 0, "q": "During an early concept study, the team identifies global industrial base trends, possible manufacturing capability gaps, and initial manufacturing science and technology needs. Which MRL range does this most strongly suggest?", "opts": ["MRL 1 to 2", "MRL 5 to 6", "MRL 8 to 9", "MRL 9 to 10"], "explanation": "MRL 1 and 2 are early research and concept levels. They focus on identifying manufacturing implications, concepts, industrial base trends, potential gaps, and feasibility risks before production-relevant demonstrations exist."}, {"type": "Case Study", "correct": 1, "q": "A supplier claims readiness for LRIP because the prototype works, but the cost model has not been validated with actual pilot line data and quality processes have not been proven under pilot line conditions. Which concern is most appropriate?", "opts": ["The supplier may be at MRL 10 but lacks enough TRL evidence", "The evidence is insufficient for MRL 8 because pilot line manufacturing and quality processes must be proven and under control", "The evidence already exceeds MRL 8 because prototype performance is the dominant criterion", "MRL criteria do not consider cost model validation or quality process control"], "explanation": "MRL 8 requires pilot line capability demonstrated and readiness for LRIP. The item working technically is not enough. Manufacturing and quality processes should be proven and controlled in a pilot line environment, and the cost model should be driven by detailed design and validated with actual data."}, {"type": "Case Study", "correct": 0, "q": "A team has actual system performance proven through successful mission operations, but the manufacturing process still relies on laboratory personnel and informal work instructions. What is the best interpretation?", "opts": ["High TRL does not automatically imply high MRL; manufacturing readiness may lag technical readiness", "The system is automatically MRL 10 because mission success proves production readiness", "MRL should be ignored once operational performance is demonstrated", "The correct issue is only poor documentation, not manufacturing risk"], "explanation": "Technical success does not prove manufacturing maturity. MRL evidence must show production-realistic processes, tooling, personnel, quality controls, supply chain, facilities, and cost readiness. A system can be high TRL while manufacturing readiness remains immature."}, {"type": "Case Study", "correct": 2, "q": "A production line is at full rate. Engineering changes are few and mostly related to quality and cost improvement, process capability is at the required quality level, resources are in place, and lean improvement routines are active. Which MRL is indicated?", "opts": ["MRL 7", "MRL 8", "MRL 10", "MRL 3"], "explanation": "This is MRL 10. The key evidence is full rate production, stable design, mature process capability, all production resources in place, rate production costs meeting goals, and lean continuous improvement underway."}, {"type": "Situational", "correct": 1, "q": "You are preparing an MRL assessment for a complex system. What should you do first?", "opts": ["Score every sub-thread at MRL 10 and work backward until evidence is missing", "Determine the assessment scope, taxonomy, schedule, responsible organization, assessed organization, and evidence expectations", "Begin with a site visit and ask production operators to estimate the MRL from experience", "Use the lowest TRL as the MRL score to save assessment time"], "explanation": "The Deskbook assessment process begins with planning. The team should determine scope, taxonomy, schedule, assessment roles, evidence needs, and how the product, system, subsystem, or component will be assessed before scoring readiness."}, {"type": "Situational", "correct": 3, "q": "During an assessment, one sub-thread is clearly at MRL 8 while another critical materials sub-thread is only at MRL 5. What is the best response?", "opts": ["Average the scores and report MRL 6.5 as the program readiness level", "Ignore the materials result if design maturity and technical performance are strong", "Report only the highest thread score to emphasize progress", "Treat the lower critical sub-thread as a manufacturing risk and define mitigation or maturation actions"], "explanation": "MRL assessments are risk tools, not simple averaging exercises. A weak critical sub-thread can control readiness because it creates transition risk. The right response is to document the shortfall, risk, and maturation plan needed to close it."}, {"type": "Situational", "correct": 2, "q": "A program manager wants to move quickly to production and says, 'We can finish supplier qualification after Milestone C.' What MRL principle should you apply?", "opts": ["Supplier qualification is mainly a financial issue and does not affect MRL scoring", "Milestone C decisions should focus only on system performance testing, not manufacturing readiness", "Supply chain and supplier quality readiness are part of manufacturing risk and should be assessed before LRIP readiness is claimed", "Supplier qualification belongs only to ISO 9001 audits and should not be included in MRL work"], "explanation": "MRL criteria include industrial base, materials, quality management, and supplier readiness. For MRL 8 and beyond, the supply chain should be established, stable enough for LRIP or FRP, and supplier quality risks should be understood and managed."}, {"type": "Situational", "correct": 1, "q": "An engineering team proposes tighter tolerances to improve performance, but manufacturing data shows low expected yield and high cost. Which MRL thread is most directly involved?", "opts": ["Manufacturing personnel only", "Design, producibility, process capability and control, and cost and funding", "Facilities only", "Technology readiness only"], "explanation": "Tolerance choices connect design to producibility, process capability, quality yield, and cost. MRL thinking forces these trades to be visible so performance goals do not create hidden production risk."}, {"type": "Situational", "correct": 0, "q": "Your team has pilot line equipment, production personnel, materials, work instructions, tooling, and quality controls that closely match planned low rate production. Which environment term best fits?", "opts": ["Pilot line environment", "Laboratory environment", "Paper study environment", "Purely operational environment"], "explanation": "A pilot line environment includes the key production realism elements required to manufacture production configuration items for low rate production. It should use full rate production processes to the maximum extent practical."}, {"type": "Situational", "correct": 2, "q": "A contractor demonstrates prototype build capability in the intended production facility using production-like tooling and staff, but not yet the full pilot line. What environment term is most likely?", "opts": ["Laboratory environment", "Full rate production environment", "Production relevant environment", "Sustainment-only environment"], "explanation": "A production relevant environment has meaningful shop floor production realism, including facilities, personnel, tooling, processes, and materials, with minimal reliance on laboratory resources. It supports confidence for EMD but is less mature than a pilot line environment."}, {"type": "Application", "correct": 1, "q": "Which item would be the strongest evidence for the Process Capability and Control thread at higher MRLs?", "opts": ["A single successful prototype made by expert technicians without documented repeatability", "Measured process capability data showing that critical characteristics can be controlled within required tolerances", "A marketing presentation showing that similar products have been manufactured somewhere in the industry", "A design review slide stating that the process is expected to be capable after production starts"], "explanation": "Process capability and control require evidence that processes are defined, measured, stable, and capable of meeting critical requirements. At higher MRLs, actual production-relevant, representative, pilot, or LRIP data is much stronger than assumptions or one-off demonstrations."}, {"type": "Application", "correct": 0, "q": "A manufacturing maturation plan should primarily do what?", "opts": ["Convert readiness gaps into actions, owners, schedules, resources, and risk retirement evidence", "Replace the program risk register so manufacturing risks are tracked separately from program management", "Document only the current MRL score and avoid prescribing corrective work", "Serve as a supplier sales document proving that no additional development funding is needed"], "explanation": "A manufacturing maturation plan translates MRL gaps into executable work. It should identify shortfalls, risk handling actions, owners, resources, timing, exit criteria, and evidence needed to move readiness forward."}, {"type": "Application", "correct": 2, "q": "Which acquisition contract practice best supports MRL-based manufacturing risk management?", "opts": ["Use general language such as 'contractor shall be production ready' without deliverables", "Avoid MRL terms because they might reveal program risk", "Include clear MRL-related expectations, assessment support, evidence, deliverables, and manufacturing maturation planning in RFP or SOW language", "Require a certificate of completion from every operator instead of objective manufacturing evidence"], "explanation": "The Deskbook discusses using MRLs in acquisition planning, RFPs, SOW language, and deliverables. Contract language should make assessment support, evidence, manufacturing plans, risk reporting, and quality considerations clear enough to be executed and verified."}, {"type": "Application", "correct": 3, "q": "Which evidence best supports the Materials thread at MRL 8?", "opts": ["A concept note stating that common materials are probably available", "A lab inventory list showing enough material for one prototype", "A supplier brochure showing theoretical capacity", "Approved material specifications and available materials sufficient to meet the planned low rate production schedule"], "explanation": "At MRL 8, readiness for LRIP depends on material specifications, availability, stable supply, and schedule alignment. Evidence should show that materials are available to support planned low rate production, not merely that they exist in theory."}, {"type": "Application", "correct": 1, "q": "How should a team use MRL criteria for a commercial or non-DoD manufacturing scale-up?", "opts": ["Discard the criteria because MRLs apply only to weapon systems", "Adapt the criteria to the product, production model, risk, evidence, and decision gates while preserving the intent of manufacturing risk assessment", "Use only MRL 9 and 10 because commercial products do not have acquisition phases", "Score readiness based only on customer demand and forecast revenue"], "explanation": "MRL criteria can be adapted outside their original defense acquisition context. The useful principle is structured manufacturing risk assessment: define the product and production context, tailor evidence expectations, identify gaps, and mature the system toward repeatable production."}, {"type": "Application", "correct": 0, "q": "A leadership team asks for one practical takeaway from MRL thinking. Which is best?", "opts": ["Do not wait until production launch to discover manufacturing risk; identify and retire it progressively as design and technology mature", "Manufacturing readiness can be safely assessed after market launch because customer demand is the only meaningful proof", "A high-performing prototype proves the production system is ready if the same engineers remain involved", "The MRL number is more important than the evidence behind the score"], "explanation": "The central MRL lesson is early and continuous manufacturing risk management. Readiness should mature alongside technology and design, with evidence collected progressively so cost, schedule, quality, supply chain, and production risks do not surface too late."}];
+const LETTERS = ['A','B','C','D'];
+let QUESTIONS = POOL.slice();      // working set; in Exam Mode this becomes a random 10
+const EXAM_SIZE = 10;              // questions drawn for an exam attempt
+let examUserName = '';             // captured by name modal
+let lastExamScore = null;
+const EXAM_DURATION_MS = 30*60*1000;
+let examEndTime = null;
+let timerInterval = null;
+let timedOut = false;
+const SECTIONS = [
+  {key:'Theory',      label:'Section A — Theory',      cls:'sec-theory', range:'Questions 1–10'},
+  {key:'Case Study',  label:'Section B — Case Study',  cls:'sec-case',   range:'Questions 11–18'},
+  {key:'Situational', label:'Section C — Situational', cls:'sec-situ',   range:'Questions 19–24'},
+  {key:'Application', label:'Section D — Application',  cls:'sec-app',    range:'Questions 25–30'},
+];
+let mode = 'guided';
+let current = 0;            // current question index in guided/exam modes
+let submitted = false;      // true after exam submit OR guided "Show Results"
+let answers = new Array(QUESTIONS.length).fill(null);
+let locked  = new Array(QUESTIONS.length).fill(false);
+
+function build(){
+  const exam = document.getElementById('exam');
+  exam.innerHTML='';
+  // Two layouts:
+  //   - 'instant' mode OR after submission ⇒ render ALL questions, grouped by section
+  //   - 'guided' or 'exam' mode (before submission) ⇒ render ONLY the current question + nav row
+  if(mode==='instant' || submitted){
+    let qi=0;
+    SECTIONS.forEach(sec=>{
+      const sectionQs = QUESTIONS.filter(q=>q.type===sec.key);
+      if(sectionQs.length===0) return;
+      const h=document.createElement('div');
+      h.className='section-head '+sec.cls;
+      h.innerHTML=`<span>${sec.label}</span><span class="tag">${sectionQs.length} question${sectionQs.length>1?'s':''}</span>`;
+      exam.appendChild(h);
+      QUESTIONS.forEach((q,idx)=>{
+        if(q.type!==sec.key) return;
+        qi++;
+        const card = makeCard(q,idx,qi);
+        exam.appendChild(card);
+        restoreCardState(idx);
+      });
+    });
+    return;
+  }
+  // One-at-a-time: render only the current question
+  const idx = current;
+  const q = QUESTIONS[idx];
+  exam.appendChild(makeCard(q, idx, idx+1));
+  restoreCardState(idx);
+  // Build the nav row
+  const last     = current === QUESTIONS.length-1;
+  const answered = answers[idx] !== null;
+  let continueBtn;
+  if(mode==='exam'){
+    continueBtn = last
+      ? `<button class="btn btn-gold" id="nav-continue" onclick="submitExam()" ${answered?'':'disabled'}>Submit Exam</button>`
+      : `<button class="btn btn-gold" id="nav-continue" onclick="nextQ()">Continue</button>`;
+  } else { /* guided */
+    continueBtn = last
+      ? `<button class="btn btn-gold" id="nav-continue" onclick="showResultsFromGuided()" ${answered?'':'disabled'}>Show Results</button>`
+      : `<button class="btn btn-gold" id="nav-continue" onclick="nextQ()" ${answered?'':'disabled'}>Continue</button>`;
+  }
+  const prevBtn  = `<button class="btn btn-ghost" onclick="prevQ()" ${idx===0?'disabled':''}>Back</button>`;
+  const resetBtn = `<button class="btn btn-ghost" onclick="confirmReset()">Reset</button>`;
+  const hint     = (mode==='exam')
+    ? 'No feedback until final submission.'
+    : (answered ? 'Feedback shown above — Continue when ready.' : 'Pick an answer to continue.');
+  const nav = document.createElement('div');
+  nav.className = 'nav-row';
+  nav.innerHTML = `
+    <div class="nav-cluster">${prevBtn}${resetBtn}</div>
+    <div class="nav-hint">${hint}</div>
+    <div class="nav-cluster">${continueBtn}</div>`;
+  exam.appendChild(nav);
+}
+
+function restoreCardState(idx){
+  // After (re-)rendering a card, restore its visual state from answers[] / locked[]
+  if(answers[idx]===null) return;
+  const card = document.getElementById('q'+idx);
+  if(!card) return;
+  const sel = card.querySelector(`.opt[data-i="${answers[idx]}"]`);
+  if(sel) sel.classList.add('sel');
+  card.classList.add('answered');
+  if(locked[idx]) lockCard(idx);
+}
+
+function makeCard(q,idx,num){
+  const card=document.createElement('div');
+  card.className='q-card';
+  card.id='q'+idx;
+  const typeClass='t-'+q.type.toLowerCase().replace(/ /g,'-');
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    optsHtml+=`<div class="opt" data-i="${i}" onclick="choose(${idx},${i})">
+      <span class="letter">${LETTERS[i]}</span>
+      <span class="otext">${o}</span>
+      <span class="mark"></span>
+    </div>`;
+  });
+  card.innerHTML=`
+    <div class="q-top">
+      <span class="q-num">Q${num}</span>
+      <span class="q-type ${typeClass}">${q.type}</span>
+    </div>
+    <div class="q-text">${q.q}</div>
+    <div class="opts">${optsHtml}</div>
+    <div class="explain" id="exp${idx}">
+      <div class="elabel">Explanation</div>
+      <div class="ans-line">Correct Answer: ${LETTERS[q.correct]} — ${q.opts[q.correct]}</div>
+      <p>${q.explanation}</p>
+    </div>`;
+  return card;
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  answers[idx]=i;
+  const card=document.getElementById('q'+idx);
+  card.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
+  card.querySelector(`.opt[data-i="${i}"]`).classList.add('sel');
+  card.classList.add('answered');
+  // Guided + Instant lock immediately and reveal feedback; Exam stays unlocked
+  if(mode==='instant' || mode==='guided'){ lockCard(idx); }
+  updateHud();
+  // In one-at-a-time modes, enable Continue/Submit once an answer is registered
+  if(mode==='guided' || mode==='exam'){
+    const cb = document.getElementById('nav-continue');
+    if(cb) cb.removeAttribute('disabled');
+    const hint = document.querySelector('.nav-row .nav-hint');
+    if(hint){
+      hint.textContent = (mode==='guided')
+        ? 'Feedback shown above — Continue when ready.'
+        : 'No feedback until final submission.';
+    }
+  }
+}
+
+function lockCard(idx){
+  locked[idx]=true;
+  const q=QUESTIONS[idx];
+  const card=document.getElementById('q'+idx);
+  card.classList.add('locked');
+  const chosen=answers[idx];
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    if(oi===q.correct){o.classList.add('correct');o.querySelector('.mark').textContent='✓';}
+    else if(oi===chosen){o.classList.add('wrong');o.querySelector('.mark').textContent='✕';}
+  });
+  document.getElementById('exp'+idx).classList.add('show');
+}
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  document.getElementById('progCount').textContent=done;
+  document.getElementById('progTotal').textContent=QUESTIONS.length;
+  document.getElementById('barFill').style.width=(done/QUESTIONS.length*100)+'%';
+  if(mode==='instant'){
+    const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+    document.getElementById('scoreNum').textContent=correct;
+  }
+  // show submit button in exam mode when all answered
+  if(mode==='exam'){
+    document.getElementById('submitBtn').style.display = done===QUESTIONS.length ? 'inline-block':'none';
+  }
+}
+
+
+function nextQ(){
+  if(current < QUESTIONS.length-1){
+    current++;
+    build();
+    updateHud();
+    const h = document.querySelector('.hud');
+    if(h) h.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+}
+function prevQ(){
+  if(current > 0){
+    current--;
+    build();
+    updateHud();
+    const h = document.querySelector('.hud');
+    if(h) h.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+}
+function confirmReset(){
+  if(confirm('Reset this attempt? All answers so far will be cleared.')){
+    resetExam();
+  }
+}
+function showResultsFromGuided(){
+  // All questions are already answered + locked in guided mode.
+  submitted = true;
+  let correct=0;
+  const byType={};
+  QUESTIONS.forEach((q,idx)=>{
+    const ok = answers[idx]===q.correct;
+    if(ok) correct++;
+    byType[q.type] = byType[q.type] || {c:0,t:0};
+    byType[q.type].t++;
+    if(ok) byType[q.type].c++;
+  });
+  document.getElementById('scoreNum').textContent = correct;
+  build();          // re-render in all-questions review form
+  updateHud();
+  showResults(correct, byType);
+}
+
+function submitExam(){
+  stopExamTimer();
+  submitted = true;
+  // Render all questions in review layout first, so lockCard() can find each card in the DOM
+  build();
+  let correct=0;
+  const byType={};
+  QUESTIONS.forEach((q,idx)=>{
+    lockCard(idx);
+    const ok=answers[idx]===q.correct;
+    if(ok)correct++;
+    byType[q.type]=byType[q.type]||{c:0,t:0};
+    byType[q.type].t++; if(ok)byType[q.type].c++;
+  });
+  document.getElementById('scoreNum').textContent=correct;
+  updateHud();
+  showResults(correct,byType);
+}
+
+function showResults(correct,byType){
+  const pct=correct/QUESTIONS.length;
+  document.getElementById('rScore').textContent=correct;
+  let grade,blurb;
+  if(pct>=0.9){grade='Manufacturing Readiness Lead';blurb='Exceptional. You can connect MRL levels, evidence, threads, and risk decisions in a practical assessment setting.';}
+  else if(pct>=0.75){grade='Readiness Practitioner';blurb='Strong grasp of the material. You understand how MRLs expose manufacturing risk before it becomes a production problem.';}
+  else if(pct>=0.6){grade='On the Right Track';blurb='A solid foundation. Revisit the explanations on environments, thread evidence, and level-specific readiness expectations.';}
+  else if(pct>=0.4){grade='Developing Assessor';blurb='The concepts are starting to land. Review how MRL evidence changes from lab work to production relevant, representative, pilot, and full rate environments.';}
+  else{grade='Begin the Assessment';blurb='Start with the MRL definitions, then work through each explanation carefully. The number matters less than the evidence and risk behind it.';}
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  const bd=document.getElementById('rBreak');bd.innerHTML='';
+  ['Theory','Case Study','Situational','Application'].forEach(t=>{
+    if(!byType[t])return;
+    const d=document.createElement('div');d.className='bd-item';
+    d.innerHTML=`<div class="bd-t">${t}</div><div class="bd-s">${byType[t].c}/${byType[t].t}</div>`;
+    bd.appendChild(d);
+  });
+  lastExamScore = { correct: correct, total: QUESTIONS.length, pct: pct, grade: grade };
+  if(mode==='exam'){
+    renderCertificate(correct, QUESTIONS.length, pct, grade);
+    const cb = document.getElementById('certificate');
+    cb.classList.add('show');
+    setTimeout(()=>cb.scrollIntoView({behavior:'smooth'}),200);
+    return;
+  }
+  const r=document.getElementById('results');r.classList.add('show');
+  r.scrollIntoView({behavior:'smooth'});
+}
+
+function renderCertificate(correct, total, pct, grade){
+  const dt = new Date();
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const dateStr = months[dt.getMonth()]+' '+dt.getDate()+', '+dt.getFullYear();
+  document.getElementById('certName').textContent = examUserName || 'Anonymous Reader';
+  document.getElementById('certScore').textContent = correct+' / '+total+'  ('+Math.round(pct*100)+'%)';
+  document.getElementById('certDate').textContent = dateStr;
+  const seed = (examUserName+'-'+dateStr+'-'+correct+'-'+total);
+  let h=0; for(let i=0;i<seed.length;i++){ h=((h<<5)-h+seed.charCodeAt(i))|0; }
+  document.getElementById('certId').textContent = 'MRL-'+Math.abs(h).toString(36).toUpperCase().slice(0,8);
+}
+
+function printCertificate(){ window.print(); }
+function dismissCertificate(){
+  document.getElementById('certificate').classList.remove('show');
+  setMode('instant');
+}
+
+function reviewAll(){document.getElementById('q0').scrollIntoView({behavior:'smooth'});}
+
+function setMode(m){
+  if(m==='exam'){
+    openNameModal();  // Exam Mode only starts after name confirmation
+    return;
+  }
+  mode=m;
+  current = 0;
+  submitted = false;
+  // Non-exam modes use the full 30-question pool in pool order
+  QUESTIONS = POOL.slice();
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',false);
+  document.getElementById('modeHint').textContent = (m==='guided')
+    ? 'Guided Path: one question at a time across all 30. Feedback appears after each answer; Continue is locked until you answer.'
+    : 'Instant Feedback: all 30 questions on one page. Each answer reveals the explanation immediately.';
+  document.getElementById('timeStat').style.display='none';
+  hideExamTimer();
+  resetExam();
+}
+
+function startExamWithName(name){
+  examUserName = (name||'').trim() || 'Anonymous Reader';
+  mode = 'exam';
+  current = 0;
+  submitted = false;
+  // Fisher-Yates shuffle, then take EXAM_SIZE
+  const shuffled = POOL.slice();
+  for(let i=shuffled.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [shuffled[i],shuffled[j]] = [shuffled[j],shuffled[i]];
+  }
+  QUESTIONS = shuffled.slice(0, EXAM_SIZE);
+  document.getElementById('mode-guided').classList.toggle('active',false);
+  document.getElementById('mode-instant').classList.toggle('active',false);
+  document.getElementById('mode-exam').classList.toggle('active',true);
+  document.getElementById('modeHint').textContent =
+    'Exam Mode: one question at a time. '+EXAM_SIZE+' random questions from a pool of '+POOL.length+'. 30-minute countdown active; feedback and score are hidden until final submission. Certificate generated on submit.';
+  document.getElementById('timeStat').style.display='inline';
+  resetExam();
+  startExamTimer();
+}
+
+function openNameModal(){
+  const m = document.getElementById('nameModal');
+  const inp = document.getElementById('nameInput');
+  inp.value = examUserName || '';
+  m.classList.add('show');
+  setTimeout(()=>inp.focus(), 50);
+}
+function closeNameModal(){
+  document.getElementById('nameModal').classList.remove('show');
+}
+function confirmNameAndStart(){
+  const inp = document.getElementById('nameInput');
+  const name = inp.value.trim();
+  if(!name){ inp.focus(); inp.style.borderColor='var(--gold)'; return; }
+  closeNameModal();
+  startExamWithName(name);
+}
+function cancelNameModal(){
+  closeNameModal();
+  if(mode==='exam'){ setMode('instant'); }
+}
+
+// ── Exam timer ──
+function fmtMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), m=Math.floor(t/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const tv = document.getElementById('timeVal');
+  if(!examEndTime||!tv) return;
+  const remain = examEndTime - Date.now();
+  tv.textContent = fmtMS(remain);
+  if(remain<=0){ timedOut = true; stopExamTimer(); submitExam(); }
+}
+function startExamTimer(){
+  stopExamTimer();
+  examEndTime = Date.now() + EXAM_DURATION_MS;
+  tickExamTimer();
+  timerInterval = setInterval(tickExamTimer, 1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){ stopExamTimer(); examEndTime=null; }
+
+function resetExam(){
+  current = 0;
+  submitted = false;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('certificate').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  document.getElementById('submitBtn').style.display='none';
+  timedOut=false;
+  build();
+  updateHud();
+  if(mode==='exam' || mode==='guided'){
+    const h = document.querySelector('.hud');
+    if(h) h.scrollIntoView({behavior:'smooth', block:'start'});
+  } else {
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+}
+
+build();
+updateHud();
+</script>
+
+<!-- Name entry modal -->
+<div id="nameModal" class="pom-modal-backdrop" onclick="if(event.target===this)cancelNameModal()">
+  <div class="pom-modal-card">
+    <h2 class="pom-modal-title">Begin MRL Exam Mode</h2>
+    <p class="pom-modal-sub">Enter the name to print on your Certificate of Completion. 10 questions will be drawn at random from the pool of 30. You have 30 minutes once you click <i>Start Exam</i>.</p>
+    <label class="pom-modal-label" for="nameInput">Your name</label>
+    <input id="nameInput" class="pom-modal-input" type="text" placeholder="Enter learner name" maxlength="80" autocomplete="off"
+           onkeydown="if(event.key==='Enter')confirmNameAndStart(); if(event.key==='Escape')cancelNameModal();">
+    <div class="pom-modal-actions">
+      <button class="btn btn-ghost" onclick="cancelNameModal()">Cancel</button>
+      <button class="btn btn-gold" onclick="confirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<!-- Certificate of Completion -->
+<div id="certificate" class="cert-wrap">
+  <div class="cert-toolbar no-print">
+    <button class="btn btn-gold" onclick="printCertificate()">🖨 Print / Save as PDF</button>
+    <button class="btn btn-ghost" onclick="dismissCertificate()">Close &amp; Review Answers</button>
+  </div>
+  <div class="cert-paper">
+    <div class="cert-border">
+      <div class="cert-corner tl"></div>
+      <div class="cert-corner tr"></div>
+      <div class="cert-corner bl"></div>
+      <div class="cert-corner br"></div>
+      <div class="cert-seal">
+        <svg viewBox="0 0 100 100" width="80" height="80" aria-hidden="true">
+          <circle cx="50" cy="50" r="46" fill="none" stroke="#1c1a17" stroke-width="2"/>
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#1c1a17" stroke-width="1"/>
+          <text x="50" y="48" text-anchor="middle" font-family="Fraunces, serif" font-size="11" fill="#1c1a17" font-weight="700">CHMLTECH</text>
+          <text x="50" y="64" text-anchor="middle" font-family="Fraunces, serif" font-size="11" fill="#1c1a17" font-weight="700">LTD.</text>
+        </svg>
+      </div>
+      <div class="cert-kicker">Manufacturing Readiness Level &middot; Examination</div>
+      <h1 class="cert-h1">Certificate of Completion</h1>
+      <div class="cert-rule"></div>
+      <p class="cert-pre">This certifies that</p>
+      <p class="cert-name" id="certName">Reader</p>
+      <p class="cert-body">has successfully completed the <b>Manufacturing Readiness Level (MRL)</b> Examination.</p>
+      <div class="cert-stats">
+        <div class="cert-stat"><div class="cert-stat-l">Score</div><div class="cert-stat-v" id="certScore">0 / 10</div></div>
+        <div class="cert-stat"><div class="cert-stat-l">Date</div><div class="cert-stat-v" id="certDate">—</div></div>
+      </div>
+      <div class="cert-foot">
+        <div class="cert-sig">
+          <div class="cert-sig-line">Quak Foo Lee</div>
+          <div class="cert-sig-label">Chmltech Ltd.</div>
+        </div>
+        <div class="cert-id">Certificate ID: <span id="certId">—</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>

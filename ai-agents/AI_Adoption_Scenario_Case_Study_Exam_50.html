@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Adoption — Scenario Case Study Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1c1a17;--paper:#f4efe6;--paper2:#ebe3d5;--gold:#b08d3c;--gold-deep:#8a6d28;
+  --green:#2f6b4f;--green-soft:#e3eee6;--red:#a8412f;--red-soft:#f3e3df;
+  --theory:#1a5276;--case:#7d6608;--situ:#145a32;--app:#6e2f8f;--line:#d4c9b4;--shadow:rgba(40,32,18,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:radial-gradient(circle at 12% 8%, rgba(176,141,60,.07), transparent 40%),radial-gradient(circle at 88% 92%, rgba(47,107,79,.06), transparent 40%),var(--paper);
+  color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;padding:0 0 80px;
+}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");}
+.wrap{position:relative;z-index:1;max-width:920px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.4rem,6vw,4rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .of{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#6b5f4a;margin-bottom:22px;max-width:700px;margin-left:auto;margin-right:auto}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#5a5040;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.35)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px auto 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;background:rgba(255,255,255,.4);flex-wrap:wrap}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#6b5f4a;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#7a6e58;font-size:.92rem;margin-bottom:8px}
+.setup-panel{margin:24px 0 22px;padding:22px 24px;border:1px solid var(--line);border-radius:6px;background:rgba(255,255,255,.48);box-shadow:0 2px 12px rgba(40,32,18,.06);text-align:center}
+.setup-panel h2{font-family:'Fraunces',serif;font-size:1.5rem;margin-bottom:8px}
+.setup-panel p{color:#5a5040;margin-bottom:16px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(244,239,230,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-deep));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.section-head{margin:34px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.18rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow);background:linear-gradient(100deg,var(--case),#574700)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2)}
+.q-card{background:rgba(255,255,255,.55);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(40,32,18,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-type,.q-cat{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:3px 8px;border-radius:99px;border:1px solid currentColor;opacity:.9}
+.q-type{color:var(--case)} .q-cat{color:var(--theory)}
+.q-text{font-size:1.12rem;line-height:1.55;margin-bottom:16px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:13px 16px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.4);transition:all .18s ease;font-size:1.01rem;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(176,141,60,.07);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s}
+.opt .otext{flex:1;padding-top:1px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(176,141,60,.1)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(176,141,60,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:700px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px;display:flex;align-items:center;gap:8px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#3a3326}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#8a7d63}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:580px;margin:0 auto 24px;color:#4a4234;font-size:1.05rem}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.5);min-width:132px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#8a7d63}
+@media(max-width:560px){.q-card{padding:20px 18px}.q-num{font-size:1.25rem;min-width:44px}.q-text{font-size:1.04rem}.results .score-big{font-size:3.5rem}.hud{gap:12px}.modebar{border-radius:16px}}
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="masthead">
+  <div class="kicker">Scenario Case Study Examination &middot; Randomized</div>
+  <h1 class="title">AI <span class="of">Adoption</span> Exam</h1>
+  <div class="byline">Case-study questions covering AI fundamentals, business use cases, data, tools, culture, ethics, governance, and roadmap design.</div>
+  <div class="exambar">
+    <span><b>50</b> Scenario Questions</span><span><b>4</b> Options Each</span><span><b>Randomized</b> Order</span><span>Total: <b>50</b> Marks</span>
+  </div>
+</header>
+<div class="modebar" role="tablist">
+  <button id="mode-instant" class="active" onclick="setMode('instant')">Instant Feedback</button>
+  <button id="mode-exam" onclick="setMode('exam')">Exam Mode</button>
+</div>
+<p class="mode-hint" id="modeHint">One question at a time. Pick an answer to unlock Continue.</p>
+<section class="setup-panel">
+  <h2>AI Adoption Practice Exam</h2>
+  <p>All 50 case-study questions are randomized each time. Answer choices are also shuffled while preserving the correct answer key.</p>
+  <div class="actions"><button class="btn btn-ghost" onclick="newExam()">Shuffle Questions</button></div>
+</section>
+<div class="hud">
+  <span class="stat">Progress <b id="progCount">0</b>/<span id="totalCount">50</span></span>
+  <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+  <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+</div>
+<main id="exam"></main>
+<div class="actions" style="margin-top:34px">
+  <button class="btn btn-gold" id="submitBtn" onclick="submitExam()" style="display:none">Submit Exam</button>
+</div>
+<section class="results" id="results">
+  <div class="rk">Your Result</div>
+  <div class="score-big"><span id="rScore">0</span><span id="rTotal">/50</span></div>
+  <div class="grade" id="rGrade"></div>
+  <p class="blurb" id="rBlurb"></p>
+  <div class="breakdown" id="rBreak"></div>
+  <div class="actions">
+    <button class="btn btn-gold" onclick="reviewAll()">Review Answers</button>
+    <button class="btn btn-ghost" onclick="resetExam(true)">Retake Same Set</button>
+    <button class="btn btn-ghost" onclick="newExam()">Shuffle New Set</button>
+  </div>
+</section>
+<footer>AI Adoption Scenario Case Study Exam &middot; Unofficial training and assessment resource</footer>
+</div>
+<script>
+const QUESTION_BANK = [{"category": "AI Fundamentals", "type": "Case Study", "q": "A regional manufacturer wants to use AI because a competitor announced an AI program. The leadership team asks what AI can realistically do before approving any project. What is the best starting explanation?", "opts": [{"text": "AI can support prediction, classification, generation, and decision support when data and workflows are ready", "correct": true}, {"text": "AI should replace most manual work immediately once the first software license is purchased", "correct": false}, {"text": "AI mainly works as a dashboard tool that displays past information more attractively", "correct": false}, {"text": "AI succeeds best when staff avoid involvement and let the model operate independently", "correct": false}], "explanation": "A sound AI adoption conversation starts by explaining AI capabilities and limits in business terms. AI can predict, classify, generate, recommend, and assist decisions, but it requires suitable data, workflow fit, controls, and human oversight."}, {"category": "AI Fundamentals", "type": "Case Study", "q": "A service company expects a chatbot to solve customer delays, staff shortages, and inconsistent pricing decisions in one deployment. Which response best reflects AI fundamentals?", "opts": [{"text": "Separate the problems because one AI tool rarely solves unrelated process, staffing, and pricing issues", "correct": true}, {"text": "Buy the most advanced chatbot because broader capability will automatically cover every business gap", "correct": false}, {"text": "Start with customer messages only and ignore staffing and pricing until the model improves itself", "correct": false}, {"text": "Train employees to rely on the chatbot before measuring the causes of the delays", "correct": false}], "explanation": "AI adoption works best when problems are defined clearly. Customer service, workforce planning, and pricing are different use cases with different data, risks, workflows, and success measures."}, {"category": "AI Fundamentals", "type": "Case Study", "q": "A food processor asks whether AI is the same as ordinary automation. The plant already uses timers, sensors, and fixed rules on equipment. What distinction should the advisor make?", "opts": [{"text": "Automation follows predefined rules while AI can learn patterns and adapt recommendations from data", "correct": true}, {"text": "AI is simply automation with a newer name and no practical difference in operations", "correct": false}, {"text": "Automation is always safer than AI because it never creates operational risks", "correct": false}, {"text": "AI should replace fixed controls because learned patterns are always more accurate", "correct": false}], "explanation": "Traditional automation executes programmed rules. AI can learn relationships from data and support predictions or recommendations, but it does not automatically make fixed control systems obsolete."}, {"category": "AI Fundamentals", "type": "Case Study", "q": "A sales manager wants generative AI to produce proposals, but the company has strict technical specifications. What is the most appropriate expectation for the tool?", "opts": [{"text": "Use it to draft and structure content while experts verify technical accuracy before release", "correct": true}, {"text": "Allow it to create final proposals because fluent text usually means correct technical content", "correct": false}, {"text": "Use it only for images because text generation cannot support professional documentation", "correct": false}, {"text": "Avoid all generative AI because any generated text is unsuitable for business communication", "correct": false}], "explanation": "Generative AI can accelerate drafting, summarizing, and structuring, but expert review is essential for specifications, commitments, legal terms, and technical accuracy."}, {"category": "AI Fundamentals", "type": "Case Study", "q": "A warehouse leader believes AI success means reducing headcount as quickly as possible. The current issue is repeated picking errors during peak demand. What framing is more useful?", "opts": [{"text": "Frame AI as augmenting workers through guidance, exception alerts, and better decision support", "correct": true}, {"text": "Frame AI as replacing workers first because labour reduction is the only valid AI benefit", "correct": false}, {"text": "Frame AI as an IT project only because warehouse operators should not shape the design", "correct": false}, {"text": "Frame AI as a reporting upgrade because error prevention is outside AI capability", "correct": false}], "explanation": "AI value often comes from augmentation: decision support, alerts, recommendations, prioritization, and quality checks. Adoption improves when staff see how AI helps work better rather than only threatening jobs."}, {"category": "AI Fundamentals", "type": "Case Study", "q": "A clinic wants an AI scheduling assistant after seeing vendor demonstrations. Staff ask why the demo looked perfect but real deployment may be harder. What is the best explanation?", "opts": [{"text": "Demos use controlled examples while real operations include messy data, exceptions, and constraints", "correct": true}, {"text": "Demos are legally binding proof that the same performance will occur in every environment", "correct": false}, {"text": "Demos usually fail because AI tools cannot handle any scheduling task in practice", "correct": false}, {"text": "Demos remove the need for pilots because the tool has already proven business value", "correct": false}], "explanation": "Vendor demonstrations rarely reflect all local exceptions, data issues, policies, integrations, and user behaviours. Pilots validate whether the tool works in the actual operating environment."}, {"category": "AI Fundamentals", "type": "Case Study", "q": "An executive asks for an AI model that makes every decision automatically. The proposed use case affects customer credit limits. What is the most responsible initial design?", "opts": [{"text": "Use AI to recommend decisions with human review for high-impact or uncertain cases", "correct": true}, {"text": "Allow full automation immediately because financial decisions benefit from speed alone", "correct": false}, {"text": "Reject AI entirely because credit decisions can never use algorithmic support", "correct": false}, {"text": "Hide the AI recommendation from staff so they judge cases without influence", "correct": false}], "explanation": "High-impact decisions require appropriate oversight. A human-in-the-loop design can combine AI efficiency with accountability, exception handling, and fairness review."}, {"category": "AI Fundamentals", "type": "Case Study", "q": "A distributor wants AI innovation but has no clear definition of success. Which statement best turns AI interest into a business objective?", "opts": [{"text": "Reduce order-entry rework by twenty percent while maintaining service quality and compliance", "correct": true}, {"text": "Install an AI platform so the company can say it has adopted modern technology", "correct": false}, {"text": "Ask every department to find AI ideas without setting measurable operating outcomes", "correct": false}, {"text": "Select a popular vendor first and define the business value after implementation", "correct": false}], "explanation": "AI adoption needs measurable business outcomes. A specific goal such as reducing rework, improving cycle time, or raising forecast accuracy connects AI to value and evaluation."}, {"category": "Business Understanding", "type": "Case Study", "q": "A company wants AI for procurement, but no one agrees whether the main issue is price variance, supplier delays, or excess inventory. What should be done first?", "opts": [{"text": "Map the current procurement process and quantify the pain points before selecting use cases", "correct": true}, {"text": "Choose a procurement AI vendor first because software demonstrations will reveal the priorities", "correct": false}, {"text": "Automate purchase approvals immediately because every procurement delay has the same root cause", "correct": false}, {"text": "Ask suppliers to solve the issue because internal process analysis will slow the project", "correct": false}], "explanation": "Understanding current state is essential before AI selection. Process mapping and pain-point quantification reveal where AI can create value and where non-AI fixes may be more appropriate."}, {"category": "Business Understanding", "type": "Case Study", "q": "A manufacturer identifies ten possible AI projects, including forecasting, inspection, scheduling, pricing, and customer service. Resources allow only one pilot. What is the best selection approach?", "opts": [{"text": "Prioritize use cases by business value, feasibility, risk, data readiness, and adoption effort", "correct": true}, {"text": "Choose the most exciting project because enthusiasm is the strongest predictor of adoption", "correct": false}, {"text": "Choose the cheapest project because low cost always produces the fastest strategic benefit", "correct": false}, {"text": "Choose the largest project because AI should start with enterprise-wide transformation", "correct": false}], "explanation": "Good AI portfolio selection balances value and feasibility. Data readiness, integration complexity, risk, stakeholder acceptance, and measurable impact should guide pilot selection."}, {"category": "Business Understanding", "type": "Case Study", "q": "A restaurant group asks for AI demand forecasting. Managers currently change schedules based on local events, weather, and school calendars. What should the use-case design include?", "opts": [{"text": "Capture the judgment drivers managers already use and test whether data improves decisions", "correct": true}, {"text": "Ignore local manager knowledge because AI forecasting should replace subjective experience", "correct": false}, {"text": "Use only historical sales because external drivers make the model harder to explain", "correct": false}, {"text": "Forecast annual revenue only because daily labour scheduling is too operational for AI", "correct": false}], "explanation": "Strong AI use cases convert existing tacit decision logic into data, features, workflow rules, and evaluation metrics. Human judgment often reveals useful variables and constraints."}, {"category": "Business Understanding", "type": "Case Study", "q": "A logistics company wants AI to reduce late deliveries. The team discovers that late shipments often result from incomplete customs documents. What is the best implication?", "opts": [{"text": "Redefine the AI use case around document completeness and exception detection before dispatch", "correct": true}, {"text": "Continue building route optimization because delivery lateness always begins with transport planning", "correct": false}, {"text": "Avoid AI because customs documents are administrative and not related to operational performance", "correct": false}, {"text": "Buy tracking software only because late deliveries are mainly a visibility problem", "correct": false}], "explanation": "AI opportunities should follow root causes. If late delivery is driven by incomplete documents, document validation and exception alerts may create more value than route optimization."}, {"category": "Business Understanding", "type": "Case Study", "q": "A leadership team describes the future state as becoming an AI-driven company. Employees ask what will change in daily work. What is missing from the future-state design?", "opts": [{"text": "Clear workflow changes, decision rights, user roles, metrics, and expected behaviours", "correct": true}, {"text": "A longer vendor list showing every AI product available in the market", "correct": false}, {"text": "A technical architecture diagram without any operational responsibilities assigned", "correct": false}, {"text": "A broad slogan that encourages employees to experiment without boundaries", "correct": false}], "explanation": "A future state must describe how work changes: who uses the tool, who approves decisions, which metrics improve, and how exceptions are handled."}, {"category": "Business Understanding", "type": "Case Study", "q": "A finance department proposes AI invoice coding. The current process has many exceptions because vendors use inconsistent formats. What should the business case include?", "opts": [{"text": "Baseline error rates, processing time, exception volume, rework cost, and approval delays", "correct": true}, {"text": "Only the subscription cost because AI software expenses determine whether value exists", "correct": false}, {"text": "Only the number of invoices because volume alone proves the business case is strong", "correct": false}, {"text": "Only staff opinions because financial workflows are too variable for quantitative baselines", "correct": false}], "explanation": "A useful AI business case compares the current baseline with expected improvements. Error rate, cycle time, exception load, and rework cost help determine benefits."}, {"category": "Business Understanding", "type": "Case Study", "q": "An operations director wants AI to improve quality, but inspection failures come from three different production lines. What is the best next step?", "opts": [{"text": "Segment the problem by line, defect type, process condition, and root-cause pattern", "correct": true}, {"text": "Train one general model immediately because all quality problems share the same outcome", "correct": false}, {"text": "Focus only on final inspection because upstream process variation is too complex", "correct": false}, {"text": "Replace inspectors first because human review prevents unbiased model learning", "correct": false}], "explanation": "AI use cases need meaningful segmentation. Different lines or defects may require different data, models, sensors, controls, or process improvements."}, {"category": "Business Understanding", "type": "Case Study", "q": "A small business owner asks for AI because competitors advertise faster service. Interviews show customers mainly want accurate delivery promises. What is the better AI opportunity?", "opts": [{"text": "Predict reliable delivery dates and proactively flag orders at risk of delay", "correct": true}, {"text": "Create a marketing chatbot because faster-looking service improves customer perception", "correct": false}, {"text": "Automate every customer email because communication speed is more important than accuracy", "correct": false}, {"text": "Launch AI branding first because customers usually value technology labels over outcomes", "correct": false}], "explanation": "AI opportunities should reflect what customers actually value. If reliable delivery promises matter most, predictive availability and risk alerts are stronger than generic chat automation."}, {"category": "Data and Infrastructure", "type": "Case Study", "q": "A maintenance team wants predictive failure alerts, but equipment downtime is recorded in free-text notes with inconsistent names. What is the most important preparation step?", "opts": [{"text": "Standardize asset names, failure codes, timestamps, and maintenance outcomes before modeling", "correct": true}, {"text": "Train a model immediately because AI can infer structure from any operational notes", "correct": false}, {"text": "Delete old maintenance records because inconsistent history is never useful for AI", "correct": false}, {"text": "Use only sensor data because technician notes cannot support machine learning", "correct": false}], "explanation": "Predictive maintenance depends on reliable asset identifiers, event timing, failure labels, and maintenance outcomes. Data preparation often determines whether modeling is feasible."}, {"category": "Data and Infrastructure", "type": "Case Study", "q": "A retailer wants AI to recommend reorder quantities. Sales history is clean, but stockout periods were not recorded. What risk does this create?", "opts": [{"text": "The model may mistake lost demand for low demand and recommend insufficient inventory", "correct": true}, {"text": "The model will automatically detect stockouts because clean sales history contains every signal", "correct": false}, {"text": "The model will overestimate demand because stockouts always appear as unusually high sales", "correct": false}, {"text": "The model cannot use sales history at all because stockout data is never recoverable", "correct": false}], "explanation": "Sales data during stockouts reflects constrained sales, not true demand. Without stockout indicators, AI may learn that low sales mean low demand and worsen inventory decisions."}, {"category": "Data and Infrastructure", "type": "Case Study", "q": "A hospital department wants to use patient messages to train an internal assistant. The team says the data is available in shared folders. What issue must be addressed first?", "opts": [{"text": "Confirm privacy permissions, access controls, retention rules, and approved use boundaries", "correct": true}, {"text": "Copy the folders into the model because internal data is automatically approved for AI", "correct": false}, {"text": "Remove all governance steps because privacy controls reduce model usefulness", "correct": false}, {"text": "Ask staff to anonymize data manually after the assistant has already been trained", "correct": false}], "explanation": "Sensitive data requires governance before use. Privacy, consent, access control, retention, and purpose limitation must be addressed before training or retrieval-based deployment."}, {"category": "Data and Infrastructure", "type": "Case Study", "q": "A construction firm wants AI project-risk scoring. Project data sits in spreadsheets, emails, accounting software, and scheduling tools. What infrastructure issue is most likely?", "opts": [{"text": "Data integration and common identifiers are needed before reliable project-level scoring", "correct": true}, {"text": "AI scoring can ignore source systems because spreadsheets already contain enough detail", "correct": false}, {"text": "All systems must be replaced before any AI project can begin successfully", "correct": false}, {"text": "Email data should be used alone because it captures the most current project issues", "correct": false}], "explanation": "AI often needs connected data across systems. Common project IDs, data pipelines, and integration rules are needed to produce reliable project-level risk scoring."}, {"category": "Data and Infrastructure", "type": "Case Study", "q": "A team builds a model using all available customer data, including information collected after the target decision date. Test accuracy looks excellent. What problem may exist?", "opts": [{"text": "Data leakage may be inflating accuracy by using information unavailable at decision time", "correct": true}, {"text": "The model is ready because high test accuracy proves it will work in production", "correct": false}, {"text": "The model is underfitting because strong accuracy usually means not enough variables", "correct": false}, {"text": "The model should use even more future data because prediction improves with more columns", "correct": false}], "explanation": "Data leakage occurs when training uses information that would not be available when decisions are made. It creates misleading performance and poor production results."}, {"category": "Data and Infrastructure", "type": "Case Study", "q": "A company wants AI visual inspection but has only photos of defective products taken after customer complaints. What data limitation matters most?", "opts": [{"text": "The dataset lacks representative good, bad, borderline, and normal production examples", "correct": true}, {"text": "Complaint photos are ideal because they show exactly what defects matter to customers", "correct": false}, {"text": "Only defective photos are required because AI learns quality by seeing failures", "correct": false}, {"text": "Visual inspection cannot use photos because cameras produce unstructured data", "correct": false}], "explanation": "Computer vision requires representative examples across normal, defective, borderline, lighting, angles, product variation, and process conditions. Complaint photos alone are biased."}, {"category": "Data and Infrastructure", "type": "Case Study", "q": "An executive wants a cloud AI tool, but the IT manager worries about system reliability and data transfer delays. What should be assessed?", "opts": [{"text": "Latency, uptime, integration needs, security controls, scalability, and data residency requirements", "correct": true}, {"text": "Only the monthly license fee because infrastructure concerns are vendor responsibilities", "correct": false}, {"text": "Only the model accuracy because infrastructure does not affect user adoption", "correct": false}, {"text": "Only the dashboard design because users judge AI tools mainly by appearance", "correct": false}], "explanation": "AI infrastructure decisions must consider performance, reliability, integration, scalability, security, and data governance. Cloud tools still need enterprise readiness review."}, {"category": "Data and Infrastructure", "type": "Case Study", "q": "A sales team wants AI account recommendations, but customer names appear differently across CRM, ERP, and email systems. What should be prioritized?", "opts": [{"text": "Master data cleanup and entity matching before account-level recommendations are trusted", "correct": true}, {"text": "Model training first because inconsistent names will average out across large datasets", "correct": false}, {"text": "Manual export reports because AI cannot work with customer data from multiple systems", "correct": false}, {"text": "A new CRM immediately because data cleanup is unnecessary after software replacement", "correct": false}], "explanation": "Entity resolution is critical when the same customer appears under different names. Without master data cleanup, recommendations may be duplicated, incomplete, or wrong."}, {"category": "Technology and Tools", "type": "Case Study", "q": "A company asks whether to build a custom AI model for meeting summaries. Commercial tools already integrate with its calendar and documents. What is the best recommendation?", "opts": [{"text": "Evaluate available tools first because common use cases rarely justify custom model development", "correct": true}, {"text": "Build a custom model immediately because ownership always creates better AI performance", "correct": false}, {"text": "Avoid meeting-summary tools because summaries cannot improve business productivity", "correct": false}, {"text": "Use public chat tools only because integration with company systems adds no value", "correct": false}], "explanation": "Common use cases often fit commercial tools. Custom models are better reserved for differentiated processes, proprietary data, unique workflows, or special control requirements."}, {"category": "Technology and Tools", "type": "Case Study", "q": "A legal office wants a chatbot to answer staff questions using internal policies. The policies change often and must remain traceable. Which approach is most suitable?", "opts": [{"text": "Use retrieval from approved documents with citations and controlled document updates", "correct": true}, {"text": "Train a static model once because legal policies should not require frequent updates", "correct": false}, {"text": "Let the chatbot answer from memory because citations will slow down staff responses", "correct": false}, {"text": "Use only a generic public model because internal policies are too narrow for AI", "correct": false}], "explanation": "Retrieval-augmented generation is suitable when answers must draw from approved, current internal documents. Citations and controlled updates improve trust and governance."}, {"category": "Technology and Tools", "type": "Case Study", "q": "A plant manager wants AI scheduling recommendations to flow into the existing ERP. The vendor offers a standalone dashboard only. What concern should be raised?", "opts": [{"text": "A disconnected tool may create duplicate work unless workflow integration is designed", "correct": true}, {"text": "A standalone dashboard is always better because ERP integration slows AI learning", "correct": false}, {"text": "ERP integration is unnecessary because schedulers should manually copy recommendations", "correct": false}, {"text": "The project should focus on appearance because dashboard design determines adoption", "correct": false}], "explanation": "AI tools create value when embedded into workflows. If users must manually transfer recommendations, adoption may fall and errors may increase."}, {"category": "Technology and Tools", "type": "Case Study", "q": "A marketing team uses an AI writing tool but receives inconsistent brand tone across campaigns. What is the best tool configuration step?", "opts": [{"text": "Create brand prompts, approved examples, review rules, and reusable content templates", "correct": true}, {"text": "Switch tools every month until one produces perfect brand voice without guidance", "correct": false}, {"text": "Remove human review because inconsistency comes from too many staff opinions", "correct": false}, {"text": "Use longer prompts only because governance and examples are not needed", "correct": false}], "explanation": "Generative AI improves with clear instructions, examples, templates, review criteria, and governance. Brand consistency requires reusable standards, not only tool access."}, {"category": "Technology and Tools", "type": "Case Study", "q": "A finance team wants AI fraud alerts. The vendor model performs well in another industry. What should the team do before full deployment?", "opts": [{"text": "Validate the model against local transaction patterns, controls, thresholds, and exceptions", "correct": true}, {"text": "Adopt the model directly because fraud logic transfers accurately between industries", "correct": false}, {"text": "Use the model only after fraud occurs because prevention alerts are too uncertain", "correct": false}, {"text": "Turn off existing controls because AI alerts make traditional reviews unnecessary", "correct": false}], "explanation": "AI tools must be validated in the local context. Fraud patterns, controls, transaction types, risk appetite, and false-positive costs differ across organizations."}, {"category": "Technology and Tools", "type": "Case Study", "q": "A company plans to connect an AI assistant to email, files, CRM, and accounting records on day one. What implementation risk is highest?", "opts": [{"text": "Overbroad access may expose sensitive data and produce uncontrolled workflow actions", "correct": true}, {"text": "The assistant will be too accurate because more systems always improve recommendations", "correct": false}, {"text": "The project will fail because AI tools cannot connect with business applications", "correct": false}, {"text": "The assistant will need no governance because access is limited to internal systems", "correct": false}], "explanation": "Tool access must be controlled. Permissions, approved actions, audit logs, and staged integration reduce privacy, security, and operational risks."}, {"category": "Technology and Tools", "type": "Case Study", "q": "A customer support team pilots AI response suggestions. Some suggestions become outdated after policy changes. What technology control is needed?", "opts": [{"text": "Version control, source refresh rules, monitoring, and a feedback loop for corrections", "correct": true}, {"text": "More users, because outdated answers disappear when adoption volume increases", "correct": false}, {"text": "Fewer documents, because AI performs best when policies are unavailable", "correct": false}, {"text": "No changes, because users can always identify outdated responses manually", "correct": false}], "explanation": "AI tools require lifecycle management. Sources, prompts, models, and workflows need versioning, refresh rules, monitoring, and feedback mechanisms."}, {"category": "Technology and Tools", "type": "Case Study", "q": "A business chooses an AI platform because it has many features, but most staff only need document search and drafting support. What is the better tool-selection principle?", "opts": [{"text": "Match tool capability to workflow needs, user readiness, risk level, and support burden", "correct": true}, {"text": "Choose the broadest platform because unused features prove future readiness", "correct": false}, {"text": "Choose the cheapest tool because simple needs always mean low operational risk", "correct": false}, {"text": "Choose the tool with the best demo because demos reflect daily use accurately", "correct": false}], "explanation": "Technology selection should fit business use cases, user capability, integration needs, risk profile, and maintainability. Feature count alone is not a strategy."}, {"category": "Talent, Culture, Ethics & Governance", "type": "Case Study", "q": "A company launches an AI assistant, but employees avoid using it because they fear mistakes will be blamed on them. What should leadership address first?", "opts": [{"text": "Clarify accountability, review expectations, safe-use rules, and learning support for staff", "correct": true}, {"text": "Mandate daily usage immediately because resistance disappears after forced adoption", "correct": false}, {"text": "Remove human review because fear mainly comes from too much responsibility", "correct": false}, {"text": "Stop the project because employee hesitation proves AI has no business value", "correct": false}], "explanation": "Adoption depends on trust and clarity. Employees need guidance on when to use AI, how to review outputs, who is accountable, and how mistakes are handled."}, {"category": "Talent, Culture, Ethics & Governance", "type": "Case Study", "q": "A hiring team wants AI to rank applicants. Historical hiring data reflects years of underrepresentation in technical roles. What is the key governance concern?", "opts": [{"text": "The model may reproduce historical bias unless fairness testing and oversight are applied", "correct": true}, {"text": "The model will remove bias automatically because algorithms are neutral by design", "correct": false}, {"text": "The model should use only historical decisions because past decisions define fairness", "correct": false}, {"text": "The model should operate secretly so applicants cannot challenge the process", "correct": false}], "explanation": "AI can amplify historical bias. High-impact people decisions require fairness testing, transparency, human oversight, documentation, and lawful use of personal data."}, {"category": "Talent, Culture, Ethics & Governance", "type": "Case Study", "q": "A manager allows staff to paste confidential client contracts into a public AI tool to save time. What is the best governance response?", "opts": [{"text": "Define approved tools, data classifications, prohibited inputs, and secure review workflows", "correct": true}, {"text": "Allow it because faster drafting outweighs confidentiality concerns for internal staff", "correct": false}, {"text": "Ban all AI permanently because one misuse means every tool is unacceptable", "correct": false}, {"text": "Tell staff to delete chats later because deletion removes all confidentiality risks", "correct": false}], "explanation": "Organizations need clear AI-use policies that define approved tools, acceptable data, prohibited inputs, secure handling, and review responsibilities."}, {"category": "Talent, Culture, Ethics & Governance", "type": "Case Study", "q": "A production supervisor notices staff accept AI recommendations even when they conflict with process experience. What risk is emerging?", "opts": [{"text": "Automation bias is increasing and staff need challenge criteria and escalation rules", "correct": true}, {"text": "The model is improving because staff no longer question its recommendations", "correct": false}, {"text": "Human expertise is becoming unnecessary because AI disagreement proves superior insight", "correct": false}, {"text": "The supervisor should hide model outputs so staff cannot compare recommendations", "correct": false}], "explanation": "Automation bias occurs when people over-trust system outputs. Training should teach users when to accept, challenge, escalate, and document AI recommendations."}, {"category": "Talent, Culture, Ethics & Governance", "type": "Case Study", "q": "A company forms an AI committee but includes only IT staff. Projects affect sales, finance, operations, HR, and customers. What is the governance gap?", "opts": [{"text": "Cross-functional ownership is missing for risk, value, workflow, data, and compliance decisions", "correct": true}, {"text": "IT-only governance is ideal because AI decisions are mainly technical architecture choices", "correct": false}, {"text": "Governance is unnecessary because each department can independently approve its own AI tools", "correct": false}, {"text": "Customer impact should be excluded because internal committees cannot assess external effects", "correct": false}], "explanation": "AI governance should be cross-functional. Business, IT, legal, risk, privacy, operations, and user representatives bring necessary perspectives on value and risk."}, {"category": "Talent, Culture, Ethics & Governance", "type": "Case Study", "q": "A call centre introduces AI coaching. Employees worry the system will be used only for discipline. What culture action supports adoption?", "opts": [{"text": "Position the tool around coaching, transparent metrics, feedback rights, and improvement goals", "correct": true}, {"text": "Use the tool secretly at first so employees cannot change their behaviour", "correct": false}, {"text": "Publish individual rankings daily because competition always improves adoption", "correct": false}, {"text": "Remove supervisors because AI coaching can manage employees without context", "correct": false}], "explanation": "AI adoption requires psychological safety and transparency. When tools affect performance management, staff need clear purpose, fair metrics, feedback channels, and oversight."}, {"category": "Talent, Culture, Ethics & Governance", "type": "Case Study", "q": "A team wants to use AI-generated technical advice for customers. The advice may affect safety and warranty decisions. What control is most appropriate?", "opts": [{"text": "Require expert approval, traceable sources, disclaimers, and documented decision boundaries", "correct": true}, {"text": "Send all AI advice directly because customers benefit most from immediate answers", "correct": false}, {"text": "Use casual wording so customers understand the advice is not formally reviewed", "correct": false}, {"text": "Avoid documentation because written records increase accountability for the company", "correct": false}], "explanation": "When AI outputs affect safety, warranty, legal, or technical decisions, organizations need expert review, source traceability, boundaries, and documentation."}, {"category": "Talent, Culture, Ethics & Governance", "type": "Case Study", "q": "A business adopts AI but trains only senior managers. Frontline staff will use the tools daily. What training problem is created?", "opts": [{"text": "The main users lack practical skills for prompting, reviewing, escalating, and reporting issues", "correct": true}, {"text": "Training managers is enough because staff can learn from general announcements later", "correct": false}, {"text": "Training frontline staff is risky because they may ask too many workflow questions", "correct": false}, {"text": "Training should wait until errors occur because real problems teach faster than preparation", "correct": false}], "explanation": "Training should match user roles. Frontline users need practical guidance on safe use, effective prompts, output review, escalation, feedback, and workflow changes."}, {"category": "Talent, Culture, Ethics & Governance", "type": "Case Study", "q": "A vendor says its AI model is proprietary and cannot explain why it rejects certain insurance claims. The company still wants to deploy it. What should governance require?", "opts": [{"text": "Assess explainability needs, appeal rights, audit evidence, and regulatory obligations before use", "correct": true}, {"text": "Accept the limitation because proprietary systems are always exempt from explanation", "correct": false}, {"text": "Deploy it only for rejected claims because approvals do not require transparency", "correct": false}, {"text": "Remove customer appeal processes because model decisions reduce human inconsistency", "correct": false}], "explanation": "High-impact decisions require transparency, auditability, appeal pathways, and regulatory review. Proprietary technology does not remove accountability from the adopting organization."}, {"category": "AI Roadmap", "type": "Case Study", "q": "A company wants an AI roadmap but lists only software purchases for the next twelve months. What important roadmap elements are missing?", "opts": [{"text": "Use cases, data work, governance, training, pilots, metrics, risks, and scaling steps", "correct": true}, {"text": "A larger budget line because roadmaps succeed mainly through more software spending", "correct": false}, {"text": "A marketing announcement because roadmaps should focus on public technology positioning", "correct": false}, {"text": "A single enterprise rollout date because pilots delay organization-wide transformation", "correct": false}], "explanation": "An AI roadmap is more than a purchasing plan. It should sequence business priorities, data readiness, governance, change management, pilots, metrics, and scaling."}, {"category": "AI Roadmap", "type": "Case Study", "q": "A leadership team wants to launch five AI pilots at once to show momentum. The organization has limited data support and no governance process. What is better?", "opts": [{"text": "Start with one or two high-value pilots while building reusable data and governance foundations", "correct": true}, {"text": "Launch all five because speed is more important than readiness in AI adoption", "correct": false}, {"text": "Delay every project until the company has perfect data and complete governance maturity", "correct": false}, {"text": "Let each department run separately so shared governance does not slow experimentation", "correct": false}], "explanation": "A practical roadmap balances speed and control. Focused pilots can create learning while building reusable foundations for later scale."}, {"category": "AI Roadmap", "type": "Case Study", "q": "A pilot chatbot reduced response time by thirty percent, but customer satisfaction did not improve. What should the roadmap team do next?", "opts": [{"text": "Review success metrics and refine the use case around customer outcomes, not speed alone", "correct": true}, {"text": "Scale the chatbot immediately because faster response time proves the project succeeded", "correct": false}, {"text": "Cancel all AI work because one metric failed to improve after the first pilot", "correct": false}, {"text": "Ignore satisfaction because internal efficiency is the only roadmap measurement needed", "correct": false}], "explanation": "AI projects should measure business and customer outcomes, not only activity metrics. Faster service may not help if responses are incomplete or unhelpful."}, {"category": "AI Roadmap", "type": "Case Study", "q": "A company plans to deploy AI forecasting after the busy season because staff are too occupied now. Historical peak-season data is available. What roadmap action is sensible?", "opts": [{"text": "Use the busy season to collect requirements, baseline data, exceptions, and user feedback", "correct": true}, {"text": "Wait until after the busy season because no useful AI preparation can occur during operations", "correct": false}, {"text": "Deploy immediately during peak volume because pressure creates the best adoption conditions", "correct": false}, {"text": "Use only last year’s data because current-season observations would complicate the project", "correct": false}], "explanation": "Even before deployment, teams can collect baselines, process exceptions, user needs, data issues, and success criteria. Roadmaps should use operational windows intelligently."}, {"category": "AI Roadmap", "type": "Case Study", "q": "A successful AI pilot depends on one analyst manually cleaning files every week. Leaders want to scale it to all branches. What must be resolved first?", "opts": [{"text": "Automate or standardize the data pipeline so scaling does not depend on hidden manual work", "correct": true}, {"text": "Hire more analysts because manual preparation is the normal cost of every AI scale-up", "correct": false}, {"text": "Scale immediately because pilot success proves the process is already operationally mature", "correct": false}, {"text": "Remove the analyst without changes because AI tools should clean all data independently", "correct": false}], "explanation": "Pilots often hide manual work. Scaling requires reliable processes, repeatable data pipelines, support ownership, and operational controls."}, {"category": "AI Roadmap", "type": "Case Study", "q": "A board asks how to keep AI projects aligned with strategy after the first roadmap is approved. What mechanism best supports alignment?", "opts": [{"text": "Use portfolio reviews that compare progress, value, risk, and strategic fit at each stage", "correct": true}, {"text": "Freeze the roadmap for three years because changing priorities weakens discipline", "correct": false}, {"text": "Let vendors decide the next steps because product releases define AI strategy", "correct": false}, {"text": "Track only completed tasks because value and risk are difficult to measure consistently", "correct": false}], "explanation": "Roadmaps need governance checkpoints. Portfolio reviews help leaders adjust priorities, stop weak projects, scale strong ones, and maintain strategic alignment."}, {"category": "AI Roadmap", "type": "Case Study", "q": "A company wants quick AI wins but also needs a long-term data platform. How should the roadmap balance these goals?", "opts": [{"text": "Pair short pilots with foundational data improvements that future use cases can reuse", "correct": true}, {"text": "Focus only on quick wins because long-term infrastructure rarely affects adoption", "correct": false}, {"text": "Build the full platform first and prohibit pilots until every system is integrated", "correct": false}, {"text": "Choose unrelated pilots so each department can prove value independently", "correct": false}], "explanation": "A strong roadmap balances quick value with foundational capability. Early pilots should generate learning while building reusable data, governance, and workflow assets."}, {"category": "AI Roadmap", "type": "Case Study", "q": "An AI roadmap includes a pilot approval gate, but the gate checks only whether the tool works technically. What additional gate criteria are needed?", "opts": [{"text": "Business value, user adoption, risk controls, data quality, support model, and scalability", "correct": true}, {"text": "Only vendor satisfaction because vendors understand their products better than users", "correct": false}, {"text": "Only technical uptime because reliable software automatically creates business results", "correct": false}, {"text": "Only training attendance because adoption is guaranteed once users attend sessions", "correct": false}], "explanation": "Pilot gates should evaluate value, adoption, risks, data readiness, operating support, and scale readiness. Technical functionality alone is not enough."}, {"category": "AI Roadmap", "type": "Case Study", "q": "A company finishes three AI pilots and wants to know whether the organization is becoming more AI-capable. What evidence is most useful?", "opts": [{"text": "Reusable playbooks, trained users, governed data, measured outcomes, and repeatable delivery methods", "correct": true}, {"text": "The number of vendor demos attended by managers during the roadmap period", "correct": false}, {"text": "The total number of AI tools installed regardless of usage or business impact", "correct": false}, {"text": "The amount of excitement in leadership meetings after each pilot presentation", "correct": false}], "explanation": "AI maturity grows through repeatable capability: playbooks, governance, data assets, trained people, operating support, measured value, and learning loops."}];
+const LETTERS = ['A','B','C','D'];
+const CATEGORY_ORDER = ['AI Fundamentals','Business Understanding','Data and Infrastructure','Technology and Tools','Talent, Culture, Ethics & Governance','AI Roadmap'];
+let mode = 'instant';
+let QUESTIONS = [];
+let answers = [];
+let locked = [];
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+function prepareQuestions(){
+  QUESTIONS = shuffle(QUESTION_BANK).map(q=>{
+    const opts = shuffle(q.opts).map((o,idx)=>({...o, originalIndex: idx}));
+    const correct = opts.findIndex(o=>o.correct);
+    return {...q, opts, correct};
+  });
+}
+function build(){
+  const exam = document.getElementById('exam');
+  exam.innerHTML = '';
+  let rendered = 0;
+  CATEGORY_ORDER.forEach(cat=>{
+    const group = QUESTIONS.map((q,idx)=>({q,idx})).filter(x=>x.q.category===cat);
+    if(!group.length) return;
+    const h = document.createElement('div');
+    h.className='section-head';
+    h.innerHTML=`<span>${cat}</span><span class="tag">${group.length} Questions</span>`;
+    exam.appendChild(h);
+    group.forEach(item=>{ rendered++; exam.appendChild(makeCard(item.q,item.idx,rendered)); });
+  });
+  document.getElementById('totalCount').textContent = QUESTIONS.length;
+  document.getElementById('rTotal').textContent = '/' + QUESTIONS.length;
+}
+function escapeHTML(s){
+  return String(s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+function makeCard(q,idx,num){
+  const card=document.createElement('div');
+  card.className='q-card';
+  card.id='q'+idx;
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    optsHtml+=`<div class="opt" data-i="${i}" onclick="choose(${idx},${i})">
+      <span class="letter">${LETTERS[i]}</span><span class="otext">${escapeHTML(o.text)}</span><span class="mark"></span>
+    </div>`;
+  });
+  card.innerHTML=`
+    <div class="q-top"><span class="q-num">Q${num}</span><span class="q-type">Case Study</span><span class="q-cat">${escapeHTML(q.category)}</span></div>
+    <div class="q-text">${escapeHTML(q.q)}</div>
+    <div class="opts">${optsHtml}</div>
+    <div class="explain" id="exp${idx}">
+      <div class="elabel">Explanation</div>
+      <div class="ans-line">Correct Answer: ${LETTERS[q.correct]} — ${escapeHTML(q.opts[q.correct].text)}</div>
+      <p>${escapeHTML(q.explanation)}</p>
+    </div>`;
+  return card;
+}
+function choose(idx,i){
+  if(locked[idx]) return;
+  answers[idx]=i;
+  const card=document.getElementById('q'+idx);
+  card.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
+  card.querySelector(`.opt[data-i="${i}"]`).classList.add('sel');
+  card.classList.add('answered');
+  if(mode==='instant'){ lockCard(idx); }
+  updateHud();
+}
+function lockCard(idx){
+  locked[idx]=true;
+  const q=QUESTIONS[idx];
+  const card=document.getElementById('q'+idx);
+  card.classList.add('locked');
+  const chosen=answers[idx];
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    if(oi===q.correct){o.classList.add('correct');o.querySelector('.mark').textContent='✓';}
+    else if(oi===chosen){o.classList.add('wrong');o.querySelector('.mark').textContent='✕';}
+  });
+  document.getElementById('exp'+idx).classList.add('show');
+}
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  document.getElementById('progCount').textContent=done;
+  document.getElementById('barFill').style.width=(done/QUESTIONS.length*100)+'%';
+  if(mode==='instant'){
+    const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+    document.getElementById('scoreNum').textContent=correct;
+  }
+  if(mode==='exam'){ document.getElementById('submitBtn').style.display = done===QUESTIONS.length ? 'inline-block':'none'; }
+}
+function submitExam(){
+  let correct=0; const byCat={};
+  QUESTIONS.forEach((q,idx)=>{
+    lockCard(idx);
+    const ok=answers[idx]===q.correct;
+    if(ok) correct++;
+    byCat[q.category]=byCat[q.category]||{c:0,t:0};
+    byCat[q.category].t++; if(ok) byCat[q.category].c++;
+  });
+  document.getElementById('scoreNum').textContent=correct;
+  showResults(correct,byCat);
+}
+function showResults(correct,byCat){
+  const pct=correct/QUESTIONS.length;
+  document.getElementById('rScore').textContent=correct;
+  let grade,blurb;
+  if(pct>=0.9){grade='AI Adoption Strategist';blurb='Excellent. You can connect AI opportunities with data readiness, governance, tools, adoption, and roadmap execution.';}
+  else if(pct>=0.75){grade='Strong AI Practitioner';blurb='Strong result. Review missed scenarios to sharpen your judgment on risk, governance, and implementation trade-offs.';}
+  else if(pct>=0.6){grade='Developing AI Advisor';blurb='Good foundation. Focus on current-state analysis, data preparation, tool selection, and adoption governance.';}
+  else if(pct>=0.4){grade='Early AI Adopter';blurb='You are building the right base. Revisit the explanations and focus on applying concepts to realistic business cases.';}
+  else{grade='Begin the Roadmap';blurb='Start with the fundamentals: define the business problem, prepare the data, select suitable tools, and govern adoption.';}
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  CATEGORY_ORDER.forEach(cat=>{ if(!byCat[cat]) return; const d=document.createElement('div'); d.className='bd-item'; d.innerHTML=`<div class="bd-t">${cat}</div><div class="bd-s">${byCat[cat].c}/${byCat[cat].t}</div>`; bd.appendChild(d); });
+  const r=document.getElementById('results'); r.classList.add('show'); r.scrollIntoView({behavior:'smooth'});
+}
+function reviewAll(){document.getElementById('q0')?.scrollIntoView({behavior:'smooth'});}
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  document.getElementById('modeHint').textContent = m==='instant' ? 'Pick an answer and see the explanation immediately.' : 'Answer all 50 questions, then submit to see your score and explanations.';
+  resetExam(false);
+}
+function resetExam(keepSet=false){
+  if(!keepSet) prepareQuestions();
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  document.getElementById('submitBtn').style.display='none';
+  build(); updateHud(); window.scrollTo({top:0,behavior:'smooth'});
+}
+function newExam(){ resetExam(false); }
+resetExam(false);
+</script>
+
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Certificate name</label>
+    <input id="chmlCertNameInput" type="text" maxlength="80" placeholder="Enter name for certificate" oninput="chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" type="button" onclick="chmlPrintCertificate()">Print / Save as PDF</button>
+    <button class="chml-cert-btn secondary" type="button" onclick="chmlHideCertificate()">Hide Certificate</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div><div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker"><span id="chmlCertExamKicker">Knowledge Hub Examination</span></div>
+      <h1 class="chml-cert-h1">Certificate of Completion</h1>
+      <div class="chml-cert-rule"></div>
+      <p class="chml-cert-pre">This certifies that</p>
+      <p class="chml-cert-name" id="chmlCertName">Learner</p>
+      <p class="chml-cert-body">has successfully completed the <b id="chmlCertExamName">Knowledge Hub Exam</b>.</p>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">0 / 0</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">-</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Quak Foo Lee</div><div class="chml-cert-sig-label">Chmltech Ltd.</div></div>
+        <div class="chml-cert-id">Certificate ID: <span id="chmlCertId">-</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertificateInstalled) return;
+  window.__chmlCertificateInstalled = true;
+  function textOf(sel){var el=document.querySelector(sel);return el?el.textContent.trim():'';}
+  function examTitle(){return textOf('h1.title')||textOf('header h1')||textOf('h1')||document.title.replace(/\s+/g,' ').trim()||'Knowledge Hub Exam';}
+  function parseFirstNumber(txt){var m=String(txt||'').match(/\d+/);return m?parseInt(m[0],10):null;}
+  function parseScoreTotal(){
+    var correct=parseFirstNumber(textOf('#rScore'));
+    var total=null;
+    var rt=textOf('#rTotal');
+    if(rt) total=parseFirstNumber(rt);
+    if(!total){var sb=textOf('.score-big');var m=sb.match(/\/\s*(\d+)/);if(m) total=parseInt(m[1],10);}
+    if(!total) total=parseFirstNumber(textOf('#progTotal'));
+    if(!total){var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;if(cards) total=cards;}
+    if(!correct && correct!==0) correct=parseFirstNumber(textOf('#scoreNum'));
+    return {correct:correct||0,total:total||0};
+  }
+  function totalFromBreakdown(byType){
+    if(!byType || typeof byType!=='object') return null;
+    var total=0, found=false;
+    Object.keys(byType).forEach(function(k){var v=byType[k];if(v&&typeof v==='object'){var n=v.t||v.total||v.count;if(typeof n==='number'){total+=n;found=true;}}});
+    return found?total:null;
+  }
+  function hashCode(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+  window.chmlUpdateCertificateName=function(name){document.getElementById('chmlCertName').textContent=(name||'').trim()||'Learner';};
+  window.chmlHideCertificate=function(){var c=document.getElementById('chmlCertificate');if(c)c.classList.remove('show');};
+  window.chmlPrintCertificate=function(){window.print();};
+  window.chmlRenderCertificate=function(correct,total,grade){
+    var cert=document.getElementById('chmlCertificate');if(!cert)return;
+    var title=examTitle();
+    var nameInput=document.getElementById('chmlCertNameInput');
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
+    var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
+    document.getElementById('chmlCertExamName').textContent=title;
+    document.getElementById('chmlCertName').textContent=learner;
+    document.getElementById('chmlCertScore').textContent=String(correct)+' / '+String(total||0)+(total?(' ('+Math.round((correct/total)*100)+'%)'):'');
+    document.getElementById('chmlCertDate').textContent=date;
+    document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
+    cert.classList.add('show');
+  };
+
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
+    var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){
+      var parsed=parseScoreTotal();
+      if(correct===null || isNaN(correct)) correct=parsed.correct;
+      if(!total) total=parsed.total;
+      if(total || correct || document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0);
+    },60);
+  }
+  if(typeof window.showResults==='function'){
+    var originalShowResults=window.showResults;
+    window.showResults=function(){var out=originalShowResults.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  if(typeof window.submitExam==='function'){
+    var originalSubmitExam=window.submitExam;
+    window.submitExam=function(){var out=originalSubmitExam.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  ['resetExam','newExam'].forEach(function(fn){
+    if(typeof window[fn]==='function'){
+      var original=window[fn];
+      window[fn]=function(){window.chmlHideCertificate();return original.apply(this,arguments);};
+    }
+  });
+})();
+</script>
+
+<script id="chml-one-question-script">
+(function(){
+  if(window.__chmlOneQuestionInstalled) return;
+  window.__chmlOneQuestionInstalled = true;
+  var chmlIndex = 0;
+  var applying = false;
+  
+  var applyTimer = null;
+  function examRoot(){ return document.getElementById('exam') || document.querySelector('main'); }
+  function cards(){ var root=examRoot(); return root ? Array.prototype.slice.call(root.querySelectorAll('.q-card')) : []; }
+  function hasResults(){ var r=document.getElementById('results'); return !!(r && r.classList.contains('show')); }
+  function answered(card){
+    if(!card) return false;
+    if(card.classList.contains('answered')) return true;
+    if(card.querySelector('.opt.sel,.chip.sel,.dnd-row.ok,.dnd-row.no,.cat .chip')) return true;
+    var id=card.id||'';
+    var m=id.match(/q(\d+)/);
+    if(m && Array.isArray(window.answers)){
+      var a=window.answers[parseInt(m[1],10)];
+      return Array.isArray(a) ? a.length>0 : a!==null && typeof a!=='undefined';
+    }
+    return false;
+  }
+  function answeredCount(){ return cards().filter(answered).length; }
+  function allAnswered(){ var cs=cards(); return cs.length>0 && cs.every(answered); }
+  function hintFor(card,last){
+    if(last && answered(card)) return allAnswered() ? 'Ready to submit.' : 'Answer remaining questions before submitting.';
+    return answered(card) ? 'Answer saved. Continue when ready.' : 'Pick an answer to continue.';
+  }
+  function btnClass(kind){ return kind==='primary' ? 'btn btn-gold' : 'btn btn-ghost'; }
+  function submitOrFinish(){
+    if(typeof window.submitExam==='function') { window.submitExam(); return; }
+    var btn=document.getElementById('submitBtn'); if(btn) { btn.click(); return; }
+    var r=document.getElementById('results'); if(r) r.classList.add('show');
+  }
+  function syncProgress(idx,total){
+    var current=Math.min(total,Math.max(1,idx+1));
+    var prog=document.getElementById('progCount');
+    if(prog) prog.textContent=String(current);
+    var totalEl=document.getElementById('totalCount');
+    if(totalEl) totalEl.textContent=String(total);
+    var fill=document.getElementById('barFill');
+    if(fill) fill.style.width=(total ? (current/total*100) : 0)+'%';
+  }
+  function go(delta){
+    var cs=cards(); if(!cs.length) return;
+    chmlIndex=Math.max(0,Math.min(cs.length-1,chmlIndex+delta));
+    apply();
+    if(typeof window.chmlScheduleQuestionScroll==='function') window.chmlScheduleQuestionScroll();
+    else if(typeof window.chmlScrollCurrentQuestion==='function') window.chmlScrollCurrentQuestion();
+    else { var h=cs[chmlIndex]; if(h && h.scrollIntoView) h.scrollIntoView({behavior:'smooth',block:'start'}); }
+  }
+  function makeNav(card,idx,total){
+    var nav=document.createElement('div'); nav.className='chml-oat-nav';
+    var last=idx===total-1, isAnswered=answered(card), canSubmit=last && allAnswered();
+    var back=document.createElement('button'); back.type='button'; back.className=btnClass('secondary'); back.textContent='Back'; back.disabled=idx===0; back.onclick=function(){go(-1);};
+    var reset=document.createElement('button'); reset.type='button'; reset.className=btnClass('secondary'); reset.textContent='Reset'; reset.onclick=function(){ if(typeof window.confirmReset==='function') window.confirmReset(); else if(typeof window.resetExam==='function' && confirm('Reset this attempt? All answers so far will be cleared.')) window.resetExam(true); };
+    var cont=document.createElement('button'); cont.type='button'; cont.className=btnClass('primary'); cont.textContent=last?'Submit Exam':'Continue'; cont.disabled= last ? !canSubmit : !isAnswered; cont.onclick=function(){ if(last) submitOrFinish(); else go(1); };
+    var left=document.createElement('div'); left.className='chml-oat-cluster'; left.appendChild(back); left.appendChild(reset);
+    var mid=document.createElement('div'); mid.className='chml-oat-hint'; mid.textContent=hintFor(card,last);
+    var right=document.createElement('div'); right.className='chml-oat-cluster'; right.appendChild(cont);
+    nav.appendChild(left); nav.appendChild(mid); nav.appendChild(right);
+    return nav;
+  }
+  function apply(){
+    if(applying) return; applying=true;
+    try{
+      var cs=cards();
+      var old=document.querySelectorAll('.chml-oat-nav'); old.forEach(function(n){n.remove();});
+      if(!cs.length || hasResults()) { cs.forEach(function(c){c.classList.remove('chml-oat-hidden');}); return; }
+      if(chmlIndex>=cs.length) chmlIndex=cs.length-1;
+      cs.forEach(function(c,i){ c.classList.toggle('chml-oat-hidden', i!==chmlIndex); });
+      var active=cs[chmlIndex];
+      syncProgress(chmlIndex,cs.length);
+      if(active) active.insertAdjacentElement('afterend', makeNav(active,chmlIndex,cs.length));
+    } finally { applying=false; }
+  }
+  function after(){
+    if(applyTimer) clearTimeout(applyTimer);
+    applyTimer = setTimeout(function(){ applyTimer=null; apply(); }, 60);
+  }
+  ['choose','chooseSingle','chooseMulti','selectHotspot','placeSeqCard','setSeqSlot','clearSeqSlot','dropSeqCard','hitZone','toggleMulti','moveRow','dropRow','placeSel','unplace','checkCard','refreshCard','build','resetExam','newExam','newRandomExam','setLength','setMode','setFilter','toggleReview'].forEach(function(name){
+    var fn=window[name];
+    if(typeof fn==='function' && !fn.__chmlWrapped){
+      var wrapped=function(){
+        if(name==='build' || name==='resetExam' || name==='newExam' || name==='newRandomExam' || name==='setLength') chmlIndex=0;
+        var result=fn.apply(this,arguments);
+        after();
+        return result;
+      };
+      wrapped.__chmlWrapped=true;
+      window[name]=wrapped;
+    }
+  });
+  document.addEventListener('click',function(e){ if(e.target && e.target.closest && e.target.closest('.q-card')) after(); },true);
+  var root=examRoot();
+  if(root && window.MutationObserver){
+    new MutationObserver(function(mutations){
+      var contentChanged=mutations.some(function(m){
+        var nodes=Array.prototype.slice.call(m.addedNodes).concat(Array.prototype.slice.call(m.removedNodes));
+        return nodes.some(function(n){ return n.nodeType===1 && !(n.classList && n.classList.contains('chml-oat-nav')); });
+      });
+      if(contentChanged) after();
+    }).observe(root,{childList:true,subtree:false});
+  }
+  after();
+})();
+</script>
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>

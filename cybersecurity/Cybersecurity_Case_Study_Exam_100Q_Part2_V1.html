@@ -1,0 +1,2141 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cybersecurity Case Study - Mock Exam Â· 100Q (V1)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  /* Section palette \u2014 broader, engineering-themed */
+  --fund:#1f4a7d;
+  --llm:#5a2585;
+  --rag:#0e6b6a;
+  --agent:#a85410;
+  --ops:#226b2d;
+  --safe:#9b2c3a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(31,74,125,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.8rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--fund),var(--llm));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-fund{background:linear-gradient(100deg,var(--fund),#0c2541)}
+.sec-llm{background:linear-gradient(100deg,var(--llm),#311148)}
+.sec-rag{background:linear-gradient(100deg,var(--rag),#06403f)}
+.sec-agent{background:linear-gradient(100deg,var(--agent),#5e2d05)}
+.sec-ops{background:linear-gradient(100deg,var(--ops),#0e3d18)}
+.sec-safe{background:linear-gradient(100deg,var(--safe),#5b181f)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-type{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;border:1px solid currentColor;opacity:.85;color:var(--llm)}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.1rem;line-height:1.55;margin-bottom:16px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:13px 16px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.45);transition:all .18s ease;font-size:1rem;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.07);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s}
+.opt .otext{flex:1;padding-top:1px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.1)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px;display:flex;align-items:center;gap:8px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:180px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 18px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:1.02rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Case Study Examination &middot; Cybersecurity Readiness</div>
+    <h1 class="title">Cybersecurity <span class="amp">Case Study</span> Exam</h1>
+    <div class="byline">One hundred mini-case scenarios: phishing, identity breaches, intrusions, ransomware, cloud incidents, application flaws, insiders, vulnerabilities, detection, and recovery &mdash; read the situation, choose the best action</div>
+    <div class="exambar">
+      <span><b>100</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>100</b> Marks</span>
+      <span>Exam Mode: <b>2 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/100</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">02:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/100</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 2-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    Cybersecurity Case Study &middot; 100 mini-case questions (scenario + analysis + decision) &middot; V1 (Guided / Instant / Exam-with-Timer)
+    <div class="disclaimer">An independent cybersecurity study resource. Threats, tools, standards, and regulatory expectations evolve continually - verify production decisions against current official guidance and organizational policy.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "Phishing & Social Engineering",
+    "q": "The CFO's assistant receives an email appearing to come from the CEO, who is travelling, demanding an urgent $48,000 wire transfer to a new supplier before end of day. The tone is unusually pushy and discourages phone calls. What should the assistant do first?",
+    "opts": [
+      "Forward the email to the supplier and ask them to confirm details",
+      "Verify the request by phoning the CEO on a known, verified number",
+      "Process the transfer immediately since the deadline appears genuine",
+      "Reply to the email thread asking the CEO to confirm the transfer"
+    ],
+    "correct": 1,
+    "explanation": "This is classic CEO fraud (BEC). Verification must happen out-of-band through a known-good channel - replying to the email only reaches the attacker, and urgency pressure is the core manipulation tactic.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Phishing & Social Engineering",
+    "q": "An employee clicks a link in an email and enters their corporate username and password into what they later realize was a fake Microsoft 365 login page. They immediately tell you. What is the most important first action?",
+    "opts": [
+      "Delete the phishing email from the employee's corporate mailbox",
+      "Run a full antivirus and malware scan on the employee's laptop",
+      "Add the phishing domain to the corporate email block list",
+      "Reset the password and revoke all active sessions and tokens"
+    ],
+    "correct": 3,
+    "explanation": "The credentials are already compromised, so killing their usefulness - password reset plus session/token revocation - comes first. Scanning, deleting, and blocking are useful follow-ups but don't stop an attacker already holding valid credentials.",
+    "type": "Decision"
+  },
+  {
+    "section": "Phishing & Social Engineering",
+    "q": "Three senior engineers at a defense contractor receive personalized emails referencing a real conference they attended, with an attachment named after a genuine project codename. No other staff received it. What does this pattern most strongly indicate?",
+    "opts": [
+      "Routine spam exploiting a purchased marketing email contact list",
+      "Spear phishing backed by prior reconnaissance on chosen targets",
+      "A mass phishing campaign that randomly reached three colleagues",
+      "A misdirected internal email that contained malware by accident"
+    ],
+    "correct": 1,
+    "explanation": "Personalization, accurate insider details, and a narrow target set are the signature of spear phishing preceded by reconnaissance. Mass phishing and spam are generic by nature.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Phishing & Social Engineering",
+    "q": "Several staff receive a text message: 'Your parcel could not be delivered. Pay a $1.20 redelivery fee here' with a shortened link. Two employees entered card details on their personal phones, one on a phone that also has corporate email access. How should security classify and respond?",
+    "opts": [
+      "A personal matter outside corporate scope, as personal cards were used",
+      "Pharming - flush DNS caches across the whole corporate network",
+      "Smishing - warn all staff and check the corporate-connected device",
+      "Vishing - block the sending phone number at the telecom provider"
+    ],
+    "correct": 2,
+    "explanation": "SMS-based phishing is smishing. The corporate-connected device creates organizational risk, so it needs checking, and a staff-wide warning limits further victims. The personal/corporate boundary blurs on BYOD devices.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Phishing & Social Engineering",
+    "q": "A caller claiming to be from the internal IT helpdesk tells a user their account shows suspicious activity and asks the user to read out the 6-digit code just sent to their phone. The user complies and the attacker gains mailbox access. What failed here?",
+    "opts": [
+      "The user disclosed an MFA code, which must never be shared with anyone",
+      "The mobile phone network was compromised through a SIM-swapping attack",
+      "MFA was misconfigured and generated codes that were too predictable",
+      "The helpdesk caller failed to answer the user's verification questions"
+    ],
+    "correct": 0,
+    "explanation": "This is vishing combined with real-time MFA relay. The control worked as designed; the human disclosure defeated it. No legitimate IT process ever requires a user to reveal an MFA code.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Phishing & Social Engineering",
+    "q": "A phishing simulation shows a 30% click rate, concentrated in the finance and warehouse teams. Leadership proposes publicly naming repeat clickers to 'create accountability.' What is the better evidence-based response?",
+    "opts": [
+      "Discipline repeat clickers with formal warnings after a third failure",
+      "Proceed with public naming since social pressure measurably reduces clicks",
+      "Give high-risk teams targeted training and make reporting blame-free",
+      "Stop the simulations because they create anxiety without changing behavior"
+    ],
+    "correct": 2,
+    "explanation": "Shaming suppresses incident reporting - the opposite of what you want. Targeted training plus a low-friction, blame-free reporting culture raises both resistance and early-warning detection.",
+    "type": "Decision"
+  },
+  {
+    "section": "Phishing & Social Engineering",
+    "q": "Accounts payable receives an invoice from 'accounts@megasupp1ies.com' - the regular supplier's domain is megasupplies.com. The invoice matches a real open purchase order, including the PO number. Which conclusion is most accurate?",
+    "opts": [
+      "A typosquatted lookalike domain, with PO data suggesting compromise",
+      "The supplier renamed their domain, so the invoice is likely safe to pay",
+      "Harmless spam that coincidentally guessed a valid purchase order number",
+      "The matching PO number proves the email genuinely came from the supplier"
+    ],
+    "correct": 0,
+    "explanation": "The digit-for-letter substitution is typosquatting, and accurate insider details (real PO numbers) usually mean the attacker has visibility into genuine correspondence - often via a compromised mailbox at one end.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Phishing & Social Engineering",
+    "q": "A man in a courier uniform carrying boxes waits by the data center door and asks an exiting employee to hold it open since his 'badge is buried under the packages.' The employee lets him in. Which control pairing best addresses this?",
+    "opts": [
+      "Encrypting all data at rest on the servers housed in the data center",
+      "CCTV retention extended to twelve months to support forensic review",
+      "Mantraps plus awareness training that normalizes challenging strangers",
+      "Stronger password policies and shorter screen-lock timeout settings"
+    ],
+    "correct": 2,
+    "explanation": "This is pretexting plus tailgating - a physical social-engineering combo. Physical controls (mantraps, badge-in-badge-out) paired with a culture where politely challenging unbadged people is expected are the direct countermeasures.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Phishing & Social Engineering",
+    "q": "Flyers appear in the office parking garage offering 'free monthly parking - scan to register,' with a QR code leading to a page that asks for corporate email and password. Several employees scanned it. What is this attack and the most useful immediate response?",
+    "opts": [
+      "Watering hole attack - block access to the garage's public Wi-Fi network",
+      "Quishing - reset credentials for anyone who entered them and warn staff",
+      "Baiting with malicious USB drives - disable USB ports on all laptops",
+      "Clickjacking - deploy frame-busting headers on the corporate intranet"
+    ],
+    "correct": 1,
+    "explanation": "QR-code phishing (quishing) bypasses email filters entirely by arriving on paper. Response mirrors any credential phish: identify exposure, reset compromised accounts, and alert the workforce.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Phishing & Social Engineering",
+    "q": "A long-time supplier emails to say their banking details have changed, attaching a letter on company letterhead with the new account. Last year a similar request cost a peer company $200,000. Which control most reliably prevents this fraud?",
+    "opts": [
+      "Checking carefully that the email passes SPF, DKIM, and DMARC checks before paying",
+      "Out-of-band verification using a number already on file, plus dual approval",
+      "Accepting bank-detail changes only through signed postal correspondence",
+      "Requiring suppliers to send banking changes as password-protected PDFs"
+    ],
+    "correct": 1,
+    "explanation": "Letterhead is trivially forged and email authentication only proves the sending domain, not intent - the supplier's own mailbox may be compromised. Calling a pre-existing known number plus dual approval defeats the scheme regardless of how convincing the message is.",
+    "type": "Decision"
+  },
+  {
+    "section": "Identity & Access Breaches",
+    "q": "Forensics shows an attacker logged into the VPN using the account of a developer who left the company four months ago. The account was active with a valid password. Which process failure does this most directly expose?",
+    "opts": [
+      "Weak password complexity requirements on VPN-enabled user accounts",
+      "A lack of network segmentation between VPN users and core systems",
+      "No joiner-mover-leaver process deprovisioning access at termination",
+      "Missing security awareness training for the development department"
+    ],
+    "correct": 2,
+    "explanation": "A usable account four months after departure is a deprovisioning failure. Automated, HR-triggered offboarding that disables all access on the last day is the control that was missing.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Identity & Access Breaches",
+    "q": "At 2 a.m., an employee's phone buzzes with the fortieth MFA push notification in an hour. Exhausted, they tap Approve to make it stop, and an attacker with their stolen password gains access. Which change best defeats this technique?",
+    "opts": [
+      "Deliver push notifications by SMS text message instead of an app",
+      "Increase the minimum password length requirement to sixteen characters",
+      "Move to number matching or phishing-resistant FIDO2 security keys",
+      "Limit MFA push prompts so they can only arrive during business hours"
+    ],
+    "correct": 2,
+    "explanation": "This is MFA fatigue (push bombing). Number matching forces the user to type a code shown on the login screen, and FIDO2 removes the approvable prompt entirely - both kill blind-approval attacks. SMS is weaker, not stronger.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Identity & Access Breaches",
+    "q": "An audit finds a database service account whose password is 'Summer2019!', shared by three teams, stored in a wiki page, and unchanged for five years. The account has sysadmin rights. What is the best remediation path?",
+    "opts": [
+      "Replace the account with each team member's personal admin login",
+      "Ask the teams to memorize the password and then delete the wiki page",
+      "Vault it with automatic rotation, scope its rights down, audit usage",
+      "Change the password annually and restrict the wiki page to the teams"
+    ],
+    "correct": 2,
+    "explanation": "Shared, static, over-privileged service credentials need vaulting with rotation, least-privilege scoping, and usage auditing. Restricting the wiki or rotating yearly leaves the core weaknesses intact.",
+    "type": "Decision"
+  },
+  {
+    "section": "Identity & Access Breaches",
+    "q": "Overnight, a retail website logs 1.2 million failed logins from thousands of IP addresses, each trying one username-password pair exactly once. About 3,000 logins succeeded. What is happening and which defense set fits best?",
+    "opts": [
+      "A distributed denial-of-service attack - enable a CDN with rate limits",
+      "Password spraying - enforce account lockout after three failed attempts",
+      "Credential stuffing - add MFA, bot detection, and breach-corpus checks",
+      "Brute force against the admin panel - rename and hide the admin URL"
+    ],
+    "correct": 2,
+    "explanation": "One attempt per pair across huge volume is credential stuffing with reused breached passwords. Lockout thresholds barely help since each account sees one try; MFA, bot mitigation, and breached-password screening address the real mechanics.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Identity & Access Breaches",
+    "q": "An employee who moved from sales to support to finance over six years still holds the access of all three roles. A compromise of her account would expose CRM, ticketing, and payment systems at once. Which control addresses the root cause?",
+    "opts": [
+      "Periodic access recertification, with role changes triggering resets",
+      "Annual security awareness training focused on least-privilege principles",
+      "Stronger multi-factor authentication on the finance applications only",
+      "Monitoring her account activity more closely than that of other users"
+    ],
+    "correct": 0,
+    "explanation": "This is privilege creep. Recertification campaigns plus mover-triggered access rebuilds enforce least privilege over time; the other options mitigate symptoms without removing the excess access.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Identity & Access Breaches",
+    "q": "A domain administrator uses his domain admin account for everything: email, web browsing, and admin tasks. He opens a malicious attachment and the malware runs with his privileges. Which practice would have most limited the damage?",
+    "opts": [
+      "A much longer and more complex password on the domain admin account",
+      "Restricting browsing to an approved, sandboxed corporate web browser",
+      "Renaming the domain admin account to something attackers cannot guess",
+      "Separate daily and admin accounts, with admin work from a hardened host"
+    ],
+    "correct": 3,
+    "explanation": "Privilege separation means everyday risks like email and browsing never execute with domain-admin rights. Password strength and account renaming do nothing once malware runs in the session.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Identity & Access Breaches",
+    "q": "The SOC notices login attempts across 800 different user accounts, each receiving only two password guesses ('Winter2026!' and 'Company123') spread over six hours from a single IP range. Account lockout never triggered. What is this technique?",
+    "opts": [
+      "Pass-the-hash lateral movement between workstations and servers",
+      "Credential stuffing driven by a previously breached password database",
+      "Password spraying - common passwords tried widely to evade lockouts",
+      "A keylogger harvesting passwords from compromised endpoint machines"
+    ],
+    "correct": 2,
+    "explanation": "Few passwords, many accounts, deliberately throttled to evade lockout - that is password spraying. Detection requires correlating failures across accounts rather than per-account counters.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Identity & Access Breaches",
+    "q": "A contractor's engagement ended in March, and her AD account was disabled. In May, someone connects to the network using her still-valid VPN certificate, which authenticated independently of AD. What is the key lesson?",
+    "opts": [
+      "Contractors should never be granted VPN access under any circumstances",
+      "Every access path must tie to central identity so one action revokes all",
+      "Certificate lifetimes should be extended to reduce the renewal overhead",
+      "VPN certificates are inherently insecure and should be replaced by passwords"
+    ],
+    "correct": 1,
+    "explanation": "Disabling the directory account did nothing because the certificate authenticated separately. Offboarding must enumerate and revoke every credential type - centralizing authentication makes that one action instead of many.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Identity & Access Breaches",
+    "q": "During a major SSO outage, an operations engineer uses the 'break-glass' emergency admin account to keep critical systems running. A week later, auditors ask about it. What should have happened around that account's use?",
+    "opts": [
+      "Nothing - break-glass accounts exist precisely to be used without process",
+      "Automatic alerts, full logging, post-use review, and credential rotation",
+      "The account should have been permanently disabled once the outage ended",
+      "The engineer should have waited for SSO to recover instead of using it"
+    ],
+    "correct": 1,
+    "explanation": "Break-glass accounts are legitimate but must be loud: alert on use, log everything, review afterward, rotate the credential. Silent, unaudited emergency access is indistinguishable from an attacker using it.",
+    "type": "Decision"
+  },
+  {
+    "section": "Identity & Access Breaches",
+    "q": "Users report a prompt asking them to grant a third-party app called 'Mail Backup Pro' permission to 'read and send email on your behalf.' Several accepted, and the app - controlled by attackers - now reads their mailboxes without ever stealing a password. What should the security team do?",
+    "opts": [
+      "Tell affected users to uninstall the application from their devices",
+      "Revoke the app's OAuth grants and restrict consent to verified apps",
+      "Enable MFA across the tenant, which will block the app's mailbox access",
+      "Force an immediate password reset for everyone who accepted the prompt"
+    ],
+    "correct": 1,
+    "explanation": "This is OAuth consent phishing. The app holds tokens, not passwords - resets and MFA don't revoke them. Killing the grants and gating future consents through admin approval addresses the actual access path.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Network Intrusion Cases",
+    "q": "After a single reception-desk PC was compromised, attackers reached the finance database, HR system, and backup server within hours - all on the same subnet with no internal filtering. Which architectural weakness made this possible?",
+    "opts": [
+      "Missing antivirus protection on the reception desk computer",
+      "An outdated, unpatched web browser on the compromised machine",
+      "A flat, unsegmented network letting one foothold reach everything",
+      "Weak Wi-Fi encryption protecting the reception desk and guest areas"
+    ],
+    "correct": 2,
+    "explanation": "The initial compromise mattered less than what it could reach. Segmentation - VLANs, internal firewalls, restricted east-west traffic - contains a foothold; a flat network turns any breach into a full breach.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Network Intrusion Cases",
+    "q": "NetFlow data shows a workstation sending a small, identical-sized HTTPS request to the same unknown external IP every 60 seconds, around the clock, including weekends. What does this pattern most likely represent?",
+    "opts": [
+      "An employee streaming music from an online web service during work hours",
+      "Normal software update checks issued by the operating system",
+      "A misconfigured NTP client synchronizing its clock far too often",
+      "Command-and-control beaconing from an implant awaiting instructions"
+    ],
+    "correct": 3,
+    "explanation": "Fixed-interval, fixed-size callbacks to a single unknown host at all hours are the classic C2 beacon heartbeat. Update checks and NTP use known vendor infrastructure; streaming produces large, variable flows.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Network Intrusion Cases",
+    "q": "A wireless survey finds an unauthorized access point named after the corporate SSID plugged into a meeting-room ethernet port, silently bridging visitors onto the internal LAN. Beyond removing it, which control prevents recurrence?",
+    "opts": [
+      "Rotating the corporate Wi-Fi password at the start of every month",
+      "Hiding the corporate SSID so it no longer appears in broadcasts",
+      "802.1X port access control plus continuous rogue-AP detection scans",
+      "Disabling the power outlets in every meeting room after hours"
+    ],
+    "correct": 2,
+    "explanation": "Port-based NAC means an unknown device gets no network even when physically plugged in, and wireless intrusion detection flags lookalike APs. Password rotation and SSID hiding don't stop a physical bridge.",
+    "type": "Decision"
+  },
+  {
+    "section": "Network Intrusion Cases",
+    "q": "During a production outage six months ago, an engineer added a temporary 'permit any-any' firewall rule to rule out the firewall as the cause. It was never removed and an attacker later used the opening. Which combination of process controls failed?",
+    "opts": [
+      "Data classification paired with a documented retention policy",
+      "Change management with expiring emergency rules and periodic reviews",
+      "Password rotation along with strict MFA enforcement for admins",
+      "Patch management combined with daily antivirus signature update checks"
+    ],
+    "correct": 1,
+    "explanation": "Emergency changes need tickets, owners, and automatic expiry dates, and scheduled rule-base audits catch what slips through. The rule wasn't the failure - the absence of process around it was.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Network Intrusion Cases",
+    "q": "Sales staff at a hotel conference connect to free Wi-Fi named 'Hotel_Guest_Free.' An attacker running that hotspot intercepts traffic and captures one employee's credentials to an internal portal that used plain HTTP through the VPN-less connection. Which two measures most directly address this exposure?",
+    "opts": [
+      "Always-on VPN for remote devices and TLS on all corporate applications",
+      "Longer passwords combined with mandatory quarterly password rotation",
+      "A written policy clause forbidding any use of public Wi-Fi networks",
+      "Antivirus agents configured with hourly signature update checks"
+    ],
+    "correct": 0,
+    "explanation": "An evil-twin hotspot owns the network path, so the answer is to make the path untrustworthy by design: encrypt transport end-to-end with VPN and TLS. Policy bans without technical enforcement reliably fail.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Network Intrusion Cases",
+    "q": "A ticketing company's public website is hit with 400 Gbps of junk traffic an hour before a major concert sale, taking it offline. The attackers demand payment to stop. What is the most effective response posture for this and future events?",
+    "opts": [
+      "Pay the extortion demand so the concert sale can be restored quickly",
+      "Block every international IP address range at the firewall",
+      "A DDoS mitigation/CDN service with scrubbing, plus an ISP runbook",
+      "Double the number of web servers in the primary data center"
+    ],
+    "correct": 2,
+    "explanation": "Volumetric DDoS at hundreds of gigabits must be absorbed upstream by scrubbing infrastructure - origin servers and geo-blocks can't soak it. Paying invites repeat extortion.",
+    "type": "Decision"
+  },
+  {
+    "section": "Network Intrusion Cases",
+    "q": "DNS logs show a host making thousands of queries like 'a8f3k2x9q1...data.example-evil.com' - long random subdomains, high volume, to one domain whose responses are TXT records. Regular web traffic from that host looks normal. What is most likely occurring?",
+    "opts": [
+      "DNS tunneling exfiltrating data or carrying C2 inside DNS queries",
+      "DNSSEC validation failures causing repeated query retries",
+      "A browser extension prefetching websites to speed up page loads",
+      "A misconfigured mail server performing bulk reverse lookups"
+    ],
+    "correct": 0,
+    "explanation": "Encoding data into subdomain labels and pulling commands from TXT answers is DNS tunneling - it rides a protocol most firewalls allow out freely. Volume, entropy, and single-domain concentration are the tells.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Network Intrusion Cases",
+    "q": "A company's VPN gateway logs show sustained login attempts against hundreds of staff usernames from IP ranges in countries where it has no employees or business. Which layered response is most appropriate?",
+    "opts": [
+      "Email all staff requesting that they choose stronger passwords",
+      "Disable the VPN service entirely until all of the attack traffic stops",
+      "Change the VPN port number to a non-standard value to hide it",
+      "Enforce MFA and rate limiting, with geo-restrictions and monitoring"
+    ],
+    "correct": 3,
+    "explanation": "MFA neutralizes guessed passwords, rate limiting and geo-controls cut attack volume, and monitoring catches what gets through. Port changes are trivially defeated by scanning, and shutting down the VPN is self-inflicted denial of service.",
+    "type": "Decision"
+  },
+  {
+    "section": "Network Intrusion Cases",
+    "q": "After a false-positive-prone tuning period, a security team debates whether the new inline device protecting the data center should merely alert on attack traffic or actively drop it. The business fears blocked legitimate transactions. What does choosing IPS (blocking) mode over IDS (alerting) mode fundamentally trade?",
+    "opts": [
+      "Stronger encryption in exchange for noticeably slower throughput",
+      "Automatic blocking of attacks at the risk of false positives blocking legitimate traffic",
+      "Nothing really changes - IPS and IDS appliances are functionally identical devices in practice",
+      "Substantially better logging detail in exchange for higher licensing costs"
+    ],
+    "correct": 1,
+    "explanation": "Inline prevention stops attacks without human latency but inherits every false positive as a real outage. Mature shops often run new signatures in detect-only mode, then promote well-tuned rules to blocking.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Network Intrusion Cases",
+    "q": "A critical vulnerability in your internet-facing VPN appliance is announced Friday with active exploitation already reported. The vendor patch arrives Monday. The appliance serves 2,000 remote workers. What is the soundest weekend posture?",
+    "opts": [
+      "Mitigate now, hunt for compromise, restrict exposure, patch immediately on release",
+      "Take no action yet, but draft a communications plan for Monday",
+      "Block all VPN traffic permanently and move to office-only work",
+      "Wait until Monday's patch arrives since all remote work depends fully on the appliance"
+    ],
+    "correct": 0,
+    "explanation": "Actively exploited edge devices are a race. Vendor mitigations, IOC hunting, and exposure reduction buy time, and post-patch you must verify the device wasn't compromised pre-patch - patching doesn't evict an attacker already inside.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Ransomware & Malware Cases",
+    "q": "At 6:40 a.m., helpdesk calls flood in: files on the main file server show a '.lockd' extension and a ransom note. Some department shares still appear untouched. What is the single most urgent action?",
+    "opts": [
+      "Power off every server in the data center immediately as a precaution",
+      "Isolate affected systems from the network while preserving forensics",
+      "Begin restoring from backups onto the same servers straight away",
+      "Email the address in the ransom note to negotiate for more time"
+    ],
+    "correct": 1,
+    "explanation": "Containment via network isolation halts spread while preserving volatile evidence and encryption artifacts that may matter for recovery. Powering off can corrupt state and destroy memory evidence; restoring before containment just feeds clean data to active malware.",
+    "type": "Decision"
+  },
+  {
+    "section": "Ransomware & Malware Cases",
+    "q": "During ransomware recovery, the team discovers the backup server was encrypted too - it was domain-joined, always online, and its backup share was mapped as a drive on the file server. Which backup design principle was violated?",
+    "opts": [
+      "Backups should be compressed and deduplicated to reduce exposure",
+      "Backups should run far more frequently than the current nightly job",
+      "Offline or immutable backup tiers isolated from the production domain",
+      "Backup servers need faster disks so jobs finish before attacks hit"
+    ],
+    "correct": 2,
+    "explanation": "Ransomware operators deliberately target reachable backups. An online, domain-joined, share-mapped backup server is just another victim - at least one copy must be offline, immutable, or otherwise unreachable from compromised production credentials.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Ransomware & Malware Cases",
+    "q": "Executives debate paying a $2M ransom. Backups are intact and tested, but restoration will take four days versus the attacker's promised 'instant' decryptor. Which considerations should drive the decision?",
+    "opts": [
+      "Pay half up front and the remainder after successful decryption",
+      "Refuse to pay, and avoid legal counsel or law enforcement entirely to limit publicity",
+      "No guaranteed decryption, sanctions risk, funds attackers - restore from backups",
+      "Pay - four days of downtime will always cost far more than $2M"
+    ],
+    "correct": 2,
+    "explanation": "Decryptors frequently fail or are slow, payment can breach sanctions (OFAC) exposure, and payers get re-targeted. With tested backups, restoration is the defensible path - alongside legal counsel and law enforcement engagement.",
+    "type": "Decision"
+  },
+  {
+    "section": "Ransomware & Malware Cases",
+    "q": "An EDR platform flags a workstation performing thousands of file renames per minute and spawning processes that delete volume shadow copies. The analyst is unsure whether to act or keep watching. What is the right call?",
+    "opts": [
+      "Send the user a chat message asking what they are working on",
+      "Schedule a full antivirus disk scan for that same evening",
+      "Keep quietly observing the host for another hour to gather further supporting evidence",
+      "Isolate the host now - mass renames plus shadow-copy deletion is ransomware"
+    ],
+    "correct": 3,
+    "explanation": "Shadow-copy deletion (e.g., vssadmin delete shadows) paired with mass file modification is an unambiguous ransomware signature. Every minute of observation costs thousands of encrypted files; isolate first, investigate after.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Ransomware & Malware Cases",
+    "q": "Post-incident analysis of a ransomware attack traces initial access to a server with RDP exposed directly to the internet, protected by a password the attacker brute-forced over two weeks. Which remediation set addresses the entry vector?",
+    "opts": [
+      "Install a newer version of the RDP client software on all of the machines",
+      "Change the RDP listening port from 3389 to a random high port",
+      "Remove direct RDP exposure - require VPN or MFA gateway, with lockout",
+      "Add a login banner warning unauthorized users not to connect"
+    ],
+    "correct": 2,
+    "explanation": "Internet-exposed RDP is a top ransomware entry vector. Putting it behind authenticated, MFA-protected access removes the attack surface; port changes and banners only inconvenience scanners for minutes.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Ransomware & Malware Cases",
+    "q": "A worm is spreading between Windows hosts on the LAN by exploiting an SMB vulnerability patched by the vendor 14 months ago. A third of the fleet is unpatched, and SMBv1 is still enabled domain-wide. What should the response prioritize?",
+    "opts": [
+      "Disable all file sharing across the organization permanently",
+      "Buy a next-generation firewall to harden the internet-facing perimeter",
+      "Reinstall Windows from scratch on every machine in the company",
+      "Block SMB between client segments, patch the fleet, disable SMBv1"
+    ],
+    "correct": 3,
+    "explanation": "Worm propagation is an internal, east-west problem: cut the protocol paths it rides, close the 14-month patch gap, and retire the legacy protocol. A perimeter firewall does nothing for intra-LAN spread.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Ransomware & Malware Cases",
+    "q": "An accountant opens an emailed 'invoice.docm' and clicks 'Enable Content.' The macro silently downloads a banking trojan. Which preventive control would have stopped this with the least business disruption?",
+    "opts": [
+      "Training accountants to read VBA macro code before enabling it",
+      "Blocking every Word document attachment at the email gateway",
+      "Group policy blocking internet-sourced macros, allowing signed ones",
+      "Banning Microsoft Office entirely and moving to plain-text file formats"
+    ],
+    "correct": 2,
+    "explanation": "Mark-of-the-Web-based macro blocking kills the dominant maldoc technique while preserving legitimate internal automation via signed macros. Blanket document bans break business; code review by users is fantasy.",
+    "type": "Decision"
+  },
+  {
+    "section": "Ransomware & Malware Cases",
+    "q": "A ransomware group contacts a company days after encryption, providing samples proving they exfiltrated 80 GB of customer data before encrypting, and threaten publication unless paid. The company had focused recovery purely on restoring systems. What does this change?",
+    "opts": [
+      "Nothing further - once systems are restored the incident is closed",
+      "Paying the ransom becomes mandatory under data protection law",
+      "All of the backups must be deleted since they may contain the stolen data",
+      "It is now a data breach: notification duties and impact assessment apply"
+    ],
+    "correct": 3,
+    "explanation": "Double extortion means restoration solves only half the problem. Exfiltrated personal data triggers breach notification duties (regulators, affected individuals) on legal timelines - obligations that exist whether or not anyone pays.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Ransomware & Malware Cases",
+    "q": "Cloud bills jump 300% and several Linux servers run at constant 100% CPU. Investigation finds an unknown process mining cryptocurrency, installed weeks ago via an unpatched web application. Why shouldn't this be dismissed as a minor nuisance once the miner is removed?",
+    "opts": [
+      "Because cryptocurrency miners permanently damage server CPU hardware",
+      "Because the added electricity costs outweigh every other business risk",
+      "Because cryptocurrency mining is illegal in the majority of countries",
+      "Because the same access path could deliver far worse payloads later"
+    ],
+    "correct": 3,
+    "explanation": "A cryptominer is proof of compromise, not the ceiling of it. The vulnerability, any persistence, and possible lateral movement need full investigation - the next operator using that hole may deploy ransomware instead.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Ransomware & Malware Cases",
+    "q": "A widely used IT monitoring vendor ships a signed software update that, unknown to customers, contains a backdoor inserted by attackers who compromised the vendor's build pipeline. Hundreds of companies install it through normal patching. What does this case illustrate, and what helps detect such compromises?",
+    "opts": [
+      "A targeted phishing attack - additional user awareness training is the complete answer",
+      "That patching should be avoided because updates can carry malware",
+      "A supply chain attack - egress monitoring, behavioral detection, vendor scrutiny",
+      "An insider threat acting separately at each affected customer site"
+    ],
+    "correct": 2,
+    "explanation": "Signed, legitimate-channel updates defeated signature trust - this is the supply chain attack pattern. Detection shifts to behavior: why is the monitoring tool beaconing to novel domains? Stopping patching entirely trades a rare risk for a constant one.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Cloud Security Incident Cases",
+    "q": "A security researcher notifies a company that a cloud storage bucket containing 200,000 customer records is publicly readable. It was created two years ago for a one-off data migration and forgotten. Beyond closing the bucket, what systemic fix is most valuable?",
+    "opts": [
+      "Switch cloud providers to one offering safer default configurations",
+      "Account-wide public-access blocking plus continuous CSPM monitoring",
+      "Require VP-level approval before any new storage bucket is created",
+      "Encrypt the bucket contents so that public reads return ciphertext"
+    ],
+    "correct": 1,
+    "explanation": "One forgotten bucket means others exist. Default-deny public access plus automated posture monitoring turns a one-time cleanup into ongoing prevention. Note that server-side encryption doesn't help here - the bucket policy itself grants readable access.",
+    "type": "Decision"
+  },
+  {
+    "section": "Cloud Security Incident Cases",
+    "q": "A developer accidentally pushes a repository containing live cloud access keys to public GitHub. Within 9 minutes, automated scanners have found them and unauthorized API calls begin. What must happen first, and why is deleting the repo insufficient?",
+    "opts": [
+      "Revoke and rotate the keys now, then audit everything they accessed",
+      "Delete the repository - removal from GitHub also removes the exposure",
+      "Contact GitHub support and ask the scrapers to delete their copies",
+      "Make the repository private and force-push over the commit history"
+    ],
+    "correct": 0,
+    "explanation": "Exposed keys are compromised keys within minutes. Git history rewrites and deletions don't recall harvested copies - only revocation kills them. Then comes damage assessment via API audit logs and adding pre-commit secret scanning.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Cloud Security Incident Cases",
+    "q": "After a breach of their cloud-hosted application, a company blames the cloud provider. Investigation shows attackers exploited the company's own unpatched web application running on IaaS virtual machines they administered. Under the shared responsibility model, who owns this failure?",
+    "opts": [
+      "Neither party - unpatched software is simply an accepted risk of cloud computing",
+      "Both parties carry equal blame, by the very definition of 'shared'",
+      "The customer - guest OS patching and app security are customer duties in IaaS",
+      "The cloud provider - they own everything running in their data centers"
+    ],
+    "correct": 2,
+    "explanation": "Shared responsibility splits by layer, not by percentage: the provider secures the cloud (facilities, hypervisor, hardware); the customer secures what they put in it. An unpatched customer-managed app is squarely customer-side.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Cloud Security Incident Cases",
+    "q": "Attackers compromise a web application and use the cloud role attached to its server to read every storage bucket in the account, including HR and finance data. The role had been granted full storage access 'to keep development simple.' Which principle was violated and how should roles be designed?",
+    "opts": [
+      "Least privilege - the role should grant only the buckets and actions the app needs",
+      "Separation of duties - two distinct roles should approve each read",
+      "Defense in depth - more firewalls were needed in front of the application",
+      "Non-repudiation - cryptographically signed requests would have fully prevented access"
+    ],
+    "correct": 0,
+    "explanation": "Instance roles inherit to whoever controls the workload. Scoping the role to exactly the needed resources turns an application compromise into a contained event instead of account-wide data exposure.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Cloud Security Incident Cases",
+    "q": "A finance team flags a cloud bill that jumped from $8,000 to $90,000 in one week. Investigation finds hundreds of GPU instances mining cryptocurrency in an unused region, launched with API keys stolen from a developer's laptop. Which detective control would have caught this fastest?",
+    "opts": [
+      "Annual penetration testing across the entire cloud environment",
+      "A much stronger password policy applied to the main cloud management console",
+      "Billing anomaly alerts plus monitoring for unusual regions and API activity",
+      "A manual review of all running instances at the end of each month"
+    ],
+    "correct": 2,
+    "explanation": "Cryptojacking burns money loudly and fast. Billing alerts, region-level guardrails, and API anomaly detection surface it in hours; monthly reviews and annual pentests are far too slow for cost-velocity attacks.",
+    "type": "Decision"
+  },
+  {
+    "section": "Cloud Security Incident Cases",
+    "q": "IT discovers that the marketing department has been storing customer lists in an unapproved file-sharing SaaS for two years, signed up with personal credit cards, with no MFA and ex-employees still holding access. What is the most constructive organizational response?",
+    "opts": [
+      "Publish a memo reminding staff that unapproved software is forbidden",
+      "Block the service at the firewall and discipline the marketing team",
+      "Ignore the finding since marketing data is considered low sensitivity",
+      "Run SaaS discovery, assess exposure, then sanction or migrate the tool"
+    ],
+    "correct": 3,
+    "explanation": "Shadow IT signals an unmet business need. Discovery tooling finds the full scope, and channeling the need into governed alternatives works; pure blocking drives usage further underground.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Cloud Security Incident Cases",
+    "q": "A database server in the cloud is breached. Its security group allowed inbound connections on the database port from 0.0.0.0/0 - the entire internet - because a developer once needed access from home. What should the rule have looked like?",
+    "opts": [
+      "The same inbound rule retained but with a much stronger admin database password",
+      "The database port translated to a non-standard number to avoid scanners",
+      "Database port open only to the app servers' group, admin via VPN or bastion",
+      "Access limited permanently to the lead developer's home IP address"
+    ],
+    "correct": 2,
+    "explanation": "Databases should be reachable only from the tiers that need them. Internet-wide inbound rules get found by scanners within minutes; passwords and port changes don't compensate for needless exposure.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Cloud Security Incident Cases",
+    "q": "During an audit, a company finds a database snapshot from production marked 'public' in their cloud account - anyone with an account at the same provider could have copied it. It was shared for a vendor demo eight months ago. What does the response need to include beyond unsharing it?",
+    "opts": [
+      "Nothing further is required - unsharing the snapshot immediately ends the exposure",
+      "Assume it was copied: check logs, rotate credentials, assess notification duties",
+      "Rename the snapshot to something that cannot be discovered by name",
+      "Delete every snapshot in the cloud account as a blanket precaution"
+    ],
+    "correct": 1,
+    "explanation": "Eight months public means assume a copy exists. Snapshots often carry credentials and personal data, so credential rotation and breach analysis follow, plus preventive guardrails (e.g., blocking or alerting on public snapshot sharing).",
+    "type": "Scenario"
+  },
+  {
+    "section": "Cloud Security Incident Cases",
+    "q": "Incident responders investigating suspicious cloud activity discover that the account's audit logging service was switched off three weeks earlier by an unknown actor - precisely when the suspected intrusion began. What lesson should harden the environment?",
+    "opts": [
+      "Logs only need to be reviewed annually as part of the audit cycle",
+      "Audit logs are optional in cloud environments since providers keep copies",
+      "The logging was probably disabled to save costs and is unrelated",
+      "Protect logging itself: alert on changes, restrict rights, ship logs out"
+    ],
+    "correct": 3,
+    "explanation": "Disabling telemetry is a standard attacker move and a high-fidelity indicator. Guardrails that prevent or instantly flag logging changes, plus log replication to an account the attacker can't reach, keep visibility during the moments that matter most.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Cloud Security Incident Cases",
+    "q": "A startup's cloud root account - used to create the company's entire infrastructure - has no MFA and its password is known to three founders, one of whom left last year. Nothing bad has happened yet. How urgent is this, and what is the right fix?",
+    "opts": [
+      "Low urgency with no incident so far - add it to next quarter's backlog",
+      "No action needed since cloud providers protect root accounts automatically",
+      "Moderate - changing the password removes the departed founder's knowledge",
+      "Critical: hardware MFA and unique password now, daily work via scoped roles"
+    ],
+    "correct": 3,
+    "explanation": "Root compromise means total, often unrecoverable loss of the environment - and a departed insider knows the password today. 'Nothing happened yet' isn't a control; hardware MFA, role-based daily admin, and root-usage alerting are.",
+    "type": "Decision"
+  },
+  {
+    "section": "Application & Data Breach Cases",
+    "q": "A retailer's login form is breached when an attacker submits username: admin'-- and gains administrative access without a password. The query was built by string concatenation. What is the definitive fix?",
+    "opts": [
+      "A web application firewall rule blocking apostrophes in all submitted form fields",
+      "JavaScript validation rejecting special characters inside the browser",
+      "Renaming the admin account so that injection attempts cannot target it",
+      "Parameterized queries so input is data, with validation as defense in depth"
+    ],
+    "correct": 3,
+    "explanation": "This is SQL injection, and parameterization removes the vulnerability class rather than filtering symptoms. Client-side checks are bypassed trivially, and WAF rules are a stopgap that attackers routinely evade.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Application & Data Breach Cases",
+    "q": "Customers report their accounts performing actions they never took. Investigation finds an attacker posted a product review containing a script tag that ran in every viewer's browser, stealing session cookies. Which combination addresses this properly?",
+    "opts": [
+      "Disabling the product review feature permanently across the site",
+      "Output encoding, a Content Security Policy, and HttpOnly session cookies",
+      "Forcing all customers to change their account passwords every week",
+      "Switching all session cookies to much longer, more random identifier values"
+    ],
+    "correct": 1,
+    "explanation": "Stored XSS executes attacker script in victims' browsers. Encoding prevents injection from rendering as code, CSP limits what can execute, and HttpOnly keeps scripts from reading session cookies - layered defenses against the same flaw.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Application & Data Breach Cases",
+    "q": "A customer notices that changing the number in 'invoice?id=4831' to 4830 displays another customer's invoice. The application checked that the user was logged in, but nothing more. What is this flaw and its fix?",
+    "opts": [
+      "Session fixation - regenerate all session identifiers at login time",
+      "Cross-site request forgery - add anti-CSRF tokens to every form",
+      "Insecure direct object reference - authorize each user per object, server-side",
+      "Open redirect - validate every incoming URL parameter against a strict whitelist"
+    ],
+    "correct": 2,
+    "explanation": "Authentication answers 'who are you'; authorization answers 'may you see object 4830.' IDOR is the gap between them, and the fix is per-object, server-side ownership checks - unguessable IDs alone are not access control.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Application & Data Breach Cases",
+    "q": "After a database theft, a company discovers its 2 million user passwords were stored as unsalted MD5 hashes. Security researchers crack 85% within days. What should password storage have used?",
+    "opts": [
+      "An adaptive algorithm like bcrypt or Argon2 with unique per-user salts",
+      "SHA-256 hashing, which is a newer algorithm than the broken MD5",
+      "AES encryption with the key stored inside the application config file",
+      "Base64 encoding of each password combined with a secret prefix"
+    ],
+    "correct": 0,
+    "explanation": "Fast hashes like MD5 and even SHA-256 enable billions of guesses per second, and missing salts allow precomputed attacks. Adaptive, salted, deliberately slow algorithms are the standard. Reversible encryption recreates the problem if the key leaks.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Application & Data Breach Cases",
+    "q": "An attacker scripts requests to a company's password-reset API, which returns 'email not found' or 'reset link sent' with no rate limiting. Over a weekend they confirm 40,000 valid customer email addresses for a phishing campaign. Which API design failures enabled this?",
+    "opts": [
+      "The lack of explicit API version numbers within the URL path",
+      "No rate limiting plus responses that reveal whether an account exists",
+      "The use of JSON instead of XML formatting for the API responses",
+      "The API being served over public HTTPS rather than on a private network"
+    ],
+    "correct": 1,
+    "explanation": "Uniform responses ('If that address exists, a link has been sent') plus throttling, monitoring, and bot defenses make enumeration impractical. Verbose differences in responses are an information leak at scale.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Application & Data Breach Cases",
+    "q": "During a routine review, engineers discover the application has been writing full payment card numbers into debug logs for months. The logs are stored unencrypted, retained for a year, and accessible to the whole engineering team. Which set of obligations and fixes applies?",
+    "opts": [
+      "Compress and password-protect the entire log archive going forward",
+      "A PCI DSS violation: purge the logs, mask card data, assess reportability",
+      "Shorten the log retention period to six months and consider it fully resolved",
+      "None - logs are internal files that sit outside of compliance scope"
+    ],
+    "correct": 1,
+    "explanation": "Card data in logs drags the entire logging pipeline into PCI scope and creates breach exposure. Remediation runs both directions: clean historical data and stop the leak at the source with masking, plus access controls and incident assessment.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Application & Data Breach Cases",
+    "q": "A company is breached through a vulnerable version of an open-source library deep in its application's dependency tree - the patched version had been available for eight months, but no one knew the library was in use. Which practice closes this gap?",
+    "opts": [
+      "Pinning all dependency versions permanently so that nothing changes",
+      "Writing all code in-house and banning open-source software outright",
+      "An SBOM plus software composition analysis in CI to flag vulnerable libraries",
+      "Trusting that popular open-source libraries are already reviewed by the community"
+    ],
+    "correct": 2,
+    "explanation": "You can't patch what you don't know you ship. An SBOM plus automated dependency scanning turns 'unknown transitive library' into an actionable alert the day a CVE drops - the lesson hammered home by Log4Shell-class events.",
+    "type": "Decision"
+  },
+  {
+    "section": "Application & Data Breach Cases",
+    "q": "A product team schedules its first security review two weeks before launch. The pentest finds architectural flaws - secrets management, tenant isolation - that need redesign, delaying launch by three months. What practice prevents this scenario in future projects?",
+    "opts": [
+      "Hiring a much larger pentest team so issues are found more quickly",
+      "Launching first and fixing the security findings later in production patches",
+      "Skipping penetration tests on future releases to avoid launch delays",
+      "Shift left: threat modeling at design, SAST in CI, pentest as final check"
+    ],
+    "correct": 3,
+    "explanation": "Architectural flaws found at the end cost months; the same flaws found at design cost a meeting. Embedding security through the lifecycle makes the final pentest a confirmation, not a discovery exercise.",
+    "type": "Decision"
+  },
+  {
+    "section": "Application & Data Breach Cases",
+    "q": "A job portal lets applicants upload resumes. An attacker uploads a file named resume.php, browses to its URL, and gains a webshell on the server. Which combination of controls should the upload feature have had?",
+    "opts": [
+      "Accepting only files literally named resume regardless of extension",
+      "Logging every single file upload for later review by the security operations team",
+      "A maximum file-size limit and a CAPTCHA challenge on the upload form",
+      "Validate content type, whitelist extensions, store outside the web root, scan"
+    ],
+    "correct": 3,
+    "explanation": "The fatal flaw is uploaded content being executable and reachable. Content validation, execution-safe storage, and scanning each break a link in the webshell chain - storage outside the web root alone would have prevented this breach.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Application & Data Breach Cases",
+    "q": "A new analytics project wants to copy the production customer database into a test environment with weaker controls 'because real data makes testing realistic.' Under data protection principles, what should security require?",
+    "opts": [
+      "Refuse to support any testing that involves data of any kind at all",
+      "Allow the copy provided the developers sign confidentiality agreements",
+      "Allow the full copy - test environments are only temporary, so the risk stays low",
+      "Require masked or synthetic data, or production-grade controls if unavoidable"
+    ],
+    "correct": 3,
+    "explanation": "Lower environments are breached disproportionately because controls lag. Data minimization says don't put real personal data where it isn't needed - masking and synthesis meet the testing need without inheriting the breach risk.",
+    "type": "Decision"
+  },
+  {
+    "section": "Insider Threat & Third-Party Cases",
+    "q": "A DLP alert fires: a senior salesperson who resigned yesterday has copied 4 GB of CRM exports and pricing sheets to a personal USB drive. He claims they are 'his own contact lists.' What is the appropriate immediate handling?",
+    "opts": [
+      "Preserve evidence, suspend access, and involve HR and legal before confronting",
+      "Quietly monitor him for another week to see whether he does it again",
+      "Delete the files from the USB drive and let him work his notice period normally",
+      "Report him to the police immediately, before any internal review begins"
+    ],
+    "correct": 0,
+    "explanation": "Departing-employee data theft is the classic insider scenario. Evidence preservation and coordinated HR/legal involvement protect any future claim; tipping him off early or skipping process can destroy both evidence and legal standing.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Insider Threat & Third-Party Cases",
+    "q": "A hospital database administrator has been querying the medical records of celebrities and acquaintances - access her role technically permits but her duties never required. The activity ran for two years undetected. Which control gap is most significant?",
+    "opts": [
+      "No monitoring of access patterns - permission is not the same as legitimate use",
+      "Her direct manager failed to watch her screen on a regular basis",
+      "The records should have been kept on paper rather than in a database",
+      "She should never have been granted any database access rights in the first place"
+    ],
+    "correct": 0,
+    "explanation": "Privileged roles will always have broad technical access; the compensating control is auditing actual usage against expected patterns. Healthcare 'snooping' cases are routinely caught - or missed - on exactly this control.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Insider Threat & Third-Party Cases",
+    "q": "Attackers breach a retailer through credentials stolen from its HVAC maintenance vendor, whose technicians had standing VPN access to the store network for temperature monitoring. The vendor's laptop security was minimal. How should third-party access like this be structured?",
+    "opts": [
+      "Vendors should be fully trusted once their contracts include strict security language",
+      "All forms of vendor remote access should be banned permanently",
+      "Vendors should be required to work only from the retailer's own laptops",
+      "Vendor access must be least-privilege, segmented, time-bound, MFA'd, monitored"
+    ],
+    "correct": 3,
+    "explanation": "This mirrors one of retail's most famous breaches. Vendor credentials inherit the blast radius you grant them - segmentation and scoping decide whether a vendor compromise stays a vendor problem.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Insider Threat & Third-Party Cases",
+    "q": "Procurement wants to fast-track a new SaaS vendor that will process customer personal data. The vendor declines to complete a security questionnaire but offers a recent SOC 2 Type II report and ISO 27001 certificate. How should security proceed?",
+    "opts": [
+      "Review the SOC 2 scope and exceptions, then close remaining gaps contractually",
+      "Accept the certificate logos displayed on their website as sufficient",
+      "Skip the security assessment since the vendor is widely used by other companies",
+      "Reject the vendor outright for refusing to complete the questionnaire"
+    ],
+    "correct": 0,
+    "explanation": "A current SOC 2 Type II is tested evidence, not marketing. The key diligence is scope-matching: confirm the audited services and controls cover what you'll actually use, then handle residual risk in the contract (DPAs, breach notification, audit rights).",
+    "type": "Decision"
+  },
+  {
+    "section": "Insider Threat & Third-Party Cases",
+    "q": "A systems administrator, passed over for promotion, is later found to have planted a script set to delete production databases if his account is ever disabled - a logic bomb discovered only by a colleague's code review. Which preventive measures most directly counter this risk?",
+    "opts": [
+      "A mandatory annual ethics training program for all technical staff",
+      "Change control on production scripts, separation of duties, instant offboarding",
+      "Banning administrators from writing or deploying automation scripts",
+      "Higher salaries and much better promotion paths to keep the administrators satisfied"
+    ],
+    "correct": 1,
+    "explanation": "Logic bombs thrive where one person has unreviewed end-to-end control. Peer review caught this one; separation of duties and disciplined change management make planting such code hard, and clean offboarding removes the trigger window.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Insider Threat & Third-Party Cases",
+    "q": "An audit reveals that a contractor authorized for system access has been sharing her login with two unauthorized colleagues 'to get work done faster.' All activity appears benign. Why does this still demand correction?",
+    "opts": [
+      "Only because the contract billing records might now be inaccurate",
+      "It doesn't - the activity was benign, so no actual harm has occurred",
+      "Shared logins destroy accountability, vetting, and clean offboarding",
+      "Because contractors are inherently a higher risk group than employees"
+    ],
+    "correct": 2,
+    "explanation": "Attribution underpins both security and legal defensibility. The fix is unique accounts for every individual, enforcement in policy and contract, and examining why access provisioning was slow enough to incentivize sharing.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Insider Threat & Third-Party Cases",
+    "q": "Your payroll SaaS provider notifies you that its own cloud-hosting subprocessor suffered a breach exposing backups, possibly including your employee data. You had never heard of this subprocessor. What does this reveal about your vendor management?",
+    "opts": [
+      "Nothing - subprocessor risk is entirely the SaaS provider's own problem",
+      "The SaaS provider should simply have been self-hosting all of its own infrastructure",
+      "Fourth-party risk was invisible: require subprocessor disclosure and flow-downs",
+      "Employee data should never be processed by any third party whatsoever"
+    ],
+    "correct": 2,
+    "explanation": "Your data's risk surface includes your vendors' vendors. Mature third-party programs map subprocessor chains via contract disclosure requirements - regulators will still hold you accountable for personal data wherever it sat.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Insider Threat & Third-Party Cases",
+    "q": "An HR analyst meaning to email 'salary_bands_2026.xlsx' to the compensation committee autocompletes the wrong recipient and sends it to an external supplier contact. Which control set best reduces this category of incident?",
+    "opts": [
+      "A company-wide ban on sending email attachments of any kind",
+      "Password-protecting spreadsheets with the password in the same email",
+      "Outbound DLP rules, external-recipient warnings, and recallable encryption",
+      "Formal disciplinary action against the analyst to deter any similar future errors"
+    ],
+    "correct": 2,
+    "explanation": "Misdirected email is among the most common breach types reported to regulators - and it's accidental. Technical guardrails (DLP prompts, external-recipient warnings, revocable encryption) outperform punishment for honest-mistake categories.",
+    "type": "Decision"
+  },
+  {
+    "section": "Insider Threat & Third-Party Cases",
+    "q": "A fintech is hiring for a role with standing access to move customer funds and modify transaction records. Which combination of personnel and process controls fits the risk of this position?",
+    "opts": [
+      "Outsourcing the entire role so that the insider risk transfers over to the vendor",
+      "Role-proportionate screening, dual authorization, tamper-proof logs, rotation",
+      "Standard hiring practice combined with a strong password policy",
+      "Trusting the person fully once their probation period has ended"
+    ],
+    "correct": 1,
+    "explanation": "High-trust roles get layered controls: vetting before hire, dual control so no single person moves money alone, tamper-evident logging, and rotation/mandatory leave - a classic fraud-detection control because schemes often need continuous tending.",
+    "type": "Decision"
+  },
+  {
+    "section": "Insider Threat & Third-Party Cases",
+    "q": "A marketing-automation SaaS your company uses announces a breach of its customer databases. Your CRM contact lists, campaign data, and an API key connecting the platform to your e-commerce site may be exposed. What should your response include?",
+    "opts": [
+      "Wait patiently for the vendor's final forensic report before taking any action at all",
+      "Rotate the API key now, assess exposure, watch for phishing, review the contract",
+      "Nothing is needed - the breach happened to the vendor, not to you",
+      "Terminate the contract immediately and delete the company account"
+    ],
+    "correct": 1,
+    "explanation": "A vendor breach is your breach for the data you entrusted to them. Credential rotation can't wait for reports, and notification duties may bind you as the data controller even though the vendor was compromised.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Vulnerability & Pen Testing Cases",
+    "q": "On Tuesday, a CVSS 9.8 remote-code-execution vulnerability is announced in software your company runs on an internet-facing customer portal and also on an isolated internal lab server. Exploit code is public. How should patching be sequenced?",
+    "opts": [
+      "Emergency-patch the exposed portal now; schedule the isolated lab normally",
+      "Patch both affected systems in the next monthly maintenance window",
+      "Patch the isolated lab server first as a low-risk test of the patch quality",
+      "Wait a week to see whether other companies report patch problems"
+    ],
+    "correct": 0,
+    "explanation": "Risk = severity x exposure x exploit availability. Public exploit plus internet exposure means hours matter for the portal; the air-gapped lab can follow process. Brief patch validation makes sense, but not at the cost of leaving the portal open for weeks.",
+    "type": "Decision"
+  },
+  {
+    "section": "Vulnerability & Pen Testing Cases",
+    "q": "A new vulnerability scanner reports 14,000 findings across the estate. The security team of three feels paralyzed. What is the most effective prioritization approach?",
+    "opts": [
+      "Reject the scanner output entirely and switch to a different product",
+      "Fix the easiest findings first to bring the total count down quickly",
+      "Rank by severity plus exploitation, exposure, and asset criticality",
+      "Work top-down strictly by CVSS score alone until the list is finished"
+    ],
+    "correct": 2,
+    "explanation": "CVSS alone ranks a lab printer's flaw beside a payment server's. Exploitation evidence, exposure, and asset value identify the handful of findings that represent most of the actual risk - that's where three people should spend their time.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Vulnerability & Pen Testing Cases",
+    "q": "An eager consultant offers to 'demonstrate value' by attempting to breach your production systems this weekend, before the contract is signed - 'no paperwork needed, results speak for themselves.' Why must this be refused?",
+    "opts": [
+      "Unauthorized testing is illegal - written scope and rules must come first",
+      "The consultant should first be required to lower the proposed contract price",
+      "Weekend testing produces unrealistic results outside business hours",
+      "Production systems can never be tested under any form of agreement"
+    ],
+    "correct": 0,
+    "explanation": "Without signed authorization, 'penetration testing' is just unauthorized access under computer misuse laws. Scoping documents and rules of engagement are what legally distinguish a tester from an attacker.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Vulnerability & Pen Testing Cases",
+    "q": "A board member asks why the company pays for an annual penetration test when it already runs weekly automated vulnerability scans. What is the accurate distinction?",
+    "opts": [
+      "Scanners enumerate known flaws; humans chain exploits to show real impact",
+      "Penetration tests are merely vulnerability scans performed by more expensive people",
+      "Scanners find more issues, so they fully supersede manual testing",
+      "There is no real difference - the pentest can safely be cancelled"
+    ],
+    "correct": 0,
+    "explanation": "A scanner reports 'these versions are vulnerable'; a pentester shows 'I combined the printer's default password with that share misconfiguration to reach payroll.' Chained, logic-driven attack paths are precisely what automation misses.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Vulnerability & Pen Testing Cases",
+    "q": "A penetration test reaches domain administrator in four hours. The pivot point: a network management appliance still running its factory default admin password, installed three years ago. Beyond fixing the device, what systemic control does this finding call for?",
+    "opts": [
+      "Banning that vendor's products from the corporate network entirely",
+      "Moving all appliances to the cloud, where the defaults are safer",
+      "A hardening baseline: default-credential changes and configuration audits",
+      "Reducing the penetration test frequency to avoid more embarrassing findings"
+    ],
+    "correct": 2,
+    "explanation": "One default password found means others exist. Deployment checklists, enforced baselines (e.g., CIS), and recurring audits turn 'we fixed that one box' into 'this class of finding can't recur.'",
+    "type": "Analysis"
+  },
+  {
+    "section": "Vulnerability & Pen Testing Cases",
+    "q": "Six months ago, an urgent patch took down the ERP system for two days, and the operations team has quietly refused all patching since. Internet-facing systems are now months behind. How should security leadership break this deadlock?",
+    "opts": [
+      "Make patching safe: staging, tested rollback, phased rollouts, risk-based urgency",
+      "Outsource patching to a vendor so the blame transfers contractually",
+      "Override the operations team and force-push all patches immediately",
+      "Accept the patching freeze - availability outweighs merely hypothetical future attacks"
+    ],
+    "correct": 0,
+    "explanation": "The outage was a process failure, not proof patching is dangerous - and unpatched edge systems are how ransomware arrives. Investment in testing and rollback rebuilds confidence; risk-ranking ensures exposure drives the calendar.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Vulnerability & Pen Testing Cases",
+    "q": "An unknown security researcher emails details of a serious authentication bypass in your customer portal, including reproduction steps, and asks about your disclosure process. Your company has no bug bounty program. What is the right response?",
+    "opts": [
+      "Acknowledge, validate, fix, keep them informed, and publish a disclosure policy",
+      "Ignore the report entirely since it was never requested or approved",
+      "Pay the researcher immediately to make sure they stay silent",
+      "Forward the email to the legal team to threaten action over unauthorized testing"
+    ],
+    "correct": 0,
+    "explanation": "Hostile responses to good-faith disclosure push the next researcher toward public posting or worse. Validation comes first - the bug exists whether or not you welcome the messenger - and a published VDP channels future findings safely.",
+    "type": "Decision"
+  },
+  {
+    "section": "Vulnerability & Pen Testing Cases",
+    "q": "A junior analyst spends two days remediating a scanner-reported critical vulnerability on twenty servers before discovering the scanner misidentified the software version - the systems were never vulnerable. What practice was skipped?",
+    "opts": [
+      "Running two different scanners and then remediating the union of their findings",
+      "Trusting the scanner, because automated tools do not make mistakes",
+      "Validating findings first - scanner output is a claim, not established fact",
+      "Patching at a faster pace so that accuracy no longer matters as much"
+    ],
+    "correct": 2,
+    "explanation": "False positives are routine in authenticated and especially unauthenticated scanning. A ten-minute verification step protects days of remediation effort and preserves the team's credibility with system owners.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Vulnerability & Pen Testing Cases",
+    "q": "A manufacturing plant runs a production-line controller on an operating system that vendor support abandoned years ago. Patching is impossible, and replacing the line costs $4M - approved for three years from now. What is the appropriate interim security posture?",
+    "opts": [
+      "Shut the entire production line down until the replacement system finally arrives",
+      "Accept the risk silently since the replacement is already budgeted",
+      "Isolate and allow-list the segment, monitor access, document residual risk",
+      "Connect it normally but scan it weekly for newly published flaws"
+    ],
+    "correct": 2,
+    "explanation": "Unpatchable legacy systems are managed by shrinking their attack surface to near zero - isolation, allow-listing, monitoring, possibly virtual patching at the boundary - with leadership formally signing off on the documented residual risk.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Vulnerability & Pen Testing Cases",
+    "q": "A red team exercise ends early when the SOC detects and contains the operators on day two. Some executives call the exercise 'wasted money' since the attackers failed. What is the more accurate reading?",
+    "opts": [
+      "Red teams should be contractually required to succeed to justify cost",
+      "The SOC cheated by actively monitoring during the exercise window",
+      "The exercise failed outright and should be repeated using a stealthier red team",
+      "Detection is a success signal - review caught vs missed techniques purple-style"
+    ],
+    "correct": 3,
+    "explanation": "The point of adversary simulation is measuring the defense, and 'caught on day two' is a measurement worth celebrating. The debrief - what fired, what didn't, response timing - is the deliverable, and purple-teaming extracts maximum learning from it.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Detection & Incident Response Cases",
+    "q": "The SIEM raises an 'impossible travel' alert: a user authenticated from Toronto at 09:10 and from Kyiv at 09:45. The user is reachable at her Toronto desk. What should the analyst do?",
+    "opts": [
+      "Treat Kyiv as likely compromise: verify, revoke sessions, reset, review access",
+      "Dismiss the alert completely, since the user is verifiably present in Toronto today",
+      "Wait to see whether the Kyiv session performs anything malicious",
+      "Block all logins originating outside North America permanently"
+    ],
+    "correct": 0,
+    "explanation": "The user being at her desk doesn't clear the alert - it confirms the second session isn't her. After ruling out benign causes like corporate VPN egress, assume compromise: kill sessions, rotate credentials, and scope what the attacker touched.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Detection & Incident Response Cases",
+    "q": "A SOC receives 4,000 alerts daily; analysts estimate 95% are false positives and admit they now skim or bulk-close queues. Last month a real intrusion sat unnoticed for nine days inside the noise. What is the structural fix?",
+    "opts": [
+      "Permanently disable all alerting from the noisiest log sources across the whole estate",
+      "Hire enough additional analysts to review every alert manually",
+      "Systematic tuning: fix noisy rules, enrich context, automate repetitive triage",
+      "Discipline any analyst who closes alerts without a full review"
+    ],
+    "correct": 2,
+    "explanation": "Alert fatigue is a detection-engineering problem, not an effort problem. The nine-day dwell happened because true positives were statistically invisible; fewer, higher-fidelity, context-rich alerts restore the signal.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Detection & Incident Response Cases",
+    "q": "Four alerts arrive simultaneously: (1) malware quarantined on a marketing laptop, (2) a phishing email reported and confirmed blocked, (3) anomalous privileged commands executing on a domain controller, (4) a failed brute-force against a test server. Which gets priority and why?",
+    "opts": [
+      "The domain controller anomaly - privileged activity on core authentication",
+      "The marketing laptop, because actual malware was found present",
+      "The brute force attempt, because it is the only attack that is still running",
+      "The phishing email, because users are being actively targeted"
+    ],
+    "correct": 0,
+    "explanation": "Triage ranks by impact and containment status. The quarantine and the block already worked, the brute force failed against a low-value target - but anomalous privileged commands on a DC could mean enterprise-wide compromise in progress.",
+    "type": "Decision"
+  },
+  {
+    "section": "Detection & Incident Response Cases",
+    "q": "Finding malware on a finance workstation, a well-meaning technician immediately wipes and reimages it so the user can resume work. The IR team later cannot determine what the malware was, how it arrived, or whether it spread. What principle did the technician violate?",
+    "opts": [
+      "None - rapid restoration of business operations is always the top priority",
+      "Workstations should never be wiped or reimaged under any conditions",
+      "Evidence preservation before eradication - reimaging destroyed the artifacts",
+      "The technician should have commissioned paid malware analysis first"
+    ],
+    "correct": 2,
+    "explanation": "Reimaging eradicated the evidence along with the malware. Isolate first, capture what's needed (image, memory, logs), then rebuild - otherwise you can't know if this was one machine or patient zero of fifty.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Detection & Incident Response Cases",
+    "q": "During a suspected compromise of the corporate network, the IR team has been coordinating containment steps over the corporate email and chat systems. Why is this a mistake, and what should they use?",
+    "opts": [
+      "Attackers may read the plans; move to a pre-arranged out-of-band channel",
+      "The response team should communicate only face-to-face until full resolution",
+      "Nothing is wrong - response speed matters more than channel choice",
+      "Email is acceptable as long as messages are marked as confidential"
+    ],
+    "correct": 0,
+    "explanation": "Attackers with mailbox or endpoint access routinely monitor the response against them. IR plans should pre-designate out-of-band channels - separate tenancy, phone bridges, dedicated apps on non-domain devices - before they're needed.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Detection & Incident Response Cases",
+    "q": "A company plans to fire an employee for data theft based on files found on his workstation. The investigator browsed the live machine, opened files directly, and made no notes or copies. Counsel warns the evidence may not hold up. What was missing?",
+    "opts": [
+      "A written confession from the employee before any review took place",
+      "The investigator needed police officers present during the review",
+      "Nothing was missing - screenshots of the open files are always fully sufficient",
+      "Forensic soundness: image first, work from hashed copies, document custody"
+    ],
+    "correct": 3,
+    "explanation": "Browsing the live system altered timestamps and left the original as the working copy - opposing counsel can now argue contamination. Image, hash, document, and work on duplicates: the discipline exists to make evidence defensible.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Detection & Incident Response Cases",
+    "q": "EDR flags powershell.exe launching with a long Base64-encoded command line, spawned by a Word process, on a laptop in HR. The encoded payload decodes to a download command. How should this be interpreted?",
+    "opts": [
+      "Evidence that the HR user is a hobbyist programmer after hours",
+      "Normal system administration - PowerShell is a legitimate Microsoft admin tool",
+      "A false positive, since no actual malware file was ever detected",
+      "A living-off-the-land attack chain - isolate the laptop and investigate"
+    ],
+    "correct": 3,
+    "explanation": "Attackers favor built-in tools precisely because they're trusted. The parent-child chain (Word to encoded PowerShell to downloader) is the signature - detection here is about behavior and context, not malicious binaries.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Detection & Incident Response Cases",
+    "q": "A security team deploys a decoy server resembling a finance database, never referenced by any legitimate process. Three weeks later, something authenticates to it using credentials from a real service account. What does this honeypot interaction signify?",
+    "opts": [
+      "A routine scheduled vulnerability scan happened to touch the decoy",
+      "The decoy server was misconfigured and accidentally joined production traffic",
+      "An employee found the server and got curious - purely a policy matter",
+      "An active intruder with compromised credentials - investigate and rotate now"
+    ],
+    "correct": 3,
+    "explanation": "Deception assets have near-zero false-positive rates: legitimate systems don't know they exist. Authentication with genuine stolen credentials elevates this from 'touch' to 'active lateral movement with compromised secrets.'",
+    "type": "Analysis"
+  },
+  {
+    "section": "Detection & Incident Response Cases",
+    "q": "A monitoring dashboard shows a server briefly unreachable overnight; it recovered on its own. The on-call engineer wants to log it and move on, but the security analyst notices the blip coincided with a reboot and a new local administrator account appearing. What separates an 'event' from an 'incident' here?",
+    "opts": [
+      "Only outages lasting longer than one full hour qualify as real security incidents",
+      "Events are observations; compromise evidence makes this a declared incident",
+      "Nothing - both terms mean exactly the same thing in daily practice",
+      "It becomes an incident only when customers complain about impact"
+    ],
+    "correct": 1,
+    "explanation": "Classification drives action: events get logged, incidents get response processes, ownership, and escalation. The new admin account is the tell - that combination warrants declaring an incident and investigating, not a ticket closure.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Detection & Incident Response Cases",
+    "q": "A CISO proposes a half-day tabletop exercise simulating a ransomware outbreak, with executives, legal, PR, and IT walking through decisions hour by hour. The COO objects: 'We have an IR plan document - why rehearse?' What is the strongest justification?",
+    "opts": [
+      "Tabletop exercises exist primarily to train up the newly hired junior SOC analysts",
+      "Tabletop exercises are a compliance formality demanded by auditors",
+      "The written plan is sufficient provided that everyone has read it",
+      "Plans fail predictably at first contact - exercises surface gaps cheaply"
+    ],
+    "correct": 3,
+    "explanation": "The classic tabletop discoveries: nobody knows who can authorize shutting down production, the insurer's hotline isn't in anyone's phone, legal has never seen the notification template. Finding that out costs four hours now or millions mid-incident.",
+    "type": "Decision"
+  },
+  {
+    "section": "Recovery, Forensics & Lessons Learned",
+    "q": "After a destructive attack takes down dozens of systems, the recovery team starts restoring servers in the order engineers volunteer for them. Customer-facing payment processing stays down while internal wiki servers come back first. What should have governed the sequence?",
+    "opts": [
+      "Whichever systems are the quickest to restore, in order to demonstrate progress",
+      "Business-impact priorities set in advance, with dependencies sequenced",
+      "The chronological order in which the systems were first purchased",
+      "Alphabetical order by hostname to ensure fairness across the teams"
+    ],
+    "correct": 1,
+    "explanation": "Recovery order is a business decision made calmly before the crisis, not improvised during it. BIA-driven priority tiers plus dependency mapping prevent the wiki-before-payments absurdity and the trap of restoring apps before the identity systems they need.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Recovery, Forensics & Lessons Learned",
+    "q": "An e-commerce company's database is corrupted at 14:00. The most recent backup ran at 02:00, so twelve hours of orders are lost - a result executives call unacceptable. Which metric was set wrong, and what does fixing it mean?",
+    "opts": [
+      "RTO - the team should have restored the nightly backup much faster",
+      "RPO - tolerable data loss requires more frequent backups or replication",
+      "MTBF - the database server hardware needed considerably higher reliability",
+      "SLA - the hosting contract should have promised far more uptime"
+    ],
+    "correct": 1,
+    "explanation": "RPO is how much data you can afford to lose; RTO is how long restoration takes. Losing twelve hours of orders is an RPO failure - if the business can only tolerate minutes of loss, backup frequency and replication must be engineered to match.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Recovery, Forensics & Lessons Learned",
+    "q": "Pressed to end downtime, executives want compromised servers reconnected immediately after the ransomware binary is deleted from them. What does proper recovery require before systems rejoin the network?",
+    "opts": [
+      "Verified eradication: rebuild, rotate credentials, close the entry vector",
+      "A faster and more thorough antivirus scan of each affected server",
+      "Nothing more is needed - deleting the malware binary completes the recovery",
+      "A press release announcing that the incident is now fully resolved"
+    ],
+    "correct": 0,
+    "explanation": "Reinfection within days is the standard price of rushed recovery: attackers leave persistence mechanisms and hold harvested credentials. Known-good rebuilds, credential rotation, vector closure, and heightened monitoring are the reconnection gate.",
+    "type": "Decision"
+  },
+  {
+    "section": "Recovery, Forensics & Lessons Learned",
+    "q": "Two weeks after a major incident, the team holds a review. The session quickly becomes an exercise in establishing which engineer's mistake caused the breach, and attendees grow defensive and quiet. What makes post-incident reviews actually effective?",
+    "opts": [
+      "Restricting attendance to managers to keep the discussion candid",
+      "Holding the review a full year later, once emotions have cooled off",
+      "Sharper questioning to make sure the guilty engineer is identified",
+      "A blameless format focused on systems and process, with owned actions"
+    ],
+    "correct": 3,
+    "explanation": "The person who clicked is rarely the root cause; the process that made clicking catastrophic is. Blameless reviews held promptly, ending in tracked action items, convert incident pain into resilience - blame converts it into silence.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Recovery, Forensics & Lessons Learned",
+    "q": "A forensic examiner receives the laptop of a suspect in a data-theft case. Before any analysis, she creates a bit-for-bit image of the drive, computes and records cryptographic hashes of original and copy, and performs all examination on the copy. Why this ritual?",
+    "opts": [
+      "To comply with the licensing terms of the forensic software tools",
+      "To save analysis time, since forensic copies are much faster to search than originals",
+      "Because original drives are usually too fragile to be read twice",
+      "To preserve integrity: hashes prove the analyzed data matches the seized data"
+    ],
+    "correct": 3,
+    "explanation": "Hashes are the tamper-evident seal of digital evidence: any alteration changes them detectably. Analysis on verified duplicates keeps the original pristine for re-examination - the foundation of admissibility.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Recovery, Forensics & Lessons Learned",
+    "q": "A breach exposes personal data of customers in several jurisdictions, including the EU. An executive suggests handling notification 'quietly, in a month or two, once everything is fully understood.' What does the legal landscape actually require?",
+    "opts": [
+      "Strict clocks apply - GDPR's 72-hour rule means involving counsel immediately",
+      "Financially compensating the affected customers eliminates all notification duties",
+      "Notification timing is entirely at the company's own discretion",
+      "Notification is only required if the press discovers the breach"
+    ],
+    "correct": 0,
+    "explanation": "Breach notification deadlines run from awareness, not from complete understanding - GDPR's 72-hour clock being the famous example, with phased updates allowed. Delay itself becomes a separate violation with separate penalties.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Recovery, Forensics & Lessons Learned",
+    "q": "An IR team eradicates malware and closes an incident. Within a week, the same attacker is back inside. The post-mortem finds a web shell on a forgotten server and two attacker-created accounts named to resemble service accounts - all surviving the cleanup. What should the eradication phase have included?",
+    "opts": [
+      "Immediate reformatting of every server across the entire company",
+      "A persistence hunt: rogue accounts, web shells, tasks, remote-access tools",
+      "A much more extended observation period before any of the cleanup activity begins",
+      "A company-wide increase in password complexity requirements"
+    ],
+    "correct": 1,
+    "explanation": "Capable intruders plant multiple ways back in, usually beyond the initially known footprint. Eradication checklists must hunt persistence environment-wide - rogue accounts, web shells, scheduled tasks - or the incident merely pauses.",
+    "type": "Scenario"
+  },
+  {
+    "section": "Recovery, Forensics & Lessons Learned",
+    "q": "During an actual disaster recovery, a company discovers its backups have been silently failing for four months - the jobs reported success but produced unusable files. Which practice would have caught this before it mattered?",
+    "opts": [
+      "Switching to a different backup vendor on an annual basis",
+      "Regular restore testing - a backup is only proven by a successful restore",
+      "Buying considerably more backup storage capacity for the estate",
+      "Retaining all of the backup success email notifications for a far longer period"
+    ],
+    "correct": 1,
+    "explanation": "'Backup completed successfully' measures whether a job ran, not whether the output restores. Scheduled restore drills - files, whole systems, ideally full DR scenarios - are the only proof that recovery will work when everything depends on it.",
+    "type": "Analysis"
+  },
+  {
+    "section": "Recovery, Forensics & Lessons Learned",
+    "q": "After a breach, the board asks the CISO to demonstrate the security program is improving. Which pair of metrics most directly reflects detection and response capability over time?",
+    "opts": [
+      "The total count of security policies formally published in the company document library",
+      "The number of firewalls deployed and the total alerts generated",
+      "The security budget size and the growth in security headcount",
+      "MTTD and MTTR trended across incidents - shrinking dwell and containment time"
+    ],
+    "correct": 3,
+    "explanation": "Outcome metrics beat activity metrics. The attacker's window of opportunity is dwell time - if MTTD and MTTR trend down quarter over quarter, the program is demonstrably reducing the damage any single intrusion can do.",
+    "type": "Decision"
+  },
+  {
+    "section": "Recovery, Forensics & Lessons Learned",
+    "q": "A post-incident review finds a breach occurred via a server missed by patching for two years because it wasn't in the asset inventory. The proposed fix on the table: 'patch that server.' What distinguishes root-cause remediation from symptom-fixing here?",
+    "opts": [
+      "Nothing further - patching the missed server fully resolves the matter",
+      "The root cause is the attacker, who should simply be prosecuted",
+      "Root cause analysis applies only to hardware component failures",
+      "The root cause is asset management failure - fix inventory and coverage"
+    ],
+    "correct": 3,
+    "explanation": "Fix the server and the next forgotten asset delivers the next breach. Asking why the failure was possible - the '5 whys' discipline - turns one incident into systemic improvement: authoritative inventory, discovery scanning, and patch-coverage reconciliation.",
+    "type": "Analysis"
+  }
+];
+const SECTIONS = [
+  {
+    "key": "Phishing & Social Engineering",
+    "label": "Section A - Phishing & Social Engineering",
+    "cls": "sec-fund",
+    "range": "Questions 1-10"
+  },
+  {
+    "key": "Identity & Access Breaches",
+    "label": "Section B - Identity & Access Breaches",
+    "cls": "sec-llm",
+    "range": "Questions 11-20"
+  },
+  {
+    "key": "Network Intrusion Cases",
+    "label": "Section C - Network Intrusion Cases",
+    "cls": "sec-rag",
+    "range": "Questions 21-30"
+  },
+  {
+    "key": "Ransomware & Malware Cases",
+    "label": "Section D - Ransomware & Malware Cases",
+    "cls": "sec-agent",
+    "range": "Questions 31-40"
+  },
+  {
+    "key": "Cloud Security Incident Cases",
+    "label": "Section E - Cloud Security Incident Cases",
+    "cls": "sec-ops",
+    "range": "Questions 41-50"
+  },
+  {
+    "key": "Application & Data Breach Cases",
+    "label": "Section F - Application & Data Breach Cases",
+    "cls": "sec-safe",
+    "range": "Questions 51-60"
+  },
+  {
+    "key": "Insider Threat & Third-Party Cases",
+    "label": "Section G - Insider Threat & Third-Party Cases",
+    "cls": "sec-fund",
+    "range": "Questions 61-70"
+  },
+  {
+    "key": "Vulnerability & Pen Testing Cases",
+    "label": "Section H - Vulnerability & Pen Testing Cases",
+    "cls": "sec-llm",
+    "range": "Questions 71-80"
+  },
+  {
+    "key": "Detection & Incident Response Cases",
+    "label": "Section I - Detection & Incident Response Cases",
+    "cls": "sec-rag",
+    "range": "Questions 81-90"
+  },
+  {
+    "key": "Recovery, Forensics & Lessons Learned",
+    "label": "Section J - Recovery, Forensics & Lessons Learned",
+    "cls": "sec-agent",
+    "range": "Questions 91-100"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+
+let mode = 'guided', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 2*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='02:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'
+       +     '<span class="q-type">'+escapeHtml(q.type||'Mixed')+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/100';
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/100';
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  if(pct>=0.9){ grade='Senior Incident Commander'; blurb='Outstanding. You read incidents accurately, prioritize under pressure, and consistently choose the response a seasoned security lead would make.'; }
+  else if(pct>=0.75){ grade='Strong Security Responder'; blurb='Strong case judgement. Review missed items - they usually hinge on sequencing (contain before eradicate), root cause versus symptom, or which control actually breaks the attack chain.'; }
+  else if(pct>=0.6){ grade='Qualified Security Analyst'; blurb='Solid working judgement across common incident types. Strengthen weaker sections - especially response sequencing, third-party risk, and recovery discipline.'; }
+  else if(pct>=0.4){ grade='Developing Responder'; blurb='Case-handling instincts are forming. Revisit the patterns: out-of-band verification, least privilege, containment first, evidence preservation, tested backups, and root-cause fixes.'; }
+  else { grade='Begin the Case Study Journey'; blurb='Start with the fundamentals behind the cases: phishing red flags, MFA, least privilege, segmentation, offline backups, logging, and the incident response lifecycle.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 100 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one question at a time. 2-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Certificate name</label>
+    <input id="chmlCertNameInput" type="text" maxlength="80" placeholder="Enter name for certificate" oninput="chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" type="button" onclick="chmlPrintCertificate()">Print / Save as PDF</button>
+    <button class="chml-cert-btn secondary" type="button" onclick="chmlHideCertificate()">Hide Certificate</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div><div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker"><span id="chmlCertExamKicker">Knowledge Hub Examination</span></div>
+      <h1 class="chml-cert-h1">Certificate of Completion</h1>
+      <div class="chml-cert-rule"></div>
+      <p class="chml-cert-pre">This certifies that</p>
+      <p class="chml-cert-name" id="chmlCertName">Learner</p>
+      <p class="chml-cert-body">has successfully completed the <b id="chmlCertExamName">Knowledge Hub Exam</b>.</p>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">0 / 0</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">-</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Quak Foo Lee</div><div class="chml-cert-sig-label">Chmltech Ltd.</div></div>
+        <div class="chml-cert-id">Certificate ID: <span id="chmlCertId">-</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertificateInstalled) return;
+  window.__chmlCertificateInstalled = true;
+  function textOf(sel){var el=document.querySelector(sel);return el?el.textContent.trim():'';}
+  function examTitle(){return textOf('h1.title')||textOf('header h1')||textOf('h1')||document.title.replace(/\s+/g,' ').trim()||'Knowledge Hub Exam';}
+  function parseFirstNumber(txt){var m=String(txt||'').match(/\d+/);return m?parseInt(m[0],10):null;}
+  function parseScoreTotal(){
+    var correct=parseFirstNumber(textOf('#rScore'));
+    var total=null;
+    var rt=textOf('#rTotal');
+    if(rt) total=parseFirstNumber(rt);
+    if(!total){var sb=textOf('.score-big');var m=sb.match(/\/\s*(\d+)/);if(m) total=parseInt(m[1],10);}
+    if(!total) total=parseFirstNumber(textOf('#progTotal'));
+    if(!total){var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;if(cards) total=cards;}
+    if(!correct && correct!==0) correct=parseFirstNumber(textOf('#scoreNum'));
+    return {correct:correct||0,total:total||0};
+  }
+  function totalFromBreakdown(byType){
+    if(!byType || typeof byType!=='object') return null;
+    var total=0, found=false;
+    Object.keys(byType).forEach(function(k){var v=byType[k];if(v&&typeof v==='object'){var n=v.t||v.total||v.count;if(typeof n==='number'){total+=n;found=true;}}});
+    return found?total:null;
+  }
+  function hashCode(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+  window.chmlUpdateCertificateName=function(name){document.getElementById('chmlCertName').textContent=(name||'').trim()||'Learner';};
+  window.chmlHideCertificate=function(){var c=document.getElementById('chmlCertificate');if(c)c.classList.remove('show');};
+  window.chmlPrintCertificate=function(){window.print();};
+  window.chmlRenderCertificate=function(correct,total,grade){
+    var cert=document.getElementById('chmlCertificate');if(!cert)return;
+    var title=examTitle();
+    var nameInput=document.getElementById('chmlCertNameInput');
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
+    var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
+    document.getElementById('chmlCertExamName').textContent=title;
+    document.getElementById('chmlCertName').textContent=learner;
+    document.getElementById('chmlCertScore').textContent=String(correct)+' / '+String(total||0)+(total?(' ('+Math.round((correct/total)*100)+'%)'):'');
+    document.getElementById('chmlCertDate').textContent=date;
+    document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
+    cert.classList.add('show');
+  };
+
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
+    var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){
+      var parsed=parseScoreTotal();
+      if(correct===null || isNaN(correct)) correct=parsed.correct;
+      if(!total) total=parsed.total;
+      if(total || correct || document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0);
+    },60);
+  }
+  if(typeof window.showResults==='function'){
+    var originalShowResults=window.showResults;
+    window.showResults=function(){var out=originalShowResults.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  if(typeof window.submitExam==='function'){
+    var originalSubmitExam=window.submitExam;
+    window.submitExam=function(){var out=originalSubmitExam.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  ['resetExam','newExam'].forEach(function(fn){
+    if(typeof window[fn]==='function'){
+      var original=window[fn];
+      window[fn]=function(){window.chmlHideCertificate();return original.apply(this,arguments);};
+    }
+  });
+})();
+</script>
+
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>
+
+
+

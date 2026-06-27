@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thinking, Fast and Slow — Daniel Kahneman · 20Q Pool / 10Q Random Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  --conduction:#234f7e;
+  --convection:#8a4a0c;
+  --radiation:#2f6b4f;
+  --hx:#4a3f8f;
+  --boiling:#722F37;
+  --applications:#226b2d;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(114,47,55,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.6rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--conduction),var(--convection),var(--radiation),var(--hx),var(--boiling),var(--applications));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-conduction{background:linear-gradient(100deg,var(--conduction),#4d1f23)}
+.sec-convection{background:linear-gradient(100deg,var(--convection),#06403f)}
+.sec-radiation{background:linear-gradient(100deg,var(--radiation),#5f3406)}
+.sec-hx{background:linear-gradient(100deg,var(--hx),#0c2349)}
+.sec-boiling{background:linear-gradient(100deg,var(--boiling),#311148)}
+.sec-applications{background:linear-gradient(100deg,var(--applications),#0e3d18)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-context{margin:0 0 12px;padding:10px 12px;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 4px 4px 0;color:#3a3528;font-size:.97rem;line-height:1.55}
+.q-text{font-size:1.06rem;line-height:1.62;margin-bottom:12px;font-weight:500}
+.q-equation{margin:0 0 14px;padding:10px 12px;border:1px solid rgba(35,79,126,.18);background:rgba(35,79,126,.06);border-radius:4px}
+.q-equation .formula-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--conduction);margin-bottom:5px}
+.q-equation .formula-text{font-family:'JetBrains Mono',monospace;font-size:.92rem;line-height:1.5;color:#223048;white-space:normal;word-break:break-word}
+.q-figure{margin:2px 0 16px;padding:10px 10px 6px;border:1px solid var(--line);background:rgba(255,255,255,.68);border-radius:6px}
+.q-figure svg{display:block;width:100%;height:auto;max-width:360px;margin:0 auto}
+.q-caption{margin-top:8px;font-size:.88rem;line-height:1.45;color:#4a4538;text-align:center}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:12px 14px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.55);transition:all .18s ease;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.08);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s;margin-top:1px}
+.opt .otext{flex:1;font-size:1.0rem;line-height:1.55;word-break:break-word;padding-top:2px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.12)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center;font-family:'JetBrains Mono',monospace}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:160px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 16px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-context{font-size:.92rem}
+  .q-text{font-size:.98rem}
+  .q-equation .formula-text{font-size:.84rem}
+  .opt .otext{font-size:.92rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+
+/* ===== Name modal ===== */
+.modal-backdrop{position:fixed;inset:0;background:rgba(20,20,30,.55);display:none;align-items:center;justify-content:center;z-index:9000;backdrop-filter:blur(2px);}
+.modal-backdrop.show{display:flex;}
+.modal-card{background:var(--paper);max-width:520px;width:calc(100% - 32px);padding:28px 30px 26px;border-radius:8px;box-shadow:0 30px 60px rgba(0,0,0,.35);border:1px solid rgba(31,56,100,.18);}
+.modal-title{font-family:Fraunces,serif;font-weight:600;color:var(--ink);margin:0 0 6px;font-size:1.55rem;}
+.modal-sub{margin:0 0 18px;color:#5c5c66;font-size:.95rem;line-height:1.45;}
+.modal-label{display:block;font-family:'JetBrains Mono',monospace;text-transform:uppercase;font-size:.72rem;letter-spacing:.08em;color:#1F3864;margin:6px 0 4px;}
+.modal-input{display:block;width:100%;padding:11px 14px;border:1.5px solid rgba(31,56,100,.25);border-radius:5px;font-family:Newsreader,serif;font-size:1.05rem;background:#fff;color:var(--ink);box-sizing:border-box;outline:none;transition:border-color .15s;}
+.modal-input:focus{border-color:var(--gold);}
+.modal-actions{margin-top:18px;display:flex;gap:10px;justify-content:flex-end;}
+
+/* ===== Certificate ===== */
+.cert-wrap{display:none;margin:30px auto 24px;max-width:920px;padding:0 16px;}
+.cert-wrap.show{display:block;}
+.cert-toolbar{display:flex;gap:10px;justify-content:flex-end;margin-bottom:14px;flex-wrap:wrap;}
+.cert-paper{background:#fbf7ee;padding:14px;border-radius:6px;box-shadow:0 14px 40px rgba(0,0,0,.18);}
+.cert-border{position:relative;border:3px double #1F3864;padding:46px 50px 38px;background:linear-gradient(180deg,#fefcf6 0%,#f6efe0 100%);text-align:center;border-radius:4px;}
+.cert-corner{position:absolute;width:34px;height:34px;border:2px solid var(--gold);}
+.cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0;}
+.cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0;}
+.cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0;}
+.cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0;}
+.cert-seal{position:absolute;top:30px;right:42px;opacity:.85;}
+.cert-kicker{font-family:'JetBrains Mono',monospace;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#1F3864;margin-bottom:6px;}
+.cert-h1{font-family:Fraunces,serif;font-weight:600;font-size:2.6rem;color:#1F3864;margin:0 0 8px;letter-spacing:.005em;}
+.cert-rule{width:120px;height:2px;background:var(--gold);margin:8px auto 22px;}
+.cert-pre{font-family:Newsreader,serif;font-style:italic;color:#5c5c66;margin:0 0 8px;font-size:1.05rem;}
+.cert-name{font-family:Fraunces,serif;font-weight:600;font-size:2.4rem;color:var(--ink);margin:6px 0 14px;border-bottom:1px solid rgba(31,56,100,.25);display:inline-block;padding:0 28px 8px;letter-spacing:.005em;}
+.cert-body{font-family:Newsreader,serif;font-size:1.08rem;line-height:1.55;color:var(--ink);max-width:640px;margin:6px auto 26px;}
+.cert-stats{display:flex;justify-content:center;gap:50px;margin:22px 0 28px;flex-wrap:wrap;}
+.cert-stat{text-align:center;min-width:140px;}
+.cert-stat-l{font-family:'JetBrains Mono',monospace;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#1F3864;margin-bottom:6px;}
+.cert-stat-v{font-family:Fraunces,serif;font-weight:600;font-size:1.25rem;color:var(--ink);}
+.cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:24px;flex-wrap:wrap;gap:14px;}
+.cert-sig{text-align:left;}
+.cert-sig-line{font-family:Fraunces,serif;font-style:italic;font-size:1.1rem;color:#1F3864;border-top:1px solid #1F3864;padding-top:4px;min-width:200px;}
+.cert-sig-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#5c5c66;margin-top:2px;}
+.cert-id{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:#5c5c66;text-transform:uppercase;letter-spacing:.08em;}
+.cert-disclaimer{font-family:Newsreader,serif;font-size:.78rem;line-height:1.4;color:#7a7a82;margin-top:18px;padding-top:14px;border-top:1px dashed rgba(31,56,100,.2);max-width:640px;margin-left:auto;margin-right:auto;font-style:italic;}
+
+/* Print: certificate fills the actual printable page in full color, regardless of paper size or orientation */
+@media print {
+  /* Force backgrounds/colors to render as designed */
+  *, *::before, *::after{
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+  /* Hide everything except the certificate */
+  body > *:not(.cert-wrap){display:none !important;}
+  html, body{
+    background:#fff !important;
+    margin:0 !important; padding:0 !important;
+    width:100%; height:100%;
+  }
+  .cert-wrap .no-print{display:none !important;}
+  /* cert-wrap fixed to the printable page area */
+  .cert-wrap{
+    position:fixed !important;
+    top:0 !important; left:0 !important; right:0 !important; bottom:0 !important;
+    width:auto !important; height:auto !important;
+    margin:0 !important; padding:0 !important;
+    max-width:none !important;
+    display:block !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  /* cert-paper covers the whole printable area (the cream "mat" surrounding the cert-border) */
+  .cert-paper{
+    position:absolute !important;
+    top:0 !important; left:0 !important; right:0 !important; bottom:0 !important;
+    width:auto !important; height:auto !important;
+    margin:0 !important; padding:5mm !important;
+    box-shadow:none !important;
+    background:#fbf7ee !important;
+    box-sizing:border-box !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  /* cert-border fills cert-paper minus its padding */
+  .cert-border{
+    position:absolute !important;
+    top:5mm !important; left:5mm !important; right:5mm !important; bottom:5mm !important;
+    width:auto !important; height:auto !important;
+    margin:0 !important; padding:38px 55px 32px !important;
+    background:linear-gradient(180deg,#fefcf6 0%,#f6efe0 100%) !important;
+    box-sizing:border-box !important;
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:space-evenly !important;
+    align-items:center !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+  /* Zero out element-level vertical margins in print mode — space-evenly handles all the gaps */
+  .cert-kicker{margin:0 !important;}
+  .cert-h1{font-size:2.6rem !important; margin:0 !important;}
+  .cert-rule{margin:0 auto !important;}
+  .cert-pre{margin:0 !important; font-size:1.1rem !important;}
+  .cert-name{font-size:2.4rem !important; margin:0 !important; padding:0 28px 10px !important;}
+  .cert-body{font-size:1.12rem !important; margin:0 auto !important; max-width:720px !important;}
+  .cert-stats{margin:0 !important; gap:90px !important;}
+  .cert-stat-v{font-size:1.35rem !important;}
+  .cert-foot{margin:0 !important; width:100% !important;}
+  .cert-sig-line{font-size:1.15rem !important;}
+  /* Position the seal and corner brackets a little further in on the larger canvas */
+  .cert-seal{top:42px !important; right:62px !important;}
+  .cert-corner{width:42px !important; height:42px !important;}
+  .cert-corner.tl{top:14px !important; left:14px !important;}
+  .cert-corner.tr{top:14px !important; right:14px !important;}
+  .cert-corner.bl{bottom:14px !important; left:14px !important;}
+  .cert-corner.br{bottom:14px !important; right:14px !important;}
+  /* Hint to the browser to default to landscape; user can still override */
+  @page{size: landscape; margin: 6mm;}
+}
+
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Behavioural Economics &amp; Cognitive Psychology &middot; 20-Question Pool</div>
+    <h1 class="title">Thinking, Fast and Slow <span class="amp">Exam</span></h1>
+    <div class="byline">A 20-question pool on Daniel Kahneman&rsquo;s <i>Thinking, Fast and Slow</i> &mdash; System 1 and System 2, heuristics and biases, prospect theory and loss aversion, framing, hindsight, the planning fallacy, and the two selves. Exam Mode draws a random 10-question subset and produces a personalised Certificate of Completion.</div>
+    <div class="exambar">
+      <span><b>20</b> in Pool</span>
+      <span><b>10</b> Random in Exam</span>
+      <span><b>4</b> Options Each</span>
+      <span>Exam Mode: <b>30 min</b> timer</span>
+      <span><b>Certificate</b> on completion</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud" id="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/150</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">30:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/150</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 30-minute limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    Thinking, Fast and Slow &middot; Daniel Kahneman &middot; 20-question pool, 10-question random exam
+    <div class="disclaimer">An independent study resource based on Daniel Kahneman&rsquo;s <i>Thinking, Fast and Slow</i> (Farrar, Straus and Giroux, 2011). Questions reference public concepts and findings discussed in the book and the underlying Kahneman &amp; Tversky research programme. The Certificate of Completion is an informal study artefact, not a professional credential. For full discussions, examples, and citations, consult the original text.</div>
+  </footer>
+</div>
+
+<script>
+const POOL = [
+  {
+    "section": "Thinking, Fast and Slow — Core Concepts",
+    "q": "Kahneman's central framing distinguishes 'System 1' from 'System 2'. Which best characterises System 1?",
+    "opts": [
+      "A slow, effortful, deliberate mode of thought that handles logical reasoning, statistical inference, and careful comparison of options.",
+      "A fast, automatic, intuitive mode of thought that operates with little or no effort and no sense of voluntary control.",
+      "An emotional mode of thought distinct from cognition, governing only feelings of fear, anger, and joy in response to perceived threats.",
+      "A learned mode of thought acquired through formal education, replacing the cruder reasoning patterns inherited from childhood experience."
+    ],
+    "correct": 1,
+    "explanation": "System 1 is the fast, automatic, effortless mind — pattern recognition, intuitive associations, gut feelings. System 2 is the slow, deliberate, effortful one that we identify with our conscious 'self'. Kahneman is careful to note that System 1 is not irrational; it is remarkably skilled within its domain. Most cognitive biases arise when System 1 answers questions that actually require System 2."
+  },
+  {
+    "section": "Thinking, Fast and Slow — Core Concepts",
+    "q": "Participants asked whether Gandhi died older than 144 later estimated his age at death at 67 on average; participants asked whether he died older than 35 estimated 50. This demonstrates:",
+    "opts": [
+      "The availability heuristic, in which the ease of recalling examples drives the magnitude of the estimate produced by respondents.",
+      "The anchoring effect, in which an arbitrary reference number pulls subsequent estimates toward itself even when obviously irrelevant.",
+      "The conjunction fallacy, in which a more specific scenario is judged more probable than the broader scenario containing it.",
+      "The framing effect, in which logically equivalent presentations of the same problem yield systematically different responses."
+    ],
+    "correct": 1,
+    "explanation": "Anchoring is one of the most robust effects in the book. Even when the anchor is obviously implausible (144 years old), subsequent numerical estimates drift toward it. Kahneman notes that anchoring affects System 2 as much as System 1 — even people warned about the effect remain influenced by it."
+  },
+  {
+    "section": "Thinking, Fast and Slow — Core Concepts",
+    "q": "After saturation media coverage of a recent plane crash, travellers rate air travel as more dangerous than they did a month earlier. Kahneman would call this:",
+    "opts": [
+      "The availability heuristic — judging the frequency of a class by the ease with which instances come to mind.",
+      "The endowment effect — attaching more value to outcomes one already owns than to equivalent outcomes one does not own yet.",
+      "Regression to the mean — extreme observations being followed on average by less extreme observations in subsequent measurements.",
+      "The planning fallacy — systematic optimism in predictions about how long one's own future projects will take to complete."
+    ],
+    "correct": 0,
+    "explanation": "When recent or vivid instances come easily to mind, we overestimate the underlying frequency. Media coverage, dramatic personal experience, and emotional intensity all distort availability. The corrective is to consult statistical base rates rather than intuitive frequency estimates."
+  },
+  {
+    "section": "Thinking, Fast and Slow — Core Concepts",
+    "q": "In the famous 'Linda' problem, most respondents rate 'Linda is a bank teller and an active feminist' as more probable than 'Linda is a bank teller.' This violates:",
+    "opts": [
+      "The law of large numbers, since small samples cannot reliably support conclusions about either population parameter under study.",
+      "The conjunction rule of probability — a conjunction can never be more probable than either of its individual conjuncts alone.",
+      "The independence axiom of expected utility theory, since the two described events are statistically correlated rather than independent.",
+      "The reflexive axiom of decision theory, since any prospect must be at least as preferred as itself in any comparison made."
+    ],
+    "correct": 1,
+    "explanation": "The conjunction rule says P(A∧B) ≤ P(A). The Linda problem dramatises that representativeness — how well Linda's description matches the stereotype of an active feminist — overrides formal probability. Kahneman and Tversky called this the conjunction fallacy; even statistically trained respondents often fall for it."
+  },
+  {
+    "section": "Thinking, Fast and Slow — Core Concepts",
+    "q": "A test for a rare disease (prevalence 1 in 1,000) has 99% sensitivity and 99% specificity. A patient tests positive. Most people overestimate the probability they have the disease primarily because:",
+    "opts": [
+      "They confuse the test's sensitivity with its specificity, mistaking the false-positive rate for the underlying disease prevalence.",
+      "They neglect the base rate of the disease and reason as if the positive result alone determines the posterior probability.",
+      "They apply the law of large numbers to a single-trial diagnostic test, expecting it to behave like a long-run average.",
+      "They confuse correlation with causation, assuming the test result must be caused by the disease whenever the result is positive."
+    ],
+    "correct": 1,
+    "explanation": "With 1-in-1,000 prevalence and 99% specificity, false positives outnumber true positives roughly 10 to 1 — Bayes' theorem yields about a 9% posterior, not 99%. The intuition fails because the rare base rate is discounted in favour of the vivid, individuating positive result. Kahneman shows that even physicians often get this wrong."
+  },
+  {
+    "section": "Thinking, Fast and Slow — Core Concepts",
+    "q": "Prospect theory's loss-aversion coefficient proposes that, for typical decision-makers, the psychological impact of losing $100 is:",
+    "opts": [
+      "Roughly equal to the psychological impact of gaining the same amount of money under otherwise identical circumstances.",
+      "Roughly twice as large as the psychological impact of gaining the same amount of money under identical circumstances.",
+      "About ten times smaller than the impact of an equivalent gain, since people are inherently optimistic about future outcomes.",
+      "Entirely dependent on the absolute wealth of the decision-maker, vanishing to near zero for the wealthiest decision-makers."
+    ],
+    "correct": 1,
+    "explanation": "The classic empirical estimate is around 2:1 — losses loom roughly twice as large as equivalent gains. Together with reference dependence and diminishing sensitivity, this asymmetry defines the prospect-theory value function. It explains the endowment effect, status-quo bias, and the combination of risk-aversion in the gain domain with risk-seeking in the loss domain."
+  },
+  {
+    "section": "Thinking, Fast and Slow — Core Concepts",
+    "q": "Public-health programmes framed as 'saving 200 of 600 lives' attract more support than identical programmes framed as 'letting 400 of 600 die', even though the outcomes are mathematically equivalent. Kahneman calls this:",
+    "opts": [
+      "The endowment effect, since respondents implicitly own the lives that would be saved and resist any framing that highlights losses.",
+      "A framing effect, in which logically equivalent descriptions of the same outcome elicit systematically different choices from respondents.",
+      "The illusion of validity, in which subjective confidence in a prediction exceeds the objective accuracy of that prediction substantially.",
+      "The hot-hand fallacy, in which streaks in random data are perceived as evidence of an underlying skill or causal mechanism."
+    ],
+    "correct": 1,
+    "explanation": "Framing effects are among the most consistent demonstrations that preferences are constructed, not revealed. The same mathematical outcome described in terms of survival versus death pulls choices toward risk-aversion (when framed as gains) or risk-seeking (when framed as losses). Tversky and Kahneman's Asian disease problem is the canonical example."
+  },
+  {
+    "section": "Thinking, Fast and Slow — Core Concepts",
+    "q": "After a surprising event occurs, people consistently report that they 'always knew' it would happen. Kahneman emphasises that hindsight bias is dangerous mainly because it:",
+    "opts": [
+      "Causes us to forget the event's surprise and to assess decision-makers harshly for outcomes they could not reasonably have foreseen.",
+      "Makes us more accurate at predicting future events of the same type by reinforcing the lessons learned from past surprises.",
+      "Encourages us to discount the role of luck in successful outcomes, attributing success entirely to inherent personal skill.",
+      "Eliminates the planning fallacy by recalibrating our estimates of project duration against the actual time previous projects required."
+    ],
+    "correct": 0,
+    "explanation": "Hindsight bias quietly rewrites memory so the actual outcome feels predictable in retrospect. Kahneman highlights that this systematically distorts evaluation of decisions: a sound decision that produced a bad outcome looks negligent, and a reckless decision that got lucky looks brilliant. Outcome bias compounds the problem."
+  },
+  {
+    "section": "Thinking, Fast and Slow — Core Concepts",
+    "q": "Most large projects, from kitchen renovations to public infrastructure, finish over budget and behind schedule. Kahneman attributes this primarily to:",
+    "opts": [
+      "A failure of project-management methodology rather than any consistent cognitive bias on the part of the individual planners.",
+      "The planning fallacy — overweighting an inside view of the specific plan while underweighting base rates from comparable past projects.",
+      "External economic factors such as inflation and supply shocks, which cannot be anticipated by even the most experienced planners.",
+      "Insufficient use of formal Bayesian reasoning during the planning phase by individual contributors and management on the project."
+    ],
+    "correct": 1,
+    "explanation": "The planning fallacy is the systematic optimism produced when forecasts are built on the inside view (the specific plan in front of us) rather than the outside view (the statistical record of similar past projects). The recommended corrective is reference-class forecasting: identify how long projects like this one usually take, then anchor your forecast on that distribution."
+  },
+  {
+    "section": "Thinking, Fast and Slow — Core Concepts",
+    "q": "Kahneman argues that the 'experiencing self' and the 'remembering self' often disagree because the remembering self:",
+    "opts": [
+      "Averages every moment of an experience equally, weighting long pleasant stretches more heavily than brief unpleasant peaks at the end.",
+      "Cares about duration above all else, treating a short, intense experience as systematically less significant than a long, mild one.",
+      "Weights peaks and the final moments of an experience disproportionately, while duration is largely neglected — the peak-end rule.",
+      "Faithfully records every detail of the experience, providing a more accurate evaluation than the experiencing self could ever offer."
+    ],
+    "correct": 2,
+    "explanation": "The peak-end rule and 'duration neglect' explain Kahneman's striking findings on remembered pain — a longer colonoscopy with a less painful ending is remembered as better than a shorter one that ended at peak pain, even though the longer procedure contained more total discomfort. Kahneman uses this to argue that 'utility' means two different things for the two selves, and we usually let the remembering self make the decisions about our lives."
+  },
+  {
+    "section": "Thinking, Fast and Slow — Core Concepts",
+    "q": "Kahneman's acronym WYSIATI ('What You See Is All There Is') describes the tendency of System 1 to:",
+    "opts": [
+      "Consult an exhaustive set of relevant evidence before forming any judgement, however informal the question may be.",
+      "Build a coherent story from whatever information is currently available, treating missing information as if it did not exist.",
+      "Demand visual confirmation of any claim before granting it credibility, regardless of how reliable the verbal source appeared.",
+      "Process only the literal contents of an image, ignoring any verbal descriptions accompanying that image in the presentation."
+    ],
+    "correct": 1,
+    "explanation": "WYSIATI captures one of Kahneman's most important observations: System 1 is exceptionally good at constructing coherent narratives from sparse information, and it does not flag what is missing. This is the engine behind overconfidence, halo effects, and the comforting illusion that we understand the world better than we actually do."
+  },
+  {
+    "section": "Thinking, Fast and Slow — Core Concepts",
+    "q": "Statements presented in clear fonts, repeated often, or rhymed with familiar phrases are judged more truthful than identical statements without these features. Kahneman attributes this to:",
+    "opts": [
+      "A strong correlation between presentation quality and the actual accuracy of factual claims across most published sources today.",
+      "Cognitive ease — the fluency with which information is processed acts as a cue that System 1 reads as truth.",
+      "The availability heuristic, since better-formatted text is more memorable and more easily retrieved when truth is later assessed.",
+      "A genuine increase in reader attention when text is clearly formatted, leading to deeper processing and more accurate judgement."
+    ],
+    "correct": 1,
+    "explanation": "Cognitive ease is one of System 1's heuristics for truth: 'this feels familiar and easy to process, therefore it is probably true.' This is why repetition, clear typography, and rhyming maxims persuade out of proportion to their content. Cognitive strain (the opposite) makes System 2 more vigilant."
+  },
+  {
+    "section": "Thinking, Fast and Slow — Core Concepts",
+    "q": "An interviewer who learns that a candidate is articulate and well-dressed then rates the candidate as also more intelligent, more reliable, and more capable as a leader. Kahneman calls this:",
+    "opts": [
+      "The halo effect — the tendency to let one good impression colour judgements of unrelated attributes of the same person.",
+      "The fundamental attribution error — explaining behaviour by stable personality traits while ignoring relevant situational factors at work.",
+      "The illusion of control — the tendency to overestimate one's influence over outcomes that are largely determined by chance events.",
+      "Confirmation bias — the tendency to seek and weight evidence that supports a hypothesis one already holds about a given person."
+    ],
+    "correct": 0,
+    "explanation": "The halo effect is WYSIATI in action: from a single salient impression, System 1 paints a consistent (but unwarranted) picture of the whole person. Kahneman discusses how to combat it in evaluation contexts: judge each attribute independently, ideally with different evaluators, before any global synthesis is attempted."
+  },
+  {
+    "section": "Thinking, Fast and Slow — Core Concepts",
+    "q": "Asked the difficult question 'How happy are you with your life these days?', many respondents actually answer the easier question 'What is my mood right now?'. Kahneman calls this:",
+    "opts": [
+      "The substitution heuristic — answering a difficult target question by replacing it silently with an easier related question.",
+      "The illusion of validity — generating subjective confidence in a judgement that exceeds the objective accuracy of that judgement.",
+      "The endowment effect — overvaluing present possessions relative to equivalent things one does not currently own or possess.",
+      "Loss aversion — weighting potential losses more heavily than potential gains of equivalent objective magnitude across decisions."
+    ],
+    "correct": 0,
+    "explanation": "Substitution is the mechanism behind many of System 1's intuitive judgements. We do not actually answer the hard question; we silently answer a related easier one and report that answer as if it were the original. Mood-as-life-satisfaction is the classic example, and explains why such surveys are so context-sensitive."
+  },
+  {
+    "section": "Thinking, Fast and Slow — Core Concepts",
+    "q": "An instructor observes that pilots praised after an excellent landing tend to do worse on the next attempt, while pilots reprimanded after a poor landing tend to do better. They conclude that praise harms and reprimand helps. Kahneman would correct this with:",
+    "opts": [
+      "Confirmation bias — the instructor only noticed the cases that fit their pre-existing belief about pilot training methods.",
+      "Regression to the mean — extreme performances are followed by less extreme ones for purely statistical reasons alone.",
+      "The halo effect — the instructor's overall impression of each pilot is colouring their judgement of individual landing attempts.",
+      "The availability heuristic — the most memorable training episodes are not representative of the typical case overall."
+    ],
+    "correct": 1,
+    "explanation": "This is one of Kahneman's most striking examples, drawn from his work with the Israeli Air Force. Because performance is partly skill and partly luck, an extreme outcome will on average be followed by a less extreme one regardless of feedback. The misattribution to praise or reprimand is a causal story imposed on statistical noise."
+  },
+  {
+    "section": "Thinking, Fast and Slow — Core Concepts",
+    "q": "Participants given a coffee mug demand roughly twice the price to sell it as participants without a mug are willing to pay to acquire one. Kahneman attributes this to:",
+    "opts": [
+      "A genuine difference in average wealth between the two groups, which produces different reservation prices for the same mug.",
+      "The endowment effect — once owned, an object is evaluated in the loss frame, which weighs heavier than the gain frame.",
+      "The conjunction fallacy — owners conjoin the mug with sentimental attributes that non-owners cannot conjoin in their valuation.",
+      "Cognitive ease — owners have processed the mug for longer and find it more familiar than non-owners do at first sight."
+    ],
+    "correct": 1,
+    "explanation": "The endowment effect is loss aversion applied to ownership. Once an item is part of the reference state, parting with it registers as a loss — which prospect theory tells us is felt roughly twice as keenly as the equivalent gain. This drives the persistent gap between willingness-to-accept and willingness-to-pay."
+  },
+  {
+    "section": "Thinking, Fast and Slow — Core Concepts",
+    "q": "Prospect theory predicts a 'fourfold pattern' of risk attitudes across gain/loss and high/low probability outcomes. Which of the following is correctly paired?",
+    "opts": [
+      "Low-probability gain leads to risk-averse behaviour, as people prefer the certain small payout to the unlikely larger one.",
+      "Low-probability gain leads to risk-seeking (lottery tickets); low-probability loss leads to risk-aversion (insurance against rare catastrophes).",
+      "High-probability gain leads to risk-seeking; high-probability loss leads to risk-aversion, as people gamble to recover from likely small losses.",
+      "Probability has no effect on risk attitude in prospect theory; only the size of the outcome influences observed choices in practice."
+    ],
+    "correct": 1,
+    "explanation": "The fourfold pattern is one of prospect theory's most distinctive empirical predictions. People overweight small probabilities (which is why lotteries sell and we buy insurance against rare disasters), but underweight moderate probabilities. The combination of probability weighting and the loss-aversion-shaped value function generates the four-quadrant pattern of choices."
+  },
+  {
+    "section": "Thinking, Fast and Slow — Core Concepts",
+    "q": "Gary Klein's 'premortem' technique, endorsed by Kahneman, asks team members to imagine that a planned project has failed disastrously and to write down the reasons why. The main rationale is:",
+    "opts": [
+      "It identifies which team members are most pessimistic so they can be excluded from project planning meetings in the future.",
+      "It legitimises dissent and surfaces hidden objections that team members would otherwise suppress in optimistic group settings.",
+      "It provides a formal record of risks for compliance documentation required by senior management before any project launch.",
+      "It improves morale by giving sceptics a chance to vent their concerns before the project formally enters its execution phase."
+    ],
+    "correct": 1,
+    "explanation": "The premortem reframes the social dynamics of dissent. Once the project's failure is treated as an accomplished fact, criticism is reframed as the dutiful task of explaining what went wrong, rather than a disloyal challenge to the group's plan. Kahneman cites it as one of the few practical de-biasing techniques he has found durable."
+  },
+  {
+    "section": "Thinking, Fast and Slow — Core Concepts",
+    "q": "An investor agonises over each individual stock transaction in their portfolio rather than evaluating the portfolio's quarterly performance as a whole. Kahneman would describe this as:",
+    "opts": [
+      "Broad framing applied incorrectly to short-term decisions that should be evaluated against long-term portfolio benchmarks instead.",
+      "Narrow framing — evaluating each decision in isolation, which amplifies loss aversion and produces worse overall outcomes.",
+      "The illusion of skill — believing that individual stock picks reflect skill rather than the noise of efficient market prices.",
+      "Cognitive ease applied to financial decisions, where familiar tickers are preferred over equivalent unfamiliar holdings in a portfolio."
+    ],
+    "correct": 1,
+    "explanation": "Narrow framing treats each decision as standalone. Because loss aversion makes any single loss painful, narrow framing leads to excessive risk-aversion in repeated decisions where a portfolio view would (correctly) treat them as a unified policy. Kahneman recommends adopting risk policies and broader framing for repeated similar decisions."
+  },
+  {
+    "section": "Thinking, Fast and Slow — Core Concepts",
+    "q": "Kahneman's analysis of a well-known investment firm's stock-pickers found that the correlation between a manager's performance in one year and the next was approximately zero. The most pointed implication is:",
+    "opts": [
+      "Stock-pickers' compensation accurately reflects skill differences detectable on shorter timescales than the annual measurement used.",
+      "Year-to-year results were dominated by chance; persistent skill, if it exists, was not detectable in the available historical data.",
+      "The firm's evaluation methodology was wrong; with a better metric, real skill differences would have clearly emerged in the data.",
+      "Stock-pickers add value through portfolio construction even when their individual security selections are no better than chance."
+    ],
+    "correct": 1,
+    "explanation": "A correlation near zero across years is the signature of luck-dominated outcomes. Kahneman uses this episode (drawn from his consulting work for the firm) to illustrate the 'illusion of skill': a strong subjective sense of expertise, supported by clear-feeling reasons, attached to an activity in which actual performance is statistically indistinguishable from chance."
+  }
+];
+let QUESTIONS = POOL.slice();
+const EXAM_SIZE = 10;
+let examUserName = '';
+let lastExamScore = null;
+const SECTIONS = [
+  {
+    "key": "Thinking, Fast and Slow — Core Concepts",
+    "label": "I — Thinking, Fast and Slow",
+    "cls": "sec-conduction",
+    "range": "Questions 1–20"
+  }
+];
+
+const LETTERS = ['A','B','C','D'];
+let TOTAL_Q = QUESTIONS.length;
+
+let mode = 'guided', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 30*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='30:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'✓':(i===chosen?'✗':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  const contextHtml=q.context?'<div class="q-context">'+q.context+'</div>':'';
+  const equationHtml=q.equation?'<div class="q-equation"><div class="formula-label">Equation / Key Relationship</div><div class="formula-text">'+q.equation+'</div></div>':'';
+  const figureHtml=q.figure?'<div class="q-figure">'+q.figure+(q.figureCaption?'<div class="q-caption">'+escapeHtml(q.figureCaption)+'</div>':'')+'</div>':'';
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'+sectTag+'</div>'
+       +   contextHtml
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   equationHtml
+       +   figureHtml
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' — '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); const h=document.getElementById('hud'); if(h) h.scrollIntoView({behavior:'smooth', block:'start'}); } }
+function prevQ(){ if(current>0){ current--; build(); const h=document.getElementById('hud'); if(h) h.scrollIntoView({behavior:'smooth', block:'start'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/'+TOTAL_Q;
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/'+TOTAL_Q;
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  // Thinking, Fast and Slow readiness benchmarks
+  if(pct>=0.90){ grade='Kahneman — Distinction'; blurb='Excellent command of the heuristics-and-biases programme. You can distinguish System 1 from System 2, recognise anchoring, availability, representativeness, base-rate neglect, framing, hindsight, the planning fallacy, and the two selves.'; }
+  else if(pct>=0.80){ grade='Kahneman — Strong Pass'; blurb='Strong grasp of the core ideas. Review missed items to sharpen the boundary between formal probability and intuitive judgment, particularly around prospect theory and the conjunction rule.'; }
+  else if(pct>=0.70){ grade='Kahneman — Competent'; blurb='Solid foundation with some gaps. Focus review on prospect theory (loss aversion, reference dependence), base-rate reasoning, and the peak-end rule for remembered experience.'; }
+  else if(pct>=0.60){ grade='Approaching Proficiency'; blurb='You are close to a working understanding of the book. Reread the chapters on heuristics, prospect theory, and the two selves, and retake the exam.'; }
+  else if(pct>=0.45){ grade='Developing Reader'; blurb='Core concepts are forming, but major gaps remain. Reread Part 1 (Two Systems) and Part 4 (Choices) systematically, paying attention to the worked examples.'; }
+  else { grade='Begin the Kahneman Journey'; blurb='Start with the central distinction between System 1 and System 2, then work through anchoring, availability, representativeness, base rates, and prospect theory in that order.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  // Capture the score for the certificate.
+  lastExamScore = { correct: correct, total: QUESTIONS.length, pct: pct, grade: grade };
+  if(mode==='exam'){
+    renderCertificate(correct, QUESTIONS.length, pct, grade);
+    const cb = document.getElementById('certificate');
+    cb.classList.add('show');
+    renderReviewList();
+    setTimeout(()=>cb.scrollIntoView({behavior:'smooth'}),200);
+    return;
+  }
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderCertificate(correct, total, pct, grade){
+  const dt = new Date();
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const dateStr = months[dt.getMonth()]+' '+dt.getDate()+', '+dt.getFullYear();
+  document.getElementById('certName').textContent = examUserName || 'Anonymous Reader';
+  document.getElementById('certScore').textContent = correct+' / '+total+'  ('+Math.round(pct*100)+'%)';
+  const gEl = document.getElementById('certGrade'); if(gEl) gEl.textContent = grade;
+  document.getElementById('certDate').textContent = dateStr;
+  // Stable certificate ID, useful when printed.
+  const seed = (examUserName+'-'+dateStr+'-'+correct+'-'+total);
+  let h=0; for(let i=0;i<seed.length;i++){ h=((h<<5)-h+seed.charCodeAt(i))|0; }
+  document.getElementById('certId').textContent = 'TFS-'+Math.abs(h).toString(36).toUpperCase().slice(0,8);
+}
+
+function printCertificate(){ window.print(); }
+function dismissCertificate(){
+  document.getElementById('certificate').classList.remove('show');
+  // Drop the user back into instant mode for review/re-study.
+  setMode('instant');
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  if(m==='exam'){
+    // Show name modal first; only after confirmation does Exam Mode actually start.
+    openNameModal();
+    return;
+  }
+  mode=m;
+  // Non-exam modes: use the full 20-question pool in pool order.
+  QUESTIONS = POOL.slice();
+  TOTAL_Q = QUESTIONS.length;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',false);
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then. All 20 questions in pool order.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 20 questions on one page. Each answer reveals the explanation immediately.';
+  resetExam(false);
+}
+
+function startExamWithName(name){
+  examUserName = (name||'').trim() || 'Anonymous Reader';
+  mode = 'exam';
+  // Fisher-Yates shuffle, then take first EXAM_SIZE.
+  const shuffled = POOL.slice();
+  for(let i=shuffled.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [shuffled[i],shuffled[j]] = [shuffled[j],shuffled[i]];
+  }
+  QUESTIONS = shuffled.slice(0, EXAM_SIZE);
+  TOTAL_Q = QUESTIONS.length;
+  document.getElementById('mode-guided').classList.toggle('active',false);
+  document.getElementById('mode-instant').classList.toggle('active',false);
+  document.getElementById('mode-exam').classList.toggle('active',true);
+  document.getElementById('modeHint').textContent='Exam Mode: '+EXAM_SIZE+' random questions from a pool of '+POOL.length+'. 30-minute countdown active. Certificate generated on submission.';
+  resetExam(true);
+}
+
+function openNameModal(){
+  const m = document.getElementById('nameModal');
+  const inp = document.getElementById('nameInput');
+  inp.value = examUserName || '';
+  m.classList.add('show');
+  setTimeout(()=>inp.focus(), 50);
+}
+function closeNameModal(){
+  document.getElementById('nameModal').classList.remove('show');
+}
+function confirmNameAndStart(){
+  const inp = document.getElementById('nameInput');
+  const name = inp.value.trim();
+  if(!name){ inp.focus(); inp.style.borderColor='var(--gold)'; return; }
+  closeNameModal();
+  startExamWithName(name);
+}
+function cancelNameModal(){
+  closeNameModal();
+  // If user is currently NOT in exam mode, leave them where they were.
+  // If they ARE in exam mode and cancel, fall back to instant mode.
+  if(mode==='exam'){ setMode('instant'); }
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+
+  <!-- Name entry modal for Exam Mode -->
+  <div id="nameModal" class="modal-backdrop" onclick="if(event.target===this)cancelNameModal()">
+    <div class="modal-card">
+      <h2 class="modal-title">Begin Exam Mode</h2>
+      <p class="modal-sub">Enter the name to print on your Certificate of Completion. 10 questions will be drawn at random from the pool of 20. You have 30 minutes once you click <i>Start Exam</i>.</p>
+      <label class="modal-label" for="nameInput">Your name</label>
+      <input id="nameInput" class="modal-input" type="text" placeholder="Enter learner name" maxlength="80" autocomplete="off"
+             onkeydown="if(event.key==='Enter')confirmNameAndStart(); if(event.key==='Escape')cancelNameModal();">
+      <div class="modal-actions">
+        <button class="btn" onclick="cancelNameModal()">Cancel</button>
+        <button class="btn btn-gold" onclick="confirmNameAndStart()">Start Exam</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Certificate of Completion (shown after Exam Mode submission) -->
+  <div id="certificate" class="cert-wrap">
+    <div class="cert-toolbar no-print">
+      <button class="btn btn-gold" onclick="printCertificate()">🖨 Print / Save as PDF</button>
+      <button class="btn" onclick="dismissCertificate()">Close &amp; Review Answers</button>
+    </div>
+    <div class="cert-paper">
+      <div class="cert-border">
+        <div class="cert-corner tl"></div>
+        <div class="cert-corner tr"></div>
+        <div class="cert-corner bl"></div>
+        <div class="cert-corner br"></div>
+        <div class="cert-seal">
+          <svg viewBox="0 0 100 100" width="80" height="80" aria-hidden="true">
+            <circle cx="50" cy="50" r="46" fill="none" stroke="#1F3864" stroke-width="2"/>
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#1F3864" stroke-width="1"/>
+            <text x="50" y="48" text-anchor="middle" font-family="Fraunces, serif" font-size="11" fill="#1F3864" font-weight="700">CHMLTECH</text>
+            <text x="50" y="64" text-anchor="middle" font-family="Fraunces, serif" font-size="11" fill="#1F3864" font-weight="700">LTD.</text>
+          </svg>
+        </div>
+        <div class="cert-kicker">Thinking, Fast and Slow &middot; Examination</div>
+        <h1 class="cert-h1">Certificate of Completion</h1>
+        <div class="cert-rule"></div>
+        <p class="cert-pre">This certifies that</p>
+        <p class="cert-name" id="certName">Reader</p>
+        <p class="cert-body">has successfully completed the <b>Thinking, Fast and Slow</b> Examination.</p>
+        <div class="cert-stats">
+          <div class="cert-stat"><div class="cert-stat-l">Score</div><div class="cert-stat-v" id="certScore">0 / 10</div></div>
+          <div class="cert-stat"><div class="cert-stat-l">Date</div><div class="cert-stat-v" id="certDate">—</div></div>
+        </div>
+        <div class="cert-foot">
+          <div class="cert-sig">
+            <div class="cert-sig-line">Quak Foo Lee</div>
+            <div class="cert-sig-label">Chmltech Ltd.</div>
+          </div>
+          <div class="cert-id">Certificate ID: <span id="certId">—</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>

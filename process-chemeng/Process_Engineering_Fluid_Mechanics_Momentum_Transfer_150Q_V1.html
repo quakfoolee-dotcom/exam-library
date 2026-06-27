@@ -1,0 +1,2615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Process Engineering Fundamentals — Fluid Mechanics & Momentum Transfer · 150Q Mock Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  --conduction:#1d4e89;
+  --convection:#116466;
+  --radiation:#7a5c12;
+  --hx:#3b4d8f;
+  --boiling:#5d3a7a;
+  --applications:#2f6b4f;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(114,47,55,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.6rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--conduction),var(--convection),var(--radiation),var(--hx),var(--boiling),var(--applications));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-conduction{background:linear-gradient(100deg,var(--conduction),#4d1f23)}
+.sec-convection{background:linear-gradient(100deg,var(--convection),#06403f)}
+.sec-radiation{background:linear-gradient(100deg,var(--radiation),#5f3406)}
+.sec-hx{background:linear-gradient(100deg,var(--hx),#0c2349)}
+.sec-boiling{background:linear-gradient(100deg,var(--boiling),#311148)}
+.sec-applications{background:linear-gradient(100deg,var(--applications),#0e3d18)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.06rem;line-height:1.62;margin-bottom:18px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:12px 14px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.55);transition:all .18s ease;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.08);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s;margin-top:1px}
+.opt .otext{flex:1;font-size:1.0rem;line-height:1.55;word-break:break-word;padding-top:2px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.12)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center;font-family:'JetBrains Mono',monospace}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:160px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 16px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:.98rem}
+  .opt .otext{font-size:.92rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Process Engineering Fundamentals &middot; 150-Question Mock</div>
+    <h1 class="title">Fluid Mechanics <span class="amp">&amp; Momentum Transfer</span> Exam</h1>
+    <div class="byline">150 questions across fluid properties, statics, Bernoulli balances, internal pipe flow, pumps and compressors, flow measurement, external flow, settling, fluidization, non-Newtonian flow, and industrial applications &mdash; concept, calculation, and design items aligned to FE/PE Chemical Engineering exam scope</div>
+    <div class="exambar">
+      <span><b>150</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>150</b> Marks</span>
+      <span>Exam Mode: <b>4 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/150</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">04:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/150</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 4-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    Process Engineering &middot; Fluid Mechanics / Momentum Transfer &middot; 150-question mock aligned to FE/PE Chemical Engineering exam scope
+    <div class="disclaimer">An independent study resource. Always validate quantitative methods against authoritative sources (Bird-Stewart-Lightfoot, Munson/Young/Okiishi, White, Crane TP-410, Perry's Handbook, API/HI guidance) and your organization's standards.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "A process engineer measures a liquid density of 850 kg/m³. Its specific gravity relative to water at approximately 1000 kg/m³ is:",
+    "opts": [
+      "SG = 1000/850 = 1.18; this inverts the definition for liquid specific gravity",
+      "SG = 850/1000 = 0.85; specific gravity is a dimensionless density ratio",
+      "SG = 850 kg/m³; this reports density, not dimensionless specific gravity",
+      "SG = 0.85 Pa·s; this gives viscosity-like units, not a density ratio"
+    ],
+    "correct": 1,
+    "explanation": "Specific gravity for liquids is usually ρ_liquid/ρ_water. Because it is a ratio of densities, it has no units. A liquid with SG < 1 is less dense than water and will tend to float on water if immiscible."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "Dynamic viscosity μ has which SI units?",
+    "opts": [
+      "m²/s; those are units of kinematic viscosity ν, not dynamic viscosity μ",
+      "N/m³; those are units of specific weight γ, not viscosity",
+      "Pa·s, equivalently kg/(m·s); it relates shear stress to velocity gradient",
+      "kg/m³; those are density units, not viscosity units"
+    ],
+    "correct": 2,
+    "explanation": "Newton's law of viscosity is τ = μ(du/dy). Since τ is Pa and du/dy has units s⁻¹, μ has units Pa·s. Kinematic viscosity is ν = μ/ρ with units m²/s."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "Kinematic viscosity ν is defined as:",
+    "opts": [
+      "ν = ρ/μ; this is the inverse of the kinematic viscosity definition",
+      "ν = μ/ρ; dynamic viscosity divided by density",
+      "ν = μρ; this product gives units inconsistent with diffusivity",
+      "ν = τ/(du/dy); this gives dynamic viscosity μ, not kinematic viscosity"
+    ],
+    "correct": 1,
+    "explanation": "Kinematic viscosity is momentum diffusivity. It appears in Reynolds number Re = ρVD/μ = VD/ν and has the same dimensions as thermal diffusivity and mass diffusivity: m²/s."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "For a Newtonian fluid between parallel plates, shear stress is proportional to:",
+    "opts": [
+      "Velocity u itself; that would imply stress exists even for uniform plug motion",
+      "Pressure p only; pressure is a normal stress, not the viscous shear relation",
+      "Pipe diameter alone; geometry can affect gradient, but it is not Newton's viscosity law",
+      "Velocity gradient du/dy; τ = μ du/dy for simple shear"
+    ],
+    "correct": 3,
+    "explanation": "A Newtonian fluid has a linear relationship between shear stress and rate of deformation. Water, air, many light oils, and many process solvents are often approximated as Newtonian over normal operating ranges."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "Hydrostatic pressure variation in a static incompressible liquid is described by:",
+    "opts": [
+      "p = p₀ − ρgh below the surface; this predicts pressure decreases with depth",
+      "p = ρV²/2; this is dynamic pressure from flow, not hydrostatic pressure",
+      "p = p₀ + ρgh below the reference surface; pressure increases linearly with depth",
+      "p is constant with depth in any liquid; this ignores the liquid weight"
+    ],
+    "correct": 2,
+    "explanation": "For a static liquid with constant density, dp/dz = −ρg if z is positive upward. The pressure depends only on vertical depth, not container shape."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "A U-tube manometer uses mercury with density 13,600 kg/m³ and shows a 0.20 m level difference. The approximate pressure difference is:",
+    "opts": [
+      "Δp = 13,600×0.20 ≈ 2.72 kPa; this omits gravitational acceleration",
+      "Δp = ρgh = 13,600×9.81×0.20 ≈ 26.7 kPa",
+      "Δp = 9.81×0.20 ≈ 1.96 Pa; this omits manometer-fluid density",
+      "Δp = 13,600/(9.81×0.20) ≈ 6,930 Pa; this divides instead of multiplying"
+    ],
+    "correct": 1,
+    "explanation": "For a simple manometer between points at the same elevation, Δp = ρ_m g Δh when the process-fluid density is negligible or already accounted for. Heavy manometer fluids give large pressure differences from small height changes."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "Gauge pressure differs from absolute pressure because:",
+    "opts": [
+      "p_abs = p_gauge + p_atm; gauge pressure is measured relative to local atmosphere",
+      "p_gauge = p_abs + p_atm; this reverses the relationship",
+      "p_abs and p_gauge are always identical in process calculations",
+      "p_abs = p_gauge − p_atm; this would make vacuum systems impossible to represent correctly"
+    ],
+    "correct": 0,
+    "explanation": "Thermodynamic property calculations and gas-density calculations require absolute pressure. Mechanical pressure instruments commonly report gauge pressure unless explicitly stated otherwise."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "The buoyant force on a submerged object is equal to:",
+    "opts": [
+      "The object's own weight regardless of the fluid; this ignores displacement and density",
+      "The weight of displaced fluid; Archimedes' principle",
+      "The pressure at the top surface only; net buoyancy comes from pressure variation over the body",
+      "ρ_object g V_fluid; this uses the object's density instead of the displaced-fluid density"
+    ],
+    "correct": 1,
+    "explanation": "Buoyancy is F_B = ρ_fluid g V_displaced. An object floats when buoyant force can balance weight, which leads to the familiar density criterion for floating."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "Capillary rise in a small vertical tube is promoted by:",
+    "opts": [
+      "Low surface tension and large tube radius; both reduce capillary pressure",
+      "High vapor pressure alone; vapor pressure is not the capillary-rise driving force",
+      "High surface tension, small tube radius, and good wetting contact angle",
+      "Large pipe Reynolds number; capillary rise is a static surface-tension phenomenon"
+    ],
+    "correct": 2,
+    "explanation": "For a circular tube, h = 2σcosθ/(ρgr). The height rises when surface tension is high, contact angle is small, density is low, or radius is very small."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "Cavitation is most likely when a flowing liquid locally reaches:",
+    "opts": [
+      "A temperature below its freezing point; this is freezing, not cavitation",
+      "A pressure far above its critical pressure; high pressure suppresses vapor formation",
+      "Zero velocity everywhere; cavitation is usually associated with local low-pressure high-velocity zones",
+      "A pressure below or near its vapor pressure; vapor bubbles form and can collapse violently"
+    ],
+    "correct": 3,
+    "explanation": "Cavitation can damage pump impellers, valves, and fittings. Designers compare NPSH available against NPSH required to keep local absolute pressure safely above vapor pressure."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "Bulk modulus K of a liquid measures:",
+    "opts": [
+      "Resistance to shear deformation; that is primarily viscosity in a fluid-flow context",
+      "Resistance to compression; K = −V(dp/dV) and large K means nearly incompressible behavior",
+      "Surface energy per unit area; that is surface tension",
+      "Momentum diffusion rate; that is kinematic viscosity ν"
+    ],
+    "correct": 1,
+    "explanation": "Liquids have large bulk moduli, so density changes are often negligible in ordinary pipeline calculations. Compressibility matters in water hammer, acoustics, and high-pressure systems."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "The hydrostatic force on a vertical rectangular plate submerged in a liquid acts at:",
+    "opts": [
+      "The centroid exactly for every submerged surface; true only for uniform pressure, not hydrostatic pressure",
+      "The free surface; pressure is zero gauge there and cannot represent the resultant force",
+      "The center of pressure, below the centroid for a vertical plane surface",
+      "The bottom edge always; the pressure distribution is triangular/trapezoidal, not a point load at the bottom"
+    ],
+    "correct": 2,
+    "explanation": "Hydrostatic pressure increases with depth, so the resultant force on a vertical plane acts below the geometric centroid. The deeper line of action is the center of pressure."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "Pascal's law states that pressure applied to a confined static fluid is:",
+    "opts": [
+      "Lost completely after one pipe diameter due to friction; friction requires flow, not static fluid",
+      "Transmitted only upward because buoyancy acts upward",
+      "Converted directly into velocity head without any boundary motion",
+      "Transmitted undiminished throughout the fluid and to the container walls"
+    ],
+    "correct": 3,
+    "explanation": "Hydraulic presses and jacks use Pascal's law: the same pressure acts over different areas, producing force multiplication without violating energy conservation."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "For a noncircular duct, hydraulic diameter is defined as:",
+    "opts": [
+      "D_h = A/P_w; missing the factor of four used to recover pipe diameter for a circle",
+      "D_h = 4A/P_w; four times flow area divided by wetted perimeter",
+      "D_h = P_w/A; inverse of the hydraulic-diameter definition",
+      "D_h = 2r for every duct shape; this only applies to a circular pipe"
+    ],
+    "correct": 1,
+    "explanation": "Hydraulic diameter lets many internal-flow correlations be extended to noncircular passages. For a circular pipe, 4A/P = 4(πD²/4)/(πD) = D."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "The continuum assumption for fluids becomes questionable when:",
+    "opts": [
+      "The Reynolds number is greater than 2300; turbulence does not invalidate continuum mechanics by itself",
+      "The fluid is Newtonian; Newtonian behavior is compatible with continuum modeling",
+      "The molecular mean free path is not small compared with the characteristic length; Knudsen number is not negligible",
+      "Gravity is present; gravity is routinely included in continuum fluid mechanics"
+    ],
+    "correct": 2,
+    "explanation": "Continuum mechanics assumes properties such as density and velocity are meaningful averages over many molecules. Rarefied gases in microchannels or high vacuum can violate this assumption."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "For an ideal gas, density is calculated from:",
+    "opts": [
+      "ρ = RT/(PM); this is the reciprocal trend of the ideal-gas density relation",
+      "ρ = PRT/M; this gives incorrect dimensions and temperature trend",
+      "ρ = PM/(RT); pressure and molar mass increase density, temperature decreases it",
+      "ρ is independent of pressure for all gases; this is only approximately true for liquids"
+    ],
+    "correct": 2,
+    "explanation": "From PV = nRT and ρ = m/V = nM/V, density is ρ = PM/(RT). Use absolute pressure and absolute temperature."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "Specific weight γ is defined as:",
+    "opts": [
+      "γ = μ/ρ; this is kinematic viscosity",
+      "γ = ρg; weight per unit volume",
+      "γ = p/ρ; this has units of energy per mass, not specific weight",
+      "γ = g/ρ; this inverts the density dependence"
+    ],
+    "correct": 1,
+    "explanation": "Specific weight appears in head-pressure conversions: pressure head p/γ = p/(ρg). For water, γ is about 9.81 kN/m³ near room temperature."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "The no-slip boundary condition means:",
+    "opts": [
+      "Fluid pressure at a wall must be zero gauge",
+      "Fluid velocity at a solid wall equals the wall velocity",
+      "Fluid viscosity becomes zero at the wall",
+      "The wall shear stress is always zero for any flowing fluid"
+    ],
+    "correct": 1,
+    "explanation": "For ordinary continuum flow of liquids and gases at solid boundaries, the tangential fluid velocity equals the wall velocity. No slip is fundamental to boundary layers and wall shear stress."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "In most liquids, increasing temperature generally:",
+    "opts": [
+      "Increases viscosity strongly because density always rises with temperature",
+      "Decreases viscosity because molecular mobility increases",
+      "Has no effect on viscosity for process fluids",
+      "Makes viscosity negative above the boiling point"
+    ],
+    "correct": 1,
+    "explanation": "Liquid viscosity usually decreases with temperature, sometimes dramatically. Gas viscosity usually increases with temperature because molecular momentum transport increases."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "For most gases at moderate pressure, increasing temperature generally:",
+    "opts": [
+      "Increases dynamic viscosity; molecular momentum transport becomes stronger",
+      "Decreases dynamic viscosity exactly as in liquids",
+      "Makes viscosity independent of molecular weight and temperature",
+      "Eliminates viscous stresses entirely"
+    ],
+    "correct": 0,
+    "explanation": "Gas viscosity trends differ from liquid viscosity trends. In gases, molecular motion controls momentum transfer, so μ tends to increase with temperature."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "Mach number is defined as:",
+    "opts": [
+      "Ma = ρVD/μ; this is Reynolds number",
+      "Ma = V/a; flow speed divided by local speed of sound",
+      "Ma = V/√(gL); this is Froude number",
+      "Ma = Δp/(ρV²); this resembles Euler-number scaling"
+    ],
+    "correct": 1,
+    "explanation": "Mach number measures compressibility significance in gas flow. Compressibility effects are often small for Ma below about 0.3, but this is a rule of thumb rather than a universal law."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "Reynolds number physically represents the ratio of:",
+    "opts": [
+      "Viscous forces to surface-tension forces; that is closer to a capillary-number idea",
+      "Gravity forces to inertial forces; that relates to Froude number",
+      "Pressure forces to elastic forces; not the usual Reynolds-number interpretation",
+      "Inertial forces to viscous forces"
+    ],
+    "correct": 3,
+    "explanation": "Re = ρVL/μ = VL/ν. It is central in predicting laminar/turbulent transition, scaling experiments, and choosing friction and heat/mass transfer correlations."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "Froude number is especially important when:",
+    "opts": [
+      "Only viscous shear in a sealed laminar capillary matters",
+      "Only surface tension in a tiny droplet matters; Weber or capillary number is more relevant",
+      "Gravity and free-surface effects matter, such as open-channel flow or hydraulic jumps",
+      "Only molecular diffusion in a stagnant gas film matters"
+    ],
+    "correct": 2,
+    "explanation": "Fr = V/√(gL). It compares inertia with gravity and is used heavily in free-surface hydraulics, spillways, waves, and scale models involving liquid levels."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "Weber number compares:",
+    "opts": [
+      "Inertial forces to surface-tension forces",
+      "Inertial forces to viscous forces; that is Reynolds number",
+      "Gravity forces to inertial forces; that is Froude number",
+      "Thermal diffusion to momentum diffusion; that is related to Prandtl number"
+    ],
+    "correct": 0,
+    "explanation": "We = ρV²L/σ. It matters in droplet breakup, sprays, atomization, liquid jets, and gas-liquid interfaces where surface tension competes with inertia."
+  },
+  {
+    "section": "Fluid Properties, Statics & Manometry",
+    "q": "A pressure reported as 250 kPa gauge at a location where atmospheric pressure is 101 kPa corresponds to approximately:",
+    "opts": [
+      "351 kPa absolute; add atmospheric pressure to gauge pressure",
+      "149 kPa absolute; subtracting atmosphere from gauge pressure is incorrect here",
+      "250 kPa absolute; gauge and absolute are not the same unless referenced to vacuum",
+      "101 kPa absolute; this ignores the gauge reading"
+    ],
+    "correct": 0,
+    "explanation": "Absolute pressure is required for gas laws, vapor-pressure comparisons, and NPSH. Gauge pressure is convenient for mechanical instruments but must be converted when the reference matters."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "For steady incompressible flow in a single pipe, continuity requires:",
+    "opts": [
+      "A/V = constant; this gives the wrong velocity trend in a contraction",
+      "Q = AV = constant along the pipe; area changes are balanced by velocity changes",
+      "ρA/V = constant; this divides by velocity instead of multiplying",
+      "Q changes with pressure even when density is constant and there is no leakage"
+    ],
+    "correct": 1,
+    "explanation": "Conservation of mass gives ṁ = ρAV. For incompressible flow with no branching or leakage, ρ is constant, so volumetric flow Q = AV is constant."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "The standard Bernoulli equation between two points is valid when the flow is approximately:",
+    "opts": [
+      "Highly viscous with large friction losses but no correction terms",
+      "Unsteady and compressible with shock waves, using the same simple equation",
+      "Across any pump and turbine without adding head terms",
+      "Steady, incompressible, inviscid along a streamline, with no shaft work or heat-transfer effects"
+    ],
+    "correct": 3,
+    "explanation": "Bernoulli is a mechanical-energy balance under restrictive assumptions. Real process systems usually require pump/turbine heads and head-loss terms."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "Bernoulli's equation in head form contains the terms:",
+    "opts": [
+      "p/ρ + V²/2 + gz all divided by temperature; that is not head form",
+      "pV + ρgz + μV; mixed dimensions and an unrelated viscosity term",
+      "p/ρg + V²/2g + z; pressure head, velocity head, and elevation head",
+      "ρg/p + 2g/V² + 1/z; reciprocal terms with no energy interpretation"
+    ],
+    "correct": 2,
+    "explanation": "Each term in Bernoulli head form has units of length. Pressure head is often visualized using piezometer tubes or hydraulic grade line diagrams."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "The mechanical energy balance for real pipe flow commonly adds a head-loss term h_L because:",
+    "opts": [
+      "Viscous effects dissipate mechanical energy into internal energy",
+      "Mass is not conserved in real pipes",
+      "Gravity disappears in real flow",
+      "Velocity head must always increase in the flow direction"
+    ],
+    "correct": 0,
+    "explanation": "Friction and fittings convert organized mechanical energy into thermal energy. In engineering calculations this appears as head loss, pressure drop, or required pumping power."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "In the extended Bernoulli equation, pump head is usually entered as:",
+    "opts": [
+      "A negative loss term identical to friction",
+      "A positive head added to the fluid",
+      "A term that changes only elevation and never pressure",
+      "A correction that is ignored when the pump is running"
+    ],
+    "correct": 1,
+    "explanation": "Pumps add mechanical energy to the fluid. Turbines remove mechanical energy. Frictional losses always consume mechanical energy."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "A turbine in a liquid line produces shaft work by:",
+    "opts": [
+      "Removing head from the fluid; turbine head appears as an energy extraction term",
+      "Adding pressure head to the fluid just like a pump",
+      "Eliminating all downstream pipe losses",
+      "Changing liquid density to zero"
+    ],
+    "correct": 0,
+    "explanation": "Hydraulic turbines, expanders, and energy-recovery devices convert fluid mechanical energy into shaft work. The fluid's total head decreases across the device."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "Dynamic pressure is defined as:",
+    "opts": [
+      "q = ½ρV²; kinetic energy per unit volume",
+      "q = ρgh; this is hydrostatic pressure change with depth",
+      "q = μV/D; this resembles viscous stress scaling, not dynamic pressure",
+      "q = p/ρg; this is pressure head, not pressure"
+    ],
+    "correct": 0,
+    "explanation": "Dynamic pressure appears in Pitot tubes, drag force, and velocity-head terms. It has units of pressure because ρV² is kg/(m·s²) = Pa."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "A Pitot-static tube estimates velocity from:",
+    "opts": [
+      "V = 2Δp/ρ without a square root",
+      "V = √(2Δp/ρ), where Δp is stagnation minus static pressure",
+      "V = ρ/(2Δp), the inverse of the correct relationship",
+      "V = Δp/(μD), which is a viscous scaling rather than Pitot relation"
+    ],
+    "correct": 1,
+    "explanation": "For incompressible low-speed flow, stagnation pressure exceeds static pressure by approximately ½ρV². Real Pitot measurements may need calibration and compressibility corrections."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "Torricelli's law for ideal efflux from a large tank through a small hole gives:",
+    "opts": [
+      "V ≈ 2gh; this has units of m²/s², not velocity",
+      "V ≈ gh²; this has incorrect dimensions",
+      "V ≈ ρgh; this is pressure, not velocity",
+      "V ≈ √(2gh); velocity is set by converting elevation head into kinetic head"
+    ],
+    "correct": 3,
+    "explanation": "Torricelli's result follows from Bernoulli between the free surface and the orifice. Real discharge uses coefficients for contraction and losses."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "The hydraulic grade line (HGL) represents:",
+    "opts": [
+      "V²/2g only; that is velocity head",
+      "p/ρg + z; pressure head plus elevation head",
+      "p/ρg + V²/2g + z; that is the energy grade line",
+      "Friction factor plotted versus Reynolds number; that is a Moody chart concept"
+    ],
+    "correct": 1,
+    "explanation": "The energy grade line (EGL) lies above the HGL by the velocity head. Pumps raise the grade lines, while friction makes them slope downward in the flow direction."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "The energy grade line (EGL) differs from the HGL by:",
+    "opts": [
+      "The pipe wall thickness",
+      "The velocity head V²/2g",
+      "The vapor-pressure head only",
+      "The static elevation z"
+    ],
+    "correct": 1,
+    "explanation": "EGL = HGL + V²/2g. In a constant-diameter pipe, EGL and HGL are parallel because velocity head remains constant while both decline due to losses."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "The incompressible continuity equation in differential form is:",
+    "opts": [
+      "∇·v = 0; velocity field is divergence-free",
+      "∇×v = 0; this means irrotational flow, not necessarily incompressible flow",
+      "Dρ/Dt = 0 always; density of a fluid particle may be constant, but continuity is more general",
+      "∂p/∂t = 0; pressure steady does not imply mass conservation"
+    ],
+    "correct": 0,
+    "explanation": "For constant density, conservation of mass reduces to zero divergence of the velocity field. This does not require the flow to be inviscid or irrotational."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "Vorticity is defined as:",
+    "opts": [
+      "ω = ∇·v; that is velocity divergence",
+      "ω = ∇×v; the curl of the velocity field",
+      "ω = dp/dz; that is a pressure gradient",
+      "ω = μ/ρ; that is kinematic viscosity"
+    ],
+    "correct": 1,
+    "explanation": "Vorticity measures local rotation of fluid elements. A flow can be incompressible and still have significant vorticity, especially in boundary layers and wakes."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "The Navier-Stokes equations represent conservation of:",
+    "opts": [
+      "Only mass, with no force balance",
+      "Only thermal energy, with no momentum terms",
+      "Linear momentum for a viscous fluid",
+      "Only species mass transfer in binary diffusion"
+    ],
+    "correct": 2,
+    "explanation": "Navier-Stokes equations balance inertia, pressure, viscous stresses, gravity/body forces, and unsteady acceleration. They are the governing momentum equations for Newtonian fluids."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "The Euler equation for inviscid flow is obtained from Navier-Stokes by neglecting:",
+    "opts": [
+      "Pressure gradients",
+      "Inertial acceleration",
+      "Gravity in every possible situation",
+      "Viscous stress terms"
+    ],
+    "correct": 3,
+    "explanation": "Euler flow can still include inertia, pressure, and body forces. It is useful outside boundary layers when viscous effects are small, but it cannot predict wall shear stress."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "A steady-flow control volume has zero accumulation of mass when:",
+    "opts": [
+      "Total mass flow rate entering equals total mass flow rate leaving",
+      "Every inlet and outlet velocity must be zero",
+      "Density must be zero inside the control volume",
+      "Pressure must be atmospheric at every boundary"
+    ],
+    "correct": 0,
+    "explanation": "For steady operation, the amount of mass inside the control volume does not change with time. Multiple inlet and outlet streams can still satisfy steady mass conservation."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "The linear momentum equation for a control volume is commonly used to find:",
+    "opts": [
+      "Forces on elbows, nozzles, reducers, jets, and pipe supports",
+      "Only molecular diffusion coefficients",
+      "Only thermal conductivity of solids",
+      "Only chemical equilibrium constants"
+    ],
+    "correct": 0,
+    "explanation": "Momentum balance accounts for pressure forces, body forces, and momentum fluxes. It is essential for estimating reaction forces from changes in flow direction or speed."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "A 90° elbow carrying high-velocity liquid often requires strong supports because:",
+    "opts": [
+      "Continuity is violated at every bend",
+      "Changing the flow direction changes momentum, producing a reaction force on the elbow",
+      "Viscosity becomes negative at 90° turns",
+      "Pressure is always zero downstream of a bend"
+    ],
+    "correct": 1,
+    "explanation": "Even at constant speed, vector momentum changes when direction changes. The pipe wall supplies the required force on the fluid; the fluid applies an equal and opposite force on the elbow."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "The kinetic-energy correction factor α in pipe-flow energy balances accounts for:",
+    "opts": [
+      "Elevation changes due only to gravity",
+      "Pipe roughness height directly in Bernoulli's ideal equation",
+      "Nonuniform velocity profiles over the cross-section",
+      "Chemical reaction heat release"
+    ],
+    "correct": 2,
+    "explanation": "Using average velocity in V²/2 requires a correction if the velocity profile is not uniform. α is 2 for fully developed laminar pipe flow and near 1 for many turbulent pipe flows."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "For fully developed laminar pipe flow, the kinetic-energy correction factor α is:",
+    "opts": [
+      "α = 2; the parabolic velocity profile makes kinetic energy higher than V_avg²/2",
+      "α = 1 exactly; this is closer to a uniform or highly turbulent profile",
+      "α = 0; kinetic energy cannot vanish when the fluid is moving",
+      "α = fD; it is not the Darcy friction factor"
+    ],
+    "correct": 0,
+    "explanation": "Laminar pipe flow has a strongly nonuniform parabolic profile. Turbulent profiles are flatter, so α is often approximated as 1 in routine turbulent-flow calculations."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "The Euler number is commonly used as a dimensionless pressure-drop coefficient and is proportional to:",
+    "opts": [
+      "ρVD/μ; inertial-to-viscous force ratio, which is Reynolds number",
+      "V/√(gL); Froude number",
+      "μcp/k; Prandtl number",
+      "Δp/(ρV²); pressure forces relative to inertial forces"
+    ],
+    "correct": 3,
+    "explanation": "Euler number forms underlie many loss coefficients and drag/pressure-drop correlations. Some definitions use ½ρV² in the denominator, so constants depend on convention."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "Dimensional analysis is useful in fluid mechanics because it:",
+    "opts": [
+      "Eliminates the need for physical understanding or data",
+      "Reduces variables into dimensionless groups that organize experiments and scale-up",
+      "Works only for laminar flow of water",
+      "Changes the units of measurements into arbitrary constants"
+    ],
+    "correct": 1,
+    "explanation": "The Buckingham Pi theorem helps form groups such as Re, Fr, We, Eu, and Ma. Dynamic similarity requires matching the dimensionless groups that control the physics."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "Dynamic similarity between a model and prototype requires:",
+    "opts": [
+      "The important dimensionless groups be matched or their effects be negligible",
+      "Only the model and prototype have the same color and surface finish",
+      "Only geometric similarity, regardless of velocity or fluid properties",
+      "Only the same volumetric flow rate, even at different scales"
+    ],
+    "correct": 0,
+    "explanation": "Scale models can be misleading if the controlling ratios of forces differ. For example, free-surface models often need Froude similarity, while closed-pipe viscous-flow models often emphasize Reynolds similarity."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "For a horizontal constant-diameter pipe with no pump or turbine, pressure decreases in the flow direction mainly because:",
+    "opts": [
+      "Elevation head is increasing continuously",
+      "Continuity requires density to decrease in a liquid",
+      "Frictional head loss consumes mechanical energy",
+      "Velocity head must increase in a constant-diameter pipe"
+    ],
+    "correct": 2,
+    "explanation": "With constant diameter and incompressible flow, velocity head is unchanged. The pressure drop balances frictional head loss."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "Minor-loss coefficients K are used through the relation:",
+    "opts": [
+      "h_L = Kρg/V²; this inverts the velocity dependence",
+      "h_L = KV; this has incorrect dimensions unless K has unusual units",
+      "h_L = K/μ; this is not the standard fitting-loss relation",
+      "h_L = K V²/(2g); fittings convert velocity head into loss"
+    ],
+    "correct": 3,
+    "explanation": "Valves, bends, tees, entrances, exits, contractions, and expansions cause local losses. They are called minor losses, but they can dominate short or highly fitted process lines."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "For a sudden enlargement in a pipe, a common ideal loss expression is:",
+    "opts": [
+      "h_L = (V₁ + V₂)²/(2g); the sum is not the standard Borda-Carnot expression",
+      "h_L = 0 always; sudden expansions are loss-free only in an ideal inviscid model",
+      "h_L = g(V₁ − V₂)²/2; this has incorrect dimensions",
+      "h_L = (V₁ − V₂)²/(2g); loss comes from separation and mixing after expansion"
+    ],
+    "correct": 3,
+    "explanation": "A sudden expansion creates separated flow and turbulent mixing. Gradual diffusers reduce, but do not necessarily eliminate, this loss."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "A free jet striking a flat plate normally is analyzed using:",
+    "opts": [
+      "Only hydrostatic pressure variation with depth",
+      "Only Fourier's law of conduction",
+      "Momentum balance; change in jet momentum gives force on the plate",
+      "Only ideal-gas law density calculations"
+    ],
+    "correct": 2,
+    "explanation": "Jet-impact forces are classic control-volume momentum problems. The incoming and outgoing momentum fluxes determine the force needed to redirect the jet."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "A streamline is a line that is everywhere:",
+    "opts": [
+      "Tangent to the instantaneous velocity vector",
+      "Perpendicular to the pressure gradient in all flows",
+      "A path followed by one particle over time in every unsteady flow",
+      "A line of constant temperature only"
+    ],
+    "correct": 0,
+    "explanation": "In steady flow, streamlines, pathlines, and streaklines coincide. In unsteady flow they can differ, so definitions matter."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "For incompressible flow through a reducer, if area decreases by a factor of 4, the average velocity:",
+    "opts": [
+      "Decreases by a factor of 4 because the pipe is smaller",
+      "Stays unchanged because density is constant",
+      "Increases by a factor of 2 because diameter changes by area square root",
+      "Increases by a factor of 4 for the same volumetric flow rate"
+    ],
+    "correct": 3,
+    "explanation": "Continuity gives V = Q/A. If Q is fixed and A is one-fourth the original value, V becomes four times larger."
+  },
+  {
+    "section": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "q": "A manometer connected across a flow restriction primarily measures:",
+    "opts": [
+      "Direct viscosity without any other information",
+      "Pressure difference, which can be related to flow rate after calibration or theory",
+      "Direct pipe roughness height",
+      "Direct molecular weight of the fluid"
+    ],
+    "correct": 1,
+    "explanation": "Differential-pressure meters such as orifice plates and Venturi meters infer flow from a measured Δp. Density, geometry, discharge coefficient, and sometimes compressibility are required."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "For flow in a smooth circular pipe, the usual approximate laminar-to-turbulent transition range begins near:",
+    "opts": [
+      "Re ≈ 2; this is far too low for pipe-flow transition",
+      "Re ≈ 2,000,000 only; many pipe flows are turbulent far below this",
+      "Transition depends only on pipe diameter and not velocity or viscosity",
+      "Re ≈ 2100–2300; below this fully developed pipe flow is typically laminar"
+    ],
+    "correct": 3,
+    "explanation": "The familiar threshold Re ≈ 2100–2300 is approximate. Disturbances, entrance effects, roughness, and fittings influence transition; Re > 4000 is usually considered turbulent for pipe design."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "For fully developed laminar flow in a circular pipe, the Darcy friction factor is:",
+    "opts": [
+      "f_D = 16/Re; this is the Fanning friction factor for laminar pipe flow",
+      "f_D = 64/Re",
+      "f_D is independent of Reynolds number in laminar flow",
+      "f_D = 0.316 Re⁰·²⁵; exponent sign and regime are incorrect"
+    ],
+    "correct": 1,
+    "explanation": "Be careful with Darcy versus Fanning conventions. Darcy f is four times Fanning f. Many mechanical-energy equations use Darcy f in h_f = f_D(L/D)V²/(2g)."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "The Hagen-Poiseuille equation for laminar Newtonian flow in a circular pipe predicts pressure drop proportional to:",
+    "opts": [
+      "Q² and D⁻¹ for all laminar flows",
+      "Flow rate Q and viscosity μ, and inversely proportional to D⁴",
+      "D⁴ in the numerator, meaning larger pipes increase pressure drop",
+      "Fluid density only, with no role for viscosity"
+    ],
+    "correct": 1,
+    "explanation": "For laminar pipe flow, Δp = 128 μLQ/(πD⁴). The D⁴ dependence makes diameter extremely important in small-bore or viscous service."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "The Darcy-Weisbach equation for pipe friction head loss is:",
+    "opts": [
+      "h_f = f_D(L/D)(V²/2g)",
+      "h_f = f_D(D/L)(2g/V²); this inverts the length and velocity-head terms",
+      "h_f = f_DLV; this has incorrect units unless f has unusual dimensions",
+      "h_f = 64/Re for all pipe lengths; that is only the laminar Darcy friction factor"
+    ],
+    "correct": 0,
+    "explanation": "Darcy-Weisbach is broadly applicable when an appropriate friction factor is used. It separates geometry, friction factor, and velocity head."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "Darcy and Fanning friction factors are related by:",
+    "opts": [
+      "f_D = f_F/4; this reverses the standard relationship",
+      "f_D = f_F always; the two symbols use different conventions",
+      "f_D = 64 f_F; this confuses the laminar formula with factor conversion",
+      "f_D = 4 f_F"
+    ],
+    "correct": 3,
+    "explanation": "Many chemical-engineering references historically use Fanning f, while many mechanical and civil references use Darcy f. Always check which convention a correlation or chart uses."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "The Moody chart gives friction factor primarily as a function of:",
+    "opts": [
+      "Only pipe length and elevation change",
+      "Only pump speed and impeller diameter",
+      "Reynolds number and relative roughness ε/D",
+      "Only fluid vapor pressure and temperature"
+    ],
+    "correct": 2,
+    "explanation": "The Moody chart summarizes laminar, transition, smooth turbulent, and rough turbulent regimes. It is usually based on Darcy friction factor unless labeled otherwise."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "Relative roughness is defined as:",
+    "opts": [
+      "D/ε; the inverse of relative roughness",
+      "εL; roughness multiplied by length",
+      "μ/ρD; not a roughness quantity",
+      "ε/D; absolute roughness divided by pipe diameter"
+    ],
+    "correct": 3,
+    "explanation": "A given roughness height matters more in a small pipe than in a large pipe. Aging, corrosion, scaling, and fouling can increase effective roughness."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "In the fully rough turbulent regime, friction factor is approximately:",
+    "opts": [
+      "Equal to 64/Re exactly",
+      "Independent of pipe roughness and controlled only by viscosity",
+      "Independent of Reynolds number and controlled mainly by ε/D",
+      "Zero because turbulence removes wall shear"
+    ],
+    "correct": 2,
+    "explanation": "At high Re with rough walls, viscous sublayers no longer hide roughness elements. The Moody chart becomes nearly horizontal with respect to Re."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "The Blasius correlation for smooth turbulent pipe flow is commonly written approximately as:",
+    "opts": [
+      "f_D = 64/Re for turbulent flow; that is laminar",
+      "f_D ≈ 0.316 Re⁰·²⁵; friction factor would increase with Re in this formula",
+      "f_D ≈ 0.316 Re⁻⁰·²⁵ over a moderate turbulent Re range",
+      "f_D = ε/D for every turbulent pipe; roughness is not the only factor in smooth turbulent flow"
+    ],
+    "correct": 2,
+    "explanation": "The Blasius equation is an empirical approximation for smooth pipes, often used around 4,000 < Re < 10⁵. More general work uses Colebrook, Swamee-Jain, or Moody chart methods."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "The Colebrook-White equation is used to estimate:",
+    "opts": [
+      "Hydrostatic pressure in a tank",
+      "Turbulent pipe friction factor from Re and relative roughness",
+      "Specific gravity from density",
+      "Pump efficiency from motor current alone"
+    ],
+    "correct": 1,
+    "explanation": "Colebrook is implicit in f, so it normally requires iteration or an explicit approximation. It bridges smooth and rough turbulent behavior."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "For fully developed laminar pipe flow, the velocity profile is:",
+    "opts": [
+      "Flat plug flow with centerline velocity equal to average velocity",
+      "Parabolic, with centerline velocity twice the average velocity",
+      "Logarithmic all the way to the pipe centerline with no viscous sublayer",
+      "Triangular with zero velocity at the center"
+    ],
+    "correct": 1,
+    "explanation": "The no-slip wall and viscous momentum diffusion produce a parabolic profile in laminar pipe flow: u_max = 2V_avg. Turbulent flow has a much flatter profile."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "For turbulent pipe flow, the velocity profile is generally:",
+    "opts": [
+      "Flatter than laminar flow, with steep gradients near the wall",
+      "Exactly parabolic with u_max = 2V_avg in all cases",
+      "Zero everywhere except at the centerline",
+      "Independent of wall roughness and Reynolds number near the wall"
+    ],
+    "correct": 0,
+    "explanation": "Turbulent mixing transports momentum across the pipe, flattening the core profile. Wall regions still control shear and friction."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "The laminar entrance length for pipe flow is often estimated as:",
+    "opts": [
+      "L_e/D ≈ 64/Re; this is a friction-factor expression",
+      "L_e/D ≈ Re² for all laminar pipes; far too large for common estimates",
+      "L_e/D = 0 for every sharp-edged entrance",
+      "L_e/D ≈ 0.05 Re"
+    ],
+    "correct": 3,
+    "explanation": "Flow needs distance to develop from an inlet profile to a fully developed profile. Entrance effects matter in short tubes, heat exchangers, and microchannels."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "In a series pipe system with no branching, the same quantity is common to every pipe segment:",
+    "opts": [
+      "Friction head loss in each segment, regardless of length and diameter",
+      "Velocity in every segment, even if diameters differ",
+      "Pressure drop per meter in every segment",
+      "Volumetric flow rate Q for incompressible steady flow"
+    ],
+    "correct": 3,
+    "explanation": "For a single path, conservation of mass fixes the flow rate through each segment. Individual head losses add along the path."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "In parallel pipes connecting the same two nodes, the correct hydraulic condition is:",
+    "opts": [
+      "Head loss is the same across each branch, while total flow is the sum of branch flows",
+      "Flow rate is identical in every branch even if diameters differ",
+      "Head losses add sequentially through the branches",
+      "Pressure rises spontaneously in the rougher branch"
+    ],
+    "correct": 0,
+    "explanation": "Parallel-branch calculations distribute flow so each branch has the same node-to-node head loss. This is analogous to equal voltage drop across parallel electrical resistances."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "Equivalent length method treats fittings by:",
+    "opts": [
+      "Replacing each fitting with a length of straight pipe that gives the same head loss",
+      "Ignoring fittings whenever the pipe is turbulent",
+      "Replacing the entire pipe with a pump curve",
+      "Changing the liquid density to account for bends"
+    ],
+    "correct": 0,
+    "explanation": "Equivalent length and K-factor methods are two common ways to include local losses. Equivalent length is convenient when using friction-factor calculations for long piping runs."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "A valve-loss coefficient K relates pressure drop to velocity approximately by:",
+    "opts": [
+      "Δp = K(ρV²/2)",
+      "Δp = K/ρV²; pressure drop decreases with velocity in this incorrect expression",
+      "Δp = Kμ only; no velocity dependence appears",
+      "Δp = KρgD; this is a static head expression, not valve loss"
+    ],
+    "correct": 0,
+    "explanation": "Fitting losses scale with dynamic pressure. In turbulent flow, doubling velocity roughly quadruples the valve pressure drop when K remains constant."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "For laminar pipe flow at fixed pipe dimensions and fluid viscosity, pressure drop scales with flow rate approximately as:",
+    "opts": [
+      "Δp ∝ Q² exactly, which is more typical of many turbulent loss regimes",
+      "Δp ∝ 1/Q",
+      "Δp is independent of flow rate",
+      "Δp ∝ Q"
+    ],
+    "correct": 3,
+    "explanation": "Hagen-Poiseuille flow is linear in Q. This linearity is lost in turbulent flow, where pressure drop often scales close to Q²."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "For fully turbulent flow with roughly constant friction factor, pressure drop scales with flow rate approximately as:",
+    "opts": [
+      "Δp ∝ Q exactly for all turbulent flows",
+      "Δp ∝ 1/Q²",
+      "Δp is zero because turbulent mixing removes friction",
+      "Δp ∝ Q²"
+    ],
+    "correct": 3,
+    "explanation": "Darcy-Weisbach has Δp proportional to V² when f is roughly constant. Because V ∝ Q for a fixed pipe area, Δp often scales near Q² in turbulent pipe networks."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "The Ergun equation is used for pressure drop through:",
+    "opts": [
+      "Packed beds, combining viscous and inertial contributions",
+      "Empty smooth pipes only, replacing the Moody chart in all cases",
+      "Open channels with hydraulic jumps",
+      "Rotating pump impellers"
+    ],
+    "correct": 0,
+    "explanation": "The Ergun equation includes a term proportional to velocity and a term proportional to velocity squared. It is widely used for packed-bed reactors, adsorption beds, and filters."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "In packed-bed flow, decreasing particle diameter generally:",
+    "opts": [
+      "Decreases pressure drop to zero because smaller particles pack more tightly",
+      "Has no effect on pressure drop in the Ergun equation",
+      "Increases pressure drop strongly because flow passages become smaller",
+      "Only changes vapor pressure, not hydraulics"
+    ],
+    "correct": 2,
+    "explanation": "Smaller particles improve surface area and transfer rates but raise pressure drop. Packed-bed design is often a tradeoff among activity, mass transfer, pressure drop, and fouling."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "The hydraulic diameter of a very wide rectangular channel of height b is approximately:",
+    "opts": [
+      "D_h ≈ b/2; this inverts the wide-channel approximation",
+      "D_h ≈ 4b exactly for all rectangular channels",
+      "D_h ≈ 2b because area ≈ wb and wetted perimeter ≈ 2w",
+      "D_h ≈ w because width dominates the wetted perimeter"
+    ],
+    "correct": 2,
+    "explanation": "For a rectangular duct, D_h = 4ab/[2(a+b)] = 2ab/(a+b). If width a is much larger than height b, D_h approaches 2b."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "For an annulus with outer diameter D_o and inner diameter D_i, the hydraulic diameter is:",
+    "opts": [
+      "D_h = D_o + D_i",
+      "D_h = D_oD_i/(D_o + D_i)",
+      "D_h = D_o − D_i",
+      "D_h = 4π(D_o² − D_i²)"
+    ],
+    "correct": 2,
+    "explanation": "Using D_h = 4A/P_w for an annulus gives D_h = D_o − D_i. This is useful for double-pipe heat exchangers and annular reactors."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "A sudden contraction usually causes loss because:",
+    "opts": [
+      "Gravity reverses direction at the contraction",
+      "Fluid density must become infinite in the smaller pipe",
+      "Velocity becomes zero at the throat",
+      "Flow separates and forms a vena contracta before expanding to fill the smaller pipe"
+    ],
+    "correct": 3,
+    "explanation": "Contractions and expansions create local acceleration, separation, and mixing losses. Loss coefficients depend on geometry and area ratio."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "The wall shear stress in fully developed pipe flow relates to pressure gradient by:",
+    "opts": [
+      "τ_w = (4/D)(L/Δp); inverse of the correct scaling",
+      "τ_w = (D/4)(Δp/L) for a circular pipe",
+      "τ_w = ρgD only; pressure gradient and flow are ignored",
+      "τ_w = μV with no length scale, giving incorrect dimensions"
+    ],
+    "correct": 1,
+    "explanation": "A force balance on a cylindrical fluid element gives Δp(πD²/4) = τ_w(πDL). Thus τ_w = ΔpD/(4L)."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "The frictional pumping power dissipated by a pressure drop is:",
+    "opts": [
+      "Power = Δp/Q; this has units inconsistent with power",
+      "Power = Q/Δp; inverse dependence is incorrect",
+      "Power = Δp · Q for the fluid, before pump efficiency corrections",
+      "Power = ρg/Δp; ignores flow rate"
+    ],
+    "correct": 2,
+    "explanation": "Hydraulic power associated with pressure drop is pressure times volumetric flow rate. Required shaft power is higher after accounting for pump and motor efficiencies."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "Hazen-Williams equation is best described as:",
+    "opts": [
+      "A fundamental equation valid for all Newtonian and non-Newtonian fluids",
+      "A molecular diffusion correlation for gases",
+      "A pump affinity law for changing impeller speed",
+      "An empirical water-flow relation often used in civil piping, not a universal fluid-mechanics law"
+    ],
+    "correct": 3,
+    "explanation": "Hazen-Williams is convenient for turbulent water flow in certain pipe ranges, but Darcy-Weisbach is more general and physically grounded."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "Hardy Cross method is used to solve:",
+    "opts": [
+      "Only laminar velocity profiles in a single straight pipe",
+      "Only hydrostatic forces on gates",
+      "Only gas compressibility factors",
+      "Looped pipe-network flow distributions by iteratively balancing head losses"
+    ],
+    "correct": 3,
+    "explanation": "In a closed loop, algebraic head-loss sum must be zero. Hardy Cross iteratively adjusts assumed flows until continuity and energy balance are satisfied."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "When a pipe becomes fouled internally, the most direct hydraulic effects are usually:",
+    "opts": [
+      "Larger effective diameter and lower pressure drop",
+      "No change in hydraulic performance unless density changes",
+      "Smaller effective diameter and higher roughness, increasing pressure drop",
+      "Automatic transition to inviscid flow"
+    ],
+    "correct": 2,
+    "explanation": "Deposits reduce flow area and may increase roughness. Both effects can reduce capacity and increase pumping cost significantly."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "For a fixed mass flow of liquid, increasing pipe diameter generally:",
+    "opts": [
+      "Increases velocity and always decreases capital cost",
+      "Has no effect on velocity because mass flow is fixed",
+      "Reduces velocity and frictional pressure drop but increases pipe capital cost",
+      "Eliminates the need to consider fittings and valves"
+    ],
+    "correct": 2,
+    "explanation": "Pipe sizing balances installed cost against energy cost, control range, erosion, noise, solids settling, and allowable pressure drop."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "The Swamee-Jain equation is commonly used as:",
+    "opts": [
+      "A hydrostatic pressure formula for tanks",
+      "A pump efficiency definition",
+      "An explicit approximation to turbulent Darcy friction factor",
+      "A correlation for boiling heat-transfer coefficients only"
+    ],
+    "correct": 2,
+    "explanation": "Explicit friction-factor formulas avoid iteration required by the Colebrook equation. They are useful in spreadsheets and preliminary design."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "For water at a fixed flow rate in a pipe, lowering viscosity tends to:",
+    "opts": [
+      "Decrease Reynolds number because viscosity is in the denominator",
+      "Increase Reynolds number and often lower friction factor in smooth turbulent or laminar regimes",
+      "Make Reynolds number exactly unchanged",
+      "Make laminar friction factor larger through f = 64/Re"
+    ],
+    "correct": 1,
+    "explanation": "Re = ρVD/μ. Heating a liquid often lowers μ, raising Re and altering pressure drop. In laminar flow, Δp is directly proportional to μ."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "In pipe design, an entrance loss from a sharp-edged inlet is represented as:",
+    "opts": [
+      "A negative pump head added to the system curve",
+      "A change in fluid molecular weight",
+      "A minor loss proportional to V²/2g with an entrance K value",
+      "A hydrostatic pressure term independent of velocity"
+    ],
+    "correct": 2,
+    "explanation": "Entrances, exits, fittings, and valves are commonly represented by K coefficients. Sharp entrances typically lose more than well-rounded entrances."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "In compressible gas piping, the ideal incompressible Darcy-Weisbach approach becomes questionable when:",
+    "opts": [
+      "The gas is Newtonian, because Newtonian fluids cannot be gases",
+      "Density changes significantly along the pipe due to pressure changes or high Mach number",
+      "The pipe is horizontal, because gas can only flow vertically",
+      "The pressure drop is exactly zero"
+    ],
+    "correct": 1,
+    "explanation": "Gas density depends strongly on pressure and temperature. High pressure drops, long lines, and high velocities require compressible-flow treatment, average-property approximations, or specialized gas-pipeline equations."
+  },
+  {
+    "section": "Internal Flow, Friction Factors & Pipe Networks",
+    "q": "A pipe exit discharging into a large tank has a common exit loss coefficient near:",
+    "opts": [
+      "K ≈ 0 always, because the tank is large",
+      "K ≈ 64/Re for all turbulent exits",
+      "K ≈ D/L, independent of velocity",
+      "K ≈ 1 based on the pipe velocity head"
+    ],
+    "correct": 3,
+    "explanation": "At an abrupt exit, the pipe velocity head is dissipated as the jet mixes in the large reservoir. This is often modeled as one velocity head loss."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "Pump head is best interpreted as:",
+    "opts": [
+      "Only the physical height of the pump casing",
+      "Mechanical energy added per unit weight of fluid, expressed as length of fluid",
+      "Only the motor electrical power in kilowatts",
+      "A pressure value that is independent of fluid density"
+    ],
+    "correct": 1,
+    "explanation": "Head lets pump performance be compared for different liquids. The pressure rise produced by a given head is Δp = ρgH, so denser liquids require more pressure for the same head."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "The shaft power required by a pump is approximately:",
+    "opts": [
+      "P_shaft = ηρgQH; this puts efficiency in the numerator",
+      "P_shaft = ρgQH/η",
+      "P_shaft = ρgH/(Qη); this divides by flow rate instead of multiplying",
+      "P_shaft = QH only; missing density, gravity, and efficiency"
+    ],
+    "correct": 1,
+    "explanation": "Hydraulic power delivered to the fluid is ρgQH. Shaft power is higher because pump efficiency is less than one."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "NPSH available is concerned with:",
+    "opts": [
+      "How far the pump suction absolute pressure head exceeds vapor-pressure head",
+      "The electrical voltage available to the motor",
+      "The discharge pressure after the pump only",
+      "The impeller diameter ratio from pump affinity laws"
+    ],
+    "correct": 0,
+    "explanation": "NPSH_A must exceed NPSH_R with a suitable margin to avoid cavitation. It depends on suction pressure, elevation, vapor pressure, suction-line losses, and fluid density."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "A common symptom of pump cavitation is:",
+    "opts": [
+      "Noise, vibration, head loss, and pitting damage on impeller surfaces",
+      "Perfectly smooth operation with higher-than-normal efficiency",
+      "Zero vapor formation even at low suction pressure",
+      "A guaranteed increase in discharge head"
+    ],
+    "correct": 0,
+    "explanation": "Cavitation bubbles form in low-pressure regions and collapse where pressure recovers. The collapse can create damaging microjets and shock waves."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "For a centrifugal pump with unchanged impeller diameter, the affinity laws approximately give:",
+    "opts": [
+      "Q ∝ N², H ∝ N, and P ∝ N; the exponents are mixed up",
+      "Q, H, and P are independent of speed",
+      "Q ∝ N, H ∝ N², and P ∝ N³",
+      "Q ∝ 1/N and H ∝ 1/N²; this reverses the speed trend"
+    ],
+    "correct": 2,
+    "explanation": "Pump affinity laws are useful for variable-speed control and preliminary estimates. Real performance can deviate due to efficiency changes, viscosity, recirculation, and operating limits."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "The operating point of a centrifugal pump in a system is found at:",
+    "opts": [
+      "The maximum possible flow on the pump curve regardless of system resistance",
+      "The shutoff head always",
+      "The point where suction pressure equals vapor pressure",
+      "The intersection of the pump curve and the system head curve"
+    ],
+    "correct": 3,
+    "explanation": "The pump supplies head that decreases with flow, while the system generally requires static head plus friction increasing with flow. Their intersection sets the actual flow rate."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "Best efficiency point (BEP) of a centrifugal pump is:",
+    "opts": [
+      "The flow/head condition where pump efficiency is maximum",
+      "The point of maximum shutoff head at zero flow",
+      "The point of maximum cavitation",
+      "The lowest NPSH available in the suction line"
+    ],
+    "correct": 0,
+    "explanation": "Operating near BEP reduces vibration, recirculation, bearing loads, and energy waste. Continuous operation far from BEP can shorten pump life."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "Pumps in series are used primarily to:",
+    "opts": [
+      "Increase total flow at the same head with no head increase",
+      "Cancel each other's pressure rise",
+      "Increase total head at approximately the same flow rate",
+      "Reduce NPSH required to zero"
+    ],
+    "correct": 2,
+    "explanation": "When identical pumps operate in series, heads add at a common flow rate. This is useful for high-head services."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "Pumps in parallel are used primarily to:",
+    "opts": [
+      "Increase head while forcing zero flow through one pump",
+      "Make the system curve vertical",
+      "Increase flow capacity at approximately the same head",
+      "Eliminate the need for check valves"
+    ],
+    "correct": 2,
+    "explanation": "Parallel pumps add flow at a common head. Check valves and proper control are needed to prevent reverse flow through an idle pump."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "A positive-displacement pump differs from a centrifugal pump because it:",
+    "opts": [
+      "Requires no relief valve under any circumstances",
+      "Always has zero pulsation and no slip",
+      "Delivers nearly fixed volume per cycle and can generate high pressure if blocked",
+      "Cannot pump viscous liquids"
+    ],
+    "correct": 2,
+    "explanation": "Positive-displacement pumps should normally have pressure relief protection. They are often used for metering, high-viscosity liquids, and high-pressure low-flow service."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "Pump priming is necessary for many centrifugal pumps because:",
+    "opts": [
+      "The pump impeller can compress air efficiently at startup",
+      "Priming removes all friction losses permanently",
+      "Priming changes the liquid specific gravity to one",
+      "The casing must be filled with liquid to develop suction and avoid gas binding"
+    ],
+    "correct": 3,
+    "explanation": "A centrifugal pump filled with gas may not create enough pressure difference to lift liquid. Self-priming designs and proper suction piping help manage startup."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "For a control valve, the flow coefficient Cv is a measure of:",
+    "opts": [
+      "Flow capacity through the valve for a given pressure drop under specified reference conditions",
+      "The valve body's corrosion allowance in millimeters",
+      "The pump motor efficiency",
+      "The pipe relative roughness"
+    ],
+    "correct": 0,
+    "explanation": "Cv/Kv values allow valve sizing and comparison. Actual flow also depends on pressure drop, density, valve opening, recovery factor, and choked-flow limits."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "An orifice plate flow meter works mainly by:",
+    "opts": [
+      "Measuring fluid density directly with no pressure measurement",
+      "Eliminating permanent pressure loss completely",
+      "Measuring viscosity by timing a falling ball",
+      "Creating a pressure drop related to flow rate through Bernoulli and a discharge coefficient"
+    ],
+    "correct": 3,
+    "explanation": "Orifice meters are inexpensive and common but cause significant permanent pressure loss. The flow rate is roughly proportional to the square root of differential pressure."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "For a differential-pressure meter in turbulent incompressible service, flow rate usually scales approximately as:",
+    "opts": [
+      "Q ∝ √Δp",
+      "Q ∝ Δp exactly for all conditions",
+      "Q ∝ 1/√Δp",
+      "Q is independent of Δp"
+    ],
+    "correct": 0,
+    "explanation": "From Bernoulli-type relations, Δp is proportional to ρV², so V and Q scale with the square root of Δp after coefficient corrections."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "A Venturi meter generally has less permanent pressure loss than an orifice plate because:",
+    "opts": [
+      "It has no pressure drop at the throat",
+      "It violates Bernoulli's equation",
+      "Its gradual contraction and diffuser reduce separation and recover pressure",
+      "It measures flow using surface tension only"
+    ],
+    "correct": 2,
+    "explanation": "Venturi meters cost more and require more space than orifice plates, but they are efficient and useful where pressure recovery matters."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "A rotameter is a:",
+    "opts": [
+      "Constant-area orifice plate with no moving parts",
+      "Variable-area meter in which a float position indicates flow rate",
+      "Magnetic meter that requires conductive liquid only",
+      "Coriolis meter measuring tube twist at high accuracy"
+    ],
+    "correct": 1,
+    "explanation": "In a rotameter, flow lifts a float in a tapered tube until drag and buoyancy balance weight. It is simple and visual but orientation, density, and viscosity can matter."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "A magnetic flow meter requires the process fluid to be:",
+    "opts": [
+      "Electrically conductive",
+      "A clean dry gas at high Mach number",
+      "A nonconductive hydrocarbon with zero ions",
+      "A solid powder with no carrier fluid"
+    ],
+    "correct": 0,
+    "explanation": "Magmeters apply Faraday's law: a conductive fluid moving through a magnetic field induces a voltage proportional to velocity. They have no obstruction and low pressure loss."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "A Coriolis flow meter directly measures:",
+    "opts": [
+      "Mass flow rate from tube vibration/twist caused by Coriolis forces",
+      "Only gauge pressure using a Bourdon tube",
+      "Only liquid level in an open tank",
+      "Only pipe roughness from wall vibration"
+    ],
+    "correct": 0,
+    "explanation": "Coriolis meters can provide mass flow and density with high accuracy, but they are relatively costly and can be limited by pressure drop, vibration, and two-phase flow."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "An ultrasonic transit-time flow meter determines flow by:",
+    "opts": [
+      "Measuring hydrostatic head difference in a U-tube",
+      "Counting pump impeller rotations only",
+      "Measuring induced voltage in a magnetic field",
+      "Comparing acoustic travel times upstream and downstream"
+    ],
+    "correct": 3,
+    "explanation": "Transit-time meters work best with clean fluids and good acoustic paths. Doppler ultrasonic meters use reflected sound and need bubbles or particles."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "A turbine flow meter infers flow rate from:",
+    "opts": [
+      "Static pressure only",
+      "Fluid color and opacity",
+      "Wall temperature gradient",
+      "Rotor speed driven by the fluid velocity"
+    ],
+    "correct": 3,
+    "explanation": "Turbine meters can be accurate for clean, low-viscosity liquids and gases. They have moving parts and can be affected by viscosity, fouling, and upstream swirl."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "For gas compression, isentropic compressor work increases strongly with:",
+    "opts": [
+      "Only pipe roughness downstream of the compressor",
+      "Pressure ratio and inlet absolute temperature",
+      "Only liquid surface tension",
+      "Lower molar heat capacity ratio in every possible case"
+    ],
+    "correct": 1,
+    "explanation": "Compressor power depends on mass flow, gas properties, inlet temperature, pressure ratio, and efficiency. Intercooling reduces work by lowering gas temperature between stages."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "Intercooling in multistage gas compression is used to:",
+    "opts": [
+      "Reduce compressor work and control discharge temperature",
+      "Increase gas temperature before every stage intentionally",
+      "Make compression perfectly frictionless",
+      "Eliminate the need for knockout drums when condensation is possible"
+    ],
+    "correct": 0,
+    "explanation": "Cooling between stages reduces specific volume and brings compression closer to isothermal behavior, lowering work. Condensate management may still be needed."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "Choked flow through a gas restriction occurs when:",
+    "opts": [
+      "The liquid level in a tank reaches the pipe centerline",
+      "A pump loses prime due to gas in the casing",
+      "The Reynolds number falls below 1 in creeping flow",
+      "Mass flux reaches a maximum and downstream pressure reduction no longer increases flow significantly"
+    ],
+    "correct": 3,
+    "explanation": "For compressible gas flow, a sonic condition can occur at the throat. Choked flow is important in relief valves, orifices, control valves, and blowdown calculations."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "A relief valve for liquid service must consider fluid mechanics because:",
+    "opts": [
+      "Relief sizing is independent of flow rate",
+      "Liquids always choke at Mach 1 exactly like ideal gases",
+      "Pipe backpressure can never affect relief capacity",
+      "Required area depends on allowable pressure drop, fluid density, viscosity, and discharge coefficient"
+    ],
+    "correct": 3,
+    "explanation": "Relief systems are hydraulic networks. Backpressure, two-phase flow, flashing, viscosity, and disposal-system pressure drops can all affect capacity and stability."
+  },
+  {
+    "section": "Pumps, Compressors, Turbines & Flow Measurement",
+    "q": "Pump minimum continuous stable flow is specified to avoid:",
+    "opts": [
+      "Too much NPSH available",
+      "Internal recirculation, overheating, vibration, and mechanical damage at very low flow",
+      "The system curve intersecting the pump curve",
+      "All friction in the discharge pipe"
+    ],
+    "correct": 1,
+    "explanation": "Centrifugal pumps operating too close to shutoff convert energy into heat and recirculation rather than useful flow. Minimum-flow bypasses are common in process plants."
+  },
+  {
+    "section": "External Flow, Drag, Settling & Fluidization",
+    "q": "The drag force on an object in external flow is commonly expressed as:",
+    "opts": [
+      "F_D = C_D(½ρV²)A; drag coefficient times dynamic pressure times reference area",
+      "F_D = μV only; missing length scale and area",
+      "F_D = ρghA; this is hydrostatic force, not external-flow drag",
+      "F_D = C_DA/ρV²; inverse of dynamic-pressure dependence"
+    ],
+    "correct": 0,
+    "explanation": "Drag coefficients collapse complex pressure and shear forces into a dimensionless parameter. The appropriate reference area and Reynolds number definition must be stated."
+  },
+  {
+    "section": "External Flow, Drag, Settling & Fluidization",
+    "q": "For creeping flow around a small sphere, Stokes' drag law is:",
+    "opts": [
+      "F_D = 3πμdV; valid for very low particle Reynolds number",
+      "F_D = C_DρV²A/2 with C_D fixed at 0.44 for all creeping flow",
+      "F_D = ρgV_particle only; this is a weight/buoyancy scale",
+      "F_D = μV²d; wrong velocity dependence for Stokes regime"
+    ],
+    "correct": 0,
+    "explanation": "Stokes drag applies for Re_p much less than 1. It is widely used for very small particles settling slowly in viscous fluids."
+  },
+  {
+    "section": "External Flow, Drag, Settling & Fluidization",
+    "q": "Terminal settling velocity is reached when:",
+    "opts": [
+      "Drag force becomes zero",
+      "Particle acceleration becomes infinite",
+      "Particle weight minus buoyancy equals drag force",
+      "Fluid density equals particle density in every settling operation"
+    ],
+    "correct": 2,
+    "explanation": "At terminal velocity, net force is zero and acceleration stops. The correct drag law depends on particle Reynolds number and shape."
+  },
+  {
+    "section": "External Flow, Drag, Settling & Fluidization",
+    "q": "In the Stokes settling regime, terminal velocity of a small sphere is proportional to:",
+    "opts": [
+      "d_p⁻²; smaller particles would settle faster, which is wrong in Stokes flow",
+      "μ/(ρ_p − ρ_f); higher viscosity would increase settling speed",
+      "d_p²(ρ_p − ρ_f)/μ",
+      "ρ_f only, independent of particle diameter"
+    ],
+    "correct": 2,
+    "explanation": "Stokes terminal velocity is v_t = d_p²(ρ_p−ρ_f)g/(18μ). Fine particles settle very slowly, motivating flocculation, centrifugation, or filtration."
+  },
+  {
+    "section": "External Flow, Drag, Settling & Fluidization",
+    "q": "Particle Reynolds number is usually defined as:",
+    "opts": [
+      "Re_p = ρ_f v_rel d_p/μ",
+      "Re_p = ρ_p g d_p/σ; this mixes weight and surface tension",
+      "Re_p = μ/(ρ_f v_rel d_p); inverse of the standard definition",
+      "Re_p = v_rel/√(gd_p); this is a Froude-type group"
+    ],
+    "correct": 0,
+    "explanation": "Particle Reynolds number determines whether Stokes, transitional, or Newton drag correlations are appropriate for settling and external-particle flow."
+  },
+  {
+    "section": "External Flow, Drag, Settling & Fluidization",
+    "q": "Hindered settling occurs when:",
+    "opts": [
+      "Only one isolated particle settles in an infinite fluid",
+      "Particles are concentrated enough that they interfere with each other's motion and fluid displacement",
+      "The fluid has zero viscosity",
+      "Gravity is absent"
+    ],
+    "correct": 1,
+    "explanation": "At higher solids concentration, settling velocity is less than the free-settling velocity. Clarifier and thickener design must account for concentration effects."
+  },
+  {
+    "section": "External Flow, Drag, Settling & Fluidization",
+    "q": "Sphericity of a particle describes:",
+    "opts": [
+      "The particle's electrical conductivity",
+      "The ratio of liquid viscosity to gas viscosity",
+      "How closely the particle shape resembles a sphere, affecting drag and packed-bed voidage",
+      "The pressure head in a pump discharge"
+    ],
+    "correct": 2,
+    "explanation": "Non-spherical particles have different drag, orientation, packing, and fluidization behavior. Shape factors often appear in empirical correlations."
+  },
+  {
+    "section": "External Flow, Drag, Settling & Fluidization",
+    "q": "Minimum fluidization velocity is the superficial velocity at which:",
+    "opts": [
+      "All particles dissolve completely",
+      "The bed pressure drop falls to exactly zero",
+      "The bed becomes a fixed packed bed with no particle motion",
+      "Upward pressure-drop force balances the effective weight of the bed particles"
+    ],
+    "correct": 3,
+    "explanation": "At incipient fluidization, the bed begins to behave like a fluid. Pressure drop across the bed approximately equals bed weight per area minus buoyancy."
+  },
+  {
+    "section": "External Flow, Drag, Settling & Fluidization",
+    "q": "In a fluidized bed, increasing gas velocity above minimum fluidization often produces:",
+    "opts": [
+      "Bubbling, solids mixing, entrainment risk, and changed heat/mass transfer behavior",
+      "A completely rigid packed bed with no particle motion",
+      "Zero pressure drop at all velocities",
+      "Elimination of all gas-solid contact"
+    ],
+    "correct": 0,
+    "explanation": "Fluidized beds offer strong mixing and heat transfer, but hydrodynamics can become complex. Bubbling, slugging, channeling, and entrainment are important design concerns."
+  },
+  {
+    "section": "External Flow, Drag, Settling & Fluidization",
+    "q": "Compared with a fixed bed, a bubbling fluidized bed typically provides:",
+    "opts": [
+      "No pressure drop and no particle motion",
+      "Perfect plug flow of both gas and solids in every case",
+      "Better solids mixing and more uniform temperature, but greater entrainment/control complexity",
+      "No need for cyclones or solids recovery ever"
+    ],
+    "correct": 2,
+    "explanation": "Fluidized beds are attractive for catalytic cracking, combustion, drying, and coating because of good contacting and heat transfer. They require careful distributor and solids-handling design."
+  },
+  {
+    "section": "External Flow, Drag, Settling & Fluidization",
+    "q": "A cyclone separator removes particles mainly by:",
+    "opts": [
+      "Molecular diffusion of particles through a membrane",
+      "Dissolving particles into the gas phase",
+      "Electrolysis of the carrier gas",
+      "Centrifugal/inertial action as the gas spirals and particles migrate to the wall"
+    ],
+    "correct": 3,
+    "explanation": "Cyclones have no moving parts and handle high temperatures/solids loadings, but efficiency drops for very fine particles unless designs are optimized or multiple devices are used."
+  },
+  {
+    "section": "External Flow, Drag, Settling & Fluidization",
+    "q": "Filtration through a cake often shows increasing pressure drop over time because:",
+    "opts": [
+      "Filter area increases spontaneously during operation",
+      "Viscosity becomes zero as cake forms",
+      "The filtrate density must decrease to zero",
+      "Cake thickness and resistance increase as solids accumulate"
+    ],
+    "correct": 3,
+    "explanation": "Cake filtration is commonly modeled as medium resistance plus cake resistance. Constant-pressure filtration leads to declining flow rate as resistance grows."
+  },
+  {
+    "section": "External Flow, Drag, Settling & Fluidization",
+    "q": "Darcy's law for flow through a porous medium indicates flow rate is proportional to:",
+    "opts": [
+      "Viscosity and path length, and inversely proportional to permeability",
+      "Surface tension only, regardless of pressure gradient",
+      "Pump speed only, independent of porous structure",
+      "Permeability and pressure gradient, and inversely proportional to viscosity"
+    ],
+    "correct": 3,
+    "explanation": "Darcy's law underlies packed-bed, filtration, and groundwater-flow models in the low-Reynolds-number porous-flow regime. Permeability has dimensions of area."
+  },
+  {
+    "section": "External Flow, Drag, Settling & Fluidization",
+    "q": "Boundary-layer separation on a body occurs when:",
+    "opts": [
+      "The no-slip condition stops applying in all liquids",
+      "Near-wall flow reverses under an adverse pressure gradient",
+      "Pressure is uniform and favorable everywhere",
+      "Viscosity is exactly zero"
+    ],
+    "correct": 1,
+    "explanation": "Separation increases form drag and creates wakes. Streamlining delays separation and reduces pressure drag compared with bluff bodies."
+  },
+  {
+    "section": "External Flow, Drag, Settling & Fluidization",
+    "q": "A streamlined body has lower drag than a bluff body mainly because it:",
+    "opts": [
+      "Eliminates skin friction completely",
+      "Makes dynamic pressure equal to zero",
+      "Delays separation and reduces wake size",
+      "Requires the fluid to be inviscid"
+    ],
+    "correct": 2,
+    "explanation": "Total drag includes skin friction and pressure/form drag. Streamlining reduces pressure drag by controlling separation, though surface friction may still exist."
+  },
+  {
+    "section": "External Flow, Drag, Settling & Fluidization",
+    "q": "For a smooth sphere at high Reynolds number before the drag crisis, the drag coefficient is roughly:",
+    "opts": [
+      "Exactly 24/Re, which applies only to creeping Stokes flow",
+      "On the order of 0.4–0.5, not 24/Re",
+      "Zero because turbulent flow has no drag",
+      "Equal to the Froude number"
+    ],
+    "correct": 1,
+    "explanation": "Sphere drag coefficient varies strongly with Reynolds number. Stokes law gives C_D = 24/Re_p at very low Re_p; at higher Re it levels near about 0.44 over a broad range before the drag crisis."
+  },
+  {
+    "section": "External Flow, Drag, Settling & Fluidization",
+    "q": "Pneumatic conveying design must consider saltation or pickup velocity because:",
+    "opts": [
+      "Solids move only by molecular diffusion",
+      "Pressure drop is always zero in gas-solid pipelines",
+      "Gas velocity must be high enough to keep solids suspended and moving",
+      "Pipe diameter has no effect on conveying behavior"
+    ],
+    "correct": 2,
+    "explanation": "Too low a gas velocity allows solids to settle, plug, or form unstable slugs. Too high a velocity increases erosion, attrition, and energy use."
+  },
+  {
+    "section": "External Flow, Drag, Settling & Fluidization",
+    "q": "A distributor plate in a fluidized bed is used to:",
+    "opts": [
+      "Distribute gas uniformly and reduce channeling at the bed inlet",
+      "Convert gas into liquid before it enters the bed",
+      "Remove all pressure drop from the system",
+      "Measure only the bed temperature"
+    ],
+    "correct": 0,
+    "explanation": "Good gas distribution is essential for stable fluidization. Poor distributors can cause jets, dead zones, channeling, and uneven reactions or drying."
+  },
+  {
+    "section": "External Flow, Drag, Settling & Fluidization",
+    "q": "In a sedimentation clarifier, overflow rate is important because it represents:",
+    "opts": [
+      "Pump head divided by impeller diameter",
+      "Volumetric flow divided by surface area, used to compare with particle settling velocity",
+      "Pipe friction factor divided by Reynolds number",
+      "Specific gravity divided by viscosity"
+    ],
+    "correct": 1,
+    "explanation": "For ideal settling, particles with settling velocity greater than the overflow rate can be captured. Real clarifiers also involve turbulence, flocculation, inlet/outlet design, and sludge handling."
+  },
+  {
+    "section": "External Flow, Drag, Settling & Fluidization",
+    "q": "Elutriation from a fluidized bed refers to:",
+    "opts": [
+      "Liquid evaporating at the distributor plate only",
+      "Fine particles being carried out of the bed by the gas flow",
+      "Particles settling faster than their terminal velocity by definition",
+      "Pressure drop vanishing at minimum fluidization"
+    ],
+    "correct": 1,
+    "explanation": "Elutriated fines may require cyclones, filters, or return systems. Particle size distribution and superficial velocity strongly influence entrainment."
+  },
+  {
+    "section": "Non-Newtonian, Multiphase & Industrial Applications",
+    "q": "A power-law non-Newtonian fluid is commonly modeled as:",
+    "opts": [
+      "τ = μdu/dy with constant μ for all shear rates; that is Newtonian behavior",
+      "τ = ρgh only; that is hydrostatic pressure",
+      "τ = K/(du/dy)^n for all fluids; this is not the standard power-law form",
+      "τ = K(du/dy)^n; n < 1 shear-thinning, n > 1 shear-thickening"
+    ],
+    "correct": 3,
+    "explanation": "Power-law fluids have apparent viscosity that changes with shear rate. Many polymer solutions, slurries, paints, and food fluids are non-Newtonian."
+  },
+  {
+    "section": "Non-Newtonian, Multiphase & Industrial Applications",
+    "q": "A shear-thinning fluid has apparent viscosity that:",
+    "opts": [
+      "Decreases as shear rate increases",
+      "Increases as shear rate increases",
+      "Remains exactly constant at all shear rates",
+      "Is negative above a critical velocity"
+    ],
+    "correct": 0,
+    "explanation": "Shear-thinning is common for polymer solutions and many suspensions. It can reduce pumping pressure at high flow rates but complicates scale-up and mixing predictions."
+  },
+  {
+    "section": "Non-Newtonian, Multiphase & Industrial Applications",
+    "q": "A Bingham plastic requires:",
+    "opts": [
+      "Zero shear stress at every shear rate",
+      "Only surface tension to move through a pipe",
+      "No pressure gradient in any pipeline",
+      "A finite yield stress before it begins to flow appreciably"
+    ],
+    "correct": 3,
+    "explanation": "Bingham-like materials such as some slurries, pastes, drilling muds, and wastewater sludges may not flow until applied stress exceeds yield stress. This affects startup and line clearing."
+  },
+  {
+    "section": "Non-Newtonian, Multiphase & Industrial Applications",
+    "q": "For non-Newtonian pipe flow, apparent viscosity is useful because:",
+    "opts": [
+      "It is a universal constant independent of shear rate",
+      "It eliminates the need for rheological measurements",
+      "It provides an effective viscosity at a specified shear rate or flow condition",
+      "It is always equal to water viscosity"
+    ],
+    "correct": 2,
+    "explanation": "Non-Newtonian design requires the rheological model and relevant shear-rate range. Using a single apparent viscosity outside its range can lead to poor pump and pipe sizing."
+  },
+  {
+    "section": "Non-Newtonian, Multiphase & Industrial Applications",
+    "q": "In slurry pipelines, velocity is often kept above a critical value to:",
+    "opts": [
+      "Make particles dissolve instantly",
+      "Reduce erosion to zero at all velocities",
+      "Guarantee laminar flow regardless of solids concentration",
+      "Prevent solids deposition and bed formation"
+    ],
+    "correct": 3,
+    "explanation": "Slurry design balances deposition risk at low velocity against erosion and energy cost at high velocity. Particle size, density, concentration, and pipe orientation matter."
+  },
+  {
+    "section": "Non-Newtonian, Multiphase & Industrial Applications",
+    "q": "Common gas-liquid flow regimes in horizontal pipes include:",
+    "opts": [
+      "Stratified, slug, annular, bubbly, and dispersed patterns depending on flow rates and properties",
+      "Only laminar and turbulent, with no interface patterns",
+      "Only fixed-bed and fluidized-bed regimes",
+      "Only plug flow with no slip in all conditions"
+    ],
+    "correct": 0,
+    "explanation": "Two-phase flow regime affects pressure drop, holdup, heat transfer, vibration, and separator design. Flow maps provide approximate regime predictions."
+  },
+  {
+    "section": "Non-Newtonian, Multiphase & Industrial Applications",
+    "q": "Slip ratio in two-phase flow describes:",
+    "opts": [
+      "The ratio of pipe roughness to diameter only",
+      "The ratio of pump speed to motor speed",
+      "The ratio of phase velocities, often gas velocity to liquid velocity",
+      "The ratio of surface tension to viscosity"
+    ],
+    "correct": 2,
+    "explanation": "Gas and liquid phases often travel at different velocities. Slip affects void fraction, pressure drop, residence time, and phase distribution."
+  },
+  {
+    "section": "Non-Newtonian, Multiphase & Industrial Applications",
+    "q": "The homogeneous two-phase model assumes:",
+    "opts": [
+      "Gas and liquid are always fully separated with no interaction",
+      "Only the gas phase contributes to pressure drop",
+      "The phases move at the same velocity and can be treated as a pseudo-fluid with averaged properties",
+      "The liquid phase has zero density"
+    ],
+    "correct": 2,
+    "explanation": "The homogeneous model is simple but can be inaccurate when slip is significant, such as stratified or annular flow. It is more plausible for finely dispersed mixtures."
+  },
+  {
+    "section": "Non-Newtonian, Multiphase & Industrial Applications",
+    "q": "Flooding in a gas-liquid column occurs when:",
+    "opts": [
+      "Gas flow is high enough to prevent liquid from flowing downward normally, causing sharp pressure-drop and holdup increases",
+      "Liquid flow stops because the column is perfectly dry",
+      "The pressure drop becomes exactly zero",
+      "The packing becomes a fixed catalyst bed with no liquid"
+    ],
+    "correct": 0,
+    "explanation": "Flooding limits capacity in packed and tray columns. Columns are often designed to operate below flooding, with margins based on service and control requirements."
+  },
+  {
+    "section": "Non-Newtonian, Multiphase & Industrial Applications",
+    "q": "In mixing-tank scale-up, matching Reynolds number alone may be insufficient because:",
+    "opts": [
+      "Power, shear, blend time, gas dispersion, heat transfer, and free-surface effects may not scale together",
+      "Reynolds number has no meaning in agitated vessels",
+      "Geometric similarity automatically guarantees identical performance",
+      "All industrial mixers are inviscid"
+    ],
+    "correct": 0,
+    "explanation": "Scale-up of mixing is multi-objective. Criteria may include constant tip speed, constant power per volume, constant blend time, or matched gas flow per area depending on the process goal."
+  },
+  {
+    "section": "Non-Newtonian, Multiphase & Industrial Applications",
+    "q": "The agitator Reynolds number is commonly based on:",
+    "opts": [
+      "Re_N = ρVD/σ, using surface tension instead of viscosity",
+      "Re_N = ρND²/μ, using impeller speed N and diameter D",
+      "Re_N = gD/N², a Froude-type inverse group",
+      "Re_N = μ/(ρND²), the inverse of the usual form"
+    ],
+    "correct": 1,
+    "explanation": "Agitator Reynolds number identifies laminar, transitional, and turbulent mixing regimes. Power number correlations are often plotted versus Re_N."
+  },
+  {
+    "section": "Non-Newtonian, Multiphase & Industrial Applications",
+    "q": "Power number for an impeller is defined as:",
+    "opts": [
+      "N_P = P/(ρN³D⁵)",
+      "N_P = ρND²/μ; this is agitator Reynolds number",
+      "N_P = V/√(gD); this is a Froude-type group",
+      "N_P = Δp/(ρV²); this is pressure coefficient/Euler-type scaling"
+    ],
+    "correct": 0,
+    "explanation": "In fully turbulent unaerated mixing, power number often becomes nearly constant for a given impeller geometry. This allows P ≈ N_PρN³D⁵ estimates."
+  },
+  {
+    "section": "Non-Newtonian, Multiphase & Industrial Applications",
+    "q": "CFD is useful in process fluid mechanics, but its predictions depend strongly on:",
+    "opts": [
+      "Only the color palette used in the software",
+      "Geometry, mesh, boundary conditions, turbulence/multiphase models, and validation data",
+      "The assumption that all turbulence models are exact",
+      "Avoiding all experimental or plant data"
+    ],
+    "correct": 1,
+    "explanation": "CFD can reveal flow fields that are hard to measure, but it is not automatically correct. Verification and validation are essential before using results for safety-critical design."
+  },
+  {
+    "section": "Non-Newtonian, Multiphase & Industrial Applications",
+    "q": "Water hammer is a transient hydraulic problem caused by:",
+    "opts": [
+      "Rapid velocity changes that create pressure waves in the pipeline",
+      "Slow molecular diffusion of water vapor through pipe walls",
+      "Only steady laminar friction in a constant-diameter pipe",
+      "Static hydrostatic pressure in an open tank with no flow"
+    ],
+    "correct": 0,
+    "explanation": "Fast valve closure or pump trip can generate severe pressure surges. Mitigation includes slow-closing valves, surge vessels, relief devices, bypasses, and transient analysis."
+  },
+  {
+    "section": "Non-Newtonian, Multiphase & Industrial Applications",
+    "q": "A sound industrial fluid-mechanics design should consider:",
+    "opts": [
+      "Only the lowest pipe purchase price",
+      "Only achieving the highest possible velocity in every line",
+      "Only the density of water, regardless of process fluid",
+      "Hydraulics, equipment curves, operability, erosion, fouling, cavitation, noise, safety, maintainability, and economics"
+    ],
+    "correct": 3,
+    "explanation": "Fluid-mechanics design is integrated with process control, mechanical integrity, energy use, safety, and maintenance. The best line size or equipment choice is rarely based on one variable alone."
+  }
+];
+
+const SECTIONS  = [
+  {
+    "key": "Fluid Properties, Statics & Manometry",
+    "label": "I — Fluid Properties, Statics & Manometry",
+    "cls": "sec-conduction",
+    "range": "Questions 1–25"
+  },
+  {
+    "key": "Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "label": "II — Conservation Laws, Bernoulli & Mechanical Energy Balance",
+    "cls": "sec-convection",
+    "range": "Questions 26–55"
+  },
+  {
+    "key": "Internal Flow, Friction Factors & Pipe Networks",
+    "label": "III — Internal Flow, Friction Factors & Pipe Networks",
+    "cls": "sec-radiation",
+    "range": "Questions 56–90"
+  },
+  {
+    "key": "Pumps, Compressors, Turbines & Flow Measurement",
+    "label": "IV — Pumps, Compressors, Turbines & Flow Measurement",
+    "cls": "sec-hx",
+    "range": "Questions 91–115"
+  },
+  {
+    "key": "External Flow, Drag, Settling & Fluidization",
+    "label": "V — External Flow, Drag, Settling & Fluidization",
+    "cls": "sec-boiling",
+    "range": "Questions 116–135"
+  },
+  {
+    "key": "Non-Newtonian, Multiphase & Industrial Applications",
+    "label": "VI — Non-Newtonian, Multiphase & Industrial Applications",
+    "cls": "sec-applications",
+    "range": "Questions 136–150"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+const TOTAL_Q = QUESTIONS.length;
+
+let mode = 'guided', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 4*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='04:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/'+TOTAL_Q;
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/'+TOTAL_Q;
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  // Engineering fundamentals: typical undergraduate / PE-prep readiness benchmarks
+  if(pct>=0.90){ grade='Fluid Mechanics \u2014 Distinction'; blurb='Outstanding command of fluid mechanics and momentum transfer. Strong grasp of statics, Bernoulli balances, pipe networks, pumps, flow measurement, drag, settling, fluidization, and non-Newtonian flow.'; }
+  else if(pct>=0.80){ grade='Fluid Mechanics \u2014 Solid Pass'; blurb='Strong understanding across most domains. Review missed items; you are at typical PE Chemical momentum-transfer readiness level.'; }
+  else if(pct>=0.70){ grade='Fluid Mechanics \u2014 Borderline'; blurb='At PE-prep level. Targeted review of weak sections recommended &mdash; especially pipe friction, pump/system curves, Bernoulli balances, and two-phase or non-Newtonian applications.'; }
+  else if(pct>=0.60){ grade='Approaching Pass Threshold'; blurb='Below typical certification passing range. Strengthen weak sections (per the breakdown), redo the calculation items, then re-test.'; }
+  else if(pct>=0.45){ grade='Developing Engineer'; blurb='Fundamentals forming but key gaps remain. Work through White, Munson, Bird-Stewart-Lightfoot, Crane TP-410, or Perry systematically and revisit dimensionless groups, pipe friction, pumps, meters, and settling/fluidization.'; }
+  else { grade='Begin the Fluid Mechanics Journey'; blurb='Start with an undergraduate fluid mechanics text: hydrostatics, continuity, Bernoulli, momentum balances, Reynolds number, pipe friction, pump curves, and basic drag/settling calculations.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 150 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one question at a time. 4-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Certificate name</label>
+    <input id="chmlCertNameInput" type="text" maxlength="80" placeholder="Enter name for certificate" oninput="chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" type="button" onclick="chmlPrintCertificate()">Print / Save as PDF</button>
+    <button class="chml-cert-btn secondary" type="button" onclick="chmlHideCertificate()">Hide Certificate</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div><div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker"><span id="chmlCertExamKicker">Knowledge Hub Examination</span></div>
+      <h1 class="chml-cert-h1">Certificate of Completion</h1>
+      <div class="chml-cert-rule"></div>
+      <p class="chml-cert-pre">This certifies that</p>
+      <p class="chml-cert-name" id="chmlCertName">Learner</p>
+      <p class="chml-cert-body">has successfully completed the <b id="chmlCertExamName">Knowledge Hub Exam</b>.</p>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">0 / 0</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">-</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Quak Foo Lee</div><div class="chml-cert-sig-label">Chmltech Ltd.</div></div>
+        <div class="chml-cert-id">Certificate ID: <span id="chmlCertId">-</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertificateInstalled) return;
+  window.__chmlCertificateInstalled = true;
+  function textOf(sel){var el=document.querySelector(sel);return el?el.textContent.trim():'';}
+  function examTitle(){return textOf('h1.title')||textOf('header h1')||textOf('h1')||document.title.replace(/\s+/g,' ').trim()||'Knowledge Hub Exam';}
+  function parseFirstNumber(txt){var m=String(txt||'').match(/\d+/);return m?parseInt(m[0],10):null;}
+  function parseScoreTotal(){
+    var correct=parseFirstNumber(textOf('#rScore'));
+    var total=null;
+    var rt=textOf('#rTotal');
+    if(rt) total=parseFirstNumber(rt);
+    if(!total){var sb=textOf('.score-big');var m=sb.match(/\/\s*(\d+)/);if(m) total=parseInt(m[1],10);}
+    if(!total) total=parseFirstNumber(textOf('#progTotal'));
+    if(!total){var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;if(cards) total=cards;}
+    if(!correct && correct!==0) correct=parseFirstNumber(textOf('#scoreNum'));
+    return {correct:correct||0,total:total||0};
+  }
+  function totalFromBreakdown(byType){
+    if(!byType || typeof byType!=='object') return null;
+    var total=0, found=false;
+    Object.keys(byType).forEach(function(k){var v=byType[k];if(v&&typeof v==='object'){var n=v.t||v.total||v.count;if(typeof n==='number'){total+=n;found=true;}}});
+    return found?total:null;
+  }
+  function hashCode(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+  window.chmlUpdateCertificateName=function(name){document.getElementById('chmlCertName').textContent=(name||'').trim()||'Learner';};
+  window.chmlHideCertificate=function(){var c=document.getElementById('chmlCertificate');if(c)c.classList.remove('show');};
+  window.chmlPrintCertificate=function(){window.print();};
+  window.chmlRenderCertificate=function(correct,total,grade){
+    var cert=document.getElementById('chmlCertificate');if(!cert)return;
+    var title=examTitle();
+    var nameInput=document.getElementById('chmlCertNameInput');
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
+    var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
+    document.getElementById('chmlCertExamName').textContent=title;
+    document.getElementById('chmlCertName').textContent=learner;
+    document.getElementById('chmlCertScore').textContent=String(correct)+' / '+String(total||0)+(total?(' ('+Math.round((correct/total)*100)+'%)'):'');
+    document.getElementById('chmlCertDate').textContent=date;
+    document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
+    cert.classList.add('show');
+  };
+
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
+    var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){
+      var parsed=parseScoreTotal();
+      if(correct===null || isNaN(correct)) correct=parsed.correct;
+      if(!total) total=parsed.total;
+      if(total || correct || document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0);
+    },60);
+  }
+  if(typeof window.showResults==='function'){
+    var originalShowResults=window.showResults;
+    window.showResults=function(){var out=originalShowResults.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  if(typeof window.submitExam==='function'){
+    var originalSubmitExam=window.submitExam;
+    window.submitExam=function(){var out=originalSubmitExam.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  ['resetExam','newExam'].forEach(function(fn){
+    if(typeof window[fn]==='function'){
+      var original=window[fn];
+      window[fn]=function(){window.chmlHideCertificate();return original.apply(this,arguments);};
+    }
+  });
+})();
+</script>
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>

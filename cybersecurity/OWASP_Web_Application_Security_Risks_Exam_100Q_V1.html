@@ -1,0 +1,2276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OWASP Top 10:2025 Web Application Security Risks Exam &middot; 100 Questions &middot; V1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  /* Section accents (agentic-ai-themed) */
+  --data:#1f4a7d;
+  --clf:#0e6b6a;
+  --dl:#a83410;
+  --nlp:#5a2585;
+  --llm:#226b2d;
+  --ops:#9b2c3a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+  /* Code block colors */
+  --code-bg:#1d2330;
+  --code-fg:#d8d4c4;
+  --code-comment:#8f96a8;
+  --code-blank-bg:#5a3a0d;
+  --code-blank-fg:#ffd57a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(31,74,125,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.6rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--data),var(--ops));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-data{background:linear-gradient(100deg,var(--data),#0c2541)}
+.sec-clf{background:linear-gradient(100deg,var(--clf),#06403f)}
+.sec-dl{background:linear-gradient(100deg,var(--dl),#5e1f05)}
+.sec-nlp{background:linear-gradient(100deg,var(--nlp),#311148)}
+.sec-llm{background:linear-gradient(100deg,var(--llm),#0e3d18)}
+.sec-ops{background:linear-gradient(100deg,var(--ops),#5b181f)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.06rem;line-height:1.55;margin-bottom:14px;font-weight:500}
+
+    .q-diagram{
+      margin:18px 0 22px;
+      padding:18px 16px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.7), rgba(247,243,232,0.5));
+      border:1px solid var(--line);
+      border-radius:8px;
+      text-align:center;
+    }
+    .q-diagram svg{max-width:100%;height:auto;}
+
+    .q-code{
+  font-family:'JetBrains Mono',monospace;font-size:.86rem;line-height:1.55;
+  background:var(--code-bg);color:var(--code-fg);
+  padding:14px 16px;margin:0 0 16px;border-radius:4px;
+  overflow-x:auto;white-space:pre;
+  border:1px solid #2a3142;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.q-code .blank{
+  background:var(--code-blank-bg);color:var(--code-blank-fg);
+  padding:1px 6px;border-radius:3px;font-weight:700;
+  border:1px dashed #c89542;
+}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:11px 14px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.55);transition:all .18s ease;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.08);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s;margin-top:1px}
+.opt .otext{flex:1;font-family:'JetBrains Mono',monospace;font-size:.86rem;line-height:1.5;word-break:break-word;padding-top:3px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.12)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center;font-family:'JetBrains Mono',monospace}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.95rem;font-family:'JetBrains Mono',monospace;word-break:break-word}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:180px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 16px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:.98rem}
+  .q-code{font-size:.78rem}
+  .opt .otext{font-size:.78rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">OWASP TOP 10:2025 EXAMINATION &middot; WEB APPLICATION SECURITY RISKS</div>
+    <h1 class="title">OWASP Top 10:2025 <span class="amp">Web Application Security</span> Exam</h1>
+    <div class="byline">100 questions across the ten critical OWASP Top 10:2025 risks for web applications, with practitioner scenarios and code/configuration examples</div>
+    <div class="exambar">
+      <span><b>100</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>100</b> Marks</span>
+      <span>Exam Mode: <b>2 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/100</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">02:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/100</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 2-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    OWASP Top 10:2025 Web Application Security Risks Exam &middot; 100 questions
+    <div class="disclaimer">An independent study resource aligned to the OWASP Top 10:2025 awareness document. OWASP guidance, CWE mappings, frameworks, libraries, and threat activity evolve quickly; always validate against the current OWASP pages and your organization's legal, risk, and security requirements before making production decisions.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "A01 Broken Access Control",
+    "q": "Which statement best describes A01:2025 - Broken Access Control in the OWASP Top 10:2025?",
+    "code": "",
+    "diagram": "<svg viewBox=\"0 0 760 150\" role=\"img\" aria-label=\"Broken Access Control control flow\"><defs><marker id=\"arrow-Broken-Access-Control\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\"><path d=\"M 0 0 L 10 5 L 0 10 z\" fill=\"#684a0f\"/></marker></defs><rect x=\"18\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#fff8e8\" stroke=\"#8b6526\"/><rect x=\"218\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#eef5ff\" stroke=\"#1f4a7d\"/><rect x=\"418\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#f7e7e3\" stroke=\"#a8412f\"/><rect x=\"608\" y=\"35\" width=\"134\" height=\"72\" rx=\"6\" fill=\"#e1ece4\" stroke=\"#2f6b4f\"/><path d=\"M178 71 H213\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Broken-Access-Control)\"/><path d=\"M378 71 H413\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Broken-Access-Control)\"/><path d=\"M578 71 H603\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Broken-Access-Control)\"/><text x=\"98\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">Broken Access Control</text><text x=\"98\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">risk condition</text><text x=\"298\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">exploit path</text><text x=\"298\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">attacker action</text><text x=\"498\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">business impact</text><text x=\"498\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">CIA or abuse loss</text><text x=\"675\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">primary control</text><text x=\"675\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">prevent/detect</text></svg>",
+    "opts": [
+      "It occurs when users can act outside their intended permissions, causing unauthorized disclosure, modification, destruction, or business actions.",
+      "It is limited to denial-of-service events and is unrelated to confidentiality or integrity.",
+      "It applies only to legacy desktop applications, not modern web APIs or cloud-backed applications.",
+      "It is mainly a documentation issue that can be accepted once developers are trained."
+    ],
+    "explanation": "OWASP frames Broken Access Control as a web application security risk with concrete failure modes, exploit paths, and preventive controls, not as a paperwork concern.",
+    "correct": 0
+  },
+  {
+    "section": "A01 Broken Access Control",
+    "q": "A review team is looking for signs of Broken Access Control. Which finding is most relevant?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "All production systems use consistent naming conventions for application services.",
+      "Idor through user-controlled record identifiers, force browsing, client-side-only authorization checks, cors trust of unapproved origins, and tampered jwts or hidden fields.",
+      "The team stores user stories and deployment notes in the same project workspace.",
+      "The application uses a supported framework and has a current product owner."
+    ],
+    "explanation": "The listed finding maps directly to OWASP's vulnerable conditions for Broken Access Control; naming, ownership, and tooling are not substitutes for security evidence.",
+    "correct": 1
+  },
+  {
+    "section": "A01 Broken Access Control",
+    "q": "What is the best primary prevention strategy for Broken Access Control?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Post a security reminder in the developer chat and rely on individual memory during releases.",
+      "Disable all automated tests that slow down deployment and inspect only severe incidents afterward.",
+      "Deny by default, enforce authorization in trusted server-side code, check record ownership, centralize reusable access-control rules, rate limit sensitive apis, and log repeated failures.",
+      "Accept the risk until an external penetration test proves an attacker has already exploited it."
+    ],
+    "explanation": "The strongest answer turns OWASP prevention guidance into repeatable engineering controls for Broken Access Control rather than ad-hoc awareness.",
+    "correct": 2
+  },
+  {
+    "section": "A01 Broken Access Control",
+    "q": "Which scenario most clearly illustrates A01:2025 - Broken Access Control?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "A team renames a service during a planned migration and updates all references in the same change.",
+      "A product manager rejects a feature request because it conflicts with the roadmap.",
+      "A static marketing page has a typo in a heading but processes no user data or transactions.",
+      "A customer changes an acct query parameter and retrieves another customer account because the server never verifies ownership."
+    ],
+    "explanation": "This scenario shows the risk mechanism for Broken Access Control in action and ties the weakness to a plausible security impact.",
+    "correct": 3
+  },
+  {
+    "section": "A01 Broken Access Control",
+    "q": "Which verification activity would give the strongest evidence that controls for Broken Access Control work?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Unit and integration tests that attempt cross-user, cross-role, direct-object, method, and forced-browsing access paths.",
+      "Ask whether developers remember seeing the OWASP category during annual training.",
+      "Count the number of pull requests merged last quarter without looking at their security content.",
+      "Check whether the application has an attractive landing page and consistent visual design."
+    ],
+    "explanation": "Verification should exercise the specific failure paths for Broken Access Control and prove that controls behave correctly under attack-like conditions.",
+    "correct": 0
+  },
+  {
+    "section": "A01 Broken Access Control",
+    "q": "Which CWE set is most closely associated with A01:2025 - Broken Access Control in the OWASP Top 10:2025 discussion?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "CWE identifiers are irrelevant because OWASP categories are only management themes.",
+      "CWE-200, CWE-352, CWE-639, CWE-862, CWE-863, and CWE-918.",
+      "Only hardware safety standards apply; software weakness taxonomies do not help here.",
+      "The correct mapping is always CWE-79 only, regardless of the OWASP category."
+    ],
+    "explanation": "OWASP maps each category to related CWEs. Knowing the weakness family helps teams connect findings, tests, and remediations.",
+    "correct": 1
+  },
+  {
+    "section": "A01 Broken Access Control",
+    "q": "A product team says the issue is acceptable because no breach has been confirmed. What is the best response for Broken Access Control?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Close the issue because absence of evidence proves the application cannot be exploited.",
+      "Wait until a customer reports data loss, then decide whether security work is worth funding.",
+      "Treat the weakness as an exploitable risk, prioritize remediation by exposure and impact, and add monitoring or compensating controls while the durable fix is delivered.",
+      "Move the issue to the backlog with no owner because OWASP categories are informational only."
+    ],
+    "explanation": "OWASP Top 10 risks are used to drive proactive risk reduction. No known breach does not prove the weakness is safe.",
+    "correct": 2
+  },
+  {
+    "section": "A01 Broken Access Control",
+    "q": "Review the excerpt. What is the most important security concern related to Broken Access Control?",
+    "code": "GET /api/accounts/48291\\nCookie: session=standard-user\\n\\n// Server uses request.params.accountId directly\\n// Missing check: account.ownerId == session.userId",
+    "diagram": "",
+    "opts": [
+      "The excerpt is harmless because short snippets cannot reveal architectural risk.",
+      "The only issue is code formatting; security behavior is unrelated to implementation details.",
+      "The safest response is to suppress the symptom and leave the underlying behavior unchanged.",
+      "The excerpt shows a concrete Broken Access Control failure pattern that should be fixed with the category-specific control, not accepted as normal behavior."
+    ],
+    "explanation": "The snippet is intentionally small, but it exposes a reviewable failure path for Broken Access Control and should trigger a focused remediation.",
+    "correct": 3
+  },
+  {
+    "section": "A01 Broken Access Control",
+    "q": "Which design or governance decision would best sustain protection against Broken Access Control over time?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Create explicit ownership, measurable control requirements, automated checks where possible, and review the control whenever architecture, dependencies, identity flows, or data sensitivity changes.",
+      "Assign the issue to whichever developer last touched the repository and leave no acceptance criteria.",
+      "Declare the category resolved after one successful release and stop measuring it.",
+      "Move the control entirely to end-user training so engineering teams can avoid implementation changes."
+    ],
+    "explanation": "Sustained AppSec depends on ownership, criteria, automation, and review triggers as systems evolve.",
+    "correct": 0
+  },
+  {
+    "section": "A01 Broken Access Control",
+    "q": "Which statement is the most dangerous misconception about Broken Access Control?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Security requirements should be testable and connected to likely abuse cases.",
+      "Hide the account link in the browser and rely on the front end to prevent direct api calls.",
+      "Controls should be implemented where attackers cannot trivially modify or bypass them.",
+      "Findings should be prioritized by exploitability, business impact, and exposure."
+    ],
+    "explanation": "The misconception substitutes a weak or bypassable measure for the deeper control OWASP recommends for Broken Access Control.",
+    "correct": 1
+  },
+  {
+    "section": "A02 Security Misconfiguration",
+    "q": "Which statement best describes A02:2025 - Security Misconfiguration in the OWASP Top 10:2025?",
+    "code": "",
+    "diagram": "<svg viewBox=\"0 0 760 150\" role=\"img\" aria-label=\"Security Misconfiguration control flow\"><defs><marker id=\"arrow-Security-Misconfiguration\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\"><path d=\"M 0 0 L 10 5 L 0 10 z\" fill=\"#684a0f\"/></marker></defs><rect x=\"18\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#fff8e8\" stroke=\"#8b6526\"/><rect x=\"218\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#eef5ff\" stroke=\"#1f4a7d\"/><rect x=\"418\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#f7e7e3\" stroke=\"#a8412f\"/><rect x=\"608\" y=\"35\" width=\"134\" height=\"72\" rx=\"6\" fill=\"#e1ece4\" stroke=\"#2f6b4f\"/><path d=\"M178 71 H213\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Security-Misconfiguration)\"/><path d=\"M378 71 H413\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Security-Misconfiguration)\"/><path d=\"M578 71 H603\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Security-Misconfiguration)\"/><text x=\"98\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">Security Misconfiguration</text><text x=\"98\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">risk condition</text><text x=\"298\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">exploit path</text><text x=\"298\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">attacker action</text><text x=\"498\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">business impact</text><text x=\"498\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">CIA or abuse loss</text><text x=\"675\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">primary control</text><text x=\"675\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">prevent/detect</text></svg>",
+    "opts": [
+      "It is limited to denial-of-service events and is unrelated to confidentiality or integrity.",
+      "It applies only to legacy desktop applications, not modern web APIs or cloud-backed applications.",
+      "It occurs when an application, system, cloud service, framework, or supporting component is set up in a way that weakens security.",
+      "It is mainly a documentation issue that can be accepted once developers are trained."
+    ],
+    "explanation": "OWASP frames Security Misconfiguration as a web application security risk with concrete failure modes, exploit paths, and preventive controls, not as a paperwork concern.",
+    "correct": 2
+  },
+  {
+    "section": "A02 Security Misconfiguration",
+    "q": "A review team is looking for signs of Security Misconfiguration. Which finding is most relevant?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "All production systems use consistent naming conventions for application services.",
+      "The team stores user stories and deployment notes in the same project workspace.",
+      "The application uses a supported framework and has a current product owner.",
+      "Default accounts, unnecessary services, sample pages, verbose stack traces, missing security headers, weak cloud storage permissions, and disabled security features after upgrades."
+    ],
+    "explanation": "The listed finding maps directly to OWASP's vulnerable conditions for Security Misconfiguration; naming, ownership, and tooling are not substitutes for security evidence.",
+    "correct": 3
+  },
+  {
+    "section": "A02 Security Misconfiguration",
+    "q": "What is the best primary prevention strategy for Security Misconfiguration?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Repeatable automated hardening, minimal installed components, secure environment baselines, configuration review during patching, segmentation, and strong browser security directives.",
+      "Post a security reminder in the developer chat and rely on individual memory during releases.",
+      "Disable all automated tests that slow down deployment and inspect only severe incidents afterward.",
+      "Accept the risk until an external penetration test proves an attacker has already exploited it."
+    ],
+    "explanation": "The strongest answer turns OWASP prevention guidance into repeatable engineering controls for Security Misconfiguration rather than ad-hoc awareness.",
+    "correct": 0
+  },
+  {
+    "section": "A02 Security Misconfiguration",
+    "q": "Which scenario most clearly illustrates A02:2025 - Security Misconfiguration?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "A team renames a service during a planned migration and updates all references in the same change.",
+      "A production error page exposes stack traces, library versions, file paths, and sql details to unauthenticated users.",
+      "A product manager rejects a feature request because it conflicts with the roadmap.",
+      "A static marketing page has a typo in a heading but processes no user data or transactions."
+    ],
+    "explanation": "This scenario shows the risk mechanism for Security Misconfiguration in action and ties the weakness to a plausible security impact.",
+    "correct": 1
+  },
+  {
+    "section": "A02 Security Misconfiguration",
+    "q": "Which verification activity would give the strongest evidence that controls for Security Misconfiguration work?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Ask whether developers remember seeing the OWASP category during annual training.",
+      "Count the number of pull requests merged last quarter without looking at their security content.",
+      "Configuration-as-code checks, cloud posture review, security header scanning, authenticated and unauthenticated error-path testing, and baseline drift detection.",
+      "Check whether the application has an attractive landing page and consistent visual design."
+    ],
+    "explanation": "Verification should exercise the specific failure paths for Security Misconfiguration and prove that controls behave correctly under attack-like conditions.",
+    "correct": 2
+  },
+  {
+    "section": "A02 Security Misconfiguration",
+    "q": "Which CWE set is most closely associated with A02:2025 - Security Misconfiguration in the OWASP Top 10:2025 discussion?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "CWE identifiers are irrelevant because OWASP categories are only management themes.",
+      "Only hardware safety standards apply; software weakness taxonomies do not help here.",
+      "The correct mapping is always CWE-79 only, regardless of the OWASP category.",
+      "CWE-16 and CWE-611, along with related configuration and XML external entity weaknesses."
+    ],
+    "explanation": "OWASP maps each category to related CWEs. Knowing the weakness family helps teams connect findings, tests, and remediations.",
+    "correct": 3
+  },
+  {
+    "section": "A02 Security Misconfiguration",
+    "q": "A product team says the issue is acceptable because no breach has been confirmed. What is the best response for Security Misconfiguration?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Treat the weakness as an exploitable risk, prioritize remediation by exposure and impact, and add monitoring or compensating controls while the durable fix is delivered.",
+      "Close the issue because absence of evidence proves the application cannot be exploited.",
+      "Wait until a customer reports data loss, then decide whether security work is worth funding.",
+      "Move the issue to the backlog with no owner because OWASP categories are informational only."
+    ],
+    "explanation": "OWASP Top 10 risks are used to drive proactive risk reduction. No known breach does not prove the weakness is safe.",
+    "correct": 0
+  },
+  {
+    "section": "A02 Security Misconfiguration",
+    "q": "Review the excerpt. What is the most important security concern related to Security Misconfiguration?",
+    "code": "HTTP/1.1 500 Internal Server Error\\nX-Powered-By: LegacyFramework/2.1\\nStackTrace: /var/www/app/controllers/payment.py:391\\nDB: prod-payments.internal",
+    "diagram": "",
+    "opts": [
+      "The excerpt is harmless because short snippets cannot reveal architectural risk.",
+      "The excerpt shows a concrete Security Misconfiguration failure pattern that should be fixed with the category-specific control, not accepted as normal behavior.",
+      "The only issue is code formatting; security behavior is unrelated to implementation details.",
+      "The safest response is to suppress the symptom and leave the underlying behavior unchanged."
+    ],
+    "explanation": "The snippet is intentionally small, but it exposes a reviewable failure path for Security Misconfiguration and should trigger a focused remediation.",
+    "correct": 1
+  },
+  {
+    "section": "A02 Security Misconfiguration",
+    "q": "Which design or governance decision would best sustain protection against Security Misconfiguration over time?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Assign the issue to whichever developer last touched the repository and leave no acceptance criteria.",
+      "Declare the category resolved after one successful release and stop measuring it.",
+      "Create explicit ownership, measurable control requirements, automated checks where possible, and review the control whenever architecture, dependencies, identity flows, or data sensitivity changes.",
+      "Move the control entirely to end-user training so engineering teams can avoid implementation changes."
+    ],
+    "explanation": "Sustained AppSec depends on ownership, criteria, automation, and review triggers as systems evolve.",
+    "correct": 2
+  },
+  {
+    "section": "A02 Security Misconfiguration",
+    "q": "Which statement is the most dangerous misconception about Security Misconfiguration?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Security requirements should be testable and connected to likely abuse cases.",
+      "Controls should be implemented where attackers cannot trivially modify or bypass them.",
+      "Findings should be prioritized by exploitability, business impact, and exposure.",
+      "Leave production defaults unchanged so every environment remains easy for developers to troubleshoot."
+    ],
+    "explanation": "The misconception substitutes a weak or bypassable measure for the deeper control OWASP recommends for Security Misconfiguration.",
+    "correct": 3
+  },
+  {
+    "section": "A03 Software Supply Chain Failures",
+    "q": "Which statement best describes A03:2025 - Software Supply Chain Failures in the OWASP Top 10:2025?",
+    "code": "",
+    "diagram": "<svg viewBox=\"0 0 760 150\" role=\"img\" aria-label=\"Software Supply Chain Failures control flow\"><defs><marker id=\"arrow-Software-Supply-Chain-Failures\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\"><path d=\"M 0 0 L 10 5 L 0 10 z\" fill=\"#684a0f\"/></marker></defs><rect x=\"18\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#fff8e8\" stroke=\"#8b6526\"/><rect x=\"218\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#eef5ff\" stroke=\"#1f4a7d\"/><rect x=\"418\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#f7e7e3\" stroke=\"#a8412f\"/><rect x=\"608\" y=\"35\" width=\"134\" height=\"72\" rx=\"6\" fill=\"#e1ece4\" stroke=\"#2f6b4f\"/><path d=\"M178 71 H213\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Software-Supply-Chain-Failures)\"/><path d=\"M378 71 H413\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Software-Supply-Chain-Failures)\"/><path d=\"M578 71 H603\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Software-Supply-Chain-Failures)\"/><text x=\"98\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">Software Supply Chain Failures</text><text x=\"98\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">risk condition</text><text x=\"298\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">exploit path</text><text x=\"298\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">attacker action</text><text x=\"498\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">business impact</text><text x=\"498\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">CIA or abuse loss</text><text x=\"675\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">primary control</text><text x=\"675\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">prevent/detect</text></svg>",
+    "opts": [
+      "It occurs when the build, distribution, update, dependency, or developer tooling process is compromised or breaks down.",
+      "It is limited to denial-of-service events and is unrelated to confidentiality or integrity.",
+      "It applies only to legacy desktop applications, not modern web APIs or cloud-backed applications.",
+      "It is mainly a documentation issue that can be accepted once developers are trained."
+    ],
+    "explanation": "OWASP frames Software Supply Chain Failures as a web application security risk with concrete failure modes, exploit paths, and preventive controls, not as a paperwork concern.",
+    "correct": 0
+  },
+  {
+    "section": "A03 Software Supply Chain Failures",
+    "q": "A review team is looking for signs of Software Supply Chain Failures. Which finding is most relevant?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "All production systems use consistent naming conventions for application services.",
+      "Unknown direct and transitive dependency versions, unmaintained packages, no vulnerability monitoring, untrusted sources, weak ci/cd privileges, and no change tracking for build systems or repositories.",
+      "The team stores user stories and deployment notes in the same project workspace.",
+      "The application uses a supported framework and has a current product owner."
+    ],
+    "explanation": "The listed finding maps directly to OWASP's vulnerable conditions for Software Supply Chain Failures; naming, ownership, and tooling are not substitutes for security evidence.",
+    "correct": 1
+  },
+  {
+    "section": "A03 Software Supply Chain Failures",
+    "q": "What is the best primary prevention strategy for Software Supply Chain Failures?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Post a security reminder in the developer chat and rely on individual memory during releases.",
+      "Disable all automated tests that slow down deployment and inspect only severe incidents afterward.",
+      "Central sbom management, software composition analysis, trusted signed sources, timely risk-based patching, ci/cd hardening, separation of duties, immutable artifacts, and staged rollouts.",
+      "Accept the risk until an external penetration test proves an attacker has already exploited it."
+    ],
+    "explanation": "The strongest answer turns OWASP prevention guidance into repeatable engineering controls for Software Supply Chain Failures rather than ad-hoc awareness.",
+    "correct": 2
+  },
+  {
+    "section": "A03 Software Supply Chain Failures",
+    "q": "Which scenario most clearly illustrates A03:2025 - Software Supply Chain Failures?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "A team renames a service during a planned migration and updates all references in the same change.",
+      "A product manager rejects a feature request because it conflicts with the roadmap.",
+      "A static marketing page has a typo in a heading but processes no user data or transactions.",
+      "A pipeline downloads a package from an unofficial registry during build, runs its install script, and exposes repository tokens."
+    ],
+    "explanation": "This scenario shows the risk mechanism for Software Supply Chain Failures in action and ties the weakness to a plausible security impact.",
+    "correct": 3
+  },
+  {
+    "section": "A03 Software Supply Chain Failures",
+    "q": "Which verification activity would give the strongest evidence that controls for Software Supply Chain Failures work?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Sbom comparison, dependency provenance review, ci/cd permission audits, package signature checks, and monitoring of cve, nvd, osv, and vendor advisories.",
+      "Ask whether developers remember seeing the OWASP category during annual training.",
+      "Count the number of pull requests merged last quarter without looking at their security content.",
+      "Check whether the application has an attractive landing page and consistent visual design."
+    ],
+    "explanation": "Verification should exercise the specific failure paths for Software Supply Chain Failures and prove that controls behave correctly under attack-like conditions.",
+    "correct": 0
+  },
+  {
+    "section": "A03 Software Supply Chain Failures",
+    "q": "Which CWE set is most closely associated with A03:2025 - Software Supply Chain Failures in the OWASP Top 10:2025 discussion?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "CWE identifiers are irrelevant because OWASP categories are only management themes.",
+      "CWE-1104, CWE-1329, CWE-1357, and CWE-1395.",
+      "Only hardware safety standards apply; software weakness taxonomies do not help here.",
+      "The correct mapping is always CWE-79 only, regardless of the OWASP category."
+    ],
+    "explanation": "OWASP maps each category to related CWEs. Knowing the weakness family helps teams connect findings, tests, and remediations.",
+    "correct": 1
+  },
+  {
+    "section": "A03 Software Supply Chain Failures",
+    "q": "A product team says the issue is acceptable because no breach has been confirmed. What is the best response for Software Supply Chain Failures?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Close the issue because absence of evidence proves the application cannot be exploited.",
+      "Wait until a customer reports data loss, then decide whether security work is worth funding.",
+      "Treat the weakness as an exploitable risk, prioritize remediation by exposure and impact, and add monitoring or compensating controls while the durable fix is delivered.",
+      "Move the issue to the backlog with no owner because OWASP categories are informational only."
+    ],
+    "explanation": "OWASP Top 10 risks are used to drive proactive risk reduction. No known breach does not prove the weakness is safe.",
+    "correct": 2
+  },
+  {
+    "section": "A03 Software Supply Chain Failures",
+    "q": "Review the excerpt. What is the most important security concern related to Software Supply Chain Failures?",
+    "code": "npm install left-pad-plus --registry=https://random-mirror.example\\n# postinstall script can read CI_TOKEN and publish artifacts",
+    "diagram": "",
+    "opts": [
+      "The excerpt is harmless because short snippets cannot reveal architectural risk.",
+      "The only issue is code formatting; security behavior is unrelated to implementation details.",
+      "The safest response is to suppress the symptom and leave the underlying behavior unchanged.",
+      "The excerpt shows a concrete Software Supply Chain Failures failure pattern that should be fixed with the category-specific control, not accepted as normal behavior."
+    ],
+    "explanation": "The snippet is intentionally small, but it exposes a reviewable failure path for Software Supply Chain Failures and should trigger a focused remediation.",
+    "correct": 3
+  },
+  {
+    "section": "A03 Software Supply Chain Failures",
+    "q": "Which design or governance decision would best sustain protection against Software Supply Chain Failures over time?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Create explicit ownership, measurable control requirements, automated checks where possible, and review the control whenever architecture, dependencies, identity flows, or data sensitivity changes.",
+      "Assign the issue to whichever developer last touched the repository and leave no acceptance criteria.",
+      "Declare the category resolved after one successful release and stop measuring it.",
+      "Move the control entirely to end-user training so engineering teams can avoid implementation changes."
+    ],
+    "explanation": "Sustained AppSec depends on ownership, criteria, automation, and review triggers as systems evolve.",
+    "correct": 0
+  },
+  {
+    "section": "A03 Software Supply Chain Failures",
+    "q": "Which statement is the most dangerous misconception about Software Supply Chain Failures?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Security requirements should be testable and connected to likely abuse cases.",
+      "Patch dependencies once per year after feature delivery, regardless of exploitability or exposed attack surface.",
+      "Controls should be implemented where attackers cannot trivially modify or bypass them.",
+      "Findings should be prioritized by exploitability, business impact, and exposure."
+    ],
+    "explanation": "The misconception substitutes a weak or bypassable measure for the deeper control OWASP recommends for Software Supply Chain Failures.",
+    "correct": 1
+  },
+  {
+    "section": "A04 Cryptographic Failures",
+    "q": "Which statement best describes A04:2025 - Cryptographic Failures in the OWASP Top 10:2025?",
+    "code": "",
+    "diagram": "<svg viewBox=\"0 0 760 150\" role=\"img\" aria-label=\"Cryptographic Failures control flow\"><defs><marker id=\"arrow-Cryptographic-Failures\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\"><path d=\"M 0 0 L 10 5 L 0 10 z\" fill=\"#684a0f\"/></marker></defs><rect x=\"18\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#fff8e8\" stroke=\"#8b6526\"/><rect x=\"218\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#eef5ff\" stroke=\"#1f4a7d\"/><rect x=\"418\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#f7e7e3\" stroke=\"#a8412f\"/><rect x=\"608\" y=\"35\" width=\"134\" height=\"72\" rx=\"6\" fill=\"#e1ece4\" stroke=\"#2f6b4f\"/><path d=\"M178 71 H213\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Cryptographic-Failures)\"/><path d=\"M378 71 H413\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Cryptographic-Failures)\"/><path d=\"M578 71 H603\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Cryptographic-Failures)\"/><text x=\"98\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">Cryptographic Failures</text><text x=\"98\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">risk condition</text><text x=\"298\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">exploit path</text><text x=\"298\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">attacker action</text><text x=\"498\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">business impact</text><text x=\"498\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">CIA or abuse loss</text><text x=\"675\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">primary control</text><text x=\"675\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">prevent/detect</text></svg>",
+    "opts": [
+      "It is limited to denial-of-service events and is unrelated to confidentiality or integrity.",
+      "It applies only to legacy desktop applications, not modern web APIs or cloud-backed applications.",
+      "It occurs when sensitive data is exposed because cryptography is missing, weak, misused, bypassed, downgraded, or managed with unsafe keys or randomness.",
+      "It is mainly a documentation issue that can be accepted once developers are trained."
+    ],
+    "explanation": "OWASP frames Cryptographic Failures as a web application security risk with concrete failure modes, exploit paths, and preventive controls, not as a paperwork concern.",
+    "correct": 2
+  },
+  {
+    "section": "A04 Cryptographic Failures",
+    "q": "A review team is looking for signs of Cryptographic Failures. Which finding is most relevant?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "All production systems use consistent naming conventions for application services.",
+      "The team stores user stories and deployment notes in the same project workspace.",
+      "The application uses a supported framework and has a current product owner.",
+      "Weak algorithms, reused initialization vectors, hard-coded keys, http fallback, missing hsts, non-cryptographic randomness, password hashes without adaptive salting, and key material in source control."
+    ],
+    "explanation": "The listed finding maps directly to OWASP's vulnerable conditions for Cryptographic Failures; naming, ownership, and tooling are not substitutes for security evidence.",
+    "correct": 3
+  },
+  {
+    "section": "A04 Cryptographic Failures",
+    "q": "What is the best primary prevention strategy for Cryptographic Failures?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Classify sensitive data, encrypt in transit and at rest, use trusted crypto implementations, store keys in hsm or managed secret services, rotate keys, use authenticated encryption, and hash passwords with argon2, scrypt, yescrypt, or pbkdf2 variants.",
+      "Post a security reminder in the developer chat and rely on individual memory during releases.",
+      "Disable all automated tests that slow down deployment and inspect only severe incidents afterward.",
+      "Accept the risk until an external penetration test proves an attacker has already exploited it."
+    ],
+    "explanation": "The strongest answer turns OWASP prevention guidance into repeatable engineering controls for Cryptographic Failures rather than ad-hoc awareness.",
+    "correct": 0
+  },
+  {
+    "section": "A04 Cryptographic Failures",
+    "q": "Which scenario most clearly illustrates A04:2025 - Cryptographic Failures?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "A team renames a service during a planned migration and updates all references in the same change.",
+      "Session cookies are issued after login but the site still allows http access, enabling interception and replay on an unsafe network.",
+      "A product manager rejects a feature request because it conflicts with the roadmap.",
+      "A static marketing page has a typo in a heading but processes no user data or transactions."
+    ],
+    "explanation": "This scenario shows the risk mechanism for Cryptographic Failures in action and ties the weakness to a plausible security impact.",
+    "correct": 1
+  },
+  {
+    "section": "A04 Cryptographic Failures",
+    "q": "Which verification activity would give the strongest evidence that controls for Cryptographic Failures work?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Ask whether developers remember seeing the OWASP category during annual training.",
+      "Count the number of pull requests merged last quarter without looking at their security content.",
+      "Tls configuration testing, key management review, secret scanning, password-storage review, algorithm deprecation checks, and verification that ivs or nonces are never reused with the same key.",
+      "Check whether the application has an attractive landing page and consistent visual design."
+    ],
+    "explanation": "Verification should exercise the specific failure paths for Cryptographic Failures and prove that controls behave correctly under attack-like conditions.",
+    "correct": 2
+  },
+  {
+    "section": "A04 Cryptographic Failures",
+    "q": "Which CWE set is most closely associated with A04:2025 - Cryptographic Failures in the OWASP Top 10:2025 discussion?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "CWE identifiers are irrelevant because OWASP categories are only management themes.",
+      "Only hardware safety standards apply; software weakness taxonomies do not help here.",
+      "The correct mapping is always CWE-79 only, regardless of the OWASP category.",
+      "CWE-327, CWE-331, CWE-338, and related weak algorithm and entropy weaknesses."
+    ],
+    "explanation": "OWASP maps each category to related CWEs. Knowing the weakness family helps teams connect findings, tests, and remediations.",
+    "correct": 3
+  },
+  {
+    "section": "A04 Cryptographic Failures",
+    "q": "A product team says the issue is acceptable because no breach has been confirmed. What is the best response for Cryptographic Failures?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Treat the weakness as an exploitable risk, prioritize remediation by exposure and impact, and add monitoring or compensating controls while the durable fix is delivered.",
+      "Close the issue because absence of evidence proves the application cannot be exploited.",
+      "Wait until a customer reports data loss, then decide whether security work is worth funding.",
+      "Move the issue to the backlog with no owner because OWASP categories are informational only."
+    ],
+    "explanation": "OWASP Top 10 risks are used to drive proactive risk reduction. No known breach does not prove the weakness is safe.",
+    "correct": 0
+  },
+  {
+    "section": "A04 Cryptographic Failures",
+    "q": "Review the excerpt. What is the most important security concern related to Cryptographic Failures?",
+    "code": "const key = \\\"company-default-key\\\";\\nconst iv = Buffer.alloc(16, 0);\\nconst cipher = crypto.createCipheriv(\\\"aes-256-cbc\\\", key, iv);",
+    "diagram": "",
+    "opts": [
+      "The excerpt is harmless because short snippets cannot reveal architectural risk.",
+      "The excerpt shows a concrete Cryptographic Failures failure pattern that should be fixed with the category-specific control, not accepted as normal behavior.",
+      "The only issue is code formatting; security behavior is unrelated to implementation details.",
+      "The safest response is to suppress the symptom and leave the underlying behavior unchanged."
+    ],
+    "explanation": "The snippet is intentionally small, but it exposes a reviewable failure path for Cryptographic Failures and should trigger a focused remediation.",
+    "correct": 1
+  },
+  {
+    "section": "A04 Cryptographic Failures",
+    "q": "Which design or governance decision would best sustain protection against Cryptographic Failures over time?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Assign the issue to whichever developer last touched the repository and leave no acceptance criteria.",
+      "Declare the category resolved after one successful release and stop measuring it.",
+      "Create explicit ownership, measurable control requirements, automated checks where possible, and review the control whenever architecture, dependencies, identity flows, or data sensitivity changes.",
+      "Move the control entirely to end-user training so engineering teams can avoid implementation changes."
+    ],
+    "explanation": "Sustained AppSec depends on ownership, criteria, automation, and review triggers as systems evolve.",
+    "correct": 2
+  },
+  {
+    "section": "A04 Cryptographic Failures",
+    "q": "Which statement is the most dangerous misconception about Cryptographic Failures?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Security requirements should be testable and connected to likely abuse cases.",
+      "Controls should be implemented where attackers cannot trivially modify or bypass them.",
+      "Findings should be prioritized by exploitability, business impact, and exposure.",
+      "Write a custom encryption algorithm so attackers cannot recognize a standard implementation."
+    ],
+    "explanation": "The misconception substitutes a weak or bypassable measure for the deeper control OWASP recommends for Cryptographic Failures.",
+    "correct": 3
+  },
+  {
+    "section": "A05 Injection",
+    "q": "Which statement best describes A05:2025 - Injection in the OWASP Top 10:2025?",
+    "code": "",
+    "diagram": "<svg viewBox=\"0 0 760 150\" role=\"img\" aria-label=\"Injection control flow\"><defs><marker id=\"arrow-Injection\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\"><path d=\"M 0 0 L 10 5 L 0 10 z\" fill=\"#684a0f\"/></marker></defs><rect x=\"18\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#fff8e8\" stroke=\"#8b6526\"/><rect x=\"218\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#eef5ff\" stroke=\"#1f4a7d\"/><rect x=\"418\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#f7e7e3\" stroke=\"#a8412f\"/><rect x=\"608\" y=\"35\" width=\"134\" height=\"72\" rx=\"6\" fill=\"#e1ece4\" stroke=\"#2f6b4f\"/><path d=\"M178 71 H213\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Injection)\"/><path d=\"M378 71 H413\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Injection)\"/><path d=\"M578 71 H603\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Injection)\"/><text x=\"98\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">Injection</text><text x=\"98\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">risk condition</text><text x=\"298\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">exploit path</text><text x=\"298\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">attacker action</text><text x=\"498\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">business impact</text><text x=\"498\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">CIA or abuse loss</text><text x=\"675\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">primary control</text><text x=\"675\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">prevent/detect</text></svg>",
+    "opts": [
+      "It occurs when untrusted input reaches an interpreter and changes the intended command, query, document, expression, or execution context.",
+      "It is limited to denial-of-service events and is unrelated to confidentiality or integrity.",
+      "It applies only to legacy desktop applications, not modern web APIs or cloud-backed applications.",
+      "It is mainly a documentation issue that can be accepted once developers are trained."
+    ],
+    "explanation": "OWASP frames Injection as a web application security risk with concrete failure modes, exploit paths, and preventive controls, not as a paperwork concern.",
+    "correct": 0
+  },
+  {
+    "section": "A05 Injection",
+    "q": "A review team is looking for signs of Injection. Which finding is most relevant?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "All production systems use consistent naming conventions for application services.",
+      "String-concatenated sql, nosql filters built from raw json, shell commands with user input, unsafe orm search expressions, ldap query construction, and context-free escaping.",
+      "The team stores user stories and deployment notes in the same project workspace.",
+      "The application uses a supported framework and has a current product owner."
+    ],
+    "explanation": "The listed finding maps directly to OWASP's vulnerable conditions for Injection; naming, ownership, and tooling are not substitutes for security evidence.",
+    "correct": 1
+  },
+  {
+    "section": "A05 Injection",
+    "q": "What is the best primary prevention strategy for Injection?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Post a security reminder in the developer chat and rely on individual memory during releases.",
+      "Disable all automated tests that slow down deployment and inspect only severe incidents afterward.",
+      "Keep data separate from commands through safe apis, parameterized queries, vetted orms, positive server-side validation, context-specific escaping only where unavoidable, and sast/dast/iast plus fuzzing in ci/cd.",
+      "Accept the risk until an external penetration test proves an attacker has already exploited it."
+    ],
+    "explanation": "The strongest answer turns OWASP prevention guidance into repeatable engineering controls for Injection rather than ad-hoc awareness.",
+    "correct": 2
+  },
+  {
+    "section": "A05 Injection",
+    "q": "Which scenario most clearly illustrates A05:2025 - Injection?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "A team renames a service during a planned migration and updates all references in the same change.",
+      "A product manager rejects a feature request because it conflicts with the roadmap.",
+      "A static marketing page has a typo in a heading but processes no user data or transactions.",
+      "An id parameter is concatenated into a sql query, and the value or 1=1 causes the query to return all accounts."
+    ],
+    "explanation": "This scenario shows the risk mechanism for Injection in action and ties the weakness to a plausible security impact.",
+    "correct": 3
+  },
+  {
+    "section": "A05 Injection",
+    "q": "Which verification activity would give the strongest evidence that controls for Injection work?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Source review and automated testing of parameters, headers, urls, cookies, json, soap, and xml inputs with malicious payloads for every interpreter boundary.",
+      "Ask whether developers remember seeing the OWASP category during annual training.",
+      "Count the number of pull requests merged last quarter without looking at their security content.",
+      "Check whether the application has an attractive landing page and consistent visual design."
+    ],
+    "explanation": "Verification should exercise the specific failure paths for Injection and prove that controls behave correctly under attack-like conditions.",
+    "correct": 0
+  },
+  {
+    "section": "A05 Injection",
+    "q": "Which CWE set is most closely associated with A05:2025 - Injection in the OWASP Top 10:2025 discussion?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "CWE identifiers are irrelevant because OWASP categories are only management themes.",
+      "CWE-20, CWE-74, CWE-77, CWE-78, CWE-79, CWE-89, CWE-90, and related injection weaknesses.",
+      "Only hardware safety standards apply; software weakness taxonomies do not help here.",
+      "The correct mapping is always CWE-79 only, regardless of the OWASP category."
+    ],
+    "explanation": "OWASP maps each category to related CWEs. Knowing the weakness family helps teams connect findings, tests, and remediations.",
+    "correct": 1
+  },
+  {
+    "section": "A05 Injection",
+    "q": "A product team says the issue is acceptable because no breach has been confirmed. What is the best response for Injection?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Close the issue because absence of evidence proves the application cannot be exploited.",
+      "Wait until a customer reports data loss, then decide whether security work is worth funding.",
+      "Treat the weakness as an exploitable risk, prioritize remediation by exposure and impact, and add monitoring or compensating controls while the durable fix is delivered.",
+      "Move the issue to the backlog with no owner because OWASP categories are informational only."
+    ],
+    "explanation": "OWASP Top 10 risks are used to drive proactive risk reduction. No known breach does not prove the weakness is safe.",
+    "correct": 2
+  },
+  {
+    "section": "A05 Injection",
+    "q": "Review the excerpt. What is the most important security concern related to Injection?",
+    "code": "query = \\\"SELECT * FROM accounts WHERE custID = \\\" + request.args[\\\"id\\\"]\\ndb.execute(query)",
+    "diagram": "",
+    "opts": [
+      "The excerpt is harmless because short snippets cannot reveal architectural risk.",
+      "The only issue is code formatting; security behavior is unrelated to implementation details.",
+      "The safest response is to suppress the symptom and leave the underlying behavior unchanged.",
+      "The excerpt shows a concrete Injection failure pattern that should be fixed with the category-specific control, not accepted as normal behavior."
+    ],
+    "explanation": "The snippet is intentionally small, but it exposes a reviewable failure path for Injection and should trigger a focused remediation.",
+    "correct": 3
+  },
+  {
+    "section": "A05 Injection",
+    "q": "Which design or governance decision would best sustain protection against Injection over time?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Create explicit ownership, measurable control requirements, automated checks where possible, and review the control whenever architecture, dependencies, identity flows, or data sensitivity changes.",
+      "Assign the issue to whichever developer last touched the repository and leave no acceptance criteria.",
+      "Declare the category resolved after one successful release and stop measuring it.",
+      "Move the control entirely to end-user training so engineering teams can avoid implementation changes."
+    ],
+    "explanation": "Sustained AppSec depends on ownership, criteria, automation, and review triggers as systems evolve.",
+    "correct": 0
+  },
+  {
+    "section": "A05 Injection",
+    "q": "Which statement is the most dangerous misconception about Injection?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Security requirements should be testable and connected to likely abuse cases.",
+      "Remove single quotes from input and assume every interpreter will become safe automatically.",
+      "Controls should be implemented where attackers cannot trivially modify or bypass them.",
+      "Findings should be prioritized by exploitability, business impact, and exposure."
+    ],
+    "explanation": "The misconception substitutes a weak or bypassable measure for the deeper control OWASP recommends for Injection.",
+    "correct": 1
+  },
+  {
+    "section": "A06 Insecure Design",
+    "q": "Which statement best describes A06:2025 - Insecure Design in the OWASP Top 10:2025?",
+    "code": "",
+    "diagram": "<svg viewBox=\"0 0 760 150\" role=\"img\" aria-label=\"Insecure Design control flow\"><defs><marker id=\"arrow-Insecure-Design\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\"><path d=\"M 0 0 L 10 5 L 0 10 z\" fill=\"#684a0f\"/></marker></defs><rect x=\"18\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#fff8e8\" stroke=\"#8b6526\"/><rect x=\"218\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#eef5ff\" stroke=\"#1f4a7d\"/><rect x=\"418\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#f7e7e3\" stroke=\"#a8412f\"/><rect x=\"608\" y=\"35\" width=\"134\" height=\"72\" rx=\"6\" fill=\"#e1ece4\" stroke=\"#2f6b4f\"/><path d=\"M178 71 H213\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Insecure-Design)\"/><path d=\"M378 71 H413\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Insecure-Design)\"/><path d=\"M578 71 H603\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Insecure-Design)\"/><text x=\"98\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">Insecure Design</text><text x=\"98\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">risk condition</text><text x=\"298\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">exploit path</text><text x=\"298\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">attacker action</text><text x=\"498\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">business impact</text><text x=\"498\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">CIA or abuse loss</text><text x=\"675\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">primary control</text><text x=\"675\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">prevent/detect</text></svg>",
+    "opts": [
+      "It is limited to denial-of-service events and is unrelated to confidentiality or integrity.",
+      "It applies only to legacy desktop applications, not modern web APIs or cloud-backed applications.",
+      "It occurs when security controls are missing or ineffective by design, especially in business logic, trust boundaries, tenant isolation, or abuse-case handling.",
+      "It is mainly a documentation issue that can be accepted once developers are trained."
+    ],
+    "explanation": "OWASP frames Insecure Design as a web application security risk with concrete failure modes, exploit paths, and preventive controls, not as a paperwork concern.",
+    "correct": 2
+  },
+  {
+    "section": "A06 Insecure Design",
+    "q": "A review team is looking for signs of Insecure Design. Which finding is most relevant?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "All production systems use consistent naming conventions for application services.",
+      "The team stores user stories and deployment notes in the same project workspace.",
+      "The application uses a supported framework and has a current product owner.",
+      "No threat modeling, no misuse cases, security requirements absent from user stories, weak tenant segregation, business rules that allow implausible transactions, and reliance on implementation testing to discover design gaps."
+    ],
+    "explanation": "The listed finding maps directly to OWASP's vulnerable conditions for Insecure Design; naming, ownership, and tooling are not substitutes for security evidence.",
+    "correct": 3
+  },
+  {
+    "section": "A06 Insecure Design",
+    "q": "What is the best primary prevention strategy for Insecure Design?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Secure sdlc, threat modeling for critical flows, secure design patterns, paved-road components, security language in requirements, plausibility checks at each tier, misuse-case tests, and robust tenant segregation.",
+      "Post a security reminder in the developer chat and rely on individual memory during releases.",
+      "Disable all automated tests that slow down deployment and inspect only severe incidents afterward.",
+      "Accept the risk until an external penetration test proves an attacker has already exploited it."
+    ],
+    "explanation": "The strongest answer turns OWASP prevention guidance into repeatable engineering controls for Insecure Design rather than ad-hoc awareness.",
+    "correct": 0
+  },
+  {
+    "section": "A06 Insecure Design",
+    "q": "Which scenario most clearly illustrates A06:2025 - Insecure Design?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "A team renames a service during a planned migration and updates all references in the same change.",
+      "A ticketing system allows one account to reserve hundreds of seats without deposit because the booking workflow never modeled abuse cases.",
+      "A product manager rejects a feature request because it conflicts with the roadmap.",
+      "A static marketing page has a typo in a heading but processes no user data or transactions."
+    ],
+    "explanation": "This scenario shows the risk mechanism for Insecure Design in action and ties the weakness to a plausible security impact.",
+    "correct": 1
+  },
+  {
+    "section": "A06 Insecure Design",
+    "q": "Which verification activity would give the strongest evidence that controls for Insecure Design work?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Ask whether developers remember seeing the OWASP category during annual training.",
+      "Count the number of pull requests merged last quarter without looking at their security content.",
+      "Architecture review, threat modeling, misuse-case workshops, security acceptance criteria, unit and integration tests against critical flows, and design review before coding.",
+      "Check whether the application has an attractive landing page and consistent visual design."
+    ],
+    "explanation": "Verification should exercise the specific failure paths for Insecure Design and prove that controls behave correctly under attack-like conditions.",
+    "correct": 2
+  },
+  {
+    "section": "A06 Insecure Design",
+    "q": "Which CWE set is most closely associated with A06:2025 - Insecure Design in the OWASP Top 10:2025 discussion?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "CWE identifiers are irrelevant because OWASP categories are only management themes.",
+      "Only hardware safety standards apply; software weakness taxonomies do not help here.",
+      "The correct mapping is always CWE-79 only, regardless of the OWASP category.",
+      "CWE-256, CWE-269, CWE-434, CWE-501, CWE-522, and broader design-related weaknesses."
+    ],
+    "explanation": "OWASP maps each category to related CWEs. Knowing the weakness family helps teams connect findings, tests, and remediations.",
+    "correct": 3
+  },
+  {
+    "section": "A06 Insecure Design",
+    "q": "A product team says the issue is acceptable because no breach has been confirmed. What is the best response for Insecure Design?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Treat the weakness as an exploitable risk, prioritize remediation by exposure and impact, and add monitoring or compensating controls while the durable fix is delivered.",
+      "Close the issue because absence of evidence proves the application cannot be exploited.",
+      "Wait until a customer reports data loss, then decide whether security work is worth funding.",
+      "Move the issue to the backlog with no owner because OWASP categories are informational only."
+    ],
+    "explanation": "OWASP Top 10 risks are used to drive proactive risk reduction. No known breach does not prove the weakness is safe.",
+    "correct": 0
+  },
+  {
+    "section": "A06 Insecure Design",
+    "q": "Review the excerpt. What is the most important security concern related to Insecure Design?",
+    "code": "User story: As a buyer, I can reserve seats.\\nMissing: max seats per user, deposit threshold, bot checks, rollback rules, abuse alerts.",
+    "diagram": "",
+    "opts": [
+      "The excerpt is harmless because short snippets cannot reveal architectural risk.",
+      "The excerpt shows a concrete Insecure Design failure pattern that should be fixed with the category-specific control, not accepted as normal behavior.",
+      "The only issue is code formatting; security behavior is unrelated to implementation details.",
+      "The safest response is to suppress the symptom and leave the underlying behavior unchanged."
+    ],
+    "explanation": "The snippet is intentionally small, but it exposes a reviewable failure path for Insecure Design and should trigger a focused remediation.",
+    "correct": 1
+  },
+  {
+    "section": "A06 Insecure Design",
+    "q": "Which design or governance decision would best sustain protection against Insecure Design over time?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Assign the issue to whichever developer last touched the repository and leave no acceptance criteria.",
+      "Declare the category resolved after one successful release and stop measuring it.",
+      "Create explicit ownership, measurable control requirements, automated checks where possible, and review the control whenever architecture, dependencies, identity flows, or data sensitivity changes.",
+      "Move the control entirely to end-user training so engineering teams can avoid implementation changes."
+    ],
+    "explanation": "Sustained AppSec depends on ownership, criteria, automation, and review triggers as systems evolve.",
+    "correct": 2
+  },
+  {
+    "section": "A06 Insecure Design",
+    "q": "Which statement is the most dangerous misconception about Insecure Design?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Security requirements should be testable and connected to likely abuse cases.",
+      "Controls should be implemented where attackers cannot trivially modify or bypass them.",
+      "Findings should be prioritized by exploitability, business impact, and exposure.",
+      "Wait for penetration testing after release to discover which business rules should have existed."
+    ],
+    "explanation": "The misconception substitutes a weak or bypassable measure for the deeper control OWASP recommends for Insecure Design.",
+    "correct": 3
+  },
+  {
+    "section": "A07 Authentication Failures",
+    "q": "Which statement best describes A07:2025 - Authentication Failures in the OWASP Top 10:2025?",
+    "code": "",
+    "diagram": "<svg viewBox=\"0 0 760 150\" role=\"img\" aria-label=\"Authentication Failures control flow\"><defs><marker id=\"arrow-Authentication-Failures\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\"><path d=\"M 0 0 L 10 5 L 0 10 z\" fill=\"#684a0f\"/></marker></defs><rect x=\"18\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#fff8e8\" stroke=\"#8b6526\"/><rect x=\"218\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#eef5ff\" stroke=\"#1f4a7d\"/><rect x=\"418\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#f7e7e3\" stroke=\"#a8412f\"/><rect x=\"608\" y=\"35\" width=\"134\" height=\"72\" rx=\"6\" fill=\"#e1ece4\" stroke=\"#2f6b4f\"/><path d=\"M178 71 H213\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Authentication-Failures)\"/><path d=\"M378 71 H413\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Authentication-Failures)\"/><path d=\"M578 71 H603\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Authentication-Failures)\"/><text x=\"98\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">Authentication Failures</text><text x=\"98\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">risk condition</text><text x=\"298\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">exploit path</text><text x=\"298\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">attacker action</text><text x=\"498\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">business impact</text><text x=\"498\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">CIA or abuse loss</text><text x=\"675\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">primary control</text><text x=\"675\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">prevent/detect</text></svg>",
+    "opts": [
+      "It occurs when the system accepts an invalid, weakly verified, or improperly scoped identity as legitimate.",
+      "It is limited to denial-of-service events and is unrelated to confidentiality or integrity.",
+      "It applies only to legacy desktop applications, not modern web APIs or cloud-backed applications.",
+      "It is mainly a documentation issue that can be accepted once developers are trained."
+    ],
+    "explanation": "OWASP frames Authentication Failures as a web application security risk with concrete failure modes, exploit paths, and preventive controls, not as a paperwork concern.",
+    "correct": 0
+  },
+  {
+    "section": "A07 Authentication Failures",
+    "q": "A review team is looking for signs of Authentication Failures. Which finding is most relevant?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "All production systems use consistent naming conventions for application services.",
+      "Credential stuffing permitted, default passwords, weak recovery questions, missing mfa, insecure mfa fallback, session ids in urls, session fixation, weak password stores, and tokens not invalidated on logout or inactivity.",
+      "The team stores user stories and deployment notes in the same project workspace.",
+      "The application uses a supported framework and has a current product owner."
+    ],
+    "explanation": "The listed finding maps directly to OWASP's vulnerable conditions for Authentication Failures; naming, ownership, and tooling are not substitutes for security evidence.",
+    "correct": 1
+  },
+  {
+    "section": "A07 Authentication Failures",
+    "q": "What is the best primary prevention strategy for Authentication Failures?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Post a security reminder in the developer chat and rely on individual memory during releases.",
+      "Disable all automated tests that slow down deployment and inspect only severe incidents afterward.",
+      "Mfa where possible, breached-password checks, no default credentials, rate limits or delays on failed login, consistent anti-enumeration messages, secure high-entropy server-side session management, and validation of token audience, issuer, and scope.",
+      "Accept the risk until an external penetration test proves an attacker has already exploited it."
+    ],
+    "explanation": "The strongest answer turns OWASP prevention guidance into repeatable engineering controls for Authentication Failures rather than ad-hoc awareness.",
+    "correct": 2
+  },
+  {
+    "section": "A07 Authentication Failures",
+    "q": "Which scenario most clearly illustrates A07:2025 - Authentication Failures?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "A team renames a service during a planned migration and updates all references in the same change.",
+      "A product manager rejects a feature request because it conflicts with the roadmap.",
+      "A static marketing page has a typo in a heading but processes no user data or transactions.",
+      "Attackers use known breached passwords with slight seasonal changes and the login flow has no throttling, alerting, or mfa requirement."
+    ],
+    "explanation": "This scenario shows the risk mechanism for Authentication Failures in action and ties the weakness to a plausible security impact.",
+    "correct": 3
+  },
+  {
+    "section": "A07 Authentication Failures",
+    "q": "Which verification activity would give the strongest evidence that controls for Authentication Failures work?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Credential stuffing simulation, session fixation tests, logout and timeout verification, password policy review against modern guidance, and account enumeration checks.",
+      "Ask whether developers remember seeing the OWASP category during annual training.",
+      "Count the number of pull requests merged last quarter without looking at their security content.",
+      "Check whether the application has an attractive landing page and consistent visual design."
+    ],
+    "explanation": "Verification should exercise the specific failure paths for Authentication Failures and prove that controls behave correctly under attack-like conditions.",
+    "correct": 0
+  },
+  {
+    "section": "A07 Authentication Failures",
+    "q": "Which CWE set is most closely associated with A07:2025 - Authentication Failures in the OWASP Top 10:2025 discussion?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "CWE identifiers are irrelevant because OWASP categories are only management themes.",
+      "CWE-287, CWE-307, CWE-384, CWE-613, CWE-640, CWE-798, CWE-1391, and CWE-1392.",
+      "Only hardware safety standards apply; software weakness taxonomies do not help here.",
+      "The correct mapping is always CWE-79 only, regardless of the OWASP category."
+    ],
+    "explanation": "OWASP maps each category to related CWEs. Knowing the weakness family helps teams connect findings, tests, and remediations.",
+    "correct": 1
+  },
+  {
+    "section": "A07 Authentication Failures",
+    "q": "A product team says the issue is acceptable because no breach has been confirmed. What is the best response for Authentication Failures?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Close the issue because absence of evidence proves the application cannot be exploited.",
+      "Wait until a customer reports data loss, then decide whether security work is worth funding.",
+      "Treat the weakness as an exploitable risk, prioritize remediation by exposure and impact, and add monitoring or compensating controls while the durable fix is delivered.",
+      "Move the issue to the backlog with no owner because OWASP categories are informational only."
+    ],
+    "explanation": "OWASP Top 10 risks are used to drive proactive risk reduction. No known breach does not prove the weakness is safe.",
+    "correct": 2
+  },
+  {
+    "section": "A07 Authentication Failures",
+    "q": "Review the excerpt. What is the most important security concern related to Authentication Failures?",
+    "code": "GET /dashboard;jsessionid=9F3A...\\n// Same session id is reused before and after authentication",
+    "diagram": "",
+    "opts": [
+      "The excerpt is harmless because short snippets cannot reveal architectural risk.",
+      "The only issue is code formatting; security behavior is unrelated to implementation details.",
+      "The safest response is to suppress the symptom and leave the underlying behavior unchanged.",
+      "The excerpt shows a concrete Authentication Failures failure pattern that should be fixed with the category-specific control, not accepted as normal behavior."
+    ],
+    "explanation": "The snippet is intentionally small, but it exposes a reviewable failure path for Authentication Failures and should trigger a focused remediation.",
+    "correct": 3
+  },
+  {
+    "section": "A07 Authentication Failures",
+    "q": "Which design or governance decision would best sustain protection against Authentication Failures over time?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Create explicit ownership, measurable control requirements, automated checks where possible, and review the control whenever architecture, dependencies, identity flows, or data sensitivity changes.",
+      "Assign the issue to whichever developer last touched the repository and leave no acceptance criteria.",
+      "Declare the category resolved after one successful release and stop measuring it.",
+      "Move the control entirely to end-user training so engineering teams can avoid implementation changes."
+    ],
+    "explanation": "Sustained AppSec depends on ownership, criteria, automation, and review triggers as systems evolve.",
+    "correct": 0
+  },
+  {
+    "section": "A07 Authentication Failures",
+    "q": "Which statement is the most dangerous misconception about Authentication Failures?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Security requirements should be testable and connected to likely abuse cases.",
+      "Force frequent password rotation for all users while leaving mfa and breached-password checks optional.",
+      "Controls should be implemented where attackers cannot trivially modify or bypass them.",
+      "Findings should be prioritized by exploitability, business impact, and exposure."
+    ],
+    "explanation": "The misconception substitutes a weak or bypassable measure for the deeper control OWASP recommends for Authentication Failures.",
+    "correct": 1
+  },
+  {
+    "section": "A08 Software or Data Integrity Failures",
+    "q": "Which statement best describes A08:2025 - Software or Data Integrity Failures in the OWASP Top 10:2025?",
+    "code": "",
+    "diagram": "<svg viewBox=\"0 0 760 150\" role=\"img\" aria-label=\"Software or Data Integrity Failures control flow\"><defs><marker id=\"arrow-Software-or-Data-Integrity-Failures\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\"><path d=\"M 0 0 L 10 5 L 0 10 z\" fill=\"#684a0f\"/></marker></defs><rect x=\"18\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#fff8e8\" stroke=\"#8b6526\"/><rect x=\"218\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#eef5ff\" stroke=\"#1f4a7d\"/><rect x=\"418\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#f7e7e3\" stroke=\"#a8412f\"/><rect x=\"608\" y=\"35\" width=\"134\" height=\"72\" rx=\"6\" fill=\"#e1ece4\" stroke=\"#2f6b4f\"/><path d=\"M178 71 H213\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Software-or-Data-Integrity-Failures)\"/><path d=\"M378 71 H413\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Software-or-Data-Integrity-Failures)\"/><path d=\"M578 71 H603\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Software-or-Data-Integrity-Failures)\"/><text x=\"98\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">Software or Data Integrity Failures</text><text x=\"98\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">risk condition</text><text x=\"298\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">exploit path</text><text x=\"298\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">attacker action</text><text x=\"498\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">business impact</text><text x=\"498\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">CIA or abuse loss</text><text x=\"675\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">primary control</text><text x=\"675\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">prevent/detect</text></svg>",
+    "opts": [
+      "It is limited to denial-of-service events and is unrelated to confidentiality or integrity.",
+      "It applies only to legacy desktop applications, not modern web APIs or cloud-backed applications.",
+      "It occurs when untrusted code, data, plugins, updates, serialized objects, or artifacts are treated as trusted without verifying integrity and source.",
+      "It is mainly a documentation issue that can be accepted once developers are trained."
+    ],
+    "explanation": "OWASP frames Software or Data Integrity Failures as a web application security risk with concrete failure modes, exploit paths, and preventive controls, not as a paperwork concern.",
+    "correct": 2
+  },
+  {
+    "section": "A08 Software or Data Integrity Failures",
+    "q": "A review team is looking for signs of Software or Data Integrity Failures. Which finding is most relevant?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "All production systems use consistent naming conventions for application services.",
+      "The team stores user stories and deployment notes in the same project workspace.",
+      "The application uses a supported framework and has a current product owner.",
+      "Unsigned auto-updates, dependencies from untrusted repositories, cdn scripts without trust controls, serialized objects accepted from clients, weak ci/cd integrity checks, and code changes without review."
+    ],
+    "explanation": "The listed finding maps directly to OWASP's vulnerable conditions for Software or Data Integrity Failures; naming, ownership, and tooling are not substitutes for security evidence.",
+    "correct": 3
+  },
+  {
+    "section": "A08 Software or Data Integrity Failures",
+    "q": "What is the best primary prevention strategy for Software or Data Integrity Failures?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Digital signatures, trusted repositories, internal vetted package mirrors for high-risk systems, code and configuration review, ci/cd segregation and access control, artifact signing, and integrity checks for serialized data.",
+      "Post a security reminder in the developer chat and rely on individual memory during releases.",
+      "Disable all automated tests that slow down deployment and inspect only severe incidents afterward.",
+      "Accept the risk until an external penetration test proves an attacker has already exploited it."
+    ],
+    "explanation": "The strongest answer turns OWASP prevention guidance into repeatable engineering controls for Software or Data Integrity Failures rather than ad-hoc awareness.",
+    "correct": 0
+  },
+  {
+    "section": "A08 Software or Data Integrity Failures",
+    "q": "Which scenario most clearly illustrates A08:2025 - Software or Data Integrity Failures?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "A team renames a service during a planned migration and updates all references in the same change.",
+      "A device downloads firmware updates over a normal channel and applies them without signature verification.",
+      "A product manager rejects a feature request because it conflicts with the roadmap.",
+      "A static marketing page has a typo in a heading but processes no user data or transactions."
+    ],
+    "explanation": "This scenario shows the risk mechanism for Software or Data Integrity Failures in action and ties the weakness to a plausible security impact.",
+    "correct": 1
+  },
+  {
+    "section": "A08 Software or Data Integrity Failures",
+    "q": "Which verification activity would give the strongest evidence that controls for Software or Data Integrity Failures work?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Ask whether developers remember seeing the OWASP category during annual training.",
+      "Count the number of pull requests merged last quarter without looking at their security content.",
+      "Artifact provenance review, signature verification tests, dependency source allow-listing, deserialization testing, ci/cd access review, and checks that release artifacts are promoted rather than rebuilt inconsistently.",
+      "Check whether the application has an attractive landing page and consistent visual design."
+    ],
+    "explanation": "Verification should exercise the specific failure paths for Software or Data Integrity Failures and prove that controls behave correctly under attack-like conditions.",
+    "correct": 2
+  },
+  {
+    "section": "A08 Software or Data Integrity Failures",
+    "q": "Which CWE set is most closely associated with A08:2025 - Software or Data Integrity Failures in the OWASP Top 10:2025 discussion?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "CWE identifiers are irrelevant because OWASP categories are only management themes.",
+      "Only hardware safety standards apply; software weakness taxonomies do not help here.",
+      "The correct mapping is always CWE-79 only, regardless of the OWASP category.",
+      "CWE-345, CWE-353, CWE-494, CWE-502, CWE-829, CWE-830, and CWE-915."
+    ],
+    "explanation": "OWASP maps each category to related CWEs. Knowing the weakness family helps teams connect findings, tests, and remediations.",
+    "correct": 3
+  },
+  {
+    "section": "A08 Software or Data Integrity Failures",
+    "q": "A product team says the issue is acceptable because no breach has been confirmed. What is the best response for Software or Data Integrity Failures?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Treat the weakness as an exploitable risk, prioritize remediation by exposure and impact, and add monitoring or compensating controls while the durable fix is delivered.",
+      "Close the issue because absence of evidence proves the application cannot be exploited.",
+      "Wait until a customer reports data loss, then decide whether security work is worth funding.",
+      "Move the issue to the backlog with no owner because OWASP categories are informational only."
+    ],
+    "explanation": "OWASP Top 10 risks are used to drive proactive risk reduction. No known breach does not prove the weakness is safe.",
+    "correct": 0
+  },
+  {
+    "section": "A08 Software or Data Integrity Failures",
+    "q": "Review the excerpt. What is the most important security concern related to Software or Data Integrity Failures?",
+    "code": "state = deserialize(request.cookies[\\\"cart_state\\\"])\\n# Client-controlled object is trusted without signature or allow-listed type checks",
+    "diagram": "",
+    "opts": [
+      "The excerpt is harmless because short snippets cannot reveal architectural risk.",
+      "The excerpt shows a concrete Software or Data Integrity Failures failure pattern that should be fixed with the category-specific control, not accepted as normal behavior.",
+      "The only issue is code formatting; security behavior is unrelated to implementation details.",
+      "The safest response is to suppress the symptom and leave the underlying behavior unchanged."
+    ],
+    "explanation": "The snippet is intentionally small, but it exposes a reviewable failure path for Software or Data Integrity Failures and should trigger a focused remediation.",
+    "correct": 1
+  },
+  {
+    "section": "A08 Software or Data Integrity Failures",
+    "q": "Which design or governance decision would best sustain protection against Software or Data Integrity Failures over time?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Assign the issue to whichever developer last touched the repository and leave no acceptance criteria.",
+      "Declare the category resolved after one successful release and stop measuring it.",
+      "Create explicit ownership, measurable control requirements, automated checks where possible, and review the control whenever architecture, dependencies, identity flows, or data sensitivity changes.",
+      "Move the control entirely to end-user training so engineering teams can avoid implementation changes."
+    ],
+    "explanation": "Sustained AppSec depends on ownership, criteria, automation, and review triggers as systems evolve.",
+    "correct": 2
+  },
+  {
+    "section": "A08 Software or Data Integrity Failures",
+    "q": "Which statement is the most dangerous misconception about Software or Data Integrity Failures?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Security requirements should be testable and connected to likely abuse cases.",
+      "Controls should be implemented where attackers cannot trivially modify or bypass them.",
+      "Findings should be prioritized by exploitability, business impact, and exposure.",
+      "Trust updates and serialized client state because they come from features already used by legitimate customers."
+    ],
+    "explanation": "The misconception substitutes a weak or bypassable measure for the deeper control OWASP recommends for Software or Data Integrity Failures.",
+    "correct": 3
+  },
+  {
+    "section": "A09 Security Logging and Alerting Failures",
+    "q": "Which statement best describes A09:2025 - Security Logging and Alerting Failures in the OWASP Top 10:2025?",
+    "code": "",
+    "diagram": "<svg viewBox=\"0 0 760 150\" role=\"img\" aria-label=\"Security Logging and Alerting Failures control flow\"><defs><marker id=\"arrow-Security-Logging-and-Alerting-Failures\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\"><path d=\"M 0 0 L 10 5 L 0 10 z\" fill=\"#684a0f\"/></marker></defs><rect x=\"18\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#fff8e8\" stroke=\"#8b6526\"/><rect x=\"218\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#eef5ff\" stroke=\"#1f4a7d\"/><rect x=\"418\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#f7e7e3\" stroke=\"#a8412f\"/><rect x=\"608\" y=\"35\" width=\"134\" height=\"72\" rx=\"6\" fill=\"#e1ece4\" stroke=\"#2f6b4f\"/><path d=\"M178 71 H213\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Security-Logging-and-Alerting-Failures)\"/><path d=\"M378 71 H413\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Security-Logging-and-Alerting-Failures)\"/><path d=\"M578 71 H603\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Security-Logging-and-Alerting-Failures)\"/><text x=\"98\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">Security Logging and Alerting Failures</text><text x=\"98\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">risk condition</text><text x=\"298\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">exploit path</text><text x=\"298\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">attacker action</text><text x=\"498\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">business impact</text><text x=\"498\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">CIA or abuse loss</text><text x=\"675\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">primary control</text><text x=\"675\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">prevent/detect</text></svg>",
+    "opts": [
+      "It occurs when attacks, breaches, and suspicious activity cannot be detected or acted on because logs, monitoring, alerts, or response playbooks are missing or ineffective.",
+      "It is limited to denial-of-service events and is unrelated to confidentiality or integrity.",
+      "It applies only to legacy desktop applications, not modern web APIs or cloud-backed applications.",
+      "It is mainly a documentation issue that can be accepted once developers are trained."
+    ],
+    "explanation": "OWASP frames Security Logging and Alerting Failures as a web application security risk with concrete failure modes, exploit paths, and preventive controls, not as a paperwork concern.",
+    "correct": 0
+  },
+  {
+    "section": "A09 Security Logging and Alerting Failures",
+    "q": "A review team is looking for signs of Security Logging and Alerting Failures. Which finding is most relevant?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "All production systems use consistent naming conventions for application services.",
+      "Failed logins not logged, access-control failures invisible, local-only logs, no log integrity controls, alerts not reviewed, dast scans not detected, sensitive data in logs, log injection risk, and missing playbooks.",
+      "The team stores user stories and deployment notes in the same project workspace.",
+      "The application uses a supported framework and has a current product owner."
+    ],
+    "explanation": "The listed finding maps directly to OWASP's vulnerable conditions for Security Logging and Alerting Failures; naming, ownership, and tooling are not substitutes for security evidence.",
+    "correct": 1
+  },
+  {
+    "section": "A09 Security Logging and Alerting Failures",
+    "q": "What is the best primary prevention strategy for Security Logging and Alerting Failures?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Post a security reminder in the developer chat and rely on individual memory during releases.",
+      "Disable all automated tests that slow down deployment and inspect only severe incidents afterward.",
+      "Log all security-control successes and failures with context, encode log data, produce consumable log formats, protect audit-trail integrity, alert on suspicious behavior, define soc playbooks, and use honeytokens or behavior analytics where useful.",
+      "Accept the risk until an external penetration test proves an attacker has already exploited it."
+    ],
+    "explanation": "The strongest answer turns OWASP prevention guidance into repeatable engineering controls for Security Logging and Alerting Failures rather than ad-hoc awareness.",
+    "correct": 2
+  },
+  {
+    "section": "A09 Security Logging and Alerting Failures",
+    "q": "Which scenario most clearly illustrates A09:2025 - Security Logging and Alerting Failures?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "A team renames a service during a planned migration and updates all references in the same change.",
+      "A product manager rejects a feature request because it conflicts with the roadmap.",
+      "A static marketing page has a typo in a heading but processes no user data or transactions.",
+      "An attacker modifies thousands of records over months, and the organization discovers it only after a third party reports suspicious data exposure."
+    ],
+    "explanation": "This scenario shows the risk mechanism for Security Logging and Alerting Failures in action and ties the weakness to a plausible security impact.",
+    "correct": 3
+  },
+  {
+    "section": "A09 Security Logging and Alerting Failures",
+    "q": "Which verification activity would give the strongest evidence that controls for Security Logging and Alerting Failures work?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Exercise detection use cases, run dast or attack simulations to verify alerts, review log coverage for auth and authorization events, and test alert routing, ownership, and escalation times.",
+      "Ask whether developers remember seeing the OWASP category during annual training.",
+      "Count the number of pull requests merged last quarter without looking at their security content.",
+      "Check whether the application has an attractive landing page and consistent visual design."
+    ],
+    "explanation": "Verification should exercise the specific failure paths for Security Logging and Alerting Failures and prove that controls behave correctly under attack-like conditions.",
+    "correct": 0
+  },
+  {
+    "section": "A09 Security Logging and Alerting Failures",
+    "q": "Which CWE set is most closely associated with A09:2025 - Security Logging and Alerting Failures in the OWASP Top 10:2025 discussion?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "CWE identifiers are irrelevant because OWASP categories are only management themes.",
+      "CWE-117, CWE-221, CWE-223, CWE-532, and CWE-778.",
+      "Only hardware safety standards apply; software weakness taxonomies do not help here.",
+      "The correct mapping is always CWE-79 only, regardless of the OWASP category."
+    ],
+    "explanation": "OWASP maps each category to related CWEs. Knowing the weakness family helps teams connect findings, tests, and remediations.",
+    "correct": 1
+  },
+  {
+    "section": "A09 Security Logging and Alerting Failures",
+    "q": "A product team says the issue is acceptable because no breach has been confirmed. What is the best response for Security Logging and Alerting Failures?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Close the issue because absence of evidence proves the application cannot be exploited.",
+      "Wait until a customer reports data loss, then decide whether security work is worth funding.",
+      "Treat the weakness as an exploitable risk, prioritize remediation by exposure and impact, and add monitoring or compensating controls while the durable fix is delivered.",
+      "Move the issue to the backlog with no owner because OWASP categories are informational only."
+    ],
+    "explanation": "OWASP Top 10 risks are used to drive proactive risk reduction. No known breach does not prove the weakness is safe.",
+    "correct": 2
+  },
+  {
+    "section": "A09 Security Logging and Alerting Failures",
+    "q": "Review the excerpt. What is the most important security concern related to Security Logging and Alerting Failures?",
+    "code": "logger.info(\\\"login failed for \\\" + username)\\n# username can contain newline/control characters that forge log entries",
+    "diagram": "",
+    "opts": [
+      "The excerpt is harmless because short snippets cannot reveal architectural risk.",
+      "The only issue is code formatting; security behavior is unrelated to implementation details.",
+      "The safest response is to suppress the symptom and leave the underlying behavior unchanged.",
+      "The excerpt shows a concrete Security Logging and Alerting Failures failure pattern that should be fixed with the category-specific control, not accepted as normal behavior."
+    ],
+    "explanation": "The snippet is intentionally small, but it exposes a reviewable failure path for Security Logging and Alerting Failures and should trigger a focused remediation.",
+    "correct": 3
+  },
+  {
+    "section": "A09 Security Logging and Alerting Failures",
+    "q": "Which design or governance decision would best sustain protection against Security Logging and Alerting Failures over time?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Create explicit ownership, measurable control requirements, automated checks where possible, and review the control whenever architecture, dependencies, identity flows, or data sensitivity changes.",
+      "Assign the issue to whichever developer last touched the repository and leave no acceptance criteria.",
+      "Declare the category resolved after one successful release and stop measuring it.",
+      "Move the control entirely to end-user training so engineering teams can avoid implementation changes."
+    ],
+    "explanation": "Sustained AppSec depends on ownership, criteria, automation, and review triggers as systems evolve.",
+    "correct": 0
+  },
+  {
+    "section": "A09 Security Logging and Alerting Failures",
+    "q": "Which statement is the most dangerous misconception about Security Logging and Alerting Failures?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Security requirements should be testable and connected to likely abuse cases.",
+      "Collect many unreviewed logs locally and assume storage volume equals detection capability.",
+      "Controls should be implemented where attackers cannot trivially modify or bypass them.",
+      "Findings should be prioritized by exploitability, business impact, and exposure."
+    ],
+    "explanation": "The misconception substitutes a weak or bypassable measure for the deeper control OWASP recommends for Security Logging and Alerting Failures.",
+    "correct": 1
+  },
+  {
+    "section": "A10 Mishandling of Exceptional Conditions",
+    "q": "Which statement best describes A10:2025 - Mishandling of Exceptional Conditions in the OWASP Top 10:2025?",
+    "code": "",
+    "diagram": "<svg viewBox=\"0 0 760 150\" role=\"img\" aria-label=\"Mishandling of Exceptional Conditions control flow\"><defs><marker id=\"arrow-Mishandling-of-Exceptional-Conditions\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"6\" markerHeight=\"6\" orient=\"auto-start-reverse\"><path d=\"M 0 0 L 10 5 L 0 10 z\" fill=\"#684a0f\"/></marker></defs><rect x=\"18\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#fff8e8\" stroke=\"#8b6526\"/><rect x=\"218\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#eef5ff\" stroke=\"#1f4a7d\"/><rect x=\"418\" y=\"35\" width=\"160\" height=\"72\" rx=\"6\" fill=\"#f7e7e3\" stroke=\"#a8412f\"/><rect x=\"608\" y=\"35\" width=\"134\" height=\"72\" rx=\"6\" fill=\"#e1ece4\" stroke=\"#2f6b4f\"/><path d=\"M178 71 H213\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Mishandling-of-Exceptional-Conditions)\"/><path d=\"M378 71 H413\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Mishandling-of-Exceptional-Conditions)\"/><path d=\"M578 71 H603\" stroke=\"#684a0f\" stroke-width=\"3\" marker-end=\"url(#arrow-Mishandling-of-Exceptional-Conditions)\"/><text x=\"98\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">Mishandling of Exceptional Conditions</text><text x=\"98\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">risk condition</text><text x=\"298\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">exploit path</text><text x=\"298\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">attacker action</text><text x=\"498\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">business impact</text><text x=\"498\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">CIA or abuse loss</text><text x=\"675\" y=\"66\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"13\" font-weight=\"700\" fill=\"#171a23\">primary control</text><text x=\"675\" y=\"86\" text-anchor=\"middle\" font-family=\"JetBrains Mono, monospace\" font-size=\"11\" fill=\"#5a5246\">prevent/detect</text></svg>",
+    "opts": [
+      "It is limited to denial-of-service events and is unrelated to confidentiality or integrity.",
+      "It applies only to legacy desktop applications, not modern web APIs or cloud-backed applications.",
+      "It occurs when software fails to prevent, detect, or respond safely to unusual states, errors, missing inputs, resource limits, partial failures, or unexpected environmental conditions.",
+      "It is mainly a documentation issue that can be accepted once developers are trained."
+    ],
+    "explanation": "OWASP frames Mishandling of Exceptional Conditions as a web application security risk with concrete failure modes, exploit paths, and preventive controls, not as a paperwork concern.",
+    "correct": 2
+  },
+  {
+    "section": "A10 Mishandling of Exceptional Conditions",
+    "q": "A review team is looking for signs of Mishandling of Exceptional Conditions. Which finding is most relevant?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "All production systems use consistent naming conventions for application services.",
+      "The team stores user stories and deployment notes in the same project workspace.",
+      "The application uses a supported framework and has a current product owner.",
+      "Generic catch blocks that ignore errors, sensitive stack traces, missing parameter handling, fail-open authorization paths, partial transaction commits, unreleased resources after exceptions, and no global exception handler."
+    ],
+    "explanation": "The listed finding maps directly to OWASP's vulnerable conditions for Mishandling of Exceptional Conditions; naming, ownership, and tooling are not substitutes for security evidence.",
+    "correct": 3
+  },
+  {
+    "section": "A10 Mishandling of Exceptional Conditions",
+    "q": "What is the best primary prevention strategy for Mishandling of Exceptional Conditions?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Handle errors where they occur, provide safe user messages, log and alert meaningful events, fail closed, roll back whole transactions, add resource quotas and rate limits, use centralized error handling, and test stress, performance, and attack-driven error paths.",
+      "Post a security reminder in the developer chat and rely on individual memory during releases.",
+      "Disable all automated tests that slow down deployment and inspect only severe incidents afterward.",
+      "Accept the risk until an external penetration test proves an attacker has already exploited it."
+    ],
+    "explanation": "The strongest answer turns OWASP prevention guidance into repeatable engineering controls for Mishandling of Exceptional Conditions rather than ad-hoc awareness.",
+    "correct": 0
+  },
+  {
+    "section": "A10 Mishandling of Exceptional Conditions",
+    "q": "Which scenario most clearly illustrates A10:2025 - Mishandling of Exceptional Conditions?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "A team renames a service during a planned migration and updates all references in the same change.",
+      "A money-transfer flow debits the sender, loses network connectivity before crediting the receiver, and does not roll back the entire transaction.",
+      "A product manager rejects a feature request because it conflicts with the roadmap.",
+      "A static marketing page has a typo in a heading but processes no user data or transactions."
+    ],
+    "explanation": "This scenario shows the risk mechanism for Mishandling of Exceptional Conditions in action and ties the weakness to a plausible security impact.",
+    "correct": 1
+  },
+  {
+    "section": "A10 Mishandling of Exceptional Conditions",
+    "q": "Which verification activity would give the strongest evidence that controls for Mishandling of Exceptional Conditions work?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Ask whether developers remember seeing the OWASP category during annual training.",
+      "Count the number of pull requests merged last quarter without looking at their security content.",
+      "Fault injection, chaos and stress testing, negative input tests, transaction rollback checks, code review for ignored return values, and monitoring for repeated identical error patterns.",
+      "Check whether the application has an attractive landing page and consistent visual design."
+    ],
+    "explanation": "Verification should exercise the specific failure paths for Mishandling of Exceptional Conditions and prove that controls behave correctly under attack-like conditions.",
+    "correct": 2
+  },
+  {
+    "section": "A10 Mishandling of Exceptional Conditions",
+    "q": "Which CWE set is most closely associated with A10:2025 - Mishandling of Exceptional Conditions in the OWASP Top 10:2025 discussion?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "CWE identifiers are irrelevant because OWASP categories are only management themes.",
+      "Only hardware safety standards apply; software weakness taxonomies do not help here.",
+      "The correct mapping is always CWE-79 only, regardless of the OWASP category.",
+      "CWE-209, CWE-234, CWE-248, CWE-274, CWE-390, CWE-476, CWE-636, CWE-703, CWE-754, and CWE-755."
+    ],
+    "explanation": "OWASP maps each category to related CWEs. Knowing the weakness family helps teams connect findings, tests, and remediations.",
+    "correct": 3
+  },
+  {
+    "section": "A10 Mishandling of Exceptional Conditions",
+    "q": "A product team says the issue is acceptable because no breach has been confirmed. What is the best response for Mishandling of Exceptional Conditions?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Treat the weakness as an exploitable risk, prioritize remediation by exposure and impact, and add monitoring or compensating controls while the durable fix is delivered.",
+      "Close the issue because absence of evidence proves the application cannot be exploited.",
+      "Wait until a customer reports data loss, then decide whether security work is worth funding.",
+      "Move the issue to the backlog with no owner because OWASP categories are informational only."
+    ],
+    "explanation": "OWASP Top 10 risks are used to drive proactive risk reduction. No known breach does not prove the weakness is safe.",
+    "correct": 0
+  },
+  {
+    "section": "A10 Mishandling of Exceptional Conditions",
+    "q": "Review the excerpt. What is the most important security concern related to Mishandling of Exceptional Conditions?",
+    "code": "try:\\n    authorize(user, action)\\nexcept Exception:\\n    return allow_request()  # fail-open behavior",
+    "diagram": "",
+    "opts": [
+      "The excerpt is harmless because short snippets cannot reveal architectural risk.",
+      "The excerpt shows a concrete Mishandling of Exceptional Conditions failure pattern that should be fixed with the category-specific control, not accepted as normal behavior.",
+      "The only issue is code formatting; security behavior is unrelated to implementation details.",
+      "The safest response is to suppress the symptom and leave the underlying behavior unchanged."
+    ],
+    "explanation": "The snippet is intentionally small, but it exposes a reviewable failure path for Mishandling of Exceptional Conditions and should trigger a focused remediation.",
+    "correct": 1
+  },
+  {
+    "section": "A10 Mishandling of Exceptional Conditions",
+    "q": "Which design or governance decision would best sustain protection against Mishandling of Exceptional Conditions over time?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Assign the issue to whichever developer last touched the repository and leave no acceptance criteria.",
+      "Declare the category resolved after one successful release and stop measuring it.",
+      "Create explicit ownership, measurable control requirements, automated checks where possible, and review the control whenever architecture, dependencies, identity flows, or data sensitivity changes.",
+      "Move the control entirely to end-user training so engineering teams can avoid implementation changes."
+    ],
+    "explanation": "Sustained AppSec depends on ownership, criteria, automation, and review triggers as systems evolve.",
+    "correct": 2
+  },
+  {
+    "section": "A10 Mishandling of Exceptional Conditions",
+    "q": "Which statement is the most dangerous misconception about Mishandling of Exceptional Conditions?",
+    "code": "",
+    "diagram": "",
+    "opts": [
+      "Security requirements should be testable and connected to likely abuse cases.",
+      "Controls should be implemented where attackers cannot trivially modify or bypass them.",
+      "Findings should be prioritized by exploitability, business impact, and exposure.",
+      "Show full internal errors to users so support teams can diagnose problems faster without needing logs."
+    ],
+    "explanation": "The misconception substitutes a weak or bypassable measure for the deeper control OWASP recommends for Mishandling of Exceptional Conditions.",
+    "correct": 3
+  }
+];
+const SECTIONS = [
+  {
+    "key": "A01 Broken Access Control",
+    "label": "Section A - A01:2025 - Broken Access Control",
+    "cls": "sec-data",
+    "range": "Questions 1-10"
+  },
+  {
+    "key": "A02 Security Misconfiguration",
+    "label": "Section B - A02:2025 - Security Misconfiguration",
+    "cls": "sec-clf",
+    "range": "Questions 11-20"
+  },
+  {
+    "key": "A03 Software Supply Chain Failures",
+    "label": "Section C - A03:2025 - Software Supply Chain Failures",
+    "cls": "sec-dl",
+    "range": "Questions 21-30"
+  },
+  {
+    "key": "A04 Cryptographic Failures",
+    "label": "Section D - A04:2025 - Cryptographic Failures",
+    "cls": "sec-nlp",
+    "range": "Questions 31-40"
+  },
+  {
+    "key": "A05 Injection",
+    "label": "Section E - A05:2025 - Injection",
+    "cls": "sec-llm",
+    "range": "Questions 41-50"
+  },
+  {
+    "key": "A06 Insecure Design",
+    "label": "Section F - A06:2025 - Insecure Design",
+    "cls": "sec-ops",
+    "range": "Questions 51-60"
+  },
+  {
+    "key": "A07 Authentication Failures",
+    "label": "Section G - A07:2025 - Authentication Failures",
+    "cls": "sec-data",
+    "range": "Questions 61-70"
+  },
+  {
+    "key": "A08 Software or Data Integrity Failures",
+    "label": "Section H - A08:2025 - Software or Data Integrity Failures",
+    "cls": "sec-clf",
+    "range": "Questions 71-80"
+  },
+  {
+    "key": "A09 Security Logging and Alerting Failures",
+    "label": "Section I - A09:2025 - Security Logging and Alerting Failures",
+    "cls": "sec-dl",
+    "range": "Questions 81-90"
+  },
+  {
+    "key": "A10 Mishandling of Exceptional Conditions",
+    "label": "Section J - A10:2025 - Mishandling of Exceptional Conditions",
+    "cls": "sec-nlp",
+    "range": "Questions 91-100"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+
+let mode = 'guided', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 2*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function renderCode(code){
+  // Escape HTML, then highlight ??? as the blank marker
+  return escapeHtml(code).replace(/\?\?\?/g, '<span class="blank">???</span>');
+}
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='02:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  const diagramBlock = q.diagram ? '<div class="q-diagram">'+q.diagram+'</div>' : '';
+      const codeBlock = q.code ? '<pre class="q-code">'+renderCode(q.code)+'</pre>' : '';
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   diagramBlock
+       +   codeBlock
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/100';
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/100';
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  if(pct>=0.9){ grade='OWASP Top 10 Security Lead'; blurb='Outstanding command of the OWASP Top 10:2025 risk model, preventive controls, testing approaches, and scenario-based remediation decisions for modern web applications.'; }
+  else if(pct>=0.75){ grade='Strong Application Security Practitioner'; blurb='Strong working command of OWASP Top 10:2025 risks. Review missed items for category boundaries, control placement, and code or configuration evidence.'; }
+  else if(pct>=0.6){ grade='Qualified Web Application Security Practitioner'; blurb='You have solid OWASP Top 10:2025 foundations. Sharpen weak areas by pairing each missed category with its vulnerable conditions, prevention guidance, and tests.'; }
+  else if(pct>=0.4){ grade='Developing Application Security Practitioner'; blurb='Foundations are forming. Revisit the OWASP category pages, then practice identifying the failure mode, control, test evidence, and likely business impact for each risk.'; }
+  else { grade='Begin the OWASP Top 10 Journey'; blurb='Start with the OWASP Top 10:2025 overview and work category by category. Build a simple mental model for what fails, how attackers exploit it, how to prevent it, and how to verify the fix.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 100 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one question at a time. 2-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Certificate name</label>
+    <input id="chmlCertNameInput" type="text" maxlength="80" placeholder="Enter name for certificate" oninput="chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" type="button" onclick="chmlPrintCertificate()">Print / Save as PDF</button>
+    <button class="chml-cert-btn secondary" type="button" onclick="chmlHideCertificate()">Hide Certificate</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div><div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker"><span id="chmlCertExamKicker">Knowledge Hub Examination</span></div>
+      <h1 class="chml-cert-h1">Certificate of Completion</h1>
+      <div class="chml-cert-rule"></div>
+      <p class="chml-cert-pre">This certifies that</p>
+      <p class="chml-cert-name" id="chmlCertName">Learner</p>
+      <p class="chml-cert-body">has successfully completed the <b id="chmlCertExamName">Knowledge Hub Exam</b>.</p>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">0 / 0</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">-</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Quak Foo Lee</div><div class="chml-cert-sig-label">Chmltech Ltd.</div></div>
+        <div class="chml-cert-id">Certificate ID: <span id="chmlCertId">-</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertificateInstalled) return;
+  window.__chmlCertificateInstalled = true;
+  function textOf(sel){var el=document.querySelector(sel);return el?el.textContent.trim():'';}
+  function examTitle(){return textOf('h1.title')||textOf('header h1')||textOf('h1')||document.title.replace(/\s+/g,' ').trim()||'Knowledge Hub Exam';}
+  function parseFirstNumber(txt){var m=String(txt||'').match(/\d+/);return m?parseInt(m[0],10):null;}
+  function parseScoreTotal(){
+    var correct=parseFirstNumber(textOf('#rScore'));
+    var total=null;
+    var rt=textOf('#rTotal');
+    if(rt) total=parseFirstNumber(rt);
+    if(!total){var sb=textOf('.score-big');var m=sb.match(/\/\s*(\d+)/);if(m) total=parseInt(m[1],10);}
+    if(!total) total=parseFirstNumber(textOf('#progTotal'));
+    if(!total){var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;if(cards) total=cards;}
+    if(!correct && correct!==0) correct=parseFirstNumber(textOf('#scoreNum'));
+    return {correct:correct||0,total:total||0};
+  }
+  function totalFromBreakdown(byType){
+    if(!byType || typeof byType!=='object') return null;
+    var total=0, found=false;
+    Object.keys(byType).forEach(function(k){var v=byType[k];if(v&&typeof v==='object'){var n=v.t||v.total||v.count;if(typeof n==='number'){total+=n;found=true;}}});
+    return found?total:null;
+  }
+  function hashCode(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+  window.chmlUpdateCertificateName=function(name){document.getElementById('chmlCertName').textContent=(name||'').trim()||'Learner';};
+  window.chmlHideCertificate=function(){var c=document.getElementById('chmlCertificate');if(c)c.classList.remove('show');};
+  window.chmlPrintCertificate=function(){window.print();};
+  window.chmlRenderCertificate=function(correct,total,grade){
+    var cert=document.getElementById('chmlCertificate');if(!cert)return;
+    var title=examTitle();
+    var nameInput=document.getElementById('chmlCertNameInput');
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
+    var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
+    document.getElementById('chmlCertExamName').textContent=title;
+    document.getElementById('chmlCertName').textContent=learner;
+    document.getElementById('chmlCertScore').textContent=String(correct)+' / '+String(total||0)+(total?(' ('+Math.round((correct/total)*100)+'%)'):'');
+    document.getElementById('chmlCertDate').textContent=date;
+    document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
+    cert.classList.add('show');
+  };
+
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
+    var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){
+      var parsed=parseScoreTotal();
+      if(correct===null || isNaN(correct)) correct=parsed.correct;
+      if(!total) total=parsed.total;
+      if(total || correct || document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0);
+    },60);
+  }
+  if(typeof window.showResults==='function'){
+    var originalShowResults=window.showResults;
+    window.showResults=function(){var out=originalShowResults.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  if(typeof window.submitExam==='function'){
+    var originalSubmitExam=window.submitExam;
+    window.submitExam=function(){var out=originalSubmitExam.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  ['resetExam','newExam'].forEach(function(fn){
+    if(typeof window[fn]==='function'){
+      var original=window[fn];
+      window[fn]=function(){window.chmlHideCertificate();return original.apply(this,arguments);};
+    }
+  });
+})();
+</script>
+
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>

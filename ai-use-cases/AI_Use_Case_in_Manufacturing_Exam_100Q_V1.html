@@ -1,0 +1,2142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Use Case in Manufacturing Exam - 100Q (V1)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  /* Section palette \u2014 broader, engineering-themed */
+  --fund:#1f4a7d;
+  --llm:#5a2585;
+  --rag:#0e6b6a;
+  --agent:#a85410;
+  --ops:#226b2d;
+  --safe:#9b2c3a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(31,74,125,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.8rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--fund),var(--llm));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-fund{background:linear-gradient(100deg,var(--fund),#0c2541)}
+.sec-llm{background:linear-gradient(100deg,var(--llm),#311148)}
+.sec-rag{background:linear-gradient(100deg,var(--rag),#06403f)}
+.sec-agent{background:linear-gradient(100deg,var(--agent),#5e2d05)}
+.sec-ops{background:linear-gradient(100deg,var(--ops),#0e3d18)}
+.sec-safe{background:linear-gradient(100deg,var(--safe),#5b181f)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-type{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;border:1px solid currentColor;opacity:.85;color:var(--llm)}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.1rem;line-height:1.55;margin-bottom:16px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:13px 16px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.45);transition:all .18s ease;font-size:1rem;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.07);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s}
+.opt .otext{flex:1;padding-top:1px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.1)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px;display:flex;align-items:center;gap:8px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:180px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 18px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:1.02rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+<!-- V1: AI Use Case in Manufacturing question bank with unique problem statements and length-balanced options. -->
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">AI Use Case Series &middot; Manufacturing</div>
+    <h1 class="title">AI Use Case <span class="amp">in Manufacturing</span> Exam</h1>
+    <div class="byline">Scenario-based questions on discovering, designing, validating, governing, and scaling practical AI use cases across manufacturing operations</div>
+    <div class="exambar">
+      <span><b>100</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>100</b> Marks</span>
+      <span>Exam Mode: <b>2 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/100</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">02:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/100</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 2-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    AI Use Case in Manufacturing Exam &middot; 100 scenario-based questions &middot; V1 (Guided / Instant / Exam-with-Timer)
+    <div class="disclaimer">An independent AI use-case study resource for manufacturing leaders, engineers, consultants, and improvement teams. Use validated plant data, cybersecurity controls, safety procedures, regulatory requirements, and professional judgment before deploying AI in real operations.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "AI Strategy & Use-Case Discovery",
+    "q": "A metal stamping plant has twenty-seven AI ideas from supervisors, engineers, and finance, but only one small team can run the first pilot this quarter.\n\nWhich selection approach gives the AI use case the strongest chance of practical manufacturing value?",
+    "opts": [
+      "Score each idea by pain size, data readiness, decision ownership, and pilot feasibility before selection.",
+      "Begin with a broad AI rollout, then define metrics once adoption is visible in pilot, using current data.",
+      "Let every department choose tools independently, then merge lessons later in pilot, with baseline review.",
+      "Choose the newest model architecture because it signals technical maturity in pilot, with pilot controls."
+    ],
+    "correct": 0,
+    "explanation": "AI use cases should be selected by business value, decision ownership, data readiness, and a realistic pilot boundary, not by enthusiasm alone.",
+    "type": "Use-Case Prioritization"
+  },
+  {
+    "section": "AI Strategy & Use-Case Discovery",
+    "q": "A custom furniture factory wants an AI program, but its proposed scope includes quoting, saw optimization, finishing defects, customer service, and purchasing in one project.\n\nWhat should the sponsor do to turn the ambition into an executable first use case?",
+    "opts": [
+      "Let every department choose tools independently, then merge lessons later for use, in phase one.",
+      "Choose one repeated decision with measurable waste, available data, and a narrow pilot workflow.",
+      "Choose the newest model architecture because it signals technical maturity with baseline review.",
+      "Skip baseline measurement because leadership already believes AI is valuable using current data."
+    ],
+    "correct": 1,
+    "explanation": "A useful first manufacturing AI use case is narrow enough to test, tied to a repeated decision, and measured against a baseline.",
+    "type": "Scope Definition"
+  },
+  {
+    "section": "AI Strategy & Use-Case Discovery",
+    "q": "An electronics contract manufacturer has many operator notes in the MES, yet the team cannot explain which action an AI model would trigger on the shop floor.\n\nWhich definition step should occur before model development starts?",
+    "opts": [
+      "Choose the newest model architecture because it signals technical maturity with documented review.",
+      "Skip baseline measurement because leadership already believes AI is valuable with baseline review.",
+      "Convert the idea into a decision statement, input list, action trigger, owner, and success metric.",
+      "Train a model on exported spreadsheets before confirming the decision point for use, in phase one."
+    ],
+    "correct": 2,
+    "explanation": "A model is useful only when it changes a defined decision or action; the team should clarify decision logic and success measures first.",
+    "type": "Decision Framing"
+  },
+  {
+    "section": "AI Strategy & Use-Case Discovery",
+    "q": "A beverage bottling plant is offered a digital-twin package for throughput improvement, although leaders have not separated filler downtime from labeling and packing losses.\n\nWhat is the best next step before signing a technology purchase order?",
+    "opts": [
+      "Skip baseline measurement because leadership already believes AI is valuable before production release.",
+      "Train a model on exported spreadsheets before confirming the decision point in pilot, with team review.",
+      "Create a dashboard of all available data, then assign ownership after rollout in pilot, before rollout.",
+      "Validate the process loss, sensor history, owner, expected payback, and pilot boundary before purchase."
+    ],
+    "correct": 3,
+    "explanation": "Technology selection should follow a validated business problem, trusted data availability, local ownership, and a measurable benefit case.",
+    "type": "Business Validation"
+  },
+  {
+    "section": "AI Strategy & Use-Case Discovery",
+    "q": "A CFO asks whether an AI scrap-reduction pilot in a plastic extrusion line is worth funding, but the team only reports a monthly scrap percentage.\n\nWhich baseline should be built to support the investment decision?",
+    "opts": [
+      "Estimate scrap cost, rework labor, downtime, false alarms, adoption effort, and expected savings range.",
+      "Train a model on exported spreadsheets before confirming the decision point in pilot, with team review.",
+      "Create a dashboard of all available data, then assign ownership after rollout in pilot, before rollout.",
+      "Use vendor demos as the main evidence before checking local process data in pilot, with pilot controls."
+    ],
+    "correct": 0,
+    "explanation": "A useful benefit case includes the real economic drivers, cost to act, false-alarm burden, and the expected range of savings.",
+    "type": "ROI Baseline"
+  },
+  {
+    "section": "AI Strategy & Use-Case Discovery",
+    "q": "A small precision machining shop has no data historian, but operators make repeated manual choices about tool offsets and inspection frequency.\n\nWhich AI-starting point fits a low-data manufacturing environment best?",
+    "opts": [
+      "Create a dashboard of all available data, then assign ownership after rollout with owner review.",
+      "Start with a valuable manual decision and confirm the minimum data capture needed for the pilot.",
+      "Use vendor demos as the main evidence before checking local process data with documented review.",
+      "Buy a popular AI platform first, then search for problems it might solve with documented review."
+    ],
+    "correct": 1,
+    "explanation": "Low data maturity does not block AI; the team can start with a focused decision and build the minimum reliable data capture around it.",
+    "type": "Low-Data Pilot"
+  },
+  {
+    "section": "AI Strategy & Use-Case Discovery",
+    "q": "A plant manager asks for an AI quality app because customer complaints are rising, but the complaints include scratches, wrong labels, missing parts, and late shipments.\n\nWhat should the team define first to avoid a vague AI project?",
+    "opts": [
+      "Use vendor demos as the main evidence before checking local process data for use, with documented review.",
+      "Buy a popular AI platform first, then search for problems it might solve for use, with documented review.",
+      "Define defect family, inspection point, escaped-cost baseline, and action owner before choosing software.",
+      "Automate the whole value stream first, then calculate benefits after launch in pilot, using current data."
+    ],
+    "correct": 2,
+    "explanation": "Quality AI use cases need a specific defect family, detection point, cost of escape, and accountable action owner before tools are selected.",
+    "type": "Problem Definition"
+  },
+  {
+    "section": "AI Strategy & Use-Case Discovery",
+    "q": "A regulated medical-device factory wants a generative AI assistant to draft SOP updates after deviations, but document control is concerned about uncontrolled wording.\n\nWhich pilot boundary protects value while managing compliance risk?",
+    "opts": [
+      "Buy a popular AI platform first, then search for problems it might solve with documented review.",
+      "Automate the whole value stream first, then calculate benefits after launch with pilot controls.",
+      "Run an unfocused proof of concept and ask users later where it created value using current data.",
+      "Separate retrieval, drafting, SME approval, document control, and release risk before the pilot."
+    ],
+    "correct": 3,
+    "explanation": "Generative AI can assist drafting, but controlled documents still require approved sources, human review, release controls, and traceability.",
+    "type": "GenAI Use-Case Boundary"
+  },
+  {
+    "section": "AI Strategy & Use-Case Discovery",
+    "q": "A multi-site manufacturer asks corporate IT to pick one AI use case that can later scale across eight factories with different MES and maintenance systems.\n\nWhich portfolio screen is most appropriate before selecting the first site pilot?",
+    "opts": [
+      "Rank use cases by strategic value, repeatability, data maturity, and local sponsor commitment.",
+      "Automate the whole value stream first, then calculate benefits after launch with owner review.",
+      "Run an unfocused proof of concept and ask users later where it created value with team review.",
+      "Begin with a broad AI rollout, then define metrics once adoption is visible with owner review."
+    ],
+    "correct": 0,
+    "explanation": "Scaling potential depends on repeatability, consistent data, local sponsorship, and strategic value, not only on a strong single-site pain point.",
+    "type": "Portfolio Screening"
+  },
+  {
+    "section": "AI Strategy & Use-Case Discovery",
+    "q": "A board committee asks whether a manufacturer is ready for AI after seeing many disconnected spreadsheets, aging PLCs, and strong interest from operations leaders.\n\nWhich readiness review is most useful before committing a large program budget?",
+    "opts": [
+      "Run an unfocused proof of concept and ask users later where it created value in pilot, with team review.",
+      "Assess data access, process stability, integration needs, workflow fit, governance, and change capacity.",
+      "Begin with a broad AI rollout, then define metrics once adoption is visible in pilot, with owner review.",
+      "Let every department choose tools independently, then merge lessons later in pilot, with pilot controls."
+    ],
+    "correct": 1,
+    "explanation": "Readiness includes technology, process stability, workflow, governance, and adoption capacity; enthusiasm alone is not enough.",
+    "type": "AI Readiness"
+  },
+  {
+    "section": "Predictive Maintenance & Reliability",
+    "q": "A CNC machining cell loses production when spindles fail without warning, and maintenance history is stored separately from vibration and load signals.\n\nWhich data package is most important for a credible predictive-maintenance pilot?",
+    "opts": [
+      "Replace preventive maintenance with model alerts before failure evidence is checked before rollout.",
+      "Send every anomaly directly to technicians, even when false-alarm cost is unknown with team review.",
+      "Join vibration, temperature, load, alarms, operating mode, work orders, and failure labels by time.",
+      "Use one global alert threshold for all assets, regardless of duty cycle or criticality for review."
+    ],
+    "correct": 2,
+    "explanation": "Predictive maintenance needs time-aligned condition, operating, and maintenance data connected to known events and failure definitions.",
+    "type": "Condition Data"
+  },
+  {
+    "section": "Predictive Maintenance & Reliability",
+    "q": "A compressor room anomaly model catches many unusual patterns, but planners say most alerts do not justify a maintenance action.\n\nHow should the team redesign the alert logic?",
+    "opts": [
+      "Send every anomaly directly to technicians, even when false-alarm cost is unknown in phase one.",
+      "Use one global alert threshold for all assets, regardless of duty cycle or criticality for use.",
+      "Hide prediction evidence from users so they follow the model recommendation faster for review.",
+      "Tie thresholds to actionable lead time, work-order value, false-alarm cost, and planner review."
+    ],
+    "correct": 3,
+    "explanation": "A predictive alert should be actionable within the maintenance workflow and measured by useful lead time and decision value.",
+    "type": "Alert Design"
+  },
+  {
+    "section": "Predictive Maintenance & Reliability",
+    "q": "A packaging line has repeated motor failures after sanitation cycles, but the same motors run normally on dry shifts with similar production volume.\n\nWhich stratification would make the use case more useful?",
+    "opts": [
+      "Compare failures by washdown cycle, enclosure rating, humidity, load, and maintenance history.",
+      "Use one global alert threshold for all assets, regardless of duty cycle or criticality.",
+      "Hide prediction evidence from users so they follow the model recommendation faster for review.",
+      "Train on monthly downtime totals and ignore operating mode, load, and asset state for review."
+    ],
+    "correct": 0,
+    "explanation": "Stratifying by operating context can reveal maintenance causes hidden by general failure totals.",
+    "type": "Failure Stratification"
+  },
+  {
+    "section": "Predictive Maintenance & Reliability",
+    "q": "A distribution center wants to prevent forklift battery failures that leave trucks unavailable during the last two hours of the afternoon shift.\n\nWhich features should the AI model use first?",
+    "opts": [
+      "Hide prediction evidence from users so they follow the model recommendation faster.",
+      "Use charge cycles, temperature, age, route workload, usage intensity, and shift demand.",
+      "Train on monthly downtime totals and ignore operating mode, load, and asset state for use.",
+      "Let the vendor tune thresholds alone, without planner workflow or technician review."
+    ],
+    "correct": 1,
+    "explanation": "Battery reliability depends on use profile, age, charging conditions, temperature, and expected demand during the operating window.",
+    "type": "Battery Analytics"
+  },
+  {
+    "section": "Predictive Maintenance & Reliability",
+    "q": "A boiler feed pump has high criticality but only three recorded failures in five years, so the team cannot train a strong supervised model.\n\nWhich modeling approach best fits the limited-failure situation?",
+    "opts": [
+      "Train on monthly downtime totals and ignore operating mode, load, and asset state before rollout.",
+      "Let the vendor tune thresholds alone, without planner workflow or technician review for pilot use.",
+      "Begin with engineering rules and anomaly detection, then validate alerts with maintenance experts.",
+      "Focus only on sensor volume and postpone maintenance ownership until deployment with owner review."
+    ],
+    "correct": 2,
+    "explanation": "When failures are rare, engineering rules, trend monitoring, and anomaly detection may be more practical than purely supervised models.",
+    "type": "Sparse-Failure Modeling"
+  },
+  {
+    "section": "Predictive Maintenance & Reliability",
+    "q": "A condition-monitoring vendor shows bearing-health scores, but a reliability engineer finds two sensors have calibration drift after a plant shutdown.\n\nWhat should happen before the predictions are trusted in planning?",
+    "opts": [
+      "Let the vendor tune thresholds alone, without planner workflow or technician review in phase one.",
+      "Focus only on sensor volume and postpone maintenance ownership until deployment with team review.",
+      "Score alerts only by model accuracy, without work order value or lead-time impact before rollout.",
+      "Verify sensor calibration, data completeness, and signal quality before relying on health scores."
+    ],
+    "correct": 3,
+    "explanation": "Sensor reliability and data completeness must be verified before model outputs influence maintenance decisions.",
+    "type": "Data Quality"
+  },
+  {
+    "section": "Predictive Maintenance & Reliability",
+    "q": "A maintenance manager wants AI predictions to create work orders automatically, but technicians worry that nuisance jobs will overload the backlog.\n\nWhich deployment design balances automation and trust?",
+    "opts": [
+      "Send high-confidence predictions to planner review with evidence, priority, and suggested action.",
+      "Focus only on sensor volume and postpone maintenance ownership until deployment with team review.",
+      "Score alerts only by model accuracy, without work order value or lead-time impact before rollout.",
+      "Wait for many more breakdowns before using any engineering rules or trend logic with team review."
+    ],
+    "correct": 0,
+    "explanation": "Planner review, evidence, priority, and action guidance help build trust while preventing unvalidated automatic work orders.",
+    "type": "Workflow Integration"
+  },
+  {
+    "section": "Predictive Maintenance & Reliability",
+    "q": "A bottleneck heat-treatment oven has rising bearing temperatures, but the team has not defined how much warning is needed to avoid unplanned downtime.\n\nWhich pilot objective is most appropriate?",
+    "opts": [
+      "Score alerts only by model accuracy, without work order value or lead-time impact for pilot use.",
+      "Predict bearing-risk windows early enough for planned intervention and measure avoided downtime.",
+      "Wait for many more breakdowns before using any engineering rules or trend logic before rollout.",
+      "Declare success after one avoided failure, without measuring recall or nuisance work for review."
+    ],
+    "correct": 1,
+    "explanation": "Predictive maintenance should be measured by lead time, planned intervention success, and avoided downtime on critical assets.",
+    "type": "Pilot Objective"
+  },
+  {
+    "section": "Predictive Maintenance & Reliability",
+    "q": "A predictive model flags press problems accurately, yet technicians often dismiss the alerts because the reason code is unclear and the CMMS link is missing.\n\nWhich improvement should be prioritized to improve adoption?",
+    "opts": [
+      "Wait for many more breakdowns before using any engineering rules or trend logic.",
+      "Declare success after one avoided failure, without measuring recall or nuisance work.",
+      "Redesign alert wording, evidence, priority, and CMMS workflow so technicians can act.",
+      "Replace preventive maintenance with model alerts before failure evidence is checked."
+    ],
+    "correct": 2,
+    "explanation": "Even accurate models fail when users cannot interpret the evidence or act through their normal maintenance workflow.",
+    "type": "User Adoption"
+  },
+  {
+    "section": "Predictive Maintenance & Reliability",
+    "q": "An AI vendor promises ninety percent predictive accuracy for plant-wide reliability, but the maintenance director wants to know whether the model creates value.\n\nWhich evaluation package is most meaningful?",
+    "opts": [
+      "Declare success after one avoided failure, without measuring recall or nuisance work in pilot.",
+      "Replace preventive maintenance with model alerts before failure evidence is checked at launch.",
+      "Send every anomaly directly to technicians, even when false-alarm cost is unknown for review.",
+      "Measure precision, recall, warning time, avoided downtime, repair cost, and nuisance workload."
+    ],
+    "correct": 3,
+    "explanation": "Predictive-maintenance value requires performance metrics and operational metrics, including false alarms, lead time, and economic benefit.",
+    "type": "Value Metrics"
+  },
+  {
+    "section": "Computer Vision Quality & Inspection",
+    "q": "An automotive supplier wants AI to detect weld spatter and missing welds on a moving line where inspectors use slightly different defect descriptions.\n\nWhat must be defined before collecting large image volumes?",
+    "opts": [
+      "Define defect taxonomy, image conditions, label rules, inspector agreement, and acceptance thresholds.",
+      "Install cameras first and define defect classes after production has enough images using current data.",
+      "Use overall accuracy alone, even if rare critical defects are missed during testing with owner review.",
+      "Deploy the model without fallback inspection when the camera or network is down for use, in phase one."
+    ],
+    "correct": 0,
+    "explanation": "Computer vision depends on clear defect definitions, consistent labels, controlled capture conditions, and agreed acceptance thresholds.",
+    "type": "Defect Taxonomy"
+  },
+  {
+    "section": "Computer Vision Quality & Inspection",
+    "q": "A food packaging line plans camera inspection for label placement, but lighting changes between day shift, night shift, and emergency-cleaning windows.\n\nWhich setup action reduces the highest early risk?",
+    "opts": [
+      "Use overall accuracy alone, even if rare critical defects are missed during testing at launch.",
+      "Standardize lighting, camera position, fixtures, and validation across shifts and SKU changes.",
+      "Deploy the model without fallback inspection when the camera or network is down for pilot use.",
+      "Treat every false call as training data without reviewer confirmation or traceability for use."
+    ],
+    "correct": 1,
+    "explanation": "Stable image capture conditions are essential before judging model performance under real production variation.",
+    "type": "Image Capture Control"
+  },
+  {
+    "section": "Computer Vision Quality & Inspection",
+    "q": "A vision model catches cap defects, but it rejects many acceptable bottles and creates a rework queue that slows the line.\n\nHow should the threshold decision be made?",
+    "opts": [
+      "Deploy the model without fallback inspection when the camera or network is down before rollout.",
+      "Treat every false call as training data without reviewer confirmation or traceability at launch.",
+      "Tune thresholds against false-reject cost, escaped-defect risk, line speed, and review capacity.",
+      "Replace inspectors immediately before false reject and escaped defect risk is known for review."
+    ],
+    "correct": 2,
+    "explanation": "Inspection thresholds should balance customer risk, production disruption, rework cost, and human review capacity.",
+    "type": "Threshold Tuning"
+  },
+  {
+    "section": "Computer Vision Quality & Inspection",
+    "q": "A coating line has subtle color defects that only appear under certain lamps, and customer returns do not match the plant's inspection results.\n\nWhich evidence should the team build before training the model?",
+    "opts": [
+      "Treat every false call as training data without reviewer confirmation or traceability.",
+      "Replace inspectors immediately before false reject and escaped defect risk is known in pilot.",
+      "Accept operator labels without checking agreement or clarifying defect definitions at launch.",
+      "Compare camera choice, lighting, color calibration, customer criteria, and label consistency."
+    ],
+    "correct": 3,
+    "explanation": "Color and surface inspection require controlled lighting, calibrated capture, consistent labels, and alignment to customer criteria.",
+    "type": "Inspection Evidence"
+  },
+  {
+    "section": "Computer Vision Quality & Inspection",
+    "q": "A snack-pouch line wants AI seal inspection across twelve film types, three speeds, and several known seal-failure modes.\n\nWhat image dataset design gives the best pilot foundation?",
+    "opts": [
+      "Collect representative good and bad images by SKU, speed, film lot, and seal condition.",
+      "Replace inspectors immediately before false reject and escaped defect risk is known.",
+      "Accept operator labels without checking agreement or clarifying defect definitions.",
+      "Use a single golden image set and skip validation across shifts, lots, and speeds for use."
+    ],
+    "correct": 0,
+    "explanation": "The dataset must represent production variation and known failure modes, not only easy examples captured under ideal conditions.",
+    "type": "Dataset Design"
+  },
+  {
+    "section": "Computer Vision Quality & Inspection",
+    "q": "An injection-molding plant wants to remove final inspectors after a promising demo that detects short shots on one part family.\n\nWhich rollout approach is most responsible?",
+    "opts": [
+      "Accept operator labels without checking agreement or clarifying defect definitions at launch.",
+      "Use AI as assistive triage until performance is verified across parts, shifts, and materials.",
+      "Use a single golden image set and skip validation across shifts, lots, and speeds for review.",
+      "Train only on perfect studio images, then assume the model will work on the line for review."
+    ],
+    "correct": 1,
+    "explanation": "AI inspection should remain assistive until performance is proven across relevant production conditions and risks.",
+    "type": "Human-in-the-Loop"
+  },
+  {
+    "section": "Computer Vision Quality & Inspection",
+    "q": "A printed-circuit-board AOI system produces repeated false calls on similar components, and operators have started bypassing review steps.\n\nWhich improvement should the quality engineer prioritize?",
+    "opts": [
+      "Use a single golden image set and skip validation across shifts, lots, and speeds for review.",
+      "Train only on perfect studio images, then assume the model will work on the line in phase one.",
+      "Retrain with verified labels and track nuisance calls by component, location, and defect type.",
+      "Ignore lighting, fixturing, and SKU variation because the algorithm should adapt in phase one."
+    ],
+    "correct": 2,
+    "explanation": "Verified labels and defect-level tracking help reduce nuisance calls that erode trust in inspection systems.",
+    "type": "False-Call Reduction"
+  },
+  {
+    "section": "Computer Vision Quality & Inspection",
+    "q": "A paint shop wants AI to detect rare surface defects, but historical records contain only a few clear examples of each defect type.\n\nWhich data strategy best fits the rare-defect challenge?",
+    "opts": [
+      "Train only on perfect studio images, then assume the model will work on the line in phase one.",
+      "Ignore lighting, fixturing, and SKU variation because the algorithm should adapt in phase one.",
+      "Optimize for speed only and postpone rework routing until after customer complaints at launch.",
+      "Use anomaly detection, controlled rare-defect capture, and reviewed augmentation for training."
+    ],
+    "correct": 3,
+    "explanation": "Rare defects often require anomaly approaches, deliberate capture plans, and carefully reviewed augmentation, not normal images alone.",
+    "type": "Rare-Defect Strategy"
+  },
+  {
+    "section": "Computer Vision Quality & Inspection",
+    "q": "A pharmaceutical packaging line is considering OCR for serialization codes where wrong reads could create rework and compliance issues.\n\nWhich control set should be included in the AI use case?",
+    "opts": [
+      "Validate OCR accuracy, audit trail, exception handling, rework routing, and release controls.",
+      "Ignore lighting, fixturing, and SKU variation because the algorithm should adapt for review.",
+      "Optimize for speed only and postpone rework routing until after customer complaints in pilot.",
+      "Install cameras first and define defect classes after production has enough images at launch."
+    ],
+    "correct": 0,
+    "explanation": "Regulated OCR use cases need accuracy validation, traceability, exception handling, and controlled rework procedures.",
+    "type": "OCR Governance"
+  },
+  {
+    "section": "Computer Vision Quality & Inspection",
+    "q": "An edge camera system will inspect cartons, but the plant has frequent network interruptions and no documented fallback inspection method.\n\nWhat should be designed before production rollout?",
+    "opts": [
+      "Optimize for speed only and postpone rework routing until after customer complaints at launch.",
+      "Define camera health monitoring, fallback inspection, redundancy, support, and change control.",
+      "Install cameras first and define defect classes after production has enough images for review.",
+      "Use overall accuracy alone, even if rare critical defects are missed during testing at launch."
+    ],
+    "correct": 1,
+    "explanation": "Computer-vision systems need fallback inspection, monitoring, support ownership, and change control when equipment or connectivity fails.",
+    "type": "Operational Resilience"
+  },
+  {
+    "section": "Process Optimization & Yield",
+    "q": "A specialty chemical batch reactor has yield swings that appear related to raw-material lots, addition rates, and operator decisions during heat-up.\n\nWhich data design best supports an AI yield-improvement use case?",
+    "opts": [
+      "Let the model change setpoints freely before safe ranges and approval rules are set.",
+      "Bypass operators during the pilot so recommendations can move faster than review at launch.",
+      "Model recipe, temperatures, addition rate, material lots, operator notes, and lab outcomes.",
+      "Replace process engineering judgment with black-box recommendations from day one at launch."
+    ],
+    "correct": 2,
+    "explanation": "Yield analytics should connect recipe steps, process conditions, raw materials, operator actions, and quality outcomes.",
+    "type": "Yield Modeling"
+  },
+  {
+    "section": "Process Optimization & Yield",
+    "q": "A plastic extrusion line wants AI to reduce melt-pressure instability, but engineers warn that some setpoint combinations risk off-spec product.\n\nWhich implementation boundary is most appropriate?",
+    "opts": [
+      "Bypass operators during the pilot so recommendations can move faster than review in pilot.",
+      "Replace process engineering judgment with black-box recommendations from day one in pilot.",
+      "Publish new operating instructions before change control approves the model logic for use.",
+      "Recommend setpoint windows inside approved limits with engineer review and SPC monitoring."
+    ],
+    "correct": 3,
+    "explanation": "Optimization models should operate within approved safe and quality limits and remain under engineering control during pilots.",
+    "type": "Setpoint Recommendation"
+  },
+  {
+    "section": "Process Optimization & Yield",
+    "q": "A ceramics kiln consumes high energy, yet aggressive temperature reduction can increase scrap and late deliveries.\n\nHow should the optimization target be framed?",
+    "opts": [
+      "Optimize temperature profile, throughput, energy, and quality constraints as a joint objective.",
+      "Replace process engineering judgment with black-box recommendations from day one for pilot use.",
+      "Publish new operating instructions before change control approves the model logic in phase one.",
+      "Optimize one KPI in isolation, even when quality, throughput, and energy interact in phase one."
+    ],
+    "correct": 0,
+    "explanation": "Manufacturing optimization must balance interacting objectives rather than improving energy, yield, or speed in isolation.",
+    "type": "Multi-Objective Optimization"
+  },
+  {
+    "section": "Process Optimization & Yield",
+    "q": "A milling department experiences chatter on certain alloys, and quality defects rise after tool wear becomes difficult to hear on the shop floor.\n\nWhich signal set should be combined for a useful AI assistant?",
+    "opts": [
+      "Publish new operating instructions before change control approves the model logic for pilot use.",
+      "Use spindle load, vibration, acoustic signals, tool life, material hardness, and finish results.",
+      "Optimize one KPI in isolation, even when quality, throughput, and energy interact for pilot use.",
+      "Assume historical data is valid even after raw materials, tools, or limits have changed for use."
+    ],
+    "correct": 1,
+    "explanation": "Chatter and tool-wear use cases benefit from multiple signals connected to material and quality outcomes.",
+    "type": "Process Signal Fusion"
+  },
+  {
+    "section": "Process Optimization & Yield",
+    "q": "A brewery fermentation team wants earlier warning when a tank may miss flavor targets, but final lab results arrive days later.\n\nWhich prediction design is most practical?",
+    "opts": [
+      "Optimize one KPI in isolation, even when quality, throughput, and energy interact in pilot.",
+      "Assume historical data is valid even after raw materials, tools, or limits have changed.",
+      "Predict deviation using temperature, gravity trend, yeast lot, CIP status, and lab history.",
+      "Rank settings by correlation alone and skip confirmation runs under controlled limits."
+    ],
+    "correct": 2,
+    "explanation": "Early warning models should use available process trends and contextual factors that precede final quality results.",
+    "type": "Early Deviation Prediction"
+  },
+  {
+    "section": "Process Optimization & Yield",
+    "q": "A chemical plant wants an AI autopilot to adjust dosage, but operators currently manage deviations through approved operating envelopes and alarms.\n\nWhich first deployment approach controls operational risk?",
+    "opts": [
+      "Assume historical data is valid even after raw materials, tools, or limits have changed.",
+      "Rank settings by correlation alone and skip confirmation runs under controlled limits in pilot.",
+      "Train on final yield totals only and ignore recipe sequence, material, and shift context.",
+      "Deploy decision support within safe ranges, with interlocks and operator confirmation required."
+    ],
+    "correct": 3,
+    "explanation": "For process control, AI should begin as bounded decision support with clear safeguards, interlocks, and operator confirmation.",
+    "type": "Safe Deployment"
+  },
+  {
+    "section": "Process Optimization & Yield",
+    "q": "An assembly line has torque defects concentrated on one joint family, but operators report that the tool traces look normal at the workstation.\n\nWhich analysis should the team perform first?",
+    "opts": [
+      "Analyze tool traces, fastener lot, joint design, shift, rework history, and audit results.",
+      "Rank settings by correlation alone and skip confirmation runs under controlled limits.",
+      "Train on final yield totals only and ignore recipe sequence, material, and shift context.",
+      "Use the model whenever it improves yesterday's batch, without drift monitoring later for use."
+    ],
+    "correct": 0,
+    "explanation": "Torque defects can reflect tool behavior, materials, product design, shift conditions, and rework history; the data should be stratified.",
+    "type": "Root-Variable Analysis"
+  },
+  {
+    "section": "Process Optimization & Yield",
+    "q": "A paper machine has web breaks that happen after subtle changes in moisture, tension, speed, and recent grade changeovers.\n\nWhat should the AI model predict to create operational value?",
+    "opts": [
+      "Train on final yield totals only and ignore recipe sequence, material, and shift context.",
+      "Predict break risk from moisture, tension, speed, grade, roll condition, and recent events.",
+      "Use the model whenever it improves yesterday's batch, without drift monitoring later.",
+      "Close the pilot after a promising week, without checking capability or stability at launch."
+    ],
+    "correct": 1,
+    "explanation": "Break prediction should use the process variables and recent events that give operators a practical intervention window.",
+    "type": "Break-Risk Prediction"
+  },
+  {
+    "section": "Process Optimization & Yield",
+    "q": "A setpoint optimizer proposes running outside the documented process window to gain throughput, and supervisors disagree on whether to test it.\n\nWhat is the correct governance response?",
+    "opts": [
+      "Use the model whenever it improves yesterday's batch, without drift monitoring later for use.",
+      "Close the pilot after a promising week, without checking capability or stability for review.",
+      "Align recommendations with approved windows and use change control before testing new limits.",
+      "Let the model change setpoints freely before safe ranges and approval rules are set in pilot."
+    ],
+    "correct": 2,
+    "explanation": "AI recommendations must respect approved operating windows unless formal change control and risk assessment authorize testing.",
+    "type": "Change Control"
+  },
+  {
+    "section": "Process Optimization & Yield",
+    "q": "A yield model performs well for six months, then loses accuracy after a new supplier material and revised cleaning step are introduced.\n\nWhich monitoring response is most appropriate?",
+    "opts": [
+      "Close the pilot after a promising week, without checking capability or stability for use.",
+      "Let the model change setpoints freely before safe ranges and approval rules are set.",
+      "Bypass operators during the pilot so recommendations can move faster than review for use.",
+      "Track drift by supplier, material lot, and process change, then retrain after validation."
+    ],
+    "correct": 3,
+    "explanation": "Manufacturing models must be monitored for drift when materials, equipment, recipes, or process steps change.",
+    "type": "Model Drift"
+  },
+  {
+    "section": "Production Planning, Scheduling & Flow",
+    "q": "A job shop with shared mills, heat treatment, and inspection queues changes schedules several times per day because priorities and constraints shift quickly.\n\nWhich data foundation is needed for AI scheduling recommendations?",
+    "opts": [
+      "Use due dates, routings, capacities, setup times, WIP, constraints, and priority rules.",
+      "Build a schedule model from past shipments only and ignore capacity constraints.",
+      "Use one static priority rule for every product family, work center, and customer order.",
+      "Ask planners to trust the model first, then explain why changes were recommended."
+    ],
+    "correct": 0,
+    "explanation": "AI scheduling needs accurate orders, routings, capacities, setups, WIP, constraints, and priority logic to create feasible recommendations.",
+    "type": "Scheduling Data"
+  },
+  {
+    "section": "Production Planning, Scheduling & Flow",
+    "q": "A factory misses orders when purchased components arrive late, but planners only learn about risk after the line is already waiting.\n\nWhich AI use case would best reduce the planning blind spot?",
+    "opts": [
+      "Use one static priority rule for every product family, work center, and customer order for review.",
+      "Predict ETA risk from purchase orders, inventory, supplier history, logistics, and plan need dates.",
+      "Ask planners to trust the model first, then explain why changes were recommended with owner review.",
+      "Remove human judgment from expedites before exception rules and risk tradeoffs are clear at launch."
+    ],
+    "correct": 1,
+    "explanation": "Material-risk prediction combines supply, logistics, inventory, and production need dates before shortages reach the line.",
+    "type": "Material-Risk Prediction"
+  },
+  {
+    "section": "Production Planning, Scheduling & Flow",
+    "q": "A planner maintains a complex spreadsheet that balances capacity, late orders, and customer expedite requests each morning.\n\nHow should AI be introduced without disrupting ownership?",
+    "opts": [
+      "Ask planners to trust the model first, then explain why changes were recommended for review.",
+      "Remove human judgment from expedites before exception rules and risk tradeoffs are clear for use.",
+      "Pilot schedule recommendations with planner override, explanation, and adherence measurement.",
+      "Optimize utilization alone, even if changeovers, due dates, and shortages worsen for review."
+    ],
+    "correct": 2,
+    "explanation": "AI can assist planners when recommendations are explainable, overridable, and measured against schedule quality outcomes.",
+    "type": "Planner-in-the-Loop"
+  },
+  {
+    "section": "Production Planning, Scheduling & Flow",
+    "q": "An SMT line has long changeovers caused by feeder setup, stencil changes, customer due dates, and engineering holds.\n\nWhich optimization objective is most useful?",
+    "opts": [
+      "Remove human judgment from expedites before exception rules and risk tradeoffs are clear.",
+      "Optimize utilization alone, even if changeovers, due dates, and shortages worsen for use.",
+      "Ignore late data from MES because the algorithm can infer true machine status later.",
+      "Sequence jobs by feeder setup, family grouping, due dates, material readiness, and holds."
+    ],
+    "correct": 3,
+    "explanation": "Job sequencing should balance setup efficiency with material readiness, due dates, product family, and engineering constraints.",
+    "type": "Changeover Optimization"
+  },
+  {
+    "section": "Production Planning, Scheduling & Flow",
+    "q": "A mixed-model assembly area sees its bottleneck shift daily because absenteeism, rework, and material shortages change the available capacity.\n\nWhich real-time inputs should feed a flow-management AI use case?",
+    "opts": [
+      "Use WIP, machine status, queue time, labor availability, shortages, and dispatch rules.",
+      "Optimize utilization alone, even if changeovers, due dates, and shortages worsen for use.",
+      "Ignore late data from MES because the algorithm can infer true machine status later.",
+      "Reschedule every order continuously without freezing windows or communicating changes."
+    ],
+    "correct": 0,
+    "explanation": "Dynamic dispatching needs real-time status, queues, labor, shortages, and rules that reflect current constraints.",
+    "type": "Flow Management"
+  },
+  {
+    "section": "Production Planning, Scheduling & Flow",
+    "q": "A consumer-goods plant has poor forecast accuracy for seasonal SKUs, and planners say sales promotions are not visible early enough.\n\nWhich forecasting design would improve the use case?",
+    "opts": [
+      "Ignore late data from MES because the algorithm can infer true machine status later for use.",
+      "Combine orders, seasonality, promotions, customer signals, forecast bias, and planner notes.",
+      "Reschedule every order continuously without freezing windows or communicating changes.",
+      "Let the AI publish schedules directly before planners can review and override for pilot use."
+    ],
+    "correct": 1,
+    "explanation": "Forecasting improves when history is combined with market signals, planned events, and tracked bias or overrides.",
+    "type": "Demand Forecasting"
+  },
+  {
+    "section": "Production Planning, Scheduling & Flow",
+    "q": "A plant manager approves overtime late each week because capacity gaps by skill and work center are not visible until orders are overdue.\n\nWhich AI insight would support better decisions?",
+    "opts": [
+      "Reschedule every order continuously without freezing windows or communicating changes.",
+      "Let the AI publish schedules directly before planners can review and override for use.",
+      "Predict capacity gaps by skill, work center, backlog, absenteeism, and lateness risk.",
+      "Measure success by the number of recommendations, not schedule stability or service."
+    ],
+    "correct": 2,
+    "explanation": "Capacity decisions require skill-level and work-center forecasts connected to backlog, attendance, and due-date risk.",
+    "type": "Capacity Prediction"
+  },
+  {
+    "section": "Production Planning, Scheduling & Flow",
+    "q": "A finite scheduler produces plans that look efficient, but planners make many manual edits before releasing the schedule.\n\nWhich pilot evaluation would explain whether the AI is useful?",
+    "opts": [
+      "Let the AI publish schedules directly before planners can review and override for review.",
+      "Measure success by the number of recommendations, not schedule stability or service for use.",
+      "Treat all work centers as equal capacity, even when skills and setups constrain flow.",
+      "Compare schedule proposals against baseline for throughput, stability, service, and edits."
+    ],
+    "correct": 3,
+    "explanation": "Scheduler pilots should measure business outcomes and planner edits, not simply whether the algorithm can produce a plan.",
+    "type": "Schedule Evaluation"
+  },
+  {
+    "section": "Production Planning, Scheduling & Flow",
+    "q": "A critical grinder breaks down during a rush order, and the planner needs alternatives that protect the highest-value customer commitments.\n\nWhich AI response is most valuable during the disruption?",
+    "opts": [
+      "Generate feasible scenarios with constraints and recommend the least disruptive recovery plan.",
+      "Measure success by the number of recommendations, not schedule stability or service at launch.",
+      "Treat all work centers as equal capacity, even when skills and setups constrain flow in pilot.",
+      "Build a schedule model from past shipments only and ignore capacity constraints for pilot use."
+    ],
+    "correct": 0,
+    "explanation": "AI can support disruption response by generating constrained recovery scenarios and showing tradeoffs quickly.",
+    "type": "Disruption Planning"
+  },
+  {
+    "section": "Production Planning, Scheduling & Flow",
+    "q": "An MES update lags by four hours, so the AI dispatching prototype often recommends work orders that are already completed or waiting for parts.\n\nWhat should be fixed before deploying dispatch recommendations?",
+    "opts": [
+      "Treat all work centers as equal capacity, even when skills and setups constrain flow.",
+      "Improve data timeliness, status definitions, and exception rules before AI dispatching.",
+      "Build a schedule model from past shipments only and ignore capacity constraints.",
+      "Use one static priority rule for every product family, work center, and customer order."
+    ],
+    "correct": 1,
+    "explanation": "Dispatching models depend on timely and accurate status data; stale MES signals create wrong recommendations.",
+    "type": "Data Readiness"
+  },
+  {
+    "section": "Supply Chain, Inventory & Procurement",
+    "q": "A manufacturer of pumps faces late castings from multiple suppliers, but buyers only see delays after promised dates are missed.\n\nWhich AI use case best supports proactive purchasing action?",
+    "opts": [
+      "Use last year's average demand alone and ignore supplier reliability and lead-time risk with team review.",
+      "Forecast by total spend only and postpone item segmentation until after stockouts occur with team review.",
+      "Predict late-order risk from supplier history, lead-time variation, order changes, and logistics signals.",
+      "Rank suppliers only by unit price and ignore quality, capacity, logistics, and disruption before rollout."
+    ],
+    "correct": 2,
+    "explanation": "Supplier-risk models should combine purchase history, variability, changes, and logistics signals to create earlier action windows.",
+    "type": "Supplier-Risk Prediction"
+  },
+  {
+    "section": "Supply Chain, Inventory & Procurement",
+    "q": "A battery-pack plant wants to manage raw-material price volatility while avoiding shortages and excess inventory on expensive components.\n\nWhich planning model would be most appropriate?",
+    "opts": [
+      "Forecast by total spend only and postpone item segmentation until after stockouts occur for use.",
+      "Rank suppliers only by unit price and ignore quality, capacity, logistics, and disruption.",
+      "Close the project once a dashboard exists, without confirming inventory or service impact.",
+      "Model demand, inventory, price scenarios, MOQ, shelf life, supplier risk, and service level."
+    ],
+    "correct": 3,
+    "explanation": "Material planning should balance cost, supply risk, service level, shelf life, and inventory exposure under different scenarios.",
+    "type": "Scenario Planning"
+  },
+  {
+    "section": "Supply Chain, Inventory & Procurement",
+    "q": "A plant often stocks out of low-cost MRO parts that stop production, while high-value spare parts sit unused for years.\n\nHow should the AI inventory use case classify items?",
+    "opts": [
+      "Segment by criticality, usage pattern, asset risk, lead time, and carrying cost at launch.",
+      "Rank suppliers only by unit price and ignore quality, capacity, logistics, and disruption.",
+      "Close the project once a dashboard exists, without confirming inventory or service impact.",
+      "Minimize inventory globally, even when criticality and service levels differ by item."
+    ],
+    "correct": 0,
+    "explanation": "MRO inventory requires criticality and equipment-risk segmentation, not only unit cost or annual spend.",
+    "type": "MRO Segmentation"
+  },
+  {
+    "section": "Supply Chain, Inventory & Procurement",
+    "q": "A manufacturer has excess finished-goods inventory for slow movers while service levels remain poor for strategic customers.\n\nWhich segmentation should guide the AI recommendation engine?",
+    "opts": [
+      "Close the project once a dashboard exists, without confirming inventory or service impact.",
+      "Segment by demand volatility, margin, obsolescence risk, customer priority, and service level.",
+      "Minimize inventory globally, even when criticality and service levels differ by item in pilot.",
+      "Build a chatbot on shared files before access rights and approved sourcing content are set."
+    ],
+    "correct": 1,
+    "explanation": "Inventory recommendations should reflect volatility, margin, obsolescence, customer priority, and service targets.",
+    "type": "Inventory Segmentation"
+  },
+  {
+    "section": "Supply Chain, Inventory & Procurement",
+    "q": "A supplier quality team sees defect spikes from certain lots, but certificates, inspection results, and supplier process notices are stored separately.\n\nWhich data integration supports an AI supplier-quality model?",
+    "opts": [
+      "Minimize inventory globally, even when criticality and service levels differ by item for review.",
+      "Build a chatbot on shared files before access rights and approved sourcing content are set.",
+      "Link supplier lot, certificate data, inspection results, complaints, and process-change notices.",
+      "Push every shortage alert to buyers, even when risk level and action window are unclear for use."
+    ],
+    "correct": 2,
+    "explanation": "Supplier-quality prediction needs linked data from lot identity, certificates, inspection, complaints, and supplier changes.",
+    "type": "Supplier Quality"
+  },
+  {
+    "section": "Supply Chain, Inventory & Procurement",
+    "q": "A port delay creates inbound uncertainty for imported components, and receiving capacity is also limited during the same week.\n\nWhich visibility use case would best protect production schedules?",
+    "opts": [
+      "Build a chatbot on shared files before access rights and approved sourcing content are set in pilot.",
+      "Push every shortage alert to buyers, even when risk level and action window are unclear for review.",
+      "Let the AI place all purchase orders automatically before exception rules are agreed before rollout.",
+      "Predict receiving and line-risk from ASN, carrier milestones, customs, inventory, and dock capacity."
+    ],
+    "correct": 3,
+    "explanation": "Inbound visibility should connect logistics milestones, receiving capacity, inventory, and line needs.",
+    "type": "Inbound Visibility"
+  },
+  {
+    "section": "Supply Chain, Inventory & Procurement",
+    "q": "A sourcing manager must decide whether to dual-source a critical component after a single supplier had several capacity misses.\n\nWhich AI-supported analysis gives the best decision support?",
+    "opts": [
+      "Simulate total cost and risk across quality, capacity, lead time, disruption, and qualification effort.",
+      "Push every shortage alert to buyers, even when risk level and action window are unclear before rollout.",
+      "Let the AI place all purchase orders automatically before exception rules are agreed with owner review.",
+      "Trust supplier portal updates without reconciling receipts, quality holds, and ASN data before rollout."
+    ],
+    "correct": 0,
+    "explanation": "Sourcing decisions should evaluate total cost and risk, including qualification, quality, capacity, and disruption exposure.",
+    "type": "Sourcing Simulation"
+  },
+  {
+    "section": "Supply Chain, Inventory & Procurement",
+    "q": "A purchasing team wants AI to suggest reorder quantities, but finance worries about uncontrolled buying and stale planning parameters.\n\nWhich control design is most appropriate?",
+    "opts": [
+      "Let the AI place all purchase orders automatically before exception rules are agreed in phase one.",
+      "Suggest reorder quantities with buyer approval, exception rules, parameter review, and risk flags.",
+      "Trust supplier portal updates without reconciling receipts, quality holds, and ASN data at launch.",
+      "Treat buyer overrides as noise, instead of learning when experts had valid context before rollout."
+    ],
+    "correct": 1,
+    "explanation": "Procurement AI should suggest actions and highlight exceptions while preserving buyer approval and parameter governance.",
+    "type": "Procurement Controls"
+  },
+  {
+    "section": "Supply Chain, Inventory & Procurement",
+    "q": "Sales leaders often override statistical forecasts for large customers, and planners cannot tell when overrides improve accuracy.\n\nWhich learning loop should be added?",
+    "opts": [
+      "Trust supplier portal updates without reconciling receipts, quality holds, and ASN data.",
+      "Treat buyer overrides as noise, instead of learning when experts had valid context at launch.",
+      "Track forecast accuracy by product and customer, then learn from documented override reasons.",
+      "Use last year's average demand alone and ignore supplier reliability and lead-time risk."
+    ],
+    "correct": 2,
+    "explanation": "A useful AI forecasting process measures override impact and learns when human context improves or harms accuracy.",
+    "type": "Forecast Learning"
+  },
+  {
+    "section": "Supply Chain, Inventory & Procurement",
+    "q": "A procurement team wants a supplier-facing chatbot to answer questions about specifications, delivery requirements, and quality documentation.\n\nWhich knowledge boundary is necessary before launch?",
+    "opts": [
+      "Treat buyer overrides as noise, instead of learning when experts had valid context before rollout.",
+      "Use last year's average demand alone and ignore supplier reliability and lead-time risk at launch.",
+      "Forecast by total spend only and postpone item segmentation until after stockouts occur at launch.",
+      "Restrict answers to approved specs, contracts, policies, and log exceptions to procurement owners."
+    ],
+    "correct": 3,
+    "explanation": "Supplier chatbots should use controlled content, access rules, exception logging, and accountable procurement owners.",
+    "type": "Supplier Chatbot Governance"
+  },
+  {
+    "section": "Workforce, Safety & Knowledge Systems",
+    "q": "New operators on a high-mix assembly line repeatedly ask setup questions because experienced trainers are spread across several shifts.\n\nWhich AI knowledge use case is most appropriate?",
+    "opts": [
+      "Use a controlled RAG assistant on approved instructions with version control and escalation.",
+      "Use AI monitoring without explaining purpose, privacy, and response responsibilities.",
+      "Auto-release generated instructions without SME approval or document control review for use.",
+      "Collect more behavior data first and postpone worker involvement until rollout in phase one."
+    ],
+    "correct": 0,
+    "explanation": "A manufacturing knowledge assistant should retrieve from approved sources, show version control, and escalate uncertain answers.",
+    "type": "Knowledge Assistant"
+  },
+  {
+    "section": "Workforce, Safety & Knowledge Systems",
+    "q": "An EHS manager receives many short near-miss narratives, but recurring hazard patterns are hard to see across departments.\n\nHow should AI support the safety program?",
+    "opts": [
+      "Auto-release generated instructions without SME approval or document control review for use.",
+      "Cluster near-miss narratives to identify hazard patterns and improvement themes, not blame.",
+      "Collect more behavior data first and postpone worker involvement until rollout for review.",
+      "Measure success by logins only and ignore incidents, quality errors, and adoption quality."
+    ],
+    "correct": 1,
+    "explanation": "NLP can help reveal recurring hazards and themes, but it should support systemic improvement rather than blame.",
+    "type": "Safety Analytics"
+  },
+  {
+    "section": "Workforce, Safety & Knowledge Systems",
+    "q": "A plant wants computer vision to study ergonomic risk during repetitive packing tasks, while employees raise privacy concerns.\n\nWhich design principle should govern the pilot?",
+    "opts": [
+      "Collect more behavior data first and postpone worker involvement until rollout for review.",
+      "Measure success by logins only and ignore incidents, quality errors, and adoption quality.",
+      "Use consent, privacy controls, aggregated risk patterns, and EHS review before action.",
+      "Score workers individually from safety data before hazard controls are improved at launch."
+    ],
+    "correct": 2,
+    "explanation": "Workforce vision use cases require transparency, privacy controls, appropriate aggregation, and human EHS review.",
+    "type": "Ergonomics Governance"
+  },
+  {
+    "section": "Workforce, Safety & Knowledge Systems",
+    "q": "A factory has recurring defects from inexperienced workers who move between stations before required training is updated in the skills matrix.\n\nWhich AI training recommendation would help most?",
+    "opts": [
+      "Measure success by logins only and ignore incidents, quality errors, and adoption quality.",
+      "Score workers individually from safety data before hazard controls are improved for pilot use.",
+      "Replace supervisor coaching with chatbot answers before escalation rules are defined in pilot.",
+      "Recommend training from skill matrix, defect history, safety events, and certification expiry."
+    ],
+    "correct": 3,
+    "explanation": "Training AI should connect skills, certification, defects, safety events, and station requirements.",
+    "type": "Training Analytics"
+  },
+  {
+    "section": "Workforce, Safety & Knowledge Systems",
+    "q": "An engineer wants generative AI to create digital work instructions after equipment changes, but the plant uses strict document control.\n\nWhich release process is required?",
+    "opts": [
+      "Generate draft instructions only, then require SME approval and controlled document release.",
+      "Score workers individually from safety data before hazard controls are improved for review.",
+      "Replace supervisor coaching with chatbot answers before escalation rules are defined.",
+      "Use AI to assign blame faster rather than identifying system hazards and controls at launch."
+    ],
+    "correct": 0,
+    "explanation": "Generative AI can draft instructions, but SMEs and document-control processes must approve before release.",
+    "type": "Document Control"
+  },
+  {
+    "section": "Workforce, Safety & Knowledge Systems",
+    "q": "A warehouse proposes AI cameras to flag forklift speed and pedestrian-zone violations in real time.\n\nWhich rollout design best protects safety and trust?",
+    "opts": [
+      "Replace supervisor coaching with chatbot answers before escalation rules are defined.",
+      "Define privacy rules, alert thresholds, response workflow, and false-positive review.",
+      "Use AI to assign blame faster rather than identifying system hazards and controls.",
+      "Let the assistant answer from any file it can find, even when procedures are obsolete."
+    ],
+    "correct": 1,
+    "explanation": "AI safety cameras need transparency, privacy rules, thresholds, response workflows, and false-positive review.",
+    "type": "Safety Camera Rollout"
+  },
+  {
+    "section": "Workforce, Safety & Knowledge Systems",
+    "q": "A plant with high turnover wants AI to reduce onboarding time without losing tacit knowledge held by senior operators.\n\nWhich use case best supports supervisors and new hires?",
+    "opts": [
+      "Use AI to assign blame faster rather than identifying system hazards and controls in pilot.",
+      "Let the assistant answer from any file it can find, even when procedures are obsolete.",
+      "Surface knowledge gaps and guide onboarding while keeping supervisors in the coaching loop.",
+      "Translate work instructions freely and skip validation of terminology and cautions for use."
+    ],
+    "correct": 2,
+    "explanation": "AI should support onboarding and knowledge capture while preserving supervisor coaching and local expertise.",
+    "type": "Onboarding Support"
+  },
+  {
+    "section": "Workforce, Safety & Knowledge Systems",
+    "q": "A multilingual workforce needs faster access to setup instructions, but mistranslated cautions could create quality and safety risks.\n\nHow should AI translation be governed?",
+    "opts": [
+      "Let the assistant answer from any file it can find, even when procedures are obsolete.",
+      "Translate work instructions freely and skip validation of terminology and cautions for use.",
+      "Optimize for alert volume, even when false positives could reduce trust and reporting.",
+      "Translate approved content with controlled terminology, validation, and user confirmation."
+    ],
+    "correct": 3,
+    "explanation": "Manufacturing translation use cases need approved source content, controlled terms, validation, and confirmation of critical cautions.",
+    "type": "Translation Governance"
+  },
+  {
+    "section": "Workforce, Safety & Knowledge Systems",
+    "q": "A fabrication area wants PPE-detection AI after several visitors entered without proper eye protection.\n\nWhich pilot boundary is best for a safety-critical visual use case?",
+    "opts": [
+      "Pilot in a defined high-risk zone with signage, human review, and incident-rate metrics.",
+      "Translate work instructions freely and skip validation of terminology and cautions for use.",
+      "Optimize for alert volume, even when false positives could reduce trust and reporting.",
+      "Use AI monitoring without explaining purpose, privacy, and response responsibilities."
+    ],
+    "correct": 0,
+    "explanation": "PPE detection should start in a defined area with notice, human review, clear response actions, and safety outcome metrics.",
+    "type": "PPE Detection"
+  },
+  {
+    "section": "Workforce, Safety & Knowledge Systems",
+    "q": "Shift handovers are inconsistent, causing quality holds and maintenance issues to be missed between night shift and day shift.\n\nWhich generative AI use case would create practical value?",
+    "opts": [
+      "Optimize for alert volume, even when false positives could reduce trust and reporting.",
+      "Summarize logs, open issues, quality holds, maintenance status, and priority actions.",
+      "Use AI monitoring without explaining purpose, privacy, and response responsibilities.",
+      "Auto-release generated instructions without SME approval or document control review."
+    ],
+    "correct": 1,
+    "explanation": "AI summaries can improve shift handover when they draw from controlled operational logs and highlight actionable open items.",
+    "type": "Handover Summary"
+  },
+  {
+    "section": "Energy, Sustainability & Utilities",
+    "q": "A facility suspects compressed-air leaks are wasting energy, but leak reports, compressor load, and production schedules are not connected.\n\nWhich AI use case would prioritize the right repairs?",
+    "opts": [
+      "Install an energy dashboard first, then decide which control actions may change demand for use.",
+      "Report carbon estimates without emission-factor control, meter traceability, or audit trail.",
+      "Rank leaks using ultrasound data, compressor load, production state, repair cost, and savings.",
+      "Ignore idle-state definitions because the model should recognize every operating condition."
+    ],
+    "correct": 2,
+    "explanation": "Leak prioritization should use measured leak evidence, compressor load, production state, and repair economics.",
+    "type": "Compressed-Air Analytics"
+  },
+  {
+    "section": "Energy, Sustainability & Utilities",
+    "q": "A plant pays high peak-demand charges when ovens, compressors, and chilled water units start during the same production window.\n\nWhich recommendation engine would reduce energy cost without hurting output?",
+    "opts": [
+      "Report carbon estimates without emission-factor control, meter traceability, or audit trail.",
+      "Ignore idle-state definitions because the model should recognize every operating condition.",
+      "Push recommendations to operators without explaining constraints or escalation boundaries.",
+      "Forecast demand peaks and recommend load shifting inside production and quality constraints."
+    ],
+    "correct": 3,
+    "explanation": "Peak-demand AI should forecast peaks and suggest feasible load shifts within production constraints.",
+    "type": "Peak-Demand Management"
+  },
+  {
+    "section": "Energy, Sustainability & Utilities",
+    "q": "A boiler house uses more fuel than expected during similar production volumes, and maintenance suspects steam traps and weather effects.\n\nWhich variables should the energy model include?",
+    "opts": [
+      "Model fuel use by steam demand, weather, production schedule, trap condition, and maintenance state.",
+      "Ignore idle-state definitions because the model should recognize every operating condition in pilot.",
+      "Push recommendations to operators without explaining constraints or escalation boundaries at launch.",
+      "Use monthly bills as the only training data and ignore meter, weather, and production context."
+    ],
+    "correct": 0,
+    "explanation": "Boiler efficiency models need production, weather, steam demand, maintenance, and equipment-condition context.",
+    "type": "Boiler Analytics"
+  },
+  {
+    "section": "Energy, Sustainability & Utilities",
+    "q": "A chilled-water system supports process cooling, and operators worry that energy optimization may affect product temperature stability.\n\nWhich pilot design balances savings and process requirements?",
+    "opts": [
+      "Push recommendations to operators without explaining constraints or escalation boundaries for use.",
+      "Optimize setpoints within process limits and verify energy savings against stable quality data.",
+      "Use monthly bills as the only training data and ignore meter, weather, and production context.",
+      "Rank sustainability ideas by visibility rather than verified savings, risk, and repeatability."
+    ],
+    "correct": 1,
+    "explanation": "Utility optimization must respect process constraints and verify savings without sacrificing product quality.",
+    "type": "Utility Optimization"
+  },
+  {
+    "section": "Energy, Sustainability & Utilities",
+    "q": "A manufacturer wants AI to improve carbon reporting, but meters, emission factors, and production-volume data are maintained in separate systems.\n\nWhat foundation should be built first?",
+    "opts": [
+      "Use monthly bills as the only training data and ignore meter, weather, and production context.",
+      "Rank sustainability ideas by visibility rather than verified savings, risk, and repeatability.",
+      "Connect meters, production volume, emission factors, source lineage, and audit trail in pilot.",
+      "Use default utility assumptions and skip verification with maintenance and operations teams."
+    ],
+    "correct": 2,
+    "explanation": "Carbon analytics require traceable meter data, production context, emission factors, and controlled audit evidence.",
+    "type": "Carbon Data Foundation"
+  },
+  {
+    "section": "Energy, Sustainability & Utilities",
+    "q": "A powder-coating oven stays hot during long idle windows because supervisors are unsure when shutdown and restart will delay production.\n\nWhich AI recommendation would be useful?",
+    "opts": [
+      "Rank sustainability ideas by visibility rather than verified savings, risk, and repeatability.",
+      "Use default utility assumptions and skip verification with maintenance and operations teams for use.",
+      "Optimize utility cost alone, even when production, quality, and permit limits constrain changes.",
+      "Detect idle states and recommend shutdown windows using schedule, warm-up time, and product need."
+    ],
+    "correct": 3,
+    "explanation": "Idle-energy savings depend on reliable state detection, schedule constraints, warm-up time, and production readiness.",
+    "type": "Idle-Energy Control"
+  },
+  {
+    "section": "Energy, Sustainability & Utilities",
+    "q": "A sustainability team wants to reduce the carbon impact of scrap, but scrap reports do not show defect type or process step consistently.\n\nWhich analysis design would make the use case actionable?",
+    "opts": [
+      "Quantify waste and carbon impact by defect type, material, product, and process step for review.",
+      "Use default utility assumptions and skip verification with maintenance and operations teams.",
+      "Optimize utility cost alone, even when production, quality, and permit limits constrain changes.",
+      "Let AI shut equipment down automatically before warm-up time and line readiness are known."
+    ],
+    "correct": 0,
+    "explanation": "Scrap-carbon reduction requires linking waste to defect types, materials, products, and process steps.",
+    "type": "Scrap-Carbon Analytics"
+  },
+  {
+    "section": "Energy, Sustainability & Utilities",
+    "q": "A factory with rooftop solar and batteries wants to schedule flexible loads when on-site generation is high and tariffs are favorable.\n\nWhich forecast should the AI use?",
+    "opts": [
+      "Optimize utility cost alone, even when production, quality, and permit limits constrain changes.",
+      "Forecast solar generation, demand, tariffs, battery state, and flexible-load windows together.",
+      "Let AI shut equipment down automatically before warm-up time and line readiness are known.",
+      "Close the pilot after one lower bill, without normalizing for volume or weather changes for use."
+    ],
+    "correct": 1,
+    "explanation": "Energy scheduling should combine generation, storage, tariffs, demand, and production flexibility.",
+    "type": "Energy Scheduling"
+  },
+  {
+    "section": "Energy, Sustainability & Utilities",
+    "q": "A wastewater-treatment area occasionally approaches permit limits, and operators adjust dosing based on experience and lab results.\n\nWhich AI use case is best suited for this process?",
+    "opts": [
+      "Let AI shut equipment down automatically before warm-up time and line readiness are known.",
+      "Close the pilot after one lower bill, without normalizing for volume or weather changes.",
+      "Predict excursions and suggest dosing within permit limits, operator review, and traceability.",
+      "Install an energy dashboard first, then decide which control actions may change demand for use."
+    ],
+    "correct": 2,
+    "explanation": "Environmental processes need predictive alerts and recommendations inside permit limits with operator review and traceability.",
+    "type": "Wastewater Control"
+  },
+  {
+    "section": "Energy, Sustainability & Utilities",
+    "q": "A corporate dashboard shows energy, water, and carbon KPIs, but plant leaders do not know which actions will improve the metrics.\n\nWhat distinction should the AI program make?",
+    "opts": [
+      "Close the pilot after one lower bill, without normalizing for volume or weather changes.",
+      "Install an energy dashboard first, then decide which control actions may change demand.",
+      "Report carbon estimates without emission-factor control, meter traceability, or audit trail.",
+      "Separate reporting KPIs from control actions and verify each source-data definition for use."
+    ],
+    "correct": 3,
+    "explanation": "Dashboards do not create improvement unless source definitions are trusted and connected to feasible control actions.",
+    "type": "KPI Governance"
+  },
+  {
+    "section": "Data Architecture, MLOps & Integration",
+    "q": "A manufacturer has ERP orders, MES events, historian tags, and maintenance records, but equipment names and lot timestamps do not match.\n\nWhat architecture work is needed before AI modeling?",
+    "opts": [
+      "Define common keys, timestamps, data model, ownership, and integration APIs across systems.",
+      "Export flat files manually forever and fix master data only after the model is deployed for use.",
+      "Treat the first model as permanent and skip versioning, drift checks, and rollback plans.",
+      "Choose cloud or edge by trend, not by latency, cybersecurity, OT support, and data volume."
+    ],
+    "correct": 0,
+    "explanation": "Reliable manufacturing AI requires linked entities, time alignment, ownership, and integration across IT and OT systems.",
+    "type": "Data Model"
+  },
+  {
+    "section": "Data Architecture, MLOps & Integration",
+    "q": "A defect-prediction team finds that different plants use the same reason code for rework, scrap, and engineering trials.\n\nWhat should be fixed before training the model?",
+    "opts": [
+      "Treat the first model as permanent and skip versioning, drift checks, and rollback plans.",
+      "Standardize label definitions, governance, and reviewer rules before model training.",
+      "Choose cloud or edge by trend, not by latency, cybersecurity, OT support, and data volume.",
+      "Approve retraining informally whenever performance looks better on a small data sample."
+    ],
+    "correct": 1,
+    "explanation": "Bad labels create bad models; defect and event definitions must be standardized and governed before training.",
+    "type": "Label Governance"
+  },
+  {
+    "section": "Data Architecture, MLOps & Integration",
+    "q": "A vision model must run at the machine because inspection decisions are needed within milliseconds, but IT wants cloud deployment for easier support.\n\nWhich deployment assessment is most important?",
+    "opts": [
+      "Choose cloud or edge by trend, not by latency, cybersecurity, OT support, and data volume.",
+      "Approve retraining informally whenever performance looks better on a small data sample.",
+      "Assess latency, edge hardware, cybersecurity, fallback inspection, and update process.",
+      "Connect AI directly to control equipment without validated safeguards or fallback logic."
+    ],
+    "correct": 2,
+    "explanation": "Edge AI decisions should consider latency, hardware, security, fallback procedures, and maintainability.",
+    "type": "Edge Deployment"
+  },
+  {
+    "section": "Data Architecture, MLOps & Integration",
+    "q": "A production model needs retraining after new SKUs are added, yet the team has no process for approving new model versions.\n\nWhich MLOps control should be established?",
+    "opts": [
+      "Approve retraining informally whenever performance looks better on a small data sample.",
+      "Connect AI directly to control equipment without validated safeguards or fallback logic.",
+      "Measure model health by training accuracy only and ignore uptime, overrides, and data drift.",
+      "Set model versioning, validation tests, approval gates, rollback, and release notes for use."
+    ],
+    "correct": 3,
+    "explanation": "Production AI needs controlled versioning, validation, release approval, rollback, and documented changes.",
+    "type": "Model Lifecycle"
+  },
+  {
+    "section": "Data Architecture, MLOps & Integration",
+    "q": "A data lake contains duplicate product codes and inconsistent supplier names, causing AI dashboards to show conflicting inventory risk.\n\nWhich governance action should come first?",
+    "opts": [
+      "Create master-data governance for products, suppliers, equipment, lots, and locations.",
+      "Connect AI directly to control equipment without validated safeguards or fallback logic.",
+      "Measure model health by training accuracy only and ignore uptime, overrides, and data drift.",
+      "Expose model endpoints broadly because faster access matters more than segmentation for use."
+    ],
+    "correct": 0,
+    "explanation": "Master-data quality is foundational for manufacturing AI because models depend on consistent products, assets, suppliers, and lots.",
+    "type": "Master Data"
+  },
+  {
+    "section": "Data Architecture, MLOps & Integration",
+    "q": "An AI dashboard shows a sudden rise in predicted quality risk, but engineers cannot trace which system supplied the underlying signal.\n\nWhat should the team correct before acting on the result?",
+    "opts": [
+      "Measure model health by training accuracy only and ignore uptime, overrides, and data drift.",
+      "Trace metric lineage and reconcile source-system definitions before operational decisions.",
+      "Expose model endpoints broadly because faster access matters more than segmentation for use.",
+      "Train immediately before timestamp alignment, label definitions, and ownership are settled."
+    ],
+    "correct": 1,
+    "explanation": "Teams must understand metric lineage and source definitions before acting on model outputs.",
+    "type": "Lineage Control"
+  },
+  {
+    "section": "Data Architecture, MLOps & Integration",
+    "q": "A plant evaluates cloud AI for maintenance analytics, but some assets are isolated from the corporate network for OT security reasons.\n\nWhich selection criteria should drive the architecture choice?",
+    "opts": [
+      "Expose model endpoints broadly because faster access matters more than segmentation.",
+      "Train immediately before timestamp alignment, label definitions, and ownership are settled.",
+      "Compare latency, security, data volume, OT constraints, support model, and cost for review.",
+      "Build a data lake first and postpone decisions about keys, lineage, and governed access."
+    ],
+    "correct": 2,
+    "explanation": "Architecture should be selected based on operational, cybersecurity, support, latency, and data-volume needs.",
+    "type": "Architecture Decision"
+  },
+  {
+    "section": "Data Architecture, MLOps & Integration",
+    "q": "An AI optimization system is proposed to send setpoints directly to a PLC after predicting a better operating condition.\n\nWhich integration rule should apply first?",
+    "opts": [
+      "Train immediately before timestamp alignment, label definitions, and ownership are settled.",
+      "Build a data lake first and postpone decisions about keys, lineage, and governed access.",
+      "Let each site define equipment names differently and reconcile them during final reporting.",
+      "Keep AI advisory unless validated control integration and safety safeguards are approved."
+    ],
+    "correct": 3,
+    "explanation": "Direct AI control requires validated integration, safety analysis, change control, and fallback; advisory mode is safer first.",
+    "type": "Control Integration"
+  },
+  {
+    "section": "Data Architecture, MLOps & Integration",
+    "q": "A production AI application is live, but no one tracks whether users accept recommendations or whether input data has shifted.\n\nWhich monitoring package is most complete?",
+    "opts": [
+      "Track data drift, prediction quality, uptime, user overrides, actions taken, and business KPI.",
+      "Build a data lake first and postpone decisions about keys, lineage, and governed access for use.",
+      "Let each site define equipment names differently and reconcile them during final reporting.",
+      "Export flat files manually forever and fix master data only after the model is deployed."
+    ],
+    "correct": 0,
+    "explanation": "Production AI monitoring must include technical health, data drift, user behavior, and business outcomes.",
+    "type": "MLOps Monitoring"
+  },
+  {
+    "section": "Data Architecture, MLOps & Integration",
+    "q": "A manufacturer exposes model APIs to several plant applications, and cybersecurity asks how the endpoints are protected from OT disruption.\n\nWhich security design is most appropriate?",
+    "opts": [
+      "Let each site define equipment names differently and reconcile them during final reporting.",
+      "Segment OT and IT, manage access, audit model endpoints, and patch dependencies for review.",
+      "Export flat files manually forever and fix master data only after the model is deployed.",
+      "Treat the first model as permanent and skip versioning, drift checks, and rollback plans."
+    ],
+    "correct": 1,
+    "explanation": "AI integration in manufacturing must protect OT/IT boundaries, access, endpoints, dependencies, and audit evidence.",
+    "type": "AI Cybersecurity"
+  },
+  {
+    "section": "Governance, Economics & Scaling",
+    "q": "A predictive-maintenance pilot worked in one plant, and corporate leadership wants to roll it out to six sites within two months.\n\nWhat should the scaling plan include before rollout?",
+    "opts": [
+      "Scale immediately to all sites because the pilot result was positive in one location.",
+      "Let vendor claims replace local validation because third-party tools are already proven.",
+      "Confirm site readiness, standard data, process ownership, support model, and value tracking.",
+      "Continue funding weak use cases because stopping them would make the portfolio look smaller."
+    ],
+    "correct": 2,
+    "explanation": "Scaling should verify site readiness, data standards, ownership, support, and value tracking rather than assuming pilot transferability.",
+    "type": "Scaling Readiness"
+  },
+  {
+    "section": "Governance, Economics & Scaling",
+    "q": "A manufacturer forms an AI governance board after teams begin using computer vision, chatbots, and scheduling models independently.\n\nWhich policy elements are essential?",
+    "opts": [
+      "Let vendor claims replace local validation because third-party tools are already proven.",
+      "Continue funding weak use cases because stopping them would make the portfolio look smaller.",
+      "Skip retirement criteria because every AI pilot should eventually become a production system.",
+      "Define acceptable use, privacy, bias review, accountability, approvals, and audit evidence."
+    ],
+    "correct": 3,
+    "explanation": "Manufacturing AI governance should define acceptable use, accountability, privacy, bias, approvals, and traceability.",
+    "type": "AI Governance"
+  },
+  {
+    "section": "Governance, Economics & Scaling",
+    "q": "A vendor contract for AI inspection software is ready, but the operations team worries about data access, integration cost, and support after launch.\n\nWhich commercial terms should be reviewed most closely?",
+    "opts": [
+      "Include data rights, validation criteria, support levels, exit terms, security, and integration scope.",
+      "Continue funding weak use cases because stopping them would make the portfolio look smaller at launch.",
+      "Skip retirement criteria because every AI pilot should eventually become a production system in pilot.",
+      "Count gross savings only and ignore adoption effort, maintenance cost, and support needs in phase one."
+    ],
+    "correct": 0,
+    "explanation": "AI vendor agreements should cover data rights, validation, support, security, exit options, and integration responsibilities.",
+    "type": "Vendor Governance"
+  },
+  {
+    "section": "Governance, Economics & Scaling",
+    "q": "Operators resist an AI scheduling tool because it changes priorities without showing why customer orders were moved.\n\nWhich change-management response is best?",
+    "opts": [
+      "Skip retirement criteria because every AI pilot should eventually become a production system.",
+      "Involve users in design, explain recommendations, show evidence, and collect feedback loops.",
+      "Count gross savings only and ignore adoption effort, maintenance cost, and support needs.",
+      "Treat operator resistance as a training issue, not as feedback on workflow and trust design."
+    ],
+    "correct": 1,
+    "explanation": "Adoption improves when users understand recommendations, participate in design, and have feedback channels.",
+    "type": "Change Management"
+  },
+  {
+    "section": "Governance, Economics & Scaling",
+    "q": "A finance team asks for funding justification on a proposed AI yield-improvement program across several production lines.\n\nWhich business case structure is most credible?",
+    "opts": [
+      "Count gross savings only and ignore adoption effort, maintenance cost, and support needs for use.",
+      "Treat operator resistance as a training issue, not as feedback on workflow and trust design.",
+      "Present baseline, benefit logic, pilot cost, risks, scaling cost, owners, and success metrics.",
+      "Benchmark sites by AI usage volume, without normalizing process mix and data definitions."
+    ],
+    "correct": 2,
+    "explanation": "AI business cases should include baseline, value logic, costs, risks, owners, and measurable pilot and scaling metrics.",
+    "type": "Business Case"
+  },
+  {
+    "section": "Governance, Economics & Scaling",
+    "q": "A regulated plant wants AI to recommend process changes, but procedures and validation requirements are tightly controlled.\n\nWhich governance boundary should be used?",
+    "opts": [
+      "Treat operator resistance as a training issue, not as feedback on workflow and trust design.",
+      "Benchmark sites by AI usage volume, without normalizing process mix and data definitions for use.",
+      "Approve AI use without defining accountability, data rights, security, and audit evidence.",
+      "Validate AI as decision support, document changes, preserve procedures, and retain approvals."
+    ],
+    "correct": 3,
+    "explanation": "Regulated manufacturing AI should remain within validated procedures and documented approval processes.",
+    "type": "Regulated Deployment"
+  },
+  {
+    "section": "Governance, Economics & Scaling",
+    "q": "A model recommends releasing a questionable lot after a data-feed error, and the mistake is noticed before shipment.\n\nWhat is the correct incident response?",
+    "opts": [
+      "Stop affected workflow, preserve logs, assess impact, correct data controls, and revalidate.",
+      "Benchmark sites by AI usage volume, without normalizing process mix and data definitions.",
+      "Approve AI use without defining accountability, data rights, security, and audit evidence.",
+      "Use a center of excellence to control every decision and remove local process ownership for use."
+    ],
+    "correct": 0,
+    "explanation": "Bad recommendations should trigger containment, evidence preservation, impact review, control correction, and revalidation.",
+    "type": "AI Incident Response"
+  },
+  {
+    "section": "Governance, Economics & Scaling",
+    "q": "Corporate compares AI results across sites, but one factory runs low-volume custom work while another produces stable high-volume SKUs.\n\nHow should benchmark comparisons be handled?",
+    "opts": [
+      "Approve AI use without defining accountability, data rights, security, and audit evidence.",
+      "Normalize by product mix, data definitions, volume, maturity, and local constraints.",
+      "Use a center of excellence to control every decision and remove local process ownership.",
+      "Hide incidents involving bad recommendations until the model team can quietly adjust logic."
+    ],
+    "correct": 1,
+    "explanation": "AI benchmark comparisons must account for operating context, product mix, data definitions, and maturity differences.",
+    "type": "Benchmarking"
+  },
+  {
+    "section": "Governance, Economics & Scaling",
+    "q": "A manufacturer creates an AI center of excellence, but plant leaders fear it will take control away from local process owners.\n\nWhich operating model best supports scaling?",
+    "opts": [
+      "Use a center of excellence to control every decision and remove local process ownership.",
+      "Hide incidents involving bad recommendations until the model team can quietly adjust logic.",
+      "Provide reusable patterns, governance, coaching, and tools while keeping local ownership.",
+      "Scale immediately to all sites because the pilot result was positive in one location."
+    ],
+    "correct": 2,
+    "explanation": "A good AI operating model combines central enablement and governance with local process ownership.",
+    "type": "Operating Model"
+  },
+  {
+    "section": "Governance, Economics & Scaling",
+    "q": "An AI use case for inventory recommendations shows low adoption and small savings after six months, while maintenance cost remains high.\n\nWhich portfolio decision is most disciplined?",
+    "opts": [
+      "Hide incidents involving bad recommendations until the model team can quietly adjust logic for use.",
+      "Scale immediately to all sites because the pilot result was positive in one location for pilot use.",
+      "Let vendor claims replace local validation because third-party tools are already proven for review.",
+      "Compare benefit, maintenance cost, adoption, risk, and alternatives before retiring or redesigning."
+    ],
+    "correct": 3,
+    "explanation": "Not every AI use case should scale; disciplined portfolios review benefits, costs, risks, adoption, and better alternatives.",
+    "type": "Portfolio Review"
+  }
+];
+
+const SECTIONS = [
+  {
+    "key": "AI Strategy & Use-Case Discovery",
+    "label": "Section A - AI Strategy & Use-Case Discovery",
+    "cls": "sec-fund",
+    "range": "Questions 1-10"
+  },
+  {
+    "key": "Predictive Maintenance & Reliability",
+    "label": "Section B - Predictive Maintenance & Reliability",
+    "cls": "sec-llm",
+    "range": "Questions 11-20"
+  },
+  {
+    "key": "Computer Vision Quality & Inspection",
+    "label": "Section C - Computer Vision Quality & Inspection",
+    "cls": "sec-rag",
+    "range": "Questions 21-30"
+  },
+  {
+    "key": "Process Optimization & Yield",
+    "label": "Section D - Process Optimization & Yield",
+    "cls": "sec-agent",
+    "range": "Questions 31-40"
+  },
+  {
+    "key": "Production Planning, Scheduling & Flow",
+    "label": "Section E - Production Planning, Scheduling & Flow",
+    "cls": "sec-ops",
+    "range": "Questions 41-50"
+  },
+  {
+    "key": "Supply Chain, Inventory & Procurement",
+    "label": "Section F - Supply Chain, Inventory & Procurement",
+    "cls": "sec-safe",
+    "range": "Questions 51-60"
+  },
+  {
+    "key": "Workforce, Safety & Knowledge Systems",
+    "label": "Section G - Workforce, Safety & Knowledge Systems",
+    "cls": "sec-fund",
+    "range": "Questions 61-70"
+  },
+  {
+    "key": "Energy, Sustainability & Utilities",
+    "label": "Section H - Energy, Sustainability & Utilities",
+    "cls": "sec-llm",
+    "range": "Questions 71-80"
+  },
+  {
+    "key": "Data Architecture, MLOps & Integration",
+    "label": "Section I - Data Architecture, MLOps & Integration",
+    "cls": "sec-rag",
+    "range": "Questions 81-90"
+  },
+  {
+    "key": "Governance, Economics & Scaling",
+    "label": "Section J - Governance, Economics & Scaling",
+    "cls": "sec-agent",
+    "range": "Questions 91-100"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+
+let mode = 'guided', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 2*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='02:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'
+       +     '<span class="q-type">'+escapeHtml(q.type||'Mixed')+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/100';
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/100';
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  if(pct>=0.9){ grade='AI Manufacturing Use-Case Leader'; blurb='Outstanding. You connect manufacturing pain points, data readiness, operational workflows, governance, risk, value delivery, and scalable AI deployment.'; }
+  else if(pct>=0.75){ grade='AI Manufacturing Practitioner Ready'; blurb='Strong AI use-case judgment. Review missed items - they usually hinge on problem framing, data quality, workflow integration, controls, economics, or scaling tradeoffs.'; }
+  else if(pct>=0.6){ grade='AI Manufacturing Practitioner'; blurb='Solid working knowledge. Strengthen weaker areas such as use-case selection, sensor data, vision quality, MLOps, change management, and benefit validation.'; }
+  else if(pct>=0.4){ grade='Developing AI Manufacturing Practitioner'; blurb='Your AI manufacturing instincts are forming. Revisit the fundamentals: business value, baseline metrics, reliable data, human workflow, governance, and safe deployment.'; }
+  else { grade='Begin AI Use-Case Fundamentals Review'; blurb='Start with AI use-case basics: define the decision, prove the baseline, validate data, design controls, measure outcomes, and involve manufacturing users.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 100 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one question at a time. 2-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Certificate name</label>
+    <input id="chmlCertNameInput" type="text" maxlength="80" placeholder="Enter name for certificate" oninput="chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" type="button" onclick="chmlPrintCertificate()">Print / Save as PDF</button>
+    <button class="chml-cert-btn secondary" type="button" onclick="chmlHideCertificate()">Hide Certificate</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div><div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker"><span id="chmlCertExamKicker">Knowledge Hub Examination</span></div>
+      <h1 class="chml-cert-h1">Certificate of Completion</h1>
+      <div class="chml-cert-rule"></div>
+      <p class="chml-cert-pre">This certifies that</p>
+      <p class="chml-cert-name" id="chmlCertName">Learner</p>
+      <p class="chml-cert-body">has successfully completed the <b id="chmlCertExamName">Knowledge Hub Exam</b>.</p>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">0 / 0</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">-</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Quak Foo Lee</div><div class="chml-cert-sig-label">Chmltech Ltd.</div></div>
+        <div class="chml-cert-id">Certificate ID: <span id="chmlCertId">-</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertificateInstalled) return;
+  window.__chmlCertificateInstalled = true;
+  function textOf(sel){var el=document.querySelector(sel);return el?el.textContent.trim():'';}
+  function examTitle(){return textOf('h1.title')||textOf('header h1')||textOf('h1')||document.title.replace(/\s+/g,' ').trim()||'Knowledge Hub Exam';}
+  function parseFirstNumber(txt){var m=String(txt||'').match(/\d+/);return m?parseInt(m[0],10):null;}
+  function parseScoreTotal(){
+    var correct=parseFirstNumber(textOf('#rScore'));
+    var total=null;
+    var rt=textOf('#rTotal');
+    if(rt) total=parseFirstNumber(rt);
+    if(!total){var sb=textOf('.score-big');var m=sb.match(/\/\s*(\d+)/);if(m) total=parseInt(m[1],10);}
+    if(!total) total=parseFirstNumber(textOf('#progTotal'));
+    if(!total){var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;if(cards) total=cards;}
+    if(!correct && correct!==0) correct=parseFirstNumber(textOf('#scoreNum'));
+    return {correct:correct||0,total:total||0};
+  }
+  function totalFromBreakdown(byType){
+    if(!byType || typeof byType!=='object') return null;
+    var total=0, found=false;
+    Object.keys(byType).forEach(function(k){var v=byType[k];if(v&&typeof v==='object'){var n=v.t||v.total||v.count;if(typeof n==='number'){total+=n;found=true;}}});
+    return found?total:null;
+  }
+  function hashCode(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+  window.chmlUpdateCertificateName=function(name){document.getElementById('chmlCertName').textContent=(name||'').trim()||'Learner';};
+  window.chmlHideCertificate=function(){var c=document.getElementById('chmlCertificate');if(c)c.classList.remove('show');};
+  window.chmlPrintCertificate=function(){window.print();};
+  window.chmlRenderCertificate=function(correct,total,grade){
+    var cert=document.getElementById('chmlCertificate');if(!cert)return;
+    var title=examTitle();
+    var nameInput=document.getElementById('chmlCertNameInput');
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
+    var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
+    document.getElementById('chmlCertExamName').textContent=title;
+    document.getElementById('chmlCertName').textContent=learner;
+    document.getElementById('chmlCertScore').textContent=String(correct)+' / '+String(total||0)+(total?(' ('+Math.round((correct/total)*100)+'%)'):'');
+    document.getElementById('chmlCertDate').textContent=date;
+    document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
+    cert.classList.add('show');
+  };
+
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
+    var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){
+      var parsed=parseScoreTotal();
+      if(correct===null || isNaN(correct)) correct=parsed.correct;
+      if(!total) total=parsed.total;
+      if(total || correct || document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0);
+    },60);
+  }
+  if(typeof window.showResults==='function'){
+    var originalShowResults=window.showResults;
+    window.showResults=function(){var out=originalShowResults.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  if(typeof window.submitExam==='function'){
+    var originalSubmitExam=window.submitExam;
+    window.submitExam=function(){var out=originalSubmitExam.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  ['resetExam','newExam'].forEach(function(fn){
+    if(typeof window[fn]==='function'){
+      var original=window[fn];
+      window[fn]=function(){window.chmlHideCertificate();return original.apply(this,arguments);};
+    }
+  });
+})();
+</script>
+
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>
+
+

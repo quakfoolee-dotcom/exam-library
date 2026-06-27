@@ -1,0 +1,2163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Software Security Testing Exam &middot; 100Q (V1)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  /* Section accents (full-stack-themed) */
+  --data:#1f4a7d;
+  --clf:#0e6b6a;
+  --dl:#a83410;
+  --nlp:#5a2585;
+  --llm:#226b2d;
+  --ops:#9b2c3a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+  /* Code block colors */
+  --code-bg:#1d2330;
+  --code-fg:#d8d4c4;
+  --code-comment:#8f96a8;
+  --code-blank-bg:#5a3a0d;
+  --code-blank-fg:#ffd57a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(31,74,125,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.6rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--data),var(--ops));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-data{background:linear-gradient(100deg,var(--data),#0c2541)}
+.sec-clf{background:linear-gradient(100deg,var(--clf),#06403f)}
+.sec-dl{background:linear-gradient(100deg,var(--dl),#5e1f05)}
+.sec-nlp{background:linear-gradient(100deg,var(--nlp),#311148)}
+.sec-llm{background:linear-gradient(100deg,var(--llm),#0e3d18)}
+.sec-ops{background:linear-gradient(100deg,var(--ops),#5b181f)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.06rem;line-height:1.55;margin-bottom:14px;font-weight:500}
+.q-code{
+  font-family:'JetBrains Mono',monospace;font-size:.86rem;line-height:1.55;
+  background:var(--code-bg);color:var(--code-fg);
+  padding:14px 16px;margin:0 0 16px;border-radius:4px;
+  overflow-x:auto;white-space:pre;
+  border:1px solid #2a3142;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+.q-code .blank{
+  background:var(--code-blank-bg);color:var(--code-blank-fg);
+  padding:1px 6px;border-radius:3px;font-weight:700;
+  border:1px dashed #c89542;
+}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:11px 14px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.55);transition:all .18s ease;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.08);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s;margin-top:1px}
+.opt .otext{flex:1;font-family:'JetBrains Mono',monospace;font-size:.86rem;line-height:1.5;word-break:break-word;padding-top:3px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.12)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center;font-family:'JetBrains Mono',monospace}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.95rem;font-family:'JetBrains Mono',monospace;word-break:break-word}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:180px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 16px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:.98rem}
+  .q-code{font-size:.78rem}
+  .opt .otext{font-size:.78rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Software Security Testing Examination &middot; AppSec + DevSecOps</div>
+    <h1 class="title">Software Security Testing Exam</h1>
+    <div class="byline">100 scenario questions across secure SDLC, threat modeling, SAST, DAST, API abuse cases, dependencies, cloud configuration, reporting, and DevSecOps gates</div>
+    <div class="exambar">
+      <span><b>100</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>100</b> Marks</span>
+      <span>Exam Mode: <b>2 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/100</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">02:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/100</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 2-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    Software Security Testing Exam &middot; 100 application security testing scenario questions
+    <div class="disclaimer">An independent software security testing study resource. Use it for practice and discussion; always validate controls, vulnerabilities, and regulatory obligations against your current stack and official security guidance.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "Secure SDLC and Threat Modeling",
+    "q": "A payment feature is entering design review before implementation. What should the security tester do first?",
+    "code": "",
+    "opts": [
+      "Add explicit security requirements, abuse cases, and acceptance criteria before code is written.",
+      "Run a normal functional smoke test for the security design, then assume the security risk is covered because \"payment feature is entering design review before implementation\" did not fail.",
+      "Depend on the web application firewall to handle the security design, without testing whether the application control itself works.",
+      "Leave the security design to operations monitoring only, with no pre-release test case or owner for discovered issues."
+    ],
+    "correct": 0,
+    "explanation": "Add explicit security requirements, abuse cases, and acceptance criteria before code is written. Security requirements make risks testable early and reduce expensive late rework."
+  },
+  {
+    "section": "Secure SDLC and Threat Modeling",
+    "q": "A team wants to threat model a customer portal but has only a UI mockup. Which response gives the strongest evidence for asset identification?",
+    "code": "",
+    "opts": [
+      "Have developers self-certify the security design in a chat message and use that message as the final release artifact.",
+      "Identify assets, trust boundaries, actors, data flows, and entry points before ranking threats.",
+      "Create a finding for the security design with only a severity label and no reproduction steps, evidence, or affected version.",
+      "Run a normal functional smoke test for the security design, then assume the security risk is covered because \"team wants to threat model a customer portal but has only a UI mockup\" did not fail."
+    ],
+    "correct": 1,
+    "explanation": "Identify assets, trust boundaries, actors, data flows, and entry points before ranking threats. Threat modeling needs system context before meaningful risk ranking can happen."
+  },
+  {
+    "section": "Secure SDLC and Threat Modeling",
+    "q": "A service-to-service workflow crosses an internal network boundary. What is the most risk-based next step?",
+    "code": "",
+    "opts": [
+      "Accept the security design if the build is green, even though the pipeline does not include a relevant security check.",
+      "Approve the security design after testing only the mobile client, even though the server API is the real enforcement point.",
+      "Use a structured model such as STRIDE to reason about spoofing, tampering, repudiation, disclosure, denial of service, and elevation of privilege.",
+      "Have developers self-certify the security design in a chat message and use that message as the final release artifact."
+    ],
+    "correct": 2,
+    "explanation": "Use a structured model such as STRIDE to reason about spoofing, tampering, repudiation, disclosure, denial of service, and elevation of privilege. Structured prompts prevent common threat categories from being missed."
+  },
+  {
+    "section": "Secure SDLC and Threat Modeling",
+    "q": "The team has two days for security testing before a release candidate. Which choice avoids a false sense of security?",
+    "code": "",
+    "opts": [
+      "Rely on code comments describing the security design, rather than inspecting the path where untrusted input or sensitive data flows.",
+      "Use a generic vulnerability scan as the only proof for the security design, even though the risk depends on business logic and configuration.",
+      "Accept the security design if the build is green, even though the pipeline does not include a relevant security check.",
+      "Prioritize tests against high-impact assets, exposed attack surfaces, recent changes, and known weakness history."
+    ],
+    "correct": 3,
+    "explanation": "Prioritize tests against high-impact assets, exposed attack surfaces, recent changes, and known weakness history. Risk-based scope spends scarce testing time where failure would hurt most."
+  },
+  {
+    "section": "Secure SDLC and Threat Modeling",
+    "q": "An architect says a diagram review found no issues but has no notes. How should the team turn design review evidence into a testable control?",
+    "code": "",
+    "opts": [
+      "Record reviewed flows, assumptions, identified threats, accepted risks, and follow-up controls.",
+      "Validate the security design using stale diagrams from a previous release and skip the new data flows.",
+      "Check the security design once with a single valid request and skip malformed, repeated, boundary, and unauthorized requests.",
+      "Rely on code comments describing the security design, rather than inspecting the path where untrusted input or sensitive data flows."
+    ],
+    "correct": 0,
+    "explanation": "Record reviewed flows, assumptions, identified threats, accepted risks, and follow-up controls. Security reviews need auditable evidence and decisions, not only verbal assurance."
+  },
+  {
+    "section": "Secure SDLC and Threat Modeling",
+    "q": "A new analytics feature collects behavior data from logged-in users. What would produce the most defensible release evidence?",
+    "code": "",
+    "opts": [
+      "Treat encryption in transit as sufficient for the security design, without checking authorization, logging, data handling, or misuse paths.",
+      "Test data minimization, lawful collection, retention, access, consent, and deletion paths as part of design validation.",
+      "Use production customer data to make the security design feel realistic, without masking or data-handling approval.",
+      "Validate the security design using stale diagrams from a previous release and skip the new data flows."
+    ],
+    "correct": 1,
+    "explanation": "Test data minimization, lawful collection, retention, access, consent, and deletion paths as part of design validation. Privacy risks are security-adjacent and should be testable before release."
+  },
+  {
+    "section": "Secure SDLC and Threat Modeling",
+    "q": "Requirements describe only successful user journeys for account recovery. Which approach best tests the likely abuse path?",
+    "code": "",
+    "opts": [
+      "Review the security design only during the final release meeting, when there is no time left for remediation or retesting.",
+      "Leave the security design to operations monitoring only, with no pre-release test case or owner for discovered issues.",
+      "Add misuse cases such as enumeration, takeover attempts, rate-limit bypass, and social engineering paths.",
+      "Treat encryption in transit as sufficient for the security design, without checking authorization, logging, data handling, or misuse paths."
+    ],
+    "correct": 2,
+    "explanation": "Add misuse cases such as enumeration, takeover attempts, rate-limit bypass, and social engineering paths. Misuse cases reveal how attackers may abuse legitimate features."
+  },
+  {
+    "section": "Secure SDLC and Threat Modeling",
+    "q": "Security requirements mention encryption, logging, and access control broadly. What should be checked before accepting the residual risk?",
+    "code": "",
+    "opts": [
+      "Approve the security design because a similar control worked in another product, without validating this implementation.",
+      "Run a normal functional smoke test for the security design, then assume the security risk is covered because \"Security requirements mention encryption, logging, and access control broadly\" did not fail.",
+      "Review the security design only during the final release meeting, when there is no time left for remediation or retesting.",
+      "Map each requirement to concrete controls and tests that prove the intended protection works."
+    ],
+    "correct": 3,
+    "explanation": "Map each requirement to concrete controls and tests that prove the intended protection works. A requirement is useful only when it can be verified with evidence."
+  },
+  {
+    "section": "Secure SDLC and Threat Modeling",
+    "q": "A team defers multi-factor enforcement for administrators. Which option treats Security debt as a security assurance activity rather than a checklist item?",
+    "code": "",
+    "opts": [
+      "Document the residual risk, compensating controls, owner, expiration date, and retest trigger.",
+      "Document the security design as \"not applicable\" because it is inconvenient to test in the current environment.",
+      "Have developers self-certify the security design in a chat message and use that message as the final release artifact.",
+      "Approve the security design because a similar control worked in another product, without validating this implementation."
+    ],
+    "correct": 0,
+    "explanation": "Document the residual risk, compensating controls, owner, expiration date, and retest trigger. Deferred security work needs explicit accountability and revisit conditions."
+  },
+  {
+    "section": "Secure SDLC and Threat Modeling",
+    "q": "A late feature adds public file upload to an existing application. What is the safest way to proceed without overclaiming coverage?",
+    "code": "",
+    "opts": [
+      "Move the security design to a post-launch hardening backlog without documenting residual risk or compensating controls.",
+      "Revisit the threat model and test plan because the attack surface and abuse cases changed.",
+      "Accept the security design if the build is green, even though the pipeline does not include a relevant security check.",
+      "Document the security design as \"not applicable\" because it is inconvenient to test in the current environment."
+    ],
+    "correct": 1,
+    "explanation": "Revisit the threat model and test plan because the attack surface and abuse cases changed. Security testing must adapt when architectural or exposure assumptions change."
+  },
+  {
+    "section": "Security Test Planning and Risk Coverage",
+    "q": "A tester is asked to assess a new API without a formal plan. Which test activity would most directly reduce uncertainty?",
+    "code": "",
+    "opts": [
+      "Classify the test plan as informational because no exploit is included, without analyzing impact or realistic attacker capability.",
+      "Create a security test charter defining scope, target risks, accounts, data rules, tools, and stopping criteria.",
+      "Rely on code comments describing the test plan, rather than inspecting the path where untrusted input or sensitive data flows.",
+      "Move the test plan to a post-launch hardening backlog without documenting residual risk or compensating controls."
+    ],
+    "correct": 1,
+    "explanation": "Create a security test charter defining scope, target risks, accounts, data rules, tools, and stopping criteria. A charter aligns expectations and prevents unsafe or unfocused testing."
+  },
+  {
+    "section": "Security Test Planning and Risk Coverage",
+    "q": "Security testing will run against a shared staging environment. What should be included in the security test record?",
+    "code": "",
+    "opts": [
+      "Ignore the test plan because the affected endpoint is internal, without verifying network exposure or machine identity scope.",
+      "Validate the test plan using stale diagrams from a previous release and skip the new data flows.",
+      "Agree on rules of engagement covering allowed techniques, windows, contacts, data handling, and escalation.",
+      "Classify the test plan as informational because no exploit is included, without analyzing impact or realistic attacker capability."
+    ],
+    "correct": 2,
+    "explanation": "Agree on rules of engagement covering allowed techniques, windows, contacts, data handling, and escalation. Rules protect availability and clarify what is permitted."
+  },
+  {
+    "section": "Security Test Planning and Risk Coverage",
+    "q": "Stakeholders ask how much of the security requirement set was actually tested. Which choice best validates Coverage matrix in this context?",
+    "code": "",
+    "opts": [
+      "Score the test plan by the number of alerts generated, not by confirmed risk, exploitability, and business impact.",
+      "Treat encryption in transit as sufficient for the test plan, without checking authorization, logging, data handling, or misuse paths.",
+      "Ignore the test plan because the affected endpoint is internal, without verifying network exposure or machine identity scope.",
+      "Maintain a traceability matrix linking risks and requirements to test cases, evidence, and results."
+    ],
+    "correct": 3,
+    "explanation": "Maintain a traceability matrix linking risks and requirements to test cases, evidence, and results. Traceability turns testing into defensible release evidence."
+  },
+  {
+    "section": "Security Test Planning and Risk Coverage",
+    "q": "A staging login flow uses different identity settings than production. What should the tester challenge in this situation?",
+    "code": "",
+    "opts": [
+      "Flag the mismatch and avoid claiming full production-equivalent security coverage.",
+      "Ask the feature owner to mark the test plan as reviewed, but do not capture attack paths, assumptions, or test evidence.",
+      "Review the test plan only during the final release meeting, when there is no time left for remediation or retesting.",
+      "Score the test plan by the number of alerts generated, not by confirmed risk, exploitability, and business impact."
+    ],
+    "correct": 0,
+    "explanation": "Flag the mismatch and avoid claiming full production-equivalent security coverage. Environment differences can invalidate security conclusions."
+  },
+  {
+    "section": "Security Test Planning and Risk Coverage",
+    "q": "Functional tests confirm only valid request paths. Which answer reflects a practical AppSec testing decision?",
+    "code": "",
+    "opts": [
+      "Test the test plan only in a sandbox with relaxed identity, network, and logging controls, then generalize the result to production.",
+      "Add negative tests for invalid input, tampering, missing authorization, replay, and boundary cases.",
+      "Approve the test plan because a similar control worked in another product, without validating this implementation.",
+      "Ask the feature owner to mark the test plan as reviewed, but do not capture attack paths, assumptions, or test evidence."
+    ],
+    "correct": 1,
+    "explanation": "Add negative tests for invalid input, tampering, missing authorization, replay, and boundary cases. Security testing often proves controls fail safely under hostile conditions."
+  },
+  {
+    "section": "Security Test Planning and Risk Coverage",
+    "q": "A security tester needs realistic customer records for validation. What would be the strongest next move for secure delivery?",
+    "code": "",
+    "opts": [
+      "Limit the test plan to checking screenshots and skip requests, logs, roles, storage, and downstream effects.",
+      "Document the test plan as \"not applicable\" because it is inconvenient to test in the current environment.",
+      "Use synthetic or properly masked data and protect any sensitive evidence captured during testing.",
+      "Test the test plan only in a sandbox with relaxed identity, network, and logging controls, then generalize the result to production."
+    ],
+    "correct": 2,
+    "explanation": "Use synthetic or properly masked data and protect any sensitive evidence captured during testing. Testing should not create new privacy or breach risks."
+  },
+  {
+    "section": "Security Test Planning and Risk Coverage",
+    "q": "Different teams rate the same finding inconsistently. Which option gives useful evidence about severity criteria?",
+    "code": "",
+    "opts": [
+      "Assume the test plan is resolved by a dependency update, without checking reachability, configuration, or regression behavior.",
+      "Move the test plan to a post-launch hardening backlog without documenting residual risk or compensating controls.",
+      "Limit the test plan to checking screenshots and skip requests, logs, roles, storage, and downstream effects.",
+      "Define severity using impact, exploitability, affected assets, exposure, and compensating controls."
+    ],
+    "correct": 3,
+    "explanation": "Define severity using impact, exploitability, affected assets, exposure, and compensating controls. Consistent criteria make triage decisions fair and repeatable."
+  },
+  {
+    "section": "Security Test Planning and Risk Coverage",
+    "q": "A critical authorization bug was fixed in an order API. What should happen before the finding or control is closed?",
+    "code": "",
+    "opts": [
+      "Add focused regression tests around the fixed path and related access-control patterns.",
+      "Treat the test plan as complete once a ticket is opened, even though no fix, acceptance, or retest evidence exists.",
+      "Classify the test plan as informational because no exploit is included, without analyzing impact or realistic attacker capability.",
+      "Assume the test plan is resolved by a dependency update, without checking reachability, configuration, or regression behavior."
+    ],
+    "correct": 0,
+    "explanation": "Add focused regression tests around the fixed path and related access-control patterns. Security fixes often require durable regression coverage."
+  },
+  {
+    "section": "Security Test Planning and Risk Coverage",
+    "q": "Testing reveals a vulnerable admin panel not listed in the scope. Which response best balances risk, evidence, and delivery?",
+    "code": "",
+    "opts": [
+      "Close the test plan because the implementation matches the UI mockup, even though the security behavior was not exercised.",
+      "Pause exploitation, preserve evidence, and escalate for scope clarification and risk ownership.",
+      "Ignore the test plan because the affected endpoint is internal, without verifying network exposure or machine identity scope.",
+      "Treat the test plan as complete once a ticket is opened, even though no fix, acceptance, or retest evidence exists."
+    ],
+    "correct": 1,
+    "explanation": "Pause exploitation, preserve evidence, and escalate for scope clarification and risk ownership. Unapproved testing can create operational and legal risk."
+  },
+  {
+    "section": "Security Test Planning and Risk Coverage",
+    "q": "A release manager asks when security testing is complete. What is the most appropriate security-testing response?",
+    "code": "",
+    "opts": [
+      "Replace targeted testing for the test plan with a policy reminder in the team channel.",
+      "Score the test plan by the number of alerts generated, not by confirmed risk, exploitability, and business impact.",
+      "Use explicit exit criteria such as critical findings closed, high risks accepted, required coverage met, and evidence archived.",
+      "Close the test plan because the implementation matches the UI mockup, even though the security behavior was not exercised."
+    ],
+    "correct": 2,
+    "explanation": "Use explicit exit criteria such as critical findings closed, high risks accepted, required coverage met, and evidence archived. Clear exit criteria support a disciplined go/no-go decision."
+  },
+  {
+    "section": "SAST, Code Review and Secure Coding",
+    "q": "A static scanner reports hundreds of possible issues after a dependency update. Which step would make Sast triage reviewable by stakeholders?",
+    "code": "",
+    "opts": [
+      "Test the code review path after disabling rate limits, authentication, and logging to make the scenario easier to execute.",
+      "Ask the feature owner to mark the code review path as reviewed, but do not capture attack paths, assumptions, or test evidence.",
+      "Triage findings by data flow, reachability, exploitability, and business impact instead of raw count alone.",
+      "Replace targeted testing for the code review path with a policy reminder in the team channel."
+    ],
+    "correct": 2,
+    "explanation": "Triage findings by data flow, reachability, exploitability, and business impact instead of raw count alone. SAST output needs human risk analysis to avoid noise-driven decisions."
+  },
+  {
+    "section": "SAST, Code Review and Secure Coding",
+    "q": "A query builder combines request parameters with a database statement. How should the team avoid missing an attacker-controlled path?",
+    "code": "",
+    "opts": [
+      "Ask for a penetration test later and remove the code review path from the current release decision entirely.",
+      "Test the code review path only in a sandbox with relaxed identity, network, and logging controls, then generalize the result to production.",
+      "Test the code review path after disabling rate limits, authentication, and logging to make the scenario easier to execute.",
+      "Trace untrusted input to the sink and verify parameterization or safe query construction."
+    ],
+    "correct": 3,
+    "explanation": "Trace untrusted input to the sink and verify parameterization or safe query construction. Taint flow from source to sink is central to injection testing."
+  },
+  {
+    "section": "SAST, Code Review and Secure Coding",
+    "q": "A reviewer sees a custom password reset token implementation. What is the best way to validate the deployed behavior?",
+    "code": "",
+    "opts": [
+      "Check entropy, expiration, single use, storage, delivery channel, rate limiting, and audit logging.",
+      "Validate the code review path only with an administrator account and skip lower-privilege or cross-user abuse cases.",
+      "Limit the code review path to checking screenshots and skip requests, logs, roles, storage, and downstream effects.",
+      "Ask for a penetration test later and remove the code review path from the current release decision entirely."
+    ],
+    "correct": 0,
+    "explanation": "Check entropy, expiration, single use, storage, delivery channel, rate limiting, and audit logging. Security-sensitive code needs review beyond style and readability."
+  },
+  {
+    "section": "SAST, Code Review and Secure Coding",
+    "q": "A SAST issue is believed to be a false positive. Which option would improve confidence without hiding residual risk?",
+    "code": "",
+    "opts": [
+      "Depend on the web application firewall to handle the code review path, without testing whether the application control itself works.",
+      "Document why the path is unreachable or safely controlled, then tune the rule or suppress with justification.",
+      "Assume the code review path is resolved by a dependency update, without checking reachability, configuration, or regression behavior.",
+      "Validate the code review path only with an administrator account and skip lower-privilege or cross-user abuse cases."
+    ],
+    "correct": 1,
+    "explanation": "Document why the path is unreachable or safely controlled, then tune the rule or suppress with justification. Suppressions should be evidence-based and maintainable."
+  },
+  {
+    "section": "SAST, Code Review and Secure Coding",
+    "q": "A service accepts serialized objects from an external queue. What should be done to verify unsafe deserialization before release?",
+    "code": "",
+    "opts": [
+      "Create a finding for the code review path with only a severity label and no reproduction steps, evidence, or affected version.",
+      "Treat the code review path as complete once a ticket is opened, even though no fix, acceptance, or retest evidence exists.",
+      "Verify type restrictions, integrity checks, trusted formats, and safe parsing boundaries.",
+      "Depend on the web application firewall to handle the code review path, without testing whether the application control itself works."
+    ],
+    "correct": 2,
+    "explanation": "Verify type restrictions, integrity checks, trusted formats, and safe parsing boundaries. Deserialization can turn data handling into code execution risk."
+  },
+  {
+    "section": "SAST, Code Review and Secure Coding",
+    "q": "Developers implemented a custom encryption wrapper. What should the security tester do first?",
+    "code": "",
+    "opts": [
+      "Approve the code review path after testing only the mobile client, even though the server API is the real enforcement point.",
+      "Close the code review path because the implementation matches the UI mockup, even though the security behavior was not exercised.",
+      "Create a finding for the code review path with only a severity label and no reproduction steps, evidence, or affected version.",
+      "Prefer vetted libraries, check key handling and modes, and avoid homegrown cryptographic schemes."
+    ],
+    "correct": 3,
+    "explanation": "Prefer vetted libraries, check key handling and modes, and avoid homegrown cryptographic schemes. Cryptography failures often come from design misuse rather than broken algorithms."
+  },
+  {
+    "section": "SAST, Code Review and Secure Coding",
+    "q": "A code review finds access tokens written to debug logs. Which response gives the strongest evidence for logging review?",
+    "code": "",
+    "opts": [
+      "Remove sensitive values from logs and add tests or linting to prevent recurrence.",
+      "Use a generic vulnerability scan as the only proof for the code review path, even though the risk depends on business logic and configuration.",
+      "Replace targeted testing for the code review path with a policy reminder in the team channel.",
+      "Approve the code review path after testing only the mobile client, even though the server API is the real enforcement point."
+    ],
+    "correct": 0,
+    "explanation": "Remove sensitive values from logs and add tests or linting to prevent recurrence. Logs often become secondary data stores and must not expose secrets."
+  },
+  {
+    "section": "SAST, Code Review and Secure Coding",
+    "q": "The client UI prevents invalid quantities in an order form. What is the most risk-based next step?",
+    "code": "",
+    "opts": [
+      "Check the code review path once with a single valid request and skip malformed, repeated, boundary, and unauthorized requests.",
+      "Verify the server independently validates authorization, type, range, and business rules.",
+      "Test the code review path after disabling rate limits, authentication, and logging to make the scenario easier to execute.",
+      "Use a generic vulnerability scan as the only proof for the code review path, even though the risk depends on business logic and configuration."
+    ],
+    "correct": 1,
+    "explanation": "Verify the server independently validates authorization, type, range, and business rules. Client controls are easy to bypass and cannot be trusted alone."
+  },
+  {
+    "section": "SAST, Code Review and Secure Coding",
+    "q": "A library defaults to permissive CORS and verbose errors. Which choice avoids a false sense of security?",
+    "code": "",
+    "opts": [
+      "Use production customer data to make the code review path feel realistic, without masking or data-handling approval.",
+      "Ask for a penetration test later and remove the code review path from the current release decision entirely.",
+      "Change defaults to least privilege and production-safe error disclosure.",
+      "Check the code review path once with a single valid request and skip malformed, repeated, boundary, and unauthorized requests."
+    ],
+    "correct": 2,
+    "explanation": "Change defaults to least privilege and production-safe error disclosure. Secure defaults reduce mistakes when teams reuse components."
+  },
+  {
+    "section": "SAST, Code Review and Secure Coding",
+    "q": "A critical security patch is rushed directly to main. How should the team turn branch protection for fixes into a testable control?",
+    "code": "",
+    "opts": [
+      "Leave the code review path to operations monitoring only, with no pre-release test case or owner for discovered issues.",
+      "Validate the code review path only with an administrator account and skip lower-privilege or cross-user abuse cases.",
+      "Use production customer data to make the code review path feel realistic, without masking or data-handling approval.",
+      "Require review, tests, and traceable approval while using an emergency path only if explicitly defined."
+    ],
+    "correct": 3,
+    "explanation": "Require review, tests, and traceable approval while using an emergency path only if explicitly defined. Speed matters, but uncontrolled changes can create new vulnerabilities."
+  },
+  {
+    "section": "DAST, API and Runtime Testing",
+    "q": "A dynamic scanner crawls only the public pages of an authenticated app. What would produce the most defensible release evidence?",
+    "code": "",
+    "opts": [
+      "Run a normal functional smoke test for the runtime or API test, then assume the security risk is covered because \"dynamic scanner crawls only the public pages of an authenticated app\" did not fail.",
+      "Depend on the web application firewall to handle the runtime or API test, without testing whether the application control itself works.",
+      "Leave the runtime or API test to operations monitoring only, with no pre-release test case or owner for discovered issues.",
+      "Configure authenticated scans and role-specific sessions so protected attack surface is tested."
+    ],
+    "correct": 3,
+    "explanation": "Configure authenticated scans and role-specific sessions so protected attack surface is tested. Unauthenticated scans miss most business functionality."
+  },
+  {
+    "section": "DAST, API and Runtime Testing",
+    "q": "An API has an OpenAPI specification and several undocumented endpoints. Which approach best tests the likely abuse path?",
+    "code": "",
+    "opts": [
+      "Test against the schema and probe discovered endpoints for authorization, validation, and exposure gaps.",
+      "Have developers self-certify the runtime or API test in a chat message and use that message as the final release artifact.",
+      "Create a finding for the runtime or API test with only a severity label and no reproduction steps, evidence, or affected version.",
+      "Run a normal functional smoke test for the runtime or API test, then assume the security risk is covered because \"API has an OpenAPI specification and several undocumented endpoints\" did not fail."
+    ],
+    "correct": 0,
+    "explanation": "Test against the schema and probe discovered endpoints for authorization, validation, and exposure gaps. Schema drift and shadow endpoints are common API security risks."
+  },
+  {
+    "section": "DAST, API and Runtime Testing",
+    "q": "A password reset endpoint works correctly for a single request. What should be checked before accepting the residual risk?",
+    "code": "",
+    "opts": [
+      "Accept the runtime or API test if the build is green, even though the pipeline does not include a relevant security check.",
+      "Test burst, distributed, and repeated attempts to verify throttling and abuse detection.",
+      "Approve the runtime or API test after testing only the mobile client, even though the server API is the real enforcement point.",
+      "Have developers self-certify the runtime or API test in a chat message and use that message as the final release artifact."
+    ],
+    "correct": 1,
+    "explanation": "Test burst, distributed, and repeated attempts to verify throttling and abuse detection. Abuse resistance cannot be proven with one functional request."
+  },
+  {
+    "section": "DAST, API and Runtime Testing",
+    "q": "A coupon API validates format but not ownership. Which option treats Business logic abuse as a security assurance activity rather than a checklist item?",
+    "code": "",
+    "opts": [
+      "Rely on code comments describing the runtime or API test, rather than inspecting the path where untrusted input or sensitive data flows.",
+      "Use a generic vulnerability scan as the only proof for the runtime or API test, even though the risk depends on business logic and configuration.",
+      "Test whether users can apply, reuse, transfer, or stack coupons outside business rules.",
+      "Accept the runtime or API test if the build is green, even though the pipeline does not include a relevant security check."
+    ],
+    "correct": 2,
+    "explanation": "Test whether users can apply, reuse, transfer, or stack coupons outside business rules. Business logic flaws often pass generic scanners."
+  },
+  {
+    "section": "DAST, API and Runtime Testing",
+    "q": "A malformed request returns stack traces with file paths. What is the safest way to proceed without overclaiming coverage?",
+    "code": "",
+    "opts": [
+      "Validate the runtime or API test using stale diagrams from a previous release and skip the new data flows.",
+      "Check the runtime or API test once with a single valid request and skip malformed, repeated, boundary, and unauthorized requests.",
+      "Rely on code comments describing the runtime or API test, rather than inspecting the path where untrusted input or sensitive data flows.",
+      "Report excessive error disclosure and verify production responses are generic while logs retain diagnostics."
+    ],
+    "correct": 3,
+    "explanation": "Report excessive error disclosure and verify production responses are generic while logs retain diagnostics. Detailed internal errors help attackers map systems."
+  },
+  {
+    "section": "DAST, API and Runtime Testing",
+    "q": "A profile service accepts images from users. Which test activity would most directly reduce uncertainty?",
+    "code": "",
+    "opts": [
+      "Test content type validation, extension handling, storage isolation, malware scanning, size limits, and direct execution prevention.",
+      "Treat encryption in transit as sufficient for the runtime or API test, without checking authorization, logging, data handling, or misuse paths.",
+      "Use production customer data to make the runtime or API test feel realistic, without masking or data-handling approval.",
+      "Validate the runtime or API test using stale diagrams from a previous release and skip the new data flows."
+    ],
+    "correct": 0,
+    "explanation": "Test content type validation, extension handling, storage isolation, malware scanning, size limits, and direct execution prevention. Upload features combine validation, storage, and execution risks."
+  },
+  {
+    "section": "DAST, API and Runtime Testing",
+    "q": "A browser app calls APIs from multiple subdomains. What should be included in the security test record?",
+    "code": "",
+    "opts": [
+      "Review the runtime or API test only during the final release meeting, when there is no time left for remediation or retesting.",
+      "Verify CORS allows only trusted origins and does not combine wildcard origins with credentials.",
+      "Leave the runtime or API test to operations monitoring only, with no pre-release test case or owner for discovered issues.",
+      "Treat encryption in transit as sufficient for the runtime or API test, without checking authorization, logging, data handling, or misuse paths."
+    ],
+    "correct": 1,
+    "explanation": "Verify CORS allows only trusted origins and does not combine wildcard origins with credentials. Misconfigured CORS can expose authenticated data to hostile origins."
+  },
+  {
+    "section": "DAST, API and Runtime Testing",
+    "q": "A GraphQL endpoint exposes a flexible query interface. Which choice best validates Graphql testing in this context?",
+    "code": "",
+    "opts": [
+      "Approve the runtime or API test because a similar control worked in another product, without validating this implementation.",
+      "Run a normal functional smoke test for the runtime or API test, then assume the security risk is covered because \"GraphQL endpoint exposes a flexible query interface\" did not fail.",
+      "Test authorization per resolver, query depth, introspection policy, batching abuse, and error disclosure.",
+      "Review the runtime or API test only during the final release meeting, when there is no time left for remediation or retesting."
+    ],
+    "correct": 2,
+    "explanation": "Test authorization per resolver, query depth, introspection policy, batching abuse, and error disclosure. GraphQL shifts risk to resolver-level controls and query resource limits."
+  },
+  {
+    "section": "DAST, API and Runtime Testing",
+    "q": "A payment confirmation request can be resent by the browser. What should the tester challenge in this situation?",
+    "code": "",
+    "opts": [
+      "Document the runtime or API test as \"not applicable\" because it is inconvenient to test in the current environment.",
+      "Have developers self-certify the runtime or API test in a chat message and use that message as the final release artifact.",
+      "Approve the runtime or API test because a similar control worked in another product, without validating this implementation.",
+      "Verify idempotency, nonce or transaction state checks, and server-side duplicate protection."
+    ],
+    "correct": 3,
+    "explanation": "Verify idempotency, nonce or transaction state checks, and server-side duplicate protection. Replay tests prove the server handles repeated requests safely."
+  },
+  {
+    "section": "DAST, API and Runtime Testing",
+    "q": "DAST finds security headers missing from a deployed service. Which answer reflects a practical AppSec testing decision?",
+    "code": "",
+    "opts": [
+      "Validate deployed headers such as HSTS, CSP, frame protections, cookie attributes, and cache controls.",
+      "Move the runtime or API test to a post-launch hardening backlog without documenting residual risk or compensating controls.",
+      "Accept the runtime or API test if the build is green, even though the pipeline does not include a relevant security check.",
+      "Document the runtime or API test as \"not applicable\" because it is inconvenient to test in the current environment."
+    ],
+    "correct": 0,
+    "explanation": "Validate deployed headers such as HSTS, CSP, frame protections, cookie attributes, and cache controls. Runtime headers are part of the delivered security posture."
+  },
+  {
+    "section": "Identity, Session and Access Control Testing",
+    "q": "A new admin portal uses the same login settings as a low-risk newsletter site. What would be the strongest next move for secure delivery?",
+    "code": "",
+    "opts": [
+      "Test stronger authentication controls for privileged access, including MFA and lockout behavior.",
+      "Classify the access-control test as informational because no exploit is included, without analyzing impact or realistic attacker capability.",
+      "Rely on code comments describing the access-control test, rather than inspecting the path where untrusted input or sensitive data flows.",
+      "Move the access-control test to a post-launch hardening backlog without documenting residual risk or compensating controls."
+    ],
+    "correct": 0,
+    "explanation": "Test stronger authentication controls for privileged access, including MFA and lockout behavior. Privileged interfaces need controls proportional to their impact."
+  },
+  {
+    "section": "Identity, Session and Access Control Testing",
+    "q": "A tester has user, manager, and admin accounts for a workflow. Which option gives useful evidence about authorization matrix?",
+    "code": "",
+    "opts": [
+      "Ignore the access-control test because the affected endpoint is internal, without verifying network exposure or machine identity scope.",
+      "Build an authorization matrix and test each role against allowed and forbidden actions.",
+      "Validate the access-control test using stale diagrams from a previous release and skip the new data flows.",
+      "Classify the access-control test as informational because no exploit is included, without analyzing impact or realistic attacker capability."
+    ],
+    "correct": 1,
+    "explanation": "Build an authorization matrix and test each role against allowed and forbidden actions. Access control testing needs both positive and negative role coverage."
+  },
+  {
+    "section": "Identity, Session and Access Control Testing",
+    "q": "Users can view invoices by changing a numeric ID in the URL. What should happen before the finding or control is closed?",
+    "code": "",
+    "opts": [
+      "Score the access-control test by the number of alerts generated, not by confirmed risk, exploitability, and business impact.",
+      "Treat encryption in transit as sufficient for the access-control test, without checking authorization, logging, data handling, or misuse paths.",
+      "Test object-level authorization for cross-user access, not only endpoint-level authentication.",
+      "Ignore the access-control test because the affected endpoint is internal, without verifying network exposure or machine identity scope."
+    ],
+    "correct": 2,
+    "explanation": "Test object-level authorization for cross-user access, not only endpoint-level authentication. IDOR defects occur when object ownership is not enforced."
+  },
+  {
+    "section": "Identity, Session and Access Control Testing",
+    "q": "A login flow keeps the same session identifier before and after authentication. Which response best balances risk, evidence, and delivery?",
+    "code": "",
+    "opts": [
+      "Ask the feature owner to mark the access-control test as reviewed, but do not capture attack paths, assumptions, or test evidence.",
+      "Review the access-control test only during the final release meeting, when there is no time left for remediation or retesting.",
+      "Score the access-control test by the number of alerts generated, not by confirmed risk, exploitability, and business impact.",
+      "Verify session IDs rotate after login and privilege changes."
+    ],
+    "correct": 3,
+    "explanation": "Verify session IDs rotate after login and privilege changes. Rotating sessions reduces fixation and hijacking risk."
+  },
+  {
+    "section": "Identity, Session and Access Control Testing",
+    "q": "A session cookie lacks Secure, HttpOnly, and SameSite attributes. What is the most appropriate security-testing response?",
+    "code": "",
+    "opts": [
+      "Report missing cookie protections and verify they are set appropriately for the application.",
+      "Test the access-control test only in a sandbox with relaxed identity, network, and logging controls, then generalize the result to production.",
+      "Approve the access-control test because a similar control worked in another product, without validating this implementation.",
+      "Ask the feature owner to mark the access-control test as reviewed, but do not capture attack paths, assumptions, or test evidence."
+    ],
+    "correct": 0,
+    "explanation": "Report missing cookie protections and verify they are set appropriately for the application. Cookie attributes limit theft and cross-site request abuse."
+  },
+  {
+    "section": "Identity, Session and Access Control Testing",
+    "q": "After logout, the browser back button displays sensitive cached pages. Which step would make Logout behavior reviewable by stakeholders?",
+    "code": "",
+    "opts": [
+      "Limit the access-control test to checking screenshots and skip requests, logs, roles, storage, and downstream effects.",
+      "Test server-side session invalidation and client-side cache controls for sensitive content.",
+      "Document the access-control test as \"not applicable\" because it is inconvenient to test in the current environment.",
+      "Test the access-control test only in a sandbox with relaxed identity, network, and logging controls, then generalize the result to production."
+    ],
+    "correct": 1,
+    "explanation": "Test server-side session invalidation and client-side cache controls for sensitive content. Logout must end access and avoid residual exposure."
+  },
+  {
+    "section": "Identity, Session and Access Control Testing",
+    "q": "A normal user can submit an admin-only field in a hidden form parameter. How should the team avoid missing an attacker-controlled path?",
+    "code": "",
+    "opts": [
+      "Assume the access-control test is resolved by a dependency update, without checking reachability, configuration, or regression behavior.",
+      "Move the access-control test to a post-launch hardening backlog without documenting residual risk or compensating controls.",
+      "Test server-side enforcement of privileges independent of UI visibility.",
+      "Limit the access-control test to checking screenshots and skip requests, logs, roles, storage, and downstream effects."
+    ],
+    "correct": 2,
+    "explanation": "Test server-side enforcement of privileges independent of UI visibility. Hidden fields are client-controlled and cannot be trusted."
+  },
+  {
+    "section": "Identity, Session and Access Control Testing",
+    "q": "An OAuth client accepts arbitrary redirect_uri values. What is the best way to validate the deployed behavior?",
+    "code": "",
+    "opts": [
+      "Treat the access-control test as complete once a ticket is opened, even though no fix, acceptance, or retest evidence exists.",
+      "Classify the access-control test as informational because no exploit is included, without analyzing impact or realistic attacker capability.",
+      "Assume the access-control test is resolved by a dependency update, without checking reachability, configuration, or regression behavior.",
+      "Verify redirect URI allowlists, state validation, and exact matching."
+    ],
+    "correct": 3,
+    "explanation": "Verify redirect URI allowlists, state validation, and exact matching. Open redirect and weak state validation can enable account takeover."
+  },
+  {
+    "section": "Identity, Session and Access Control Testing",
+    "q": "Password reset emails include long-lived reusable links. Which option would improve confidence without hiding residual risk?",
+    "code": "",
+    "opts": [
+      "Test token lifetime, entropy, single use, invalidation after password change, and rate limiting.",
+      "Close the access-control test because the implementation matches the UI mockup, even though the security behavior was not exercised.",
+      "Ignore the access-control test because the affected endpoint is internal, without verifying network exposure or machine identity scope.",
+      "Treat the access-control test as complete once a ticket is opened, even though no fix, acceptance, or retest evidence exists."
+    ],
+    "correct": 0,
+    "explanation": "Test token lifetime, entropy, single use, invalidation after password change, and rate limiting. Recovery flows are high-value takeover targets."
+  },
+  {
+    "section": "Identity, Session and Access Control Testing",
+    "q": "A backend integration uses a broad admin token for all API calls. What should be done to verify service account scope before release?",
+    "code": "",
+    "opts": [
+      "Replace targeted testing for the access-control test with a policy reminder in the team channel.",
+      "Test least-privilege scopes and isolate service account permissions by task.",
+      "Score the access-control test by the number of alerts generated, not by confirmed risk, exploitability, and business impact.",
+      "Close the access-control test because the implementation matches the UI mockup, even though the security behavior was not exercised."
+    ],
+    "correct": 1,
+    "explanation": "Test least-privilege scopes and isolate service account permissions by task. Overbroad machine identities increase blast radius."
+  },
+  {
+    "section": "Injection, Input Validation and Output Encoding",
+    "q": "A search endpoint filters products using a user-supplied category value. What should the security tester do first?",
+    "code": "",
+    "opts": [
+      "Test the input-validation test after disabling rate limits, authentication, and logging to make the scenario easier to execute.",
+      "Test parameterized queries and confirm user input is never concatenated into SQL.",
+      "Ask the feature owner to mark the input-validation test as reviewed, but do not capture attack paths, assumptions, or test evidence.",
+      "Replace targeted testing for the input-validation test with a policy reminder in the team channel."
+    ],
+    "correct": 1,
+    "explanation": "Test parameterized queries and confirm user input is never concatenated into SQL. Parameterized queries separate data from executable SQL."
+  },
+  {
+    "section": "Injection, Input Validation and Output Encoding",
+    "q": "A comment feature renders user text into a shared dashboard. Which response gives the strongest evidence for xss prevention?",
+    "code": "",
+    "opts": [
+      "Ask for a penetration test later and remove the input-validation test from the current release decision entirely.",
+      "Test the input-validation test only in a sandbox with relaxed identity, network, and logging controls, then generalize the result to production.",
+      "Test contextual output encoding, sanitization where HTML is allowed, and CSP as defense in depth.",
+      "Test the input-validation test after disabling rate limits, authentication, and logging to make the scenario easier to execute."
+    ],
+    "correct": 2,
+    "explanation": "Test contextual output encoding, sanitization where HTML is allowed, and CSP as defense in depth. XSS prevention depends on output context, not only input filtering."
+  },
+  {
+    "section": "Injection, Input Validation and Output Encoding",
+    "q": "A service shells out to resize files using user-supplied filenames. What is the most risk-based next step?",
+    "code": "",
+    "opts": [
+      "Validate the input-validation test only with an administrator account and skip lower-privilege or cross-user abuse cases.",
+      "Limit the input-validation test to checking screenshots and skip requests, logs, roles, storage, and downstream effects.",
+      "Ask for a penetration test later and remove the input-validation test from the current release decision entirely.",
+      "Avoid shell execution where possible and validate arguments passed to safe APIs."
+    ],
+    "correct": 3,
+    "explanation": "Avoid shell execution where possible and validate arguments passed to safe APIs. Command injection arises when untrusted input reaches an OS command interpreter."
+  },
+  {
+    "section": "Injection, Input Validation and Output Encoding",
+    "q": "A download endpoint accepts a file name parameter. Which choice avoids a false sense of security?",
+    "code": "",
+    "opts": [
+      "Test canonicalization, allowlisted file identifiers, and rejection of traversal sequences.",
+      "Depend on the web application firewall to handle the input-validation test, without testing whether the application control itself works.",
+      "Assume the input-validation test is resolved by a dependency update, without checking reachability, configuration, or regression behavior.",
+      "Validate the input-validation test only with an administrator account and skip lower-privilege or cross-user abuse cases."
+    ],
+    "correct": 0,
+    "explanation": "Test canonicalization, allowlisted file identifiers, and rejection of traversal sequences. Path traversal can expose files outside the intended directory."
+  },
+  {
+    "section": "Injection, Input Validation and Output Encoding",
+    "q": "A webhook tester lets users submit callback URLs. How should the team turn ssrf into a testable control?",
+    "code": "",
+    "opts": [
+      "Create a finding for the input-validation test with only a severity label and no reproduction steps, evidence, or affected version.",
+      "Test blocking of internal addresses, metadata endpoints, redirects, and unsupported schemes.",
+      "Treat the input-validation test as complete once a ticket is opened, even though no fix, acceptance, or retest evidence exists.",
+      "Depend on the web application firewall to handle the input-validation test, without testing whether the application control itself works."
+    ],
+    "correct": 1,
+    "explanation": "Test blocking of internal addresses, metadata endpoints, redirects, and unsupported schemes. SSRF protections must account for network targets and redirect tricks."
+  },
+  {
+    "section": "Injection, Input Validation and Output Encoding",
+    "q": "A legacy import endpoint parses uploaded XML files. What would produce the most defensible release evidence?",
+    "code": "",
+    "opts": [
+      "Approve the input-validation test after testing only the mobile client, even though the server API is the real enforcement point.",
+      "Close the input-validation test because the implementation matches the UI mockup, even though the security behavior was not exercised.",
+      "Verify external entity resolution is disabled and parsers are configured safely.",
+      "Create a finding for the input-validation test with only a severity label and no reproduction steps, evidence, or affected version."
+    ],
+    "correct": 2,
+    "explanation": "Verify external entity resolution is disabled and parsers are configured safely. XXE can disclose files or trigger network requests."
+  },
+  {
+    "section": "Injection, Input Validation and Output Encoding",
+    "q": "A notification editor supports personalized template expressions. Which approach best tests the likely abuse path?",
+    "code": "",
+    "opts": [
+      "Use a generic vulnerability scan as the only proof for the input-validation test, even though the risk depends on business logic and configuration.",
+      "Replace targeted testing for the input-validation test with a policy reminder in the team channel.",
+      "Approve the input-validation test after testing only the mobile client, even though the server API is the real enforcement point.",
+      "Test sandboxing, allowed variables, and prevention of server-side template execution."
+    ],
+    "correct": 3,
+    "explanation": "Test sandboxing, allowed variables, and prevention of server-side template execution. Template engines can become code execution surfaces."
+  },
+  {
+    "section": "Injection, Input Validation and Output Encoding",
+    "q": "An enterprise search builds directory filters from user input. What should be checked before accepting the residual risk?",
+    "code": "",
+    "opts": [
+      "Use safe filter construction and escaping specific to LDAP syntax.",
+      "Check the input-validation test once with a single valid request and skip malformed, repeated, boundary, and unauthorized requests.",
+      "Test the input-validation test after disabling rate limits, authentication, and logging to make the scenario easier to execute.",
+      "Use a generic vulnerability scan as the only proof for the input-validation test, even though the risk depends on business logic and configuration."
+    ],
+    "correct": 0,
+    "explanation": "Use safe filter construction and escaping specific to LDAP syntax. Each interpreter requires context-specific encoding or safe APIs."
+  },
+  {
+    "section": "Injection, Input Validation and Output Encoding",
+    "q": "An API accepts prices, quantities, and currency codes. Which option treats Input boundary testing as a security assurance activity rather than a checklist item?",
+    "code": "",
+    "opts": [
+      "Use production customer data to make the input-validation test feel realistic, without masking or data-handling approval.",
+      "Test type, range, precision, locale, overflow, and business-rule boundaries server-side.",
+      "Ask for a penetration test later and remove the input-validation test from the current release decision entirely.",
+      "Check the input-validation test once with a single valid request and skip malformed, repeated, boundary, and unauthorized requests."
+    ],
+    "correct": 1,
+    "explanation": "Test type, range, precision, locale, overflow, and business-rule boundaries server-side. Input validation is both technical and domain-specific."
+  },
+  {
+    "section": "Injection, Input Validation and Output Encoding",
+    "q": "An input appears harmless at submission but executes on an admin report later. What is the safest way to proceed without overclaiming coverage?",
+    "code": "",
+    "opts": [
+      "Leave the input-validation test to operations monitoring only, with no pre-release test case or owner for discovered issues.",
+      "Validate the input-validation test only with an administrator account and skip lower-privilege or cross-user abuse cases.",
+      "Test stored and second-order payload paths across downstream displays and processing jobs.",
+      "Use production customer data to make the input-validation test feel realistic, without masking or data-handling approval."
+    ],
+    "correct": 2,
+    "explanation": "Test stored and second-order payload paths across downstream displays and processing jobs. Stored attacks may trigger far from the original entry point."
+  },
+  {
+    "section": "Dependency, Secrets and Supply Chain Testing",
+    "q": "A software composition scan flags a critical package vulnerability. Which test activity would most directly reduce uncertainty?",
+    "code": "",
+    "opts": [
+      "Run a normal functional smoke test for the supply-chain evidence, then assume the security risk is covered because \"software composition scan flags a critical package vulnerability\" did not fail.",
+      "Depend on the web application firewall to handle the supply-chain evidence, without testing whether the application control itself works.",
+      "Check version, reachability, exploitability, transitive path, available fix, and compensating controls.",
+      "Leave the supply-chain evidence to operations monitoring only, with no pre-release test case or owner for discovered issues."
+    ],
+    "correct": 2,
+    "explanation": "Check version, reachability, exploitability, transitive path, available fix, and compensating controls. Dependency risk depends on more than CVSS alone."
+  },
+  {
+    "section": "Dependency, Secrets and Supply Chain Testing",
+    "q": "A repository scan finds an API key in old commit history. What should be included in the security test record?",
+    "code": "",
+    "opts": [
+      "Have developers self-certify the supply-chain evidence in a chat message and use that message as the final release artifact.",
+      "Create a finding for the supply-chain evidence with only a severity label and no reproduction steps, evidence, or affected version.",
+      "Run a normal functional smoke test for the supply-chain evidence, then assume the security risk is covered because \"repository scan finds an API key in old commit history\" did not fail.",
+      "Revoke and rotate the secret, remove exposure where feasible, and add controls to prevent recurrence."
+    ],
+    "correct": 3,
+    "explanation": "Revoke and rotate the secret, remove exposure where feasible, and add controls to prevent recurrence. Once a secret is committed, deletion alone is not enough."
+  },
+  {
+    "section": "Dependency, Secrets and Supply Chain Testing",
+    "q": "A build pulls floating latest versions during release. Which choice best validates Dependency pinning in this context?",
+    "code": "",
+    "opts": [
+      "Pin versions and verify lockfiles or provenance so builds are reproducible.",
+      "Accept the supply-chain evidence if the build is green, even though the pipeline does not include a relevant security check.",
+      "Approve the supply-chain evidence after testing only the mobile client, even though the server API is the real enforcement point.",
+      "Have developers self-certify the supply-chain evidence in a chat message and use that message as the final release artifact."
+    ],
+    "correct": 0,
+    "explanation": "Pin versions and verify lockfiles or provenance so builds are reproducible. Reproducibility helps detect and prevent unexpected supply-chain changes."
+  },
+  {
+    "section": "Dependency, Secrets and Supply Chain Testing",
+    "q": "A customer asks what third-party components ship in the product. What should the tester challenge in this situation?",
+    "code": "",
+    "opts": [
+      "Rely on code comments describing the supply-chain evidence, rather than inspecting the path where untrusted input or sensitive data flows.",
+      "Generate and validate an SBOM that reflects the actual released artifact.",
+      "Use a generic vulnerability scan as the only proof for the supply-chain evidence, even though the risk depends on business logic and configuration.",
+      "Accept the supply-chain evidence if the build is green, even though the pipeline does not include a relevant security check."
+    ],
+    "correct": 1,
+    "explanation": "Generate and validate an SBOM that reflects the actual released artifact. SBOMs support transparency, vulnerability response, and compliance."
+  },
+  {
+    "section": "Dependency, Secrets and Supply Chain Testing",
+    "q": "A dependency name is similar to an internal package. Which answer reflects a practical AppSec testing decision?",
+    "code": "",
+    "opts": [
+      "Validate the supply-chain evidence using stale diagrams from a previous release and skip the new data flows.",
+      "Check the supply-chain evidence once with a single valid request and skip malformed, repeated, boundary, and unauthorized requests.",
+      "Test package source controls, namespace protection, and dependency confusion defenses.",
+      "Rely on code comments describing the supply-chain evidence, rather than inspecting the path where untrusted input or sensitive data flows."
+    ],
+    "correct": 2,
+    "explanation": "Test package source controls, namespace protection, and dependency confusion defenses. Dependency confusion exploits resolver trust and naming."
+  },
+  {
+    "section": "Dependency, Secrets and Supply Chain Testing",
+    "q": "A build log prints environment variables during debugging. What would be the strongest next move for secure delivery?",
+    "code": "",
+    "opts": [
+      "Treat encryption in transit as sufficient for the supply-chain evidence, without checking authorization, logging, data handling, or misuse paths.",
+      "Use production customer data to make the supply-chain evidence feel realistic, without masking or data-handling approval.",
+      "Validate the supply-chain evidence using stale diagrams from a previous release and skip the new data flows.",
+      "Mask secrets, reduce log verbosity, rotate exposed values, and restrict job access."
+    ],
+    "correct": 3,
+    "explanation": "Mask secrets, reduce log verbosity, rotate exposed values, and restrict job access. CI systems are high-value secret exposure points."
+  },
+  {
+    "section": "Dependency, Secrets and Supply Chain Testing",
+    "q": "A release artifact is copied between systems before deployment. Which option gives useful evidence about artifact integrity?",
+    "code": "",
+    "opts": [
+      "Verify signatures, checksums, provenance, and controlled promotion between environments.",
+      "Review the supply-chain evidence only during the final release meeting, when there is no time left for remediation or retesting.",
+      "Leave the supply-chain evidence to operations monitoring only, with no pre-release test case or owner for discovered issues.",
+      "Treat encryption in transit as sufficient for the supply-chain evidence, without checking authorization, logging, data handling, or misuse paths."
+    ],
+    "correct": 0,
+    "explanation": "Verify signatures, checksums, provenance, and controlled promotion between environments. Integrity checks prove the deployed artifact is the reviewed artifact."
+  },
+  {
+    "section": "Dependency, Secrets and Supply Chain Testing",
+    "q": "A new open-source library is added for a minor feature. What should happen before the finding or control is closed?",
+    "code": "",
+    "opts": [
+      "Approve the supply-chain evidence because a similar control worked in another product, without validating this implementation.",
+      "Review security posture, maintenance health, license obligations, and transitive dependencies before approval.",
+      "Run a normal functional smoke test for the supply-chain evidence, then assume the security risk is covered because \"new open-source library is added for a minor feature\" did not fail.",
+      "Review the supply-chain evidence only during the final release meeting, when there is no time left for remediation or retesting."
+    ],
+    "correct": 1,
+    "explanation": "Review security posture, maintenance health, license obligations, and transitive dependencies before approval. Supply-chain quality includes maintainability and legal constraints."
+  },
+  {
+    "section": "Dependency, Secrets and Supply Chain Testing",
+    "q": "A container scan finds many OS package vulnerabilities. Which response best balances risk, evidence, and delivery?",
+    "code": "",
+    "opts": [
+      "Document the supply-chain evidence as \"not applicable\" because it is inconvenient to test in the current environment.",
+      "Have developers self-certify the supply-chain evidence in a chat message and use that message as the final release artifact.",
+      "Use maintained minimal base images and rebuild regularly with patched dependencies.",
+      "Approve the supply-chain evidence because a similar control worked in another product, without validating this implementation."
+    ],
+    "correct": 2,
+    "explanation": "Use maintained minimal base images and rebuild regularly with patched dependencies. Base image hygiene reduces inherited vulnerability exposure."
+  },
+  {
+    "section": "Dependency, Secrets and Supply Chain Testing",
+    "q": "A website adds a vendor script to checkout pages. What is the most appropriate security-testing response?",
+    "code": "",
+    "opts": [
+      "Move the supply-chain evidence to a post-launch hardening backlog without documenting residual risk or compensating controls.",
+      "Accept the supply-chain evidence if the build is green, even though the pipeline does not include a relevant security check.",
+      "Document the supply-chain evidence as \"not applicable\" because it is inconvenient to test in the current environment.",
+      "Assess data access, integrity controls, CSP, subresource integrity where applicable, and vendor risk."
+    ],
+    "correct": 3,
+    "explanation": "Assess data access, integrity controls, CSP, subresource integrity where applicable, and vendor risk. Client-side dependencies can directly touch sensitive user flows."
+  },
+  {
+    "section": "Cloud, Container and Configuration Testing",
+    "q": "A test finds a storage bucket reachable without authentication. Which step would make Cloud storage exposure reviewable by stakeholders?",
+    "code": "",
+    "opts": [
+      "Classify the deployment configuration as informational because no exploit is included, without analyzing impact or realistic attacker capability.",
+      "Rely on code comments describing the deployment configuration, rather than inspecting the path where untrusted input or sensitive data flows.",
+      "Move the deployment configuration to a post-launch hardening backlog without documenting residual risk or compensating controls.",
+      "Verify intended public access, object sensitivity, bucket policy, logging, and remediation ownership."
+    ],
+    "correct": 3,
+    "explanation": "Verify intended public access, object sensitivity, bucket policy, logging, and remediation ownership. Cloud access policies often create accidental public exposure."
+  },
+  {
+    "section": "Cloud, Container and Configuration Testing",
+    "q": "A serverless function can read and write every database table. How should the team avoid missing an attacker-controlled path?",
+    "code": "",
+    "opts": [
+      "Test whether the role can be narrowed to the exact actions and resources required.",
+      "Ignore the deployment configuration because the affected endpoint is internal, without verifying network exposure or machine identity scope.",
+      "Validate the deployment configuration using stale diagrams from a previous release and skip the new data flows.",
+      "Classify the deployment configuration as informational because no exploit is included, without analyzing impact or realistic attacker capability."
+    ],
+    "correct": 0,
+    "explanation": "Test whether the role can be narrowed to the exact actions and resources required. Least privilege limits impact if the function is compromised."
+  },
+  {
+    "section": "Cloud, Container and Configuration Testing",
+    "q": "A staging database is reachable from the public internet. What is the best way to validate the deployed behavior?",
+    "code": "",
+    "opts": [
+      "Score the deployment configuration by the number of alerts generated, not by confirmed risk, exploitability, and business impact.",
+      "Validate network rules, private endpoints, firewall policy, and environment exposure.",
+      "Treat encryption in transit as sufficient for the deployment configuration, without checking authorization, logging, data handling, or misuse paths.",
+      "Ignore the deployment configuration because the affected endpoint is internal, without verifying network exposure or machine identity scope."
+    ],
+    "correct": 1,
+    "explanation": "Validate network rules, private endpoints, firewall policy, and environment exposure. Segmentation reduces direct attack surface."
+  },
+  {
+    "section": "Cloud, Container and Configuration Testing",
+    "q": "A container runs as root with a writable filesystem. Which option would improve confidence without hiding residual risk?",
+    "code": "",
+    "opts": [
+      "Ask the feature owner to mark the deployment configuration as reviewed, but do not capture attack paths, assumptions, or test evidence.",
+      "Review the deployment configuration only during the final release meeting, when there is no time left for remediation or retesting.",
+      "Test hardened runtime settings such as non-root user, read-only filesystem, dropped capabilities, and resource limits.",
+      "Score the deployment configuration by the number of alerts generated, not by confirmed risk, exploitability, and business impact."
+    ],
+    "correct": 2,
+    "explanation": "Test hardened runtime settings such as non-root user, read-only filesystem, dropped capabilities, and resource limits. Container isolation relies on configuration as well as images."
+  },
+  {
+    "section": "Cloud, Container and Configuration Testing",
+    "q": "Secrets are mounted broadly across several pods. What should be done to verify kubernetes secrets before release?",
+    "code": "",
+    "opts": [
+      "Test the deployment configuration only in a sandbox with relaxed identity, network, and logging controls, then generalize the result to production.",
+      "Approve the deployment configuration because a similar control worked in another product, without validating this implementation.",
+      "Ask the feature owner to mark the deployment configuration as reviewed, but do not capture attack paths, assumptions, or test evidence.",
+      "Verify secret scoping, RBAC, rotation, encryption at rest, and workload-specific access."
+    ],
+    "correct": 3,
+    "explanation": "Verify secret scoping, RBAC, rotation, encryption at rest, and workload-specific access. Cluster secrets should be limited to workloads that need them."
+  },
+  {
+    "section": "Cloud, Container and Configuration Testing",
+    "q": "Infrastructure changes are submitted through pull requests. What should the security tester do first?",
+    "code": "",
+    "opts": [
+      "Run IaC security checks for public exposure, encryption, IAM breadth, logging, and policy drift.",
+      "Limit the deployment configuration to checking screenshots and skip requests, logs, roles, storage, and downstream effects.",
+      "Document the deployment configuration as \"not applicable\" because it is inconvenient to test in the current environment.",
+      "Test the deployment configuration only in a sandbox with relaxed identity, network, and logging controls, then generalize the result to production."
+    ],
+    "correct": 0,
+    "explanation": "Run IaC security checks for public exposure, encryption, IAM breadth, logging, and policy drift. Infrastructure code should be tested before it creates risky resources."
+  },
+  {
+    "section": "Cloud, Container and Configuration Testing",
+    "q": "An external endpoint supports old protocols and weak ciphers. Which response gives the strongest evidence for tls configuration?",
+    "code": "",
+    "opts": [
+      "Assume the deployment configuration is resolved by a dependency update, without checking reachability, configuration, or regression behavior.",
+      "Test protocol versions, cipher suites, certificate chain, renewal, HSTS, and hostname validation.",
+      "Move the deployment configuration to a post-launch hardening backlog without documenting residual risk or compensating controls.",
+      "Limit the deployment configuration to checking screenshots and skip requests, logs, roles, storage, and downstream effects."
+    ],
+    "correct": 1,
+    "explanation": "Test protocol versions, cipher suites, certificate chain, renewal, HSTS, and hostname validation. Transport security depends on deployed configuration."
+  },
+  {
+    "section": "Cloud, Container and Configuration Testing",
+    "q": "Development credentials work against production APIs. What is the most risk-based next step?",
+    "code": "",
+    "opts": [
+      "Treat the deployment configuration as complete once a ticket is opened, even though no fix, acceptance, or retest evidence exists.",
+      "Classify the deployment configuration as informational because no exploit is included, without analyzing impact or realistic attacker capability.",
+      "Report the environment boundary failure and verify credentials, networks, and data are separated.",
+      "Assume the deployment configuration is resolved by a dependency update, without checking reachability, configuration, or regression behavior."
+    ],
+    "correct": 2,
+    "explanation": "Report the environment boundary failure and verify credentials, networks, and data are separated. Weak separation turns low-control environments into production entry points."
+  },
+  {
+    "section": "Cloud, Container and Configuration Testing",
+    "q": "A cloud application has security controls but no alerting. Which choice avoids a false sense of security?",
+    "code": "",
+    "opts": [
+      "Close the deployment configuration because the implementation matches the UI mockup, even though the security behavior was not exercised.",
+      "Ignore the deployment configuration because the affected endpoint is internal, without verifying network exposure or machine identity scope.",
+      "Treat the deployment configuration as complete once a ticket is opened, even though no fix, acceptance, or retest evidence exists.",
+      "Verify audit logs, alert rules, retention, and incident routing for sensitive actions."
+    ],
+    "correct": 3,
+    "explanation": "Verify audit logs, alert rules, retention, and incident routing for sensitive actions. Controls need monitoring so failures and attacks are noticed."
+  },
+  {
+    "section": "Cloud, Container and Configuration Testing",
+    "q": "A manual hotfix changes production security settings. How should the team turn configuration drift into a testable control?",
+    "code": "",
+    "opts": [
+      "Compare deployed configuration to approved baseline and restore controlled change management.",
+      "Replace targeted testing for the deployment configuration with a policy reminder in the team channel.",
+      "Score the deployment configuration by the number of alerts generated, not by confirmed risk, exploitability, and business impact.",
+      "Close the deployment configuration because the implementation matches the UI mockup, even though the security behavior was not exercised."
+    ],
+    "correct": 0,
+    "explanation": "Compare deployed configuration to approved baseline and restore controlled change management. Drift undermines tested assumptions and repeatability."
+  },
+  {
+    "section": "Vulnerability Reporting and Remediation",
+    "q": "A tester finds an authorization bypass during exploratory testing. What would produce the most defensible release evidence?",
+    "code": "",
+    "opts": [
+      "Capture steps, accounts, requests, expected and actual results, impact, evidence, and affected versions.",
+      "Test the vulnerability record after disabling rate limits, authentication, and logging to make the scenario easier to execute.",
+      "Ask the feature owner to mark the vulnerability record as reviewed, but do not capture attack paths, assumptions, or test evidence.",
+      "Replace targeted testing for the vulnerability record with a policy reminder in the team channel."
+    ],
+    "correct": 0,
+    "explanation": "Capture steps, accounts, requests, expected and actual results, impact, evidence, and affected versions. Developers need reproducible evidence to fix quickly."
+  },
+  {
+    "section": "Vulnerability Reporting and Remediation",
+    "q": "A finding says only \"input validation is weak\". Which approach best tests the likely abuse path?",
+    "code": "",
+    "opts": [
+      "Ask for a penetration test later and remove the vulnerability record from the current release decision entirely.",
+      "Explain business impact, attacker capability, affected data, and realistic exploitation path.",
+      "Test the vulnerability record only in a sandbox with relaxed identity, network, and logging controls, then generalize the result to production.",
+      "Test the vulnerability record after disabling rate limits, authentication, and logging to make the scenario easier to execute."
+    ],
+    "correct": 1,
+    "explanation": "Explain business impact, attacker capability, affected data, and realistic exploitation path. Risk owners need impact context, not just technical labels."
+  },
+  {
+    "section": "Vulnerability Reporting and Remediation",
+    "q": "A low-severity banner typo and a high-severity internal-only flaw compete for attention. What should be checked before accepting the residual risk?",
+    "code": "",
+    "opts": [
+      "Validate the vulnerability record only with an administrator account and skip lower-privilege or cross-user abuse cases.",
+      "Limit the vulnerability record to checking screenshots and skip requests, logs, roles, storage, and downstream effects.",
+      "Separate technical severity from business priority and document the rationale for scheduling.",
+      "Ask for a penetration test later and remove the vulnerability record from the current release decision entirely."
+    ],
+    "correct": 2,
+    "explanation": "Separate technical severity from business priority and document the rationale for scheduling. Severity and priority answer different decision questions."
+  },
+  {
+    "section": "Vulnerability Reporting and Remediation",
+    "q": "A proof of concept could modify customer data. Which option treats Proof of concept safety as a security assurance activity rather than a checklist item?",
+    "code": "",
+    "opts": [
+      "Depend on the web application firewall to handle the vulnerability record, without testing whether the application control itself works.",
+      "Assume the vulnerability record is resolved by a dependency update, without checking reachability, configuration, or regression behavior.",
+      "Validate the vulnerability record only with an administrator account and skip lower-privilege or cross-user abuse cases.",
+      "Use a safe non-destructive demonstration and avoid unnecessary data access or persistence."
+    ],
+    "correct": 3,
+    "explanation": "Use a safe non-destructive demonstration and avoid unnecessary data access or persistence. Evidence should prove risk without causing harm."
+  },
+  {
+    "section": "Vulnerability Reporting and Remediation",
+    "q": "A developer asks how to fix a finding. What is the safest way to proceed without overclaiming coverage?",
+    "code": "",
+    "opts": [
+      "Provide clear control intent and safe implementation patterns while allowing the team to choose stack-specific details.",
+      "Create a finding for the vulnerability record with only a severity label and no reproduction steps, evidence, or affected version.",
+      "Treat the vulnerability record as complete once a ticket is opened, even though no fix, acceptance, or retest evidence exists.",
+      "Depend on the web application firewall to handle the vulnerability record, without testing whether the application control itself works."
+    ],
+    "correct": 0,
+    "explanation": "Provide clear control intent and safe implementation patterns while allowing the team to choose stack-specific details. Good remediation guidance is practical without becoming brittle."
+  },
+  {
+    "section": "Vulnerability Reporting and Remediation",
+    "q": "A fix for xss has been merged. which test activity would most directly reduce uncertainty?",
+    "code": "",
+    "opts": [
+      "Approve the vulnerability record after testing only the mobile client, even though the server API is the real enforcement point.",
+      "Retest the original payload, related contexts, and regression cases before closing the finding.",
+      "Close the vulnerability record because the implementation matches the UI mockup, even though the security behavior was not exercised.",
+      "Create a finding for the vulnerability record with only a severity label and no reproduction steps, evidence, or affected version."
+    ],
+    "correct": 1,
+    "explanation": "Retest the original payload, related contexts, and regression cases before closing the finding. Fix verification confirms the vulnerability is actually resolved."
+  },
+  {
+    "section": "Vulnerability Reporting and Remediation",
+    "q": "A high-risk issue cannot be fixed before launch. What should be included in the security test record?",
+    "code": "",
+    "opts": [
+      "Use a generic vulnerability scan as the only proof for the vulnerability record, even though the risk depends on business logic and configuration.",
+      "Replace targeted testing for the vulnerability record with a policy reminder in the team channel.",
+      "Require explicit owner acceptance, justification, compensating controls, expiration, and monitoring.",
+      "Approve the vulnerability record after testing only the mobile client, even though the server API is the real enforcement point."
+    ],
+    "correct": 2,
+    "explanation": "Require explicit owner acceptance, justification, compensating controls, expiration, and monitoring. Accepted risk should be conscious, time-bound, and visible."
+  },
+  {
+    "section": "Vulnerability Reporting and Remediation",
+    "q": "Several endpoints share the same missing authorization pattern. Which choice best validates Duplicate findings in this context?",
+    "code": "",
+    "opts": [
+      "Check the vulnerability record once with a single valid request and skip malformed, repeated, boundary, and unauthorized requests.",
+      "Test the vulnerability record after disabling rate limits, authentication, and logging to make the scenario easier to execute.",
+      "Use a generic vulnerability scan as the only proof for the vulnerability record, even though the risk depends on business logic and configuration.",
+      "Group related instances under a systemic root cause while preserving affected examples."
+    ],
+    "correct": 3,
+    "explanation": "Group related instances under a systemic root cause while preserving affected examples. Grouping helps teams fix patterns, not isolated symptoms."
+  },
+  {
+    "section": "Vulnerability Reporting and Remediation",
+    "q": "Leadership wants to know whether AppSec is improving. What should the tester challenge in this situation?",
+    "code": "",
+    "opts": [
+      "Track meaningful metrics such as time to remediate, recurrence, coverage, escape rate, and critical exposure age.",
+      "Use production customer data to make the vulnerability record feel realistic, without masking or data-handling approval.",
+      "Ask for a penetration test later and remove the vulnerability record from the current release decision entirely.",
+      "Check the vulnerability record once with a single valid request and skip malformed, repeated, boundary, and unauthorized requests."
+    ],
+    "correct": 0,
+    "explanation": "Track meaningful metrics such as time to remediate, recurrence, coverage, escape rate, and critical exposure age. Outcome-oriented metrics are more useful than raw finding counts."
+  },
+  {
+    "section": "Vulnerability Reporting and Remediation",
+    "q": "A security ticket is marked done without attached proof. Which answer reflects a practical AppSec testing decision?",
+    "code": "",
+    "opts": [
+      "Leave the vulnerability record to operations monitoring only, with no pre-release test case or owner for discovered issues.",
+      "Require retest evidence, fixed version, residual risk notes, and reviewer approval before closure.",
+      "Validate the vulnerability record only with an administrator account and skip lower-privilege or cross-user abuse cases.",
+      "Use production customer data to make the vulnerability record feel realistic, without masking or data-handling approval."
+    ],
+    "correct": 1,
+    "explanation": "Require retest evidence, fixed version, residual risk notes, and reviewer approval before closure. Closure needs evidence to support audit and release confidence."
+  },
+  {
+    "section": "DevSecOps Automation and Governance",
+    "q": "A CI pipeline runs security scans but never fails on serious issues. What would be the strongest next move for secure delivery?",
+    "code": "",
+    "opts": [
+      "Run a normal functional smoke test for the pipeline control, then assume the security risk is covered because \"CI pipeline runs security scans but never fails on serious issues\" did not fail.",
+      "Define risk-based gates that block or escalate critical findings while allowing documented exceptions.",
+      "Depend on the web application firewall to handle the pipeline control, without testing whether the application control itself works.",
+      "Leave the pipeline control to operations monitoring only, with no pre-release test case or owner for discovered issues."
+    ],
+    "correct": 1,
+    "explanation": "Define risk-based gates that block or escalate critical findings while allowing documented exceptions. Automated checks need enforceable policy to influence release quality."
+  },
+  {
+    "section": "DevSecOps Automation and Governance",
+    "q": "Developers complain that late security reviews delay releases. Which option gives useful evidence about shift-left balance?",
+    "code": "",
+    "opts": [
+      "Have developers self-certify the pipeline control in a chat message and use that message as the final release artifact.",
+      "Create a finding for the pipeline control with only a severity label and no reproduction steps, evidence, or affected version.",
+      "Move lightweight checks, secure patterns, and review prompts earlier while preserving deeper testing for high-risk changes.",
+      "Run a normal functional smoke test for the pipeline control, then assume the security risk is covered because \"Developers complain that late security reviews delay releases\" did not fail."
+    ],
+    "correct": 2,
+    "explanation": "Move lightweight checks, secure patterns, and review prompts earlier while preserving deeper testing for high-risk changes. Shift-left works best when early feedback is actionable."
+  },
+  {
+    "section": "DevSecOps Automation and Governance",
+    "q": "A scanner produces many irrelevant alerts for generated code. What should happen before the finding or control is closed?",
+    "code": "",
+    "opts": [
+      "Accept the pipeline control if the build is green, even though the pipeline does not include a relevant security check.",
+      "Approve the pipeline control after testing only the mobile client, even though the server API is the real enforcement point.",
+      "Have developers self-certify the pipeline control in a chat message and use that message as the final release artifact.",
+      "Tune scope, rules, and baselines so alerts are credible and reviewed."
+    ],
+    "correct": 3,
+    "explanation": "Tune scope, rules, and baselines so alerts are credible and reviewed. Noisy tools lose trust and hide real findings."
+  },
+  {
+    "section": "DevSecOps Automation and Governance",
+    "q": "Cloud teams want repeatable enforcement of encryption and public access rules. Which response best balances risk, evidence, and delivery?",
+    "code": "",
+    "opts": [
+      "Implement policy-as-code checks in CI and deployment workflows.",
+      "Rely on code comments describing the pipeline control, rather than inspecting the path where untrusted input or sensitive data flows.",
+      "Use a generic vulnerability scan as the only proof for the pipeline control, even though the risk depends on business logic and configuration.",
+      "Accept the pipeline control if the build is green, even though the pipeline does not include a relevant security check."
+    ],
+    "correct": 0,
+    "explanation": "Implement policy-as-code checks in CI and deployment workflows. Codified policy makes governance repeatable and testable."
+  },
+  {
+    "section": "DevSecOps Automation and Governance",
+    "q": "A large product team has one central security tester for every feature. What is the most appropriate security-testing response?",
+    "code": "",
+    "opts": [
+      "Validate the pipeline control using stale diagrams from a previous release and skip the new data flows.",
+      "Build a champion model with training, playbooks, escalation paths, and central review for high-risk work.",
+      "Check the pipeline control once with a single valid request and skip malformed, repeated, boundary, and unauthorized requests.",
+      "Rely on code comments describing the pipeline control, rather than inspecting the path where untrusted input or sensitive data flows."
+    ],
+    "correct": 1,
+    "explanation": "Build a champion model with training, playbooks, escalation paths, and central review for high-risk work. Distributed ownership scales security practice."
+  },
+  {
+    "section": "DevSecOps Automation and Governance",
+    "q": "A team needs to release with a medium dependency risk. Which step would make Exception workflow reviewable by stakeholders?",
+    "code": "",
+    "opts": [
+      "Treat encryption in transit as sufficient for the pipeline control, without checking authorization, logging, data handling, or misuse paths.",
+      "Use production customer data to make the pipeline control feel realistic, without masking or data-handling approval.",
+      "Use a documented exception with owner, rationale, compensating controls, and expiration date.",
+      "Validate the pipeline control using stale diagrams from a previous release and skip the new data flows."
+    ],
+    "correct": 2,
+    "explanation": "Use a documented exception with owner, rationale, compensating controls, and expiration date. Exceptions should be managed, not informal."
+  },
+  {
+    "section": "DevSecOps Automation and Governance",
+    "q": "The same injection flaw appears in multiple services. How should the team avoid missing an attacker-controlled path?",
+    "code": "",
+    "opts": [
+      "Review the pipeline control only during the final release meeting, when there is no time left for remediation or retesting.",
+      "Leave the pipeline control to operations monitoring only, with no pre-release test case or owner for discovered issues.",
+      "Treat encryption in transit as sufficient for the pipeline control, without checking authorization, logging, data handling, or misuse paths.",
+      "Feed recurring findings into secure coding guidance, examples, templates, and regression checks."
+    ],
+    "correct": 3,
+    "explanation": "Feed recurring findings into secure coding guidance, examples, templates, and regression checks. Recurring defects signal a process or knowledge gap."
+  },
+  {
+    "section": "DevSecOps Automation and Governance",
+    "q": "Auditors request proof of security testing for a past release. What is the best way to validate the deployed behavior?",
+    "code": "",
+    "opts": [
+      "Archive scan results, manual test notes, approvals, and remediation records with release metadata.",
+      "Approve the pipeline control because a similar control worked in another product, without validating this implementation.",
+      "Run a normal functional smoke test for the pipeline control, then assume the security risk is covered because \"Auditors request proof of security testing for a past release\" did not fail.",
+      "Review the pipeline control only during the final release meeting, when there is no time left for remediation or retesting."
+    ],
+    "correct": 0,
+    "explanation": "Archive scan results, manual test notes, approvals, and remediation records with release metadata. Governance depends on retrievable evidence."
+  },
+  {
+    "section": "DevSecOps Automation and Governance",
+    "q": "A vulnerability class is mitigated but attempts may still occur. Which option would improve confidence without hiding residual risk?",
+    "code": "",
+    "opts": [
+      "Document the pipeline control as \"not applicable\" because it is inconvenient to test in the current environment.",
+      "Add monitoring and alerts for suspicious patterns related to the mitigated risk.",
+      "Have developers self-certify the pipeline control in a chat message and use that message as the final release artifact.",
+      "Approve the pipeline control because a similar control worked in another product, without validating this implementation."
+    ],
+    "correct": 1,
+    "explanation": "Add monitoring and alerts for suspicious patterns related to the mitigated risk. Testing and monitoring together improve resilience."
+  },
+  {
+    "section": "DevSecOps Automation and Governance",
+    "q": "Security testing is treated as a one-time release checklist. What should be done to verify continuous improvement before release?",
+    "code": "",
+    "opts": [
+      "Move the pipeline control to a post-launch hardening backlog without documenting residual risk or compensating controls.",
+      "Accept the pipeline control if the build is green, even though the pipeline does not include a relevant security check.",
+      "Review outcomes after releases and improve threat models, tests, gates, and standards based on findings.",
+      "Document the pipeline control as \"not applicable\" because it is inconvenient to test in the current environment."
+    ],
+    "correct": 2,
+    "explanation": "Review outcomes after releases and improve threat models, tests, gates, and standards based on findings. DevSecOps is an iterative quality system, not a single event."
+  }
+];
+const SECTIONS  = [
+  {
+    "key": "Secure SDLC and Threat Modeling",
+    "label": "Section A - Secure SDLC and Threat Modeling",
+    "cls": "sec-data",
+    "range": "Questions 1-10"
+  },
+  {
+    "key": "Security Test Planning and Risk Coverage",
+    "label": "Section B - Security Test Planning and Risk Coverage",
+    "cls": "sec-clf",
+    "range": "Questions 11-20"
+  },
+  {
+    "key": "SAST, Code Review and Secure Coding",
+    "label": "Section C - SAST, Code Review and Secure Coding",
+    "cls": "sec-dl",
+    "range": "Questions 21-30"
+  },
+  {
+    "key": "DAST, API and Runtime Testing",
+    "label": "Section D - DAST, API and Runtime Testing",
+    "cls": "sec-nlp",
+    "range": "Questions 31-40"
+  },
+  {
+    "key": "Identity, Session and Access Control Testing",
+    "label": "Section E - Identity, Session and Access Control Testing",
+    "cls": "sec-llm",
+    "range": "Questions 41-50"
+  },
+  {
+    "key": "Injection, Input Validation and Output Encoding",
+    "label": "Section F - Injection, Input Validation and Output Encoding",
+    "cls": "sec-ops",
+    "range": "Questions 51-60"
+  },
+  {
+    "key": "Dependency, Secrets and Supply Chain Testing",
+    "label": "Section G - Dependency, Secrets and Supply Chain Testing",
+    "cls": "sec-data",
+    "range": "Questions 61-70"
+  },
+  {
+    "key": "Cloud, Container and Configuration Testing",
+    "label": "Section H - Cloud, Container and Configuration Testing",
+    "cls": "sec-clf",
+    "range": "Questions 71-80"
+  },
+  {
+    "key": "Vulnerability Reporting and Remediation",
+    "label": "Section I - Vulnerability Reporting and Remediation",
+    "cls": "sec-dl",
+    "range": "Questions 81-90"
+  },
+  {
+    "key": "DevSecOps Automation and Governance",
+    "label": "Section J - DevSecOps Automation and Governance",
+    "cls": "sec-nlp",
+    "range": "Questions 91-100"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+
+let mode = 'guided', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 2*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function renderCode(code){
+  // Escape HTML, then highlight ??? as the blank marker
+  return escapeHtml(code).replace(/\?\?\?/g, '<span class="blank">???</span>');
+}
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='02:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  const codeBlock = q.code ? '<pre class="q-code">'+renderCode(q.code)+'</pre>' : '';
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   codeBlock
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/100';
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/100';
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  if(pct>=0.9){ grade='Security Testing Lead'; blurb='Excellent command of risk-based AppSec testing, automation, evidence, and release decision support.'; }
+  else if(pct>=0.75){ grade='Strong Security Tester'; blurb='Strong practical readiness. Review missed domains and sharpen evidence quality, exploitability reasoning, and security gate design.'; }
+  else if(pct>=0.6){ grade='Developing AppSec Practitioner'; blurb='Good foundation. Focus on threat modeling, test design, SAST/DAST limits, and vulnerability triage practice.'; }
+  else if(pct>=0.4){ grade='Security Foundations Building'; blurb='Core concepts are forming. Practice mapping risks to tests and turning findings into reproducible, prioritized reports.'; }
+  else { grade='Begin the Secure Testing Path'; blurb='Start with secure SDLC, common web/API risks, basic tool workflows, and disciplined evidence collection.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 100 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one question at a time. 2-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Certificate name</label>
+    <input id="chmlCertNameInput" type="text" maxlength="80" placeholder="Enter name for certificate" oninput="chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" type="button" onclick="chmlPrintCertificate()">Print / Save as PDF</button>
+    <button class="chml-cert-btn secondary" type="button" onclick="chmlHideCertificate()">Hide Certificate</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div><div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker"><span id="chmlCertExamKicker">Knowledge Hub Examination</span></div>
+      <h1 class="chml-cert-h1">Certificate of Completion</h1>
+      <div class="chml-cert-rule"></div>
+      <p class="chml-cert-pre">This certifies that</p>
+      <p class="chml-cert-name" id="chmlCertName">Learner</p>
+      <p class="chml-cert-body">has successfully completed the <b id="chmlCertExamName">Knowledge Hub Exam</b>.</p>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">0 / 0</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">-</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Quak Foo Lee</div><div class="chml-cert-sig-label">Chmltech Ltd.</div></div>
+        <div class="chml-cert-id">Certificate ID: <span id="chmlCertId">-</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertificateInstalled) return;
+  window.__chmlCertificateInstalled = true;
+  function textOf(sel){var el=document.querySelector(sel);return el?el.textContent.trim():'';}
+  function examTitle(){return textOf('h1.title')||textOf('header h1')||textOf('h1')||document.title.replace(/\s+/g,' ').trim()||'Knowledge Hub Exam';}
+  function parseFirstNumber(txt){var m=String(txt||'').match(/\d+/);return m?parseInt(m[0],10):null;}
+  function parseScoreTotal(){
+    var correct=parseFirstNumber(textOf('#rScore'));
+    var total=null;
+    var rt=textOf('#rTotal');
+    if(rt) total=parseFirstNumber(rt);
+    if(!total){var sb=textOf('.score-big');var m=sb.match(/\/\s*(\d+)/);if(m) total=parseInt(m[1],10);}
+    if(!total) total=parseFirstNumber(textOf('#progTotal'));
+    if(!total){var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;if(cards) total=cards;}
+    if(!correct && correct!==0) correct=parseFirstNumber(textOf('#scoreNum'));
+    return {correct:correct||0,total:total||0};
+  }
+  function totalFromBreakdown(byType){
+    if(!byType || typeof byType!=='object') return null;
+    var total=0, found=false;
+    Object.keys(byType).forEach(function(k){var v=byType[k];if(v&&typeof v==='object'){var n=v.t||v.total||v.count;if(typeof n==='number'){total+=n;found=true;}}});
+    return found?total:null;
+  }
+  function hashCode(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+  window.chmlUpdateCertificateName=function(name){document.getElementById('chmlCertName').textContent=(name||'').trim()||'Learner';};
+  window.chmlHideCertificate=function(){var c=document.getElementById('chmlCertificate');if(c)c.classList.remove('show');};
+  window.chmlPrintCertificate=function(){window.print();};
+  window.chmlRenderCertificate=function(correct,total,grade){
+    var cert=document.getElementById('chmlCertificate');if(!cert)return;
+    var title=examTitle();
+    var nameInput=document.getElementById('chmlCertNameInput');
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
+    var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
+    document.getElementById('chmlCertExamName').textContent=title;
+    document.getElementById('chmlCertName').textContent=learner;
+    document.getElementById('chmlCertScore').textContent=String(correct)+' / '+String(total||0)+(total?(' ('+Math.round((correct/total)*100)+'%)'):'');
+    document.getElementById('chmlCertDate').textContent=date;
+    document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
+    cert.classList.add('show');
+  };
+
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
+    var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){
+      var parsed=parseScoreTotal();
+      if(correct===null || isNaN(correct)) correct=parsed.correct;
+      if(!total) total=parsed.total;
+      if(total || correct || document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0);
+    },60);
+  }
+  if(typeof window.showResults==='function'){
+    var originalShowResults=window.showResults;
+    window.showResults=function(){var out=originalShowResults.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  if(typeof window.submitExam==='function'){
+    var originalSubmitExam=window.submitExam;
+    window.submitExam=function(){var out=originalSubmitExam.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  ['resetExam','newExam'].forEach(function(fn){
+    if(typeof window[fn]==='function'){
+      var original=window[fn];
+      window[fn]=function(){window.chmlHideCertificate();return original.apply(this,arguments);};
+    }
+  });
+})();
+</script>
+
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>

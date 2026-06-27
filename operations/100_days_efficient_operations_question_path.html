@@ -1,0 +1,2365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>100 Days to Efficient Operations — Question Path</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --ink:#1c1a17;
+  --paper:#f4efe6;
+  --paper2:#ebe3d5;
+  --gold:#b08d3c;
+  --gold-deep:#8a6d28;
+  --green:#2f6b4f;
+  --green-soft:#e3eee6;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  --core:#1a5276;
+  --scen:#7d6608;
+  --appl:#145a32;
+  --break:#6e2f8f;
+  --line:#d4c9b4;
+  --shadow:rgba(40,32,18,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(176,141,60,.07), transparent 40%),
+    radial-gradient(circle at 88% 92%, rgba(47,107,79,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 22px}
+
+/* HEADER */
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.4rem,6vw,4rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .of{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#6b5f4a;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#5a5040;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.35)}
+.exambar b{color:var(--ink)}
+
+/* MODE TOGGLE */
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.4)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#6b5f4a;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#7a6e58;font-size:.92rem;margin-bottom:8px}
+
+/* HUD */
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(244,239,230,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-deep));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+
+/* SECTION HEADERS — full coloured bars */
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.18rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2)}
+.sec-core{background:linear-gradient(100deg,var(--core),#0f3a52)}
+.sec-scen{background:linear-gradient(100deg,var(--scen),#574700)}
+.sec-appl{background:linear-gradient(100deg,var(--appl),#0a3c20)}
+.sec-break{background:linear-gradient(100deg,var(--break),#4a1f63)}
+
+/* QUESTION CARD */
+.q-card{background:rgba(255,255,255,.55);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(40,32,18,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-type{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;border:1px solid currentColor;opacity:.85}
+.t-core{color:var(--core)} .t-scen{color:var(--scen)} .t-appl{color:var(--appl)} .t-break{color:var(--break)}
+.q-text{font-size:1.12rem;line-height:1.55;margin-bottom:16px;font-weight:500}
+
+/* OPTIONS */
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:13px 16px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.4);transition:all .18s ease;font-size:1.01rem;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(176,141,60,.07);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s}
+.opt .otext{flex:1;padding-top:1px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(176,141,60,.1)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+
+/* EXPLANATION */
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(176,141,60,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:600px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#3a3326}
+
+/* RESULTS */
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#8a7d63}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:520px;margin:0 auto 24px;color:#4a4234;font-size:1.05rem}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.5);min-width:96px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+
+/* BUTTONS */
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#8a7d63}
+
+@media(max-width:560px){
+  .q-card{padding:20px 18px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:1.04rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+}
+
+
+/* 100-DAY SEQUENCE EXTENSIONS */
+.modebar{flex-wrap:wrap;border-radius:18px;max-width:100%}
+.modebar button{white-space:nowrap}
+.exambar span{white-space:nowrap}
+.day-focus{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:#776a55;margin:-4px 0 12px 66px}
+.phase-note{margin:10px 0 16px;padding:12px 16px;border:1px solid var(--line);background:rgba(255,255,255,.38);font-style:italic;color:#5c5141;border-radius:3px}
+.q-card.gated{opacity:.58;filter:saturate(.72)}
+.q-card.gated .opts{pointer-events:none}
+.q-card.gated .q-text{color:#6f6658}
+.gate{display:none;margin:12px 0 15px;padding:10px 13px;border:1px dashed var(--gold-deep);border-radius:3px;background:rgba(176,141,60,.08);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.04em;color:#6b5524;text-transform:uppercase}
+.q-card.gated .gate{display:block}
+.sourcebox{margin:26px 0 6px;padding:14px 18px;border:1px solid var(--line);background:rgba(255,255,255,.38);border-radius:4px;color:#5a5040;font-size:.95rem}
+.sourcebox a{color:var(--gold-deep);font-weight:600;text-decoration:none;border-bottom:1px solid rgba(138,109,40,.45)}
+.actions .btn-small{padding:10px 18px;font-size:.7rem;background:rgba(255,255,255,.55);border:1px solid var(--line);color:#5a5040}
+.actions .btn-small:hover{background:var(--paper2);transform:none;box-shadow:none}
+.sec-digital{background:linear-gradient(100deg,#34495e,#1f2d3a)}
+.sec-people{background:linear-gradient(100deg,#8e5b2d,#5d3918)}
+.t-digital{color:#34495e}.t-people{color:#8e5b2d}
+@media(max-width:560px){.day-focus{margin-left:0}.modebar{border-radius:12px}.modebar button{flex:1 1 100%}}
+
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Guided Question Path &middot; 100 Days</div>
+    <h1 class="title">100 Days <span class="of">to Efficient</span> Operations</h1>
+    <div class="byline">A sequenced operational-efficiency practice path based on the BDC article and learning-centre game concept</div>
+    <div class="exambar">
+      <span><b>100</b> Days</span>
+      <span><b>100</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span>Total: <b>100</b> Marks</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-path" class="active" onclick="setMode('path')">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam" onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">One question at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat">Progress <b id="progCount">0</b>/100</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Current Day <b id="currentDay">1</b></span>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+  </div>
+
+  <div class="actions" style="margin-top:-12px;margin-bottom:18px">
+    <button class="btn btn-small" onclick="jumpCurrent()">Jump to Current Day</button>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px">
+    <button class="btn btn-gold" id="submitBtn" onclick="submitExam()" style="display:none">Submit Exam</button>
+  </div>
+
+  <section class="results" id="results">
+    <div class="rk">Your 100-Day Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/100</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAll()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam()">Retake Path</button>
+    </div>
+  </section>
+
+  <div class="sourcebox">
+    Source anchors: <a href="https://www.bdc.ca/en/articles-tools/operations/operational-efficiency/3-critical-factors-operational-efficiency" target="_blank" rel="noopener">BDC — What is operational efficiency?</a> &middot; <a href="https://catalog.bdc.ca/product?catalog=100-days-efficient-operations" target="_blank" rel="noopener">BDC Learning Centre — 100 days to efficient operations</a>
+  </div>
+
+  <footer>100 Days to Efficient Operations &middot; Sequenced question path adapted from the provided HTML exam structure</footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "day": 1,
+    "type": "Awareness",
+    "focus": "Define efficiency",
+    "q": "Which statement best captures operational efficiency at the start of a 100-day improvement journey?",
+    "opts": [
+      "Buying faster equipment before studying the process",
+      "Using time, people, equipment, inventory and money in an optimized way to serve the business",
+      "Keeping everyone busy, even when work is not tied to customer value",
+      "Cutting payroll first so costs fall immediately"
+    ],
+    "correct": 1,
+    "explanation": "Operational efficiency is about using business resources deliberately to create value. Faster equipment or cost-cutting may help later, but the first principle is optimizing how resources are used to serve customers and the business."
+  },
+  {
+    "day": 2,
+    "type": "Awareness",
+    "focus": "Efficiency is not just manufacturing",
+    "q": "Why can service and distribution companies benefit from an operational efficiency program?",
+    "opts": [
+      "Only manufacturers have waste, bottlenecks and workflows",
+      "Every business has processes, handoffs, information flow, waiting and rework that can be improved",
+      "Service businesses should focus only on sales, not operations",
+      "Distribution companies improve only by buying more warehouse space"
+    ],
+    "correct": 1,
+    "explanation": "Operational efficiency applies wherever work flows through people, information, space or equipment. Service and distribution processes often contain waiting, searching, rework and unclear handoffs, even when no product is being manufactured."
+  },
+  {
+    "day": 3,
+    "type": "Awareness",
+    "focus": "Value-added work",
+    "q": "In an efficiency review, which activity is most likely to be value-added?",
+    "opts": [
+      "Re-entering the same customer data into a second system",
+      "Waiting for a supervisor to clarify an order",
+      "Correctly completing the service or product feature the customer asked for",
+      "Moving a file from one queue to another without changing it"
+    ],
+    "correct": 2,
+    "explanation": "Value-added work changes the product, service or information in a way the customer cares about. Re-entry, waiting and unnecessary movement may be common, but they do not add value from the customer’s perspective."
+  },
+  {
+    "day": 4,
+    "type": "Awareness",
+    "focus": "Firefighting vs prevention",
+    "q": "A manager says, “We are effective because we solve emergencies all day.” What is the best efficiency response?",
+    "opts": [
+      "Frequent emergencies may signal reactive work and hidden process problems",
+      "Firefighting proves the organization has no waste",
+      "Emergencies should replace performance indicators",
+      "The company should add more urgent meetings before studying the causes"
+    ],
+    "correct": 0,
+    "explanation": "Constant firefighting can feel productive, but it often means the organization is reacting to symptoms instead of preventing recurring problems. A 100-day journey should reduce the noise by finding and fixing underlying causes."
+  },
+  {
+    "day": 5,
+    "type": "Awareness",
+    "focus": "Benefits of efficiency",
+    "q": "Which set of outcomes best matches a successful operational efficiency effort?",
+    "opts": [
+      "More overtime, more inventory and more approvals",
+      "Lower costs and lead time, fewer errors, better clarity and happier customers and employees",
+      "Higher output regardless of downstream capacity",
+      "More reports with no change in daily work"
+    ],
+    "correct": 1,
+    "explanation": "Efficiency improvements should make work flow better and reduce waste. The practical gains usually include lower cost, shorter lead time, fewer errors or accidents, clearer roles and stronger customer and employee experience."
+  },
+  {
+    "day": 6,
+    "type": "Awareness",
+    "focus": "Recognize waste",
+    "q": "Which example is the clearest form of operational waste?",
+    "opts": [
+      "A worker searching ten minutes for the right tool before starting a task",
+      "A customer receiving exactly what they ordered",
+      "A team using a clear checklist to prevent errors",
+      "A supervisor reviewing yesterday’s performance dashboard"
+    ],
+    "correct": 0,
+    "explanation": "Searching for tools, information or materials consumes time without creating customer value. The goal is to reduce non-value-added activities so more of the workday is spent on useful work."
+  },
+  {
+    "day": 7,
+    "type": "Awareness",
+    "focus": "Before technology",
+    "q": "Before buying new technology, what should a business usually understand first?",
+    "opts": [
+      "How its people, processes and information currently create or block value",
+      "Which vendor offers the longest feature list",
+      "How to automate every existing approval step",
+      "How to replace all manual work immediately"
+    ],
+    "correct": 0,
+    "explanation": "Technology can help, but automating a poorly understood process can simply make waste happen faster. The first move is usually to understand and improve how people, processes and information work today."
+  },
+  {
+    "day": 8,
+    "type": "Awareness",
+    "focus": "Agility and maturity",
+    "q": "Why does operational efficiency often make a company more agile?",
+    "opts": [
+      "It removes every rule from daily work",
+      "It reduces waste and clarifies processes, making it easier to respond to new demand or disruption",
+      "It guarantees that demand will never change",
+      "It shifts all decisions to one senior manager"
+    ],
+    "correct": 1,
+    "explanation": "Clearer processes, less waste and better performance visibility make a business easier to steer. Agility comes from understanding the system and having less hidden friction when conditions change."
+  },
+  {
+    "day": 9,
+    "type": "Awareness",
+    "focus": "Busy is not productive",
+    "q": "During Day 9, a team reports that everyone is busy but orders are still late. What should be tested first?",
+    "opts": [
+      "Whether busy time is actually value-added work or non-value-added effort",
+      "Whether employees can work without breaks",
+      "Whether customers can accept later delivery by default",
+      "Whether the company can stop tracking late orders"
+    ],
+    "correct": 0,
+    "explanation": "Being busy does not prove that value is flowing. The team should separate value-added work from waste such as searching, waiting, rework, extra processing and unclear handoffs."
+  },
+  {
+    "day": 10,
+    "type": "Awareness",
+    "focus": "100-day game framing",
+    "q": "In the 100-day learning frame, what role does the learner effectively play?",
+    "opts": [
+      "A passive observer reading definitions only",
+      "A business owner making decisions to improve efficiency over 100 days",
+      "A machine technician optimizing one piece of equipment only",
+      "A customer service agent with no influence on operations"
+    ],
+    "correct": 1,
+    "explanation": "The 100-day frame is useful because it turns efficiency into a sequence of business decisions. The learner acts like an owner who must diagnose, prioritize, implement and sustain improvements within a limited time."
+  },
+  {
+    "day": 11,
+    "type": "Current State",
+    "focus": "Start with reality",
+    "q": "What is the main purpose of the current-state assessment?",
+    "opts": [
+      "To prove management already knows the full process",
+      "To document the good, the bad and the ugly before choosing solutions",
+      "To select software before speaking with employees",
+      "To create a long report with no action plan"
+    ],
+    "correct": 1,
+    "explanation": "The current-state assessment creates a shared view of how the business really works. Without that baseline, improvement teams risk treating symptoms, missing constraints or choosing projects based on opinion."
+  },
+  {
+    "day": 12,
+    "type": "Current State",
+    "focus": "Financial and productivity baseline",
+    "q": "Which information belongs in the early current-state review?",
+    "opts": [
+      "Financial performance and productivity metrics compared with relevant benchmarks",
+      "Only the newest equipment specifications",
+      "Only customer testimonials",
+      "Only the organization chart from last year"
+    ],
+    "correct": 0,
+    "explanation": "A credible baseline combines operational observation with financial and productivity data. This helps the team understand performance, compare it with peers where possible and quantify the value of improvement."
+  },
+  {
+    "day": 13,
+    "type": "Current State",
+    "focus": "Listen to the work",
+    "q": "Why should site visits, interviews and workshops be part of the assessment?",
+    "opts": [
+      "They replace the need for data",
+      "They reveal how work actually happens and where people experience friction",
+      "They allow leaders to skip process mapping",
+      "They are useful only after the solution has been implemented"
+    ],
+    "correct": 1,
+    "explanation": "People closest to the work often know where delays, unclear instructions and workarounds happen. Site visits and conversations help close the gap between leadership assumptions and shop-floor or front-line reality."
+  },
+  {
+    "day": 14,
+    "type": "Current State",
+    "focus": "Strategic context",
+    "q": "Which strategic items should the team understand before recommending efficiency projects?",
+    "opts": [
+      "Vision, goals, strategies and culture",
+      "Only the brand colours on the website",
+      "The personal preferences of one consultant",
+      "Only the cheapest supplier list"
+    ],
+    "correct": 0,
+    "explanation": "Operational changes must fit the company’s direction and culture. Understanding vision, goals and strategy prevents local improvements from pulling the business away from what it is trying to become."
+  },
+  {
+    "day": 15,
+    "type": "Current State",
+    "focus": "Management system context",
+    "q": "Why review policies and organizational structure during the current-state phase?",
+    "opts": [
+      "They may explain approval delays, unclear responsibility or duplicated decisions",
+      "They are always irrelevant to operations",
+      "They prove that no process map is needed",
+      "They should be reviewed only by accountants"
+    ],
+    "correct": 0,
+    "explanation": "Waste is not only physical. Approval rules, reporting lines and unclear ownership can create delays and rework, so the assessment should include the management system around the process."
+  },
+  {
+    "day": 16,
+    "type": "Current State",
+    "focus": "Process mapping",
+    "q": "What does a process map help reveal?",
+    "opts": [
+      "The exact personality style of each employee",
+      "Workflow steps, handoffs, delays, rework loops and bottlenecks",
+      "Only the cost of raw materials",
+      "Only whether the company needs a new building"
+    ],
+    "correct": 1,
+    "explanation": "A process map makes the flow visible. Once steps and handoffs are visible, the team can identify bottlenecks, repeated approvals, waiting time and other barriers to smooth flow."
+  },
+  {
+    "day": 17,
+    "type": "Current State",
+    "focus": "Gemba mindset",
+    "q": "What is the best purpose of a Gemba walk in this 100-day sequence?",
+    "opts": [
+      "To inspect people from a distance and assign blame",
+      "To go where the work happens, observe facts and ask respectful questions",
+      "To replace all KPIs with opinions",
+      "To conduct a meeting without seeing the process"
+    ],
+    "correct": 1,
+    "explanation": "A Gemba walk is about observing the real work with curiosity and respect. The aim is to understand facts, barriers and waste, not to blame the people working inside the process."
+  },
+  {
+    "day": 18,
+    "type": "Current State",
+    "focus": "Benchmark carefully",
+    "q": "How should benchmarking be used in an efficiency assessment?",
+    "opts": [
+      "As a reference point for performance, not as a substitute for understanding the local process",
+      "As proof that all companies should have identical targets",
+      "Only to criticize the team",
+      "Only after all improvements are complete"
+    ],
+    "correct": 0,
+    "explanation": "Benchmarking can reveal a performance gap, but it does not explain the local causes. Teams should use benchmarks as context while still studying their own process, demand, constraints and culture."
+  },
+  {
+    "day": 19,
+    "type": "Current State",
+    "focus": "Scorecarding",
+    "q": "Which areas are reasonable candidates for an operational efficiency scorecard?",
+    "opts": [
+      "Quality control, inventory management and work methods",
+      "Only executive travel costs",
+      "Only social media engagement",
+      "Only the number of office plants"
+    ],
+    "correct": 0,
+    "explanation": "A scorecard should highlight areas that affect operational performance. Quality, inventory and work methods are practical categories because they reveal waste, variation, flow problems and opportunities for standardization."
+  },
+  {
+    "day": 20,
+    "type": "Current State",
+    "focus": "Whole-business view",
+    "q": "Why is it risky to study only the department where complaints are loudest?",
+    "opts": [
+      "The visible problem may be caused upstream or constrained downstream",
+      "Complaints always identify the true root cause",
+      "Departments should improve in isolation",
+      "The loudest complaint should automatically become the only project"
+    ],
+    "correct": 0,
+    "explanation": "Operational problems often cross boundaries. A department may appear to be the issue because it receives bad inputs or because the real constraint sits elsewhere, so the assessment should take a holistic view."
+  },
+  {
+    "day": 21,
+    "type": "Current State",
+    "focus": "Perception gap",
+    "q": "What should leaders do when their view of the process differs from what employees and observations show?",
+    "opts": [
+      "Use the evidence to update the shared current-state picture",
+      "Reject the evidence because the original view came from leaders",
+      "Stop the assessment immediately",
+      "Hide the disagreement from the team"
+    ],
+    "correct": 0,
+    "explanation": "One value of the assessment is exposing disconnects between perception and reality. The team should treat those gaps as learning signals and use facts to align everyone around the real process."
+  },
+  {
+    "day": 22,
+    "type": "Current State",
+    "focus": "Baseline metrics",
+    "q": "Which baseline set would be most useful before improvements begin?",
+    "opts": [
+      "Demand, lead time, defect rate, overtime, WIP or backlog, and customer complaints",
+      "Only the number of chairs in the meeting room",
+      "Only a list of employee birthdays",
+      "Only the name of the software vendor"
+    ],
+    "correct": 0,
+    "explanation": "Baseline metrics let the team compare before and after. Demand, lead time, quality, workload and customer impact show whether the improvement effort is producing measurable operational results."
+  },
+  {
+    "day": 23,
+    "type": "Current State",
+    "focus": "Spot the bottleneck",
+    "q": "What is a common visual clue that a process step may be the bottleneck?",
+    "opts": [
+      "Work piles up before that step while downstream steps wait or starve",
+      "The step has the cleanest workstation",
+      "The step is closest to the front door",
+      "The step has the newest computer"
+    ],
+    "correct": 0,
+    "explanation": "A bottleneck limits flow. Queues commonly build in front of it because upstream work arrives faster than the constrained step can process it."
+  },
+  {
+    "day": 24,
+    "type": "Current State",
+    "focus": "Symptoms vs process",
+    "q": "A team sees frequent overtime but still misses targets. What should they avoid doing immediately?",
+    "opts": [
+      "Adding more overtime without understanding why capacity is being lost",
+      "Studying workflow and bottlenecks",
+      "Reviewing defects and rework",
+      "Comparing planned time with actual time"
+    ],
+    "correct": 0,
+    "explanation": "More overtime may temporarily mask the problem while leaving the cause untouched. The team should study where time is lost through defects, waiting, bottlenecks, unclear priorities or poor planning."
+  },
+  {
+    "day": 25,
+    "type": "Current State",
+    "focus": "Assessment output",
+    "q": "By the end of the current-state phase, what should the team have?",
+    "opts": [
+      "A baseline, a process picture, visible wastes, suspected root causes and candidate opportunities",
+      "A final list of technology purchases only",
+      "A decision to stop measuring performance",
+      "A plan based only on the most senior opinion"
+    ],
+    "correct": 0,
+    "explanation": "The current-state phase should produce enough evidence to prioritize intelligently. It does not need to solve everything yet, but it should make the system, waste and opportunities visible."
+  },
+  {
+    "day": 26,
+    "type": "Diagnosis",
+    "focus": "Root cause discipline",
+    "q": "After the current state is mapped, why conduct root cause analysis?",
+    "opts": [
+      "To identify the underlying reasons problems repeat",
+      "To assign blame faster",
+      "To justify a solution already chosen",
+      "To avoid speaking with front-line employees"
+    ],
+    "correct": 0,
+    "explanation": "Root cause analysis prevents superficial fixes. It asks why problems happen repeatedly so the team can change the system, not merely repair the latest incident."
+  },
+  {
+    "day": 27,
+    "type": "Diagnosis",
+    "focus": "Fishbone thinking",
+    "q": "How does a fishbone or Ishikawa diagram help the team?",
+    "opts": [
+      "It organizes possible causes into categories so the team can test them",
+      "It calculates payroll automatically",
+      "It replaces the need for observations",
+      "It guarantees the first idea is correct"
+    ],
+    "correct": 0,
+    "explanation": "A fishbone diagram broadens thinking by grouping possible causes, such as methods, materials, people, equipment, environment and measurement. The team must still validate causes with facts."
+  },
+  {
+    "day": 28,
+    "type": "Diagnosis",
+    "focus": "Pareto prioritization",
+    "q": "What is the purpose of Pareto analysis in an efficiency project?",
+    "opts": [
+      "To focus on the few causes that create a large share of the problem",
+      "To treat every cause as equally important",
+      "To remove the need for data",
+      "To pick the easiest project regardless of impact"
+    ],
+    "correct": 0,
+    "explanation": "Pareto analysis helps teams concentrate effort where it matters most. If a few causes drive most defects, delays or complaints, solving them creates more impact than spreading effort thinly."
+  },
+  {
+    "day": 29,
+    "type": "Diagnosis",
+    "focus": "Defects at source",
+    "q": "A team adds final inspection after recurring errors. What question should they ask next?",
+    "opts": [
+      "How do we prevent the error from occurring in the first place?",
+      "How can we hide the defect rate?",
+      "How can we make customers inspect their own orders?",
+      "How can we increase batch size so defects are harder to notice?"
+    ],
+    "correct": 0,
+    "explanation": "Inspection can catch defects, but it does not remove the cause. Operational efficiency improves when errors are prevented or made immediately visible at the source."
+  },
+  {
+    "day": 30,
+    "type": "Diagnosis",
+    "focus": "Waiting waste",
+    "q": "Orders sit untouched for two days between approval and fulfillment. Which waste is most visible?",
+    "opts": [
+      "Waiting",
+      "Value-added work",
+      "Strategic planning",
+      "Customer discovery"
+    ],
+    "correct": 0,
+    "explanation": "Waiting occurs when people, materials, information or orders are idle because the next step is unavailable, unclear or unsynchronized. Reducing waiting often shortens delivery time dramatically."
+  },
+  {
+    "day": 31,
+    "type": "Diagnosis",
+    "focus": "Motion vs transportation",
+    "q": "Which statement correctly distinguishes motion from transportation waste?",
+    "opts": [
+      "Motion is unnecessary movement of people; transportation is unnecessary movement of materials or products",
+      "Motion and transportation are the same and should never be separated",
+      "Transportation refers only to customer shipping charges",
+      "Motion is always value-added"
+    ],
+    "correct": 0,
+    "explanation": "Both wastes involve movement, but the object moving is different. Motion wastes human effort; transportation wastes movement of materials, products or information without adding customer value."
+  },
+  {
+    "day": 32,
+    "type": "Diagnosis",
+    "focus": "Inventory hides problems",
+    "q": "Why can excess inventory make operations less efficient?",
+    "opts": [
+      "It hides defects, delays and imbalances while consuming cash and space",
+      "It automatically improves quality",
+      "It makes bottlenecks disappear permanently",
+      "It always reduces lead time"
+    ],
+    "correct": 0,
+    "explanation": "Inventory can buffer problems, but that also hides them. Excess stock ties up space and cash, increases handling and may allow defects or scheduling problems to remain invisible longer."
+  },
+  {
+    "day": 33,
+    "type": "Diagnosis",
+    "focus": "Over-processing",
+    "q": "A report is reviewed by five people, but only one review changes the outcome. What waste should be investigated?",
+    "opts": [
+      "Over-processing",
+      "Customer value creation",
+      "Demand growth",
+      "Preventive maintenance"
+    ],
+    "correct": 0,
+    "explanation": "Over-processing means doing more work than the customer or process requires. Extra reviews, duplicate data entry and unnecessary formatting can all consume capacity without improving the result."
+  },
+  {
+    "day": 34,
+    "type": "Diagnosis",
+    "focus": "Unused talent",
+    "q": "Which situation best illustrates non-utilized talent?",
+    "opts": [
+      "Employees know a recurring problem and a practical fix, but no one asks for their ideas",
+      "A machine needs scheduled maintenance",
+      "A customer changes an order before production starts",
+      "A supplier delivers on time"
+    ],
+    "correct": 0,
+    "explanation": "Non-utilized talent occurs when the organization fails to use people’s skills, experience or improvement ideas. Involving employees is essential because they often see waste directly."
+  },
+  {
+    "day": 35,
+    "type": "Diagnosis",
+    "focus": "Safety and clutter",
+    "q": "A cluttered work area causes trips and lost tools. Which project is most directly connected to both safety and efficiency?",
+    "opts": [
+      "5S workplace organization",
+      "A branding refresh",
+      "A new pricing model",
+      "A longer monthly finance meeting"
+    ],
+    "correct": 0,
+    "explanation": "5S improves organization, visibility and cleanliness. It reduces searching and motion waste while also lowering safety risk from clutter and unclear storage."
+  },
+  {
+    "day": 36,
+    "type": "Diagnosis",
+    "focus": "Constraint logic",
+    "q": "A team improves production output, but packaging and shipping become chaotic. What likely happened?",
+    "opts": [
+      "The bottleneck or pressure point moved downstream",
+      "The improvement proved all departments are independent",
+      "More output always improves the whole system",
+      "Shipping metrics no longer matter"
+    ],
+    "correct": 0,
+    "explanation": "Improving one part of the system can overload another if downstream capacity is not ready. Teams must avoid pushing the bottleneck or problem into the next department."
+  },
+  {
+    "day": 37,
+    "type": "Diagnosis",
+    "focus": "No Band-Aids",
+    "q": "Which action is most consistent with fixing fundamentals rather than applying a Band-Aid?",
+    "opts": [
+      "Finding why orders are repeatedly unclear and redesigning the intake process",
+      "Adding a temporary expeditor forever",
+      "Blaming the last person who touched the order",
+      "Ignoring recurring defects if customers complain only sometimes"
+    ],
+    "correct": 0,
+    "explanation": "A Band-Aid treats the immediate pain but leaves the condition in place. Fixing fundamentals means changing the process so the recurring problem is less likely to return."
+  },
+  {
+    "day": 38,
+    "type": "Diagnosis",
+    "focus": "Evidence before solution",
+    "q": "A consultant suspects poor scheduling, but employees suspect missing materials. What is the best next step?",
+    "opts": [
+      "Collect evidence from the process before choosing the primary cause",
+      "Accept the consultant’s first assumption",
+      "Accept the loudest employee’s first assumption",
+      "Skip diagnosis and buy more shelves"
+    ],
+    "correct": 0,
+    "explanation": "Good diagnosis separates theories from facts. Observation, data and employee input should be used together to test which causes are actually driving the problem."
+  },
+  {
+    "day": 39,
+    "type": "Diagnosis",
+    "focus": "Measure time loss",
+    "q": "Which method best helps quantify where time is lost in a workflow?",
+    "opts": [
+      "Observe the process, record queue time and work time, and compare planned time with actual time",
+      "Ask everyone to estimate once and never validate it",
+      "Count only the number of employees in the building",
+      "Measure only the fastest day of the year"
+    ],
+    "correct": 0,
+    "explanation": "Time loss becomes visible when the team distinguishes active work from waiting, rework, searching and interruptions. Comparing planned and actual time also supports efficiency KPI design."
+  },
+  {
+    "day": 40,
+    "type": "Diagnosis",
+    "focus": "Diagnosis handoff",
+    "q": "What should the diagnosis phase hand off to the action-planning phase?",
+    "opts": [
+      "A prioritized understanding of causes, evidence and likely improvement levers",
+      "A list of unrelated opinions",
+      "A decision to improve every problem at once",
+      "A promise that no KPI will be needed"
+    ],
+    "correct": 0,
+    "explanation": "Action planning needs a clear diagnosis. The team should know which causes matter most, what evidence supports them and which improvement levers are likely to create value."
+  },
+  {
+    "day": 41,
+    "type": "Action Plan",
+    "focus": "Prioritize impact",
+    "q": "When converting assessment findings into projects, what should guide priority?",
+    "opts": [
+      "The solutions with the greatest impact on the top causes of problems",
+      "The projects with the longest names",
+      "The ideas that require the most capital",
+      "The easiest changes even when they do not affect performance"
+    ],
+    "correct": 0,
+    "explanation": "The action plan should focus resources on improvements that address major causes and create measurable impact. A long list of low-impact activities dilutes momentum."
+  },
+  {
+    "day": 42,
+    "type": "Action Plan",
+    "focus": "Quick wins",
+    "q": "What is a good definition of a quick win in this 100-day sequence?",
+    "opts": [
+      "A practical improvement that can be completed in roughly four weeks and shows visible progress",
+      "A major enterprise system replacement",
+      "A project with no owner",
+      "A change that cannot be measured"
+    ],
+    "correct": 0,
+    "explanation": "Quick wins build confidence and momentum. They should be meaningful, feasible in a short period and visible enough to show that the efficiency journey is producing results."
+  },
+  {
+    "day": 43,
+    "type": "Action Plan",
+    "focus": "Quick-win ownership",
+    "q": "Why should quick wins have clear senior owners with authority?",
+    "opts": [
+      "So barriers can be removed quickly and decisions do not stall",
+      "So front-line employees are excluded",
+      "So no milestones are needed",
+      "So the project can avoid accountability"
+    ],
+    "correct": 0,
+    "explanation": "Quick wins lose momentum when no one has authority to make decisions. Assigning responsible owners helps keep the project moving and reinforces accountability."
+  },
+  {
+    "day": 44,
+    "type": "Action Plan",
+    "focus": "Longer projects",
+    "q": "Which project most likely belongs in a six-to-12-month improvement roadmap rather than a four-week quick win?",
+    "opts": [
+      "A cross-department redesign of order intake, production planning and shipping roles",
+      "Labelling a shared tool cabinet",
+      "Removing obsolete forms from one workstation",
+      "Holding a one-hour problem-solving workshop"
+    ],
+    "correct": 0,
+    "explanation": "Enterprise-level changes that affect multiple departments, systems or roles usually require more stakeholder involvement, planning, testing and change management than a quick win."
+  },
+  {
+    "day": 45,
+    "type": "Action Plan",
+    "focus": "Action plan content",
+    "q": "What must a useful action plan specify?",
+    "opts": [
+      "Who will do what, by when, and which KPI or milestone will show progress",
+      "Only a project title",
+      "Only a motivational slogan",
+      "Only the expected purchase price of software"
+    ],
+    "correct": 0,
+    "explanation": "An action plan turns ideas into accountable work. Owners, timelines and KPIs or milestones allow leaders to track whether the improvement is actually happening and producing impact."
+  },
+  {
+    "day": 46,
+    "type": "Action Plan",
+    "focus": "Supervisor capability",
+    "q": "Which symptom points to a possible project on supervisor management skills?",
+    "opts": [
+      "Projects remain unfinished because planning, communication and follow-up are weak",
+      "The workspace is already clean and labelled",
+      "Delivery time is perfect every day",
+      "Employees have too many improvement ideas recorded"
+    ],
+    "correct": 0,
+    "explanation": "Supervisors influence planning, priorities, communication and accountability. When projects stall or daily execution is unclear, supervisor capability may be a high-impact improvement area."
+  },
+  {
+    "day": 47,
+    "type": "Action Plan",
+    "focus": "5S project fit",
+    "q": "Which finding is the strongest reason to launch a 5S project?",
+    "opts": [
+      "Items are lost, clutter causes safety hazards and people waste time searching",
+      "Customer demand is growing in a new market",
+      "The website needs a new image",
+      "The company wants a new logo"
+    ],
+    "correct": 0,
+    "explanation": "5S is designed for workplace order and standardization. It is a strong fit when searching, clutter, misplaced items and safety risks are reducing productivity."
+  },
+  {
+    "day": 48,
+    "type": "Action Plan",
+    "focus": "Dashboard project fit",
+    "q": "Which symptom best supports creating a performance dashboard?",
+    "opts": [
+      "The team has no clear view of how the business is performing against targets",
+      "The team already sees real-time performance and acts on it daily",
+      "All KPIs are stable and understood",
+      "No one needs operational data"
+    ],
+    "correct": 0,
+    "explanation": "A dashboard helps when performance is invisible or scattered. It should make critical KPIs and targets clear enough for teams to take timely action."
+  },
+  {
+    "day": 49,
+    "type": "Action Plan",
+    "focus": "Holistic planning",
+    "q": "Why should the action plan consider downstream departments before increasing output?",
+    "opts": [
+      "Local gains can create new bottlenecks or chaos elsewhere",
+      "Downstream departments never matter",
+      "More output is always beneficial regardless of capacity",
+      "Shipping and packaging should not be measured"
+    ],
+    "correct": 0,
+    "explanation": "Operational systems are connected. Improving one step without checking downstream capacity may simply move the problem, creating delays, overtime or customer issues elsewhere."
+  },
+  {
+    "day": 50,
+    "type": "Action Plan",
+    "focus": "Impact-effort choice",
+    "q": "Two projects are available: one is easy but low-impact; one is moderate effort and addresses the biggest delay. Which should usually be prioritized?",
+    "opts": [
+      "The project that addresses the biggest delay, if it is feasible and resourced",
+      "The easiest project regardless of impact",
+      "The project with no measurable outcome",
+      "The one with the most complicated name"
+    ],
+    "correct": 0,
+    "explanation": "A good priority list balances impact and feasibility. Quick wins matter, but they should still connect to important causes rather than becoming activity for its own sake."
+  },
+  {
+    "day": 51,
+    "type": "Action Plan",
+    "focus": "Space before capital",
+    "q": "A business plans to buy more space because inventory is crowding the facility. What should the team check first?",
+    "opts": [
+      "Whether layout, inventory practices and space usage are creating avoidable waste",
+      "Whether a bigger building will make processes unnecessary",
+      "Whether inventory can be ignored",
+      "Whether customers can pick up unfinished goods"
+    ],
+    "correct": 0,
+    "explanation": "Before investing in new space, the company should understand whether existing space is being wasted by poor layout, excess inventory or disorganized storage. Operational improvements can sometimes avoid capital spending."
+  },
+  {
+    "day": 52,
+    "type": "Action Plan",
+    "focus": "Select a quick win",
+    "q": "Which proposed quick win is most aligned with reducing waste without major capital?",
+    "opts": [
+      "Create labelled locations for high-use tools and remove obsolete materials",
+      "Buy an expensive machine before mapping the process",
+      "Launch a company-wide software replacement next week",
+      "Increase batch sizes to hide changeover problems"
+    ],
+    "correct": 0,
+    "explanation": "A simple workplace organization change can reduce searching, motion and safety risk quickly. Quick wins should be practical, visible and connected to waste reduction."
+  },
+  {
+    "day": 53,
+    "type": "Action Plan",
+    "focus": "Stakeholders",
+    "q": "For a cross-department project, why identify stakeholders early?",
+    "opts": [
+      "Because they need to provide input, own changes and remove barriers in their areas",
+      "Because stakeholders should be surprised at launch",
+      "Because only one department should decide everything",
+      "Because stakeholder input always slows value with no benefit"
+    ],
+    "correct": 0,
+    "explanation": "Enterprise projects affect multiple roles and departments. Early stakeholder involvement improves practicality, buy-in and implementation quality."
+  },
+  {
+    "day": 54,
+    "type": "Action Plan",
+    "focus": "Realistic targets",
+    "q": "What makes a performance objective useful in an efficiency project?",
+    "opts": [
+      "It is ambitious but realistic, measurable and connected to the improvement goal",
+      "It is impossible by design",
+      "It is met every day without effort",
+      "It is vague enough that no one can evaluate it"
+    ],
+    "correct": 0,
+    "explanation": "Targets should stretch the team without becoming fantasy. A useful objective makes success visible and supports learning when the team misses the mark."
+  },
+  {
+    "day": 55,
+    "type": "Action Plan",
+    "focus": "Target calibration",
+    "q": "A target is missed every day for a month. What should the team do?",
+    "opts": [
+      "Investigate whether the target, process, resources or plan need adjustment",
+      "Blame the team and stop measuring",
+      "Make the target invisible",
+      "Declare success anyway"
+    ],
+    "correct": 0,
+    "explanation": "A missed target is a learning signal. The team should understand why it is missed and adjust the process, resources, plan or target rather than using the metric for blame."
+  },
+  {
+    "day": 56,
+    "type": "Performance",
+    "focus": "Quality KPIs",
+    "q": "Which KPI pair best measures quality from both process and customer perspectives?",
+    "opts": [
+      "Reject percentage plus returns or customer complaints",
+      "Number of meetings plus number of slides",
+      "Warehouse temperature plus parking spaces",
+      "Website colour plus office noise"
+    ],
+    "correct": 0,
+    "explanation": "Quality can be measured inside the process through rejects and outside the process through returns or complaints. Combining the two helps the team see both operational and customer impact."
+  },
+  {
+    "day": 57,
+    "type": "Performance",
+    "focus": "Efficiency KPI",
+    "q": "How can a business measure efficiency or production cost for a specific task?",
+    "opts": [
+      "Compare the time budgeted for the task with the actual time spent",
+      "Count how many people walked past the workstation",
+      "Measure only the total revenue of the company",
+      "Ask whether the task feels difficult"
+    ],
+    "correct": 0,
+    "explanation": "Comparing planned time with actual time reveals where effort exceeds expectations. This can point to waste, unclear methods, training gaps, defects or poor scheduling."
+  },
+  {
+    "day": 58,
+    "type": "Performance",
+    "focus": "Delivery time",
+    "q": "Why is delivery time often treated as a critical operational efficiency indicator?",
+    "opts": [
+      "It measures the time from order receipt to final delivery and often affects waste, mistakes and satisfaction",
+      "It measures only how fast a salesperson answers the phone",
+      "It never affects customer satisfaction",
+      "It should be tracked only by finance"
+    ],
+    "correct": 0,
+    "explanation": "Delivery time reflects the flow of the entire system. Reducing it usually requires addressing waiting, rework, handoffs, scheduling, quality and capacity issues."
+  },
+  {
+    "day": 59,
+    "type": "Performance",
+    "focus": "Safety KPI",
+    "q": "Which measure best fits a health and safety performance indicator?",
+    "opts": [
+      "Days without accidents or minor incidents",
+      "Number of product colours available",
+      "Number of email signatures updated",
+      "Total square footage of the parking lot"
+    ],
+    "correct": 0,
+    "explanation": "Safety indicators track whether operations are being performed without harm. Days without accidents or minor incidents can help teams monitor workplace risk and improvement."
+  },
+  {
+    "day": 60,
+    "type": "Performance",
+    "focus": "Daily meetings",
+    "q": "What is the best purpose of a brief daily performance meeting?",
+    "opts": [
+      "Review KPIs, follow up on plans, hold accountability, celebrate wins and identify barriers",
+      "Create a long debate with no decisions",
+      "Replace every improvement project",
+      "Let one manager lecture without data"
+    ],
+    "correct": 0,
+    "explanation": "A short daily meeting keeps the team close to performance. It should connect metrics, planning, accountability and problem-solving in a disciplined routine."
+  },
+  {
+    "day": 61,
+    "type": "Performance",
+    "focus": "Dashboard role",
+    "q": "What should an operational dashboard do?",
+    "opts": [
+      "Make key performance indicators visible so people can act quickly",
+      "Show every possible number regardless of relevance",
+      "Hide performance problems until month-end",
+      "Replace communication and problem-solving"
+    ],
+    "correct": 0,
+    "explanation": "A dashboard is valuable when it makes the right information visible at the right time. It should support action, not overwhelm people with irrelevant data."
+  },
+  {
+    "day": 62,
+    "type": "Performance",
+    "focus": "Missed KPI response",
+    "q": "A KPI is below target today. What is the best daily-management response?",
+    "opts": [
+      "Ask why, identify the barrier and agree on a countermeasure with the team",
+      "Punish the first person who reports it",
+      "Ignore it until the annual review",
+      "Change the number so it looks green"
+    ],
+    "correct": 0,
+    "explanation": "KPI review should trigger learning and action. The point is to understand the gap and respond quickly, not to hide problems or create fear."
+  },
+  {
+    "day": 63,
+    "type": "Performance",
+    "focus": "Too-easy target",
+    "q": "If a target is met every day with no effort, what should leaders consider?",
+    "opts": [
+      "The target may be too easy and may not drive improvement",
+      "The process should stop measuring completely",
+      "The target proves no improvement is possible",
+      "The team should make reporting less frequent"
+    ],
+    "correct": 0,
+    "explanation": "Targets should be realistic but meaningful. A target that is always met without effort may not reveal problems or motivate improvement."
+  },
+  {
+    "day": 64,
+    "type": "Performance",
+    "focus": "Leading and lagging",
+    "q": "Which pair correctly distinguishes leading and lagging indicators?",
+    "opts": [
+      "Preventive maintenance completion is leading; monthly breakdown hours is lagging",
+      "Annual profit is leading; daily checklist completion is lagging",
+      "Customer complaints are always leading",
+      "No indicator can predict future performance"
+    ],
+    "correct": 0,
+    "explanation": "Leading indicators track actions that influence future results. Lagging indicators show outcomes after the fact. A balanced dashboard often needs both."
+  },
+  {
+    "day": 65,
+    "type": "Performance",
+    "focus": "Accountability",
+    "q": "Why should each KPI or action item have a named owner?",
+    "opts": [
+      "Ownership clarifies who follows up, removes barriers and reports progress",
+      "Ownership makes teamwork impossible",
+      "Owners are needed only after failure",
+      "A KPI with no owner is more objective"
+    ],
+    "correct": 0,
+    "explanation": "Clear ownership prevents work from disappearing between roles. It also helps daily meetings focus on commitments and barriers rather than vague intentions."
+  },
+  {
+    "day": 66,
+    "type": "Performance",
+    "focus": "Planning follow-up",
+    "q": "During a daily meeting, production planning is off track. What should happen?",
+    "opts": [
+      "Review the plan, identify the constraint or disruption and agree on the next action",
+      "Cancel all KPIs immediately",
+      "Wait until the end of the year",
+      "Increase output at every station without checking the bottleneck"
+    ],
+    "correct": 0,
+    "explanation": "Daily management should connect plan versus actual performance. When the plan is off track, teams need a concrete response based on the real constraint or disruption."
+  },
+  {
+    "day": 67,
+    "type": "Performance",
+    "focus": "Daily management system",
+    "q": "What is a practical use of a daily management system?",
+    "opts": [
+      "Monitor tasks or processes daily, assign work, send reminders and clarify responsibilities",
+      "Replace every employee conversation",
+      "Hide late tasks from managers",
+      "Measure only annual strategy"
+    ],
+    "correct": 0,
+    "explanation": "A daily management system supports routine execution. It can help teams track daily work, automate reminders and make roles and responsibilities clearer."
+  },
+  {
+    "day": 68,
+    "type": "Performance",
+    "focus": "Visibility problem",
+    "q": "A manager says, “We have no idea how we are performing until customers complain.” What is the best improvement direction?",
+    "opts": [
+      "Define key KPIs and make them visible through a simple dashboard or daily routine",
+      "Stop listening to customers",
+      "Wait for finance to close the year",
+      "Add more inventory without measurement"
+    ],
+    "correct": 0,
+    "explanation": "Performance should not be invisible until failure reaches the customer. Relevant KPIs and visual routines help teams detect issues early and act before they become emergencies."
+  },
+  {
+    "day": 69,
+    "type": "Performance",
+    "focus": "Alerts and escalation",
+    "q": "When should a dashboard alert key personnel?",
+    "opts": [
+      "When downtime, rejects or other critical conditions require timely attention",
+      "Every time any harmless number changes",
+      "Only after the customer has left",
+      "Never, because alerts always reduce efficiency"
+    ],
+    "correct": 0,
+    "explanation": "Alerts are useful when they prompt timely action on conditions that affect performance. Too many irrelevant alerts create noise, but well-designed alerts support fast problem-solving."
+  },
+  {
+    "day": 70,
+    "type": "Performance",
+    "focus": "KPI focus",
+    "q": "Why is it better to start with a few important KPIs rather than dozens?",
+    "opts": [
+      "Focused KPIs help teams understand priorities and act consistently",
+      "More KPIs always create more improvement",
+      "A long dashboard guarantees clarity",
+      "Teams should track everything before improving anything"
+    ],
+    "correct": 0,
+    "explanation": "Too many measures can dilute attention. A focused dashboard should highlight the few indicators that best connect to current goals, constraints and customer value."
+  },
+  {
+    "day": 71,
+    "type": "Implementation",
+    "focus": "Buy-in",
+    "q": "What is the best way to build employee buy-in for an operational change?",
+    "opts": [
+      "Explain how the change solves real problems, makes work easier and improves client outcomes",
+      "Tell people the change is happening but not why",
+      "Hide the expected benefits",
+      "Change everything at once without training"
+    ],
+    "correct": 0,
+    "explanation": "People are more likely to support change when they understand the problem, the benefit and their role. Buy-in depends on credible communication and practical support."
+  },
+  {
+    "day": 72,
+    "type": "Implementation",
+    "focus": "Avoid change for its own sake",
+    "q": "Why is “change for the sake of change” risky?",
+    "opts": [
+      "It creates resistance when people cannot see the problem or benefit",
+      "It always improves morale",
+      "It eliminates the need for training",
+      "It guarantees customer satisfaction"
+    ],
+    "correct": 0,
+    "explanation": "Operational change needs a clear purpose. Without a visible problem and benefit, people may see it as disruption rather than improvement."
+  },
+  {
+    "day": 73,
+    "type": "Implementation",
+    "focus": "Resources and support",
+    "q": "What should leaders provide during implementation?",
+    "opts": [
+      "Time, resources, information, training and support",
+      "Only a deadline",
+      "Only a poster announcing the project",
+      "Only blame when the first attempt fails"
+    ],
+    "correct": 0,
+    "explanation": "Implementation requires more than announcing a decision. Teams need the capacity, knowledge and support to change routines while continuing to serve customers."
+  },
+  {
+    "day": 74,
+    "type": "Implementation",
+    "focus": "Employee participation metric",
+    "q": "Which metric can encourage employee participation in continuous improvement?",
+    "opts": [
+      "Number of process improvements introduced or implemented by the team",
+      "Number of times leaders mention improvement in speeches",
+      "Number of unused forms printed",
+      "Number of emails sent without action"
+    ],
+    "correct": 0,
+    "explanation": "Measuring improvement ideas and implementation gives employees a visible role in making operations better. It signals that improvement is not only a management activity."
+  },
+  {
+    "day": 75,
+    "type": "Implementation",
+    "focus": "Share improvements",
+    "q": "Why might a team share short clips or stories of completed improvements?",
+    "opts": [
+      "To spread learning, stimulate creativity and motivate other teams",
+      "To embarrass people who had problems",
+      "To replace all data with videos",
+      "To avoid standardizing the improved process"
+    ],
+    "correct": 0,
+    "explanation": "Short improvement stories make practical changes visible and transferable. They can build pride, creativity and momentum when used respectfully."
+  },
+  {
+    "day": 76,
+    "type": "Implementation",
+    "focus": "Standardize gains",
+    "q": "If a new method consistently meets the objective, what should happen next?",
+    "opts": [
+      "Standardize the approach so the gain becomes the normal way of working",
+      "Return to the old method immediately",
+      "Stop monitoring forever",
+      "Keep the method secret from other shifts"
+    ],
+    "correct": 0,
+    "explanation": "Improvements must be standardized to last. Standard work, training and follow-up help prevent the process from drifting back to old habits."
+  },
+  {
+    "day": 77,
+    "type": "Implementation",
+    "focus": "PDCA logic",
+    "q": "Which sequence best matches the PDCA improvement cycle?",
+    "opts": [
+      "Plan a change, do it, check results, act to standardize or adjust",
+      "Purchase, delay, cancel, archive",
+      "Pressure, blame, repeat, escalate",
+      "Predict, delete, conceal, announce"
+    ],
+    "correct": 0,
+    "explanation": "PDCA is a disciplined learning loop. It encourages teams to test changes, study results and either standardize successful changes or adjust based on what was learned."
+  },
+  {
+    "day": 78,
+    "type": "Implementation",
+    "focus": "Team strategy after miss",
+    "q": "An objective was not met after a pilot. What is the best response?",
+    "opts": [
+      "Study why with the team and revise the strategy or countermeasure",
+      "Declare the pilot useless without learning",
+      "Punish the team for reporting honestly",
+      "Remove the objective from the dashboard"
+    ],
+    "correct": 0,
+    "explanation": "A missed objective is a chance to learn. Teams should examine the evidence, identify barriers and adjust the plan rather than treating the miss as failure only."
+  },
+  {
+    "day": 79,
+    "type": "Implementation",
+    "focus": "Supervisor role",
+    "q": "How do supervisors support daily performance monitoring?",
+    "opts": [
+      "They lead follow-up, coach problem-solving and keep daily work connected to targets",
+      "They avoid the dashboard so employees own everything alone",
+      "They only approve vacation requests",
+      "They wait for annual reports before acting"
+    ],
+    "correct": 0,
+    "explanation": "Supervisors are close enough to daily work to help teams respond to gaps, remove obstacles and reinforce routines. Their coaching role is central to sustaining improvement."
+  },
+  {
+    "day": 80,
+    "type": "Implementation",
+    "focus": "Repeat the cycle",
+    "q": "When the first action plan is complete, what should the business do?",
+    "opts": [
+      "Review results and create the next six- or 12-month action plan",
+      "Stop improving permanently",
+      "Delete all baseline data",
+      "Return to firefighting as the main system"
+    ],
+    "correct": 0,
+    "explanation": "Continuous improvement requires repetition. After one plan is complete, the business should use what it learned to build the next cycle of priorities."
+  },
+  {
+    "day": 81,
+    "type": "Implementation",
+    "focus": "Employee engagement",
+    "q": "Why can operational efficiency improve employee engagement?",
+    "opts": [
+      "It can reduce chaos, clarify expectations and involve employees in solving problems",
+      "It adds random work with no purpose",
+      "It hides performance from teams",
+      "It makes all decisions less visible"
+    ],
+    "correct": 0,
+    "explanation": "When work is less chaotic and people can contribute improvements, employees often experience more clarity and pride. Efficiency is not only about cost; it affects daily work experience."
+  },
+  {
+    "day": 82,
+    "type": "Implementation",
+    "focus": "Crisis cadence",
+    "q": "In a crisis, why might brief meetings happen twice a day instead of once?",
+    "opts": [
+      "To help teams adapt quickly as conditions change",
+      "To make meetings longer and less focused",
+      "To stop all production",
+      "To avoid checking KPIs"
+    ],
+    "correct": 0,
+    "explanation": "When conditions shift rapidly, a more frequent cadence can help teams align, adjust priorities and surface urgent barriers before they grow."
+  },
+  {
+    "day": 83,
+    "type": "Implementation",
+    "focus": "Communication routine",
+    "q": "Which communication habit best supports sustained implementation?",
+    "opts": [
+      "Regularly review commitments, barriers, wins and next actions in a predictable format",
+      "Send occasional vague updates with no owners",
+      "Discuss problems only after customers escalate",
+      "Avoid documenting decisions"
+    ],
+    "correct": 0,
+    "explanation": "A predictable communication routine keeps improvement work alive. It helps teams follow through, learn from results and maintain trust."
+  },
+  {
+    "day": 84,
+    "type": "Implementation",
+    "focus": "Resistance signal",
+    "q": "Employees resist a new process because they do not see how it helps customers or their work. What is the best response?",
+    "opts": [
+      "Return to the purpose, evidence and expected benefits, then adjust support if needed",
+      "Ignore their concerns and remove all feedback channels",
+      "Cancel every improvement project",
+      "Hide the KPI from the team"
+    ],
+    "correct": 0,
+    "explanation": "Resistance often contains useful information. Leaders should clarify the why, connect the change to real problems and ensure teams have the support needed to implement it."
+  },
+  {
+    "day": 85,
+    "type": "Implementation",
+    "focus": "Sustain method",
+    "q": "Which practice best helps sustain a new standard work method?",
+    "opts": [
+      "Training, visual standards, routine audits and feedback when the process drifts",
+      "A one-time announcement with no follow-up",
+      "Keeping the new method in one person’s head",
+      "Changing the method daily without explanation"
+    ],
+    "correct": 0,
+    "explanation": "Sustainment requires reinforcement. Visuals, training, audits and feedback make the new method visible and easier to maintain over time."
+  },
+  {
+    "day": 86,
+    "type": "Digital & Sustain",
+    "focus": "Digital timing",
+    "q": "How should digital technologies be treated in an operational efficiency journey?",
+    "opts": [
+      "Consider them early, but use them to support a understood and improved process",
+      "Use them to avoid current-state assessment",
+      "Buy them first and define the process later",
+      "Assume software alone creates buy-in"
+    ],
+    "correct": 0,
+    "explanation": "Digital tools can strengthen visibility and execution, but they work best when the team understands the process, problem and target. Technology should support operational logic, not replace it."
+  },
+  {
+    "day": 87,
+    "type": "Digital & Sustain",
+    "focus": "Digital dashboard",
+    "q": "What is the purpose of a digital manufacturing or operations dashboard?",
+    "opts": [
+      "Provide a real-time visual representation of key performance indicators",
+      "Store unrelated documents no one reads",
+      "Replace every conversation on the floor",
+      "Make performance harder to see"
+    ],
+    "correct": 0,
+    "explanation": "Digital dashboards help teams see performance quickly. Real-time or near-real-time visibility supports faster response to downtime, defects, delays or other issues."
+  },
+  {
+    "day": 88,
+    "type": "Digital & Sustain",
+    "focus": "Data for root cause",
+    "q": "How can digital data help with unplanned downtime or rejects?",
+    "opts": [
+      "It can detect patterns and support root cause analysis",
+      "It automatically fixes every machine",
+      "It eliminates the need for human judgment",
+      "It makes defects irrelevant"
+    ],
+    "correct": 0,
+    "explanation": "Digital data can reveal timing, frequency and patterns that are hard to see manually. Teams still need problem-solving discipline to interpret the data and choose countermeasures."
+  },
+  {
+    "day": 89,
+    "type": "Digital & Sustain",
+    "focus": "Workflow automation",
+    "q": "Which use of automation best supports daily management?",
+    "opts": [
+      "Automating task assignments, reminders and workflow visibility while clarifying responsibilities",
+      "Automating unnecessary approvals without review",
+      "Sending alerts to everyone for every minor issue",
+      "Replacing ownership with anonymous tasks"
+    ],
+    "correct": 0,
+    "explanation": "Good automation reduces administrative friction and improves clarity. It should make responsibility and status visible, not multiply noise or preserve wasteful steps."
+  },
+  {
+    "day": 90,
+    "type": "Digital & Sustain",
+    "focus": "Bad process, faster",
+    "q": "Why can automation fail when applied to a broken process?",
+    "opts": [
+      "It may speed up waste, rework or confusion instead of removing the cause",
+      "Automation always fixes root causes by itself",
+      "Broken processes become invisible once digital",
+      "Employees no longer need training"
+    ],
+    "correct": 0,
+    "explanation": "Automation magnifies the process it is applied to. If the workflow has unclear decisions, duplicate work or poor inputs, technology may reproduce those problems faster."
+  },
+  {
+    "day": 91,
+    "type": "Digital & Sustain",
+    "focus": "Data quality",
+    "q": "Before trusting a dashboard, what should the team verify?",
+    "opts": [
+      "Data definitions, collection timing, accuracy and ownership",
+      "Only the dashboard colour palette",
+      "Whether every metric is displayed in 3D",
+      "Whether the vendor presentation was impressive"
+    ],
+    "correct": 0,
+    "explanation": "A dashboard is only as useful as the data behind it. Teams should know what each metric means, how it is collected, how current it is and who owns corrections."
+  },
+  {
+    "day": 92,
+    "type": "Digital & Sustain",
+    "focus": "Stabilize before automate",
+    "q": "Which process is the best candidate for automation?",
+    "opts": [
+      "A stable, understood process with clear roles and known exceptions",
+      "A process no one can explain",
+      "A process with constantly changing rules and no owner",
+      "A process selected only because software is available"
+    ],
+    "correct": 0,
+    "explanation": "Automation is strongest when the underlying process is stable enough to define. Unclear or unstable processes usually need simplification and standardization first."
+  },
+  {
+    "day": 93,
+    "type": "Digital & Sustain",
+    "focus": "Choose the metric",
+    "q": "A business wants a dashboard because delivery is late. Which metric should be included first?",
+    "opts": [
+      "Order-to-delivery lead time and the key causes of delay",
+      "Office snack consumption",
+      "Number of dashboard users only",
+      "Total website visits"
+    ],
+    "correct": 0,
+    "explanation": "Dashboard metrics should connect to the business problem. If delivery is late, lead time and delay causes are more useful than unrelated activity measures."
+  },
+  {
+    "day": 94,
+    "type": "Digital & Sustain",
+    "focus": "System vs spreadsheet",
+    "q": "What advantage can a daily management system have over a static spreadsheet?",
+    "opts": [
+      "It can update task status, reminders, assignments and accountability more dynamically",
+      "It removes the need for process ownership",
+      "It guarantees every target is realistic",
+      "It makes visual management unnecessary"
+    ],
+    "correct": 0,
+    "explanation": "A daily management system can support routines by keeping work status and responsibility current. Static spreadsheets can help, but they often rely more heavily on manual updating and follow-up."
+  },
+  {
+    "day": 95,
+    "type": "Digital & Sustain",
+    "focus": "Alert quality",
+    "q": "What distinguishes a useful alert from noise?",
+    "opts": [
+      "A useful alert signals a condition that requires timely action by a clear owner",
+      "A useful alert goes to everyone all the time",
+      "An alert is useful if no one understands it",
+      "An alert should never connect to a KPI"
+    ],
+    "correct": 0,
+    "explanation": "Alerts should prompt action. If no one owns the response or the alert does not matter, it becomes noise and can reduce trust in the system."
+  },
+  {
+    "day": 96,
+    "type": "Digital & Sustain",
+    "focus": "Update the plan",
+    "q": "After completing the 100-day sequence, what should happen to the action plan?",
+    "opts": [
+      "Review outcomes, standardize gains and build the next cycle of priorities",
+      "Archive it without reviewing results",
+      "Stop measuring because the project is over",
+      "Start unrelated projects with no baseline"
+    ],
+    "correct": 0,
+    "explanation": "The end of a cycle should create learning for the next one. Teams should compare results, lock in what worked and choose the next set of improvements."
+  },
+  {
+    "day": 97,
+    "type": "Digital & Sustain",
+    "focus": "Business maturity",
+    "q": "How does sustained operational efficiency contribute to business maturity?",
+    "opts": [
+      "It creates clearer processes, better routines and stronger ability to adapt",
+      "It makes all work informal and invisible",
+      "It depends on constant emergencies",
+      "It reduces the need for leadership discipline"
+    ],
+    "correct": 0,
+    "explanation": "Mature operations rely less on heroics and more on clear processes, visible metrics, disciplined routines and engaged teams. That makes the business more adaptable."
+  },
+  {
+    "day": 98,
+    "type": "Digital & Sustain",
+    "focus": "Final review",
+    "q": "Which comparison is most important in the final review?",
+    "opts": [
+      "Baseline performance versus post-improvement performance",
+      "The number of meetings versus the number of slides",
+      "The opinions of one person before and after lunch",
+      "The original logo versus the new logo"
+    ],
+    "correct": 0,
+    "explanation": "The final review should answer whether performance improved. Comparing baseline and post-improvement metrics makes progress visible and identifies what still needs work."
+  },
+  {
+    "day": 99,
+    "type": "Digital & Sustain",
+    "focus": "Next constraint",
+    "q": "When choosing the next 100-day priority, what should the team look for?",
+    "opts": [
+      "The current constraint, largest waste or most important performance gap",
+      "The project farthest from customer value",
+      "The idea with no owner",
+      "The change that avoids measurement"
+    ],
+    "correct": 0,
+    "explanation": "Continuous improvement should focus on the next meaningful constraint or gap. The highest-value priority may change after the first round of improvements."
+  },
+  {
+    "day": 100,
+    "type": "Digital & Sustain",
+    "focus": "Capstone sequence",
+    "q": "Which sequence best reflects the logic of a 100-day operational efficiency journey?",
+    "opts": [
+      "Understand current state, diagnose causes, prioritize projects, set KPIs, implement with buy-in, use digital tools to sustain and repeat",
+      "Buy software, blame employees, skip measurement, then declare success",
+      "Increase output everywhere, ignore bottlenecks, and let downstream teams handle it",
+      "Start with a final report, then decide whether to observe the work"
+    ],
+    "correct": 0,
+    "explanation": "The best sequence builds from evidence to action. Current-state understanding and diagnosis come before project selection; KPIs guide execution; buy-in and daily routines sustain change; digital tools can reinforce the system."
+  }
+];
+
+const LETTERS = ['A','B','C','D'];
+const SECTIONS = [
+  {
+    "key": "Awareness",
+    "label": "Phase A — Awareness & Efficiency Mindset",
+    "cls": "sec-core",
+    "range": "Days 1–10",
+    "note": "Define operational efficiency, value-added work, waste, and the 100-day owner mindset."
+  },
+  {
+    "key": "Current State",
+    "label": "Phase B — Understand the Current State",
+    "cls": "sec-scen",
+    "range": "Days 11–25",
+    "note": "Build the baseline with process maps, interviews, observations, scorecards and bottleneck clues."
+  },
+  {
+    "key": "Diagnosis",
+    "label": "Phase C — Diagnose Waste & Root Causes",
+    "cls": "sec-appl",
+    "range": "Days 26–40",
+    "note": "Convert symptoms into tested causes using waste categories, root cause analysis and evidence."
+  },
+  {
+    "key": "Action Plan",
+    "label": "Phase D — Prioritize Projects & Build the Plan",
+    "cls": "sec-break",
+    "range": "Days 41–55",
+    "note": "Select quick wins and longer projects, assign owners, timelines, milestones and realistic targets."
+  },
+  {
+    "key": "Performance",
+    "label": "Phase E — KPIs, Dashboards & Daily Management",
+    "cls": "sec-core",
+    "range": "Days 56–70",
+    "note": "Create a practical performance routine using quality, efficiency, delivery, safety and accountability measures."
+  },
+  {
+    "key": "Implementation",
+    "label": "Phase F — Change, People & Continuous Improvement",
+    "cls": "sec-people",
+    "range": "Days 71–85",
+    "note": "Build buy-in, train the team, standardize gains, and keep improvement alive through daily routines."
+  },
+  {
+    "key": "Digital & Sustain",
+    "label": "Phase G — Digital Tools, Sustainment & Next Cycle",
+    "cls": "sec-digital",
+    "range": "Days 86–100",
+    "note": "Use digital visibility and management systems to sustain gains and choose the next improvement cycle."
+  }
+];
+const TYPECLASS = {
+  "Awareness": "t-core",
+  "Current State": "t-scen",
+  "Diagnosis": "t-appl",
+  "Action Plan": "t-break",
+  "Performance": "t-core",
+  "Implementation": "t-people",
+  "Digital & Sustain": "t-digital"
+};
+
+let mode='path';
+let answers=new Array(QUESTIONS.length).fill(null);
+let locked =new Array(QUESTIONS.length).fill(false);
+
+function build(){
+  const exam=document.getElementById('exam');
+  exam.innerHTML='';
+  let qi=0;
+  SECTIONS.forEach(sec=>{
+    const h=document.createElement('div');
+    h.className='section-head '+sec.cls;
+    h.innerHTML=`<span>${sec.label}</span><span class="tag">${sec.range}</span>`;
+    exam.appendChild(h);
+    const n=document.createElement('div');
+    n.className='phase-note';
+    n.textContent=sec.note;
+    exam.appendChild(n);
+    QUESTIONS.forEach((q,idx)=>{
+      if(q.type!==sec.key) return;
+      qi++;
+      exam.appendChild(makeCard(q,idx,qi));
+    });
+  });
+  updateSequenceGates();
+}
+
+function makeCard(q,idx,num){
+  const card=document.createElement('div');
+  card.className='q-card';card.id='q'+idx;
+  const tc=TYPECLASS[q.type]||'t-core';
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    optsHtml+=`<div class="opt" data-i="${i}" onclick="choose(${idx},${i})">
+      <span class="letter">${LETTERS[i]}</span>
+      <span class="otext">${o}</span>
+      <span class="mark"></span>
+    </div>`;
+  });
+  card.innerHTML=`
+    <div class="q-top">
+      <span class="q-num">Day ${String(q.day).padStart(2,'0')}</span>
+      <span class="q-type ${tc}">${q.type}</span>
+    </div>
+    <div class="day-focus">Focus: ${q.focus}</div>
+    <div class="q-text">${q.q}</div>
+    <div class="gate" id="gate${idx}">Sequencing logic: complete Day ${idx} before unlocking this question.</div>
+    <div class="opts">${optsHtml}</div>
+    <div class="explain" id="exp${idx}">
+      <div class="elabel">Explanation</div>
+      <div class="ans-line">Correct Answer: ${LETTERS[q.correct]} — ${q.opts[q.correct]}</div>
+      <p>${q.explanation}</p>
+    </div>`;
+  return card;
+}
+
+function firstOpenIndex(){
+  const i=answers.findIndex(a=>a===null);
+  return i===-1 ? QUESTIONS.length : i;
+}
+
+function isGated(idx){
+  if(mode!=='path') return false;
+  const first=firstOpenIndex();
+  return first!==QUESTIONS.length && idx>first;
+}
+
+function updateSequenceGates(){
+  QUESTIONS.forEach((q,idx)=>{
+    const card=document.getElementById('q'+idx);
+    if(!card) return;
+    card.classList.toggle('gated', isGated(idx));
+    const gate=document.getElementById('gate'+idx);
+    if(gate && idx>0) gate.textContent=`Sequencing logic: complete Day ${idx} before unlocking Day ${idx+1}.`;
+  });
+}
+
+function choose(idx,i){
+  if(locked[idx] || isGated(idx)) return;
+  answers[idx]=i;
+  const card=document.getElementById('q'+idx);
+  card.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
+  card.querySelector(`.opt[data-i="${i}"]`).classList.add('sel');
+  card.classList.add('answered');
+  if(mode==='instant' || mode==='path') lockCard(idx);
+  updateHud();
+  updateSequenceGates();
+  if(mode==='path' && idx<QUESTIONS.length-1){
+    setTimeout(()=>document.getElementById('q'+(idx+1)).scrollIntoView({behavior:'smooth',block:'center'}),220);
+  }
+  if((mode==='path' || mode==='instant') && answers.every(a=>a!==null)){
+    const byType=scoreByType();
+    const correct=countCorrect();
+    showResults(correct,byType);
+  }
+}
+
+function lockCard(idx){
+  locked[idx]=true;
+  const q=QUESTIONS[idx];
+  const card=document.getElementById('q'+idx);
+  card.classList.add('locked');
+  const chosen=answers[idx];
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    if(oi===q.correct){o.classList.add('correct');o.querySelector('.mark').textContent='✓';}
+    else if(oi===chosen){o.classList.add('wrong');o.querySelector('.mark').textContent='✕';}
+  });
+  document.getElementById('exp'+idx).classList.add('show');
+}
+
+function countCorrect(){
+  return answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+}
+
+function scoreByType(){
+  const byType={};
+  QUESTIONS.forEach((q,idx)=>{
+    byType[q.type]=byType[q.type]||{c:0,t:0};
+    byType[q.type].t++;
+    if(answers[idx]===q.correct) byType[q.type].c++;
+  });
+  return byType;
+}
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  document.getElementById('progCount').textContent=done;
+  document.getElementById('barFill').style.width=(done/QUESTIONS.length*100)+'%';
+  const current = done>=QUESTIONS.length ? QUESTIONS.length : done+1;
+  document.getElementById('currentDay').textContent=current;
+  if(mode==='instant' || mode==='path'){
+    document.getElementById('scoreNum').textContent=countCorrect();
+  } else {
+    document.getElementById('scoreNum').textContent='—';
+  }
+  if(mode==='exam'){
+    document.getElementById('submitBtn').style.display = done===QUESTIONS.length?'inline-block':'none';
+  }
+}
+
+function submitExam(){
+  if(answers.some(a=>a===null)) return;
+  QUESTIONS.forEach((q,idx)=>lockCard(idx));
+  const correct=countCorrect();
+  document.getElementById('scoreNum').textContent=correct;
+  showResults(correct,scoreByType());
+}
+
+function showResults(correct,byType){
+  const pct=correct/QUESTIONS.length;
+  document.getElementById('rScore').textContent=correct;
+  let grade,blurb;
+  if(pct>=0.9){grade="Efficient Operations Leader";blurb="Outstanding. You can connect current-state evidence, root causes, priorities, KPIs, people and digital sustainment into one operating system.";}
+  else if(pct>=0.75){grade="Practical Efficiency Builder";blurb="Strong command of the 100-day sequence. Review the phases where the breakdown is lower and tighten the link from diagnosis to daily management.";}
+  else if(pct>=0.6){grade="Continuous Improvement Practitioner";blurb="A solid foundation. Revisit root cause analysis, KPI design and sustainment routines to strengthen the whole path.";}
+  else if(pct>=0.4){grade="Developing Operational Thinker";blurb="The concepts are emerging. Work back through the explanations and focus on the order: current state, diagnosis, priorities, KPIs, implementation and sustainment.";}
+  else{grade="Starting the First Improvement Cycle";blurb="Begin again with Days 1–25. Operational efficiency builds through repeated observation, evidence and small improvements.";}
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  const bd=document.getElementById('rBreak');bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    const t=sec.key;
+    if(!byType[t])return;
+    const d=document.createElement('div');d.className='bd-item';
+    d.innerHTML=`<div class="bd-t">${t}</div><div class="bd-s">${byType[t].c}/${byType[t].t}</div>`;
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results');r.classList.add('show');
+  r.scrollIntoView({behavior:'smooth'});
+}
+
+function reviewAll(){document.getElementById('q0').scrollIntoView({behavior:'smooth'});}
+
+function jumpCurrent(){
+  const idx = Math.min(firstOpenIndex(), QUESTIONS.length-1);
+  document.getElementById('q'+idx).scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-path').classList.toggle('active',m==='path');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  document.getElementById('modeHint').textContent = m==='path'
+    ? 'Complete each day to unlock the next question in sequence.'
+    : m==='instant'
+      ? 'Pick any answer and see the explanation immediately.'
+      : 'Answer all 100 questions, then submit to see your score and explanations.';
+  resetExam(false);
+}
+
+function resetExam(scrollTop=true){
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked =new Array(QUESTIONS.length).fill(false);
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent=mode==='exam'?'—':'0';
+  document.getElementById('submitBtn').style.display='none';
+  build();updateHud();updateSequenceGates();
+  if(scrollTop) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();updateHud();updateSequenceGates();
+</script>
+
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Certificate name</label>
+    <input id="chmlCertNameInput" type="text" maxlength="80" placeholder="Enter name for certificate" oninput="chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" type="button" onclick="chmlPrintCertificate()">Print / Save as PDF</button>
+    <button class="chml-cert-btn secondary" type="button" onclick="chmlHideCertificate()">Hide Certificate</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div><div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker"><span id="chmlCertExamKicker">Knowledge Hub Examination</span></div>
+      <h1 class="chml-cert-h1">Certificate of Completion</h1>
+      <div class="chml-cert-rule"></div>
+      <p class="chml-cert-pre">This certifies that</p>
+      <p class="chml-cert-name" id="chmlCertName">Learner</p>
+      <p class="chml-cert-body">has successfully completed the <b id="chmlCertExamName">Knowledge Hub Exam</b>.</p>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">0 / 0</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">-</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Quak Foo Lee</div><div class="chml-cert-sig-label">Chmltech Ltd.</div></div>
+        <div class="chml-cert-id">Certificate ID: <span id="chmlCertId">-</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertificateInstalled) return;
+  window.__chmlCertificateInstalled = true;
+  function textOf(sel){var el=document.querySelector(sel);return el?el.textContent.trim():'';}
+  function examTitle(){return textOf('h1.title')||textOf('header h1')||textOf('h1')||document.title.replace(/\s+/g,' ').trim()||'Knowledge Hub Exam';}
+  function parseFirstNumber(txt){var m=String(txt||'').match(/\d+/);return m?parseInt(m[0],10):null;}
+  function parseScoreTotal(){
+    var correct=parseFirstNumber(textOf('#rScore'));
+    var total=null;
+    var rt=textOf('#rTotal');
+    if(rt) total=parseFirstNumber(rt);
+    if(!total){var sb=textOf('.score-big');var m=sb.match(/\/\s*(\d+)/);if(m) total=parseInt(m[1],10);}
+    if(!total) total=parseFirstNumber(textOf('#progTotal'));
+    if(!total){var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;if(cards) total=cards;}
+    if(!correct && correct!==0) correct=parseFirstNumber(textOf('#scoreNum'));
+    return {correct:correct||0,total:total||0};
+  }
+  function totalFromBreakdown(byType){
+    if(!byType || typeof byType!=='object') return null;
+    var total=0, found=false;
+    Object.keys(byType).forEach(function(k){var v=byType[k];if(v&&typeof v==='object'){var n=v.t||v.total||v.count;if(typeof n==='number'){total+=n;found=true;}}});
+    return found?total:null;
+  }
+  function hashCode(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+  window.chmlUpdateCertificateName=function(name){document.getElementById('chmlCertName').textContent=(name||'').trim()||'Learner';};
+  window.chmlHideCertificate=function(){var c=document.getElementById('chmlCertificate');if(c)c.classList.remove('show');};
+  window.chmlPrintCertificate=function(){window.print();};
+  window.chmlRenderCertificate=function(correct,total,grade){
+    var cert=document.getElementById('chmlCertificate');if(!cert)return;
+    var title=examTitle();
+    var nameInput=document.getElementById('chmlCertNameInput');
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
+    var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
+    document.getElementById('chmlCertExamName').textContent=title;
+    document.getElementById('chmlCertName').textContent=learner;
+    document.getElementById('chmlCertScore').textContent=String(correct)+' / '+String(total||0)+(total?(' ('+Math.round((correct/total)*100)+'%)'):'');
+    document.getElementById('chmlCertDate').textContent=date;
+    document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
+    cert.classList.add('show');
+  };
+
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
+    var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){
+      var parsed=parseScoreTotal();
+      if(correct===null || isNaN(correct)) correct=parsed.correct;
+      if(!total) total=parsed.total;
+      if(total || correct || document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0);
+    },60);
+  }
+  if(typeof window.showResults==='function'){
+    var originalShowResults=window.showResults;
+    window.showResults=function(){var out=originalShowResults.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  if(typeof window.submitExam==='function'){
+    var originalSubmitExam=window.submitExam;
+    window.submitExam=function(){var out=originalSubmitExam.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  ['resetExam','newExam'].forEach(function(fn){
+    if(typeof window[fn]==='function'){
+      var original=window[fn];
+      window[fn]=function(){window.chmlHideCertificate();return original.apply(this,arguments);};
+    }
+  });
+})();
+</script>
+
+<script id="chml-one-question-script">
+(function(){
+  if(window.__chmlOneQuestionInstalled) return;
+  window.__chmlOneQuestionInstalled = true;
+  var chmlIndex = 0;
+  var applying = false;
+  
+  var applyTimer = null;
+  function examRoot(){ return document.getElementById('exam') || document.querySelector('main'); }
+  function cards(){ var root=examRoot(); return root ? Array.prototype.slice.call(root.querySelectorAll('.q-card')) : []; }
+  function hasResults(){ var r=document.getElementById('results'); return !!(r && r.classList.contains('show')); }
+  function answered(card){
+    if(!card) return false;
+    if(card.classList.contains('answered')) return true;
+    if(card.querySelector('.opt.sel,.chip.sel,.dnd-row.ok,.dnd-row.no,.cat .chip')) return true;
+    var id=card.id||'';
+    var m=id.match(/q(\d+)/);
+    if(m && Array.isArray(window.answers)){
+      var a=window.answers[parseInt(m[1],10)];
+      return Array.isArray(a) ? a.length>0 : a!==null && typeof a!=='undefined';
+    }
+    return false;
+  }
+  function answeredCount(){ return cards().filter(answered).length; }
+  function allAnswered(){ var cs=cards(); return cs.length>0 && cs.every(answered); }
+  function hintFor(card,last){
+    if(last && answered(card)) return allAnswered() ? 'Ready to submit.' : 'Answer remaining questions before submitting.';
+    return answered(card) ? 'Answer saved. Continue when ready.' : 'Pick an answer to continue.';
+  }
+  function btnClass(kind){ return kind==='primary' ? 'btn btn-gold' : 'btn btn-ghost'; }
+  function submitOrFinish(){
+    if(typeof window.submitExam==='function') { window.submitExam(); return; }
+    var btn=document.getElementById('submitBtn'); if(btn) { btn.click(); return; }
+    var r=document.getElementById('results'); if(r) r.classList.add('show');
+  }
+  function syncProgress(idx,total){
+    var current=Math.min(total,Math.max(1,idx+1));
+    var prog=document.getElementById('progCount');
+    if(prog) prog.textContent=String(current);
+    var totalEl=document.getElementById('totalCount');
+    if(totalEl) totalEl.textContent=String(total);
+    var fill=document.getElementById('barFill');
+    if(fill) fill.style.width=(total ? (current/total*100) : 0)+'%';
+  }
+  function go(delta){
+    var cs=cards(); if(!cs.length) return;
+    chmlIndex=Math.max(0,Math.min(cs.length-1,chmlIndex+delta));
+    apply();
+    if(typeof window.chmlScheduleQuestionScroll==='function') window.chmlScheduleQuestionScroll();
+    else if(typeof window.chmlScrollCurrentQuestion==='function') window.chmlScrollCurrentQuestion();
+    else { var h=cs[chmlIndex]; if(h && h.scrollIntoView) h.scrollIntoView({behavior:'smooth',block:'start'}); }
+  }
+  function makeNav(card,idx,total){
+    var nav=document.createElement('div'); nav.className='chml-oat-nav';
+    var last=idx===total-1, isAnswered=answered(card), canSubmit=last && allAnswered();
+    var back=document.createElement('button'); back.type='button'; back.className=btnClass('secondary'); back.textContent='Back'; back.disabled=idx===0; back.onclick=function(){go(-1);};
+    var reset=document.createElement('button'); reset.type='button'; reset.className=btnClass('secondary'); reset.textContent='Reset'; reset.onclick=function(){ if(typeof window.confirmReset==='function') window.confirmReset(); else if(typeof window.resetExam==='function' && confirm('Reset this attempt? All answers so far will be cleared.')) window.resetExam(true); };
+    var cont=document.createElement('button'); cont.type='button'; cont.className=btnClass('primary'); cont.textContent=last?'Submit Exam':'Continue'; cont.disabled= last ? !canSubmit : !isAnswered; cont.onclick=function(){ if(last) submitOrFinish(); else go(1); };
+    var left=document.createElement('div'); left.className='chml-oat-cluster'; left.appendChild(back); left.appendChild(reset);
+    var mid=document.createElement('div'); mid.className='chml-oat-hint'; mid.textContent=hintFor(card,last);
+    var right=document.createElement('div'); right.className='chml-oat-cluster'; right.appendChild(cont);
+    nav.appendChild(left); nav.appendChild(mid); nav.appendChild(right);
+    return nav;
+  }
+  function apply(){
+    if(applying) return; applying=true;
+    try{
+      var cs=cards();
+      var old=document.querySelectorAll('.chml-oat-nav'); old.forEach(function(n){n.remove();});
+      if(!cs.length || hasResults()) { cs.forEach(function(c){c.classList.remove('chml-oat-hidden');}); return; }
+      if(chmlIndex>=cs.length) chmlIndex=cs.length-1;
+      cs.forEach(function(c,i){ c.classList.toggle('chml-oat-hidden', i!==chmlIndex); });
+      var active=cs[chmlIndex];
+      syncProgress(chmlIndex,cs.length);
+      if(active) active.insertAdjacentElement('afterend', makeNav(active,chmlIndex,cs.length));
+    } finally { applying=false; }
+  }
+  function after(){
+    if(applyTimer) clearTimeout(applyTimer);
+    applyTimer = setTimeout(function(){ applyTimer=null; apply(); }, 60);
+  }
+  ['choose','chooseSingle','chooseMulti','selectHotspot','placeSeqCard','setSeqSlot','clearSeqSlot','dropSeqCard','hitZone','toggleMulti','moveRow','dropRow','placeSel','unplace','checkCard','refreshCard','build','resetExam','newExam','newRandomExam','setLength','setMode','setFilter','toggleReview'].forEach(function(name){
+    var fn=window[name];
+    if(typeof fn==='function' && !fn.__chmlWrapped){
+      var wrapped=function(){
+        if(name==='build' || name==='resetExam' || name==='newExam' || name==='newRandomExam' || name==='setLength') chmlIndex=0;
+        var result=fn.apply(this,arguments);
+        after();
+        return result;
+      };
+      wrapped.__chmlWrapped=true;
+      window[name]=wrapped;
+    }
+  });
+  document.addEventListener('click',function(e){ if(e.target && e.target.closest && e.target.closest('.q-card')) after(); },true);
+  var root=examRoot();
+  if(root && window.MutationObserver){
+    new MutationObserver(function(mutations){
+      var contentChanged=mutations.some(function(m){
+        var nodes=Array.prototype.slice.call(m.addedNodes).concat(Array.prototype.slice.call(m.removedNodes));
+        return nodes.some(function(n){ return n.nodeType===1 && !(n.classList && n.classList.contains('chml-oat-nav')); });
+      });
+      if(contentChanged) after();
+    }).observe(root,{childList:true,subtree:false});
+  }
+  after();
+})();
+</script>
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>
