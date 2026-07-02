@@ -1,0 +1,2654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Process Engineering &middot; Design for Maintenance Calculations &middot; Situational Case Study &middot; 150-Question Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    processEscapes: true
+  },
+  options: {
+    skipHtmlTags: ['script','noscript','style','textarea','pre','code']
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  --conduction:#6b2d2d;
+  --convection:#0e5f73;
+  --radiation:#7a5b12;
+  --hx:#264c86;
+  --boiling:#5e2a7e;
+  --applications:#26633a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(114,47,55,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.6rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--conduction),var(--convection),var(--radiation),var(--hx),var(--boiling),var(--applications));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-conduction{background:linear-gradient(100deg,var(--conduction),#4d1f23)}
+.sec-convection{background:linear-gradient(100deg,var(--convection),#06403f)}
+.sec-radiation{background:linear-gradient(100deg,var(--radiation),#5f3406)}
+.sec-hx{background:linear-gradient(100deg,var(--hx),#0c2349)}
+.sec-boiling{background:linear-gradient(100deg,var(--boiling),#311148)}
+.sec-applications{background:linear-gradient(100deg,var(--applications),#0e3d18)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.06rem;line-height:1.66;margin-bottom:18px;font-weight:500}
+
+mjx-container[display="true"]{
+  margin:.65em 0 .7em!important;
+  overflow-x:auto;
+  overflow-y:hidden;
+  max-width:100%;
+  padding:.15em 0;
+}
+.q-text mjx-container[display="true"]{
+  font-size:108%;
+}
+
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:12px 14px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.55);transition:all .18s ease;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.08);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s;margin-top:1px}
+.opt .otext{flex:1;font-size:1.0rem;line-height:1.55;word-break:break-word;padding-top:2px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.12)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center;font-family:'JetBrains Mono',monospace}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:160px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 16px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:.98rem}
+  .opt .otext{font-size:.92rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Process Engineering &middot; DFM Calculations &middot; Situational Case Study &middot; 150-Question Exam</div>
+    <h1 class="title">Design for Maintenance Calculations &middot; <span class="amp">Situational Case Study</span> Exam</h1>
+    <div class="byline">150 situational FEED case-study calculation questions covering DFM design basis, scale-up screening, tank spacing, secondary containment, static equipment envelopes, rotating-equipment pull-out, piping and electrical clearances, isolation, drainage, lifting, emergency response, and FEED HOLD-closure. Each question presents a project scenario, given variables in LaTeX, a rendered equation, and a rounded numeric answer.</div>
+    <div class="exambar">
+      <span><b>150</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>150</b> Marks</span>
+      <span>Exam Mode: <b>4 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one calculation case at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/150</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">04:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/150</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 4-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    Process Engineering &middot; Design for Maintenance Calculations for Commercial Scale-Up &middot; 150-question case-study exam
+    <div class="disclaimer">An independent study resource. Always validate plot-plan clearances, equipment maintenance envelopes, lifting and rigging plans, isolation and lock-out provisions, vendor data, hazard reviews, operations and maintenance sign-offs, and emergency-access routes against site standards, statutory codes, and project-specific safety reviews before issuing for construction.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "30% FEED design-basis workshop: A pre-treatment skid is being scaled from a 90 L pilot batch to commercial duty. The DFM lead must convert the chemistry input into a defensible scale-up mass before vendor RFQ release.\n\nThe agreed inputs are \\(V_{\\mathrm{pilot}}=90\\ \\mathrm{L}\\), \\(SF=42\\), and \\(\\rho=1{,}120\\ \\mathrm{kg/m^3}\\).\n\nUse this relationship: \\[m_{\\mathrm{commercial}}=\\dfrac{V_{\\mathrm{pilot}}\\times SF\\times \\rho}{1000}\\]\n\nRound to 0.1 t. Pick the value that should anchor the maintainability hazard inventory.",
+    "opts": [
+      "3.8 t",
+      "4.2 t",
+      "4.6 t",
+      "5.0 t"
+    ],
+    "correct": 1,
+    "explanation": "m = 90 × 42 × 1120 / 1000 = 4234 kg ≈ 4.2 t."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Constructability review (60% FEED): The lead reviewer needs a defensible corridor width for a workstation where a millwright in chemical PPE will carry a torque wrench and a blind plate. The number becomes a no-build dimension in the model.\n\nUse \\(W_{\\mathrm{worker/PPE}}=0.85\\ \\mathrm{m}\\), \\(W_{\\mathrm{tool,load}}=0.50\\ \\mathrm{m}\\), \\(C_{\\mathrm{side}}=0.30\\ \\mathrm{m}\\).\n\nUse this relationship: \\[W_{\\mathrm{corridor}}=W_{\\mathrm{worker/PPE}}+W_{\\mathrm{tool,load}}+2C_{\\mathrm{side}}\\]\n\nRound up to the next 0.1 m. Select the corridor width to lock in the plot plan.",
+    "opts": [
+      "1.7 m",
+      "1.8 m",
+      "2.0 m",
+      "2.2 m"
+    ],
+    "correct": 2,
+    "explanation": "W = 0.85 + 0.50 + 2 × 0.30 = 1.95 m → 2.0 m."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Hazard register seeding: After a HAZID workshop, three credible hazards must be ranked by the DFM screening score before access envelopes are sized. The reviewer needs the governing score for the highest-ranked item.\n\nFor this tag, \\(S_{\\mathrm{hazard}}=4\\), \\(F_{\\mathrm{intervention}}=5\\), \\(D_{\\mathrm{access}}=4\\).\n\nUse this relationship: \\[S_{\\mathrm{DFM}}=S_{\\mathrm{hazard}}\\times F_{\\mathrm{intervention}}\\times D_{\\mathrm{access}}\\]\n\nWhole number. Choose the screening score the register must carry.",
+    "opts": [
+      "60",
+      "80",
+      "100",
+      "120"
+    ],
+    "correct": 1,
+    "explanation": "Score = 4 × 5 × 4 = 80."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Maintenance labor sizing: The owner needs a defensible technician headcount for the operations cost estimate. The estimate will be used to justify the maintainability layout cost in the commercial scale-up business case.\n\nInputs: \\(N_{\\mathrm{tags}}=68\\), \\(h_{\\mathrm{tag}}=3.2\\), \\(n_{\\mathrm{events/year}}=4\\), utilization \\(U=0.75\\).\n\nUse this relationship: \\[\\begin{aligned}H_{\\mathrm{annual}}&=N_{\\mathrm{tags}}\\,h_{\\mathrm{tag}}\\,n_{\\mathrm{events/year}}\\\\N_{\\mathrm{tech}}&=\\dfrac{H_{\\mathrm{annual}}}{1600\\times U}\\end{aligned}\\]\n\nRound up to whole people. Pick the number to enter in the staffing estimate.",
+    "opts": [
+      "2 technicians",
+      "3 technicians",
+      "1 technician",
+      "4 technicians"
+    ],
+    "correct": 2,
+    "explanation": "H_annual = 68 × 3.2 × 4 = 870.4 h/y. Capacity = 1600 × 0.75 = 1200 h/y. Tech = 870/1200 = 0.73 → 1."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Reserved-clearance check: A maintainability reviewer sees four competing clearance drivers around a sample point. The DFM register entry must capture the controlling value rather than the average.\n\nThe candidates are \\(C_{\\mathrm{code}}=0.9\\ \\mathrm{m}\\), \\(C_{\\mathrm{vendor}}=1.2\\ \\mathrm{m}\\), \\(W_{\\mathrm{worker}}=0.8\\), \\(W_{\\mathrm{tool}}=0.30\\), \\(C_{\\mathrm{side}}=0.25\\ \\mathrm{m}\\), and \\(C_{\\mathrm{task}}=1.8\\ \\mathrm{m}\\).\n\nUse this relationship: \\[C_{\\mathrm{req}}=\\max\\!\\left(C_{\\mathrm{code}},\\,C_{\\mathrm{vendor}},\\,W_{\\mathrm{worker}}+W_{\\mathrm{tool}}+2C_{\\mathrm{side}},\\,C_{\\mathrm{task}}\\right)\\]\n\nRound to 0.1 m. Select the controlling clearance.",
+    "opts": [
+      "1.2 m",
+      "1.8 m",
+      "1.6 m",
+      "1.4 m"
+    ],
+    "correct": 1,
+    "explanation": "PPE+tool = 0.8 + 0.30 + 2×0.25 = 1.6 m. Max(0.9, 1.2, 1.6, 1.8) = 1.8 m."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Pilot-to-commercial dust inventory: Scaling a graphite pre-mix area, the FEED safety case needs the commercial credible dust mass for the dust hazard analysis (DHA). Vendor data is not yet final.\n\nPilot batch \\(m_{\\mathrm{pilot}}=22\\ \\mathrm{kg}\\) of dust, scale factor \\(SF=36\\), with a safety margin \\(k=1.15\\).\n\nUse this relationship: \\[m_{\\mathrm{DHA}}=m_{\\mathrm{pilot}}\\times SF\\times k\\]\n\nRound to the nearest 10 kg. Pick the value to carry forward into the DHA.",
+    "opts": [
+      "800 kg",
+      "850 kg",
+      "910 kg",
+      "950 kg"
+    ],
+    "correct": 2,
+    "explanation": "m = 22 × 36 × 1.15 = 910.8 kg ≈ 910 kg."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Risk-reduction target: Layer-of-protection review shows current PFD against a target. The DFM team must compute the reduction factor that an added isolation feature must deliver.\n\nCurrent PFD \\(=8\\times10^{-3}\\), target PFD \\(=1\\times10^{-4}\\).\n\nUse this relationship: \\[RRF=\\dfrac{PFD_{\\mathrm{current}}}{PFD_{\\mathrm{target}}}\\]\n\nWhole number. Choose the required risk-reduction factor.",
+    "opts": [
+      "80",
+      "8",
+      "800",
+      "8000"
+    ],
+    "correct": 0,
+    "explanation": "RRF = 8e-3 / 1e-4 = 80."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Pilot-to-commercial footprint screen: The pilot occupied a small area. The DFM lead is using a geometric scale-up to challenge the plot-plan reservation before equipment-by-equipment sizing.\n\nPilot footprint \\(A_{\\mathrm{pilot}}=12\\ \\mathrm{m^2}\\), throughput scale \\(SF=30\\).\n\nUse this relationship: \\[A_{\\mathrm{commercial}}\\approx A_{\\mathrm{pilot}}\\times SF^{2/3}\\]\n\nRound to whole m². Pick the screening footprint to challenge the layout against.",
+    "opts": [
+      "150 m²",
+      "90 m²",
+      "70 m²",
+      "116 m²"
+    ],
+    "correct": 3,
+    "explanation": "A = 12 × 30^(2/3) = 12 × 9.65 ≈ 116 m²."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Turnaround duration sizing: A planned cleaning turnaround comprises a known task list. Operations needs the calendar duration before the layout commits to single-string equipment.\n\nTotal task hours \\(H=1{,}080\\), crew size \\(N=6\\), shift length \\(h=10\\ \\mathrm{h/day}\\).\n\nUse this relationship: \\[D=\\dfrac{H}{N\\times h}\\]\n\nRound up to whole days. Pick the duration that drives spare-train decisions.",
+    "opts": [
+      "18 days",
+      "20 days",
+      "15 days",
+      "12 days"
+    ],
+    "correct": 0,
+    "explanation": "D = 1080 / (6 × 10) = 18 days."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "PPE ergonomic load: An operator carries multiple PPE items into a confined space. The DFM workshop is checking that the access envelope reflects realistic body bulk.\n\nHelmet 0.4 kg, SCBA 12 kg, harness 2.0 kg, gas monitor 0.6 kg, tool belt 4.5 kg.\n\nUse this relationship: \\[m_{\\mathrm{load}}=\\sum m_i\\]\n\nRound to 0.1 kg. Pick the total load that drives ergonomic rest-break planning.",
+    "opts": [
+      "19.5 kg",
+      "17.5 kg",
+      "18.0 kg",
+      "20.5 kg"
+    ],
+    "correct": 0,
+    "explanation": "Sum = 0.4+12+2.0+0.6+4.5 = 19.5 kg."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Hazard inventory escalation: Scaling alkaline solution from pilot to commercial drives the secondary-containment screening. The DFM lead needs the commercial inventory before sizing the bund.\n\nPilot tank \\(V_{\\mathrm{pilot}}=0.6\\ \\mathrm{m^3}\\), scale factor \\(SF=28\\), allowance \\(k=1.10\\).\n\nUse this relationship: \\[V_{\\mathrm{commercial}}=V_{\\mathrm{pilot}}\\times SF\\times k\\]\n\nRound to 0.1 m³. Pick the commercial-scale inventory for the bund sizing input.",
+    "opts": [
+      "16.8 m³",
+      "20.4 m³",
+      "18.5 m³",
+      "15.0 m³"
+    ],
+    "correct": 2,
+    "explanation": "V = 0.6 × 28 × 1.10 = 18.48 m³ ≈ 18.5 m³."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "30% FEED milestone HOLD check: Twelve HOLD items are open and the gate requires 75% closure to advance to 60% FEED. Project controls needs the remaining HOLDs the team must close this week.\n\nTotal HOLDs \\(N=12\\), required closure rate \\(p=0.75\\), already closed \\(N_c=4\\).\n\nUse this relationship: \\[N_{\\mathrm{remaining}}=\\lceil pN\\rceil - N_c\\]\n\nWhole number. Pick the count that defines this week's closure target.",
+    "opts": [
+      "4",
+      "5",
+      "6",
+      "3"
+    ],
+    "correct": 1,
+    "explanation": "Required closed = ceil(0.75 × 12) = 9. Remaining = 9 − 4 = 5."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Probability-weighted exposure: For a credible release, the DFM team computes expected hours of personnel exposure per year to size the area-classification boundary.\n\nOperator presence \\(t=2.5\\ \\mathrm{h/intervention}\\), interventions per year \\(n=48\\), probability of release during intervention \\(p=0.02\\).\n\nUse this relationship: \\[H_{\\mathrm{exp}}=t\\times n\\times p\\]\n\nRound to 0.1 h/y. Pick the expected exposure hours.",
+    "opts": [
+      "1.2 h/y",
+      "4.8 h/y",
+      "2.4 h/y",
+      "0.6 h/y"
+    ],
+    "correct": 2,
+    "explanation": "H = 2.5 × 48 × 0.02 = 2.4 h/y."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Cost-of-access screening: The DFM register prioritizes corrective access by lifetime cost. The reviewer needs a present-value style multiplier before deciding to invest in dedicated lifting.\n\nHourly outage cost \\(C_h=8{,}000\\ \\mathrm{\\$/h}\\), event duration \\(t=6\\ \\mathrm{h}\\), events over plant life \\(n=20\\).\n\nUse this relationship: \\[C_{\\mathrm{life}}=C_h\\times t\\times n\\]\n\nRound to nearest \\$0.1M. Pick the lifetime exposure cost.",
+    "opts": [
+      "0.8 M$",
+      "1.2 M$",
+      "0.5 M$",
+      "1.0 M$"
+    ],
+    "correct": 3,
+    "explanation": "C = 8000 × 6 × 20 = 960,000 ≈ 1.0 M$."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Confined-space rescue time check: The DFM safety case requires the worst-case rescue time from a vessel internal to be under the air-pack endurance margin.\n\nEntry travel \\(t_1=4\\ \\mathrm{min}\\), retrieval rigging \\(t_2=8\\ \\mathrm{min}\\), extraction \\(t_3=6\\ \\mathrm{min}\\), safety margin \\(t_m=10\\ \\mathrm{min}\\).\n\nUse this relationship: \\[T_{\\mathrm{rescue}}=t_1+t_2+t_3+t_m\\]\n\nWhole minutes. Pick the value to compare against the SCBA endurance.",
+    "opts": [
+      "28 min",
+      "20 min",
+      "24 min",
+      "32 min"
+    ],
+    "correct": 0,
+    "explanation": "T = 4 + 8 + 6 + 10 = 28 min."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Pilot-to-commercial reactor exotherm: Heat-load scale-up screens the credible runaway. The DFM team needs the commercial peak heat-release before sizing the relief and quench.\n\nPilot peak \\(Q_{\\mathrm{pilot}}=18\\ \\mathrm{kW}\\) at \\(V_{\\mathrm{pilot}}=200\\ \\mathrm{L}\\), commercial \\(V_{\\mathrm{com}}=8{,}000\\ \\mathrm{L}\\).\n\nUse this relationship: \\[Q_{\\mathrm{com}}=Q_{\\mathrm{pilot}}\\times \\dfrac{V_{\\mathrm{com}}}{V_{\\mathrm{pilot}}}\\]\n\nRound to whole kW. Pick the commercial-scale peak heat release.",
+    "opts": [
+      "720 kW",
+      "360 kW",
+      "1{,}080 kW",
+      "500 kW"
+    ],
+    "correct": 0,
+    "explanation": "Q = 18 × 8000/200 = 18 × 40 = 720 kW."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Capex contingency for maintenance access: The DFM allowance must be added to the layout subtotal before the AFE gate. Project controls needs the contingency dollars.\n\nLayout subtotal \\(C_{\\mathrm{layout}}=14.5\\ \\mathrm{M\\$}\\), maintenance contingency \\(\\alpha=0.06\\).\n\nUse this relationship: \\[C_{\\mathrm{cont}}=\\alpha\\times C_{\\mathrm{layout}}\\]\n\nRound to 0.01 M\\$. Pick the maintenance contingency dollars.",
+    "opts": [
+      "0.58 M$",
+      "1.45 M$",
+      "0.29 M$",
+      "0.87 M$"
+    ],
+    "correct": 3,
+    "explanation": "C = 0.06 × 14.5 = 0.87 M$."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Headroom screening: Below a future maintenance crane, the DFM lead must reserve headroom above the highest equipment item plus a hook clearance.\n\nTallest equipment \\(h_{\\mathrm{eq}}=6.4\\ \\mathrm{m}\\), hook envelope \\(h_{\\mathrm{hook}}=1.5\\ \\mathrm{m}\\), beam depth \\(h_b=0.8\\ \\mathrm{m}\\), allowance \\(h_a=0.4\\ \\mathrm{m}\\).\n\nUse this relationship: \\[H_{\\mathrm{reserved}}=h_{\\mathrm{eq}}+h_{\\mathrm{hook}}+h_b+h_a\\]\n\nRound to 0.1 m. Pick the no-build headroom to lock down.",
+    "opts": [
+      "8.3 m",
+      "9.5 m",
+      "9.1 m",
+      "7.7 m"
+    ],
+    "correct": 2,
+    "explanation": "H = 6.4 + 1.5 + 0.8 + 0.4 = 9.1 m."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "PPE-loaded ergonomic check: The DFM lead checks lifting weight against ergonomic guidance before approving a manual-removal approach for a filter element.\n\nElement mass \\(m=18\\ \\mathrm{kg}\\), PPE bulk factor 1.2, allowable manual lift \\(m_{\\mathrm{ok}}=23\\ \\mathrm{kg}\\).\n\nUse this relationship: \\[m_{\\mathrm{effective}}=m\\times \\mathrm{bulkfactor};\\ \\mathrm{pass}\\ \\text{if}\\ m_{\\mathrm{effective}}\\le m_{\\mathrm{ok}}\\]\n\nRound to 0.1 kg. Pick the effective lift to compare against the ergonomic ceiling.",
+    "opts": [
+      "18.0 kg",
+      "23.0 kg",
+      "25.0 kg",
+      "21.6 kg"
+    ],
+    "correct": 3,
+    "explanation": "m_eff = 18 × 1.2 = 21.6 kg (still ≤ 23, manual lift OK)."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Failure-rate scale-up: A pilot pump had a service-failure rate. The DFM lead translates it to commercial population to size the maintenance crew and spare inventory.\n\nPilot rate \\(\\lambda=0.08\\ \\mathrm{failures/pump\\text{-}year}\\), commercial population \\(N=24\\) pumps.\n\nUse this relationship: \\[F_{\\mathrm{annual}}=\\lambda\\times N\\]\n\nRound to whole failures/year. Pick the expected failure count.",
+    "opts": [
+      "1 failures/y",
+      "3 failures/y",
+      "5 failures/y",
+      "2 failures/y"
+    ],
+    "correct": 3,
+    "explanation": "F = 0.08 × 24 = 1.92 → 2 failures/year."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Hazard inventory ratio screen: The DFM team computes a scale-up factor for a flammable inventory to determine if a different distance class applies.\n\nPilot inventory \\(I_{\\mathrm{pilot}}=120\\ \\mathrm{kg}\\), commercial \\(I_{\\mathrm{com}}=4{,}800\\ \\mathrm{kg}\\).\n\nUse this relationship: \\[R=\\dfrac{I_{\\mathrm{com}}}{I_{\\mathrm{pilot}}}\\]\n\nWhole number. Pick the inventory ratio that drives the spacing class.",
+    "opts": [
+      "60",
+      "20",
+      "80",
+      "40"
+    ],
+    "correct": 3,
+    "explanation": "R = 4800 / 120 = 40."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "DFM register sample-rate check: For a sampling station, the DFM screening requires worker exposure-minute per shift to stay below a threshold. The reviewer computes the daily total.\n\nSample frequency \\(f=6\\ \\mathrm{samples/shift}\\), time-per-sample \\(t=4\\ \\mathrm{min}\\), shifts/day \\(n=3\\).\n\nUse this relationship: \\[T_{\\mathrm{exposure/day}}=f\\times t\\times n\\]\n\nWhole minutes. Pick the daily exposure to compare against the limit.",
+    "opts": [
+      "48 min/day",
+      "72 min/day",
+      "96 min/day",
+      "24 min/day"
+    ],
+    "correct": 1,
+    "explanation": "T = 6 × 4 × 3 = 72 min/day."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "30% FEED scale-up gate: The reviewer counts how many process tags now require dedicated maintainability envelopes versus what the pilot needed. The number drives the equipment-package RFQ schedule.\n\nPilot envelopes \\(N_p=14\\), scale-up additions \\(\\Delta=18\\), reductions \\(R=5\\).\n\nUse this relationship: \\[N_{\\mathrm{com}}=N_p+\\Delta-R\\]\n\nWhole number. Pick the commercial-scale envelope count.",
+    "opts": [
+      "32",
+      "27",
+      "23",
+      "37"
+    ],
+    "correct": 1,
+    "explanation": "N = 14 + 18 − 5 = 27."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Maintenance-frequency basis: A solids-handling skid was forecast to need cleaning every batch. The DFM lead translates that into annual events at commercial duty.\n\nBatches/day \\(b=3\\), operating days/year \\(d=320\\), cleanings per batch \\(c=1\\).\n\nUse this relationship: \\[N_{\\mathrm{events/y}}=b\\times d\\times c\\]\n\nWhole number. Pick the annual cleaning-events count.",
+    "opts": [
+      "960 events/y",
+      "640 events/y",
+      "1{,}200 events/y",
+      "480 events/y"
+    ],
+    "correct": 0,
+    "explanation": "N = 3 × 320 × 1 = 960 events/y."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Probability-of-failure-on-demand check: For a maintenance bypass, the DFM lead checks whether the bypass-period PFD remains below the SIL-target before allowing a 4-hour permitted exposure.\n\nTest interval \\(T_i=8{,}760\\ \\mathrm{h}\\), failure rate \\(\\lambda=2\\times10^{-5}\\ \\mathrm{/h}\\), bypass time \\(T_b=4\\ \\mathrm{h}\\).\n\nUse this relationship: \\[PFD\\approx\\dfrac{\\lambda T_i}{2}+\\lambda T_b\\]\n\nRound to 1e-2 precision. Pick the PFD for the bypass risk write-up.",
+    "opts": [
+      "0.09",
+      "0.05",
+      "0.18",
+      "0.01"
+    ],
+    "correct": 0,
+    "explanation": "PFD = (2e-5 × 8760)/2 + 2e-5 × 4 = 0.0876 + 8e-5 ≈ 0.09."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "60% FEED tank-yard review: Two flammable storage tanks of equal diameter need code-driven separation. The reviewer needs the minimum face-to-face spacing for the plot plan.\n\nTank diameter \\(D=12\\ \\mathrm{m}\\), code factor \\(k=1.0\\) (face-to-face), minimum \\(\\geq 0.5D\\).\n\nUse this relationship: \\[S=\\max(0.5D,\\,k\\cdot D)\\]\n\nRound to 0.1 m. Pick the spacing to lock in the plot plan.",
+    "opts": [
+      "12.0 m",
+      "6.0 m",
+      "8.0 m",
+      "18.0 m"
+    ],
+    "correct": 0,
+    "explanation": "S = max(0.5×12, 1.0×12) = 12.0 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Secondary containment sizing: A single largest tank in a bund must be contained at 110% of its volume per code. The civil engineer needs the bund usable volume target.\n\nLargest tank \\(V_T=420\\ \\mathrm{m^3}\\), containment factor \\(\\alpha=1.10\\).\n\nUse this relationship: \\[V_{\\mathrm{bund}}=\\alpha\\,V_T\\]\n\nRound to whole m³. Pick the bund usable volume.",
+    "opts": [
+      "420 m³",
+      "504 m³",
+      "378 m³",
+      "462 m³"
+    ],
+    "correct": 3,
+    "explanation": "V = 1.10 × 420 = 462 m³."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Bund footprint: With the bund volume and wall height set, the civil engineer needs the floor area for the plot plan reservation.\n\nBund usable volume \\(V_b=462\\ \\mathrm{m^3}\\), wall height \\(H_w=1.4\\ \\mathrm{m}\\), freeboard \\(f=0.2\\ \\mathrm{m}\\).\n\nUse this relationship: \\[A_{\\mathrm{bund}}=\\dfrac{V_b}{H_w-f}\\]\n\nRound to whole m². Pick the bund floor area.",
+    "opts": [
+      "330 m²",
+      "462 m²",
+      "275 m²",
+      "385 m²"
+    ],
+    "correct": 3,
+    "explanation": "A = 462 / (1.4 − 0.2) = 462 / 1.2 = 385 m²."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Fire-water demand: A bund fire requires application-rate sizing. The DFM team needs the foam solution rate before sizing the supply main.\n\nBund area \\(A=385\\ \\mathrm{m^2}\\), application rate \\(r=6.5\\ \\mathrm{L/(min{\\cdot}m^2)}\\).\n\nUse this relationship: \\[Q_{\\mathrm{foam}}=r\\,A\\]\n\nRound to whole L/min. Pick the foam solution flow.",
+    "opts": [
+      "2{,}310 L/min",
+      "2{,}700 L/min",
+      "1{,}925 L/min",
+      "2{,}503 L/min"
+    ],
+    "correct": 3,
+    "explanation": "Q = 6.5 × 385 = 2502.5 ≈ 2503 L/min."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Truck unloading clearance: A road tanker unloading bay needs a buffer to the nearest live process. The DFM team computes the minimum spacing.\n\nTanker length \\(L_t=14\\ \\mathrm{m}\\), pull-forward clearance \\(C_f=4.0\\ \\mathrm{m}\\), back-up \\(C_b=3.0\\ \\mathrm{m}\\), live-process buffer \\(C_p=10\\ \\mathrm{m}\\).\n\nUse this relationship: \\[L_{\\mathrm{bay}}=L_t+C_f+C_b+C_p\\]\n\nRound to 0.1 m. Pick the bay length for the plot plan.",
+    "opts": [
+      "31.0 m",
+      "27.0 m",
+      "35.0 m",
+      "24.0 m"
+    ],
+    "correct": 0,
+    "explanation": "L = 14 + 4 + 3 + 10 = 31.0 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Bund wall height vs largest tank: The civil engineer confirms wall height adequate to contain the calculated volume given a chosen floor area.\n\nFloor area \\(A=440\\ \\mathrm{m^2}\\), required volume \\(V=462\\ \\mathrm{m^3}\\), freeboard \\(f=0.2\\ \\mathrm{m}\\).\n\nUse this relationship: \\[H_w=\\dfrac{V}{A}+f\\]\n\nRound to 0.1 m. Pick the wall height.",
+    "opts": [
+      "1.1 m",
+      "1.5 m",
+      "1.3 m",
+      "1.7 m"
+    ],
+    "correct": 2,
+    "explanation": "H_w = 462/440 + 0.2 = 1.05 + 0.2 = 1.25 → 1.3 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Inter-tank clearance with vendor pads: Two atmospheric tanks of equal diameter share a bund but require working space between them for inspection. The plot plan needs the centerline-to-centerline distance.\n\nDiameter \\(D=10\\ \\mathrm{m}\\), working corridor \\(C=1.5\\ \\mathrm{m}\\) between tank shells.\n\nUse this relationship: \\[S_{c{-}c}=D+C\\]\n\nRound to 0.1 m. Pick the centerline-to-centerline distance.",
+    "opts": [
+      "10.0 m",
+      "11.5 m",
+      "13.0 m",
+      "15.0 m"
+    ],
+    "correct": 1,
+    "explanation": "S = 10.0 + 1.5 = 11.5 m (centers separated by D for tangent tanks + corridor between shells)."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Maintenance road around tank: A 360° access road is required around a tank for inspection vehicles. The total road area is part of the plot plan.\n\nTank diameter \\(D=20\\ \\mathrm{m}\\), road outer offset from shell \\(b=4.0\\ \\mathrm{m}\\), inner offset \\(a=0.5\\ \\mathrm{m}\\).\n\nUse this relationship: \\[A_{\\mathrm{road}}=\\pi\\left[(D/2+b)^2-(D/2+a)^2\\right]\\]\n\nRound to whole m². Pick the maintenance road area.",
+    "opts": [
+      "318 m²",
+      "200 m²",
+      "269 m²",
+      "360 m²"
+    ],
+    "correct": 2,
+    "explanation": "A = π[(10+4)² − (10+0.5)²] = π[196 − 110.25] = π × 85.75 = 269.4 → 269 m²."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Plot-plan fire-water network coverage: Hydrants on a ring main must reach the farthest hazard within hose length. The DFM lead computes the maximum hydrant spacing on the ring.\n\nHose length \\(L_h=90\\ \\mathrm{m}\\), two-side coverage so half of \\(L_h\\) on each side.\n\nUse this relationship: \\[S_{\\mathrm{hydrant}}=2\\times \\dfrac{L_h}{2}=L_h\\]\n\nRound to whole m. Pick the maximum hydrant spacing.",
+    "opts": [
+      "45 m",
+      "180 m",
+      "90 m",
+      "60 m"
+    ],
+    "correct": 2,
+    "explanation": "S = 90 m (each hydrant covers L_h/2 on each side; spacing = L_h)."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Truck egress clear circle: A vacuum truck must be able to turn around at the end of the unloading bay. The DFM lead reserves the swept circle.\n\nTruck turning radius \\(R=11.5\\ \\mathrm{m}\\), tail swing \\(s=1.0\\ \\mathrm{m}\\).\n\nUse this relationship: \\[D_{\\mathrm{circle}}=2(R+s)\\]\n\nRound to 0.1 m. Pick the diameter to lock in.",
+    "opts": [
+      "23.0 m",
+      "27.0 m",
+      "25.0 m",
+      "21.0 m"
+    ],
+    "correct": 2,
+    "explanation": "D = 2 × (11.5 + 1.0) = 25.0 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Combined bund for two same-service tanks: Code allows shared containment if the largest tank fits with both contributing residual volume. Civil needs the bund usable volume.\n\nTank 1 \\(V_1=420\\ \\mathrm{m^3}\\), tank 2 \\(V_2=280\\ \\mathrm{m^3}\\), code factor \\(\\alpha=1.10\\) of largest.\n\nUse this relationship: \\[V_{\\mathrm{bund}}=\\alpha\\,\\max(V_1,V_2)\\]\n\nWhole m³. Pick the bund usable volume.",
+    "opts": [
+      "770 m³",
+      "700 m³",
+      "462 m³",
+      "420 m³"
+    ],
+    "correct": 2,
+    "explanation": "V = 1.10 × max(420, 280) = 1.10 × 420 = 462 m³."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Bermed area within fire-protection envelope: A fire-relief sloped slab around a tank captures small spills before reaching the bund. The slab area is reserved on the plot plan.\n\nTank diameter \\(D=8\\ \\mathrm{m}\\), slab outer radius \\(R_o=6.0\\ \\mathrm{m}\\) from shell.\n\nUse this relationship: \\[A_{\\mathrm{slab}}=\\pi(R_o+D/2)^2-\\pi(D/2)^2\\]\n\nRound to whole m². Pick the slab area.",
+    "opts": [
+      "264 m²",
+      "189 m²",
+      "314 m²",
+      "150 m²"
+    ],
+    "correct": 0,
+    "explanation": "A = π[(6+4)² − 4²] = π[100 − 16] = π × 84 = 264 m²."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Loading-arm reach: A jetty arm must reach a ship manifold across a tidal range. DFM checks geometric reach is bounded.\n\nHorizontal projection \\(L_h=12\\ \\mathrm{m}\\), vertical \\(L_v=9\\ \\mathrm{m}\\).\n\nUse this relationship: \\[L_{\\mathrm{arm}}=\\sqrt{L_h^2+L_v^2}\\]\n\nRound to 0.1 m. Pick the arm reach.",
+    "opts": [
+      "13.0 m",
+      "21.0 m",
+      "17.5 m",
+      "15.0 m"
+    ],
+    "correct": 3,
+    "explanation": "L = √(144 + 81) = √225 = 15.0 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Equipment-to-property-line spacing: A flammable storage tank near a property line must respect the code-driven minimum distance. The plot-plan boundary check uses the larger of two rules.\n\nRule A: \\(0.5D + 7.5\\ \\mathrm{m}\\). Rule B: \\(15\\ \\mathrm{m}\\). Tank diameter \\(D=15\\ \\mathrm{m}\\).\n\nUse this relationship: \\[S=\\max(0.5D+7.5,\\,15)\\]\n\nRound to 0.1 m. Pick the controlling boundary distance.",
+    "opts": [
+      "12.0 m",
+      "20.0 m",
+      "22.5 m",
+      "15.0 m"
+    ],
+    "correct": 3,
+    "explanation": "Rule A = 0.5×15 + 7.5 = 15.0; Rule B = 15. Max = 15.0 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Floor drain sizing in bund: After a rain event the bund must drain in a reasonable window. The civil engineer sizes the manual drain valve.\n\nStormwater volume \\(V_r=18\\ \\mathrm{m^3}\\), required drain time \\(t=1.5\\ \\mathrm{h}\\).\n\nUse this relationship: \\[Q_{\\mathrm{drain}}=\\dfrac{V_r}{t}\\]\n\nRound to 0.1 m³/h. Pick the drain flow rate.",
+    "opts": [
+      "10.0 m³/h",
+      "12.0 m³/h",
+      "15.0 m³/h",
+      "9.0 m³/h"
+    ],
+    "correct": 1,
+    "explanation": "Q = 18 / 1.5 = 12.0 m³/h."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Truck off-loading isolation distance: A loading bay must be set back from the property line so that a tanker tilt would not encroach. The DFM lead computes the buffer.\n\nTanker length \\(L_t=14\\ \\mathrm{m}\\), maximum tilt \\(\\theta=15°\\), property buffer \\(C_p=5\\ \\mathrm{m}\\).\n\nUse this relationship: \\[S=L_t\\sin\\theta+C_p\\]\n\nRound to 0.1 m. Pick the buffer distance.",
+    "opts": [
+      "5.0 m",
+      "8.6 m",
+      "10.0 m",
+      "7.2 m"
+    ],
+    "correct": 1,
+    "explanation": "S = 14 × sin(15°) + 5 = 14 × 0.2588 + 5 = 3.62 + 5 = 8.62 → 8.6 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Foam tank reservoir sizing: For a known foam application rate and duration, the DFM lead sizes the foam concentrate reservoir for the layout.\n\nFoam solution rate \\(Q=2{,}500\\ \\mathrm{L/min}\\), concentrate fraction \\(\\phi=0.03\\), duration \\(t=65\\ \\mathrm{min}\\).\n\nUse this relationship: \\[V_{\\mathrm{conc}}=Q\\,\\phi\\,t\\]\n\nRound to whole L. Pick the concentrate volume.",
+    "opts": [
+      "3{,}250 L",
+      "4{,}875 L",
+      "6{,}500 L",
+      "2{,}600 L"
+    ],
+    "correct": 1,
+    "explanation": "V = 2500 × 0.03 × 65 = 4875 L."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Mobile-crane laydown allocation: A crane lift to a vessel needs a laydown pad for trailer, tail-swing, and counterweight. The DFM team reserves the area on the plot plan.\n\nCrane footprint \\(15\\times 5\\ \\mathrm{m}\\), counterweight tail-swing radius \\(R=7\\ \\mathrm{m}\\), trailer staging \\(8\\times 3\\ \\mathrm{m}\\).\n\nUse this relationship: \\[A_{\\mathrm{pad}}=(15\\times 5)+\\pi R^2+(8\\times 3)\\]\n\nRound to whole m². Pick the laydown pad area.",
+    "opts": [
+      "210 m²",
+      "253 m²",
+      "175 m²",
+      "320 m²"
+    ],
+    "correct": 1,
+    "explanation": "A = 75 + π × 49 + 24 = 75 + 153.94 + 24 = 252.94 → 253 m²."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Spill containment volume for largest cell: A multi-cell bund holds cells of different sizes. The civil engineer sizes the worst-case cell.\n\nLargest cell tank \\(V_T=300\\ \\mathrm{m^3}\\), code factor 110%, fire-water expected during fight \\(V_{fw}=40\\ \\mathrm{m^3}\\).\n\nUse this relationship: \\[V_{\\mathrm{cell}}=1.10\\,V_T+V_{fw}\\]\n\nRound to whole m³. Pick the cell usable volume.",
+    "opts": [
+      "330 m³",
+      "400 m³",
+      "300 m³",
+      "370 m³"
+    ],
+    "correct": 3,
+    "explanation": "V = 1.10×300 + 40 = 330 + 40 = 370 m³."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Pipeline rack spacing: A two-tier pipe rack with mixed services has a code-driven vertical spacing. The DFM team computes the rack height to ground.\n\nLower tier clearance from grade \\(H_0=4.5\\ \\mathrm{m}\\), tier 1 to tier 2 \\(\\Delta H=1.8\\ \\mathrm{m}\\), tier 2 to top of pipe \\(t=0.6\\ \\mathrm{m}\\).\n\nUse this relationship: \\[H_{\\mathrm{rack}}=H_0+\\Delta H+t\\]\n\nRound to 0.1 m. Pick the rack top elevation.",
+    "opts": [
+      "6.9 m",
+      "5.4 m",
+      "7.5 m",
+      "6.3 m"
+    ],
+    "correct": 0,
+    "explanation": "H = 4.5 + 1.8 + 0.6 = 6.9 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Inter-equipment plot ratio: A high-density layout has equipment footprint vs total area. The DFM lead checks the access ratio.\n\nEquipment footprint \\(A_e=2{,}400\\ \\mathrm{m^2}\\), total plot \\(A_t=6{,}000\\ \\mathrm{m^2}\\).\n\nUse this relationship: \\[f_{\\mathrm{access}}=1-\\dfrac{A_e}{A_t}\\]\n\nRound to 0.01. Pick the access-area fraction.",
+    "opts": [
+      "0.40",
+      "0.75",
+      "0.60",
+      "0.50"
+    ],
+    "correct": 2,
+    "explanation": "f = 1 − 2400/6000 = 1 − 0.4 = 0.60."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Fire-water reservoir sizing: Two-hour fire fight at full demand sizes the dedicated reservoir.\n\nFire-water demand \\(Q=200\\ \\mathrm{m^3/h}\\), required duration \\(t=4\\ \\mathrm{h}\\).\n\nUse this relationship: \\[V_{\\mathrm{res}}=Q\\,t\\]\n\nWhole m³. Pick the reservoir size.",
+    "opts": [
+      "600 m³",
+      "1{,}000 m³",
+      "400 m³",
+      "800 m³"
+    ],
+    "correct": 3,
+    "explanation": "V = 200 × 4 = 800 m³."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Truck queue stack-up: With cycle time and arrival rate, the DFM team estimates required parking spots before the unloading bay.\n\nArrival rate \\(\\lambda=4\\ \\mathrm{trucks/h}\\), cycle time per truck \\(t_c=45\\ \\mathrm{min}\\), peak factor \\(k=1.5\\).\n\nUse this relationship: \\[N_{\\mathrm{queue}}=\\lceil \\lambda\\,t_c\\,k/60\\rceil\\]\n\nWhole spots. Pick the queue length.",
+    "opts": [
+      "3 spots",
+      "5 spots",
+      "4 spots",
+      "6 spots"
+    ],
+    "correct": 1,
+    "explanation": "N = ceil(4 × 45 × 1.5 / 60) = ceil(4.5) = 5 spots."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Dike slope and floor: A sloped bund floor drives drainage to a sump. The civil engineer needs the sump depth for the lowest point.\n\nBund longest length \\(L=22\\ \\mathrm{m}\\), slope \\(s=1\\%\\), structural floor \\(t=0.20\\ \\mathrm{m}\\).\n\nUse this relationship: \\[h_{\\mathrm{sump}}=L\\,s+t\\]\n\nRound to 0.01 m. Pick the sump-bottom depth below the high edge.",
+    "opts": [
+      "0.42 m",
+      "0.22 m",
+      "0.62 m",
+      "0.30 m"
+    ],
+    "correct": 0,
+    "explanation": "h = 22 × 0.01 + 0.20 = 0.22 + 0.20 = 0.42 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Truck-bay grounding electrode resistance: A grounding network around the loading bay must achieve a target resistance. With n electrodes in parallel, the DFM team computes the array resistance.\n\nSingle-rod resistance \\(R_1=24\\ \\mathrm{\\Omega}\\), number of rods \\(n=6\\), spacing factor \\(k=0.85\\).\n\nUse this relationship: \\[R_{\\mathrm{array}}=\\dfrac{R_1}{n\\,k}\\]\n\nRound to 0.1 Ω. Pick the array resistance.",
+    "opts": [
+      "4.7 Ω",
+      "4.0 Ω",
+      "6.0 Ω",
+      "3.4 Ω"
+    ],
+    "correct": 0,
+    "explanation": "R = 24 / (6 × 0.85) = 24 / 5.1 = 4.71 → 4.7 Ω."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Vessel manway pull-out envelope: A 30-inch manway with davit-mounted cover must be opened, the cover swung clear, and the opening accessed by a worker with a basket of internals. The DFM team needs the reserved no-build envelope in front of the manway.\n\nManway clear ID \\(d=0.76\\ \\mathrm{m}\\), davit swing radius \\(R_d=1.1\\ \\mathrm{m}\\), worker access in front \\(C_w=2.0\\ \\mathrm{m}\\).\n\nUse this relationship: \\[L_{\\mathrm{front}}=R_d+C_w\\]\n\nRound to 0.1 m. Pick the reserved envelope length in front of the manway.",
+    "opts": [
+      "2.8 m",
+      "3.5 m",
+      "3.1 m",
+      "2.5 m"
+    ],
+    "correct": 2,
+    "explanation": "L = 1.1 + 2.0 = 3.1 m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Tube bundle pull length: A horizontal shell-and-tube exchanger requires bundle pull to grade. The DFM lead reserves a no-build corridor for the bundle plus extraction allowance.\n\nTube length \\(L_t=6.5\\ \\mathrm{m}\\), extraction allowance \\(C_e=1.0\\ \\mathrm{m}\\), staging area \\(C_s=2.0\\ \\mathrm{m}\\).\n\nUse this relationship: \\[L_{\\mathrm{pull}}=L_t+C_e+C_s\\]\n\nRound to 0.1 m. Pick the bundle-pull corridor length.",
+    "opts": [
+      "7.5 m",
+      "8.5 m",
+      "11.0 m",
+      "9.5 m"
+    ],
+    "correct": 3,
+    "explanation": "L = 6.5 + 1.0 + 2.0 = 9.5 m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Vessel agitator lift: The agitator drive must be lifted vertically clear of its bushing before swinging to laydown. The DFM lead reserves headroom above the vessel.\n\nAgitator shaft \\(L_s=3.8\\ \\mathrm{m}\\), impeller diameter \\(D_i=0.9\\ \\mathrm{m}\\), lift clearance \\(C_c=0.5\\ \\mathrm{m}\\).\n\nUse this relationship: \\[H_{\\mathrm{lift}}=L_s+D_i+C_c\\]\n\nRound to 0.1 m. Pick the headroom above the vessel top.",
+    "opts": [
+      "4.7 m",
+      "5.7 m",
+      "5.2 m",
+      "4.2 m"
+    ],
+    "correct": 2,
+    "explanation": "H = 3.8 + 0.9 + 0.5 = 5.2 m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Filter cartridge change-out: A bank of cartridge filters must be opened and the spent media removed. The DFM lead computes total floor space for cartridge laydown next to the housing.\n\nNumber of cartridges \\(N=24\\), each length \\(L_c=1.0\\ \\mathrm{m}\\), each diameter \\(D_c=0.15\\ \\mathrm{m}\\), laydown allowance per cartridge \\(2D_c\\).\n\nUse this relationship: \\[A_{\\mathrm{lay}}=N\\,L_c\\,(D_c+2D_c)\\]\n\nRound to 0.1 m². Pick the laydown floor area.",
+    "opts": [
+      "7.2 m²",
+      "12.0 m²",
+      "5.4 m²",
+      "10.8 m²"
+    ],
+    "correct": 3,
+    "explanation": "A = 24 × 1.0 × (0.15 + 0.30) = 24 × 0.45 = 10.8 m²."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Vessel internals weight: A coalescer cartridge pack must be lifted and removed in one piece. The DFM lead computes the total mass to size the davit or trolley.\n\nNumber of cartridges \\(N=18\\), each cartridge mass \\(m_c=14\\ \\mathrm{kg}\\), frame mass \\(m_f=80\\ \\mathrm{kg}\\).\n\nUse this relationship: \\[M_{\\mathrm{lift}}=N\\,m_c+m_f\\]\n\nRound to whole kg. Pick the lift mass to size rigging.",
+    "opts": [
+      "252 kg",
+      "412 kg",
+      "180 kg",
+      "332 kg"
+    ],
+    "correct": 3,
+    "explanation": "M = 18 × 14 + 80 = 252 + 80 = 332 kg."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Package skid lift envelope: A skid-mounted compressor package must be lifted out as a unit for major overhaul. The DFM lead reserves headroom to lift the skid clear of all surrounding piping.\n\nSkid envelope \\(L\\times W\\times H=6\\times 3\\times 2.5\\ \\mathrm{m}\\), surrounding pipe-top elevation \\(h_p=4.2\\ \\mathrm{m}\\), hook envelope \\(h_h=1.5\\ \\mathrm{m}\\).\n\nUse this relationship: \\[H_{\\mathrm{crane\\,hook}}=h_p+H_{\\mathrm{skid}}+h_h\\]\n\nRound to 0.1 m. Pick the crane-hook elevation.",
+    "opts": [
+      "6.7 m",
+      "8.2 m",
+      "9.5 m",
+      "7.0 m"
+    ],
+    "correct": 1,
+    "explanation": "H = 4.2 + 2.5 + 1.5 = 8.2 m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Centrifuge basket removal: A solids centrifuge requires periodic basket cleaning. The DFM team reserves the lift envelope above the centrifuge for basket extraction.\n\nBasket height \\(H_b=1.3\\ \\mathrm{m}\\), basket diameter \\(D_b=1.0\\ \\mathrm{m}\\), top-of-machine to grade \\(H_m=2.4\\ \\mathrm{m}\\), lift clearance \\(0.6\\ \\mathrm{m}\\).\n\nUse this relationship: \\[H_{\\mathrm{above}}=H_b+0.6\\ \\mathrm{m}\\]\n\nRound to 0.1 m. Pick the headroom needed above the centrifuge.",
+    "opts": [
+      "1.3 m",
+      "2.4 m",
+      "1.6 m",
+      "1.9 m"
+    ],
+    "correct": 3,
+    "explanation": "H = 1.3 + 0.6 = 1.9 m above the machine top."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Manway davit capacity: A vessel manway cover plus operator must be supported by the davit. The DFM lead sets the davit working load.\n\nManway cover \\(m_c=85\\ \\mathrm{kg}\\), insulation jacket \\(m_i=12\\ \\mathrm{kg}\\), tools/PPE on worker hand \\(m_t=8\\ \\mathrm{kg}\\), safety factor \\(k=2.0\\).\n\nUse this relationship: \\[W_{\\mathrm{davit}}=k(m_c+m_i+m_t)g\\]\n\nUse g=9.81 m/s². Round to 0.1 kN. Pick the davit working load (kN).",
+    "opts": [
+      "2.1 kN",
+      "1.0 kN",
+      "3.0 kN",
+      "0.5 kN"
+    ],
+    "correct": 0,
+    "explanation": "W = 2 × (85+12+8) × 9.81 = 2 × 105 × 9.81 = 2060 N ≈ 2.1 kN."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Vessel reservation length for internals: A vessel with internal trays needs floor space for tray removal in line with the vessel axis. The DFM lead reserves the layout.\n\nVessel internal length \\(L_v=4.0\\ \\mathrm{m}\\), tray extraction working space \\(C_e=2.0\\ \\mathrm{m}\\), staging area \\(C_s=2.0\\ \\mathrm{m}\\).\n\nUse this relationship: \\[L_{\\mathrm{reserve}}=L_v+C_e+C_s\\]\n\nRound to 0.1 m. Pick the reserved length in line with the vessel.",
+    "opts": [
+      "6.0 m",
+      "8.0 m",
+      "10.0 m",
+      "5.0 m"
+    ],
+    "correct": 1,
+    "explanation": "L = 4.0 + 2.0 + 2.0 = 8.0 m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Tank cleaning entry: An atmospheric tank cleaning operation requires sufficient time at safe gas concentration. The DFM lead computes the ventilation purge volume.\n\nTank volume \\(V_T=160\\ \\mathrm{m^3}\\), required air changes \\(N=5\\), purge fan flow \\(Q=400\\ \\mathrm{m^3/h}\\).\n\nUse this relationship: \\[t_{\\mathrm{purge}}=\\dfrac{N\\,V_T}{Q}\\]\n\nRound to 0.1 h. Pick the purge time.",
+    "opts": [
+      "1.5 h",
+      "2.0 h",
+      "2.5 h",
+      "3.0 h"
+    ],
+    "correct": 1,
+    "explanation": "t = (5 × 160) / 400 = 800/400 = 2.0 h."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Heat exchanger maintenance interval: Vibration analysis predicts tube cleaning every certain operating hours. The DFM lead translates to events/year.\n\nCleaning interval \\(T_c=4{,}200\\ \\mathrm{h}\\), operating hours \\(T_{op}=8{,}000\\ \\mathrm{h/y}\\).\n\nUse this relationship: \\[N_{\\mathrm{events/y}}=\\dfrac{T_{op}}{T_c}\\]\n\nRound to 0.1 events/y. Pick the maintenance frequency.",
+    "opts": [
+      "1.9 /y",
+      "1.0 /y",
+      "2.5 /y",
+      "0.5 /y"
+    ],
+    "correct": 0,
+    "explanation": "N = 8000/4200 = 1.90 events/y."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Reactor jacket flush: A jacket must be flushed before maintenance. The volume of flush fluid needed is calculated.\n\nJacket volume \\(V_j=2.4\\ \\mathrm{m^3}\\), required dilution factor \\(D=4\\), residual factor \\(\\eta=0.85\\).\n\nUse this relationship: \\[V_{\\mathrm{flush}}=\\dfrac{D\\,V_j}{\\eta}\\]\n\nRound to 0.1 m³. Pick the flush volume.",
+    "opts": [
+      "11.3 m³",
+      "9.6 m³",
+      "12.8 m³",
+      "8.2 m³"
+    ],
+    "correct": 0,
+    "explanation": "V = (4 × 2.4)/0.85 = 9.6/0.85 = 11.3 m³."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Vessel hydrotest fill: A vessel must be filled with water for hydrotest. The DFM lead computes the water mass to ensure foundation rating.\n\nVessel volume \\(V_v=22\\ \\mathrm{m^3}\\), water density \\(\\rho=1{,}000\\ \\mathrm{kg/m^3}\\), vessel empty mass \\(m_e=8{,}500\\ \\mathrm{kg}\\).\n\nUse this relationship: \\[M_{\\mathrm{test}}=V_v\\rho+m_e\\]\n\nRound to whole kg. Pick the foundation design mass.",
+    "opts": [
+      "22{,}000 kg",
+      "28{,}000 kg",
+      "30{,}500 kg",
+      "32{,}500 kg"
+    ],
+    "correct": 2,
+    "explanation": "M = 22 × 1000 + 8500 = 22000 + 8500 = 30500 kg."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Vendor data sheet completeness: Of the FEED equipment data sheets needed, the DFM lead computes the % complete to drive vendor follow-up.\n\nTotal sheets \\(N=120\\), complete \\(N_c=87\\).\n\nUse this relationship: \\[f=\\dfrac{N_c}{N}\\times 100\\%\\]\n\nRound to whole percent. Pick the % complete.",
+    "opts": [
+      "65 %",
+      "78 %",
+      "73 %",
+      "80 %"
+    ],
+    "correct": 2,
+    "explanation": "f = 87/120 × 100 = 72.5 → 73%."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Tank insulation thickness selection: A heated tank requires insulation to limit heat loss to a target. The DFM lead computes the thickness for the cylindrical wall.\n\nInner temp \\(T_i=180\\,°C\\), outer \\(T_o=40\\,°C\\), heat-loss target \\(q=80\\ \\mathrm{W/m^2}\\), insulation conductivity \\(k=0.045\\ \\mathrm{W/(m\\cdot K)}\\).\n\nUse this relationship: \\[t=\\dfrac{k(T_i-T_o)}{q}\\]\n\nRound to whole mm. Pick the insulation thickness.",
+    "opts": [
+      "79 mm",
+      "63 mm",
+      "100 mm",
+      "50 mm"
+    ],
+    "correct": 0,
+    "explanation": "t = 0.045 × 140 / 80 = 6.3/80 = 0.07875 m → 79 mm."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Manway hinge force: When a manway cover swings open on its davit, the hinge sees a moment from the cover weight. The DFM lead computes the moment to size the davit.\n\nCover mass \\(m=85\\ \\mathrm{kg}\\), gravity \\(g=9.81\\ \\mathrm{m/s^2}\\), cover arm to hinge \\(r=0.5\\ \\mathrm{m}\\).\n\nUse this relationship: \\[M_{\\mathrm{hinge}}=m\\,g\\,r\\]\n\nRound to whole N·m. Pick the hinge moment.",
+    "opts": [
+      "320 N·m",
+      "417 N·m",
+      "500 N·m",
+      "600 N·m"
+    ],
+    "correct": 1,
+    "explanation": "M = 85 × 9.81 × 0.5 = 416.9 → 417 N·m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Vessel side-entry workpoint reach: A worker enters the vessel through a side manway and must reach the far wall. The DFM lead checks the geometric reach.\n\nManway centerline to far wall \\(L=2.8\\ \\mathrm{m}\\), worker arm reach \\(r=0.85\\ \\mathrm{m}\\), torso clearance \\(C=0.4\\ \\mathrm{m}\\).\n\nUse this relationship: \\[L_{\\mathrm{reach}}=L-r-C\\]\n\nRound to 0.1 m. Pick the residual gap the worker must cover with a tool.",
+    "opts": [
+      "1.6 m",
+      "1.0 m",
+      "2.0 m",
+      "0.5 m"
+    ],
+    "correct": 0,
+    "explanation": "L = 2.8 − 0.85 − 0.4 = 1.55 → 1.6 m gap requires extension tool."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Tray-by-tray removal: A distillation column has trays that must be removed one at a time through the top manway. The DFM lead computes total maintenance time.\n\nNumber of trays \\(N=42\\), time per tray removal \\(t=15\\ \\mathrm{min}\\), crew break factor \\(k=1.20\\).\n\nUse this relationship: \\[T_{\\mathrm{total}}=N\\,t\\,k/60\\]\n\nRound to 0.1 h. Pick the total removal time.",
+    "opts": [
+      "10.5 h",
+      "15.0 h",
+      "12.6 h",
+      "8.4 h"
+    ],
+    "correct": 2,
+    "explanation": "T = 42 × 15 × 1.20 / 60 = 12.6 h."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Vessel skirt access: A vertical vessel skirt has access ports for internal inspection. The DFM lead computes free area required around the skirt.\n\nSkirt OD \\(D_s=2.4\\ \\mathrm{m}\\), access clearance from skirt \\(C=1.2\\ \\mathrm{m}\\).\n\nUse this relationship: \\[D_{\\mathrm{reserve}}=D_s+2C\\]\n\nRound to 0.1 m. Pick the reserved circle diameter.",
+    "opts": [
+      "3.6 m",
+      "4.8 m",
+      "6.0 m",
+      "3.0 m"
+    ],
+    "correct": 1,
+    "explanation": "D = 2.4 + 2 × 1.2 = 4.8 m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Internal coil removal: A vessel has an internal heating coil that must be withdrawn vertically. The DFM lead reserves vertical headroom above the vessel.\n\nCoil length \\(L_c=3.2\\ \\mathrm{m}\\), withdrawal clearance \\(C=0.4\\ \\mathrm{m}\\), hook envelope \\(h=1.0\\ \\mathrm{m}\\).\n\nUse this relationship: \\[H=L_c+C+h\\]\n\nRound to 0.1 m. Pick the headroom required.",
+    "opts": [
+      "3.6 m",
+      "5.2 m",
+      "4.0 m",
+      "4.6 m"
+    ],
+    "correct": 3,
+    "explanation": "H = 3.2 + 0.4 + 1.0 = 4.6 m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Filter media disposal: A bank of filters generates spent media that must be staged for disposal. The DFM lead reserves a contained area.\n\nNumber of filters \\(N=8\\), media per filter \\(m_f=45\\ \\mathrm{kg}\\), bulk density \\(\\rho_b=300\\ \\mathrm{kg/m^3}\\).\n\nUse this relationship: \\[V_{\\mathrm{stage}}=\\dfrac{N\\,m_f}{\\rho_b}\\]\n\nRound to 0.1 m³. Pick the staging volume.",
+    "opts": [
+      "0.6 m³",
+      "1.8 m³",
+      "1.2 m³",
+      "0.9 m³"
+    ],
+    "correct": 2,
+    "explanation": "V = (8 × 45) / 300 = 360/300 = 1.2 m³."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Cyclone clean-out frequency: A solids cyclone fills at a known rate. The DFM lead computes the cleaning interval.\n\nCyclone capacity \\(V_c=0.6\\ \\mathrm{m^3}\\), fill rate \\(\\dot V=0.02\\ \\mathrm{m^3/h}\\), safety fill \\(\\eta=0.80\\).\n\nUse this relationship: \\[t=\\dfrac{\\eta\\,V_c}{\\dot V}\\]\n\nRound to whole hours. Pick the cleaning interval.",
+    "opts": [
+      "30 h",
+      "24 h",
+      "20 h",
+      "36 h"
+    ],
+    "correct": 1,
+    "explanation": "t = 0.8 × 0.6 / 0.02 = 0.48/0.02 = 24 h."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Reactor jacket pressure rating: For a maintenance flush, the jacket maximum allowable working pressure must accommodate the static head plus flow drop. The DFM lead checks the MAWP margin.\n\nStatic head \\(\\rho g h=18\\ \\mathrm{kPa}\\), flow drop \\(\\Delta P=22\\ \\mathrm{kPa}\\), safety margin \\(k=1.5\\).\n\nUse this relationship: \\[P_{\\mathrm{req}}=k(\\rho g h+\\Delta P)\\]\n\nRound to whole kPa. Pick the required MAWP.",
+    "opts": [
+      "40 kPa",
+      "75 kPa",
+      "60 kPa",
+      "50 kPa"
+    ],
+    "correct": 2,
+    "explanation": "P = 1.5 × (18 + 22) = 1.5 × 40 = 60 kPa."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Vessel surface preparation area: Before recoating, a vessel exterior must be blasted. The DFM lead computes the surface area for material estimating.\n\nVessel diameter \\(D=3.0\\ \\mathrm{m}\\), tan-tan length \\(L_{tt}=6.0\\ \\mathrm{m}\\), 2:1 ellipsoidal heads (add 1.084 × D² × 2 sides ÷ 4 ≈ 1.084 D²/2 per head).\n\nUse this relationship: \\[A_{\\mathrm{ext}}\\approx\\pi D L_{tt}+1.084\\,D^2\\]\n\nRound to whole m². Pick the exterior surface area.",
+    "opts": [
+      "60 m²",
+      "75 m²",
+      "55 m²",
+      "66 m²"
+    ],
+    "correct": 3,
+    "explanation": "A = π × 3 × 6 + 1.084 × 9 = 56.55 + 9.76 = 66.3 → 66 m²."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Package-equipment laydown: An air-cooler bay needs space for fan-blade laydown during maintenance. The DFM lead computes the laydown area required.\n\nNumber of fans \\(N=6\\), fan diameter \\(D_f=3.6\\ \\mathrm{m}\\), laydown allowance \\(k=1.3\\) of swept area per fan.\n\nUse this relationship: \\[A_{\\mathrm{lay}}=N\\,k\\,\\dfrac{\\pi D_f^2}{4}\\]\n\nRound to whole m². Pick the laydown area required.",
+    "opts": [
+      "79 m²",
+      "61 m²",
+      "100 m²",
+      "45 m²"
+    ],
+    "correct": 0,
+    "explanation": "A = 6 × 1.3 × π × 12.96 / 4 = 6 × 1.3 × 10.18 = 79.4 → 79 m²."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Pump pull-out length: A horizontal centrifugal pump must be pulled axially for shaft and bearing service. The DFM lead reserves no-build behind the pump.\n\nPump axial length \\(L_p=1.4\\ \\mathrm{m}\\), motor length \\(L_m=0.8\\ \\mathrm{m}\\), pull-out clearance \\(C=0.6\\ \\mathrm{m}\\).\n\nUse this relationship: \\[L_{\\mathrm{pull}}=L_p+L_m+C\\]\n\nRound to 0.1 m. Pick the reserved pull-out length.",
+    "opts": [
+      "2.8 m",
+      "2.2 m",
+      "3.2 m",
+      "2.0 m"
+    ],
+    "correct": 0,
+    "explanation": "L = 1.4 + 0.8 + 0.6 = 2.8 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Pump motor lift weight: A motor must be lifted off its pedestal for service. The DFM lead computes the rigging load.\n\nMotor mass \\(m=420\\ \\mathrm{kg}\\), accessories \\(m_a=35\\ \\mathrm{kg}\\), rigging safety factor \\(k=1.5\\).\n\nUse this relationship: \\[W=k(m+m_a)g\\]\n\nUse g=9.81 m/s². Round to 0.1 kN. Pick the rigging working load.",
+    "opts": [
+      "4.5 kN",
+      "6.7 kN",
+      "8.0 kN",
+      "5.0 kN"
+    ],
+    "correct": 1,
+    "explanation": "W = 1.5 × (420+35) × 9.81 = 1.5 × 455 × 9.81 = 6695 N → 6.7 kN."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "NEC working space for electrical equipment: An MCC enclosure must have a clear depth in front for service. The DFM lead applies NEC Table 110.26 minimums.\n\nVoltage class is up to 600 V, conditions per NEC 110.26 condition 2, code minimum \\(C_{\\mathrm{NEC}}=1.07\\ \\mathrm{m}\\). Door open swing \\(\\theta=110°\\) of door width \\(W_d=0.9\\ \\mathrm{m}\\).\n\nUse this relationship: \\[C_{\\mathrm{front}}=\\max\\!\\left(C_{\\mathrm{NEC}},\\,W_d\\sin\\theta\\right)\\]\n\nRound to 0.1 m. Pick the reserved depth in front of the MCC.",
+    "opts": [
+      "0.9 m",
+      "1.5 m",
+      "1.0 m",
+      "1.1 m"
+    ],
+    "correct": 3,
+    "explanation": "NEC = 1.07, door swing = 0.9 × sin(110°) = 0.9 × 0.9397 = 0.85 m. Max = 1.07 → 1.1 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Compressor cooler bundle removal: An aftercooler bundle pulls horizontally for tube cleaning. The DFM lead reserves a no-build envelope.\n\nBundle length \\(L_b=4.5\\ \\mathrm{m}\\), spreader bar \\(L_s=1.2\\ \\mathrm{m}\\), staging clearance \\(C=2.0\\ \\mathrm{m}\\).\n\nUse this relationship: \\[L=L_b+L_s+C\\]\n\nRound to 0.1 m. Pick the bundle pull corridor.",
+    "opts": [
+      "6.0 m",
+      "7.7 m",
+      "9.0 m",
+      "5.5 m"
+    ],
+    "correct": 1,
+    "explanation": "L = 4.5 + 1.2 + 2.0 = 7.7 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Pipe gallery width: A pipe rack supports parallel pipes with a maintenance aisle between two banks. The DFM lead sizes the gallery between the columns.\n\nBank-1 pipes occupy \\(W_1=1.4\\ \\mathrm{m}\\), bank-2 occupies \\(W_2=1.6\\ \\mathrm{m}\\), maintenance aisle \\(W_a=1.0\\ \\mathrm{m}\\), column allowance \\(C=0.4\\ \\mathrm{m}\\).\n\nUse this relationship: \\[W_{\\mathrm{gallery}}=W_1+W_2+W_a+C\\]\n\nRound to 0.1 m. Pick the gallery width.",
+    "opts": [
+      "3.6 m",
+      "5.0 m",
+      "4.4 m",
+      "3.0 m"
+    ],
+    "correct": 2,
+    "explanation": "W = 1.4 + 1.6 + 1.0 + 0.4 = 4.4 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Centrifugal pump NPSH check: With suction conditions, the DFM lead checks the available NPSH against required for the maintenance fluid (water).\n\nAtmospheric pressure head \\(h_a=10.3\\ \\mathrm{m}\\), vapor-pressure head \\(h_v=0.3\\ \\mathrm{m}\\), static lift \\(z=2.5\\ \\mathrm{m}\\), friction \\(h_f=1.5\\ \\mathrm{m}\\).\n\nUse this relationship: \\[NPSH_a=h_a-h_v-z-h_f\\]\n\nRound to 0.1 m. Pick the NPSH available.",
+    "opts": [
+      "6.0 m",
+      "4.5 m",
+      "7.5 m",
+      "5.0 m"
+    ],
+    "correct": 0,
+    "explanation": "NPSH_a = 10.3 − 0.3 − 2.5 − 1.5 = 6.0 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Mechanical-seal flush requirement: A pump seal flush rate is set by API plan. The DFM lead computes the annual flush volume to size the utility tie-in.\n\nFlush flow \\(Q=4\\ \\mathrm{L/min}\\), operation \\(t=8{,}000\\ \\mathrm{h/y}\\).\n\nUse this relationship: \\[V_{\\mathrm{annual}}=Q\\times 60\\times t/1000\\]\n\nRound to whole m³/y. Pick the annual flush volume.",
+    "opts": [
+      "960 m³/y",
+      "2{,}400 m³/y",
+      "1{,}200 m³/y",
+      "1{,}920 m³/y"
+    ],
+    "correct": 3,
+    "explanation": "V = 4 × 60 × 8000 / 1000 = 1920 m³/y."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Pipe support spacing: For schedule-40 line of given diameter, the DFM lead checks pipe-support spacing from MSS-SP-58 simplified rule.\n\nNPS \\(2''\\) line, water-filled, simplified span \\(L=2.5\\ \\sqrt{NPS}\\) (m) with safety factor \\(k=0.9\\).\n\nUse this relationship: \\[L_{\\mathrm{support}}=k\\times 2.5\\sqrt{NPS}\\]\n\nRound to 0.1 m. Pick the support spacing.",
+    "opts": [
+      "2.5 m",
+      "3.2 m",
+      "4.0 m",
+      "2.0 m"
+    ],
+    "correct": 1,
+    "explanation": "L = 0.9 × 2.5 × √2 = 0.9 × 2.5 × 1.414 = 3.18 → 3.2 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Cable tray fill ratio: For a maintenance addition of new cables, the DFM lead checks fill ratio against NEC ampacity rules.\n\nExisting cable cross-section sum \\(A_{ex}=120\\ \\mathrm{cm^2}\\), new cables \\(A_{new}=35\\ \\mathrm{cm^2}\\), tray cross-section \\(A_t=500\\ \\mathrm{cm^2}\\).\n\nUse this relationship: \\[f=\\dfrac{A_{ex}+A_{new}}{A_t}\\times 100\\%\\]\n\nRound to whole percent. Pick the fill ratio.",
+    "opts": [
+      "31 %",
+      "24 %",
+      "40 %",
+      "20 %"
+    ],
+    "correct": 0,
+    "explanation": "f = (120+35)/500 × 100 = 31%."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Motor cooling: A motor of given hp gives off heat. The DFM lead checks ventilation airflow for the enclosure.\n\nMotor losses \\(Q_{\\mathrm{loss}}=8\\ \\mathrm{kW}\\), allowable air-temp rise \\(\\Delta T=10\\,K\\), air density-cp product \\(\\rho c_p=1.20\\ \\mathrm{kJ/(m^3\\cdot K)}\\).\n\nUse this relationship: \\[\\dot V=\\dfrac{Q_{\\mathrm{loss}}}{\\rho c_p\\Delta T}\\]\n\nRound to 0.01 m³/s. Pick the ventilation flow.",
+    "opts": [
+      "0.45 m³/s",
+      "1.00 m³/s",
+      "0.30 m³/s",
+      "0.67 m³/s"
+    ],
+    "correct": 3,
+    "explanation": "V = 8 / (1.2 × 10) = 8/12 = 0.667 → 0.67 m³/s."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Pump bearing relubrication: The DFM lead estimates annual grease consumption from a bank of pumps.\n\nPumps \\(N=12\\), grease per pump per service \\(m_g=50\\ \\mathrm{g}\\), services per year per pump \\(n=6\\).\n\nUse this relationship: \\[M_{\\mathrm{annual}}=N\\,m_g\\,n\\]\n\nRound to whole kg. Pick the annual grease consumption.",
+    "opts": [
+      "3.6 kg",
+      "1.8 kg",
+      "5.0 kg",
+      "2.4 kg"
+    ],
+    "correct": 0,
+    "explanation": "M = 12 × 50 × 6 = 3600 g = 3.6 kg."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Headroom under pipe rack: A vehicle access lane runs under a low pipe-rack tier. The DFM lead checks vertical clearance for the maintenance forklift.\n\nForklift mast height \\(h_m=3.6\\ \\mathrm{m}\\), load on forks \\(h_l=1.2\\ \\mathrm{m}\\), clearance \\(C=0.3\\ \\mathrm{m}\\).\n\nUse this relationship: \\[H_{\\mathrm{rack}}=h_m+h_l+C\\]\n\nRound to 0.1 m. Pick the minimum rack height.",
+    "opts": [
+      "4.5 m",
+      "5.5 m",
+      "4.2 m",
+      "5.1 m"
+    ],
+    "correct": 3,
+    "explanation": "H = 3.6 + 1.2 + 0.3 = 5.1 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Centrifugal compressor inlet filter change: Periodic filter replacement requires a working envelope in front of the inlet housing.\n\nFilter cartridge length \\(L_f=1.5\\ \\mathrm{m}\\), worker space \\(C=1.0\\ \\mathrm{m}\\), staging \\(0.5\\ \\mathrm{m}\\).\n\nUse this relationship: \\[L_{\\mathrm{front}}=L_f+C+0.5\\]\n\nRound to 0.1 m. Pick the reserved length in front of the housing.",
+    "opts": [
+      "3.0 m",
+      "2.5 m",
+      "3.5 m",
+      "2.0 m"
+    ],
+    "correct": 0,
+    "explanation": "L = 1.5 + 1.0 + 0.5 = 3.0 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Hydraulic ram pull: For pump impeller removal on a multistage pump, a hydraulic ram is set up axially. The DFM lead checks tonnage required.\n\nStatic friction force estimate \\(F_s=85\\ \\mathrm{kN}\\), impact factor \\(k=1.5\\).\n\nUse this relationship: \\[F_{\\mathrm{ram}}=k\\,F_s\\]\n\nRound to whole kN. Pick the ram capacity.",
+    "opts": [
+      "85 kN",
+      "170 kN",
+      "128 kN",
+      "60 kN"
+    ],
+    "correct": 2,
+    "explanation": "F = 1.5 × 85 = 127.5 → 128 kN."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Transformer working space: An outdoor transformer needs clear maintenance space from the energized boundary. The DFM lead applies vendor-stated dimensions.\n\nTransformer length \\(L_t=3.5\\ \\mathrm{m}\\), required clear-space per vendor \\(C_v=2.4\\ \\mathrm{m}\\), gravel pad allowance \\(C_g=0.6\\ \\mathrm{m}\\).\n\nUse this relationship: \\[L_{\\mathrm{reserve}}=L_t+2C_v+2C_g\\]\n\nRound to 0.1 m. Pick the reserved length for maintenance.",
+    "opts": [
+      "7.5 m",
+      "11.0 m",
+      "9.5 m",
+      "6.5 m"
+    ],
+    "correct": 2,
+    "explanation": "L = 3.5 + 2×2.4 + 2×0.6 = 3.5 + 4.8 + 1.2 = 9.5 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Pipe insulation strip-back: For ultrasonic thickness testing, insulation must be removed and replaced at inspection points. The DFM lead computes annual insulation cost.\n\nInspection points \\(N=120\\), strip area per point \\(A_s=0.25\\ \\mathrm{m^2}\\), cost per m² \\(C=85\\ \\mathrm{\\$/m^2}\\).\n\nUse this relationship: \\[C_{\\mathrm{annual}}=N\\,A_s\\,C\\]\n\nRound to whole \\$. Pick the annual insulation maintenance cost.",
+    "opts": [
+      "1{,}700 $",
+      "2{,}550 $",
+      "3{,}400 $",
+      "1{,}200 $"
+    ],
+    "correct": 1,
+    "explanation": "C = 120 × 0.25 × 85 = 2550 $."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "VFD heat rejection: A variable-frequency drive in a switchgear room rejects heat to the HVAC. The DFM lead computes the HVAC load contribution.\n\nDrive rating \\(P=75\\ \\mathrm{kW}\\), efficiency \\(\\eta=0.97\\), worst load factor \\(LF=0.85\\).\n\nUse this relationship: \\[Q_{\\mathrm{HVAC}}=P(1-\\eta)\\,LF\\]\n\nRound to 0.1 kW. Pick the HVAC heat-load contribution.",
+    "opts": [
+      "1.5 kW",
+      "2.5 kW",
+      "1.9 kW",
+      "3.0 kW"
+    ],
+    "correct": 2,
+    "explanation": "Q = 75 × 0.03 × 0.85 = 1.91 → 1.9 kW."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Pipe-flange bolt torque check: A bolted flange repair requires torquing to specified value. The DFM lead checks tool length needed for a manual torque wrench.\n\nRequired torque \\(T=420\\ \\mathrm{N\\cdot m}\\), worker pull \\(F=250\\ \\mathrm{N}\\).\n\nUse this relationship: \\[L=\\dfrac{T}{F}\\]\n\nRound to 0.1 m. Pick the torque-wrench length.",
+    "opts": [
+      "1.0 m",
+      "2.5 m",
+      "1.7 m",
+      "0.8 m"
+    ],
+    "correct": 2,
+    "explanation": "L = 420/250 = 1.68 → 1.7 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Air-cooler maintenance: A fan-blade replacement requires a man-basket lift over the bay. The DFM lead computes the lift height.\n\nTop of bay \\(H_b=8.5\\ \\mathrm{m}\\), fan blade work height above bay top \\(h=1.5\\ \\mathrm{m}\\), basket allowance \\(h_a=1.2\\ \\mathrm{m}\\).\n\nUse this relationship: \\[H_{\\mathrm{lift}}=H_b+h+h_a\\]\n\nRound to 0.1 m. Pick the lift height.",
+    "opts": [
+      "10.0 m",
+      "11.2 m",
+      "12.5 m",
+      "9.5 m"
+    ],
+    "correct": 1,
+    "explanation": "H = 8.5 + 1.5 + 1.2 = 11.2 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Cooling-water consumption: A bank of pump mechanical seals uses cooling water. The DFM lead computes the cooling-water tie-in flow.\n\nPumps \\(N=18\\), seal cooling flow per pump \\(q=2\\ \\mathrm{L/min}\\), seasonal factor \\(k=1.2\\).\n\nUse this relationship: \\[Q=N\\,q\\,k\\]\n\nRound to whole L/min. Pick the cooling water tie-in flow.",
+    "opts": [
+      "36 L/min",
+      "43 L/min",
+      "60 L/min",
+      "25 L/min"
+    ],
+    "correct": 1,
+    "explanation": "Q = 18 × 2 × 1.2 = 43.2 → 43 L/min."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Bearing temperature rise: A pump bearing has measured ambient and bearing temps. The DFM lead checks the rise against alarm threshold.\n\nAmbient \\(T_a=35\\,°C\\), bearing measured \\(T_b=82\\,°C\\), alarm-set rise \\(\\Delta T_{a}=55\\,K\\).\n\nUse this relationship: \\[\\Delta T=T_b-T_a;\\ \\text{flag if}\\ \\Delta T>\\Delta T_a\\]\n\nWhole K. Pick the temperature rise.",
+    "opts": [
+      "47 K",
+      "82 K",
+      "55 K",
+      "35 K"
+    ],
+    "correct": 0,
+    "explanation": "ΔT = 82 − 35 = 47 K (below 55 K alarm)."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Switchgear breaker rack-out: A breaker must be racked out for service. The DFM lead reserves the no-build for the rack-out cart.\n\nBreaker depth \\(L_b=0.6\\ \\mathrm{m}\\), cart length \\(L_c=1.4\\ \\mathrm{m}\\), worker space \\(C=1.0\\ \\mathrm{m}\\).\n\nUse this relationship: \\[L_{\\mathrm{front}}=L_b+L_c+C\\]\n\nRound to 0.1 m. Pick the no-build depth in front of the switchgear.",
+    "opts": [
+      "2.4 m",
+      "3.5 m",
+      "2.0 m",
+      "3.0 m"
+    ],
+    "correct": 3,
+    "explanation": "L = 0.6 + 1.4 + 1.0 = 3.0 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Lube-oil refill volume: A turbine has a lube-oil reservoir requiring full change every interval. The DFM lead computes annual lube-oil consumption.\n\nReservoir volume \\(V=850\\ \\mathrm{L}\\), change interval \\(T=18\\ \\mathrm{months}\\), retention factor \\(\\eta=0.9\\) (10% topping in between).\n\nUse this relationship: \\[V_{\\mathrm{annual}}=\\dfrac{V\\,\\eta}{T/12}\\]\n\nRound to whole L. Pick the annual consumption.",
+    "opts": [
+      "850 L",
+      "425 L",
+      "510 L",
+      "680 L"
+    ],
+    "correct": 2,
+    "explanation": "V = (850 × 0.9) / (18/12) = 765 / 1.5 = 510 L."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Reciprocating compressor valve change: Periodic valve replacement requires a working envelope at compressor end. The DFM lead computes the laydown area.\n\nNumber of valves \\(N=8\\), valve-cassette area \\(A_v=0.35\\ \\mathrm{m^2}\\), aisle around laydown \\(k=1.5\\).\n\nUse this relationship: \\[A_{\\mathrm{lay}}=k\\,N\\,A_v\\]\n\nRound to 0.1 m². Pick the laydown area.",
+    "opts": [
+      "2.8 m²",
+      "4.2 m²",
+      "5.6 m²",
+      "3.5 m²"
+    ],
+    "correct": 1,
+    "explanation": "A = 1.5 × 8 × 0.35 = 4.2 m²."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Cable derating: A duct-bank installation derates current-carrying capacity. The DFM lead checks if a maintenance feeder is still adequate.\n\nRated cable ampacity \\(I_r=300\\ \\mathrm{A}\\), conductor-thermal derating \\(d_1=0.85\\), ambient derating \\(d_2=0.92\\).\n\nUse this relationship: \\[I_{\\mathrm{eff}}=I_r\\,d_1\\,d_2\\]\n\nRound to whole A. Pick the effective ampacity.",
+    "opts": [
+      "255 A",
+      "275 A",
+      "215 A",
+      "235 A"
+    ],
+    "correct": 3,
+    "explanation": "I = 300 × 0.85 × 0.92 = 234.6 → 235 A."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Double-block-and-bleed sizing: A reactor isolation requires DBB on the feed line. The DFM lead computes the bleed-line capacity.\n\nProcess line ID \\(D=80\\ \\mathrm{mm}\\), trapped volume between blocks \\(V_t=12\\ \\mathrm{L}\\), required drain time \\(t=15\\ \\mathrm{min}\\).\n\nUse this relationship: \\[Q_{\\mathrm{bleed}}=\\dfrac{V_t}{t}\\]\n\nRound to 0.1 L/min. Pick the bleed flow rate.",
+    "opts": [
+      "1.2 L/min",
+      "0.8 L/min",
+      "0.5 L/min",
+      "1.5 L/min"
+    ],
+    "correct": 1,
+    "explanation": "Q = 12/15 = 0.8 L/min."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Drain header sizing: A bund and process equipment area drain together to an oily-water sewer. The DFM lead sizes the drain header.\n\nPeak rainfall area \\(A=380\\ \\mathrm{m^2}\\), design intensity \\(i=75\\ \\mathrm{mm/h}\\), equipment leak allowance \\(Q_e=4\\ \\mathrm{m^3/h}\\).\n\nUse this relationship: \\[Q_{\\mathrm{drain}}=\\dfrac{A\\,i}{1000}+Q_e\\]\n\nRound to 0.1 m³/h. Pick the drain header design flow.",
+    "opts": [
+      "32.5 m³/h",
+      "28.5 m³/h",
+      "36.0 m³/h",
+      "24.0 m³/h"
+    ],
+    "correct": 0,
+    "explanation": "Q = 380 × 75/1000 + 4 = 28.5 + 4 = 32.5 m³/h."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Emergency-shower flow: An ANSI-Z358 emergency shower must deliver minimum flow for 15 minutes. The DFM lead sizes the utility tank.\n\nRequired flow \\(Q=75.7\\ \\mathrm{L/min}\\), duration \\(t=15\\ \\mathrm{min}\\), simultaneous users \\(N=2\\).\n\nUse this relationship: \\[V_{\\mathrm{tank}}=Q\\,t\\,N\\]\n\nRound to whole L. Pick the tank volume.",
+    "opts": [
+      "1{,}500 L",
+      "3{,}000 L",
+      "1{,}135 L",
+      "2{,}271 L"
+    ],
+    "correct": 3,
+    "explanation": "V = 75.7 × 15 × 2 = 2271 L."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Sling angle and tension: A two-leg sling lifts a vessel at an included angle. The DFM lead computes the sling tension per leg.\n\nLoad \\(W=10{,}000\\ \\mathrm{N}\\), included angle \\(2\\theta=60°\\), so each leg at \\(\\theta=30°\\) from vertical.\n\nUse this relationship: \\[T=\\dfrac{W}{2\\cos\\theta}\\]\n\nRound to whole N. Pick the per-leg tension.",
+    "opts": [
+      "5{,}000 N",
+      "7{,}071 N",
+      "8{,}660 N",
+      "5{,}774 N"
+    ],
+    "correct": 3,
+    "explanation": "T = 10000 / (2 × cos 30°) = 10000 / (2 × 0.866) = 10000/1.732 = 5774 N."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Mobile-crane outrigger pad: Ground bearing pressure under each outrigger must be checked against soil capacity. The DFM lead computes the pad load.\n\nCrane gross weight \\(W_c=400\\ \\mathrm{kN}\\), lifted load \\(W_l=180\\ \\mathrm{kN}\\), counterweight reaction factor \\(k=0.4\\) on lifted side outriggers, 2 outriggers on that side.\n\nUse this relationship: \\[P_{\\mathrm{out}}=\\dfrac{(W_c+W_l)\\,k}{2}\\]\n\nRound to whole kN. Pick the load per outrigger.",
+    "opts": [
+      "100 kN",
+      "150 kN",
+      "116 kN",
+      "80 kN"
+    ],
+    "correct": 2,
+    "explanation": "P = (400+180) × 0.4 / 2 = 580 × 0.2 = 116 kN."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Pre-action drainage residence: A spill goes through an oil-water separator. The DFM lead computes the residence time.\n\nSeparator volume \\(V=8\\ \\mathrm{m^3}\\), peak flow \\(Q=12\\ \\mathrm{m^3/h}\\).\n\nUse this relationship: \\[\\tau=\\dfrac{V}{Q}\\]\n\nRound to whole minutes. Pick the residence time.",
+    "opts": [
+      "30 min",
+      "60 min",
+      "40 min",
+      "20 min"
+    ],
+    "correct": 2,
+    "explanation": "τ = 8/12 = 0.667 h = 40 min."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Escape time from elevated platform: An operator at the farthest point of an elevated platform must escape to grade. The DFM lead computes the travel time at walking speed.\n\nPlatform path length \\(L_p=18\\ \\mathrm{m}\\), stair to grade \\(L_s=12\\ \\mathrm{m}\\), walking speed \\(v=1.0\\ \\mathrm{m/s}\\).\n\nUse this relationship: \\[t_{\\mathrm{escape}}=\\dfrac{L_p+L_s}{v}\\]\n\nWhole seconds. Pick the escape time.",
+    "opts": [
+      "20 s",
+      "30 s",
+      "45 s",
+      "12 s"
+    ],
+    "correct": 1,
+    "explanation": "t = (18+12)/1.0 = 30 s."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Lock-out point count: A reactor cell has multiple energy sources. The DFM lead counts lock-out points needed for safe maintenance entry.\n\nElectrical disconnects \\(N_e=3\\), block valves on process \\(N_p=4\\), utility isolations \\(N_u=2\\), pneumatic \\(N_a=1\\).\n\nUse this relationship: \\[N_{\\mathrm{LOTO}}=N_e+N_p+N_u+N_a\\]\n\nWhole number. Pick the LOTO point count.",
+    "opts": [
+      "10 points",
+      "8 points",
+      "12 points",
+      "6 points"
+    ],
+    "correct": 0,
+    "explanation": "N = 3 + 4 + 2 + 1 = 10 points."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Emergency assembly travel: From the farthest hazard point, an operator must reach the muster point in less than 90 seconds. The DFM lead checks distance.\n\nAllowed time \\(t=90\\ \\mathrm{s}\\), walking speed \\(v=1.2\\ \\mathrm{m/s}\\), congestion factor \\(k=0.7\\).\n\nUse this relationship: \\[L_{\\mathrm{max}}=t\\,v\\,k\\]\n\nRound to whole m. Pick the maximum allowed distance.",
+    "opts": [
+      "108 m",
+      "60 m",
+      "76 m",
+      "90 m"
+    ],
+    "correct": 2,
+    "explanation": "L = 90 × 1.2 × 0.7 = 75.6 → 76 m."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Drainage slope: A maintenance pad slopes to a sump. The DFM lead checks slope is enough to drain.\n\nPad length \\(L=8\\ \\mathrm{m}\\), high-to-low elevation \\(\\Delta z=80\\ \\mathrm{mm}\\).\n\nUse this relationship: \\[s=\\dfrac{\\Delta z}{L}\\times 100\\%\\]\n\nRound to 0.01%. Pick the slope.",
+    "opts": [
+      "1.00 %",
+      "0.50 %",
+      "1.50 %",
+      "2.00 %"
+    ],
+    "correct": 0,
+    "explanation": "s = 80/(8000) × 100 = 1.00%."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Hot bolt removal force: Pre-loaded studs have a removal torque higher than installation. The DFM lead estimates removal torque.\n\nInstallation torque \\(T_i=300\\ \\mathrm{N\\cdot m}\\), corrosion factor \\(k_c=1.4\\), thermal cycling factor \\(k_t=1.2\\).\n\nUse this relationship: \\[T_{\\mathrm{remove}}=k_c\\,k_t\\,T_i\\]\n\nRound to whole N·m. Pick the removal torque to plan for.",
+    "opts": [
+      "504 N·m",
+      "360 N·m",
+      "600 N·m",
+      "420 N·m"
+    ],
+    "correct": 0,
+    "explanation": "T = 1.4 × 1.2 × 300 = 504 N·m."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Spill containment from a small leak: A flange seep leaks at a known rate. The DFM lead computes the spill volume over a shift before detection.\n\nLeak rate \\(\\dot V=0.5\\ \\mathrm{L/min}\\), shift duration \\(t=8\\ \\mathrm{h}\\), reduction by drip pan \\(\\eta=0.30\\) (30% contained, rest goes to floor).\n\nUse this relationship: \\[V_{\\mathrm{floor}}=\\dot V\\times 60 t\\times (1-\\eta)/1000\\]\n\nRound to 0.1 m³. Pick the floor spill volume.",
+    "opts": [
+      "0.1 m³",
+      "0.5 m³",
+      "0.2 m³",
+      "0.3 m³"
+    ],
+    "correct": 2,
+    "explanation": "V = 0.5 × 480 × 0.70 / 1000 = 0.168 → 0.2 m³."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Sling working-load-limit check: A four-leg basket sling is used at an angle. The DFM lead computes the WLL reduction factor.\n\nVertical WLL each leg \\(W_v=12\\ \\mathrm{kN}\\), included angle \\(2\\theta=90°\\) so each leg at \\(\\theta=45°\\), n=4 legs.\n\nUse this relationship: \\[W_{\\mathrm{actual}}=n\\,W_v\\cos\\theta\\]\n\nRound to whole kN. Pick the effective WLL.",
+    "opts": [
+      "34 kN",
+      "48 kN",
+      "24 kN",
+      "60 kN"
+    ],
+    "correct": 0,
+    "explanation": "W = 4 × 12 × cos 45° = 48 × 0.7071 = 33.94 → 34 kN."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Sloped path safety: A walkway has a slope. The DFM lead checks slope is below the OSHA walkway limit of 1:20.\n\nRise \\(\\Delta z=0.30\\ \\mathrm{m}\\), run \\(L=4.5\\ \\mathrm{m}\\).\n\nUse this relationship: \\[r=\\dfrac{\\Delta z}{L}\\ (\\text{report as 1:X})\\]\n\nWhole number for X. Pick the slope ratio (1:X).",
+    "opts": [
+      "1:20",
+      "1:10",
+      "1:25",
+      "1:15"
+    ],
+    "correct": 3,
+    "explanation": "r = 4.5/0.30 = 15 → 1:15 (fails OSHA 1:20 limit)."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Fire-water deluge density: A deluge system over a manifold must deliver minimum density. The DFM lead sizes the deluge flow.\n\nProtected area \\(A=24\\ \\mathrm{m^2}\\), required density \\(\\rho_d=10.2\\ \\mathrm{L/(min\\cdot m^2)}\\).\n\nUse this relationship: \\[Q_{\\mathrm{deluge}}=\\rho_d\\,A\\]\n\nRound to whole L/min. Pick the deluge flow.",
+    "opts": [
+      "180 L/min",
+      "245 L/min",
+      "300 L/min",
+      "120 L/min"
+    ],
+    "correct": 1,
+    "explanation": "Q = 10.2 × 24 = 244.8 → 245 L/min."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Isolation valve count for SIL: For a SIL-2 isolation function, redundancy requires multiple valves. The DFM lead counts total valves.\n\nProcess lines requiring isolation \\(N_l=5\\), valves per isolation per line \\(n=2\\) (block-and-bleed), spares per line \\(s=1\\).\n\nUse this relationship: \\[N_{\\mathrm{total}}=N_l\\,(n+s)\\]\n\nWhole number. Pick the total valve count.",
+    "opts": [
+      "10 valves",
+      "15 valves",
+      "20 valves",
+      "12 valves"
+    ],
+    "correct": 1,
+    "explanation": "N = 5 × (2+1) = 15 valves."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Lifting moment: A jib crane swings a load at full reach. The DFM lead computes the moment for the base bolts.\n\nLoad \\(W=12\\ \\mathrm{kN}\\), jib reach \\(L=4.5\\ \\mathrm{m}\\), jib weight at mid-span \\(W_j=3\\ \\mathrm{kN}\\).\n\nUse this relationship: \\[M=W\\,L+W_j\\,(L/2)\\]\n\nRound to 0.1 kN·m. Pick the base moment.",
+    "opts": [
+      "54.0 kN·m",
+      "75.0 kN·m",
+      "45.0 kN·m",
+      "60.8 kN·m"
+    ],
+    "correct": 3,
+    "explanation": "M = 12 × 4.5 + 3 × 2.25 = 54 + 6.75 = 60.75 → 60.8 kN·m."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Drainage capacity per inlet: Multiple floor drains share a peak rainfall load. The DFM lead computes capacity per drain inlet.\n\nTotal flow \\(Q=45\\ \\mathrm{m^3/h}\\), number of inlets \\(N=6\\), safety factor \\(k=0.8\\) (allowing for 20% blockage).\n\nUse this relationship: \\[Q_{\\mathrm{inlet}}=\\dfrac{Q}{N\\,k}\\]\n\nRound to 0.1 m³/h. Pick the per-inlet design flow.",
+    "opts": [
+      "7.5 m³/h",
+      "11.0 m³/h",
+      "6.0 m³/h",
+      "9.4 m³/h"
+    ],
+    "correct": 3,
+    "explanation": "Q = 45 / (6 × 0.8) = 45/4.8 = 9.375 → 9.4 m³/h."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Emergency communication coverage: A radio repeater must cover the unit. The DFM lead checks if one unit is adequate.\n\nRepeater range (free space) \\(R=400\\ \\mathrm{m}\\), unit longest dimension \\(D=300\\ \\mathrm{m}\\), attenuation factor \\(\\eta=0.7\\) (structural).\n\nUse this relationship: \\[R_{\\mathrm{eff}}=R\\,\\eta;\\ \\text{adequate if}\\ R_{\\mathrm{eff}}\\ge D\\]\n\nRound to whole m. Pick the effective range.",
+    "opts": [
+      "300 m",
+      "260 m",
+      "280 m",
+      "320 m"
+    ],
+    "correct": 2,
+    "explanation": "R_eff = 400 × 0.7 = 280 m (less than 300 m; one repeater inadequate)."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Tank-vent breathing volume: For maintenance pump-out, vent flow must keep pace with liquid removal. The DFM lead sizes the vent.\n\nPump-out rate \\(Q_l=120\\ \\mathrm{m^3/h}\\), thermal vent contribution \\(Q_t=15\\ \\mathrm{m^3/h}\\), safety factor \\(k=1.2\\).\n\nUse this relationship: \\[Q_{\\mathrm{vent}}=k(Q_l+Q_t)\\]\n\nRound to whole m³/h. Pick the vent design flow.",
+    "opts": [
+      "162 m³/h",
+      "144 m³/h",
+      "200 m³/h",
+      "120 m³/h"
+    ],
+    "correct": 0,
+    "explanation": "Q = 1.2 × (120+15) = 1.2 × 135 = 162 m³/h."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Hot-work safe distance: Welding ignition spread by sparks must not reach a flammable inventory. The DFM lead sets the hot-work radius.\n\nSpark arc height \\(h=8\\ \\mathrm{m}\\), horizontal projection factor \\(k=1.3\\), code minimum \\(R_c=11\\ \\mathrm{m}\\).\n\nUse this relationship: \\[R=\\max(k\\,h,\\,R_c)\\]\n\nRound to 0.1 m. Pick the hot-work clearance radius.",
+    "opts": [
+      "10.4 m",
+      "13.0 m",
+      "8.0 m",
+      "11.0 m"
+    ],
+    "correct": 3,
+    "explanation": "R = max(1.3×8, 11) = max(10.4, 11) = 11.0 m."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Drain trap residence: A drain trap must hold liquid for sufficient time to prevent vapor migration. The DFM lead sizes the trap.\n\nTrap volume \\(V=4\\ \\mathrm{L}\\), peak liquid flow \\(Q=200\\ \\mathrm{L/h}\\).\n\nUse this relationship: \\[\\tau=\\dfrac{V}{Q}\\times 60\\]\n\nRound to 0.1 minutes. Pick the trap turnover time.",
+    "opts": [
+      "1.2 min",
+      "0.5 min",
+      "2.0 min",
+      "0.8 min"
+    ],
+    "correct": 0,
+    "explanation": "τ = 4 / 200 × 60 = 1.2 min."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Lifting beam tip deflection: A spreader beam under load must keep deflection within limits.\n\nBeam length \\(L=4\\ \\mathrm{m}\\), load at center \\(P=20\\ \\mathrm{kN}\\), beam stiffness \\(EI=6{,}000\\ \\mathrm{kN\\cdot m^2}\\).\n\nUse this relationship: \\[\\delta=\\dfrac{P L^3}{48\\,EI}\\]\n\nRound to 0.1 mm. Pick the deflection in mm.",
+    "opts": [
+      "2.0 mm",
+      "8.0 mm",
+      "4.4 mm",
+      "1.5 mm"
+    ],
+    "correct": 2,
+    "explanation": "δ = (20 × 4³)/(48 × 6000) = 1280/288000 = 0.00444 m = 4.4 mm."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Maintenance permit-to-work duration: Time required for a confined-space entry includes preparation, work, and clearing. The DFM lead computes the permit window.\n\nPre-work isolation/test \\(t_p=2\\ \\mathrm{h}\\), work \\(t_w=6\\ \\mathrm{h}\\), de-isolation \\(t_d=1.5\\ \\mathrm{h}\\).\n\nUse this relationship: \\[T_{\\mathrm{permit}}=t_p+t_w+t_d\\]\n\nRound to 0.1 h. Pick the permit window length.",
+    "opts": [
+      "8.0 h",
+      "9.5 h",
+      "12.0 h",
+      "7.5 h"
+    ],
+    "correct": 1,
+    "explanation": "T = 2 + 6 + 1.5 = 9.5 h."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Sump pump capacity: A sump pump must keep up with a leak plus rainfall combined event. The DFM lead sizes the pump.\n\nLeak inflow \\(Q_l=3\\ \\mathrm{m^3/h}\\), rainfall inflow \\(Q_r=8\\ \\mathrm{m^3/h}\\), duty factor \\(k=1.5\\).\n\nUse this relationship: \\[Q_{\\mathrm{pump}}=k(Q_l+Q_r)\\]\n\nRound to 0.1 m³/h. Pick the sump pump duty.",
+    "opts": [
+      "11.0 m³/h",
+      "16.5 m³/h",
+      "20.0 m³/h",
+      "8.5 m³/h"
+    ],
+    "correct": 1,
+    "explanation": "Q = 1.5 × (3+8) = 16.5 m³/h."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "30/60/90 FEED progress: The maintainability review must achieve specific document completion at each gate. The PM needs the document count to clear the 60% gate.\n\nTotal DFM docs \\(N=86\\), 60% gate completion \\(p=0.85\\), already complete \\(N_c=59\\).\n\nUse this relationship: \\[\\Delta N=\\lceil p N\\rceil-N_c\\]\n\nWhole number. Pick the docs to close before the 60% gate.",
+    "opts": [
+      "13 docs",
+      "21 docs",
+      "8 docs",
+      "15 docs"
+    ],
+    "correct": 3,
+    "explanation": "ΔN = ceil(0.85 × 86) − 59 = ceil(73.1) − 59 = 74 − 59 = 15."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "HOLD closure rate: Open HOLDs trend down weekly. The DFM lead extrapolates the gate-clear date.\n\nCurrent open HOLDs \\(N=24\\), closure rate \\(r=3\\ \\mathrm{/week}\\), target open \\(N_t=4\\).\n\nUse this relationship: \\[t=\\dfrac{N-N_t}{r}\\]\n\nRound up to whole weeks. Pick the weeks to gate clearance.",
+    "opts": [
+      "6 weeks",
+      "8 weeks",
+      "5 weeks",
+      "7 weeks"
+    ],
+    "correct": 3,
+    "explanation": "t = (24−4)/3 = 6.67 → 7 weeks."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Retrofit cost penalty: A missed FEED clearance triggers field-rework cost. The DFM lead computes the retrofit cost vs FEED budget impact.\n\nFEED change cost \\(C_f=15{,}000\\ \\mathrm{\\$}\\), retrofit cost multiplier \\(k=18\\).\n\nUse this relationship: \\[C_{\\mathrm{retro}}=k\\,C_f\\]\n\nRound to whole \\$. Pick the field retrofit cost.",
+    "opts": [
+      "150{,}000 $",
+      "270{,}000 $",
+      "400{,}000 $",
+      "200{,}000 $"
+    ],
+    "correct": 1,
+    "explanation": "C = 18 × 15000 = 270000 $."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Model-review action items: A 60% model review generated action items. The DFM lead computes the per-discipline workload.\n\nTotal actions \\(N=84\\), disciplines \\(n=7\\), average hours per action \\(t=2.5\\), discipline efficiency \\(\\eta=0.85\\).\n\nUse this relationship: \\[H_{\\mathrm{discipline}}=\\dfrac{N\\,t}{n\\,\\eta}\\]\n\nRound to whole hours. Pick the per-discipline workload.",
+    "opts": [
+      "30 h",
+      "42 h",
+      "35 h",
+      "24 h"
+    ],
+    "correct": 2,
+    "explanation": "H = (84 × 2.5)/(7 × 0.85) = 210/5.95 = 35.3 → 35 h."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "MOC backlog: After IFC, MOCs accumulate for layout adjustments. The DFM lead extrapolates closure to startup.\n\nCurrent MOCs \\(N=46\\), closure rate \\(r=4\\ \\mathrm{/week}\\), startup in \\(T=8\\ \\mathrm{weeks}\\).\n\nUse this relationship: \\[N_{\\mathrm{at\\,startup}}=\\max(0,\\,N-r\\,T)\\]\n\nWhole number. Pick the open MOCs at startup.",
+    "opts": [
+      "14",
+      "10",
+      "20",
+      "6"
+    ],
+    "correct": 0,
+    "explanation": "N = max(0, 46 − 4×8) = 46 − 32 = 14."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Scale-up footprint penalty: When a pilot footprint is naively linearly scaled instead of by 2/3-power, the layout reservation oversizes. The DFM lead computes the % wasted footprint.\n\nPilot footprint \\(A_p=10\\ \\mathrm{m^2}\\), scale factor \\(SF=27\\), correct \\(A_c=A_p\\,SF^{2/3}\\), naive \\(A_n=A_p\\,SF\\).\n\nUse this relationship: \\[f=\\dfrac{A_n-A_c}{A_n}\\times 100\\%\\]\n\nRound to whole percent. Pick the wasted footprint %.",
+    "opts": [
+      "50 %",
+      "75 %",
+      "67 %",
+      "33 %"
+    ],
+    "correct": 2,
+    "explanation": "A_c = 10 × 27^(2/3) = 10 × 9 = 90 m². A_n = 270 m². f = (270−90)/270 = 66.7%."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Late HOLD penalty: A late-closed HOLD causes schedule slip. The DFM lead computes schedule float consumption.\n\nFloat at gate \\(F=14\\ \\mathrm{days}\\), HOLD slip \\(s=4\\ \\mathrm{days}\\), follow-on tasks delayed \\(d=2\\ \\mathrm{days}\\).\n\nUse this relationship: \\[F_{\\mathrm{remaining}}=F-s-d\\]\n\nWhole days. Pick the remaining float.",
+    "opts": [
+      "10 days",
+      "8 days",
+      "6 days",
+      "12 days"
+    ],
+    "correct": 1,
+    "explanation": "F = 14 − 4 − 2 = 8 days."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "FEED maintenance cost share: The DFM portion of the FEED estimate must be reported as a % of total CAPEX.\n\nDFM line items \\(C_d=2.4\\ \\mathrm{M\\$}\\), total CAPEX \\(C_t=64\\ \\mathrm{M\\$}\\).\n\nUse this relationship: \\[f=\\dfrac{C_d}{C_t}\\times 100\\%\\]\n\nRound to 0.1 percent. Pick the DFM share.",
+    "opts": [
+      "5.0 %",
+      "2.5 %",
+      "4.5 %",
+      "3.8 %"
+    ],
+    "correct": 3,
+    "explanation": "f = 2.4/64 × 100 = 3.75%."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Scale-up reactor heat-removal penalty: From pilot to commercial, surface-to-volume ratio drops. The DFM lead computes the relative heat-removal capacity.\n\nPilot \\(V_p=10\\ \\mathrm{L}\\), commercial \\(V_c=10{,}000\\ \\mathrm{L}\\), surface scales as \\(V^{2/3}\\).\n\nUse this relationship: \\[\\dfrac{(S/V)_{\\mathrm{com}}}{(S/V)_{\\mathrm{pilot}}}=\\left(\\dfrac{V_p}{V_c}\\right)^{1/3}\\]\n\nRound to 0.01. Pick the relative S/V ratio (commercial vs pilot).",
+    "opts": [
+      "0.30",
+      "0.05",
+      "0.10",
+      "0.20"
+    ],
+    "correct": 2,
+    "explanation": "Ratio = (10/10000)^(1/3) = (0.001)^(1/3) = 0.10."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Plot plan deviation count: At IFC, layout deviations from the 60% baseline are tallied. The DFM lead computes the deviation rate per discipline.\n\nTotal deviations \\(D=42\\), disciplines \\(n=6\\), allowable per discipline \\(D_a=10\\).\n\nUse this relationship: \\[D_{\\mathrm{avg}}=\\dfrac{D}{n};\\ \\text{pass if}\\ \\le D_a\\]\n\nRound to 0.1. Pick the average deviations per discipline.",
+    "opts": [
+      "7.0",
+      "5.0",
+      "10.0",
+      "8.5"
+    ],
+    "correct": 0,
+    "explanation": "D_avg = 42/6 = 7.0 (passes the 10 limit)."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Schedule recovery rate needed: A FEED gate slipped and the team must recover float by accelerating activities. The DFM lead computes required acceleration.\n\nRequired compression \\(\\Delta T=8\\ \\mathrm{days}\\) over remaining \\(T=20\\ \\mathrm{days}\\), task crew size base \\(N_0=4\\).\n\nUse this relationship: \\[f=\\dfrac{T}{T-\\Delta T}\\]\n\nRound to 0.01. Pick the productivity multiplier required.",
+    "opts": [
+      "1.40",
+      "2.00",
+      "1.25",
+      "1.67"
+    ],
+    "correct": 3,
+    "explanation": "f = 20 / (20−8) = 20/12 = 1.667 → 1.67."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "FEED HOLD priority: Of N open HOLDs, the high-severity fraction has 80% priority and the rest 20%. The DFM lead computes equivalent priority workload.\n\nTotal HOLDs \\(N=30\\), high-severity \\(N_h=12\\), priority weights \\(w_h=0.8\\) and \\(w_l=0.2\\).\n\nUse this relationship: \\[P=N_h\\,w_h+(N-N_h)\\,w_l\\]\n\nRound to 0.1. Pick the weighted priority workload.",
+    "opts": [
+      "10.0",
+      "13.2",
+      "15.0",
+      "12.0"
+    ],
+    "correct": 1,
+    "explanation": "P = 12×0.8 + 18×0.2 = 9.6 + 3.6 = 13.2."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Pilot-to-commercial scale-up risk index: A composite risk multiplies hazard, scale, and access factors.\n\nHazard severity \\(H=4\\), scale-up factor \\(S=30\\), access difficulty \\(D=2\\).\n\nUse this relationship: \\[RI=H\\times\\log_{10}(S)\\times D\\]\n\nRound to 0.1. Pick the risk index.",
+    "opts": [
+      "8.5",
+      "11.8",
+      "14.0",
+      "6.0"
+    ],
+    "correct": 1,
+    "explanation": "RI = 4 × log10(30) × 2 = 4 × 1.4771 × 2 = 11.82 → 11.8."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Punch-list close-out: After IFC, the punch list must be cleared at a target rate to support startup.\n\nTotal punch items \\(N=240\\), days to startup \\(T=45\\), holiday loss \\(\\eta=0.80\\) of working days.\n\nUse this relationship: \\[r=\\dfrac{N}{T\\,\\eta}\\]\n\nRound to whole items/day. Pick the required closure rate.",
+    "opts": [
+      "5 items/day",
+      "10 items/day",
+      "4 items/day",
+      "7 items/day"
+    ],
+    "correct": 3,
+    "explanation": "r = 240 / (45 × 0.80) = 240/36 = 6.67 → 7 items/day."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Cost-of-delay per day: A startup delay costs the project lost margin. The DFM lead computes the daily cost.\n\nAnnual operating margin \\(M=72\\ \\mathrm{M\\$/y}\\), operating days \\(D=360\\), delay days \\(d=10\\).\n\nUse this relationship: \\[C_{\\mathrm{delay}}=\\dfrac{M}{D}\\times d\\]\n\nRound to whole \\$. Pick the delay cost.",
+    "opts": [
+      "1.5 M$",
+      "3.0 M$",
+      "2.0 M$",
+      "1.0 M$"
+    ],
+    "correct": 2,
+    "explanation": "C = 72/360 × 10 = 0.2 × 10 = 2.0 M$."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Pilot pump batch time vs commercial: The cycle time scales with volume for batch operations. The DFM lead computes commercial batch time.\n\nPilot batch time \\(t_p=45\\ \\mathrm{min}\\), pilot volume \\(V_p=150\\ \\mathrm{L}\\), commercial volume \\(V_c=4{,}500\\ \\mathrm{L}\\), pump capacity factor \\(k=0.7\\).\n\nUse this relationship: \\[t_c=\\dfrac{V_c}{V_p}\\,t_p\\,k\\]\n\nRound to whole minutes. Pick the commercial batch time.",
+    "opts": [
+      "1{,}350 min",
+      "675 min",
+      "945 min",
+      "1{,}100 min"
+    ],
+    "correct": 2,
+    "explanation": "t = (4500/150) × 45 × 0.7 = 30 × 45 × 0.7 = 945 min."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Inspection-discipline HOLDs: At 90% FEED, inspection holds are flagged by type. The DFM lead computes the mechanical share.\n\nTotal HOLDs \\(N=46\\), mechanical \\(N_m=18\\).\n\nUse this relationship: \\[f_m=\\dfrac{N_m}{N}\\times 100\\%\\]\n\nRound to whole percent. Pick the mechanical share.",
+    "opts": [
+      "39 %",
+      "30 %",
+      "45 %",
+      "25 %"
+    ],
+    "correct": 0,
+    "explanation": "f = 18/46 × 100 = 39.1 → 39%."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Commercial spare-parts cost: Commercial duty drives spare-parts inventory cost. The DFM lead computes annual carrying cost.\n\nSpare parts inventory \\(V=850{,}000\\ \\mathrm{\\$}\\), carrying cost rate \\(r=0.18\\ \\mathrm{/y}\\).\n\nUse this relationship: \\[C_{\\mathrm{annual}}=V\\,r\\]\n\nRound to whole \\$. Pick the annual carrying cost.",
+    "opts": [
+      "153{,}000 $",
+      "170{,}000 $",
+      "100{,}000 $",
+      "200{,}000 $"
+    ],
+    "correct": 0,
+    "explanation": "C = 850000 × 0.18 = 153000 $."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Annual availability target: A commercial unit targets an availability. The DFM lead computes allowed downtime hours per year.\n\nAvailability \\(A=97\\%\\), hours per year \\(H=8{,}760\\).\n\nUse this relationship: \\[T_{\\mathrm{down}}=H(1-A)\\]\n\nRound to whole hours. Pick the allowed downtime.",
+    "opts": [
+      "263 h",
+      "175 h",
+      "330 h",
+      "120 h"
+    ],
+    "correct": 0,
+    "explanation": "T = 8760 × 0.03 = 262.8 → 263 h."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "FEED engineering hours overrun: A FEED phase exceeded its labor estimate. The DFM lead computes the percent overrun.\n\nEstimated hours \\(H_e=14{,}400\\), actual \\(H_a=18{,}000\\).\n\nUse this relationship: \\[f=\\dfrac{H_a-H_e}{H_e}\\times 100\\%\\]\n\nRound to whole percent. Pick the overrun.",
+    "opts": [
+      "20 %",
+      "30 %",
+      "15 %",
+      "25 %"
+    ],
+    "correct": 3,
+    "explanation": "f = (18000−14400)/14400 × 100 = 3600/14400 = 25%."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Scale-up pump head: From pilot to commercial, head is set by elevation while flow scales. The DFM lead checks pump power.\n\nCommercial flow \\(Q=20\\ \\mathrm{m^3/h}\\), head \\(H=35\\ \\mathrm{m}\\), density \\(\\rho=1{,}050\\ \\mathrm{kg/m^3}\\), efficiency \\(\\eta=0.65\\).\n\nUse this relationship: \\[P=\\dfrac{\\rho g Q H}{\\eta \\times 3600\\times 1000}\\ \\mathrm{kW}\\]\n\nRound to 0.1 kW. Pick the shaft power.",
+    "opts": [
+      "2.5 kW",
+      "3.1 kW",
+      "4.0 kW",
+      "1.8 kW"
+    ],
+    "correct": 1,
+    "explanation": "P = (1050 × 9.81 × 20 × 35)/(0.65 × 3600 × 1000) = 7211 / 2340 = 3.08 → 3.1 kW."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "30% FEED gate value: The DFM lead aggregates value of layout changes captured at 30% FEED versus later.\n\nLayout changes captured \\(N=22\\), avg cost saved per change vs IFC \\(C_s=8{,}500\\ \\mathrm{\\$}\\).\n\nUse this relationship: \\[V=N\\,C_s\\]\n\nRound to whole \\$. Pick the value captured at the gate.",
+    "opts": [
+      "150{,}000 $",
+      "187{,}000 $",
+      "220{,}000 $",
+      "100{,}000 $"
+    ],
+    "correct": 1,
+    "explanation": "V = 22 × 8500 = 187000 $."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "FEED escalation provision: Materials inflation between FEED and IFC must be budgeted.\n\nSubtotal \\(C_0=24\\ \\mathrm{M\\$}\\), escalation rate \\(r=4.5\\%\\ \\mathrm{/y}\\), period \\(T=1.5\\ \\mathrm{y}\\).\n\nUse this relationship: \\[C_{\\mathrm{esc}}=C_0\\,r\\,T\\]\n\nRound to 0.01 M\\$. Pick the escalation provision.",
+    "opts": [
+      "1.62 M$",
+      "1.08 M$",
+      "2.16 M$",
+      "0.72 M$"
+    ],
+    "correct": 0,
+    "explanation": "C = 24 × 0.045 × 1.5 = 1.62 M$."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Headcount ramp: From construction to operations, the headcount ramps over months. The DFM lead computes month-by-month average.\n\nStart headcount \\(N_0=8\\), end headcount \\(N_1=24\\), ramp period \\(t=8\\ \\mathrm{months}\\).\n\nUse this relationship: \\[\\bar N=\\dfrac{N_0+N_1}{2}\\]\n\nWhole people. Pick the average headcount over the ramp.",
+    "opts": [
+      "12 people",
+      "20 people",
+      "16 people",
+      "8 people"
+    ],
+    "correct": 2,
+    "explanation": "N_avg = (8+24)/2 = 16 people."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Final FEED HOLD-closure summary: Across all six DFM sections, total HOLDs and closures determine readiness. The DFM lead computes the overall closure percent.\n\nSection HOLDs total \\(N=58\\), section closures total \\(N_c=49\\), required to advance \\(p=0.90\\).\n\nUse this relationship: \\[f=\\dfrac{N_c}{N}\\times 100\\%;\\ \\text{pass if}\\ f\\ge 90\\%\\]\n\nRound to 0.1 percent. Pick the closure percent to report at the AFE gate.",
+    "opts": [
+      "75.0 %",
+      "90.0 %",
+      "70.0 %",
+      "84.5 %"
+    ],
+    "correct": 3,
+    "explanation": "f = 49/58 × 100 = 84.48 → 84.5% (below 90% target, does not advance)."
+  }
+];
+const SECTIONS  = [
+  {
+    "key": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "label": "I - Design Basis, Hazards & Scale-Up Screening Calculations",
+    "cls": "sec-conduction",
+    "range": "Questions 1-25"
+  },
+  {
+    "key": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "label": "II - Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "cls": "sec-convection",
+    "range": "Questions 26-50"
+  },
+  {
+    "key": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "label": "III - Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "cls": "sec-radiation",
+    "range": "Questions 51-75"
+  },
+  {
+    "key": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "label": "IV - Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "cls": "sec-hx",
+    "range": "Questions 76-100"
+  },
+  {
+    "key": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "label": "V - Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "cls": "sec-boiling",
+    "range": "Questions 101-125"
+  },
+  {
+    "key": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "label": "VI - FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "cls": "sec-applications",
+    "range": "Questions 126-150"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+const TOTAL_Q = QUESTIONS.length;
+
+let mode = 'guided', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 4*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function formatText(s){ return escapeHtml(s).replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>'); }
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+
+function typesetMath(){
+  const nodes=[document.getElementById('exam'),document.getElementById('results')].filter(Boolean);
+  if(window.MathJax && MathJax.typesetPromise){
+    try{ if(MathJax.typesetClear) MathJax.typesetClear(nodes); }catch(e){}
+    MathJax.typesetPromise(nodes).catch(function(err){ console.warn('MathJax typeset failed:', err); });
+  }
+}
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='04:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+formatText(q.q)+'</div>'
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+  typesetMath();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+  typesetMath();
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/'+TOTAL_Q;
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/'+TOTAL_Q;
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  // Design for Maintenance calculation readiness benchmarks
+  if(pct>=0.90){ grade='Design for Maintenance - Distinction'; blurb='Outstanding command of maintenance basis, plot-plan clearances, equipment access envelopes, isolation philosophy, lifting and rigging logic, and FEED-stage maintainability review discipline.'; }
+  else if(pct>=0.80){ grade='Design for Maintenance - Solid Pass'; blurb='Strong performance across most DFM domains. Review missed items to sharpen clearance numbers, isolation matrices, lifting and pull-out logic, and HOLD-closure expectations.'; }
+  else if(pct>=0.70){ grade='Design for Maintenance - Borderline'; blurb='Good foundation with targeted review needed, especially on plot-plan corridors, drainage and isolation, manway and bundle-pull envelopes, and 30/60/90 FEED checkpoints.'; }
+  else if(pct>=0.60){ grade='Approaching Pass Threshold'; blurb='Below a typical pass range. Rework spacing tables, equipment-specific maintainability rules, isolation and drainage matrices, lifting plans, and HOLD-item discipline.'; }
+  else if(pct>=0.45){ grade='Developing DFM Practitioner'; blurb='Core ideas are forming, but important gaps remain. Rebuild from the maintenance basis, plot-plan clearances, equipment access envelopes, isolation philosophy, and scale-up failure modes.'; }
+  else { grade='Begin the Design for Maintenance Journey'; blurb='Start with maintainability fundamentals: maintenance basis, plot-plan and spacing rules, equipment access envelopes, isolation and drainage, lifting plans, and FEED-stage review gates.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+  typesetMath();
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one calculation case at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 150 calculation cases on one page. Each answer reveals the worked explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one calculation case at a time. 4-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Certificate name</label>
+    <input id="chmlCertNameInput" type="text" maxlength="80" placeholder="Enter name for certificate" oninput="chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" type="button" onclick="chmlPrintCertificate()">Print / Save as PDF</button>
+    <button class="chml-cert-btn secondary" type="button" onclick="chmlHideCertificate()">Hide Certificate</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div><div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker"><span id="chmlCertExamKicker">Knowledge Hub Examination</span></div>
+      <h1 class="chml-cert-h1">Certificate of Completion</h1>
+      <div class="chml-cert-rule"></div>
+      <p class="chml-cert-pre">This certifies that</p>
+      <p class="chml-cert-name" id="chmlCertName">Learner</p>
+      <p class="chml-cert-body">has successfully completed the <b id="chmlCertExamName">Knowledge Hub Exam</b>.</p>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">0 / 0</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">-</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Quak Foo Lee</div><div class="chml-cert-sig-label">Chmltech Ltd.</div></div>
+        <div class="chml-cert-id">Certificate ID: <span id="chmlCertId">-</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertificateInstalled) return;
+  window.__chmlCertificateInstalled = true;
+  function textOf(sel){var el=document.querySelector(sel);return el?el.textContent.trim():'';}
+  function examTitle(){return textOf('h1.title')||textOf('header h1')||textOf('h1')||document.title.replace(/\s+/g,' ').trim()||'Knowledge Hub Exam';}
+  function parseFirstNumber(txt){var m=String(txt||'').match(/\d+/);return m?parseInt(m[0],10):null;}
+  function parseScoreTotal(){
+    var correct=parseFirstNumber(textOf('#rScore'));
+    var total=null;
+    var rt=textOf('#rTotal');
+    if(rt) total=parseFirstNumber(rt);
+    if(!total){var sb=textOf('.score-big');var m=sb.match(/\/\s*(\d+)/);if(m) total=parseInt(m[1],10);}
+    if(!total) total=parseFirstNumber(textOf('#progTotal'));
+    if(!total){var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;if(cards) total=cards;}
+    if(!correct && correct!==0) correct=parseFirstNumber(textOf('#scoreNum'));
+    return {correct:correct||0,total:total||0};
+  }
+  function totalFromBreakdown(byType){
+    if(!byType || typeof byType!=='object') return null;
+    var total=0, found=false;
+    Object.keys(byType).forEach(function(k){var v=byType[k];if(v&&typeof v==='object'){var n=v.t||v.total||v.count;if(typeof n==='number'){total+=n;found=true;}}});
+    return found?total:null;
+  }
+  function hashCode(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+  window.chmlUpdateCertificateName=function(name){document.getElementById('chmlCertName').textContent=(name||'').trim()||'Learner';};
+  window.chmlHideCertificate=function(){var c=document.getElementById('chmlCertificate');if(c)c.classList.remove('show');};
+  window.chmlPrintCertificate=function(){window.print();};
+  window.chmlRenderCertificate=function(correct,total,grade){
+    var cert=document.getElementById('chmlCertificate');if(!cert)return;
+    var title=examTitle();
+    var nameInput=document.getElementById('chmlCertNameInput');
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
+    var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
+    document.getElementById('chmlCertExamName').textContent=title;
+    document.getElementById('chmlCertName').textContent=learner;
+    document.getElementById('chmlCertScore').textContent=String(correct)+' / '+String(total||0)+(total?(' ('+Math.round((correct/total)*100)+'%)'):'');
+    document.getElementById('chmlCertDate').textContent=date;
+    document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
+    cert.classList.add('show');
+  };
+
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
+    var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){
+      var parsed=parseScoreTotal();
+      if(correct===null || isNaN(correct)) correct=parsed.correct;
+      if(!total) total=parsed.total;
+      if(total || correct || document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0);
+    },60);
+  }
+  if(typeof window.showResults==='function'){
+    var originalShowResults=window.showResults;
+    window.showResults=function(){var out=originalShowResults.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  if(typeof window.submitExam==='function'){
+    var originalSubmitExam=window.submitExam;
+    window.submitExam=function(){var out=originalSubmitExam.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  ['resetExam','newExam'].forEach(function(fn){
+    if(typeof window[fn]==='function'){
+      var original=window[fn];
+      window[fn]=function(){window.chmlHideCertificate();return original.apply(this,arguments);};
+    }
+  });
+})();
+</script>
+
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>

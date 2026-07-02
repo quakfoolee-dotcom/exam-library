@@ -1,0 +1,1960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Process Analysis of Heat Integration · 150Q Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;--paper:#efece4;--paper2:#e3e0d3;--gold:#8b6526;--gold-deep:#684a0f;
+  --green:#2f6b4f;--green-soft:#e1ece4;--red:#a8412f;--red-soft:#f3e3df;
+  --line:#cdc6b1;--shadow:rgba(20,18,8,.14);
+  --c1:#6b2d2d;--c2:#0e5f73;--c3:#7a5b12;--c4:#264c86;--c5:#5e2a7e;--c6:#26633a;
+}
+*{box-sizing:border-box;margin:0;padding:0} html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;background:
+  radial-gradient(circle at 12% 6%,rgba(14,95,115,.08),transparent 38%),
+  radial-gradient(circle at 90% 96%,rgba(90,37,133,.06),transparent 42%),var(--paper);
+  color:var(--ink);line-height:1.6;padding:0 0 80px;
+}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.45;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 22px}
+.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.15rem,5.4vw,3.55rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin:0 auto 22px;max-width:820px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 22px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;padding:12px 22px;border:1px solid var(--line);background:rgba(255,255,255,.42)}
+.modebar{display:flex;justify-content:center;margin:26px auto 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:0;background:transparent;cursor:pointer;color:#5a5246}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c6));transition:width .35s;border-radius:99px}
+.stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;white-space:nowrap}.stat b{font-size:.95rem;color:var(--gold-deep)}.sc-correct{color:var(--green)!important}.timer.warn b,.timer.crit b{color:#b8341a}.timer.crit b{animation:blink 1s infinite}@keyframes blink{50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.14rem;color:#fff;display:flex;justify-content:space-between;gap:14px;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-conduction{background:linear-gradient(100deg,var(--c1),#4d1f23)}.sec-convection{background:linear-gradient(100deg,var(--c2),#06403f)}.sec-radiation{background:linear-gradient(100deg,var(--c3),#5f3406)}.sec-hx{background:linear-gradient(100deg,var(--c4),#0c2349)}.sec-boiling{background:linear-gradient(100deg,var(--c5),#311148)}.sec-applications{background:linear-gradient(100deg,var(--c6),#0e3d18)}
+.q-card{background:rgba(255,255,255,.62);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05)}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}.q-card.locked .opt{pointer-events:none;cursor:default}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);min-width:54px}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.06rem;line-height:1.62;margin-bottom:18px;font-weight:500}.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:12px 14px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.58);transition:.18s;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.08);transform:translateX(2px)}.q-card.locked .opt:hover{transform:none}
+.letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);margin-top:1px}
+.otext{flex:1;font-size:1rem;line-height:1.55;word-break:break-word;padding-top:2px}.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.12)}.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:.3s;align-self:center;font-family:'JetBrains Mono',monospace}.opt.correct .mark{opacity:1;color:var(--green)}.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s,opacity .4s,margin .4s,padding .4s;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:1200px;opacity:1;margin-top:16px;padding:15px 18px}.elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px}.ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:0;border-radius:3px;cursor:pointer}.btn-gold{background:var(--ink);color:var(--paper)}.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}.btn:disabled{background:#928a76;color:#e3ddc9;border-color:#928a76;cursor:not-allowed}.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}.results.show{display:block}.rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}.score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1}.score-big span:last-child{font-size:2rem;color:#7a705c}.grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}.blurb{max-width:620px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}.timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-weight:600}.breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:160px}.bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}.bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+.cert{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px}.cert.show{display:block}.cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px}.cert input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px}.cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer}.cert-btn.secondary{background:transparent;color:#1c1a17}.cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18)}.cert-border{border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed,#f0e7d2);text-align:center}.cert-h1{font-family:Georgia,serif;font-size:2.45rem}.cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;margin:12px 0;color:#1c1a17;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px}.cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0;flex-wrap:wrap}.cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28}.cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.25rem}.cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap}.sig{text-align:left}.sig-line{font-family:Georgia,serif;font-style:italic;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px}.sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a}.cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em}
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px)}.modal.show{display:flex}.modal-card{background:#f4efe6;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25)}.modal-card h2{font-family:Georgia,serif;font-size:1.5rem;margin-bottom:8px}.modal-card p{color:#6b5f4a;margin-bottom:16px}.modal-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28}.modal-card input{width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+@media(max-width:560px){.q-card{padding:20px 16px}.q-text{font-size:.98rem}.otext{font-size:.92rem}.score-big{font-size:3.5rem}.section-head{flex-direction:column}.modebar{flex-direction:column;border-radius:8px;width:100%}.modebar button{width:100%}}
+@media print{body>*:not(#certificate){display:none!important}#certificate{display:block!important;position:fixed!important;inset:0!important;margin:0!important;max-width:none!important}.cert-toolbar{display:none!important}@page{size:landscape;margin:6mm}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="masthead">
+  <div class="kicker">Process Analysis · Heat Integration · 150-Question Exam</div>
+  <h1 class="title">Process Analysis of <span class="amp">Heat Integration</span> Exam</h1>
+  <div class="byline">150 practical process-analysis questions covering heat-integration basis, stream data, ΔTmin, pinch analysis, composite curves, heat exchanger networks, utility systems, waste heat recovery, batch integration, controls, economics, decarbonization, and commercial readiness.</div>
+  <div class="exambar"><span><b>150</b> Questions</span><span><b>4</b> Options Each</span><span><b>1</b> Mark per Question</span><span>Total: <b>150</b> Marks</span><span>Exam Mode: <b>4 hr</b> timer</span></div>
+</header>
+<div class="modebar" role="tablist"><button id="mode-guided" onclick="setMode('guided')" class="active">Guided Path</button><button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button><button id="mode-exam" onclick="requestExamName()">Exam Mode</button></div>
+<p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+<div class="hud"><span class="stat" id="progStat">Question <b id="progCount">1</b>/150</span><div class="bar-track"><div class="bar-fill" id="barFill"></div></div><span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span><span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">04:00:00</b></span></div>
+<main id="exam"></main><div class="actions" style="margin-top:34px" id="bottomActions"></div>
+<section class="results" id="results"><div class="rk">Your Result</div><div class="score-big"><span id="rScore">0</span><span>/150</span></div><div class="grade" id="rGrade"></div><p class="timeout-note" id="rTimeout" style="display:none">Time expired — exam auto-submitted at the 4-hour limit.</p><p class="blurb" id="rBlurb"></p><div class="breakdown" id="rBreak"></div><div class="actions"><button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button><button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button></div></section>
+<footer>Process Analysis · Heat Integration · 150-question exam<div class="disclaimer">Educational mock exam for professional training. Verify process stream data, temperature limits, fouling behavior, materials compatibility, pressure ratings, utility constraints, controls, safety reviews, and site procedures before applying any heat-integration concept in real design or operation.</div></footer>
+</div>
+<div id="nameModal" class="modal" onclick="if(event.target===this)closeNameModal()"><div class="modal-card"><h2>Begin Exam Mode</h2><p>Enter the learner name for the certificate. The 4-hour timer starts after you click Start Exam.</p><label for="nameInput">Learner name</label><input id="nameInput" maxlength="80" placeholder="Enter learner name" onkeydown="if(event.key==='Enter')startExamFromModal(); if(event.key==='Escape')closeNameModal();"><div class="modal-actions"><button class="cert-btn secondary" onclick="closeNameModal()">Cancel</button><button class="cert-btn" onclick="startExamFromModal()">Start Exam</button></div></div></div>
+<div id="certificate" class="cert"><div class="cert-toolbar"><label>Certificate name <input id="certNameInput" oninput="updateCertName(this.value)" placeholder="Enter name"></label><button class="cert-btn" onclick="window.print()">Print / Save as PDF</button><button class="cert-btn secondary" onclick="hideCertificate()">Hide Certificate</button></div><div class="cert-paper"><div class="cert-border"><div style="font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28">Process Analysis of Heat Integration Exam</div><h1 class="cert-h1">Certificate of Completion</h1><p style="font-style:italic;color:#6b5f4a">This certifies that</p><p class="cert-name" id="certName">Learner</p><p>has successfully completed the <b>Process Analysis of Heat Integration Exam</b>.</p><div class="cert-stats"><div><div class="cert-stat-l">Score</div><div class="cert-stat-v" id="certScore">0 / 150</div></div><div><div class="cert-stat-l">Date</div><div class="cert-stat-v" id="certDate">-</div></div></div><div class="cert-foot"><div class="sig"><div class="sig-line">Quak Foo Lee</div><div class="sig-label">Chmltech Ltd.</div></div><div class="cert-id">Certificate ID: <span id="certId">-</span></div></div></div></div></div>
+<script>
+const QUESTIONS = [
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "A solvent recovery column vents 620 kW through an overhead condenser while a reactor feed heater imports steam in the same area. Before drawing exchanger matches, which process-analysis action gives the cleanest heat-integration basis?",
+    "opts": [
+      "Define stream boundaries, time basis, phase changes, pressure levels, contamination limits, and allowed temperature approaches before proposing matches.",
+      "Connect the condenser directly to the reactor feed heater because both duties appear in the same operating area and have similar energy magnitudes.",
+      "Use annual utility invoices as the stream table because invoices already include all heating and cooling losses in one data source.",
+      "Rank streams only by maximum temperature because heat integration is controlled by the highest available temperature in the plant and would misstate the integration result."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Heat integration begins with a verified stream table and constraints. Streams that appear close in location may still be incompatible because of pressure, phase, fouling, control, or scheduling limits. A rigorous boundary prevents false savings claims and unsafe exchanger matches."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "A process engineer measures a hot product stream at 12,000 kg/h, cp = 3.2 kJ/kg·K, cooling from 145°C to 70°C. What heat duty should be entered into the stream table?",
+    "opts": [
+      "Q = 12,000 × 3.2 ÷ (145 − 70) = 512 kJ/h; the temperature change is placed in the denominator.",
+      "Q = 12,000 × (145 − 70) ÷ 3,600 = 250 kW; the heat capacity term is omitted.",
+      "Q = 3.2 × (145 − 70) = 240 kW; the mass-flow term is treated as already included.",
+      "Q = 12,000 × 3.2 × (145 − 70) ÷ 3,600 = 800 kW; use the sensible cooling duty."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: For sensible heat, use Q = ṁ·cp·ΔT and convert kJ/h to kW by dividing by 3,600. The correct duty is 12,000 kg/h × 3.2 kJ/kg·K × 75 K = 2,880,000 kJ/h = 800 kW. This value becomes the thermal load available for recovery or utility targeting."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "In a batch plant, the dryer exhaust is hot only during the last two hours of an eight-hour cycle, while the incoming slurry preheat demand occurs at the beginning. What should the heat-integration basis capture?",
+    "opts": [
+      "The duties can be matched directly because both occur in the same batch recipe and have similar average daily heat loads.",
+      "Only the peak exhaust temperature matters because batch timing does not affect heat-recovery feasibility.",
+      "Time availability and thermal storage need to be included because simultaneous temperature overlap is not guaranteed.",
+      "Use steady-state pinch analysis without a time grid because all batch duties are equivalent after daily averaging."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Batch heat integration is constrained by time as well as temperature. A hot stream that is unavailable when the cold demand exists may require thermal storage, schedule changes, or separate utility service. Daily averages can overstate practical heat recovery."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "A reactor jacket uses 5 barg steam, but a nearby crystallizer needs heat at only 62°C. What is the most important basis check before suggesting direct steam-level reduction?",
+    "opts": [
+      "Reduce all steam users to the crystallizer temperature because lower-grade heat is always more energy efficient using an invalid design basis for this case.",
+      "Keep every user on 5 barg steam because high-pressure steam is universally safer for temperature control without checking the required operating case.",
+      "Base the decision only on pipe distance because pressure-level selection is a layout issue rather than a process issue.",
+      "Confirm required process temperatures, control margins, condensate return pressure, and whether lower-pressure steam can still meet peak heat-up duty."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Steam level changes affect heat-transfer driving force, control range, condensate drainage, and startup rates. A lower pressure may be attractive, but it must still satisfy all process duties and dynamic requirements. Pressure-level selection is an integration and operability problem, not just an efficiency label."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "A heat-integration model combines design flow rates from the PFD with measured temperatures from a low-rate trial. What issue should the reviewer flag?",
+    "opts": [
+      "The model is stronger because combining design and trial data automatically captures both future and current operation.",
+      "The basis mixes design and operating conditions, so stream duties and temperature profiles may not represent any real case.",
+      "The model should use only the hottest measured temperature because temperature dominates all heat-recovery conclusions.",
+      "No issue exists if the spreadsheet formulas are correct and the model gives positive energy savings with a unit or boundary assumption error."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Heat-integration results are case-specific. Mixing design flow with trial temperatures can create a stream table that never occurs physically. A defensible model must state whether it represents design, normal operation, turndown, startup, or a validated scenario."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "A heat-sensitive intermediate must never exceed 82°C, yet a proposed heat-recovery exchanger would place it against a 160°C condensate stream. What constraint should be entered in the heat-integration problem?",
+    "opts": [
+      "A product maximum-temperature constraint and control safeguard must limit exchanger outlet and wall-temperature exposure.",
+      "No constraint is needed if the calculated outlet temperature is below the limit at average flow with a unit or boundary assumption error.",
+      "The stream should be matched because a larger temperature difference always lowers exchanger area and cost.",
+      "Only the condensate pressure should be reduced; product wall temperature and control failure cases do not need review."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Product temperature limits can be violated locally or during disturbances even when average outlet temperature looks acceptable. Heat integration must respect product quality, wall temperature, bypass/control behavior, and credible low-flow cases."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "A refinery side draw cools from 210°C to 95°C, but wax precipitation begins below 120°C. How should this affect the heat-integration stream definition?",
+    "opts": [
+      "Use one continuous cooling segment because the total heat duty is unchanged by wax precipitation.",
+      "Split the stream at 120°C and add fouling or minimum-temperature constraints for the lower-temperature section.",
+      "Ignore the precipitation limit if the stream eventually reaches 95°C in existing operation.",
+      "Increase ΔTmin for every plant stream because one exchanger has a wax-fouling concern using an invalid design basis for this case."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Stream segmentation captures changes in physical behavior, fouling risk, or phase state. Below the wax point, the heat-transfer coefficient, cleaning interval, and exchanger suitability may change. Applying the constraint only to the affected stream is more accurate than distorting the whole network."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "A condensate stream releases latent heat at nearly constant temperature. How should it be entered into a heat-integration analysis?",
+    "opts": [
+      "Treat it as a sensible liquid stream from steam temperature to ambient using only liquid heat capacity.",
+      "Ignore the stream because latent heat cannot be recovered in a process exchanger network with a unit or boundary assumption error.",
+      "Model it as a phase-change stream at the condensing temperature with latent heat duty, plus any sensible subcooling if used.",
+      "Combine it with all plant steam traps and use one average temperature without pressure or return constraints."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Latent heat occurs over a small temperature range tied to pressure. Entering it as ordinary sensible cooling can distort composite curves and targets. Condensate drainage, noncondensables, pressure, and contamination also affect usable recovery."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "A plant proposes heat recovery from a corrosive acid stream into boiler feedwater. Which item belongs in the stream-data sheet before economic screening?",
+    "opts": [
+      "Only the acid inlet and outlet temperatures because corrosion concerns are handled after the financial model is approved.",
+      "Materials compatibility, leak consequence, allowable approach, fouling tendency, and whether an intermediate loop is required.",
+      "Only the total annual acid duty because exchanger material does not affect heat-recovery feasibility because it ignores the stated process constraint.",
+      "A rule that acid streams are never integrated because corrosion risk always eliminates heat recovery."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Heat integration must include process safety and materials limits early. A corrosive stream may still be usable through proper metallurgy or an intermediate loop, but a leak into boiler feedwater could be high consequence. Technical constraints shape both design and economics."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "An evaporator vapor stream contains solvent and noncondensables. The preliminary model treats all vapor as clean condensing steam. What correction is required?",
+    "opts": [
+      "Separate condensible solvent duty from noncondensable load and include contamination, pressure, and condenser approach constraints.",
+      "Treat the stream as clean steam because all vapor streams have the same heat-transfer behavior.",
+      "Use only total vapor mass flow and ignore composition because latent heat dominates the duty without checking the required operating case.",
+      "Reject heat recovery completely because noncondensables make every condenser unusable and would misstate the integration result."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Vapor composition controls latent heat, condensation temperature, fouling, safety, and off-gas handling. Noncondensables lower effective heat-transfer performance and may require venting or separate treatment. The source cannot be modeled as pure steam without verification."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "A cooling-water return header is already near its permitted discharge-temperature limit during summer. How should that condition affect heat-recovery screening?",
+    "opts": [
+      "Use winter cooling-water data because it gives the largest apparent heat-recovery opportunity without checking the required operating case.",
+      "Ignore the discharge constraint because heat integration concerns only process-to-process exchangers with a unit or boundary assumption error.",
+      "Assume cooling-water constraints disappear once any heat exchanger is added to the process and would misstate the integration result.",
+      "Use summer cooling-water constraints as a limiting case and credit heat recovery only if it reduces peak heat rejection or remains compliant."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Utility limits are part of the integration boundary. Heat recovery may be more valuable when it reduces constrained cooling-water rejection, but savings should be evaluated under the critical seasonal condition. Compliance and hydraulic capacity matter."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "A pasteurization heater and cooler operate on the same product stream with tight sanitation requirements. What should be checked before placing a regenerative exchanger in the design?",
+    "opts": [
+      "Allowed cross-contamination risk, pressure hierarchy, cleanability, product hold time, and validation requirements.",
+      "Only the exchanger area, because sanitation is unrelated to thermal integration with a unit or boundary assumption error.",
+      "Only the product inlet and outlet temperatures, because same-product recovery eliminates all quality risk.",
+      "A rule that regenerative recovery is impossible whenever food or specialty chemicals are involved."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Regenerative exchangers can save large energy amounts, but they may introduce contamination or validation constraints. Pressure hierarchy, leak detection, cleanability, and thermal history are part of the engineering basis."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "A process stream has cp measured at 30°C, but heat recovery occurs from 30°C to 190°C with a composition that changes during reaction. What stream-property treatment is best?",
+    "opts": [
+      "Use the 30°C cp value across the entire range because one property value keeps the stream table simple.",
+      "Use temperature- and composition-appropriate heat-capacity data or segment the stream where cp changes materially.",
+      "Use water heat capacity for all liquid streams because many process fluids are mostly water because it ignores the stated process constraint.",
+      "Ignore cp uncertainty because stream temperatures are usually more important than heat capacity."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Heat duty is proportional to cp. If cp varies with temperature or composition, a single low-temperature value can bias the duty and utility targets. Segmenting improves the heat-load representation without overcomplicating every stream."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "An exothermic reactor has a heat-removal peak of 1.8 MW for 20 minutes, but the daily average heat release is only 0.3 MW. Which value should drive exchanger and control-safety review?",
+    "opts": [
+      "Use the daily average only because heat integration is an annual energy-saving calculation without checking the required operating case.",
+      "Use the average of peak and daily duty because that balances safety and economics in one number.",
+      "Ignore reactor heat release if the plant already has a cooling system installed using an invalid design basis for this case.",
+      "Peak heat-release and dynamic control requirements should size the removal system, while average heat informs energy-recovery value."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Energy recovery and safety/control sizing answer different questions. Average duty supports annual savings, but peak duty protects reactor temperature and runaway margin. A heat-integration project must not compromise the required heat-removal capacity."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "A heat-source stream is available only after a debottlenecking project that may not be approved. How should it be handled in the heat-integration model?",
+    "opts": [
+      "Create separate base-case and future-case stream tables so savings are not credited before the source exists.",
+      "Include it in the base case because future projects should be assumed successful for integration planning.",
+      "Exclude it from all analysis because uncertain projects can never influence utility planning without checking the required operating case.",
+      "Average the current and future duties into one stream table to simplify management reporting."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Heat recovery claims must match the investment scenario. A future heat source can be part of a roadmap, but base-case economics should not depend on unapproved changes. Scenario separation prevents double counting and overstatement."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "A crude preheat retrofit study uses normal feed rate, but the unit frequently operates at 60% turndown. What should be added to the process basis?",
+    "opts": [
+      "Only the normal-rate case because exchanger design should always target the maximum annual throughput condition.",
+      "A turndown case with exchanger controllability, outlet-temperature limits, and utility fallback requirements.",
+      "A maximum-flow case only because low-flow operation increases residence time and is always easier.",
+      "No additional case because heat exchanger networks automatically scale linearly with flow."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Retrofits must work across the operating envelope. At turndown, temperature approaches, control-valve authority, fouling, and overheating risks can differ from normal flow. Heat recovery that works only at one rate may be operationally fragile."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "A plant wants to recover heat from a wastewater stream that sometimes contains polymer solids. What is the most important basis decision before targeting duty?",
+    "opts": [
+      "Use the wastewater average temperature only because solids do not affect heat-transfer design.",
+      "Assume a plate exchanger is always best because wastewater heat is low grade without checking the required operating case.",
+      "Reject the opportunity because any solids in wastewater make heat recovery impossible without checking the required operating case.",
+      "Define credible solids loading, exchanger type, fouling factor, cleaning method, and whether a dirty-service loop is needed."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Wastewater heat can be valuable, but solids and polymers can foul narrow channels. The correct basis includes worst credible feed quality, cleanability, and exchanger style. Otherwise area and uptime estimates are unreliable."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "Two process streams are thermally attractive, but one is classified as a toxic material and the other enters a food-grade product step. What engineering rule should govern matching?",
+    "opts": [
+      "Segregation, pressure hierarchy, double-tube-sheet or intermediate-loop design, and leak detection must be reviewed before direct exchange.",
+      "Direct exchange is acceptable because heat exchangers keep hot and cold streams physically separate by design.",
+      "The match should be rejected automatically because toxic streams can never provide recoverable heat without checking the required operating case.",
+      "The decision should be based only on ΔTmin because contamination risk is not part of energy targeting."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Heat integration cannot ignore contamination consequence. A match may need an intermediate loop, special exchanger design, monitoring, or exclusion. The best energy match is not always the safest process match."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "A hot oil loop supplies several users and returns with large temperature swings. What should be captured before proposing process-to-hot-oil heat recovery?",
+    "opts": [
+      "Only the hot oil supply temperature because return temperature is irrelevant once the heater is installed.",
+      "Loop supply/return temperatures, flow-control strategy, user priorities, heat-capacity margin, and upset response.",
+      "Only the fired-heater fuel cost because loop hydraulics do not affect heat integration with a unit or boundary assumption error.",
+      "A rule that hot oil systems should never receive process waste heat because they already have a heater."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: A utility loop is a dynamic thermal system. Waste heat added to hot oil may reduce fuel, but it can also upset user control or create high-temperature trips. Supply and return behavior must be part of the model."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "A proposed exchanger would cool a polymer melt close to its freezing point. What stream constraint must be entered?",
+    "opts": [
+      "Only the outlet temperature target is needed because solidification cannot occur inside a heat exchanger.",
+      "Minimum wall and bulk temperature constraints are needed to avoid solidification and plugging during normal and low-flow cases.",
+      "Use the largest ΔT possible because low outlet temperature always improves heat recovery using an invalid design basis for this case.",
+      "Ignore low-flow cases because polymer freezing is a maintenance rather than process-analysis issue."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Heat recovery near a freezing or crystallization point can create plugging even if the nominal outlet temperature is acceptable. Wall temperature and low-flow conditions are often more restrictive than the average bulk temperature."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "The plant energy dashboard reports steam usage per month, but the heat-integration study needs stream-level duty. What is the correct relationship between the two data sources?",
+    "opts": [
+      "Use monthly steam usage directly as every individual stream duty because it is the paid energy value.",
+      "Ignore utility invoices because only process calculations are valid for energy models.",
+      "Scale every stream duty by the same factor until the total matches the invoice, without checking operating reasons.",
+      "Use utility data to reconcile and validate stream duties, not to replace the process stream table."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Invoices are valuable checks on total consumption, but they do not identify individual stream temperatures, phase changes, or time windows. Reconciliation should compare measured utility use with calculated process demands and explain differences."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "A heat source is below the cold stream target temperature but above the cold stream inlet temperature. What should the analyst check before rejecting it?",
+    "opts": [
+      "Reject it immediately because a hot stream must exceed the final cold-stream target to be useful.",
+      "Whether partial preheating is useful within ΔTmin limits and whether the remaining duty can be supplied by a higher-temperature utility.",
+      "Use it for the entire heat-up duty because any temperature overlap guarantees complete heating and would misstate the integration result.",
+      "Ignore ΔTmin because partial heat recovery is always possible with enough exchanger area and would misstate the integration result."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: A low-grade source may still preheat a cold stream over part of its range. Composite curves and temperature intervals reveal partial matches. Utility reduction can still be valuable even when final temperature requires another heater."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "A proposed heat-recovery case uses average annual feed composition, but acidic cleaning campaigns occur weekly and change wastewater heat content. What should be included?",
+    "opts": [
+      "Average cleaning and production together because the wastewater tank eventually mixes all thermal loads because it ignores the stated process constraint.",
+      "Ignore cleaning campaigns because they are not saleable production using an invalid design basis for this case.",
+      "Separate production and cleaning cases, including timing, corrosion, peak discharge temperature, and wastewater treatment limits.",
+      "Use only the hottest cleaning case because it gives the maximum heat-recovery duty and would misstate the integration result."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Cleaning thermal loads can affect wastewater treatment, heat recovery, materials, and utility peaks. If the heat source or sink changes by operating mode, the model should include separate scenarios rather than hiding them in an annual average."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "A study proposes to credit heat recovery from a stream that is currently cooled by air fans, not cooling water. What must be checked before claiming water savings?",
+    "opts": [
+      "Credit cooling-water savings automatically because all cooling duties represent water use and would misstate the integration result.",
+      "The current utility baseline must be verified; the project may save fan power or fuel elsewhere, not necessarily cooling water.",
+      "Credit steam savings automatically because every recovered heat source replaces steam one-for-one.",
+      "Do not credit any savings because air-cooled heat sources cannot be integrated using an invalid design basis for this case."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Savings must be credited against the actual baseline. Recovering heat from an air-cooled stream may reduce air-cooler load, fan electricity, or enable preheat, but it does not automatically save cooling water. Utility accounting must be source-specific."
+  },
+  {
+    "section": "Heat Integration Basis, Stream Data & ΔTmin",
+    "q": "The heat-integration basis lists several streams but omits whether each stream is continuous, batch, seasonal, or standby. Why is that omission serious?",
+    "opts": [
+      "Availability is only needed for operator scheduling and does not affect energy-recovery calculations.",
+      "Standby streams can be treated as continuous because they have design duties in the PFD and would misstate the integration result.",
+      "Availability determines whether a heat source and sink can exchange directly, need storage, or should be excluded from base savings.",
+      "Seasonal streams should always be ignored because annual averages would be hard to calculate using an invalid design basis for this case."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Heat integration is constrained by simultaneous availability. A perfect temperature match is useless if the streams do not overlap in time or require costly storage. Availability tags protect the economic and operational realism of the study."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "A cold stream needs heating from 30°C to 150°C with CP = 5 kW/K. Using ΔTmin = 20°C, what shifted temperature range should be used for pinch targeting?",
+    "opts": [
+      "Shift cold temperatures down by 10°C: 20°C to 140°C; this reverses the pinch convention.",
+      "Shift both ends up by 20°C: 50°C to 170°C; this applies the full ΔTmin to one side.",
+      "Shift cold temperatures up by 10°C: 40°C to 160°C for the targeting table.",
+      "Do not shift cold temperatures; only hot streams are shifted in pinch analysis."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: In standard problem-table targeting, hot streams are shifted down by ΔTmin/2 and cold streams up by ΔTmin/2. With ΔTmin = 20°C, the cold stream is shifted up 10°C. This creates temperature intervals that enforce minimum approach in the heat cascade."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "A hot stream cools from 180°C to 70°C with CP = 3 kW/K. Under ΔTmin = 30°C pinch targeting, what shifted temperatures should be used?",
+    "opts": [
+      "Shift hot temperatures down by 15°C: 165°C to 55°C for the interval cascade.",
+      "Shift hot temperatures up by 15°C: 195°C to 85°C; this treats a hot stream like a cold stream.",
+      "Shift hot temperatures down by 30°C: 150°C to 40°C; this applies the full ΔTmin to one side.",
+      "Use 180°C to 70°C because temperature shifting is used only after exchanger design."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: The shifted-temperature method allocates half of ΔTmin to each side. A hot stream is shifted downward by ΔTmin/2 so the heat cascade can target utilities while preserving feasible approaches in the real network."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "In a heat cascade, an interval has 9 kW/K of hot CP and 4 kW/K of cold CP across a shifted interval width of 25 K. What is the net interval heat?",
+    "opts": [
+      "ΔH = (9 − 4) × 25 = +125 kW, a surplus interval in the shifted cascade.",
+      "ΔH = (4 − 9) × 25 = −125 kW; the hot and cold CP terms are reversed.",
+      "ΔH = 9 × 4 × 25 = 900 kW; the CP terms are multiplied instead of differenced.",
+      "ΔH = 25 ÷ (9 − 4) = 5 kW; the interval width is divided by the CP difference."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Interval heat is the net heat-capacity flow difference times the shifted temperature interval. A positive value means the interval releases more heat than it requires; the cascade then passes surplus downward to lower temperature intervals."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "A shifted heat cascade gives raw cumulative values of 0, −450, −300, +120, and +260 kW. What minimum hot utility is required?",
+    "opts": [
+      "Minimum hot utility = 260 kW, using the final positive cascade value with a unit or boundary assumption error.",
+      "Minimum hot utility = 120 kW, using only the largest positive interval.",
+      "Minimum hot utility = 450 kW, added to remove the most negative cascade value.",
+      "Minimum hot utility = 0 kW because the cascade ends positive overall."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: The heat cascade is made feasible by adding enough hot utility at the top so no cumulative value is negative. The largest deficit is 450 kW, so 450 kW is the minimum hot utility; the final adjusted surplus becomes the cold utility target."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "After adding the minimum hot utility to a heat cascade, the adjusted final residual is 310 kW. What does that number represent?",
+    "opts": [
+      "It is the minimum cold utility required after maximum feasible process-to-process recovery.",
+      "It is additional hot utility because final residuals are always heat shortages.",
+      "It is the pinch temperature because adjusted residuals are reported in °C using an invalid design basis for this case.",
+      "It is exchanger area because cascade residuals directly equal network surface area."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Once the cascade has no negative residuals, the final surplus heat must be removed by cold utility. This value represents the minimum cooling target for the chosen ΔTmin and stream set, not exchanger area or temperature."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "A pinch study says the process pinch occurs at shifted temperature 95°C using ΔTmin = 20°C. What real hot-side and cold-side pinch temperatures correspond to that shifted value?",
+    "opts": [
+      "Hot pinch = 95°C and cold pinch = 95°C; shifted and real temperatures are identical.",
+      "Hot pinch = 115°C and cold pinch = 75°C; the full ΔTmin is applied to both streams.",
+      "Hot pinch = 105°C and cold pinch = 85°C, separated by ΔTmin = 20°C.",
+      "Hot pinch = 85°C and cold pinch = 105°C; the hot and cold corrections are reversed."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: A shifted pinch temperature is converted back by adding ΔTmin/2 to the hot side and subtracting ΔTmin/2 from the cold side. With ΔTmin = 20°C, the real hot pinch is 105°C and the real cold pinch is 85°C."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "A proposed exchanger transfers heat from a hot stream below the pinch to a cold stream above the pinch. Why is this a serious pinch-rule violation?",
+    "opts": [
+      "It is acceptable because any process-to-process exchanger reduces at least one utility load.",
+      "It only increases exchanger area; utility targets remain unchanged by cross-pinch matches with a unit or boundary assumption error.",
+      "It moves heat across the pinch and increases both hot and cold utility targets by the amount of cross-pinch transfer.",
+      "It improves the heat cascade because below-pinch heat is always higher value than above-pinch heat."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Pinch design rules prevent heat transfer across the pinch. Heat moved from below to above the pinch creates a heat deficit below and a heat surplus above, increasing both heating and cooling utility demand. It can hide energy losses inside a network that appears integrated."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "Above the pinch, a heat exchanger is proposed to cool a hot process stream with cooling water. What should the reviewer conclude?",
+    "opts": [
+      "Cooling above the pinch wastes heat that could satisfy above-pinch cold demand and will raise hot utility need.",
+      "Cooling above the pinch is preferred because cooling water is usually cheaper than adding exchanger area.",
+      "The exchanger is neutral because utilities above and below the pinch are interchangeable and would misstate the integration result.",
+      "The match is required by pinch rules because hot streams above the pinch should never heat cold streams."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Above the pinch, the region is heat-deficient. Rejecting heat to cooling water there increases the amount of hot utility needed to satisfy cold streams. Cooling above the pinch is one of the classic pinch violations."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "Below the pinch, a steam heater is proposed to help warm a low-temperature cold stream. What is the likely pinch-analysis impact?",
+    "opts": [
+      "Heating below the pinch adds heat where the region already has surplus heat and increases cold utility demand.",
+      "Heating below the pinch is required because cold streams can only be heated with utilities.",
+      "The impact is zero if the steam heater is small relative to total plant duty with a unit or boundary assumption error.",
+      "Heating below the pinch reduces cooling demand because steam replaces process heat."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Below the pinch, the network has excess heat that should be rejected only after recovering as much as feasible within that region. Adding hot utility below the pinch creates additional heat that eventually needs cooling, raising cold utility demand."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "Reducing ΔTmin from 30°C to 15°C in a pinch study usually has which trade-off?",
+    "opts": [
+      "Less heat recovery and lower exchanger area because smaller approach temperatures reduce duty.",
+      "More heat recovery and lower utility use, but larger exchanger area and higher retrofit complexity.",
+      "No change to utility targets because ΔTmin affects only detailed exchanger drawings.",
+      "Higher utility use but smaller temperature crossing risk in every exchanger and would misstate the integration result."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: A smaller ΔTmin allows streams to approach more closely, increasing recoverable heat. The trade-off is larger area, lower driving force, more exchanger shells or plates, and potentially more difficult control or fouling tolerance."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "A composite-curve plot shows the hot and cold curves touching at a narrow location while large heat surplus exists below. What does the touching point indicate?",
+    "opts": [
+      "It identifies the pinch or closest approach, where heat transfer across the boundary should be avoided.",
+      "It identifies the highest exchanger area in the network, regardless of stream identity.",
+      "It identifies the cooling-water return temperature for the entire plant without checking the required operating case.",
+      "It identifies the point where all cold utility should be placed above the pinch."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Composite curves summarize temperature-enthalpy overlap. The point of minimum separation is the pinch for the selected ΔTmin. Network design should respect that boundary to avoid increasing both hot and cold utility."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "A grand composite curve shows a heat pocket at 95°C and a heating demand above 160°C. What utility-selection lesson follows?",
+    "opts": [
+      "Low-grade heat at 95°C cannot directly satisfy 160°C demand without a heat pump or higher-temperature utility.",
+      "The 95°C pocket should be counted as steam replacement at 160°C because heat is conserved.",
+      "All heat pockets on a grand composite curve have the same utility value using an invalid design basis for this case.",
+      "Cooling water should be used at 160°C because the curve shows a high-temperature demand."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Heat quantity and heat quality are different. Heat at 95°C may preheat lower-temperature streams or feed a heat pump, but it cannot directly supply a higher temperature demand at reasonable ΔT. Utility level selection depends on temperature grade."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "A heat-integration target indicates 2.4 MW of recoverable heat, but the largest individual cold stream needs only 0.9 MW. What network issue may be required?",
+    "opts": [
+      "Only the largest cold stream can receive recovered heat, so the remaining 1.5 MW must be ignored.",
+      "A single oversized exchanger should be installed on the largest cold stream regardless of outlet-temperature limits.",
+      "Several cold streams or stream splits may be needed to absorb the recoverable heat within temperature and control limits.",
+      "The target is invalid because recoverable heat must equal one cold stream duty without checking the required operating case."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Utility targets are aggregate values. Achieving them may require multiple matches, stream splitting, or utility-level changes. A target is not a one-exchanger design; detailed network feasibility must follow."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "A proposed ΔTmin of 5°C gives very high heat recovery in a viscous fouling service. What should the analyst warn?",
+    "opts": [
+      "The case is automatically optimal because the smallest ΔTmin always gives the lowest lifecycle cost and would misstate the integration result.",
+      "A 5°C ΔTmin eliminates fouling because stream temperatures are closer together and would misstate the integration result.",
+      "The theoretical utility savings may be offset by large area, fouling sensitivity, pressure drop, and poor controllability.",
+      "The exchanger network will require less area because heat recovery is higher and would misstate the integration result."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Pinch targets are not sufficient by themselves. In dirty or viscous service, a very small approach can require excessive area and make fouling or control problems severe. Economic ΔTmin should balance utility savings with capital and operability."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "A cold utility target from pinch is 1.1 MW, but actual cooling-water duty is 2.0 MW. What is the best interpretation?",
+    "opts": [
+      "The pinch target is wrong because actual plant data always overrides every model result with a unit or boundary assumption error.",
+      "The actual duty must be reduced instantly to 1.1 MW without network changes because it ignores the stated process constraint.",
+      "The difference proves that all heat exchangers should be cleaned, with no further analysis needed without checking the required operating case.",
+      "The difference may reflect pinch violations, unmodeled streams, utility-only cooling, fouling, or operating cases outside the model."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Targets represent the theoretical minimum for a defined stream set and ΔTmin. Actual usage can be higher due to design choices, constraints, missing streams, fouling, or non-base operation. The gap is a diagnostic starting point."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "A stream table includes a hot stream cooling from 120°C to 115°C with very high flow. Why might this stream still be important to heat-integration targeting?",
+    "opts": [
+      "Its small temperature change can carry large enthalpy if CP flow is high, creating a significant heat pocket.",
+      "It can be ignored because any stream with less than 10°C temperature change has negligible duty.",
+      "It should be treated as a temperature measurement error because heat integration needs wide temperature ranges.",
+      "It always defines the pinch because small ΔT streams are automatically pinch streams."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Heat duty equals CP flow times temperature change. A small ΔT can still represent major heat if the flow is large. Stream screening should use enthalpy, not temperature span alone."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "A proposed heat match has hot stream entering at 110°C and cold stream leaving at 108°C, with ΔTmin = 15°C. What is the key issue?",
+    "opts": [
+      "The match is acceptable because the hot stream temperature is higher than the cold stream temperature.",
+      "The match is acceptable if exchanger area is increased because ΔTmin rules do not apply at exchanger ends.",
+      "The issue is only a cold-utility concern and does not affect exchanger feasibility.",
+      "The hot-end approach is only 2°C, so the match violates the specified minimum approach."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Every exchanger match must respect minimum approach at both ends after accounting for temperature profiles. A 2°C terminal difference violates a 15°C ΔTmin and would require impractical area or different matching."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "A heat cascade finds the pinch at an intermediate shifted interval. What does a zero adjusted residual at that interval mean?",
+    "opts": [
+      "It means no heat exchangers can be installed at temperatures near that interval.",
+      "It marks the heat-flow boundary where no heat should be transferred across in an ideal minimum-utility network.",
+      "It means all streams above and below the interval have zero heat capacity and would misstate the integration result.",
+      "It means cold utility must be added exactly at that interval because it ignores the stated process constraint."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: In an adjusted cascade, a zero residual indicates the pinch. Heat cannot be cascaded past this point without increasing utilities. Network design is then separated into above-pinch and below-pinch regions."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "A hot stream has CP = 8 kW/K from 200°C to 100°C. A cold stream has CP = 6 kW/K from 60°C to 180°C. At a simple energy level, which statement is correct?",
+    "opts": [
+      "The hot stream can always heat the cold stream fully because 800 kW exceeds 720 kW because it ignores the stated process constraint.",
+      "Hot duty = 8×100 = 800 kW and cold duty = 6×120 = 720 kW, but temperature feasibility still needs pinch or LMTD checks.",
+      "The cold stream cannot be heated because its outlet temperature is lower than the hot inlet temperature.",
+      "The duties are equal because both streams have similar temperature ranges using an invalid design basis for this case."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Total energy balance is necessary but not sufficient. The hot stream has enough enthalpy overall, but temperature profiles and minimum approach determine whether the full duty is recoverable in one or more exchangers."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "A plant wants to use all available heat below 80°C to generate 150°C steam. What should the grand-composite review likely conclude?",
+    "opts": [
+      "Direct steam generation is thermodynamically infeasible; consider low-temperature preheat, heat pump upgrading, or other sinks.",
+      "All low-temperature heat can generate 150°C steam if enough exchanger area is installed and would misstate the integration result.",
+      "The heat should be rejected because heat below 80°C has no possible process value and would misstate the integration result.",
+      "Steam generation temperature is unrelated to source temperature when the heat quantity is large."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Heat must flow from hotter to colder unless upgraded by work input. Low-grade heat below 80°C cannot directly generate 150°C steam. Heat pumps or MVR can lift temperature, but they need economic and operability evaluation."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "A heat-integration summary lists 5 MW gross hot-stream duty and claims 5 MW utility savings. What is the likely error?",
+    "opts": [
+      "The claim is correct because all heat leaving hot streams can always replace steam one-for-one using an invalid design basis for this case.",
+      "The claim is understated because heat recovery usually exceeds gross hot-stream duty because it ignores the stated process constraint.",
+      "The only missing item is exchanger cost; utility savings always equal gross hot duty with a unit or boundary assumption error and would misstate the integration result.",
+      "Gross heat availability is not equal to recoverable savings because temperature overlap, timing, ΔTmin, and constraints reduce usable heat."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Recoverable heat is constrained by cold demand, temperature level, simultaneity, fouling, safety, and network design. Gross hot duty is an upper bound, not a savings figure. Pinch targeting estimates feasible recovery."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "A stream split is proposed above the pinch to improve heat recovery. What should be checked?",
+    "opts": [
+      "Both split branches must maintain feasible temperature approaches, controllable flow, and no unintended heat transfer across the pinch.",
+      "Stream splits are always forbidden in pinch design because they complicate composite curves without checking the required operating case.",
+      "Any stream split above the pinch automatically reduces both hot and cold utility equally with a unit or boundary assumption error.",
+      "Only the total split ratio matters; outlet temperatures and exchanger control can be ignored."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Stream splitting can be useful for matching CP flows and exchanger temperatures, but it adds control and hydraulic complexity. It must respect pinch rules and maintain feasible temperature approaches in all branches."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "A cold stream crosses the pinch temperature range in a proposed single exchanger. What is the design implication?",
+    "opts": [
+      "The exchanger is always acceptable because a single shell automatically respects pinch rules.",
+      "The cold stream should be removed from the pinch study because crossing streams cannot be integrated.",
+      "The exchanger may need to be split into above-pinch and below-pinch sections to avoid cross-pinch heat transfer.",
+      "A larger ΔTmin always eliminates the need to split any crossing stream because it ignores the stated process constraint."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Streams can cross pinch regions. Detailed network design often splits streams or exchangers so above-pinch and below-pinch duties are handled separately. Otherwise, a single exchanger may unintentionally transfer heat across the pinch."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "A process has minimum hot utility target of 3.0 MW at ΔTmin = 20°C. After a retrofit, measured steam reduction is 2.6 MW. What is the best conclusion?",
+    "opts": [
+      "The retrofit captured much of the target, but remaining gap should be assessed against constraints, fouling, controls, and omitted matches.",
+      "The retrofit failed because every project must reach the theoretical target exactly and would misstate the integration result.",
+      "The target was wrong because measured savings were lower than 3.0 MW without checking the required operating case without checking the required operating case.",
+      "The retrofit exceeded target because any steam reduction is equivalent to maximum heat recovery with a unit or boundary assumption error."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Theoretical targets are benchmarks, not guarantees. A practical retrofit may leave some target unrecovered due to plot space, fouling, exchanger cost, stream segregation, or control limitations. Gap analysis identifies whether further work is economical."
+  },
+  {
+    "section": "Pinch Analysis, Composite Curves & Utility Targets",
+    "q": "A pinch model uses ΔTmin = 10°C for plate exchangers and shell-and-tube exchangers alike. Why may this be misleading?",
+    "opts": [
+      "One ΔTmin is always required for every exchanger in a plant, regardless of service with a unit or boundary assumption error.",
+      "Plate exchangers never require fouling margin, so all ΔTmin values should be below 5°C with a unit or boundary assumption error.",
+      "Different services and exchanger types can justify different approach temperatures, pressure drops, fouling margins, and cleanability assumptions.",
+      "Shell-and-tube exchangers cannot be included in pinch studies without checking the required operating case without checking the required operating case."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: A single ΔTmin is convenient for targeting, but detailed design may need service-specific approaches. Fouling, viscosity, materials, and exchanger geometry influence realistic minimum approach and lifecycle economics."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A retrofit exchanger must transfer 600 kW with U = 450 W/m²·K and corrected LMTD = 24 K. What area is required before adding fouling or layout margin?",
+    "opts": [
+      "A = 600 ÷ (450 × 24) = 0.056 m²; the kW duty is not converted to watts.",
+      "A = 600,000 ÷ (450 × 24) = 55.6 m²; use duty in watts with U in W/m²·K.",
+      "A = 600,000 × 450 × 24 = 6.48×10⁹ m²; duty is multiplied by the driving terms.",
+      "A = (450 × 24) ÷ 600,000 = 0.018 m²; the equation is inverted."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: The exchanger sizing relation is Q = U·A·ΔTlm,corr. With Q in watts, A = 600,000/(450×24) = 55.6 m². Fouling, pressure-drop, materials, and layout constraints are then added during design."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A proposed exchanger has hot inlet/outlet 180°C/95°C and cold inlet/outlet 60°C/150°C in countercurrent flow. What feasibility check should be performed first?",
+    "opts": [
+      "Approve it because countercurrent exchangers can always heat the cold outlet above the hot outlet.",
+      "Reject it because cold outlet temperature must always remain below hot outlet temperature in every exchanger.",
+      "Check terminal temperature approaches and any temperature cross before trusting the duty calculation.",
+      "Ignore temperatures and size area from total heat duty only."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Before area sizing, the temperature profile must be feasible. Countercurrent exchangers can have cold outlet above hot outlet, but both ends must satisfy the required approach and no local temperature cross should occur."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A new preheater is added upstream of an existing steam heater, but the steam control valve begins hunting at low load. What retrofit issue is likely?",
+    "opts": [
+      "The heat-recovery exchanger reduced steam duty below the valve's stable control range during some cases.",
+      "The preheater must be undersized because hunting always means more heat recovery is needed.",
+      "The steam heater fouling factor was too low; control valves are unrelated to heat integration.",
+      "The symptom proves the recovered heat is contaminated and should not be used with a unit or boundary assumption error."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Energy retrofits change downstream utility loads. Control valves, bypasses, and minimum turndown must be checked because utility heaters may become unstable when duty falls below their controllable range."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A plate exchanger recovers heat efficiently during clean operation, but pressure drop doubles after two weeks on a polymer stream. What should the network review emphasize?",
+    "opts": [
+      "The exchanger is successful because initial heat recovery met the target because it ignores the stated process constraint.",
+      "Fouling rate, channel geometry, cleanability, and maintenance interval may control lifecycle value more than clean heat-transfer area.",
+      "Pressure drop is irrelevant if the outlet temperatures remain on target with a unit or boundary assumption error and would misstate the integration result.",
+      "More plates should be added automatically because area solves every pressure-drop increase with a unit or boundary assumption error."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Retrofit success requires sustained operation. In fouling service, pressure drop and cleaning frequency can erase savings or reduce throughput. Exchanger type and maintenance access may dominate total economics."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A heat exchanger network places a dirty crude stream against a clean product stream in a single-wall exchanger. What additional design requirement may be needed?",
+    "opts": [
+      "No additional requirement is needed because heat exchangers always prevent cross-contamination without checking the required operating case.",
+      "Only exchanger area should be increased because dirty service lowers U because it ignores the stated process constraint.",
+      "Leak consequence, pressure hierarchy, detection, and potentially double-wall or intermediate-loop design should be reviewed.",
+      "The match must be rejected without review because dirty and clean streams can never exchange heat."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Network matches must address contamination risk. A thermally attractive match may require special exchanger construction, pressure hierarchy, leak detection, or an intermediate loop before it is acceptable for production."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A retrofit exchanger is intended to reduce a fired heater duty by 1.2 MW, but the heater has a minimum stable firing limit of 0.8 MW. What should be checked?",
+    "opts": [
+      "Whether the heater can operate safely and controllably at the reduced duty, including bypass or alternate operating modes.",
+      "The retrofit is automatically acceptable because any duty reduction saves fuel using an invalid design basis for this case.",
+      "The heater minimum is irrelevant because the exchanger only affects feed temperature.",
+      "Increase heat recovery until fired heater duty reaches zero in every operating case."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Utility equipment has operating limits. A preheat retrofit can create low-firing instability, emissions problems, or poor control if the heater is pushed below its turndown. The network and utility system must be considered together."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A shell-and-tube exchanger shows outlet temperatures drifting over months while flow rates remain stable. Which diagnostic is most useful?",
+    "opts": [
+      "Use only the steam valve position because valve opening directly equals heat-transfer area.",
+      "Calculate current UA from duty and LMTD, then compare with clean or design UA to quantify fouling.",
+      "Assume feed composition changed because exchanger fouling cannot be diagnosed from temperature data.",
+      "Increase utility temperature immediately; trend analysis is not needed when outlet temperature drifts."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: UA trending converts plant data into heat-transfer performance. If flow, cp, and temperatures are known, current duty and LMTD can estimate UA. Declining UA at stable operation is a strong fouling indicator."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A proposed exchanger match has an outlet approach of 6°C in a service with specified ΔTmin of 12°C. What is the most likely design correction?",
+    "opts": [
+      "Reduce recovered duty, add area only if ΔTmin can still be respected, or split/move the match to a more feasible temperature range.",
+      "Proceed with larger area because area can overcome any violation of minimum approach and would misstate the integration result using an invalid design basis for this case.",
+      "Ignore the approach because ΔTmin applies only to pinch targeting, not actual exchangers and would misstate the integration result.",
+      "Raise cold outlet temperature further to increase heat recovery and reduce the approach and would misstate the integration result."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: A terminal approach below ΔTmin indicates an infeasible or uneconomic match under the stated design basis. Area cannot make heat flow through an impossible temperature difference. The match must be modified or the target basis revisited."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A heat exchanger retrofit adds several new process-process exchangers in series upstream of a reactor. What operability concern should be reviewed?",
+    "opts": [
+      "Startup warm-up sequence, bypass control, low-flow overheating, and reactor feed-temperature stability.",
+      "Only annual energy savings because series preheaters do not affect startup or reactor control.",
+      "Only exchanger purchase price because operability is handled by operators during commissioning.",
+      "A rule that process-process exchangers cannot be placed upstream of reactors and would misstate the integration result."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: A heat-recovery train changes dynamics. During startup or disturbances, feed temperature may lag, overshoot, or depend on upstream streams. Bypass and control strategies must be designed, not improvised."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "An exchanger network design uses a high-viscosity stream on the shell side where cleaning access is poor. What should the reviewer question?",
+    "opts": [
+      "Side allocation has no effect once the exchanger area is calculated with a unit or boundary assumption error.",
+      "Whether side allocation supports pressure drop, heat-transfer coefficient, mechanical cleanability, and fouling management.",
+      "High-viscosity streams should always be shell side because shells have larger volume because it ignores the stated process constraint.",
+      "Cleaning access is a maintenance issue and not part of network process analysis with a unit or boundary assumption error."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Which stream goes tube side or shell side affects velocity, pressure drop, fouling, metallurgy, mechanical cleaning, and leakage consequence. Process integration must respect maintainability as well as heat duty."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A process-process exchanger is bypassed most of the time because the hot source temperature fluctuates. What does this indicate?",
+    "opts": [
+      "The exchanger should be counted at full design savings because it exists in the network and would misstate the integration result.",
+      "The bypass proves the cold stream no longer needs heating without checking the required operating case.",
+      "The match may be thermally attractive on paper but lacks control robustness under real source variability.",
+      "The exchanger should be replaced by a larger unit because bypassing always means area is insufficient."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Actual savings depend on operating hours and control behavior. If source variability forces bypass operation, the model should use effective heat-recovery time and evaluate storage, control tuning, or alternate matches."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A new heat exchanger reduces steam demand but increases cooling duty downstream because a product must be cooled again before storage. What analysis is needed?",
+    "opts": [
+      "Evaluate whole-network heat recovery and avoid shifting heat from one utility to another without net benefit.",
+      "Credit the steam reduction only because heating utility is more visible than downstream cooling.",
+      "Ignore the extra cooling because storage temperature is outside the process boundary.",
+      "Reject all heat recovery because any added cooling proves the project cannot work because it ignores the stated process constraint."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Local heat recovery can be misleading if it creates new cooling elsewhere. A network analysis should compare net hot utility, cold utility, product constraints, and operating costs across the full boundary."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "An existing exchanger has spare area but limited pressure-drop margin. A retrofit proposes higher flow through it to recover more heat. What should be checked?",
+    "opts": [
+      "Only area, because spare surface guarantees the exchanger can accept higher flow.",
+      "Only outlet temperature, because pressure drop is not part of heat integration with a unit or boundary assumption error.",
+      "Only the utility price, because hydraulic issues are second-order in retrofit economics.",
+      "Hydraulic pressure drop, pump margin, vibration risk, and controllability, not just thermal area."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Exchanger retrofit often has a hydraulic constraint. Increasing flow can exceed pump head, cause erosion, increase vibration, or shift control behavior. Thermal and hydraulic feasibility must both pass."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A heat exchanger network has a process stream that can foul rapidly during shutdown cooling. What should the design include?",
+    "opts": [
+      "Shutdown bypass, flushing, heat tracing, or minimum-temperature controls to avoid stagnant fouling or solidification.",
+      "Only steady-state exchanger area because shutdown conditions do not affect normal heat recovery.",
+      "A lower ΔTmin to increase heat recovery during normal operation without checking the required operating case.",
+      "A larger cooling-water valve because all shutdown fouling is caused by insufficient cooling and would misstate the integration result."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Non-steady conditions can drive fouling or plugging. Heat-integration hardware must support startup, shutdown, cleaning, and emergency modes. Otherwise a good steady-state network can be unreliable in operation."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A proposed exchanger match requires heating a cold stream from 40°C to 130°C, but the hot stream is available from 125°C to 70°C. With a required 10°C approach, what is the key problem?",
+    "opts": [
+      "The match is feasible because the hot stream starts above the cold stream inlet without checking the required operating case.",
+      "The match is feasible if exchanger area is increased enough using an invalid design basis for this case.",
+      "The cold stream cannot reach 130°C from that hot stream because the hot inlet is only 125°C, below the needed approach.",
+      "The match is feasible because the hot stream cools through a larger temperature range than the cold stream."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: The maximum cold outlet must remain below the hot inlet by the required approach. With hot inlet at 125°C and ΔTmin of 10°C, a cold outlet above about 115°C is not feasible from this source alone."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A heat exchanger network design uses many small exchangers to approach the utility target. What practical trade-off should be included in the decision?",
+    "opts": [
+      "More exchangers always reduce operating cost with no practical downside with a unit or boundary assumption error.",
+      "Network complexity is irrelevant because all exchangers are passive equipment without checking the required operating case.",
+      "The design should target the absolute minimum utility even if every stream requires multiple exchangers because it ignores the stated process constraint.",
+      "Additional exchangers can raise maintenance, pressure drop, plot congestion, controls, and tie-in complexity despite better heat recovery."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Pinch targets show what is thermodynamically possible, but practical design balances energy with capital, reliability, controls, maintainability, and downtime. The economic optimum may use more utility than the theoretical minimum."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A plant installs a feed-effluent exchanger but product outlet temperature becomes more variable. Which control feature may be needed?",
+    "opts": [
+      "Remove all temperature control because regenerative exchangers self-regulate.",
+      "Increase the exchanger area until variability disappears under every disturbance.",
+      "Ignore variability if average heat recovery meets the design target because it ignores the stated process constraint.",
+      "A trim utility exchanger, bypass control, or feedforward logic to stabilize product temperature."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Process-process exchangers transfer disturbances between streams. A trim heater/cooler or bypass may be needed to meet product temperature specifications while still recovering heat. Control design is part of heat-integration success."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A exchanger network retrofit proposes tying a new exchanger into a unit that has only a five-day annual shutdown. What should the project plan include?",
+    "opts": [
+      "Only the exchanger thermal calculation because installation scheduling does not affect technical readiness.",
+      "Tie-in scope, isolation, hydrotest, cleaning, commissioning sequence, and contingency for startup failure.",
+      "A plan to discover tie-in needs during shutdown to minimize design work.",
+      "Assume tie-ins are minor because heat exchangers are standard equipment."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Retrofits are constrained by installation windows. A technically attractive exchanger can fail commercially if tie-ins are underestimated. Shutdown planning and commissioning risk belong in the process-analysis package."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A dirty hot stream is proposed to heat a clean cold stream through a spiral exchanger instead of shell-and-tube. What should drive the selection?",
+    "opts": [
+      "Choose spiral automatically because it is always best for dirty streams using an invalid design basis for this case without checking the required operating case.",
+      "Fouling behavior, pressure drop, cleaning access, leak consequence, and heat-transfer duty should be compared for both exchanger types.",
+      "Choose shell-and-tube automatically because it is always lower maintenance using an invalid design basis for this case.",
+      "Select only by quoted area because exchanger type does not change operability without checking the required operating case."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Exchanger type affects fouling tolerance, cleaning method, pressure drop, and cost. Spiral exchangers may suit some dirty services, but the decision needs service-specific evidence and maintenance planning."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A new exchanger reduces boiler steam use, but condensate return from the old heater also falls. What accounting check is needed?",
+    "opts": [
+      "Only fuel savings matter because condensate is free once steam is reduced and would misstate the integration result.",
+      "Net utility impact should include steam reduction, condensate loss or rerouting, boiler feedwater makeup, and deaerator effects.",
+      "Condensate changes are unrelated to heat integration without checking the required operating case without checking the required operating case.",
+      "Credit both steam savings and the same condensate as if it still returns unchanged using an invalid design basis for this case."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Steam-system savings are not just steam mass flow. Condensate return affects water, chemicals, heat content, deaerator load, and boiler blowdown. Utility accounting must avoid double counting."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A proposed exchanger heats a feed that sometimes contains suspended solids settling during low flow. What layout detail matters?",
+    "opts": [
+      "Velocity, orientation, drainability, low-flow bypass, and cleaning provisions should be reviewed.",
+      "Only design flow matters because solids cannot settle in heat exchangers without checking the required operating case.",
+      "Use the largest shell diameter to reduce pressure drop, regardless of settling.",
+      "Ignore low-flow cases because the exchanger was sized for normal production."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Solids can settle or plug exchangers at low velocity. A reliable design considers orientation, velocity profile, flushing, and low-flow operation. This is a process-analysis issue because it affects uptime and maintainability."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A heat exchanger retrofit creates a temperature approach close to zero at one end during winter operation. What risk should be identified?",
+    "opts": [
+      "Zero approach is ideal because it means all possible heat has been recovered.",
+      "The winter case can be ignored because cold ambient improves cooling because it ignores the stated process constraint.",
+      "The exchanger may lose driving force, become control-sensitive, or require excessive area under that seasonal case.",
+      "Temperature approach affects only utility cost, not exchanger operability."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Very small approach temperatures make exchanger performance sensitive to small flow or temperature changes. Seasonal cases can create feasibility or control issues even if annual energy savings look strong."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A feed-effluent exchanger is proposed around a reactor, but the effluent may contain catalyst fines. What additional safeguard should be considered?",
+    "opts": [
+      "Catalyst fines improve heat transfer and do not require special review and would misstate the integration result.",
+      "Only effluent temperature matters because solids do not affect exchanger reliability.",
+      "The exchanger should be placed downstream of all controls to avoid pressure-drop measurement.",
+      "Strainers, erosion review, fouling monitoring, cleanout access, and pressure-drop alarms should be evaluated."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Particulates can cause erosion, plugging, and fouling. A feed-effluent exchanger that recovers heat but frequently plugs may reduce availability. Mechanical protection and monitoring are part of the engineering solution."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A retrofit proposal assumes heat-transfer coefficient U will stay constant after heat recovery increases feed viscosity by lowering feed temperature. What should be corrected?",
+    "opts": [
+      "U is a fixed equipment property and does not change with process conditions without checking the required operating case.",
+      "Only LMTD changes when feed temperature changes; film coefficients are unaffected.",
+      "U should be recalculated or tested for the new viscosity and flow regime before final area and savings are accepted.",
+      "The viscosity effect should be ignored if the exchanger has enough nameplate area."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Overall U depends on film coefficients, viscosity, fouling, velocity, and phase behavior. A heat-recovery change can alter these variables. Using the old U may understate required area or overstate savings."
+  },
+  {
+    "section": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "q": "A heat exchanger is added to preheat a feed with recovered heat, but feed temperature now varies with upstream production rate. What additional control may protect downstream quality?",
+    "opts": [
+      "A trim heater or bypass with temperature feedback can decouple downstream conditions from upstream heat-source variation.",
+      "No control is needed because recovered heat is free and should always be maximized and would misstate the integration result.",
+      "The downstream quality issue should be handled only by final testing using an invalid design basis for this case.",
+      "Increase exchanger area so temperature variation is amplified and easier to observe."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Heat integration couples unit operations. If a heat source varies, a cold stream outlet can vary too. Trim control or bypass can preserve product conditions while still capturing energy when available."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A boiler stack economizer can recover 900 kW of heat for 6,000 h/year. Natural gas cost is $11/GJ and boiler efficiency is 82%. What annual fuel-cost saving is approximately available?",
+    "opts": [
+      "Saving = 900×6,000×3.6×$11 = $213,840/year; boiler efficiency is omitted and would misstate the integration result.",
+      "Recovered fuel input = 900×6,000×3.6 ÷ 0.82 = 23,707 GJ/year; saving ≈ $261,000/year.",
+      "Saving = 900 ÷ 6,000 × $11 = $1.65/year; heat rate and hours are inverted.",
+      "Saving = 900×6,000 ÷ 0.82 = $6,585/year; kWh-to-GJ conversion is omitted."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Recovered heat reduces fuel input by recovered heat divided by boiler efficiency. 900 kW for 6,000 h equals 19,440 GJ useful heat. Dividing by 0.82 gives 23,707 GJ fuel avoided, worth about $261k at $11/GJ."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A low-pressure steam header vents 1,500 kg/h during peak operation while nearby hot-water users need 700 kW. What integration idea should be screened first?",
+    "opts": [
+      "Install electric heaters for the hot-water users because vented steam cannot be used once it reaches a header.",
+      "Ignore the vent because steam-system losses are separate from process heat integration without checking the required operating case.",
+      "Raise the low-pressure header pressure until all venting disappears, without reviewing users.",
+      "Recover vented or letdown steam through a controlled exchanger or steam-balance change before adding new boiler capacity."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Steam vents often indicate a mismatch between steam generation, pressure levels, and user demand. Before installing new utilities, evaluate steam balance, pressure letdown, condensate recovery, and heat sinks that can absorb surplus safely."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A compressor aftercooler rejects 450 kW at a coolant outlet temperature of 65°C. Which use is most plausible without temperature upgrading?",
+    "opts": [
+      "Generating 8 barg steam directly because 450 kW is a large enough heat quantity.",
+      "Heating a reactor feed to 140°C directly because compressor heat is continuous with a unit or boundary assumption error.",
+      "Replacing all fired-heater duty because waste heat is always equal in value to fuel heat.",
+      "Preheating wash water or boiler makeup below the available temperature, subject to approach and fouling limits."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Temperature level governs usefulness. A 65°C source can support low-temperature preheat but cannot directly generate medium-pressure steam or high-temperature process heat. The source may still save fuel by displacing low-grade utility demand."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A multiple-effect evaporator retrofit proposes mechanical vapor recompression. What process factor should be verified before economic approval?",
+    "opts": [
+      "MVR should always be approved because it eliminates all steam use regardless of vapor conditions.",
+      "Only compressor purchase price matters because evaporation duty is fixed with a unit or boundary assumption error.",
+      "Vapor pressure, compression ratio, boiling-point elevation, fouling, and power cost must support stable operation.",
+      "MVR is impossible for any aqueous evaporator because vapor cannot be reused as heat using an invalid design basis for this case."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: MVR upgrades vapor temperature by mechanical work. Feasibility depends on vapor quality, pressure lift, boiling-point elevation, compressor performance, fouling, and electricity economics. It is not a universal replacement for steam."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A plant considers recovering heat from hot condensate at 95°C. What should be checked before installing a heat exchanger?",
+    "opts": [
+      "Condensate should always be cooled to ambient because any heat recovery is beneficial using an invalid design basis for this case.",
+      "Condensate heat has no value because the steam has already condensed without checking the required operating case without checking the required operating case.",
+      "Only pipe length matters because condensate systems have no process constraints because it ignores the stated process constraint.",
+      "Condensate pressure, flashing risk, contamination status, return value, and whether cooling it affects deaerator or boiler operation."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Condensate contains sensible heat and treated water value. Cooling or rerouting it can affect flash steam, condensate return, deaerator load, and chemical makeup. The utility system must be modeled as a system."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A cooling tower is at its thermal limit on summer afternoons. Which heat-integration project may create the highest operational value?",
+    "opts": [
+      "Recovering heat from streams that currently reject to the tower during the constrained summer case.",
+      "Recovering winter-only heat because cold weather gives the highest temperature difference.",
+      "Adding more process-process exchange that increases cooling-tower load downstream.",
+      "Reducing steam use in an unrelated area while tower load remains unchanged and would misstate the integration result."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: When cooling capacity limits production, reducing peak cooling duty can release throughput or avoid capital. The value may exceed simple water or electricity savings. The critical operating case should drive project ranking."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A proposed heat pump would lift 60°C waste heat to a 95°C hot-water loop. What performance measure belongs in the screening?",
+    "opts": [
+      "Only thermal duty recovered, because heat pumps require no work input because it ignores the stated process constraint.",
+      "COP, electricity price, displaced fuel, temperature lift, operating hours, and part-load behavior.",
+      "Only compressor horsepower, because displaced fuel value is unrelated to heat-pump economics.",
+      "Only the waste-heat source temperature, because sink temperature does not affect COP."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Heat pumps trade electricity for upgraded heat. COP declines as temperature lift increases, and economics depend on displaced utility, operating hours, and carbon factors. Both source and sink temperatures matter."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "For boiler blowdown heat recovery into feedwater preheat, what should be included in the design review?",
+    "opts": [
+      "Only blowdown temperature because flow and chemistry are irrelevant to heat recovery.",
+      "A direct connection to boiler feedwater because both streams contain water and would misstate the integration result.",
+      "Assume zero maintenance because blowdown heat recovery is always clean service and would misstate the integration result.",
+      "Blowdown flow variability, flashing, fouling, corrosion, heat-exchanger materials, and blowdown-cooling requirements."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Blowdown is hot but chemically concentrated. Heat recovery can be attractive, yet scaling, corrosion, flash steam, and discharge limits must be designed carefully. Direct mixing is rarely acceptable without treatment review."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A thermal oxidizer exhaust has high temperature but contains corrosive acid gases. What is the main heat-recovery constraint?",
+    "opts": [
+      "Recover as much heat as possible by cooling below ambient to maximize fuel savings.",
+      "Acid dew point, materials, fouling, and emissions control must be evaluated before cooling the exhaust.",
+      "Ignore composition because flue gas temperature alone defines heat value and would misstate the integration result.",
+      "Use standard carbon-steel economizer design because exhaust heat recovery is common."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: High-temperature exhaust can be valuable, but cooling through acid dew point may cause severe corrosion and particulate fouling. Materials and emissions constraints can set the minimum stack temperature or require special equipment."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A hot-water loop is heated by steam injection. Why might indirect heat recovery be preferable to simply adding recovered condensate into the loop?",
+    "opts": [
+      "Direct mixing is always best because it has no temperature approach penalty using an invalid design basis for this case.",
+      "Indirect recovery is never useful because heat exchangers lose all recoverable heat without checking the required operating case.",
+      "Steam injection systems cannot be modified once installed without checking the required operating case.",
+      "Indirect recovery avoids contamination and pressure-balance issues while transferring heat across a controlled exchanger."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Direct mixing changes water chemistry, mass balance, and pressure. An indirect exchanger may recover heat while preserving loop chemistry and control. The correct choice depends on contamination risk and utility balance."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "An air compressor rejects 300 kW continuously. If 65% can be recovered for 7,000 h/year to offset natural gas at $10/GJ, what annual value is roughly available before equipment cost?",
+    "opts": [
+      "Value = 300×7,000×$10 = $21,000,000/year; kWh is priced directly as GJ because it ignores the stated process constraint.",
+      "Value = 300×0.65÷7,000×$10 = $0.28/year; hours are put in the denominator.",
+      "Recovered heat = 300×0.65×7,000×3.6 = 4,914 GJ/year; value ≈ $49,000/year.",
+      "Value = 300×7,000×3.6×$10 = $75,600/year; recoverable fraction is ignored."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Recoverable annual heat is power × recovery fraction × hours. Converting kWh to GJ uses 0.0036 GJ/kWh, or kW×h×3.6 MJ. The result is 4,914 GJ/year, worth about $49k at $10/GJ."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A steam trap survey finds live steam blowing into the condensate return. How does this relate to heat integration?",
+    "opts": [
+      "Trap failures should be ignored because they are maintenance, not process energy.",
+      "Add heat exchangers first because steam leaks increase recoverable heat without checking the required operating case.",
+      "Fixing traps may reduce steam waste before adding exchangers and changes the baseline for savings.",
+      "Credit trap losses as process heat recovery because they warm condensate."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Energy efficiency projects should fix baseline waste where practical. Steam leaks inflate utility use and can distort heat-recovery economics. Baseline correction prevents oversizing or overstating savings from new equipment."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A fired heater exhaust is cooled in a new air preheater. Which operating risk should be controlled?",
+    "opts": [
+      "Stack temperature should always be reduced as low as possible because exhaust heat is waste.",
+      "Air preheaters affect only fuel cost, not heater safety or emissions with a unit or boundary assumption error.",
+      "Corrosion cannot occur in flue gas because it contains no liquid water before the stack.",
+      "Low stack temperature may cause condensation, corrosion, draft instability, or emissions issues."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Combustion heat recovery must respect acid dew point, draft, burner operation, oxygen trim, and emissions. Recovering too much heat can create corrosion or operational instability."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A process has both 3 barg and 10 barg steam users. Why should heat-integration targeting distinguish steam levels?",
+    "opts": [
+      "Displacing low-pressure steam and high-pressure steam has different fuel, exergy, condensate, and letdown impacts.",
+      "All steam has identical value per kg regardless of pressure without checking the required operating case.",
+      "Only the highest-pressure header should be modeled because it supplies every user directly.",
+      "Low-pressure steam should be ignored because it is usually free after letdown without checking the required operating case."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Steam pressure level affects saturation temperature, usefulness, and site steam balance. Saving low-pressure steam may or may not save boiler fuel if it changes letdown, turbine, or venting behavior. Header-level accounting matters."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A hot process stream is proposed to preheat boiler feedwater, but the stream temperature sometimes falls below feedwater temperature. What design feature may be required?",
+    "opts": [
+      "The exchanger will always recover heat because the process stream is hot on average and would misstate the integration result.",
+      "Reverse heat transfer is beneficial because it cools boiler feedwater before the economizer.",
+      "No controls are required if the exchanger has enough area without checking the required operating case.",
+      "A bypass or control logic must prevent reverse heat transfer and protect feedwater temperature stability."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Waste heat sources can vary. If the source becomes cooler than the sink, heat recovery can reverse or destabilize utility operation. Controls and bypasses protect the utility system."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A refrigerant chiller rejects condenser heat at 42°C. Which heat-recovery use is most plausible?",
+    "opts": [
+      "Low-temperature domestic/process water preheat if demand is simultaneous and approach temperature is feasible.",
+      "Direct replacement of 6 barg steam for a 165°C reactor jacket and would misstate the integration result.",
+      "Generation of high-pressure steam without a heat pump because it ignores the stated process constraint.",
+      "Cooling tower makeup cooling because recovered heat should be sent to colder water because it ignores the stated process constraint."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Chiller condenser heat is low grade. It can be valuable for low-temperature heating but cannot directly replace medium- or high-temperature utility. The key checks are simultaneity, temperature approach, and hygiene or contamination constraints."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A waste-heat boiler is proposed downstream of a process furnace. What should be checked before crediting steam generation?",
+    "opts": [
+      "Only maximum flue-gas temperature because steam generation does not depend on flow or water-side design.",
+      "Flue-gas temperature profile, acid dew point, pressure drop, turndown, metallurgy, boiler water quality, and steam demand.",
+      "Only annual fired-heater fuel because waste-heat boilers always recover a fixed fraction with a unit or boundary assumption error.",
+      "Nothing beyond boiler nameplate because waste-heat steam is always usable and would misstate the integration result."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Steam generation from waste heat depends on both gas-side and water-side constraints. Pressure drop can affect the furnace, while steam demand and turndown affect venting and control. Metallurgy and acid dew point protect reliability."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A recovered heat source can supply 1.0 MW continuously, but the hot-water demand is 1.8 MW for only 30% of operating hours. What issue should be modeled?",
+    "opts": [
+      "Credit 1.0 MW savings for all annual hours because the source is continuous.",
+      "Coincidence of supply and demand, plus thermal storage or dump cooling for surplus heat.",
+      "Credit 1.8 MW savings during all hours because demand peak exceeds supply.",
+      "Reject the source because supply and demand are unequal because it ignores the stated process constraint."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Heat recovery requires a simultaneous sink or storage. A continuous source with intermittent demand may need storage, alternate users, or heat rejection. Annual savings must reflect actual overlap."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A hot condensate flash tank sends flash steam to atmosphere during low demand. What integration option is most relevant?",
+    "opts": [
+      "Vent flash steam because it is too low value to recover without checking the required operating case.",
+      "Condense flash steam with cooling water and count the duty as heat recovery using an invalid design basis for this case.",
+      "Increase boiler firing because vented steam proves the plant lacks enough steam.",
+      "Use flash steam in a low-pressure user, deaerator, or heat exchanger if pressure and quality are compatible."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Flash steam contains recoverable latent heat. The right use depends on pressure, cleanliness, load matching, and condensate system hydraulics. Venting is often a sign of steam-balance opportunity."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A utility model assumes every kW of recovered heat saves fuel equally. Why is this incomplete in a site with cogeneration?",
+    "opts": [
+      "Steam savings may alter turbine generation, imports, exports, vents, or letdown, changing the true marginal value.",
+      "Cogeneration makes heat recovery impossible because all steam already produces power.",
+      "Recovered heat always has zero value in cogeneration sites using an invalid design basis for this case.",
+      "Every recovered kW saves the same fuel regardless of turbine balance because it ignores the stated process constraint."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Cogeneration sites have coupled heat and power balances. Saving steam at one pressure may reduce power generation or change import/export economics. Marginal utility value must be calculated from the site steam-power balance."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A hot wastewater source is available at 55°C, and the plant needs 45°C wash water. What is a key feasibility check?",
+    "opts": [
+      "The match is automatically feasible because source temperature exceeds sink temperature and would misstate the integration result.",
+      "The source is useless because wastewater can never heat process water because it ignores the stated process constraint.",
+      "Only the heat quantity matters because wastewater composition does not affect exchanger selection.",
+      "Confirm exchanger approach, fouling/solids control, sanitation or segregation requirements, and simultaneous wash-water demand."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: A low-grade source can heat an even lower-temperature sink, but wastewater fouling, contamination risk, timing, and approach temperature determine practical design. The opportunity may require an intermediate loop or special exchanger."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A project proposes recovering heat from hot CIP discharge into incoming CIP water. What is the best engineering concern?",
+    "opts": [
+      "The match is always safe because both streams are cleaning liquids and would misstate the integration result.",
+      "Cross-contamination, cleaning validation, temperature timing, and heat-storage requirements must be addressed.",
+      "Only energy duty matters because cleaning systems have no product-quality implications.",
+      "The project cannot work because cleaning liquids are never simultaneous because it ignores the stated process constraint."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: CIP heat recovery can save energy but may affect hygiene, residue, and validation. Timing is batch-like, and the hot discharge may not coincide with incoming water without storage. Safeguards and validation are necessary."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A heat-recovery exchanger sends recovered heat into a process hot-water loop that already has excess heat during summer. What should be evaluated?",
+    "opts": [
+      "Use winter demand for annual savings because winter gives the highest heat recovery.",
+      "Assume the hot-water loop can absorb any heat because it circulates continuously.",
+      "Increase exchanger area so the loop can absorb more heat during summer using an invalid design basis for this case.",
+      "Seasonal heat sink availability and whether summer surplus causes bypassing, dumping, or lower savings."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: A heat sink can be seasonally constrained. If the loop has excess heat, recovered energy may be dumped or bypassed. Annual savings should use the real load profile, not peak winter demand alone."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A steam-heated dryer exhaust contains solvent vapors. What should be checked before using it to preheat fresh air?",
+    "opts": [
+      "Only exhaust temperature because solvent vapor improves heat-transfer performance.",
+      "Use direct mixing with fresh air because both streams are gases and would misstate the integration result.",
+      "Flammability, condensation, fouling, odor, emissions permit, and exchanger leak/concentration risks.",
+      "Ignore solvent composition if the dryer already has a ventilation system."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Solvent-laden exhaust heat recovery can create fire, condensation, fouling, and emissions issues. Direct or indirect recovery must comply with flammability and environmental constraints."
+  },
+  {
+    "section": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "q": "A heat exchanger is proposed to recover heat from an exothermic reactor jacket loop. What must not be compromised?",
+    "opts": [
+      "All jacket heat should be recovered because it is waste heat using an invalid design basis for this case.",
+      "Emergency and peak heat-removal capacity, control response, and reactor safety margin.",
+      "Cooling capacity can be reduced by the average recovered heat rate.",
+      "Reactor safety is unaffected by heat recovery on the jacket loop."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Reactor cooling often has a safety function. Heat recovery may be acceptable, but the cooling system must still handle peak and emergency heat loads. Average heat recovery should not reduce required safety capacity."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A batch reactor hot discharge could preheat the next batch's feed, but the next batch feed is not available for four hours. What design option should be considered?",
+    "opts": [
+      "Credit direct heat recovery because the same recipe repeats each day without checking the required operating case.",
+      "Reject the opportunity because batch streams can never be heat integrated.",
+      "A thermal storage tank or schedule change should be evaluated before crediting direct heat recovery.",
+      "Use only steady-state composite curves because timing is not part of thermal feasibility."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Batch heat sources and sinks must overlap in time or use storage. Without timing analysis, direct heat-recovery savings can be overstated. Storage size, heat loss, and contamination risk become part of the design."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A hot-water thermal storage tank stores 12 m³ of water from 60°C to 90°C. Using cp = 4.18 kJ/kg·K and density ≈ 1,000 kg/m³, how much usable heat is stored?",
+    "opts": [
+      "Q = 12×4.18×30 = 1,505 kJ = 0.42 kWh; the water mass is not converted from m³.",
+      "Q = 12,000×30 ÷ 4.18 = 86,124 kJ = 23.9 kWh; heat capacity is placed in the denominator.",
+      "Q = 12,000×4.18 = 50,160 kWh; the temperature change is omitted and units are mixed.",
+      "Q = 12,000×4.18×30 = 1,504,800 kJ = 418 kWh, before losses and unusable heel."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Thermal storage capacity is mass × heat capacity × temperature swing. Twelve cubic metres is about 12,000 kg; with a 30 K swing, the storage holds about 1.50 GJ, or 418 kWh, before real system losses."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A process-to-process exchanger heats reactor feed using variable-temperature distillation bottoms. Feed temperature oscillates with column operation. What control strategy is most appropriate?",
+    "opts": [
+      "Use recovered heat with a trim heater or bypass to meet feed-temperature limits under source variability.",
+      "Remove the trim heater because heat recovery should fully replace utilities without checking the required operating case.",
+      "Use only the distillation bottoms temperature as the feed-temperature controller.",
+      "Accept oscillation because average feed temperature meets the recipe target."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Heat integration couples disturbances. A trim utility exchanger or bypass maintains product control while allowing recovery when the source is favorable. Average temperature is not enough for reactor feed quality or safety."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A heat-recovery exchanger has a large metal mass and causes slow warm-up after weekend shutdown. What issue should be captured in the operating analysis?",
+    "opts": [
+      "Only steady-state energy savings matter because startup occurs infrequently without checking the required operating case.",
+      "The metal heat capacity should be ignored because it is not a process stream.",
+      "The exchanger should be operated cold until the process reaches steady state.",
+      "Startup heat load, warm-up time, off-spec risk, and bypass requirements should be included in the value case."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Thermal mass can delay startup and create off-spec conditions. If the plant starts and stops often, startup energy and lost production can materially affect project value and operability."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A batch cooker rejects heat during cool-down, but cooling must be rapid for product quality. What integration risk should be controlled?",
+    "opts": [
+      "Maximize heat recovery even if cooling time increases because energy efficiency is the primary target.",
+      "Replace the cooling system entirely with heat recovery because both remove heat.",
+      "Ignore product cooling profile because final temperature is the only quality parameter.",
+      "Heat recovery must not slow the required cooling profile unless quality data supports a revised ramp."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Batch cooling profiles can affect product quality, crystallization, viscosity, or impurity formation. Heat recovery equipment adds resistance and may slow cooling. Quality-critical ramps must remain protected."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A heat-integrated network has a bypass valve around each exchanger, but operators leave bypasses open after upsets. What should be added?",
+    "opts": [
+      "Remove bypasses because bypass valves always destroy energy savings and would misstate the integration result.",
+      "Operating procedures, alarms, valve-position monitoring, and energy-performance KPIs to restore intended heat recovery.",
+      "Ignore bypass behavior because the exchangers remain installed using an invalid design basis for this case without checking the required operating case.",
+      "Use a larger exchanger area so bypass valve position no longer matters without checking the required operating case."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Savings depend on actual operating configuration. Bypasses are often needed for control and safety, but unmanaged bypassing can eliminate savings. Monitoring and procedures are part of the control design."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A cold feed tank is preheated by recovered heat before a long hold. Later, the material degrades faster in the tank. What should be reviewed?",
+    "opts": [
+      "Temperature-hold time, degradation kinetics, microbial or polymerization risk, and whether preheat should occur closer to use.",
+      "Only exchanger outlet temperature because holding time is unrelated to heat integration.",
+      "Increase preheat temperature to shorten the exchanger duty with a unit or boundary assumption error.",
+      "Ignore degradation if the feed eventually reaches the correct reactor temperature because it ignores the stated process constraint."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Heat integration can change thermal history, not just final temperature. Holding warmer material can affect stability or safety. The process basis should include time-at-temperature limits and scheduling."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A plant uses recovered heat to preheat caustic cleaning solution, but the cleaning recipe requires a controlled ramp to avoid foaming. What should the integration control include?",
+    "opts": [
+      "Use maximum recovered heat immediately because cleaning solution quality is not product-related.",
+      "Remove ramp limits because heat recovery is less aggressive than steam heating with a unit or boundary assumption error.",
+      "Ramp-rate control, temperature interlocks, bypass or trim heating, and operator response for foaming risk.",
+      "Control only final temperature because ramp rate never affects cleaning behavior."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Cleaning performance and safety can depend on ramp rate. Heat recovery may be variable, so ramp control and interlocks are needed to maintain cleaning quality and avoid foaming or chemical hazards."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A heat-integrated train operates well at normal production but fails during grade change because one stream is absent. What should the operating model include?",
+    "opts": [
+      "Only normal production mode because grade changes are not steady-state operation without checking the required operating case.",
+      "Grade-change modes with alternate utility support, bypass logic, and expected temporary utility demand.",
+      "A rule that heat integration should be disabled permanently during all grade changes.",
+      "Average grade-change and normal operation into one duty to simplify the calculation."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Commercial plants spend meaningful time in transitions. Heat sources and sinks may disappear during grade changes, requiring utility backup. Operating mode modeling makes savings and utility capacity realistic."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A heat exchanger network uses recovered heat for a reactor preheat, but the reactor has a high-temperature trip. What safeguard should be considered?",
+    "opts": [
+      "Independent high-temperature protection or utility isolation should remain effective if the heat-recovery control valve fails.",
+      "The trip can be removed because recovered heat is lower grade than steam and would misstate the integration result.",
+      "Only the average preheat temperature needs review because it ignores the stated process constraint.",
+      "The heat exchanger should be placed after the reactor to avoid all control concerns because it ignores the stated process constraint."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: A heat-recovery exchanger can still overheat a stream under low-flow or valve-failure conditions. Safety functions should not rely solely on economic control loops. HAZOP-style review is appropriate."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A batch heat-recovery scheme stores hot product heat in a water tank, but the tank loses 2% of stored heat per hour. If storage lasts 10 hours, how should savings be adjusted?",
+    "opts": [
+      "No adjustment is needed because stored heat is recovered later.",
+      "Usable heat is 98% after 10 hours because the 2% loss happens only once.",
+      "Usable heat is roughly 0.98¹⁰ = 81.7% of stored heat, so about 18% loss should be included.",
+      "The tank gains heat over time because 2% per hour compounds and would misstate the integration result."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Thermal storage losses compound with time. A 2% hourly loss over 10 hours leaves about 81.7% of the initial heat. Storage economics must include losses, tank cost, and timing value."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A heat exchanger network changes feed temperature into a distillation column. What downstream effect should be monitored?",
+    "opts": [
+      "Only feed heater steam usage changes; the column itself is unaffected because it ignores the stated process constraint.",
+      "Distillation columns automatically absorb any feed-temperature change.",
+      "Only the condenser load changes because reboilers are independent of feed state.",
+      "Column vapor traffic, reboiler duty, condenser load, pressure, and product split may change."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Feed thermal condition affects flash fraction and internal traffic. Heat integration upstream of a column can shift both reboiler and condenser duties and may affect separation. The column should be included in the operating review."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A regenerative exchanger causes the cold stream outlet to lag during rapid throughput changes. What control issue is likely?",
+    "opts": [
+      "The exchanger thermal inertia and coupled stream dynamics may require feedforward, bypass, or slower rate-change rules.",
+      "The lag proves the exchanger area is too small under all conditions because it ignores the stated process constraint.",
+      "Thermal inertia is not relevant to process control using an invalid design basis for this case without checking the required operating case.",
+      "The solution is to remove all bypasses so temperature changes faster without checking the required operating case."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Heat-integrated systems can have slower or coupled dynamics. During rate changes, the exchanger metal and two stream inventories create lag. Controls should be designed for transients, not only steady-state duty."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A continuous heat-recovery loop supplies a batch user that cycles on and off. What happens if no storage or dump path exists?",
+    "opts": [
+      "The loop will automatically balance because continuous sources and batch sinks average out.",
+      "The batch user will absorb heat even when not operating using an invalid design basis for this case.",
+      "The source may need bypassing or the sink may overheat, reducing savings and creating control risk.",
+      "No controls are required because heat recovery is passive."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Source-sink mismatch creates surplus heat during off periods and possible shortage during on periods. Storage, dump cooling, or alternate sinks are needed to maintain stable operation and realistic savings."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A heat integration retrofit changes cooling-water demand sharply during batch cool-down. What utility-control issue should be checked?",
+    "opts": [
+      "Only total daily cooling duty because headers respond instantly to any batch profile.",
+      "Only the exchanger area because utility hydraulics are outside the process boundary without checking the required operating case.",
+      "Cooling-water header pressure, pump control, tower capacity, and interactions with other users during peak and off-peak periods.",
+      "No issue exists if annual cooling-water usage decreases and would misstate the integration result."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Batch changes can create peaks and troughs in utility demand. Even if annual usage decreases, headers and towers must handle dynamic loads. Utility hydraulics can become limiting or unstable."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A batch reactor feed is preheated using recovered heat, but recipe timing becomes dependent on whether another unit is running. What management control is needed?",
+    "opts": [
+      "The dependency is acceptable because heat recovery is free when available without checking the required operating case.",
+      "Remove backup utilities because they reduce reported savings with a unit or boundary assumption error.",
+      "Schedule rules or backup utility duty should be defined so production does not depend on an uncertain heat source.",
+      "The other unit should always run solely to provide heat, regardless of demand."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: A heat source from another unit creates operational dependency. Production planning and backup utilities must be explicit; otherwise the heat-integrated system can reduce reliability despite saving energy."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "When a recovered-heat exchanger has a bypass for temperature control and a sensor failure drives full recovery, what design question matters?",
+    "opts": [
+      "Full heat recovery is the safest failure position because it minimizes fuel use.",
+      "Sensor failure can be ignored if the exchanger is process-to-process because it ignores the stated process constraint.",
+      "Only manual operator response is needed; valve fail position is not part of engineering design.",
+      "Fail-safe valve position and high-temperature protection must prevent overheating or product damage."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Control failure behavior must be considered in heat-integrated systems. The safest valve position may be bypass, partial recovery, or isolation depending on process hazards. Protection should not rely only on operators noticing a fault."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A process uses heat recovery from a product stream that sometimes goes off specification. What should be included in the recovery logic?",
+    "opts": [
+      "Heat recovery should continue because thermal duty is independent of product quality.",
+      "Off-spec material always has the same heat value, so quality status is irrelevant using an invalid design basis for this case.",
+      "Isolation or diversion rules so off-spec or contaminated streams do not heat or contaminate sensitive downstream operations.",
+      "Only final energy savings need tracking because contamination is not part of heat integration."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Heat integration can create indirect dependencies between quality events and other units. If a hot source is off-spec or contaminated, using it may create cleaning or contamination risks. Operating rules must cover abnormal material status."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A heat-recovery scheme requires operators to manually switch valves between startup, normal, and cleaning modes. What risk should be controlled?",
+    "opts": [
+      "Manual switching is risk-free because operators understand the plant with a unit or boundary assumption error and would misstate the integration result.",
+      "Lineup errors can create overheating, contamination, or missed savings, so procedures, interlocks, and clear status indication are needed.",
+      "Valve lineup does not affect heat integration once exchangers are installed because it ignores the stated process constraint.",
+      "The project should ignore cleaning mode because it is not production using an invalid design basis for this case."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Operational complexity increases human-error risk. Heat-integration designs should be reviewed for clear lineups, interlocks, labels, and automation where needed. Cleaning and startup modes matter."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A feed preheat exchanger reduces steam use but increases time to reach stable reactor feed temperature after startup. What should the benefit calculation include?",
+    "opts": [
+      "Only steady-state steam reduction because startup is a one-time commissioning event and would misstate the integration result.",
+      "Lost production or off-spec startup time should be subtracted from steady-state energy savings where material.",
+      "Startup delay should be ignored if the exchanger meets design area and would misstate the integration result.",
+      "The full startup delay should be credited as energy savings because heating is slower."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: If the unit starts frequently, startup penalties can offset steady-state savings. A complete process analysis includes transient operation and production value, not just design-duty reduction."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A heat-integrated process has a variable source temperature. Which KPI best shows whether the system is actually recovering heat?",
+    "opts": [
+      "Installed exchanger area, because installed hardware automatically equals recovered heat.",
+      "Measured recovered duty or utility displacement by operating mode, normalized to throughput and source availability.",
+      "Operator opinion, because heat recovery is not measurable after startup without checking the required operating case.",
+      "Total plant steam use only, without throughput or weather normalization."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Heat recovery should be measured as actual duty or avoided utility under comparable conditions. Throughput, weather, source availability, and operating mode normalization make the KPI meaningful."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A thermal storage system is added, but tank stratification is lost because of poor inlet design. What is the likely effect?",
+    "opts": [
+      "Stratification loss improves heat recovery because the tank temperature becomes uniform.",
+      "Only tank level matters; temperature layering is not relevant to storage performance.",
+      "Usable temperature grade and recoverable heat decline even if total tank energy remains similar.",
+      "The problem can be solved by reporting average tank temperature and would misstate the integration result."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Thermal storage value depends on both energy and temperature. Mixing hot and cold layers can destroy exergy, lowering the useful outlet temperature and reducing ability to serve a heat sink."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A process heater receives preheated feed from heat recovery. During emergency shutdown, flow stops but hot source remains briefly available. What safety concern should be addressed?",
+    "opts": [
+      "No concern exists because heat recovery stops automatically when pumps stop.",
+      "Blocked-in or stagnant fluid may overheat, so isolation, depressuring, or fail-safe bypass logic is required.",
+      "Only energy savings are affected during shutdown and would misstate the integration result.",
+      "The exchanger should remain fully open to remove heat faster because it ignores the stated process constraint."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Shutdown scenarios can create stagnant heat input, thermal expansion, or degradation. Heat-integrated exchangers should be reviewed for blocked-in sections, relief paths, and safe valve positions."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A batch plant proposes to recover heat from one product grade into another. What additional planning issue appears?",
+    "opts": [
+      "Grade scheduling, contamination segregation, cleaning validation, and storage timing must be aligned.",
+      "The grades can exchange heat freely because only energy crosses the exchanger wall.",
+      "Product-grade sequence does not affect heat recovery if duties are similar.",
+      "The lower-value grade should always supply heat to the higher-value grade using an invalid design basis for this case."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Cross-grade heat recovery can save energy but introduces scheduling and contamination concerns. Product compatibility, cleaning requirements, and production sequence must support the match."
+  },
+  {
+    "section": "Dynamic Operation, Batch Integration & Controls",
+    "q": "A control engineer proposes constant outlet temperature from a recovered-heat exchanger, but source temperature varies below the target at times. What should be specified?",
+    "opts": [
+      "The controller can force the outlet temperature without backup heat with a unit or boundary assumption error.",
+      "The outlet target should be met by closing the cold stream valve completely.",
+      "Use maximum exchanger area and remove all utility backup and would misstate the integration result.",
+      "A trim heater or utility backup should take over when recovered heat cannot meet the temperature target."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: A controller cannot create heat when the source is too cold. Heat recovery can be the first stage, but a trim utility or backup is needed to guarantee target temperature under source variability."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A heat-recovery project costs $1.2 million installed and saves 18,000 GJ/year of fuel at $12/GJ. Maintenance increases by $28,000/year. What simple payback should be reported?",
+    "opts": [
+      "Payback = 1,200,000 ÷ (18,000×12) = 5.6 years; maintenance is omitted.",
+      "Payback = 188,000 ÷ 1,200,000 = 0.16 years; the ratio is inverted with a unit or boundary assumption error.",
+      "Net saving = 18,000×12 − 28,000 = $188,000/year; payback = 1,200,000 ÷ 188,000 = 6.4 years.",
+      "Payback = 1,200,000 ÷ 28,000 = 42.9 years; fuel savings are ignored."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Simple payback uses installed capital divided by net annual recurring benefit. The fuel saving is $216,000/year and added maintenance reduces net benefit to $188,000/year, giving 6.4 years before tax, downtime, or carbon effects."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A process heat-recovery project saves 2,500 tonnes CO₂e/year. The internal carbon price is $80/t and the fuel saving is $310,000/year. What annual benefit should be used if carbon value is included?",
+    "opts": [
+      "Annual benefit = $310,000/year; carbon value is ignored despite being part of the stated basis.",
+      "Annual benefit = 2,500×80 = $200,000/year; fuel savings are omitted.",
+      "Annual benefit = $310,000 + 2,500×80 = $510,000/year.",
+      "Annual benefit = $310,000 ÷ (2,500×80) = $1.55/year; fuel and carbon are divided."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: If the company includes internal carbon pricing, the CO₂e reduction is monetized and added to fuel savings. Here carbon value is $200,000/year, giving a total benefit of $510,000/year."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A retrofit proposal has positive NPV only when stream availability is assumed at 8,000 h/year, but historian data show 5,200 h/year. What should the analyst recommend?",
+    "opts": [
+      "Keep 8,000 h/year because design cases should use maximum possible availability with a unit or boundary assumption error.",
+      "Reject the project immediately because any availability uncertainty invalidates heat recovery.",
+      "Use the average of 8,000 and 5,200 h/year without explaining the operating basis.",
+      "Recalculate economics with measured availability and treat the original case as an upside scenario, not the base case."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Heat-recovery value depends on source-sink coincidence hours. A positive NPV based on unrealistic availability is fragile. The base case should use validated operating data, with upside and downside cases shown separately."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A heat exchanger retrofit saves energy but requires a two-day shutdown worth $400,000 in lost contribution. How should this be included?",
+    "opts": [
+      "Treat shutdown loss as part of project cost or first-year cash-flow impact in addition to installed capital.",
+      "Ignore shutdown loss because it is not part of the equipment purchase order using an invalid design basis for this case.",
+      "Subtract shutdown loss from annual savings every year, even though it occurs once.",
+      "Count shutdown loss as a utility saving because the plant uses less energy while stopped."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Retrofit economics must include implementation downtime. A one-time shutdown loss can materially change payback or NPV. It should not be hidden outside the project boundary if the shutdown is required for installation."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A pinch study identifies $700,000/year theoretical utility savings, but the practical retrofit captures $410,000/year at much lower capital. How should the decision be framed?",
+    "opts": [
+      "Reject the retrofit because it does not capture 100% of the pinch target with a unit or boundary assumption error.",
+      "Compare lifecycle NPV, risk, downtime, constructability, and expansion options rather than chasing theoretical maximum savings.",
+      "Approve only the theoretical target case because maximum energy saving is always optimal using an invalid design basis for this case.",
+      "Ignore capital cost because utility savings are recurring using an invalid design basis for this case."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: The theoretical target is a benchmark. Practical retrofit design balances savings against capital, downtime, risk, space, and maintainability. The best project may intentionally leave some heat unrecovered."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A project reduces natural gas use but increases electricity use for pumps and heat pumps. What metric best evaluates decarbonization impact?",
+    "opts": [
+      "Net energy cost and net CO₂e using site-specific marginal fuel and electricity emission factors.",
+      "Natural gas reduction only, because electrification always reduces emissions and would misstate the integration result.",
+      "Electricity increase only, because purchased electricity is the new cost driver.",
+      "Total heat recovered only, because carbon factors do not affect engineering decisions."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Fuel-to-electricity shifts require net accounting. A heat pump may reduce emissions, but the result depends on COP, grid factor, displaced fuel, and operating hours. Cost and CO₂e should both be evaluated."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A heat-integration project has strong economics but creates a new cross-contamination scenario between solvent and product water. What decision is most defensible?",
+    "opts": [
+      "Proceed only if engineered safeguards and quality risk controls reduce the new consequence to an acceptable level.",
+      "Approve the project because positive NPV proves the design is justified without checking the required operating case.",
+      "Reject the project automatically because any new scenario makes heat recovery unacceptable.",
+      "Ignore the scenario because heat exchangers are closed systems with a unit or boundary assumption error."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Economic value does not override safety or quality risk. The design may still be feasible with an intermediate loop, pressure hierarchy, leak detection, or special exchanger construction. Risk control must be part of readiness."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A heat-recovery project uses a new exchanger alloy with long delivery time. What commercial-readiness risk should be included?",
+    "opts": [
+      "Schedule risk, spare strategy, inspection plan, and failure contingency for the specialized exchanger material.",
+      "Alloy selection affects only CapEx, not startup or operations using an invalid design basis for this case.",
+      "Use cheaper carbon steel to avoid schedule risk, regardless of corrosion with a unit or boundary assumption error.",
+      "Ignore spare strategy because heat exchangers do not fail after installation."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Special materials can be technically necessary but create procurement and maintenance risks. Readiness planning should address delivery, inspection, spares, and contingency operation if the exchanger is unavailable."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A utility-savings guarantee is based on a vendor simulation with no measured baseline. What should be required before contract approval?",
+    "opts": [
+      "Accept the guarantee because vendor simulations are sufficient for performance contracts.",
+      "Measure only after installation because pre-project baselines are not useful because it ignores the stated process constraint.",
+      "A documented baseline, measurement and verification plan, operating conditions, exclusions, and savings calculation method.",
+      "Use annual plant energy spend as the baseline without throughput or weather normalization."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Savings are only meaningful relative to a defined baseline. Measurement and verification protects both owner and vendor by specifying how throughput, weather, operating mode, and exclusions are handled."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A heat-integration retrofit improves energy efficiency but reduces operating flexibility for specialty campaigns. What should management compare?",
+    "opts": [
+      "Approve the retrofit because efficiency improvements always improve profitability.",
+      "Energy savings versus lost campaign flexibility, cleaning burden, product mix constraints, and margin impact.",
+      "Ignore specialty campaigns if they are less frequent than standard production without checking the required operating case.",
+      "Reject all heat integration because flexibility is always more valuable than energy."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Commercial value depends on product mix and operating flexibility. A network optimized for one campaign can reduce margin if it constrains higher-value specialty production. Economics should use the expected product slate."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A project claims 10% site energy reduction, but the calculation excludes increased cooling from a downstream trim cooler. What should be corrected?",
+    "opts": [
+      "Report only heating reduction because heat recovery projects are evaluated on steam savings.",
+      "Exclude trim cooling because it occurs downstream of the recovery exchanger.",
+      "Use net site energy and utility costs across all affected heaters, coolers, pumps, and controls.",
+      "Ignore pumping energy because it is usually small in every project using an invalid design basis for this case."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Heat integration can shift loads. A correct analysis includes all affected utilities and auxiliary power across the boundary. Net savings may be less than local heating reduction."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A project with 4-year payback also reduces a production bottleneck during summer cooling constraints. How should the business case treat that?",
+    "opts": [
+      "Ignore capacity value because heat integration projects should count only utility savings.",
+      "Assume unlimited capacity value without checking sales demand or the next bottleneck with a unit or boundary assumption error.",
+      "Include incremental contribution from released capacity if the cooling constraint and sales demand are demonstrated.",
+      "Replace utility savings with capacity value because the two cannot be shown together."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Heat recovery may have both utility and throughput value. Capacity benefits should be included only when the project truly removes the constrained resource and the market or downstream plant can use the extra production."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A heat-recovery design depends on a source stream that is occasionally contaminated and diverted to waste. What risk adjustment is needed?",
+    "opts": [
+      "Credit full savings because contamination does not change heat content and would misstate the integration result.",
+      "Reject the project because any diversion makes the source unusable using an invalid design basis for this case.",
+      "Availability and contamination-diversion frequency should reduce expected savings and define fallback utility operation.",
+      "Assume the source is available whenever the sink exists because it ignores the stated process constraint using an invalid design basis for this case."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Heat-source quality status affects availability. If the source is diverted or isolated during contamination events, heat recovery stops and backup utilities must operate. Savings should reflect real availability."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A project reduces boiler fuel by 30,000 GJ/year but increases cooling-tower fan power by 250 MWh/year. With fuel at $10/GJ and electricity at $90/MWh, what is net utility saving?",
+    "opts": [
+      "Net saving = $300,000/year; added fan power is omitted and would misstate the integration result.",
+      "Net saving = $22,500/year; only electricity is counted.",
+      "Net saving = $322,500/year; added power cost is added as a benefit.",
+      "Fuel saving = $300,000; power cost = $22,500; net saving = $277,500/year."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Net utility economics must include all affected energy forms. Fuel savings are 30,000×$10 = $300,000/year, while additional fan electricity costs 250×$90 = $22,500/year, giving $277,500/year."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "An exchanger network retrofit requires operators to manage six new manual bypasses. What should be included in the readiness gate?",
+    "opts": [
+      "Only mechanical completion because bypass operation is routine operator work because it ignores the stated process constraint.",
+      "Only annual savings because human factors do not affect heat exchanger projects.",
+      "Remove all bypasses because manual valves should never exist in energy projects.",
+      "Training, procedures, labeling, alarm response, valve-position verification, and abnormal-mode testing."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Operability is part of commercial readiness. More valves and modes increase human-error risk. Procedures, indication, and training protect safety, quality, and expected energy performance."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A heat-recovery option has high NPV but requires exchanger cleaning every month. What cost should be included?",
+    "opts": [
+      "Only chemical cost because labor is already in the plant budget without checking the required operating case.",
+      "No cleaning cost because fouling was included in the design U value without checking the required operating case.",
+      "Only exchanger purchase cost because operating cost is small compared with energy savings with a unit or boundary assumption error.",
+      "Cleaning labor, chemicals, downtime, waste disposal, gasket/spare parts, and lost recovery during fouled operation."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Fouling affects both performance and operations. A realistic lifecycle case includes maintenance resources, downtime, disposal, spares, and degraded heat recovery between cleanings. Otherwise NPV can be overstated."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A process unit has high heat-recovery potential but is scheduled for retirement in five years. What economic effect matters?",
+    "opts": [
+      "Use a 20-year project life because heat exchangers normally last that long because it ignores the stated process constraint.",
+      "Ignore retirement because energy savings are annual without checking the required operating case.",
+      "Project life should be limited to the remaining unit life unless the equipment is reusable elsewhere.",
+      "Reject the project automatically because no savings are possible before retirement."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Asset life bounds the cash-flow period. A long-lived exchanger may not create long-lived benefits if the unit shuts down. Reuse, relocation, or accelerated payback should be considered."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A carbon-reduction roadmap ranks projects only by tonnes CO₂e saved. What financial risk does this create?",
+    "opts": [
+      "It is ideal because emissions reduction should never consider economics without checking the required operating case.",
+      "It may prioritize low-value or high-cost abatement while ignoring cost per tonne, operability, and dependency risks.",
+      "It always selects the projects with lowest payback using an invalid design basis for this case.",
+      "It removes uncertainty because carbon tonnes are exact engineering values."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: CO₂e saved is important, but project selection should also consider marginal abatement cost, capital, operability, readiness, and timing. A roadmap balances carbon impact with feasible execution."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A heat-recovery exchanger has no bypass in the estimate, but operations says bypass is required for startup and cleaning. What happens to the project estimate?",
+    "opts": [
+      "The bypass can be added after approval without affecting cost or schedule.",
+      "Bypass need proves the heat exchanger cannot be justified with a unit or boundary assumption error.",
+      "Operations should adapt because the energy model did not include bypassing.",
+      "CapEx, controls, piping, plot space, and commissioning scope should be revised before approval."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Scope gaps often appear as missing controls and piping. If a bypass is operationally necessary, it affects cost, layout, controls, safety review, and savings. Approval should use the complete scope."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A proposed network saves steam but pushes an old exchanger above its pressure-drop limit. What should the risk register state?",
+    "opts": [
+      "The pressure-drop limit can be ignored because energy savings are calculated from heat duty.",
+      "The energy-saving case is conditional on hydraulic feasibility or replacement of the constrained exchanger.",
+      "The old exchanger should be operated above limit until a future turnaround because it ignores the stated process constraint.",
+      "The project should credit full savings and list pressure drop as a minor maintenance note."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: A utility-saving project can be blocked by hydraulics. If existing equipment cannot handle new flows, the cost and schedule must include mitigation. Savings should not be credited without feasible operation."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A heat-integration project proposes a process-process exchanger on a regulated hazardous service. What documentation belongs in commercial readiness?",
+    "opts": [
+      "Only the energy model because safety documentation is separate from process analysis.",
+      "Only vendor datasheets because hazardous-service requirements are standard because it ignores the stated process constraint.",
+      "No documentation beyond mechanical completion if the exchanger is pressure rated.",
+      "MOC, HAZOP or risk review, relief/thermal expansion review, materials basis, inspection plan, and operating procedures."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Process-process heat recovery can create new hazards: blocked-in thermal expansion, contamination, overtemperature, and leak scenarios. Readiness requires formal safety and operations documentation."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A project saves 1 MW continuously, but measurement after startup shows only 0.6 MW average recovery. What should the post-audit do?",
+    "opts": [
+      "Declare the project failed without diagnosis because measured recovery is lower than design and would misstate the integration result.",
+      "Reconcile source availability, bypass position, fouling, control limits, sink demand, and meter calibration before revising savings.",
+      "Change the report to 1 MW because design duty is the approved value because it ignores the stated process constraint.",
+      "Ignore the difference if the plant still operates safely because it ignores the stated process constraint."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Post-audits turn design estimates into operating learning. Recovery gaps can come from operation, fouling, controls, measurements, or wrong assumptions. Diagnosing them supports improvement and credible reporting."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A heat-recovery project reduces steam purchased from a utility supplier with a take-or-pay minimum. What economic adjustment is needed?",
+    "opts": [
+      "Credit all steam reduction at tariff price because physical consumption decreased.",
+      "Credit no savings because take-or-pay contracts make efficiency worthless with a unit or boundary assumption error.",
+      "Credit the steam reduction twice because it saves both energy and capacity.",
+      "Only savings above the take-or-pay minimum should be credited as avoidable cost unless contract terms change."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Avoidable cost may differ from physical energy saved. If a contract has minimum charges, the project may not reduce cash cost until consumption falls below or contract terms change. This distinction is critical in financial approval."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A retrofit heat exchanger has attractive payback but requires cutting into a congested pipe rack. What risk should be included?",
+    "opts": [
+      "Ignore constructability until detailed design because payback is already favorable.",
+      "Assume installation cost equals exchanger purchase price because it ignores the stated process constraint.",
+      "Reject the exchanger because congested pipe racks can never be modified with a unit or boundary assumption error.",
+      "Constructability, crane access, hot-work permits, structural loads, isolation points, and shutdown duration."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Retrofit economics are often driven by installation complexity. Pipe-rack congestion can increase cost, safety risk, and downtime. Early constructability review prevents underestimating installed cost."
+  },
+  {
+    "section": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "q": "A heat-integration roadmap has ten opportunities. Which first-stage project selection method is most defensible?",
+    "opts": [
+      "Rank only by gross heat duty because the biggest duty always gives the best project and would misstate the integration result.",
+      "Rank by net value, technical readiness, safety/quality risk, implementation window, dependency, and measurement confidence.",
+      "Rank only by lowest CapEx because small projects always deliver better returns using an invalid design basis for this case.",
+      "Rank alphabetically by unit area to avoid debate among departments without checking the required operating case."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: A practical roadmap prioritizes projects that are valuable, feasible, safe, measurable, and timed with outages or dependencies. Gross energy quantity alone can mislead because temperature grade, constraints, and installation complexity matter."
+  }
+];
+const SECTIONS = [
+  {
+    "key": "Heat Integration Basis, Stream Data & ΔTmin",
+    "label": "I — Heat Integration Basis, Stream Data & ΔTmin",
+    "cls": "sec-conduction",
+    "range": "Questions 1–25"
+  },
+  {
+    "key": "Pinch Analysis, Composite Curves & Utility Targets",
+    "label": "II — Pinch Analysis, Composite Curves & Utility Targets",
+    "cls": "sec-convection",
+    "range": "Questions 26–50"
+  },
+  {
+    "key": "Heat Exchanger Network Design & Retrofit Diagnosis",
+    "label": "III — Heat Exchanger Network Design & Retrofit Diagnosis",
+    "cls": "sec-radiation",
+    "range": "Questions 51–75"
+  },
+  {
+    "key": "Utility Systems, Waste Heat Recovery & Steam Levels",
+    "label": "IV — Utility Systems, Waste Heat Recovery & Steam Levels",
+    "cls": "sec-hx",
+    "range": "Questions 76–100"
+  },
+  {
+    "key": "Dynamic Operation, Batch Integration & Controls",
+    "label": "V — Dynamic Operation, Batch Integration & Controls",
+    "cls": "sec-boiling",
+    "range": "Questions 101–125"
+  },
+  {
+    "key": "Economics, Decarbonization, Risk & Commercial Readiness",
+    "label": "VI — Economics, Decarbonization, Risk & Commercial Readiness",
+    "cls": "sec-applications",
+    "range": "Questions 126–150"
+  }
+];
+const LETTERS=['A','B','C','D']; const TOTAL_Q=QUESTIONS.length; const EXAM_DURATION_MS=4*60*60*1000;
+let mode='guided', current=0, answers=new Array(TOTAL_Q).fill(null), locked=new Array(TOTAL_Q).fill(false), submitted=false, timedOut=false, timerInterval=null, examEndTime=null, learnerName='';
+function escapeHtml(s){return String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));}
+function sectionMeta(key){return SECTIONS.find(s=>s.key===key);}
+function fmtHMS(ms){if(ms<0)ms=0;const t=Math.floor(ms/1000),h=Math.floor(t/3600),m=Math.floor((t%3600)/60),s=t%60,p=n=>String(n).padStart(2,'0');return p(h)+':'+p(m)+':'+p(s);}
+function startTimer(){stopTimer();examEndTime=Date.now()+EXAM_DURATION_MS;document.getElementById('timerStat').style.display='';tick();timerInterval=setInterval(tick,1000);}
+function stopTimer(){if(timerInterval){clearInterval(timerInterval);timerInterval=null;}}
+function hideTimer(){stopTimer();examEndTime=null;document.getElementById('timerStat').style.display='none';document.getElementById('timerVal').textContent='04:00:00';}
+function tick(){if(!examEndTime)return;const remain=examEndTime-Date.now();document.getElementById('timerVal').textContent=fmtHMS(remain);const ts=document.getElementById('timerStat');ts.classList.toggle('crit',remain<=60000);ts.classList.toggle('warn',remain<=300000&&remain>60000);if(remain<=0){timedOut=true;submitExam();}}
+function makeCard(idx,num,globalNum){const q=QUESTIONS[idx],sec=sectionMeta(q.section),chosen=answers[idx],isLocked=locked[idx];let opts='';q.opts.forEach((o,i)=>{let cls='opt';if(isLocked){if(i===q.correct)cls+=' correct';else if(i===chosen)cls+=' wrong';}else if(i===chosen)cls+=' sel';const mark=isLocked?(i===q.correct?'✓':(i===chosen?'✗':'')):'';opts+=`<div class="${cls}" data-i="${i}" onclick="choose(${idx},${i})"><span class="letter">${LETTERS[i]}</span><span class="otext">${escapeHtml(o)}</span><span class="mark">${mark}</span></div>`;});return `<div class="q-card ${isLocked?'locked answered':(chosen!==null?'answered':'')}" id="q${idx}"><div class="q-top"><span class="q-num">Q${globalNum?idx+1:num}</span><span class="q-sect ${sec.cls}">${escapeHtml(sec.key)}</span></div><div class="q-text">${escapeHtml(q.q)}</div><div class="opts">${opts}</div><div class="${isLocked?'explain show':'explain'}" id="exp${idx}"><div class="elabel">Engineering Explanation</div><div class="ans-line">Correct Answer: ${LETTERS[q.correct]} — ${escapeHtml(q.opts[q.correct])}</div><p>${escapeHtml(q.explanation)}</p></div></div>`;}
+function build(){const exam=document.getElementById('exam');if(mode==='instant'){let html='',qi=0;SECTIONS.forEach(sec=>{html+=`<div class="section-head ${sec.cls}"><span>${escapeHtml(sec.label)}</span><span class="tag">${escapeHtml(sec.range)}</span></div>`;QUESTIONS.forEach((q,idx)=>{if(q.section===sec.key){qi++;html+=makeCard(idx,qi,false);}});});exam.innerHTML=html;}else{let html=makeCard(current,current+1,true);const last=current===TOTAL_Q-1,answered=answers[current]!==null,all=answers.every(a=>a!==null);const next=mode==='guided'?(last?`<button class="btn btn-gold" onclick="showResultsFromGuided()" ${answered?'':'disabled'}>Show Results</button>`:`<button class="btn btn-gold" onclick="nextQ()" ${answered?'':'disabled'}>Continue</button>`):(last?`<button class="btn btn-gold" onclick="submitExam()" ${all?'':'disabled'}>Submit Exam</button>`:`<button class="btn btn-gold" onclick="nextQ()">Continue</button>`);html+=`<div class="nav"><div class="left"><button class="btn btn-ghost" onclick="prevQ()" ${current===0?'disabled':''}>Back</button><button class="btn btn-ghost" onclick="resetExam(false)">Reset</button></div><div class="note">${mode==='exam'?'No feedback until submission.':'Feedback appears after selection.'}</div><div class="right">${next}</div></div>`;exam.innerHTML=html;}document.getElementById('bottomActions').innerHTML='';updateHud();}
+function choose(idx,i){if(locked[idx]||submitted)return;answers[idx]=i;if(mode==='instant'){locked[idx]=true;updateOptionUI(idx);}else if(mode==='guided'){locked[idx]=true;build();}else{build();}updateHud();}
+function updateOptionUI(idx){const q=QUESTIONS[idx],card=document.getElementById('q'+idx),chosen=answers[idx];card.classList.add('answered','locked');card.querySelectorAll('.opt').forEach(o=>{const oi=+o.dataset.i,mark=o.querySelector('.mark');o.classList.remove('sel','correct','wrong');mark.textContent='';if(oi===q.correct){o.classList.add('correct');mark.textContent='✓';}else if(oi===chosen){o.classList.add('wrong');mark.textContent='✗';}});document.getElementById('exp'+idx).classList.add('show');}
+function nextQ(){if(current<TOTAL_Q-1){current++;build();window.scrollTo({top:0,behavior:'smooth'});}}
+function prevQ(){if(current>0){current--;build();window.scrollTo({top:0,behavior:'smooth'});}}
+function updateHud(){const done=answers.filter(a=>a!==null).length;document.getElementById('progStat').innerHTML=(mode==='instant'?`Progress <b id="progCount">${done}</b>/${TOTAL_Q}`:`Question <b id="progCount">${current+1}</b>/${TOTAL_Q}`);document.getElementById('barFill').style.width=((mode==='instant'?done/TOTAL_Q:(current+1)/TOTAL_Q)*100)+'%';const sc=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'—':sc;}
+function submitExam(){if(submitted)return;locked=locked.map(()=>true);submitted=true;stopTimer();showResults();}
+function showResultsFromGuided(){submitted=true;showResults();}
+function showResults(){const sc=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0),pct=sc/TOTAL_Q;document.getElementById('rScore').textContent=sc;document.getElementById('scoreNum').textContent=sc;let grade,blurb;if(pct>=.9){grade='Heat Integration Process Analysis — Distinction';blurb='Excellent command of stream data, pinch targeting, exchanger networks, utility integration, controls, economics, and decarbonization trade-offs.';}else if(pct>=.8){grade='Heat Integration Process Analysis — Solid Pass';blurb='Strong performance. Review missed questions to sharpen ΔTmin logic, utility targeting, retrofit feasibility, and operating-case interpretation.';}else if(pct>=.7){grade='Heat Integration Process Analysis — Competent';blurb='Good working knowledge with targeted review needed on heat-duty calculations, pinch rules, exchanger design, and project economics.';}else if(pct>=.6){grade='Approaching Heat Integration Readiness';blurb='Core ideas are present, but more practice is needed with stream tables, heat cascades, exchanger feasibility, and utility economics.';}else{grade='Developing Heat Integration Knowledge';blurb='Revisit heat-duty basics, composite curves, pinch rules, heat exchanger sizing, utility systems, and retrofit decision logic.';}document.getElementById('rGrade').textContent=grade;document.getElementById('rBlurb').textContent=blurb;document.getElementById('rTimeout').style.display=timedOut?'block':'none';const by={};QUESTIONS.forEach((q,i)=>{by[q.section]=by[q.section]||{c:0,t:0};by[q.section].t++;if(answers[i]===q.correct)by[q.section].c++;});const bd=document.getElementById('rBreak');bd.innerHTML='';SECTIONS.forEach(sec=>{const d=by[sec.key];const el=document.createElement('div');el.className='bd-item';el.innerHTML=`<div class="bd-t">${escapeHtml(sec.key)}</div><div class="bd-s">${d.c}/${d.t}</div>`;bd.appendChild(el);});document.getElementById('results').classList.add('show');if(mode==='exam'||mode==='guided')renderReviewList();else build();renderCertificate(sc,TOTAL_Q);setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth'}),200);}
+function renderReviewList(){let html='',qi=0;SECTIONS.forEach(sec=>{html+=`<div class="section-head ${sec.cls}"><span>${escapeHtml(sec.label)}</span><span class="tag">${escapeHtml(sec.range)}</span></div>`;QUESTIONS.forEach((q,idx)=>{if(q.section===sec.key){qi++;html+=makeCard(idx,qi,false);}});});document.getElementById('exam').innerHTML=html;}
+function reviewAnswers(){const exam=document.getElementById('exam');if(exam.firstElementChild)exam.firstElementChild.scrollIntoView({behavior:'smooth'});}
+function setMode(m){mode=m;document.getElementById('mode-guided').classList.toggle('active',m==='guided');document.getElementById('mode-instant').classList.toggle('active',m==='instant');document.getElementById('mode-exam').classList.toggle('active',m==='exam');document.getElementById('modeHint').textContent=m==='guided'?'Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.':m==='instant'?'Instant Feedback: all 150 questions on one page. Each answer reveals the explanation immediately.':'Exam Mode: one question at a time. 4-hour countdown; feedback and score are hidden until final submission.';resetExam(false);}
+function resetExam(jump){current=0;answers=new Array(TOTAL_Q).fill(null);locked=new Array(TOTAL_Q).fill(false);submitted=false;timedOut=false;document.getElementById('results').classList.remove('show');hideCertificate();if(mode==='exam')startTimer();else hideTimer();build();if(jump)window.scrollTo({top:0,behavior:'smooth'});}
+function requestExamName(){if(learnerName){setMode('exam');return;}document.getElementById('nameModal').classList.add('show');setTimeout(()=>document.getElementById('nameInput').focus(),50);}
+function closeNameModal(){document.getElementById('nameModal').classList.remove('show');}
+function startExamFromModal(){const n=document.getElementById('nameInput').value.trim();if(!n){document.getElementById('nameInput').focus();return;}learnerName=n;document.getElementById('certNameInput').value=n;updateCertName(n);closeNameModal();setMode('exam');}
+function hashCode(str){let h=0;for(let i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+function updateCertName(n){document.getElementById('certName').textContent=(n||'').trim()||'Learner';}
+function hideCertificate(){document.getElementById('certificate').classList.remove('show');}
+function renderCertificate(sc,total){const n=learnerName||document.getElementById('certNameInput').value.trim()||'Learner';const date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});updateCertName(n);document.getElementById('certNameInput').value=n;document.getElementById('certScore').textContent=`${sc} / ${total} (${Math.round(sc/total*100)}%)`;document.getElementById('certDate').textContent=date;document.getElementById('certId').textContent='CHML-'+hashCode('HI|'+n+'|'+date+'|'+sc+'|'+total);document.getElementById('certificate').classList.add('show');}
+(function validate(){const errors=[];if(QUESTIONS.length!==150)errors.push('Expected 150 questions, found '+QUESTIONS.length);const keys=new Set(SECTIONS.map(s=>s.key));QUESTIONS.forEach((q,i)=>{if(!keys.has(q.section))errors.push('Question '+(i+1)+' unknown section');if(!Array.isArray(q.opts)||q.opts.length!==4)errors.push('Question '+(i+1)+' option count');if(![0,1,2,3].includes(q.correct))errors.push('Question '+(i+1)+' invalid correct index');});if(errors.length){document.getElementById('exam').innerHTML='<div class="q-card"><h2>Validation error</h2><p>'+errors.map(escapeHtml).join('<br>')+'</p></div>';throw new Error(errors.join('; '));}})();
+build();updateHud();
+</script>
+</body>
+</html>

@@ -1,0 +1,2615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Process Engineering &middot; Piping Safety Design &middot; Canada Regulation &middot; 150Q Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  --conduction:#6b2d2d;
+  --convection:#0e5f73;
+  --radiation:#7a5b12;
+  --hx:#264c86;
+  --boiling:#5e2a7e;
+  --applications:#26633a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(114,47,55,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.6rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--conduction),var(--convection),var(--radiation),var(--hx),var(--boiling),var(--applications));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-conduction{background:linear-gradient(100deg,var(--conduction),#4d1f23)}
+.sec-convection{background:linear-gradient(100deg,var(--convection),#06403f)}
+.sec-radiation{background:linear-gradient(100deg,var(--radiation),#5f3406)}
+.sec-hx{background:linear-gradient(100deg,var(--hx),#0c2349)}
+.sec-boiling{background:linear-gradient(100deg,var(--boiling),#311148)}
+.sec-applications{background:linear-gradient(100deg,var(--applications),#0e3d18)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.06rem;line-height:1.62;margin-bottom:18px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:12px 14px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.55);transition:all .18s ease;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.08);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s;margin-top:1px}
+.opt .otext{flex:1;font-size:1.0rem;line-height:1.55;word-break:break-word;padding-top:2px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.12)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center;font-family:'JetBrains Mono',monospace}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:160px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 16px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:.98rem}
+  .opt .otext{font-size:.92rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Process Engineering &middot; Piping Safety Design &middot; Canadian Regulation &middot; 150-Question Exam</div>
+    <h1 class="title">Piping Safety Design &middot; <span class="amp">Canada Regulation</span> Exam</h1>
+    <div class="byline">150 questions across Canadian regulatory scope and AHJ screening, CSA B51 and adopted ASME piping-code selection, design pressure and materials, overpressure protection and isolation, layout and support safety, welding and testing controls, flammable-liquid fire-code requirements, hazardous-service operations, emergency response, and FEED-to-commissioning verification</div>
+    <div class="exambar">
+      <span><b>150</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>150</b> Marks</span>
+      <span>Exam Mode: <b>4 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/150</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">04:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/150</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 4-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    Process Engineering &middot; Piping Safety Design &middot; Canada Regulation &middot; 150-question exam
+    <div class="disclaimer">Training resource only. Validate every piping design against the current law, adopted code edition, provincial or territorial pressure-equipment authority, federal occupational and environmental rules where applicable, National Fire Code adoption, Canadian Electrical Code classification, owner standards, AHJ rulings, and project-specific HAZOP/LOPA/PSSR before issuing for construction or operation.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "A FEED team is starting a process piping package for a Canadian chemical plant. What is the safest regulatory starting point?",
+    "opts": [
+      "Use the owner standard first and confirm Canadian code compliance only during commissioning; without adopted-code confirmation.",
+      "Use ASME B31.3 only and treat Canadian registration as a procurement detail after fabrication; leaving registration scope unresolved.",
+      "Screen the jurisdiction, AHJ, CSA B51 scope, adopted ASME piping code, fire code, and owner standard before design freeze.",
+      "Use the latest international code edition even if the province has adopted another edition; without provincial screening."
+    ],
+    "correct": 2,
+    "explanation": "Canadian piping compliance starts with jurisdiction screening. Provincial or territorial pressure-equipment rules, CSA B51 adoption, applicable ASME piping code, fire code, environmental rules, and AHJ interpretations must be identified before layout and procurement are frozen."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "A vendor states that the piping is built to ASME B31.3, so no Canadian pressure-equipment review is needed. What is the best response?",
+    "opts": [
+      "Only the vendor's country of manufacture controls the design once B31.3 is mentioned; leaving registration scope unresolved.",
+      "ASME compliance automatically replaces all provincial pressure-equipment requirements in Canada; after commissioning review.",
+      "ASME design may be required, but Canadian AHJ registration, inspection, and CSA B51 requirements still need screening.",
+      "Canadian review is needed only for vessels, not for pressure piping or fittings, where owner acceptance is assumed."
+    ],
+    "correct": 2,
+    "explanation": "ASME B31.3 is commonly used as the process-piping design code, but Canadian jurisdictions may still require design registration, fitting registration, inspection, and professional authentication under CSA B51 and local rules."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "A regulated federal workplace installs a new pressure piping system. When must it be inspected for first use under the federal occupational regulation?",
+    "opts": [
+      "After installation and before first use, with inspection records made in the required manner.",
+      "Only after the first pressure-relief valve lift or emergency shutdown event, without provincial screening.",
+      "Only during the next plant turnaround if the hydrotest record is available, where owner acceptance is assumed.",
+      "Only after the first year of service, unless a leak is found during operation, with AHJ review deferred."
+    ],
+    "correct": 0,
+    "explanation": "The Canada Occupational Health and Safety Regulations require inspection of pressure piping after installation and before first use, and records must be made. The exam uses this as a federal workplace compliance principle."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "A pressure piping spool in a federal workplace is welded after installation to correct a field interference. What regulatory check is triggered?",
+    "opts": [
+      "No inspection is needed if the weld is outside the battery limit of the package skid.",
+      "Only a pressure gauge check is needed if the weld is smaller than NPS 2, where owner acceptance is assumed.",
+      "Inspection can wait until the next annual inspection if production needs the line, with AHJ review deferred.",
+      "Inspection is required after welding, alteration, or repair before the system is returned to use."
+    ],
+    "correct": 3,
+    "explanation": "For federal workplaces, the occupational regulation triggers inspection after welding, alteration, or repair. Provincial/territorial requirements may add registration, NDE, or pressure-test requirements."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "The maintenance supervisor who repaired a pressure piping system offers to certify it as safe for intended use. What is the correct control?",
+    "opts": [
+      "Accept the supervisor's certification if the repair procedure was signed by operations; where owner acceptance is assumed.",
+      "Use an independent qualified inspector; the person who operates, repairs, or maintains it cannot inspect it for that purpose.",
+      "Accept the certification if the repaired section is inside a vendor package boundary; without adopted-code confirmation; where owner acceptance is assumed.",
+      "Accept the certification if a hydrostatic test was completed without visible leakage; leaving registration scope unresolved."
+    ],
+    "correct": 1,
+    "explanation": "Inspection independence is a key safety control. In the federal rule, a person who operates, repairs, or maintains the pressure piping system may not inspect it for that regulatory purpose."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "A piping designer in British Columbia assumes a small NPS 2 pressure line has no safety obligations because it may be exempt from design registration. What is the safer interpretation?",
+    "opts": [
+      "A registration exemption does not remove code compliance, safe design, fabrication control, or AHJ review needs.",
+      "Small-bore pressure piping can be field-routed without checking stress or compatibility; without adopted-code confirmation.",
+      "Any NPS 3 or smaller line is fully exempt from pressure design and inspection in every province.",
+      "Small-bore lines need only a hydrotest and do not need material or welding traceability; after commissioning review."
+    ],
+    "correct": 0,
+    "explanation": "Some jurisdictions have registration exemptions for smaller pressure piping, but exemptions do not mean the piping can ignore the adopted code, safe design basis, inspection, or owner/AHJ requirements."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "A line carries steam from a boiler plant to process users. Which design-code selection should be checked first?",
+    "opts": [
+      "Use the plumbing code because the service is a utility and not a process fluid, without adopted-code confirmation.",
+      "Use B31.3 for every steam line because the users are inside a process plant, leaving registration scope unresolved.",
+      "Power piping, process piping, and pressure-equipment boundaries must be classified before selecting B31.1 or B31.3.",
+      "Use B31.1 for every plant line because steam is always power piping, without provincial screening; where owner acceptance is assumed."
+    ],
+    "correct": 2,
+    "explanation": "Steam systems can cross code boundaries. Boiler external piping, power piping, process piping, and building-service piping must be classified early with the AHJ and owner standard."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "A refrigeration skid includes ammonia piping and pressure equipment. Which Canadian code family should be added to the design screening?",
+    "opts": [
+      "Only the National Plumbing Code because ammonia piping is a utility service, leaving registration scope unresolved.",
+      "CSA B52 and the applicable refrigeration pressure-piping requirements, plus AHJ pressure-equipment rules.",
+      "Only the piping safety storage code because ammonia is stored before use, without provincial screening.",
+      "Only the electrical code because refrigerant hazards are mainly instrumentation issues; where owner acceptance is assumed."
+    ],
+    "correct": 1,
+    "explanation": "Refrigeration systems require their own Canadian code screening. CSA B52 and pressure-equipment rules may apply in addition to plant safety and electrical-classification requirements."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "A pipeline outside the plant fence transfers product between facilities. Which Canadian standard family is commonly screened before treating it as plant process piping?",
+    "opts": [
+      "The storage-tank code only, because the line eventually connects to a tank, after commissioning review.",
+      "The National Building Code only, because the pipe crosses property boundaries, without provincial screening.",
+      "CSA Z662 or the applicable pipeline regulation, because jurisdiction may differ from in-plant piping.",
+      "ASME B31.3 only, because all piping connected to a plant is process piping, with AHJ review deferred."
+    ],
+    "correct": 2,
+    "explanation": "Longer product-transfer lines may fall under pipeline regulation rather than in-plant process piping rules. The boundary must be confirmed before design and registration decisions."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "A flammable-liquid transfer header is located near pumps and loading hoses. Which Canadian code area must be included with pressure-piping review?",
+    "opts": [
+      "Only the electrical single-line diagram, because transfer piping has no fire-code implications; without provincial screening.",
+      "Only the pressure-piping wall-thickness calculation, because fire safety is handled after startup; where owner acceptance is assumed.",
+      "National Fire Code requirements for flammable and combustible liquids, transfer operations, spill control, and fire access.",
+      "Only the tank shell standard, because transfer piping is not part of the fire-hazard area; without adopted-code confirmation."
+    ],
+    "correct": 2,
+    "explanation": "For flammable/combustible liquids, pressure integrity is only one layer. Fire-code controls for ignition, access, spill control, drainage, training, emergency valves, and extinguishers also affect piping design."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "A petroleum storage tank system under federal jurisdiction includes aboveground transfer piping. Which environmental regulation must be screened?",
+    "opts": [
+      "Only the building code, because piping is considered part of the site structure, where owner acceptance is assumed.",
+      "Only the Transportation of Dangerous Goods rules, because the product arrives by truck; with AHJ review deferred.",
+      "SOR/2008-197 and the referenced storage-tank system requirements, including leak, release, and record controls.",
+      "Only the provincial boiler code, because environmental release rules do not affect piping; leaving registration scope unresolved."
+    ],
+    "correct": 2,
+    "explanation": "Tank-system piping can fall within federal petroleum/allied petroleum storage-tank rules for applicable federal-jurisdiction systems. This affects releases, identification, leak detection, emergency planning, and records."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "A new piping material is proposed for sulfuric acid service. What design-basis information must be confirmed before code calculations are accepted?",
+    "opts": [
+      "Pipe diameter, pipe colour, and insulation thickness only, because acid strength does not affect design.",
+      "Vendor preference only, because material compatibility is outside the piping engineer's scope.",
+      "Pump flow rate only, because corrosion allowance can be added after construction, leaving registration scope unresolved.",
+      "Fluid concentration, temperature, impurities, corrosion data, compatibility, and inspection strategy."
+    ],
+    "correct": 3,
+    "explanation": "Code calculations do not prove chemical compatibility. Hazardous or corrosive service requires the process basis, material compatibility, corrosion allowance/lining, and inspection strategy to be confirmed."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "An EPC proposes to use a newer CSA B51 edition than the edition adopted by the province. What is the correct compliance approach?",
+    "opts": [
+      "Always use the newest published edition, because publication automatically changes the law.",
+      "Always use the oldest edition referenced by the vendor, because it reduces redesign risk.",
+      "Confirm the legally adopted edition and any permitted alternatives or variances with the AHJ.",
+      "Ignore the edition issue if the piping has a professional engineer stamp, without provincial screening."
+    ],
+    "correct": 2,
+    "explanation": "Canadian jurisdictions adopt code editions through law or directive. A newer edition may be acceptable only if the AHJ allows it; the adopted edition remains the compliance baseline."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "A project says its owner standard is stricter than Canadian rules, so no AHJ review is needed. What is the correct position?",
+    "opts": [
+      "AHJ review is needed only when the owner standard is less conservative than ASME, leaving registration scope unresolved.",
+      "A stricter owner standard automatically overrides all code registration and inspection duties.",
+      "Owner standards may be stricter, but they do not replace statutory requirements or AHJ acceptance.",
+      "Owner standards apply only to paint and tagging, not to pressure-piping safety design."
+    ],
+    "correct": 2,
+    "explanation": "Owner standards are important, but they sit above statutory minimums rather than replacing them. The design must meet both owner and jurisdictional requirements."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "A vendor package arrives with internal piping hidden behind panels. What Canadian compliance question should be asked?",
+    "opts": [
+      "Whether the package passed factory testing, because that alone closes Canadian pressure-equipment compliance; after commissioning review.",
+      "Whether the panels are removable, because hidden piping is exempt from pressure-equipment rules; without provincial screening.",
+      "Whether the package piping and fittings meet applicable Canadian registration, inspection, code, and documentation requirements.",
+      "Whether the vendor uses metric drawings, because units determine compliance in Canada; with AHJ review deferred; without adopted-code confirmation."
+    ],
+    "correct": 2,
+    "explanation": "Package boundaries do not erase pressure-equipment obligations. Internal piping may need code classification, fitting registration, inspection records, and Canadian documentation."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "A pressure fitting is purchased from outside Canada for a regulated piping system. What should procurement verify?",
+    "opts": [
+      "Applicable fitting registration or declaration requirements, pressure-temperature rating, material, and code compatibility.",
+      "Only the flange drilling pattern, because pressure rating is covered by the pipe schedule; where owner acceptance is assumed.",
+      "Only the purchase price and lead time, because fittings are standard catalogue items; with AHJ review deferred.",
+      "Only the shipment certificate, because customs clearance proves Canadian compliance; without adopted-code confirmation."
+    ],
+    "correct": 0,
+    "explanation": "Pressure fittings are regulated in many Canadian jurisdictions. Procurement should verify registration/CRN or accepted declarations, ratings, materials, and compatibility before installation."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "A process safety review identifies Category M toxic service under ASME B31.3. What does that classification drive?",
+    "opts": [
+      "Lower examination requirements because the line is already classified as hazardous, where owner acceptance is assumed.",
+      "More stringent design, fabrication, examination, testing, isolation, and leak-control expectations for that service.",
+      "Only paint-label changes because the mechanical design is unaffected by service class; without adopted-code confirmation.",
+      "No pressure-piping registration because toxic service is managed only by operating procedure; leaving registration scope unresolved."
+    ],
+    "correct": 1,
+    "explanation": "Service classification is not a label exercise. Toxic, lethal, high-pressure, high-purity, or severe cyclic services drive mechanical design and quality controls."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "A piping class is copied from a U.S. refinery without checking Canadian cold-weather design. What is the review comment?",
+    "opts": [
+      "Verify MDMT, impact testing, material toughness, insulation, tracing, and local design temperatures for the Canadian site.",
+      "Accept the class if the wall thickness calculation has a positive corrosion allowance; without adopted-code confirmation.",
+      "Accept the class if it has been used at another refinery with the same nominal pressure rating; leaving registration scope unresolved.",
+      "Accept the class if all piping is inside containment and away from public access, after commissioning review; without provincial screening."
+    ],
+    "correct": 0,
+    "explanation": "Canadian outdoor piping can see low ambient temperatures. Material toughness, impact-test rules, brittle-fracture risk, freeze protection, and winter operations must be addressed."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "A design package shows a P&ID but no line list. Why is the line list a safety-critical document?",
+    "opts": [
+      "It is used only for cost estimating after the safety review is complete, without adopted-code confirmation; leaving registration scope unresolved.",
+      "It is optional if the P&ID already shows every valve and instrument symbol, leaving registration scope unresolved; after commissioning review.",
+      "It ties each line to service, code, design pressure, design temperature, material, testing, insulation, tracing, and registration scope.",
+      "It is needed only by procurement and has no direct impact on safety or code compliance; without provincial screening."
+    ],
+    "correct": 2,
+    "explanation": "The line list converts P&ID intent into design requirements. It is essential for code classification, materials, testing, pressure relief, insulation, heat tracing, and inspection planning."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "A plant modification adds a bypass around a pressure control valve. What governance action is required before field work?",
+    "opts": [
+      "Install the bypass if operations agrees to keep the bypass normally closed and sealed; leaving registration scope unresolved.",
+      "Run MOC, code classification, relief review, isolation review, and AHJ/registration screening as applicable.",
+      "Install the bypass if the pipe size matches the original line and the valve tags are updated later.",
+      "Install the bypass first and ask the regulator only if a leak occurs during startup; where owner acceptance is assumed."
+    ],
+    "correct": 1,
+    "explanation": "Bypasses can change pressure protection, flow paths, isolation, emergency shutdown, and overpressure cases. They need formal change review before construction."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "The project manager asks whether Canadian piping safety design is only a federal-law issue. What is the correct answer?",
+    "opts": [
+      "Yes; provinces only enforce plumbing and building rules, not pressure piping, after commissioning review; without provincial screening.",
+      "No; Canadian piping design is governed only by private owner standards, without provincial screening; where owner acceptance is assumed.",
+      "No; pressure equipment is largely provincial/territorial, with federal rules applying to specific federal workplaces or systems.",
+      "Yes; one federal pressure-piping code fully controls every province and territory, with AHJ review deferred; without adopted-code confirmation."
+    ],
+    "correct": 2,
+    "explanation": "Canada has layered jurisdiction. Provincial and territorial pressure-equipment regulators are central, while federal occupational or environmental rules apply in defined federal scopes."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "A drawing package has no professional engineer authentication for a regulated pressure-piping design. What is the likely hold?",
+    "opts": [
+      "The package cannot be released for regulated work until required professional authentication and registration steps are resolved.",
+      "The package can be released if operations signs the P&ID before construction starts; where owner acceptance is assumed.",
+      "The package can be released if the line operates below normal atmospheric temperature; with AHJ review deferred; without provincial screening.",
+      "The package can be released if the fabricator promises to hydrotest every spool, without adopted-code confirmation."
+    ],
+    "correct": 0,
+    "explanation": "Regulated pressure-piping submissions commonly require professional authentication and AHJ acceptance. Testing alone does not replace stamped design responsibility."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "A contractor says field-run piping is acceptable because the exact route is minor. What is the safest design rule?",
+    "opts": [
+      "Field routing is exempt from stress and support review because it is not shop-fabricated; where owner acceptance is assumed.",
+      "Field routing can ignore the approved line list if the nominal pipe size remains unchanged.",
+      "Field routing can be approved verbally if the contractor documents it after startup; without adopted-code confirmation.",
+      "Field routing must stay within the approved code, stress, support, access, isolation, and MOC boundaries."
+    ],
+    "correct": 3,
+    "explanation": "Small routing changes can affect flexibility, loads, drainage, venting, accessibility, electrical classification, and emergency access. They require controlled review."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "A pressure piping turnover package is missing test records, NDE summaries, MTRs, and weld maps. What is the correct acceptance response?",
+    "opts": [
+      "Accept the piping if the hydrotest was witnessed informally by a shift supervisor, with AHJ review deferred.",
+      "Accept the piping if the line has no visible leaks during water flushing, without adopted-code confirmation.",
+      "Hold acceptance until required construction, inspection, material, welding, testing, and as-built records are complete.",
+      "Accept the piping if operations needs the system and the contractor will send records later; after commissioning review."
+    ],
+    "correct": 2,
+    "explanation": "Turnover records prove that design assumptions became controlled construction. Missing records weaken compliance, integrity management, and future repair decisions."
+  },
+  {
+    "section": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "q": "A learner wants to use this exam answer as final legal approval for a real Canadian piping system. What limitation applies?",
+    "opts": [
+      "Exam content is legally binding if it follows ASME terminology and Canadian spelling; without adopted-code confirmation.",
+      "Exam content becomes a compliance certificate once it references Canada regulation, leaving registration scope unresolved.",
+      "Exam content can replace AHJ review if the correct option is selected consistently, after commissioning review; without provincial screening.",
+      "Training content does not replace current laws, adopted code editions, AHJ rulings, or a professional engineer's stamped design."
+    ],
+    "correct": 3,
+    "explanation": "This exam is a learning tool. Real piping systems require project-specific design, current legal review, AHJ acceptance, qualified inspection, and professional authentication where required."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A line list shows normal pressure only, not design pressure. What design condition must be defined?",
+    "opts": [
+      "The pressure observed during commissioning because it reflects actual installed conditions; leaving corrosion basis open.",
+      "The maximum credible pressure, including pump deadhead, regulator failure, blocked-in liquid, and relief limits.",
+      "The average operating pressure during normal production because excursions are handled by operators.",
+      "The vendor's preferred pressure rating because it simplifies pipe-class selection, where vendor data is assumed."
+    ],
+    "correct": 1,
+    "explanation": "Design pressure must cover credible maximum pressure cases, not only normal operation. It drives wall thickness, flange class, relief protection, testing, and registration documentation."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A Canadian outdoor caustic line is designed using only summer operating temperature. What is missing?",
+    "opts": [
+      "Only the insulation thickness, because temperature limits are handled by the insulation contractor.",
+      "Only the maximum normal process temperature, because winter ambient does not affect pressure piping.",
+      "Minimum and maximum design temperatures, including winter ambient, heat tracing loss, and upset conditions.",
+      "Only the pump discharge temperature, because piping material toughness is independent of climate; without service-class review."
+    ],
+    "correct": 2,
+    "explanation": "Design temperature must consider credible hot and cold conditions. Canadian winter exposure can control material toughness, freeze protection, and heat tracing."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A 12 m vertical water-filled pipe is isolated. What static head is added at the bottom, using P = rho g h?",
+    "opts": [
+      "About 118 kPa, before adding any operating or surge pressure.",
+      "About 1,180 kPa, before adding any operating or surge pressure.",
+      "Zero kPa, because static head is ignored in piping design.",
+      "About 12 kPa, before adding any operating or surge pressure."
+    ],
+    "correct": 0,
+    "explanation": "For water, 1000 kg/m³ × 9.81 m/s² × 12 m ≈ 118 kPa. Static head must be added to operating and transient cases where it controls design."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A liquid-filled line can be blocked in between two closed valves outdoors. What safety case must be considered?",
+    "opts": [
+      "Only vacuum collapse, because blocked-in liquid cannot create overpressure.",
+      "Thermal expansion overpressure and the need for thermal relief or a safe expansion path.",
+      "Only corrosion allowance, because liquid expansion is handled by pipe flexibility.",
+      "Only pump NPSH, because closed valves remove pressure from the system, leaving corrosion basis open."
+    ],
+    "correct": 1,
+    "explanation": "A small temperature rise can create very high pressure in a blocked-in liquid. Thermal relief or a safe expansion path is a basic piping safety requirement."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A corrosive service has no corrosion allowance or inspection interval. What is the correct design response?",
+    "opts": [
+      "Define corrosion mechanism, allowance or lining, monitoring, inspection interval, and retirement thickness.",
+      "Use stainless steel for every corrosive service because it removes the need for review; without MDMT review.",
+      "Rely on secondary containment because corrosion affects only environmental response; leaving corrosion basis open.",
+      "Add one pipe schedule size and skip corrosion monitoring because the wall is thicker; after startup monitoring."
+    ],
+    "correct": 0,
+    "explanation": "Corrosion design requires a mechanism-based plan. Material, allowance, lining, inspection, monitoring, and repair limits must be consistent with service conditions."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A wet H2S service is identified in a sour-water piping system. What material concern must be screened?",
+    "opts": [
+      "Only paint compatibility, because H2S affects odour but not pressure-boundary material; without MDMT review.",
+      "Only gasket colour coding, because the toxic hazard is managed by WHMIS labels, leaving corrosion basis open.",
+      "Only pipe wall thickness, because sour service has no effect on welding or hardness; after startup monitoring.",
+      "Sulfide stress cracking, hydrogen damage, hardness limits, and applicable sour-service material controls."
+    ],
+    "correct": 3,
+    "explanation": "Sour service can drive material selection, weld hardness, heat treatment, NDE, and inspection. It is not simply a labelling or PPE issue."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A stainless steel line is insulated outdoors near a chloride source. What degradation mechanism should be screened?",
+    "opts": [
+      "Galvanic corrosion between stainless steel and rainwater only, leaving corrosion basis open; after startup monitoring.",
+      "Erosion from steam traps, even if the line carries no steam, after startup monitoring; without service-class review.",
+      "Graphitization of stainless steel at normal outdoor temperatures, without service-class review; where vendor data is assumed.",
+      "Chloride stress corrosion cracking and corrosion under insulation, especially at wet insulation locations."
+    ],
+    "correct": 3,
+    "explanation": "Stainless steel under wet insulation can crack or corrode, especially with chlorides. CUI and chloride SCC reviews affect material, coating, jacketing, inspection, and drainage."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A design uses carbon steel for 98% sulfuric acid transfer. What should the safety review focus on?",
+    "opts": [
+      "Only flange class, because sulfuric acid corrosion is independent of operating conditions.",
+      "Acid concentration, temperature, velocity, water ingress, corrosion data, and drain/flush procedures.",
+      "Only pipe colour, because acid service is mainly an identification problem, where vendor data is assumed.",
+      "Only insulation thickness, because high concentration acid is always thermally stable."
+    ],
+    "correct": 1,
+    "explanation": "Sulfuric acid compatibility is highly dependent on concentration, temperature, flow velocity, and dilution. Water ingress during flushing or shutdown can change corrosion behaviour."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A nonmetallic pipe is proposed for a solvent service. What must be checked before accepting it?",
+    "opts": [
+      "Only the supplier price because nonmetallic piping is always safer than metal, without service-class review; where vendor data is assumed.",
+      "Chemical compatibility, pressure-temperature derating, fire exposure, permeation, supports, joining, and code acceptance.",
+      "Only the nominal pressure rating printed on the pipe because it covers all solvents; with compatibility checked later.",
+      "Only the pipe colour because nonmetallic materials are immune to chemical attack, without MDMT review; leaving corrosion basis open."
+    ],
+    "correct": 1,
+    "explanation": "FRP and thermoplastic piping can be excellent, but pressure rating depends on temperature, chemistry, joining, supports, fire exposure, and code/AHJ acceptance."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A flexible hose will unload flammable liquid from trucks. What design control is required?",
+    "opts": [
+      "Use rated, compatible, tagged hoses with inspection intervals, bonding/grounding, supports, and safe isolation.",
+      "Use one hose for all products to simplify training and emergency spare inventory, with compatibility checked later.",
+      "Use hose only as temporary equipment, so pressure and compatibility checks are optional; without MDMT review.",
+      "Use any industrial hose if it fits the camlock and the operator watches the transfer; leaving corrosion basis open."
+    ],
+    "correct": 0,
+    "explanation": "Transfer hoses are pressure-boundary components. They need service compatibility, ratings, tagging, inspection/replacement, bonding/grounding where required, and safe connection/disconnection procedures."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A gasket is selected by flange class only for a toxic solvent line. What is missing?",
+    "opts": [
+      "Gasket material compatibility, temperature rating, fire behaviour, blowout resistance, and assembly control.",
+      "Only gasket thickness, because pressure class determines chemical compatibility, without MDMT review.",
+      "Only flange finish, because gasket material is interchangeable for all solvents, leaving corrosion basis open.",
+      "Only bolt length, because gasket performance is unrelated to assembly practice, after startup monitoring."
+    ],
+    "correct": 0,
+    "explanation": "A flange class rating is not enough. Gasket safety depends on material compatibility, temperature, fire risk, seating stress, surface finish, bolt load, and installation control."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A design uses elastomer seals in oxidizer piping without checking compatibility. What is the correct comment?",
+    "opts": [
+      "Accept the seals if the line is low pressure, because oxidizer compatibility affects only vessels; without MDMT review.",
+      "Accept the seals if they are new, because age is the only elastomer failure concern; leaving corrosion basis open.",
+      "Verify elastomer compatibility with the oxidizer, temperature, concentration, and credible contamination conditions.",
+      "Accept the seals if the metal pipe is compatible, because elastomers do not touch the fluid; without service-class review."
+    ],
+    "correct": 2,
+    "explanation": "Elastomers can fail rapidly or react dangerously in oxidizing, solvent, acid, or caustic services. Compatibility must include upset conditions and cleaning chemicals."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A pipe wall-thickness calculation ignores mechanical allowance for threading, grooving, or corrosion. What is the issue?",
+    "opts": [
+      "The calculation is acceptable if the hydrotest pressure is increased by 10 percent, leaving corrosion basis open.",
+      "The calculation is acceptable if the line is inside a containment trench, after startup monitoring; without service-class review.",
+      "The calculation is acceptable if the nominal schedule looks heavier than nearby lines; without service-class review.",
+      "The required thickness must include pressure design, mill tolerance, corrosion/erosion, and fabrication allowances."
+    ],
+    "correct": 3,
+    "explanation": "Wall thickness is not just pressure stress. It also needs allowances for manufacturing tolerance, corrosion/erosion, threading/grooving, and code minimums."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A vessel-connected vacuum line can see full vacuum during pump trip. What design check is needed?",
+    "opts": [
+      "Check external-pressure collapse, supports, valve ratings, gaskets, and vacuum relief where required.",
+      "Check only internal pressure, because piping codes do not address vacuum loads, without service-class review.",
+      "Check only the liquid static head, because collapse cannot occur in large pipe, where vendor data is assumed.",
+      "Check only the pump motor size, because vacuum is controlled by electrical power, with compatibility checked later."
+    ],
+    "correct": 0,
+    "explanation": "Vacuum can collapse pipe, damage gaskets, and pull in contaminants. External pressure, valve bodies, expansion joints, and relief must be evaluated."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A slurry line has frequent elbows and high velocity. Which degradation mechanism must be considered?",
+    "opts": [
+      "Erosion, plugging, settling, abrasion at fittings, and flush/drain access.",
+      "Only atmospheric corrosion, because slurry solids stay suspended during operation.",
+      "Only electrical classification, because solids always create dust explosions.",
+      "Only flange leakage, because erosion affects vessels but not piping bends."
+    ],
+    "correct": 0,
+    "explanation": "Slurry service can erode elbows, plug dead legs, settle in low points, and require cleanout. Velocity and solids properties strongly affect piping safety."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A line has a long dead leg containing water in a heated outdoor process area. What is the design concern?",
+    "opts": [
+      "Only paint damage, because stagnant liquid cannot affect pressure-boundary integrity; where vendor data is assumed.",
+      "No concern, because dead legs are disconnected from the main process flow, with compatibility checked later.",
+      "Only valve tagging, because stagnant fluid is solved by adding a label, without MDMT review.",
+      "Freezing, corrosion, biological growth, contamination, and stagnant-pressure hazards in the dead leg."
+    ],
+    "correct": 3,
+    "explanation": "Dead legs can freeze, corrode, contaminate, or unexpectedly pressurize. The safer design is to eliminate, drain, heat trace, flush, or inspect them."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A hot line is routed through a normal maintenance walkway without guarding. What personal-safety design is required?",
+    "opts": [
+      "Rely on warning signs only, because operators can avoid touching hot surfaces, with compatibility checked later.",
+      "Provide insulation, shielding, barriers, or rerouting to prevent burn contact and maintain access.",
+      "Use thicker pipe wall only, because burn risk is caused by pressure stress, leaving corrosion basis open.",
+      "Ignore the issue if the line is below its pressure design temperature, after startup monitoring."
+    ],
+    "correct": 1,
+    "explanation": "Piping design includes personnel protection. Hot or cold surfaces near normal access routes require insulation, guards, shielding, or rerouting."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "An expansion joint is proposed to solve thermal movement, but no anchors or guides are shown. What is the correct review comment?",
+    "opts": [
+      "Do not accept the joint without engineered anchors, guides, pressure thrust checks, inspection access, and failure protection.",
+      "Accept the joint because it removes the need for formal pipe stress analysis, leaving corrosion basis open; after startup monitoring.",
+      "Accept the joint if the vendor catalog pressure rating exceeds design pressure, after startup monitoring; without service-class review.",
+      "Accept the joint if it is installed near a pump nozzle to absorb all loads, without service-class review; where vendor data is assumed."
+    ],
+    "correct": 0,
+    "explanation": "Expansion joints can create high pressure thrust and failure hazards. They require engineered anchors, guides, movement limits, inspection, and protective design."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A nitrogen purge connection is tied into a low-pressure vessel line. What safety issue must be reviewed?",
+    "opts": [
+      "Maximum nitrogen supply pressure, backflow, regulator failure, relief capacity, and isolation arrangement.",
+      "Only hose length, because purge pressure is controlled by operator experience, after startup monitoring.",
+      "Only valve handle colour, because nitrogen hazards are identification hazards only, without service-class review.",
+      "Only nitrogen purity, because inert gas cannot overpressure equipment, where vendor data is assumed."
+    ],
+    "correct": 0,
+    "explanation": "Utility connections can overpressure low-pressure equipment. Regulator failure and reverse flow are common causes of unsafe pressure excursions."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A hydraulic oil line is designed without considering fire exposure. What should be added to the safety basis?",
+    "opts": [
+      "Only noise level, because hydraulic systems are mainly ergonomic hazards, after startup monitoring; without service-class review.",
+      "Fluid combustibility, leak spray potential, ignition sources, shielding, routing, and fire-rated hose or pipe needs.",
+      "Only pipe wall thickness, because fire exposure is handled entirely by the building code; where vendor data is assumed.",
+      "Only pump efficiency, because hydraulic oil does not create process-safety hazards, with compatibility checked later."
+    ],
+    "correct": 1,
+    "explanation": "Hydraulic oil leaks can spray onto ignition sources and create intense fires. Routing, shielding, hose selection, and isolation are safety design matters."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A pipe material has acceptable strength at design temperature but poor toughness at the site's minimum ambient temperature. What controls the decision?",
+    "opts": [
+      "The material must satisfy strength and toughness for the full design temperature range, including MDMT.",
+      "Strength alone controls, because pressure stress is higher than brittle-fracture risk; where vendor data is assumed.",
+      "Toughness can be ignored if the line is hydrotested before winter operation, with compatibility checked later.",
+      "The lowest normal operating temperature controls, not the lowest credible metal temperature."
+    ],
+    "correct": 0,
+    "explanation": "Low-temperature brittle fracture can occur even when pressure stress is acceptable. The minimum design metal temperature and impact-test rules must be satisfied."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A piping class is approved for water, then reused for sodium hypochlorite. What design-basis action is required?",
+    "opts": [
+      "Reuse the class if the same nominal pipe size and flange rating are maintained, where vendor data is assumed.",
+      "Reuse the class if the pressure and temperature are lower than the original water service; with compatibility checked later.",
+      "Reuse the class if the line is painted with a chemical-service colour band, without MDMT review.",
+      "Recheck material, gaskets, valves, vents, drains, heat, light exposure, and decomposition/pressure hazards."
+    ],
+    "correct": 3,
+    "explanation": "Changing service can invalidate material compatibility, elastomer selection, venting, heat tracing, relief, and inspection assumptions, even at lower pressure."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A relief valve inlet line is made smaller than the protected equipment nozzle to save cost. What must be checked?",
+    "opts": [
+      "Only flange bolt count, because relief valves are sized independently of inlet piping; with compatibility checked later.",
+      "Only the outlet stack height, because inlet pressure loss has no impact on relief capacity; without MDMT review.",
+      "Code sizing, inlet pressure loss, capacity, fluid phase, reaction loads, and certified relief-device requirements.",
+      "Only the valve tag number, because certified relief devices compensate for small inlet lines; after startup monitoring."
+    ],
+    "correct": 2,
+    "explanation": "Relief-valve piping is part of pressure protection. Inlet pressure loss can cause chatter, capacity loss, and unsafe overpressure."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A steam condensate line has long horizontal runs and no drip legs. Which safety hazard becomes more likely?",
+    "opts": [
+      "Water hammer, erosion, support shock loads, and trap failure during startup or upset.",
+      "Vacuum collapse only, because condensate lines cannot create dynamic loads.",
+      "Static corrosion only, because condensate has no momentum during operation.",
+      "Oxygen deficiency only, because condensate flashes into inert gas, without service-class review."
+    ],
+    "correct": 0,
+    "explanation": "Steam and condensate systems require drainage, drip legs, traps, warm-up procedures, and support design to prevent water hammer."
+  },
+  {
+    "section": "Design Conditions, Materials & Corrosion Safety",
+    "q": "A piping support will clamp directly over a corrosion-prone insulated line. What should be reviewed?",
+    "opts": [
+      "CUI risk, moisture trapping, coating, support detail, inspection access, and drain path.",
+      "Only the clamp bolt grade, because insulation prevents moisture from reaching the pipe.",
+      "Only the support steel strength, because pipe corrosion is separate from support design.",
+      "Only the pipe schedule, because thicker pipe removes the need for CUI inspection, after startup monitoring."
+    ],
+    "correct": 0,
+    "explanation": "Support details can trap moisture and accelerate corrosion under insulation. The support design must preserve coating, drainage, and inspection access."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A piping system can be isolated while a pump continues running. What overpressure case must be checked?",
+    "opts": [
+      "Only vacuum pressure, because closed valves isolate the pump from the piping.",
+      "Only static head, because pump curves do not affect pressure design, where alarms are assumed.",
+      "Only normal discharge pressure, because operators will stop the pump before isolation.",
+      "Pump shutoff or deadhead pressure against the weakest downstream protected component."
+    ],
+    "correct": 3,
+    "explanation": "Pump deadhead can exceed downstream design pressure. The relief, control, or interlock strategy must protect the piping and connected equipment."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A pressure regulator supplies a low-pressure header from a high-pressure nitrogen system. What failure mode must be included?",
+    "opts": [
+      "Regulator failure open, downstream overpressure, and relief capacity for the low-pressure header.",
+      "Normal regulated pressure only, because the regulator nameplate limits all failures.",
+      "Regulator failure closed only, because open failure cannot overpressure piping, without relief-case review.",
+      "Operator response only, because nitrogen pressure is managed by shift procedure, leaving trapped pressure unresolved."
+    ],
+    "correct": 0,
+    "explanation": "Pressure-reducing stations can fail open. The downstream system must be designed or protected for the maximum credible supply pressure or relieved safely."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A liquid line is blocked in between two manual valves. Which protection is usually required if temperature can rise?",
+    "opts": [
+      "A thermal relief valve or another documented safe expansion path.",
+      "A bleed plug left open to grade, because small releases are acceptable.",
+      "A check valve, because reverse flow causes all thermal expansion failures.",
+      "A larger pressure gauge, because operators can monitor blocked-in pressure."
+    ],
+    "correct": 0,
+    "explanation": "Blocked-in liquid thermal expansion is a common overpressure hazard. Protection must discharge to a safe location and be maintainable."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A PSV discharge line vents flammable vapour near a platform. What is the correct design expectation?",
+    "opts": [
+      "Route relief discharge to a safe location or system, considering dispersion, ignition, noise, liquid rainout, and access.",
+      "Vent at the nearest pipe rack support because discharge piping is rarely used, leaving trapped pressure unresolved.",
+      "Vent near the platform if the PSV is small and labelled with a warning tag, after operator verification; without safe-discharge review.",
+      "Vent downward into the bund because secondary containment captures all vapours, without safe-discharge review."
+    ],
+    "correct": 0,
+    "explanation": "Relief discharge can expose personnel, ignite, cause noise injury, or release liquid. The discharge location and support design are critical safety decisions."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A relief valve inlet line is long and undersized. Which failure symptom becomes more likely?",
+    "opts": [
+      "Lower set pressure, because inlet losses make the relief valve open earlier, leaving trapped pressure unresolved.",
+      "Valve chatter, reduced capacity, unstable relief, and possible overpressure of the protected system.",
+      "Improved relief performance, because friction slows the flow into the valve, without safe-discharge review.",
+      "No effect, because certified PSV capacity ignores inlet and outlet piping, where alarms are assumed."
+    ],
+    "correct": 1,
+    "explanation": "Excessive inlet pressure drop can make a PSV unstable and reduce protection. Relief piping must be sized and arranged as part of the pressure-protection system."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A relief header has several valves that could be closed for maintenance. What administrative/mechanical control is expected?",
+    "opts": [
+      "Close the relief header when nuisance lifting occurs and reopen it after troubleshooting; after operator verification.",
+      "Rely on operator memory because relief valves are rarely needed during operation, without safe-discharge review.",
+      "Leave relief isolation valves unmarked so maintenance can use them as needed, where alarms are assumed.",
+      "Car-seal or lock required-open valves, manage bypasses, and verify relief path availability during MOC and isolation."
+    ],
+    "correct": 3,
+    "explanation": "Relief paths must not be unintentionally isolated. Locked/car-sealed positions, procedures, and MOC controls protect relief availability."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A rupture disk is installed upstream of a relief valve. What design detail must be included?",
+    "opts": [
+      "A smaller disk diameter because the relief valve provides the final capacity, without safe-discharge review.",
+      "A drain to open grade between the disk and relief valve for easy inspection, where alarms are assumed.",
+      "A pressure indicator, telltale, or monitoring method between the disk and relief valve where required.",
+      "A blind flange between the disk and relief valve for positive isolation, without relief-case review."
+    ],
+    "correct": 2,
+    "explanation": "A ruptured or leaking disk can pressurize the space between disk and PSV and affect set pressure. Monitoring is commonly required by code and good practice."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A relief discharge line is routed without checking thrust loads. What safety issue is missed?",
+    "opts": [
+      "Relief reaction forces, vibration, thermal movement, and support loads during discharge.",
+      "Only paint damage, because relief lines operate for short durations, with isolation checked later.",
+      "Only operator alarm response, because supports do not affect pressure relief.",
+      "Only corrosion allowance, because relief discharge has no mechanical load, leaving trapped pressure unresolved."
+    ],
+    "correct": 0,
+    "explanation": "Relief discharge can impose large dynamic forces. Supports, anchors, guides, and structural loads must be checked for relief events."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A vacuum truck connection can pull liquid from a tank-connected line. What pressure hazard must be reviewed?",
+    "opts": [
+      "Vacuum collapse, tank/piping vacuum relief, hose rating, and operator-controlled suction limits.",
+      "Only pump horsepower, because vacuum loads are absorbed by the truck, without relief-case review.",
+      "Only spill containment, because vacuum is an environmental issue only, leaving trapped pressure unresolved.",
+      "Only positive pressure, because vacuum trucks cannot damage metal piping, after operator verification."
+    ],
+    "correct": 0,
+    "explanation": "Vacuum operations can collapse tanks or pipe, pull seals inward, and create unexpected flow. Vacuum protection and operating limits are required."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A manual bypass around an ESD valve is proposed for maintenance convenience. What is the correct safety review?",
+    "opts": [
+      "Accept the bypass if it is normally closed and the handle is painted red, without relief-case review.",
+      "Assess whether the bypass defeats shutdown, relief, fire, isolation, or safeguards before approval.",
+      "Accept the bypass if it is smaller than the main line and used only by maintenance, after operator verification.",
+      "Accept the bypass if the ESD valve itself remains in the same location, without safe-discharge review."
+    ],
+    "correct": 1,
+    "explanation": "Bypasses can defeat safety functions. They require formal process-safety and MOC review, with locking, car-sealing, alarms, or interlocks as needed."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "An ESD valve in flammable service has no defined fail position. What must be specified?",
+    "opts": [
+      "Fail last position by default, because that avoids unnecessary trips during utility loss.",
+      "Fail open by default, because flow continuation is always safer than isolation, without relief-case review.",
+      "Fail-safe action based on hazard analysis, including loss of air, power, and signal cases.",
+      "Fail closed by default, without checking trapped pressure or thermal expansion."
+    ],
+    "correct": 2,
+    "explanation": "ESD fail action is hazard-specific. Fail closed, fail open, or fail-in-place must be justified by process safety, pressure protection, and emergency response needs."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A hazardous line is to be opened for maintenance after closing one block valve. What isolation method is safer?",
+    "opts": [
+      "Use positive isolation such as blinds, spades, removable spools, or double isolation with bleed where justified.",
+      "Use a check valve as the isolation boundary if flow is normally one direction, without safe-discharge review.",
+      "Use a pressure gauge at zero only, without a bleed or physical isolation method, where alarms are assumed.",
+      "Use one closed valve if it is new and has a recent stroke-test record, with isolation checked later; without safe-discharge review."
+    ],
+    "correct": 0,
+    "explanation": "Line breaking in hazardous service requires positive and verifiable isolation. A single valve is often not enough where consequence is high."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A bleed valve from an isolated acid line discharges to a bucket at grade. What is the design correction?",
+    "opts": [
+      "Route bleed, vent, and drain points to compatible closed collection or contained safe disposal.",
+      "Use a larger bleed valve because faster drainage reduces exposure time, where alarms are assumed.",
+      "Drain to open grade if operators wear acid-resistant gloves and face shields, with isolation checked later.",
+      "Keep the bucket method if the bucket is labelled and replaced every shift, without relief-case review."
+    ],
+    "correct": 0,
+    "explanation": "Bleeds and drains are part of safety design. Hazardous fluids must drain or vent to compatible, controlled, and accessible locations."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A drain valve is placed at a high point and a vent at a low point. What is the safety concern?",
+    "opts": [
+      "The concern is only aesthetic, because drains and vents are not pressure-boundary parts.",
+      "The concern applies only to steam piping and never to liquid chemical piping, without safe-discharge review.",
+      "The line may not drain or vent fully, leaving trapped liquid, pressure, or vapour pockets.",
+      "The labels will be reversed, but the line will still drain and vent normally."
+    ],
+    "correct": 2,
+    "explanation": "Drains and vents must be placed where they actually remove trapped liquid or gas. Poor placement creates line-break and startup hazards."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A line-break procedure does not require pressure verification at the work face. What design feature helps close the gap?",
+    "opts": [
+      "Accessible local pressure indication or a safe test/bleed point at the isolation boundary.",
+      "A valve tag number only, because correct tagging eliminates pressure verification.",
+      "A larger drain header only, because drainage confirms all vapour pressure is gone.",
+      "A remote DCS trend only, because control-room pressure always proves the field line is safe."
+    ],
+    "correct": 0,
+    "explanation": "Local verification reduces wrong-line and trapped-pressure events. The design should provide safe local bleed/test points and visible tags."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A check valve is proposed as the only protection against backflow from a high-pressure header. What is the review response?",
+    "opts": [
+      "Accept the check valve if operators close the upstream manual valve after each batch; without relief-case review; where alarms are assumed.",
+      "Accept the check valve as positive isolation because it prevents all reverse leakage; leaving trapped pressure unresolved.",
+      "A check valve alone is usually not positive isolation; add suitable isolation, relief, or backflow protection based on risk.",
+      "Accept the check valve if it is installed vertically and has a high-pressure rating; without safe-discharge review."
+    ],
+    "correct": 2,
+    "explanation": "Check valves can leak or fail. They are not usually accepted as sole positive isolation for high-consequence backflow or pressure protection."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A flare or vent header can receive liquid during a relief case. What design check is required?",
+    "opts": [
+      "Only vapour molecular weight, because relief headers are always gas-only systems.",
+      "Only stack height, because liquid entering a header is removed by dispersion, after operator verification.",
+      "Two-phase/liquid handling, knockout capacity, slope, low-point drains, and header backpressure.",
+      "Only relief-valve set pressure, because outlet headers cannot affect protected systems."
+    ],
+    "correct": 2,
+    "explanation": "Relief systems must handle the actual credible phase. Liquid carryover can overload headers, create slug flow, and exceed backpressure limits."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A relief device discharges into a closed system that may already be pressurized. What must be checked?",
+    "opts": [
+      "Only inlet pipe size, because outlet pressure does not affect relief performance.",
+      "Superimposed and built-up backpressure effects on relief capacity and valve stability.",
+      "Only valve material, because pressure protection is independent of backpressure, after operator verification.",
+      "Only drain location, because backpressure is handled by the receiving system owner."
+    ],
+    "correct": 1,
+    "explanation": "Backpressure can reduce relief capacity or cause instability. It must be part of relief design and verification."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A nitrogen purge is used before opening a solvent line. What additional hazard must be controlled?",
+    "opts": [
+      "Only pipe wall thickness, because purging is a mechanical design calculation, without safe-discharge review.",
+      "Only overpressure, because nitrogen cannot create personnel exposure hazards, where alarms are assumed.",
+      "Oxygen deficiency, flammable mixture formation, static ignition, and purge discharge location.",
+      "Only temperature drop, because nitrogen always cools piping during purging, without relief-case review."
+    ],
+    "correct": 2,
+    "explanation": "Purging can create oxygen-deficient areas or flammable mixtures at vents. Discharge location, ventilation, gas testing, and static controls matter."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A sample line can be isolated at the process nozzle but has no downstream block near the sample panel. What is the concern?",
+    "opts": [
+      "No concern, because sample panels are outside the pressure-piping code scope, where alarms are assumed.",
+      "No concern, because small tubing volume is always considered non-hazardous, with isolation checked later.",
+      "No concern, because operators can open the sample valve slowly to depressurize, without relief-case review.",
+      "Residual inventory and line pressure may remain at the panel, creating exposure during maintenance."
+    ],
+    "correct": 3,
+    "explanation": "Sample tubing can retain toxic, hot, corrosive, or flammable fluid. Isolation, flushing, and safe collection are needed at the point of maintenance."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A pressure relief valve is installed without a block valve, but no lifting method or access platform is shown. What is missing?",
+    "opts": [
+      "Only valve tagging, because relief valves do not need routine maintenance access, with isolation checked later.",
+      "Only paint colour, because relief valves are changed only after a failure, without relief-case review.",
+      "Safe maintenance access, lifting/removal envelope, isolation strategy, and test/replacement method.",
+      "Only a spare valve, because installation access is not a design-stage issue, after operator verification."
+    ],
+    "correct": 2,
+    "explanation": "Relief devices require inspection, testing, and replacement. The design must provide safe access, lifting, and isolation without defeating protection."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A control valve can fail closed on a liquid line between two positive-displacement pumps. What must be reviewed?",
+    "opts": [
+      "Only operator alarm priority, because trips are not mechanical design controls.",
+      "Only normal control response, because control valves are not part of pressure protection.",
+      "Blocked-flow overpressure, relief capacity, pump trips, and safe bypass or recycle path.",
+      "Only valve noise, because positive-displacement pumps cannot overpressure piping."
+    ],
+    "correct": 2,
+    "explanation": "Control-valve failure can create blocked flow and rapid overpressure, especially with positive-displacement pumps. Relief and trip design must cover it."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A relief device protects several connected lines with different design pressures. What pressure boundary controls?",
+    "opts": [
+      "The highest-rated component, because the strongest item controls the system design pressure.",
+      "The lowest-rated protected component unless isolation and separate protection are clearly defined.",
+      "The relief-valve body rating, because downstream equipment ratings are separate, without safe-discharge review.",
+      "The pump casing rating, because rotating equipment always controls system pressure, where alarms are assumed."
+    ],
+    "correct": 1,
+    "explanation": "Pressure protection must protect the weakest exposed component. Mixed-rating systems require clear isolation and separate protection boundaries."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "An operator asks to install a blind in a hazardous line without a vent between isolation points. What design response is correct?",
+    "opts": [
+      "Install the blind if both block valves are closed and the pressure gauge is remote, after operator verification.",
+      "Provide a safe vent or bleed so trapped pressure can be verified and released before blind insertion.",
+      "Install the blind if the line has been out of service for at least one hour, where alarms are assumed.",
+      "Install the blind if the gasket is replaced at the same time as the blind, with isolation checked later."
+    ],
+    "correct": 1,
+    "explanation": "Blinds and spades require pressure verification and depressurization. A trapped segment without a bleed creates line-break exposure."
+  },
+  {
+    "section": "Overpressure Protection, Isolation & Line-Break Safety",
+    "q": "A HAZOP recommends adding an alarm for high pressure instead of a relief device. When is that acceptable?",
+    "opts": [
+      "Only if the safeguard is justified by risk analysis and code permits it; required mechanical protection cannot be bypassed.",
+      "Always acceptable for low-flow lines, because relief valves are only for vessels, where alarms are assumed; with isolation checked later.",
+      "Always acceptable, because alarms provide operators time to correct overpressure, with isolation checked later.",
+      "Never acceptable for any case, because alarms cannot be credited in risk analysis, without relief-case review."
+    ],
+    "correct": 0,
+    "explanation": "Alarms and trips can be safeguards, but they do not automatically replace code-required relief or pressure-boundary design. The decision must be engineered and documented."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A pipe rack is placed so a fire truck cannot reach a flammable-liquid transfer area. What is the correct Canadian design concern?",
+    "opts": [
+      "Firefighting access paths must remain unobstructed for personnel and fire department apparatus.",
+      "Access is needed only for buildings, not outdoor process piping areas, with shielding checked later.",
+      "Access is optional if the piping system has automatic shutdown valves, without access review.",
+      "Access can be blocked if the transfer pumps are normally unattended, leaving support loads unchecked."
+    ],
+    "correct": 0,
+    "explanation": "The National Fire Code requires aisles and access paths for flammable/combustible liquid areas to allow firefighting operations. Layout must protect those paths."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A hazardous flange is routed directly above a routine walkway. What is the safer layout action?",
+    "opts": [
+      "Accept the flange if it is more than two metres above the walkway, with shielding checked later.",
+      "Accept the flange if operators wear hard hats in the area, without access review, leaving support loads unchecked.",
+      "Accept the flange if the line is hydrotested before startup, leaving support loads unchecked.",
+      "Reroute the flange, shield it, or provide alternate access so a leak does not expose personnel below."
+    ],
+    "correct": 3,
+    "explanation": "Flanges, vents, drains, sample points, and threaded connections in hazardous service should not expose personnel below. Routing and shielding are part of safety design."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A long hot pipe is anchored at both ends with no expansion loop or flexibility analysis. What failure mode is likely?",
+    "opts": [
+      "Lower internal pressure, because expansion always relieves pressure in the pipe wall.",
+      "No effect, because pipe expansion is absorbed by flange gaskets, leaving support loads unchecked.",
+      "Thermal expansion stress, high nozzle loads, support overload, or buckling between anchors.",
+      "Improved vibration control, because fixed ends remove all pipe movement, without emergency-route review."
+    ],
+    "correct": 2,
+    "explanation": "Thermal expansion must be handled by flexibility, loops, guides, anchors, or engineered expansion joints. Rigid restraint can overload equipment and pipe."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A pump nozzle is used as a support for a heavy suction line. What is the correct review comment?",
+    "opts": [
+      "Accept it if the pipe schedule is heavier than the connected pump casing, leaving support loads unchecked.",
+      "Accept it if the suction line is short and the pipe rack is nearby, after model freeze.",
+      "Provide independent pipe supports and verify nozzle loads against vendor allowable limits.",
+      "Accept it if the pump baseplate is grouted and the nozzle flange is rated, where field routing is assumed."
+    ],
+    "correct": 2,
+    "explanation": "Equipment nozzles are not structural supports. Excess nozzle load can misalign rotating equipment, crack casings, and invalidate vendor requirements."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A reciprocating compressor discharge line has no pulsation or vibration review. What is missing?",
+    "opts": [
+      "Pulsation analysis, support design, fatigue review, small-bore connection control, and monitoring access.",
+      "Only acoustic insulation, because compressor vibration is a noise issue only, without emergency-route review.",
+      "Only corrosion allowance, because cyclic loads do not affect pressure piping, where field routing is assumed.",
+      "Only a larger pipe schedule, because wall thickness eliminates all fatigue risk, with shielding checked later."
+    ],
+    "correct": 0,
+    "explanation": "Pulsation and vibration can fatigue piping, supports, welds, and small-bore connections. Dynamic analysis and support design are needed."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A PSV tailpipe is cantilevered with no structural support. What is the safety issue?",
+    "opts": [
+      "No issue if the tailpipe is open-ended and does not contain static liquid, without emergency-route review.",
+      "No issue if the relief valve body is heavier than the discharge pipe, where field routing is assumed.",
+      "Discharge reaction force and vibration can overload the valve, nozzle, or connected piping.",
+      "No issue, because relief flow lasts only a short time during an emergency, without access review."
+    ],
+    "correct": 2,
+    "explanation": "Relief discharge loads are transient but severe. Tailpipes and stacks need engineered supports for reaction, vibration, thermal growth, and wind."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A low point in outdoor water service has no drain or heat tracing. What Canadian operating hazard is likely?",
+    "opts": [
+      "Only high pump energy use, because freezing affects flow but not integrity.",
+      "Freeze blockage, pipe rupture, trapped pressure, and unsafe startup after thawing.",
+      "Only valve-stem corrosion, because the pipe wall is protected by water, where field routing is assumed.",
+      "Only cosmetic ice buildup, because water expands harmlessly in steel piping."
+    ],
+    "correct": 1,
+    "explanation": "Canadian outdoor water or aqueous lines need freeze protection, drainage, heat tracing, or circulation where credible. Frozen sections can rupture or overpressure during thaw."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A steam line has no warm-up bypass or drip legs before a control valve. What is the risk?",
+    "opts": [
+      "Relief-valve chatter because warm-up bypasses increase relief capacity.",
+      "Static electricity ignition because condensate is a flammable liquid, without access review.",
+      "Vacuum collapse during normal operation because steam lines cannot drain.",
+      "Condensate accumulation and water hammer during startup or valve opening."
+    ],
+    "correct": 3,
+    "explanation": "Steam piping layout must include drainage, traps, warm-up, and controlled startup to avoid water hammer and equipment damage."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A chemical pipe is routed through a vehicle aisle without barriers. What protection should be added?",
+    "opts": [
+      "Bollards, guards, rerouting, elevation, or other protection against credible vehicle impact.",
+      "A pressure gauge only, because leaks are detected quickly after impact, leaving support loads unchecked.",
+      "Warning tape only, because drivers are trained to avoid process piping, after model freeze.",
+      "Thicker insulation only, because insulation absorbs vehicle impacts, without emergency-route review."
+    ],
+    "correct": 0,
+    "explanation": "Piping in vehicle areas needs mechanical protection. Vehicle impact can cause sudden hazardous release, fire, or loss of critical utilities."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A buried steel line is installed without coating, cathodic protection, or leak detection review. What is the design gap?",
+    "opts": [
+      "Only insulation, because underground temperature is constant across Canada, leaving support loads unchecked.",
+      "Only pipe colour, because buried piping is protected from weather and UV, after model freeze.",
+      "External corrosion control, isolation, monitoring, leak detection, and excavation-damage protection.",
+      "Only hydraulic capacity, because soil contact does not affect pressure-boundary integrity."
+    ],
+    "correct": 2,
+    "explanation": "Buried piping brings external corrosion, settlement, third-party damage, and leak-detection challenges. It needs a specific integrity design basis."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "An aboveground acid line is routed outside containment before entering a storage area. What should be reviewed?",
+    "opts": [
+      "Only the P&ID isolation valves, because routing outside containment is operational, after model freeze.",
+      "Only pipe wall thickness, because containment is a tank-only issue, without emergency-route review; where field routing is assumed.",
+      "Spill path, secondary containment, supports, drain points, emergency access, and exposure to incompatible materials.",
+      "Only the operator PPE matrix, because acid piping layout does not affect releases, with shielding checked later."
+    ],
+    "correct": 2,
+    "explanation": "Routing hazardous piping outside containment can create uncontained releases and incompatible spill paths. Layout must match environmental and emergency-response design."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A manual valve is located above safe reach with no platform. What is the correct design action?",
+    "opts": [
+      "Leave it and require operators to climb nearby pipe supports during shutdown, without emergency-route review.",
+      "Leave it if the valve is tagged on the P&ID and shown in the 3D model, where field routing is assumed.",
+      "Relocate it, provide permanent access, or use an engineered remote operator with safe verification access.",
+      "Leave it if the valve is operated less than once per month, without access review, leaving support loads unchecked."
+    ],
+    "correct": 2,
+    "explanation": "Valves needed for operation, isolation, or emergency response must be safely accessible. Climbing piping or supports is not an acceptable access plan."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A pipe support is welded to a pressure boundary without design review. What is the concern?",
+    "opts": [
+      "Only support paint repair, because attachments are not part of piping integrity, where field routing is assumed.",
+      "Only insulation finish, because welded supports are hidden after construction, with shielding checked later.",
+      "Local stress, material compatibility, welding procedure, inspection, and pressure-boundary registration impacts.",
+      "Only clearance, because welded supports cannot affect pressure design, leaving support loads unchecked; with shielding checked later."
+    ],
+    "correct": 2,
+    "explanation": "Attachments to pressure piping can affect stress, metallurgy, PWHT, NDE, and registration. They require engineering and welding controls."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A pipe rack expansion gap is filled by a cable tray after model review. What control has failed?",
+    "opts": [
+      "The material selection failed because cable trays change pipe corrosion allowance.",
+      "The fire code failed because cable trays are never allowed near pipe racks, where field routing is assumed.",
+      "Reserved movement and maintenance envelopes were not protected as no-build volumes.",
+      "The pipe stress calculation failed because cable trays always increase pipe stress."
+    ],
+    "correct": 2,
+    "explanation": "Flexibility loops, pull spaces, relief paths, and access corridors must be protected. Later cable tray or steelwork can defeat the safety basis."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A pipe support spacing table is copied without checking a heavy valve cluster. What must be reviewed?",
+    "opts": [
+      "Only insulation thickness, because valve weight is carried by the flange bolts, without access review.",
+      "Local concentrated loads, flange loads, valve weights, operating loads, and maintenance loads.",
+      "Only straight-pipe span, because valves are included automatically in generic spacing tables.",
+      "Only pipe colour, because valve clusters do not affect structural loading, without emergency-route review."
+    ],
+    "correct": 1,
+    "explanation": "Generic span tables are starting points. Heavy valves, strainers, relief devices, and specialty items need local support review."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A process line crosses an emergency escape route with a temporary hose during normal unloading. What is the design issue?",
+    "opts": [
+      "Temporary hoses must not block egress; provide routed hose bridges, supports, or a permanent transfer arrangement.",
+      "No issue if a warning cone is placed on each side of the hose, after model freeze, without emergency-route review.",
+      "No issue if the hose is used only during attended transfers, without emergency-route review; where field routing is assumed.",
+      "No issue if the hose contains combustible rather than flammable liquid, where field routing is assumed."
+    ],
+    "correct": 0,
+    "explanation": "Transfer hoses are part of the operating layout. They must not obstruct escape, firefighting access, or emergency shower routes."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A large drain valve is placed inside a deep pipe rack with no working clearance. What design rule applies?",
+    "opts": [
+      "Leave it if the P&ID shows the drain destination clearly, after model freeze, without emergency-route review.",
+      "Leave it if the valve can be reached with a hook tool from grade, without emergency-route review.",
+      "Provide access for PPE, tools, hose connection, safe body position, and contained drainage.",
+      "Leave it if the valve is only used during major turnaround work, with shielding checked later."
+    ],
+    "correct": 2,
+    "explanation": "Drain and vent valves must be operable and connectable safely. The design must include physical access, not just a symbol on the P&ID."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A relief stack discharge is near an air intake. What must be reviewed?",
+    "opts": [
+      "Only stack paint colour, because relief discharge is visible during operation.",
+      "Dispersion, re-entry into buildings, exposure, ignition, noise, and weather effects.",
+      "Only stack height above grade, because all emissions disperse safely outdoors.",
+      "Only inlet pressure drop, because outlet location cannot expose personnel, where field routing is assumed."
+    ],
+    "correct": 1,
+    "explanation": "Relief and vent discharge locations must avoid personnel exposure and building re-entry, and must consider wind, ignition sources, and noise."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A pipe rack is extended without checking drainage slopes in a process sewer line. What risk increases?",
+    "opts": [
+      "Standing liquid, sediment, vapour pockets, corrosion, freezing, and blocked drainage.",
+      "Reduced pipe stress, because standing liquid removes thermal expansion, with shielding checked later.",
+      "Lower relief pressure, because sloped drainage controls all overpressure cases.",
+      "Improved fire safety, because liquid in drains suppresses vapour hazards."
+    ],
+    "correct": 0,
+    "explanation": "Drainage piping must maintain slope and cleanout access. Flat or reverse slopes create accumulation, freezing, corrosion, and spill-control failures."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A pipe is routed close to a wall so flange bolts cannot be removed. What is the maintainability safety issue?",
+    "opts": [
+      "Only aesthetics, because bolts can be removed by cutting them during maintenance.",
+      "Line breaks, gasket replacement, inspection, and emergency repairs cannot be done safely.",
+      "Only procurement risk, because shorter bolts can solve all future access issues, with shielding checked later.",
+      "Only schedule risk, because flange access has no safety impact, after model freeze."
+    ],
+    "correct": 1,
+    "explanation": "Poor flange access encourages unsafe workarounds and hot work. Bolt clearance and tool access are part of piping safety design."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "An outdoor instrument impulse line contains water and has no heat tracing. What hazard should be expected?",
+    "opts": [
+      "Only paint cracking, because small-bore tubing cannot rupture from ice, where field routing is assumed.",
+      "Only slow response, because frozen instruments fail in a safe known position.",
+      "Only corrosion staining, because impulse lines are not part of process safety.",
+      "Freezing, false readings, transmitter damage, and unsafe control or trip response."
+    ],
+    "correct": 3,
+    "explanation": "Impulse lines can freeze and create false pressure/level signals. Winterization of instrumentation is part of process and piping safety."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A support is anchored into a containment wall without civil review. What must be checked?",
+    "opts": [
+      "Only support height, because containment volume is unrelated to structural attachments.",
+      "Only anchor bolt length, because containment walls are non-pressure items, after model freeze.",
+      "Only paint system, because wall penetrations do not affect spill control, without emergency-route review.",
+      "Containment integrity, wall loading, crack risk, chemical exposure, and future inspection access."
+    ],
+    "correct": 3,
+    "explanation": "Piping supports can compromise containment walls. Civil, structural, chemical, and environmental requirements must be maintained."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A line is routed through a classified electrical area with nonrated heat tracing junction boxes. What design review is needed?",
+    "opts": [
+      "Electrical classification, equipment rating, sealing, bonding/grounding, and hazardous-area installation requirements.",
+      "Only process pressure, because heat tracing is not part of the hazardous system, without emergency-route review.",
+      "Only pipe insulation, because junction boxes are protected by weather covers, where field routing is assumed.",
+      "Only pipe stress, because electrical classification does not apply to piping accessories; with shielding checked later."
+    ],
+    "correct": 0,
+    "explanation": "Piping accessories such as heat tracing, instruments, and junction boxes must match electrical classification and hazardous-area requirements."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A large valve is installed with its handwheel over a containment wall. What should the layout provide?",
+    "opts": [
+      "A longer valve wrench, because reach tools eliminate the need for platforms, without emergency-route review.",
+      "A warning sign, because the operator can decide how to reach it safely, where field routing is assumed.",
+      "A safe standing surface and reach envelope that does not require climbing the containment wall.",
+      "A smaller valve tag, because obstruction is mainly a labelling problem, without access review."
+    ],
+    "correct": 2,
+    "explanation": "Operators must be able to operate valves from safe access. Climbing containment walls, pipe racks, or equipment frames creates fall and exposure hazards."
+  },
+  {
+    "section": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "q": "A high-pressure small-bore drain is installed without bracing. What risk is common?",
+    "opts": [
+      "Vibration fatigue, accidental breakage, personnel exposure, and uncontrolled release.",
+      "Only valve leakage, because support does not affect small-bore integrity, without emergency-route review.",
+      "Only corrosion, because small-bore lines do not experience dynamic loads.",
+      "Only low flow, because small-bore piping cannot create large release hazards."
+    ],
+    "correct": 0,
+    "explanation": "Small-bore connections are vulnerable to vibration and impact. Bracing, root valve placement, and inspection are essential."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A contractor begins welding pressure piping without an approved WPS. What is the correct hold?",
+    "opts": [
+      "Continue welding if the welder has experience with similar carbon-steel pipe, with inspection deferred.",
+      "Stop work until qualified and registered or accepted welding procedures and welder qualifications are confirmed.",
+      "Continue welding if visual inspection will be performed on every completed weld, leaving NDE records open.",
+      "Continue welding and qualify the procedure after hydrotesting is complete, after hydrotest only; without reinstatement checks."
+    ],
+    "correct": 1,
+    "explanation": "Pressure-piping welds require controlled welding procedures and qualified welders. Some Canadian jurisdictions also require procedure registration or acceptance."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A regulated piping fabricator has no quality-control manual. Why is this a problem?",
+    "opts": [
+      "It is not a problem if the pipe size is small and the service is nonflammable, without turnover evidence.",
+      "It is not a problem if the fabricator has completed similar work for other clients, leaving NDE records open.",
+      "The QC system controls materials, welding, NDE, heat treatment, testing, records, and code compliance.",
+      "It is not a problem if the owner performs all visual inspections after delivery, without reinstatement checks."
+    ],
+    "correct": 2,
+    "explanation": "A QC program is the management system that makes code compliance repeatable and auditable. It is not replaced by final inspection alone."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A spool is fabricated from pipe with no heat number traceability. What should happen?",
+    "opts": [
+      "Install it if the welder confirms the material looked like the correct grade.",
+      "Install it if the hydrotest pressure is increased above the normal test pressure.",
+      "Hold or segregate it until material identity and certification are verified.",
+      "Install it if the pipe schedule and outside diameter match the drawing."
+    ],
+    "correct": 2,
+    "explanation": "Material traceability prevents wrong-material installation. Verification must happen before the spool enters regulated or hazardous service."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A weld map is missing for a hazardous-service line. What is the safety issue?",
+    "opts": [
+      "Only the cost report is incomplete; weld identity does not affect integrity, after hydrotest only.",
+      "Welds cannot be tied reliably to welder ID, NDE, repairs, heat treatment, and test records.",
+      "Only the insulation contractor is affected; welds are hidden after jacketing, where contractor records are assumed.",
+      "Only the drawing index is incomplete; weld maps are not used after construction."
+    ],
+    "correct": 1,
+    "explanation": "Weld maps support traceability and integrity management. They help locate NDE, repairs, future defects, and pressure-boundary history."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A designer specifies random radiography without considering service category. What should be corrected?",
+    "opts": [
+      "NDE can be omitted if every weld passes a hydrotest at the end of construction, without reinstatement checks.",
+      "NDE type and extent must follow code, service severity, joint type, material, and owner/AHJ requirements.",
+      "NDE should be the same for every line to simplify the contractor's pricing, with inspection deferred.",
+      "NDE is optional if the piping is not painted until after commissioning, without turnover evidence."
+    ],
+    "correct": 1,
+    "explanation": "Examination requirements depend on design code and service. Severe, toxic, cyclic, or high-pressure service can require more stringent NDE."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A hydrotest package includes no marked test boundaries or blinds. What is missing?",
+    "opts": [
+      "Only the P&ID revision number is missing, because blinds are installed by memory, where contractor records are assumed.",
+      "Only the contractor checklist is missing, because reinstatement is part of operations; with inspection deferred.",
+      "Only the pressure chart is missing, because boundaries are obvious in the field, without turnover evidence.",
+      "A controlled test pack showing limits, blinds, vents, drains, gauges, relief, exclusions, and reinstatement steps."
+    ],
+    "correct": 3,
+    "explanation": "Pressure testing requires controlled boundaries and reinstatement. Test packs prevent testing excluded equipment, leaving blinds in place, or missing vents and drains."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A contractor proposes pneumatic testing because drying a hydrotest would take time. What is the correct safety response?",
+    "opts": [
+      "Approve pneumatic testing if the pressure is raised quickly to reduce work duration; with inspection deferred; without reinstatement checks.",
+      "Approve pneumatic testing if workers stand behind nearby equipment during the test, without turnover evidence.",
+      "Use pneumatic testing only when justified, with stored-energy assessment, procedure, exclusions, and AHJ/code acceptance.",
+      "Approve pneumatic testing automatically because it avoids water contamination and disposal; after hydrotest only."
+    ],
+    "correct": 2,
+    "explanation": "Pneumatic tests store much more energy than hydrotests and can be hazardous. They require special justification and controls."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A pneumatic test has high stored energy, but no hazard assessment or exclusion zone. What is the correct hold?",
+    "opts": [
+      "Proceed if the pressure is increased in one fast step to shorten exposure time, without turnover evidence.",
+      "Proceed if the pipe is new and all welds have visual inspection records, leaving NDE records open; with inspection deferred.",
+      "Do not test until stored energy, blast radius, barriers, procedure, and approval requirements are addressed.",
+      "Proceed if only the test crew remains in the immediate pipe rack area, without reinstatement checks."
+    ],
+    "correct": 2,
+    "explanation": "Pneumatic testing is an energy hazard. The test plan must account for release consequences, personnel exclusion, gradual pressurization, and regulatory expectations."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A test pressure is selected as a round number above design pressure. What is the correct method?",
+    "opts": [
+      "Use the same test pressure for every line in the plant to simplify documentation, leaving NDE records open; after hydrotest only.",
+      "Use the highest pressure the pump can generate because higher test pressure is always safer; after hydrotest only.",
+      "Use normal operating pressure because the line will never see more during production; without reinstatement checks.",
+      "Determine test pressure from the adopted code, design conditions, material limits, elevation head, and component ratings."
+    ],
+    "correct": 3,
+    "explanation": "Test pressure is not arbitrary. It must satisfy code requirements without overstressing weak components or exceeding allowable ratings."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A hydrotest uses one uncalibrated pressure gauge at the pump. What is missing?",
+    "opts": [
+      "Calibrated gauges of suitable range, visible placement, and pressure-recording or hold-time controls as required.",
+      "Only a larger gauge face, because calibration is unnecessary for temporary testing, without reinstatement checks.",
+      "Only a second pump, because test accuracy depends mainly on flow rate, where contractor records are assumed.",
+      "Only a leak bucket, because visible leakage proves the pressure level, with inspection deferred; without turnover evidence."
+    ],
+    "correct": 0,
+    "explanation": "Pressure-test instruments must be calibrated and appropriate for the test range. Poor measurement can invalidate the test and create overpressure hazards."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A stainless-steel line is hydrotested with untreated water and left wet for weeks. What risk should be reviewed?",
+    "opts": [
+      "Only pipe colour, because stainless steel damage is always visible immediately, without reinstatement checks.",
+      "Chloride contamination, microbiological activity, pitting, drying, flushing, and passivation needs.",
+      "Only pump seal wear, because hydrotest water affects rotating equipment only, with inspection deferred.",
+      "Only pressure decay, because water chemistry cannot affect stainless steel, without turnover evidence."
+    ],
+    "correct": 1,
+    "explanation": "Hydrotest water can damage stainless steel or process systems if chemistry and drying are not controlled. Test medium selection is part of integrity design."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A test plan has no venting sequence for a high-point gas pocket. What hazard is created?",
+    "opts": [
+      "Only an accuracy issue, because gas pockets cannot damage pressure piping, where contractor records are assumed.",
+      "No hazard, because hydrotests use water and water removes all stored energy.",
+      "No hazard, because trapped gas improves test sensitivity to small leaks, without turnover evidence.",
+      "Compressed gas energy, incomplete hydrotest, pressure surge, and unsafe depressurization."
+    ],
+    "correct": 3,
+    "explanation": "Trapped air or gas stores energy during a hydrotest and can invalidate test coverage. Vents must be placed and used correctly."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A tested line is returned to service without verifying blinds and temporary strainers. What should be required?",
+    "opts": [
+      "Only flushing, because all mechanical items were already checked during testing, with inspection deferred.",
+      "Only a start-up walkdown by operations after the line is pressurized, without turnover evidence; leaving NDE records open.",
+      "A reinstatement checklist confirming blinds, gaskets, bolts, supports, drains, vents, instruments, and temporary items.",
+      "Only removal of the pressure gauge because test items are not process hazards, after hydrotest only; without reinstatement checks."
+    ],
+    "correct": 2,
+    "explanation": "Post-test reinstatement failures are common. Checklists prevent left-in blinds, missing gaskets, temporary strainers, open vents, and wrong valve lineups."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A line is cleaned by air blowing toward an open work area. What safety control is required?",
+    "opts": [
+      "Only an operator with a radio, because communication controls all discharge risk, without turnover evidence.",
+      "Only a larger silencer, because debris cannot leave a cleaned pipe, leaving NDE records open.",
+      "A controlled discharge zone, restraints, debris capture, noise control, and approved blowdown procedure.",
+      "Only a warning sign, because air blowing is lower risk than pressure testing, without reinstatement checks."
+    ],
+    "correct": 2,
+    "explanation": "Flushing and blowing can eject debris, create noise, whip hoses, and expose workers. Discharge direction and exclusion zones matter."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A line is chemically cleaned but the waste route is not defined. What must be added?",
+    "opts": [
+      "Only a flow meter, because cleaning effectiveness is the only design concern, leaving NDE records open.",
+      "Only a final rinse, because chemical cleaning wastes are always safe after dilution; after hydrotest only.",
+      "Only a contractor waste manifest after cleaning has already started, without reinstatement checks.",
+      "Compatible collection, neutralization or disposal route, PPE, ventilation, and spill response plan."
+    ],
+    "correct": 3,
+    "explanation": "Cleaning chemicals can be hazardous and incompatible with drains. Waste handling must be planned before cleaning starts."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A pre-startup safety review finds missing supports on a tested line. What is the correct action?",
+    "opts": [
+      "Start up if operators agree to watch the line for movement during the first hour, after hydrotest only.",
+      "Do not start up until supports are installed and stress, alignment, and test impacts are resolved.",
+      "Start up at reduced pressure and install supports during the first maintenance window.",
+      "Start up if the hydrotest passed, because the supports are only needed for normal operation."
+    ],
+    "correct": 1,
+    "explanation": "Hydrotest success does not prove operating support adequacy. Thermal, vibration, and sustained loads must be addressed before service."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A pressure piping system in a federal workplace has been altered. Which compliance action aligns with the federal inspection rule?",
+    "opts": [
+      "Use it if the contractor provides a verbal completion statement to operations, without reinstatement checks.",
+      "Use it until the next planned inspection because alteration records are enough.",
+      "Have it inspected after alteration and before use, with the required inspection record made.",
+      "Use it immediately if the alteration was minor and the line was depressurized first."
+    ],
+    "correct": 2,
+    "explanation": "The federal occupational regulation requires inspection after welding, alteration, or repair. Project-specific AHJ rules may add more controls."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "The same mechanic who maintained a pressure piping system is assigned as the regulatory inspector. What is the issue?",
+    "opts": [
+      "Inspection independence is compromised because maintainers cannot inspect their own work for that purpose.",
+      "No issue if the mechanic has more experience than the inspector of record, with inspection deferred.",
+      "No issue if the mechanic did not personally weld the repaired joint, without turnover evidence; where contractor records are assumed.",
+      "No issue if the system operates below its design pressure after repair, leaving NDE records open."
+    ],
+    "correct": 0,
+    "explanation": "Inspection must be independent for regulatory confidence. The person who operates, repairs, or maintains the system is not the certifying inspector for that purpose."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A test package excludes a pressure relief valve but leaves its isolation valve closed after testing. What is the hazard?",
+    "opts": [
+      "Only leakage risk, because closed relief isolation valves reduce nuisance discharge.",
+      "Only maintenance delay, because relief valves can be opened after the first alarm, where contractor records are assumed.",
+      "Only documentation risk, because relief valves are not needed during normal operation.",
+      "The system may be started with the relief path isolated and no effective pressure protection."
+    ],
+    "correct": 3,
+    "explanation": "Relief isolation after testing is a serious startup hazard. Reinstatement must verify all safety devices are returned to required positions."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A pipe spool fails hydrotest at a weld. What is the correct repair path?",
+    "opts": [
+      "Accept the spool if the leak is inside secondary containment, without turnover evidence; leaving NDE records open.",
+      "Grind the weld smooth and paint it if the pressure loss was slow, leaving NDE records open; after hydrotest only.",
+      "Reduce the design pressure so the failed test pressure is no longer needed, after hydrotest only.",
+      "Control the nonconformance, repair under approved procedure, inspect/NDE as required, and retest as required."
+    ],
+    "correct": 3,
+    "explanation": "Failed tests require formal repair and reinspection, not informal acceptance. Design pressure cannot be reduced as a shortcut unless the entire design basis is reapproved."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A contractor uses substitute bolts from a local supplier for pressure flanges. What must be verified?",
+    "opts": [
+      "Only wrench size, because installation torque controls all bolting safety, leaving NDE records open.",
+      "Only thread pitch, because bolts with the same thread are interchangeable, after hydrotest only; without turnover evidence.",
+      "Only purchase receipt, because local supply means Canadian compliance, without reinstatement checks.",
+      "Grade, material certificate, coating, dimensions, temperature limits, compatibility, and code acceptance."
+    ],
+    "correct": 3,
+    "explanation": "Bolting is part of the pressure boundary. Wrong bolting can fail by overload, corrosion, brittle fracture, galling, or loss of gasket compression."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A line is pressure-tested before final spring support settings are confirmed. What must be checked before startup?",
+    "opts": [
+      "Cold and hot support settings, travel, loads, lock-pin removal, and stress model assumptions.",
+      "Only the paint marks, because spring supports self-adjust during operation, without reinstatement checks.",
+      "Only the line number, because support tags are not safety-critical records, where contractor records are assumed.",
+      "Only the hydrotest pressure chart, because supports do not affect operating integrity."
+    ],
+    "correct": 0,
+    "explanation": "Spring support settings affect nozzle loads and thermal movement. Temporary lock pins and wrong settings can cause failures after heat-up."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A temporary strainer is installed for commissioning. What must the design and procedure include?",
+    "opts": [
+      "Only a tag, because operators can remove the strainer whenever flow drops, without reinstatement checks.",
+      "Only a spare basket, because plugging cannot overpressure the upstream line, where contractor records are assumed.",
+      "Differential-pressure monitoring, cleaning access, safe isolation, and removal or permanent-status decision.",
+      "No extra control, because temporary strainers are outside the pressure boundary, without turnover evidence."
+    ],
+    "correct": 2,
+    "explanation": "Temporary strainers can plug and cause pump damage or upstream overpressure. Their status, monitoring, and removal must be controlled."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A contractor asks to skip final leak testing after flange reinstatement. What is the response?",
+    "opts": [
+      "Perform required leak checks after reinstatement, especially where gaskets, blinds, or valves were disturbed.",
+      "Skip it if the original hydrotest passed before the flange was opened, with inspection deferred; without turnover evidence.",
+      "Skip it if the line is outdoors and small leaks are easily seen, without turnover evidence; leaving NDE records open.",
+      "Skip it if the flange is inside a containment area and not near equipment, leaving NDE records open."
+    ],
+    "correct": 0,
+    "explanation": "Reinstated joints are new leak points. Testing before disassembly does not prove final assembly integrity."
+  },
+  {
+    "section": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "q": "A piping turnover dossier does not identify code of construction for each line. What is the problem?",
+    "opts": [
+      "Only the insulation plan is incomplete, because code choice controls heat loss, without reinstatement checks.",
+      "Only the cost estimate is incomplete, because the code affects procurement price.",
+      "Only the drawing title block is incomplete, and code identity is not needed after startup.",
+      "Future inspection, repair, alteration, and registration decisions cannot be made reliably."
+    ],
+    "correct": 3,
+    "explanation": "Knowing the code of construction is essential for future repairs, alterations, inspections, relief decisions, and AHJ communication."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A flammable-liquid pump area contains open flame work nearby. What National Fire Code principle applies?",
+    "opts": [
+      "Ignition sources must be controlled so they do not create a fire or explosion hazard.",
+      "Ignition sources are allowed if the pump area is outdoors and naturally ventilated.",
+      "Ignition sources are allowed if operators can shut down the pump quickly, without fire-code review.",
+      "Ignition sources are allowed if the liquid flash point is documented on the SDS."
+    ],
+    "correct": 0,
+    "explanation": "For flammable/combustible liquid areas, open flames, sparks, and heat-producing activities must be controlled or prohibited so they do not create a fire or explosion hazard."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A flammable-liquid piping area has no spill-control barrier or drainage design. What is required?",
+    "opts": [
+      "Let spills drain to the nearest sewer if the release volume is expected to be small; leaving spill response open.",
+      "Rely on absorbent pads only, because piping spills are smaller than tank spills, after drill follow-up.",
+      "Use a warning sign, because spill control is an operations issue after release, without emergency access review.",
+      "Prevent spills from leaving the spill area or reaching waterways, sewers, or potable water sources."
+    ],
+    "correct": 3,
+    "explanation": "The fire code requires spill control for flammable/combustible liquids. Piping layout must include containment, grading, or safe drainage where credible releases can occur."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A drainage system from a solvent pump pad terminates beside an ignition source. What is the design issue?",
+    "opts": [
+      "Drainage may terminate anywhere outdoors because vapours disperse quickly, after drill follow-up.",
+      "Drainage may terminate at the closest low point because flow path is the priority.",
+      "Drainage may terminate near ignition if the liquid is collected in a trench, where training is assumed.",
+      "Drainage must terminate where a spill will not create fire, public-health, or safety risks."
+    ],
+    "correct": 3,
+    "explanation": "Spill drainage can move flammable vapours and liquids to new hazards. Termination location must be safe."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A room handles Class I liquids but has no ventilation review. What must be checked?",
+    "opts": [
+      "Continuous mechanical or other required ventilation under adopted fire-code and local requirements.",
+      "Only lighting level, because liquid handling rooms are controlled by visibility, where training is assumed.",
+      "Only room temperature, because ventilation does not affect flammable-vapour hazards; with signage checked later.",
+      "Only ceiling height, because vapours always rise away from workers, without fire-code review."
+    ],
+    "correct": 0,
+    "explanation": "Enclosed flammable-liquid handling areas need ventilation controls to prevent vapour accumulation and exposure."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A process area has special flammable-liquid hazards, but no fire protection equipment review. What is the correct action?",
+    "opts": [
+      "Rely only on operator radios because early notification replaces fire protection, where training is assumed.",
+      "Rely only on pressure relief because fire protection is a separate operating issue, with signage checked later.",
+      "Provide fire protection equipment appropriate to the special hazard and the adopted code/AHJ basis.",
+      "Rely only on municipal fire response because fixed equipment is not part of piping design."
+    ],
+    "correct": 2,
+    "explanation": "The fire code requires fire protection equipment where special flammable/combustible liquid hazards exist. Piping design must preserve access and support those systems."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A flammable-liquid transfer pump has no portable extinguisher nearby. What does the fire-code basis indicate?",
+    "opts": [
+      "At least one suitable extinguisher, such as 80-B:C where required, should be near pumps and ancillary transfer equipment.",
+      "Only a water hose is needed because all pump fires are cooled before extinguished, without fire-code review; leaving spill response open.",
+      "Only a fire alarm pull station is needed because operators should evacuate immediately; leaving spill response open.",
+      "No extinguisher is needed if the pump is outdoors and connected to steel piping, after drill follow-up; without emergency access review."
+    ],
+    "correct": 0,
+    "explanation": "The National Fire Code includes extinguisher requirements around pumps and ancillary equipment used for transfer of flammable/combustible liquids."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A loading operator has no written emergency transfer procedure. What must be provided?",
+    "opts": [
+      "Printed normal and emergency procedures for employees involved in transfer operations.",
+      "Only a verbal briefing at the start of each shift, because written procedures slow response.",
+      "Only the trucking company's procedure, because the driver controls the transfer.",
+      "Only the pump vendor manual, because it contains all operational emergencies."
+    ],
+    "correct": 0,
+    "explanation": "Fire-code transfer operations require procedures and training. Written procedures help operators respond consistently to leaks, fire, overfill, and emergency shutdown."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A transfer crew is trained on pumps but not on emergency shut-off valve locations. What is missing?",
+    "opts": [
+      "Only radio procedure training, because control-room operators operate all valves, leaving spill response open.",
+      "Only WHMIS classroom training, because emergency valve operation is not a piping issue; after drill follow-up.",
+      "Training on the location, function, and operation of manual emergency shut-off and fire-protection valves.",
+      "Only advanced pump-curve training, because emergency valves are used by supervisors only; where training is assumed."
+    ],
+    "correct": 2,
+    "explanation": "Transfer personnel must know emergency shut-off valve and fire-protection valve locations and functions. The piping layout must make these valves accessible and marked."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "Emergency shut-off valve signs are missing at a flammable-liquid transfer area. What is the issue?",
+    "opts": [
+      "Signs are optional if the transfer area is fenced and not open to the public, after drill follow-up.",
+      "Valve locations must be posted conspicuously so operators and responders can find them quickly.",
+      "Signs are optional if the operators assigned to the area are experienced, where training is assumed.",
+      "Signs are optional if the valves appear on the P&ID and are tagged in the CMMS, with signage checked later."
+    ],
+    "correct": 1,
+    "explanation": "Emergency valves must be easy to find during stress, smoke, or a leak. Signage is part of the fire-code operating control."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A flammable-liquid piping area is inspected only once per month. What routine is more consistent with fire-code intent?",
+    "opts": [
+      "Inspect only after supplier delivery because transfer piping is idle between deliveries; without emergency access review.",
+      "Inspect only after a spill because routine inspections distract operators from production; where training is assumed.",
+      "Inspect only during annual shutdown because piping failures are detected by alarms, with signage checked later.",
+      "Establish visual inspections for prompt abnormal-condition detection, including at least once each shift where required."
+    ],
+    "correct": 3,
+    "explanation": "The National Fire Code requires visual inspection routines for flammable/combustible liquid transfer operations to detect abnormal conditions promptly."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A hot-work permit is issued on piping that may contain solvent residue, but no isolation or gas testing is planned. What is the correct action?",
+    "opts": [
+      "Stop until the line is isolated, cleaned, gas-tested, ventilated, and controlled under hot-work requirements.",
+      "Proceed if the welder uses a fire blanket around the immediate work area, with signage checked later.",
+      "Proceed if the line has been out of service for more than one shift, without fire-code review; leaving spill response open.",
+      "Proceed if the line is open at one end because vapours will disperse naturally, leaving spill response open."
+    ],
+    "correct": 0,
+    "explanation": "Hot work on process piping can ignite residual vapours or deposits. Isolation, cleaning, ventilation, testing, and fire watch are essential controls."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A hazardous chemical line has no WHMIS label or SDS link in the operating area. What must be corrected?",
+    "opts": [
+      "Provide hazard communication through labels, SDS access, training, and compatible emergency information.",
+      "Use pipe colour only, because colour bands replace chemical hazard communication, without fire-code review.",
+      "Use the P&ID only, because operators can identify the fluid from line numbers, leaving spill response open.",
+      "Use supplier invoices only, because product names are documented by purchasing, after drill follow-up."
+    ],
+    "correct": 0,
+    "explanation": "Hazard communication is a workplace safety requirement. Labels, SDS access, training, and emergency information support safe operation and maintenance."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A confined-space entry is planned into a vessel connected to several process lines. What piping isolation is required?",
+    "opts": [
+      "Positive isolation, depressurization, draining, purging, verification, and control of all connected lines.",
+      "Open the vessel manway first, because ventilation removes the line-isolation need, leaving spill response open.",
+      "Close the nearest manual valve on each line and rely on entry attendants to monitor; after drill follow-up.",
+      "Stop the feed pump only, because no pressure exists without active flow, without emergency access review."
+    ],
+    "correct": 0,
+    "explanation": "Confined-space entry requires robust isolation of connected piping. Blinds, spades, removal, lockout, and verification are typical controls."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A valve actuator remains energized during line maintenance. What safety system is missing?",
+    "opts": [
+      "Only a warning tag, because operators can avoid touching the actuator, leaving spill response open.",
+      "Only a DCS inhibit, because software status replaces physical lockout, after drill follow-up.",
+      "Lockout/tagout and stored-energy release for electrical, pneumatic, hydraulic, and process energy.",
+      "Only a barricade, because access control replaces energy isolation, where training is assumed."
+    ],
+    "correct": 2,
+    "explanation": "Piping maintenance often involves multiple energy sources. LOTO must control valves, pumps, actuators, tracing, mixers, and stored pressure."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A corrosive transfer line passes 30 m from the nearest emergency shower, with stairs on the route. What must be reviewed?",
+    "opts": [
+      "Only water temperature, because distance and stairs do not affect emergency flushing; after drill follow-up.",
+      "Emergency shower and eyewash access from credible exposure points, with unobstructed same-level routing where required.",
+      "Only PPE selection, because emergency showers are not related to piping layout, where training is assumed.",
+      "Only signage, because workers can follow the marked route during exposure, with signage checked later; without fire-code review."
+    ],
+    "correct": 1,
+    "explanation": "Chemical piping layout must support emergency response. Showers and eyewashes must be reachable quickly from credible splash points."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A toxic gas sample vent discharges beside an operator platform. What is required?",
+    "opts": [
+      "Route to a safe disposal point or treatment system and verify exposure, dispersion, and detection requirements.",
+      "Vent locally if the sample flow is small and the vent tube points downward, where training is assumed.",
+      "Vent locally if the line has a toxic-service label and PPE is nearby, with signage checked later; without emergency access review.",
+      "Vent locally if the operator platform is outdoors and normally unattended, without fire-code review."
+    ],
+    "correct": 0,
+    "explanation": "Small vents can expose personnel. Toxic, flammable, corrosive, or oxygen-displacing vents need safe routing and detection/ventilation review."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A pipe support carrying emergency shutdown air tubing is not fire protected in a high-fire-risk area. What should be reviewed?",
+    "opts": [
+      "Only normal operating strength, because fire exposure is handled by relief valves, after drill follow-up.",
+      "Fire survivability of critical supports, tubing, cables, valves, and shutdown functions.",
+      "Only air pressure, because tubing support failure cannot affect shutdown response.",
+      "Only paint colour, because fire protection does not apply to instrumentation tubing."
+    ],
+    "correct": 1,
+    "explanation": "Fire can disable critical shutdown or depressurization systems. Fireproofing, routing, shielding, and fail-safe design must be evaluated."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A hot condensate line is exposed at hand height beside stairs. What is the required protection?",
+    "opts": [
+      "No change if the pipe is labelled hot and operators receive annual awareness training.",
+      "No change if the stairs are used only during maintenance and not during operation.",
+      "No change if the line pressure is below design pressure and leaks are unlikely, with signage checked later.",
+      "Insulation, guarding, shielding, or rerouting to prevent contact burns during normal access."
+    ],
+    "correct": 3,
+    "explanation": "Personnel contact hazards are part of piping safety. Hot and cryogenic surfaces near access routes require protection."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A firewater deluge line is routed through a congested area with closed manual valves not shown on emergency drawings. What is the hazard?",
+    "opts": [
+      "Only drawing quality is affected, because firewater piping is tested during annual drills.",
+      "Emergency response may fail because critical firewater valves are inaccessible, closed, or unidentified.",
+      "Only corrosion risk is affected, because firewater lines are normally stagnant, after drill follow-up.",
+      "Only pump capacity is affected, because valve positions do not control emergency flow; without emergency access review."
+    ],
+    "correct": 1,
+    "explanation": "Emergency utility piping must be available when needed. Valve positions, access, signage, and drawings are essential for fire response."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A petroleum tank-system transfer line leaks slowly beyond secondary containment. What regulatory concern applies?",
+    "opts": [
+      "No concern if the line is aboveground and the leak can be seen by operators, leaving spill response open.",
+      "No concern if the leak rate is slow enough to be cleaned once per day, after drill follow-up; without emergency access review.",
+      "A liquid release to the environment may be reportable and requires emergency-plan actions and corrective response.",
+      "No concern if the product is diesel rather than gasoline or another Class I liquid, where training is assumed."
+    ],
+    "correct": 2,
+    "explanation": "Federal storage-tank guidance treats releases broadly, including slow piping leaks and discharges beyond containment or transfer areas. Response and notification duties must be evaluated."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A flammable-liquid pump pad drains to an ordinary sanitary sewer. What must be checked?",
+    "opts": [
+      "Only whether the sewer has a nearby cleanout for maintenance access, after drill follow-up; without emergency access review.",
+      "Only whether the sewer has enough hydraulic capacity for the largest pump flow, without emergency access review.",
+      "Only whether the sewer is closer than the storm drain and easy to maintain, where training is assumed.",
+      "Whether the drainage path can create fire, explosion, public-health, environmental, or code violations."
+    ],
+    "correct": 3,
+    "explanation": "Flammable-liquid drainage cannot simply be sent to ordinary sewers. Fire, vapour, environmental, and public-health risks control the design."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A process change increases solvent concentration in a transfer line. What operating-safety review is required?",
+    "opts": [
+      "Only adjust pump speed, because concentration changes mainly affect viscosity, without emergency access review.",
+      "Only update the SDS binder, because concentration changes are administrative, where training is assumed; with signage checked later.",
+      "Only relabel the tank, because transfer piping hazards do not change, with signage checked later; without fire-code review.",
+      "MOC covering flammability, classification, materials, relief, procedures, training, spill response, and emergency equipment."
+    ],
+    "correct": 3,
+    "explanation": "MOC must capture changes in process hazards and mechanical design basis. Concentration changes can affect fire, corrosion, pressure, venting, and response controls."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A piping mechanical-integrity program has no inspection interval for dead legs. What is missing?",
+    "opts": [
+      "Only a pressure gauge, because live pressure proves a dead leg is sound, where training is assumed.",
+      "Only a housekeeping schedule, because dead legs are inactive and do not require inspection; with signage checked later.",
+      "Only a paint touch-up plan, because dead legs fail mainly by external weathering, without fire-code review.",
+      "A risk-based or code/owner-based inspection plan for corrosion, freezing, plugging, and stagnant inventory."
+    ],
+    "correct": 3,
+    "explanation": "Dead legs often corrode or freeze because flow is stagnant. They need inspection or elimination, not just identification."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A line is normally closed but contains reactive residue after shutdown. What emergency planning issue must be addressed?",
+    "opts": [
+      "No issue, because shutdown removes the line from process-safety scope, with signage checked later.",
+      "Only cleaning cost, because residue cannot create pressure without active feed.",
+      "Only odour complaint, because reactive residues are managed by ventilation alone.",
+      "Residual reaction, gas generation, pressure rise, heat release, and safe vent/drain response."
+    ],
+    "correct": 3,
+    "explanation": "Shutdown piping can remain hazardous. Residual chemistry may generate heat, gas, pressure, or toxic vapour and must be included in isolation and emergency plans."
+  },
+  {
+    "section": "Fire, Hazardous Service, Operations & Emergency Response",
+    "q": "A shift team cannot identify which valve isolates the solvent transfer line during an emergency drill. What design/process control is missing?",
+    "opts": [
+      "Clear valve tagging, emergency signage, training, drills, and accurate P&IDs or emergency drawings.",
+      "Only a larger valve handwheel, because visibility is less important than operating force.",
+      "Only more radios, because communication equipment solves valve-identification problems.",
+      "Only an alarm, because alarms tell operators which manual valve to close, without emergency access review."
+    ],
+    "correct": 0,
+    "explanation": "Emergency isolation works only if valves are accessible, labelled, shown correctly, and understood by operators and responders."
+  }
+];
+const SECTIONS  = [
+  {
+    "key": "Canadian Regulatory Scope, AHJ & Code Selection",
+    "label": "I - Canadian Regulatory Scope, AHJ & Code Selection",
+    "cls": "sec-conduction",
+    "range": "Questions 1-25"
+  },
+  {
+    "key": "Design Conditions, Materials & Corrosion Safety",
+    "label": "II - Design Conditions, Materials & Corrosion Safety",
+    "cls": "sec-convection",
+    "range": "Questions 26-50"
+  },
+  {
+    "key": "Overpressure Protection, Isolation & Line-Break Safety",
+    "label": "III - Overpressure Protection, Isolation & Line-Break Safety",
+    "cls": "sec-radiation",
+    "range": "Questions 51-75"
+  },
+  {
+    "key": "Piping Layout, Supports, Flexibility & Mechanical Protection",
+    "label": "IV - Piping Layout, Supports, Flexibility & Protection",
+    "cls": "sec-hx",
+    "range": "Questions 76-100"
+  },
+  {
+    "key": "Fabrication, Welding, Inspection, Testing & Commissioning",
+    "label": "V - Fabrication, Welding, Inspection, Testing & Commissioning",
+    "cls": "sec-boiling",
+    "range": "Questions 101-125"
+  },
+  {
+    "key": "Fire, Hazardous Service, Operations & Emergency Response",
+    "label": "VI - Fire, Hazardous Service, Operations & Emergency Response",
+    "cls": "sec-applications",
+    "range": "Questions 126-150"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+const TOTAL_Q = QUESTIONS.length;
+
+let mode = 'guided', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 4*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='04:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/'+TOTAL_Q;
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/'+TOTAL_Q;
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  // Canadian piping safety design readiness benchmarks
+  if(pct>=0.90){ grade='Piping Safety Design - Distinction'; blurb='Outstanding command of Canadian piping regulatory screening, pressure design, materials, overpressure protection, isolation, layout, welding, testing, fire-code controls, and emergency response.'; }
+  else if(pct>=0.80){ grade='Piping Safety Design - Solid Pass'; blurb='Strong performance across most Canadian piping safety domains. Review missed items to sharpen AHJ screening, design-basis control, relief systems, line breaking, support design, and testing logic.'; }
+  else if(pct>=0.70){ grade='Piping Safety Design - Borderline'; blurb='Good foundation with targeted review needed, especially on Canadian pressure-equipment jurisdiction, material compatibility, isolation, pressure testing, fire-code transfer rules, and PSSR checks.'; }
+  else if(pct>=0.60){ grade='Approaching Canadian Piping-Safety Pass Threshold'; blurb='Below a typical pass range. Rework CSA B51/AHJ screening, design pressure, overpressure cases, line-break controls, supports, welding/NDE/testing, and emergency response provisions.'; }
+  else if(pct>=0.45){ grade='Developing Piping Safety Practitioner'; blurb='Core ideas are forming, but important gaps remain. Rebuild from jurisdiction screening, line-list design basis, relief protection, material compatibility, isolation, and commissioning controls.'; }
+  else { grade='Begin the Piping Safety Design Journey'; blurb='Start with piping safety fundamentals: Canadian jurisdiction, CSA B51 and adopted code selection, design conditions, pressure protection, isolation, materials, testing, fire safety, and emergency response.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 150 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one question at a time. 4-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Certificate name</label>
+    <input id="chmlCertNameInput" type="text" maxlength="80" placeholder="Enter name for certificate" oninput="chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" type="button" onclick="chmlPrintCertificate()">Print / Save as PDF</button>
+    <button class="chml-cert-btn secondary" type="button" onclick="chmlHideCertificate()">Hide Certificate</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div><div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker"><span id="chmlCertExamKicker">Knowledge Hub Examination</span></div>
+      <h1 class="chml-cert-h1">Certificate of Completion</h1>
+      <div class="chml-cert-rule"></div>
+      <p class="chml-cert-pre">This certifies that</p>
+      <p class="chml-cert-name" id="chmlCertName">Learner</p>
+      <p class="chml-cert-body">has successfully completed the <b id="chmlCertExamName">Knowledge Hub Exam</b>.</p>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">0 / 0</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">-</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Quak Foo Lee</div><div class="chml-cert-sig-label">Chmltech Ltd.</div></div>
+        <div class="chml-cert-id">Certificate ID: <span id="chmlCertId">-</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertificateInstalled) return;
+  window.__chmlCertificateInstalled = true;
+  function textOf(sel){var el=document.querySelector(sel);return el?el.textContent.trim():'';}
+  function examTitle(){return textOf('h1.title')||textOf('header h1')||textOf('h1')||document.title.replace(/\s+/g,' ').trim()||'Knowledge Hub Exam';}
+  function parseFirstNumber(txt){var m=String(txt||'').match(/\d+/);return m?parseInt(m[0],10):null;}
+  function parseScoreTotal(){
+    var correct=parseFirstNumber(textOf('#rScore'));
+    var total=null;
+    var rt=textOf('#rTotal');
+    if(rt) total=parseFirstNumber(rt);
+    if(!total){var sb=textOf('.score-big');var m=sb.match(/\/\s*(\d+)/);if(m) total=parseInt(m[1],10);}
+    if(!total) total=parseFirstNumber(textOf('#progTotal'));
+    if(!total){var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;if(cards) total=cards;}
+    if(!correct && correct!==0) correct=parseFirstNumber(textOf('#scoreNum'));
+    return {correct:correct||0,total:total||0};
+  }
+  function totalFromBreakdown(byType){
+    if(!byType || typeof byType!=='object') return null;
+    var total=0, found=false;
+    Object.keys(byType).forEach(function(k){var v=byType[k];if(v&&typeof v==='object'){var n=v.t||v.total||v.count;if(typeof n==='number'){total+=n;found=true;}}});
+    return found?total:null;
+  }
+  function hashCode(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+  window.chmlUpdateCertificateName=function(name){document.getElementById('chmlCertName').textContent=(name||'').trim()||'Learner';};
+  window.chmlHideCertificate=function(){var c=document.getElementById('chmlCertificate');if(c)c.classList.remove('show');};
+  window.chmlPrintCertificate=function(){window.print();};
+  window.chmlRenderCertificate=function(correct,total,grade){
+    var cert=document.getElementById('chmlCertificate');if(!cert)return;
+    var title=examTitle();
+    var nameInput=document.getElementById('chmlCertNameInput');
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
+    var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
+    document.getElementById('chmlCertExamName').textContent=title;
+    document.getElementById('chmlCertName').textContent=learner;
+    document.getElementById('chmlCertScore').textContent=String(correct)+' / '+String(total||0)+(total?(' ('+Math.round((correct/total)*100)+'%)'):'');
+    document.getElementById('chmlCertDate').textContent=date;
+    document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
+    cert.classList.add('show');
+  };
+
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
+    var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){
+      var parsed=parseScoreTotal();
+      if(correct===null || isNaN(correct)) correct=parsed.correct;
+      if(!total) total=parsed.total;
+      if(total || correct || document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0);
+    },60);
+  }
+  if(typeof window.showResults==='function'){
+    var originalShowResults=window.showResults;
+    window.showResults=function(){var out=originalShowResults.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  if(typeof window.submitExam==='function'){
+    var originalSubmitExam=window.submitExam;
+    window.submitExam=function(){var out=originalSubmitExam.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  ['resetExam','newExam'].forEach(function(fn){
+    if(typeof window[fn]==='function'){
+      var original=window[fn];
+      window[fn]=function(){window.chmlHideCertificate();return original.apply(this,arguments);};
+    }
+  });
+})();
+</script>
+
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>

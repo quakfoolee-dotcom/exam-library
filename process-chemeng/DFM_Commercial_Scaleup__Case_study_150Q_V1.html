@@ -1,0 +1,2654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Process Engineering &middot; Design for Maintenance Calculations for Commercial Scale-Up &middot; 150Q New Question Set V6 &middot; Math Format</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['\\(','\\)']],
+    displayMath: [['\\[','\\]']],
+    processEscapes: true
+  },
+  options: {
+    skipHtmlTags: ['script','noscript','style','textarea','pre','code']
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  --conduction:#6b2d2d;
+  --convection:#0e5f73;
+  --radiation:#7a5b12;
+  --hx:#264c86;
+  --boiling:#5e2a7e;
+  --applications:#26633a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(114,47,55,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.6rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--conduction),var(--convection),var(--radiation),var(--hx),var(--boiling),var(--applications));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-conduction{background:linear-gradient(100deg,var(--conduction),#4d1f23)}
+.sec-convection{background:linear-gradient(100deg,var(--convection),#06403f)}
+.sec-radiation{background:linear-gradient(100deg,var(--radiation),#5f3406)}
+.sec-hx{background:linear-gradient(100deg,var(--hx),#0c2349)}
+.sec-boiling{background:linear-gradient(100deg,var(--boiling),#311148)}
+.sec-applications{background:linear-gradient(100deg,var(--applications),#0e3d18)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.06rem;line-height:1.66;margin-bottom:18px;font-weight:500}
+
+mjx-container[display="true"]{
+  margin:.65em 0 .7em!important;
+  overflow-x:auto;
+  overflow-y:hidden;
+  max-width:100%;
+  padding:.15em 0;
+}
+.q-text mjx-container[display="true"]{
+  font-size:108%;
+}
+
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:12px 14px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.55);transition:all .18s ease;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.08);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s;margin-top:1px}
+.opt .otext{flex:1;font-size:1.0rem;line-height:1.55;word-break:break-word;padding-top:2px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.12)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center;font-family:'JetBrains Mono',monospace}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:160px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 16px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:.98rem}
+  .opt .otext{font-size:.92rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Process Engineering &middot; Maintenance Calculations &middot; Commercial Scale-Up &middot; 150-Question Case Study Exam &middot; New Question Set V6</div>
+    <h1 class="title">Design for Maintenance Calculations &middot; <span class="amp">Commercial Scale-Up Case Study</span> Exam</h1>
+    <div class="byline">150 newly written case-study calculation questions covering DFM design basis, scale-up screening, tank spacing, secondary containment, static equipment access, rotating equipment pull-out, piping and electrical clearances, isolation, drainage, lifting, emergency response, FEED HOLD closure, and commercial scale-up pitfalls. Each question includes a practical FEED scenario, design situation, calculation task, rendered equation, given data, and decision prompt.</div>
+    <div class="exambar">
+      <span><b>150</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>150</b> Marks</span>
+      <span>Exam Mode: <b>4 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one calculation case at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/150</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">04:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/150</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 4-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    Process Engineering &middot; Design for Maintenance Calculations for Commercial Scale-Up &middot; 150-question case-study exam &middot; New Question Set V6
+    <div class="disclaimer">An independent study resource. Always validate plot-plan clearances, equipment maintenance envelopes, lifting and rigging plans, isolation and lock-out provisions, vendor data, hazard reviews, operations and maintenance sign-offs, and emergency-access routes against site standards, statutory codes, and project-specific safety reviews before issuing for construction.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "DFM design-basis review: A corrosive slurry sampling station is being scaled from pilot practice to a commercial operating aisle, and the access allowance must be entered as a no-build dimension before pipe supports are fixed.\n\nThe design-basis sheet lists \\(C_{\\mathrm{site}}=1.15\\ \\mathrm{m}\\), \\(C_{\\mathrm{vendor}}=1.55\\ \\mathrm{m}\\), \\(W_{\\mathrm{PPE}}=0.82\\ \\mathrm{m}\\), \\(W_{\\mathrm{tool}}=0.42\\ \\mathrm{m}\\), \\(C_{\\mathrm{side}}=0.28\\ \\mathrm{m}\\), and \\(C_{\\mathrm{task}}=1.75\\ \\mathrm{m}\\). The selected value must be an installed clearance after guards, valve handles, insulation, and brackets are shown.\n\nUse this relationship: \\[C_{\\mathrm{req}}=\\max\\!\\left(C_{\\mathrm{site}},\\,C_{\\mathrm{vendor}},\\,W_{\\mathrm{PPE}}+W_{\\mathrm{tool}}+2C_{\\mathrm{side}},\\,C_{\\mathrm{task}}\\right)\\]\n\nWhich clearance should be reserved in the DFM register? Round to 0.1 m.",
+    "opts": [
+      "1.6 m",
+      "2.0 m",
+      "1.8 m",
+      "2.1 m"
+    ],
+    "correct": 2,
+    "explanation": "Worker/tool envelope = 0.82+0.42+2×0.28 = 1.80 m. The maximum of 1.15, 1.55, 1.80, and 1.75 is 1.80 m, so the reserved clearance is 1.8 m."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Commercial skid access screen: A reagent-preparation skid has insulated side panels and needs full maintenance access on both long sides, so the project wants one defensible no-build width for the model.\n\nThe skid body is \\(3.4\\ \\mathrm{m}\\) wide, the access strip on each side is \\(1.25\\ \\mathrm{m}\\), and each outer side panel is expected to grow by \\(0.15\\ \\mathrm{m}\\) after vendor detail. Use the installed commercial envelope rather than the bare skid width.\n\nUse this relationship: \\[W_{\\mathrm{no\\text{-}build}}=W_{\\mathrm{skid}}+2C_{\\mathrm{access}}+2P_{\\mathrm{panel}}\\]\n\nWhat total no-build width should be carried into the 3D model? Round to 0.1 m.",
+    "opts": [
+      "6.2 m",
+      "6.4 m",
+      "6.1 m",
+      "5.7 m"
+    ],
+    "correct": 0,
+    "explanation": "No-build width = 3.4+2×1.25+2×0.15 = 6.2 m."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Pilot-to-commercial inventory check: The DFM workshop flags that manual pilot handling cannot be used as the commercial design basis for a dense acidic liquor batch.\n\nThe pilot batch volume is \\(220\\ \\mathrm{L}\\), the scale-up factor is \\(34\\), and the liquid density is \\(1.28\\ \\mathrm{kg/L}\\). The result is used for storage, drain-down, lifting, and spill-response screening.\n\nUse this relationship: \\[m_{\\mathrm{commercial}}=\\dfrac{V_{\\mathrm{pilot}}SF\\rho}{1000}\\]\n\nWhat commercial liquid mass should the reviewer report? Round to 0.1 t.",
+    "opts": [
+      "9.2 t",
+      "8.8 t",
+      "9.6 t",
+      "10.4 t"
+    ],
+    "correct": 2,
+    "explanation": "Mass = 220×34×1.28/1,000 = 9.6 t."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Maintainability checklist audit: At a model-review gate, the engineering manager wants a single closure percentage for DFM items before allowing detailed pipe support work to proceed.\n\nThe review log shows \\(94\\) closed maintainability items out of \\(128\\) total items. Open items include access envelopes, isolation points, drain routing, and vendor maintenance drawings.\n\nUse this relationship: \\[\\mathrm{Closure}\\%=\\dfrac{N_{\\mathrm{closed}}}{N_{\\mathrm{total}}}\\times100\\]\n\nWhat closure percentage should be reported? Round to 1 decimal place.",
+    "opts": [
+      "76.6 %",
+      "73.4 %",
+      "70.3 %",
+      "80.2 %"
+    ],
+    "correct": 1,
+    "explanation": "Closure = 94/128×100 = 73.4 %."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Hazard-ranked DFM screen: A high-solids filter area is being prioritized for layout protection, and the review team uses a simple weighted risk number to rank the comment.\n\nThe assigned scores are hazard severity \\(4\\), intervention frequency \\(5\\), access difficulty \\(3\\), and exposure multiplier \\(2\\). The score is used only for DFM prioritization, not for replacing the HAZOP.\n\nUse this relationship: \\[R_{\\mathrm{DFM}}=S_{\\mathrm{hazard}}F_{\\mathrm{intervention}}D_{\\mathrm{access}}E_{\\mathrm{exposure}}\\]\n\nWhat DFM risk score should be entered? Select the calculated value.",
+    "opts": [
+      "132 points",
+      "120 points",
+      "90 points",
+      "108 points"
+    ],
+    "correct": 1,
+    "explanation": "DFM risk score = 4×5×3×2 = 120 points."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Maintenance staffing screen: A commercial unit adds many recurring access tasks, and Operations asks whether the planned access strategy still fits available maintenance labor.\n\nThere are \\(54\\) maintainable tags, each intervention takes \\(1.8\\ \\mathrm{h}\\), each tag is expected to be serviced \\(5\\) times per year, and technician utilization is \\(75\\%\\). Round up because partial people cannot cover the schedule.\n\nUse this relationship: \\[N_{\\mathrm{tech}}=\\left\\lceil\\dfrac{N_{\\mathrm{tags}}h_{\\mathrm{tag}}n_{\\mathrm{events/year}}}{1600\\ \\mathrm{h/year}\\times U}\\right\\rceil\\]\n\nHow many full-time technicians are required by this screening calculation?",
+    "opts": [
+      "1 technicians",
+      "4 technicians",
+      "3 technicians",
+      "2 technicians"
+    ],
+    "correct": 0,
+    "explanation": "Annual hours = 54×1.8×5 = 486 h/y. Available hours per technician = 1,600×0.75 = 1,200 h/y. 486/1,200 = 0.405, so round up to 1 technician."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Weekly intervention load check: The scale-up team compares equipment classes to understand whether the access corridors will be used frequently or only during turnarounds.\n\nThe preliminary equipment list has \\(22\\) pumps at \\(0.35\\) interventions/week, \\(7\\) filters at \\(1.2\\) interventions/week, and \\(5\\) vessels at \\(0.4\\) interventions/week.\n\nUse this relationship: \\[N_{\\mathrm{weekly}}=\\sum\\left(N_i f_i\\right)\\]\n\nWhat weekly intervention count should be used for the DFM screen? Round to 0.1 interventions/week.",
+    "opts": [
+      "18.5 interventions/week",
+      "20.4 interventions/week",
+      "18.1 interventions/week",
+      "16.1 interventions/week"
+    ],
+    "correct": 2,
+    "explanation": "Weekly interventions = 22×0.35 + 7×1.2 + 5×0.4 = 18.1 interventions/week."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Access erosion calculation: A corridor passed the 30% model review, but late insulation and a valve-handle projection may consume the usable gap.\n\nThe nominal model gap is \\(1.82\\ \\mathrm{m}\\). The first insulated surface adds \\(0.12\\ \\mathrm{m}\\), the opposite insulated surface adds \\(0.09\\ \\mathrm{m}\\), a valve handle projects \\(0.26\\ \\mathrm{m}\\), and the target clear gap is \\(1.50\\ \\mathrm{m}\\).\n\nUse this relationship: \\[\\Delta C=\\max\\!\\left(0,\\,C_{\\mathrm{target}}-\\left(C_{\\mathrm{model}}-t_1-t_2-P\\right)\\right)\\]\n\nHow much must the nominal model gap increase? Round to 0.01 m.",
+    "opts": [
+      "0.20 m",
+      "0.15 m",
+      "0.14 m",
+      "0.09 m"
+    ],
+    "correct": 1,
+    "explanation": "Actual clear gap = 1.82−0.12−0.09−0.26 = 1.35 m. Increase required = 1.50−1.35 = 0.15 m."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Expansion-zone reservation: The plant wants to leave a future module interface beside a packed-bed package without sacrificing the current maintenance route.\n\nThe maintenance corridor requirement is \\(1.8\\ \\mathrm{m}\\), the emergency response route requirement is \\(1.4\\ \\mathrm{m}\\), and the future laydown strip is \\(2.8\\ \\mathrm{m}\\).\n\nUse this relationship: \\[W_{\\mathrm{reserved}}=\\max\\!\\left(W_{\\mathrm{maintenance}},\\,W_{\\mathrm{emergency}}\\right)+W_{\\mathrm{future\\,laydown}}\\]\n\nWhat reserved strip width should appear on the plot-plan mark-up? Round to 0.1 m.",
+    "opts": [
+      "5.0 m",
+      "4.4 m",
+      "4.2 m",
+      "4.6 m"
+    ],
+    "correct": 3,
+    "explanation": "Reserved strip = max(1.8,1.4)+2.8 = 4.6 m."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Shutdown duration estimate: The shutdown plan has one common isolation step followed by three maintenance work fronts that can run at the same time.\n\nThe common isolation and permit setup takes \\(1.5\\ \\mathrm{h}\\). The parallel work fronts are a filter inspection lasting \\(6.8\\ \\mathrm{h}\\), a pump seal job lasting \\(9.2\\ \\mathrm{h}\\), and an analyzer cleaning task lasting \\(4.5\\ \\mathrm{h}\\).\n\nUse this relationship: \\[t_{\\mathrm{shutdown}}=t_{\\mathrm{setup}}+\\max\\!\\left(t_1,\\,t_2,\\,t_3\\right)\\]\n\nWhat shutdown duration should be planned? Round to 0.1 h.",
+    "opts": [
+      "10.2 h",
+      "15.0 h",
+      "21.0 h",
+      "10.7 h"
+    ],
+    "correct": 3,
+    "explanation": "Parallel work is controlled by the longest branch: 1.5+max(6.8,9.2,4.5)=10.7 h."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Containment crossover planning: The DFM lead rejects a ladder-only access concept and asks for a ramp screening length over a containment wall.\n\nThe containment wall rise is \\(1.25\\ \\mathrm{m}\\), and the project screening slope is \\(1:12\\). The ramp must be reserved before the tank-farm pad is frozen.\n\nUse this relationship: \\[L_{\\mathrm{ramp}}=h_{\\mathrm{rise}}R_{\\mathrm{slope}}\\]\n\nWhat ramp length is required? Round to 0.1 m.",
+    "opts": [
+      "14.0 m",
+      "16.2 m",
+      "12.0 m",
+      "15.0 m"
+    ],
+    "correct": 3,
+    "explanation": "Ramp length = 1.25×12 = 15.0 m."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Scaffold sleeve allowance: A reactor roof instrument cluster needs partial perimeter access during annual calibration, not just a small standing pad at one nozzle.\n\nThe vessel diameter is \\(3.6\\ \\mathrm{m}\\), the accessible arc fraction is \\(60\\%\\), and the temporary scaffold working width is \\(0.9\\ \\mathrm{m}\\).\n\nUse this relationship: \\[A_{\\mathrm{scaffold}}=\\pi D f_{\\mathrm{arc}}W_{\\mathrm{scaffold}}\\]\n\nWhat temporary scaffold area should be reserved in the access plan? Round to 0.1 m^2.",
+    "opts": [
+      "6.1 m^2",
+      "6.7 m^2",
+      "5.9 m^2",
+      "7.9 m^2"
+    ],
+    "correct": 0,
+    "explanation": "Scaffold area = π×3.6×0.60×0.9 = 6.1 m^2."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Line-break blind inventory: A commercial acid manifold has to be isolated for a maintenance outage, and the planner wants a blind/spade count with spares before the kit is ordered.\n\nThe isolation matrix includes \\(15\\) hazardous lines. Each line needs blinds at both ends, and the outage kit carries a \\(20\\%\\) spare allowance.\n\nUse this relationship: \\[N_{\\mathrm{blinds}}=\\left\\lceil N_{\\mathrm{lines}}\\times2\\times\\left(1+f_{\\mathrm{spare}}\\right)\\right\\rceil\\]\n\nHow many blinds/spades should be listed? Select the calculated count.",
+    "opts": [
+      "34 blinds/spades",
+      "36 blinds/spades",
+      "30 blinds/spades",
+      "40 blinds/spades"
+    ],
+    "correct": 1,
+    "explanation": "Blinds/spades = ceiling(15×2×1.20)=ceiling(36)=36."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Inspection labor conversion: The asset integrity plan converts a tag list into monthly labor so access platforms and inspection routes can be justified in FEED.\n\nThere are \\(135\\) inspection tags, the inspection interval is every \\(4\\) months, and each tag requires \\(1.4\\ \\mathrm{h}\\).\n\nUse this relationship: \\[H_{\\mathrm{monthly}}=\\dfrac{N_{\\mathrm{tags}}}{I_{\\mathrm{months}}}h_{\\mathrm{tag}}\\]\n\nWhat monthly inspection labor should be carried? Round to 0.1 h/month.",
+    "opts": [
+      "50.1 h/month",
+      "47.3 h/month",
+      "43.2 h/month",
+      "45.5 h/month"
+    ],
+    "correct": 1,
+    "explanation": "Monthly labor = (135/4)×1.4 = 47.3 h/month."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Lift-path no-build volume: A top-entry agitator lift path is modeled as a rectangular no-build volume so future tray and lighting routes do not consume the maintenance envelope.\n\nThe lift envelope length is \\(7.2\\ \\mathrm{m}\\), the width is \\(2.8\\ \\mathrm{m}\\), and the clear height is \\(5.0\\ \\mathrm{m}\\).\n\nUse this relationship: \\[V_{\\mathrm{no\\text{-}build}}=LWH\\]\n\nWhat no-build volume should be shown? Round to 0.1 m^3.",
+    "opts": [
+      "94.0 m^3",
+      "100.8 m^3",
+      "105.6 m^3",
+      "98.8 m^3"
+    ],
+    "correct": 1,
+    "explanation": "No-build volume = 7.2×2.8×5.0 = 100.8 m^3."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Hazardous inventory scale-up: The project compares pilot hazardous inventory with commercial inventory to identify which pilot work practices are no longer acceptable.\n\nThe pilot inventory is \\(0.42\\ \\mathrm{t}\\), and the commercial inventory is \\(14.7\\ \\mathrm{t}\\).\n\nUse this relationship: \\[SF=\\dfrac{I_{\\mathrm{commercial}}}{I_{\\mathrm{pilot}}}\\]\n\nWhat inventory scale-up factor should be reported? Round to whole number.",
+    "opts": [
+      "28 ×",
+      "42 ×",
+      "35 ×",
+      "32 ×"
+    ],
+    "correct": 2,
+    "explanation": "Scale-up factor = 14.7/0.42 = 35×."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "P&ID maintainability point count: The DFM checklist requires every maintainable process line to have local drain and vent points plus one tagged flush point.\n\nThe early P&ID set includes \\(18\\) lines in this service. Each line requires \\(2\\) drain/vent points plus \\(1\\) flush point.\n\nUse this relationship: \\[N_{\\mathrm{points}}=N_{\\mathrm{lines}}\\left(N_{\\mathrm{drain/vent}}+N_{\\mathrm{flush}}\\right)\\]\n\nHow many tagged maintainability points are required? Select the calculated count.",
+    "opts": [
+      "54 tagged points",
+      "48 tagged points",
+      "60 tagged points",
+      "36 tagged points"
+    ],
+    "correct": 0,
+    "explanation": "Tagged points = 18×(2+1)=54."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Emergency shower location check: A field operator in chemical PPE must be able to reach an emergency shower within a short unobstructed route allowance.\n\nThe DFM basis uses a walking speed of \\(1.05\\ \\mathrm{m/s}\\) for PPE and an allowable response time of \\(12\\ \\mathrm{s}\\).\n\nUse this relationship: \\[L_{\\max}=v_{\\mathrm{walk}}t_{\\mathrm{allowed}}\\]\n\nWhat maximum route length should the layout checker allow? Round to 0.1 m.",
+    "opts": [
+      "11.6 m",
+      "12.6 m",
+      "13.8 m",
+      "10.5 m"
+    ],
+    "correct": 1,
+    "explanation": "Maximum route length = 1.05×12 = 12.6 m."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "PPE staging area screen: Maintenance wants a staging zone beside a chemical dosing skid for responders to gear up without blocking the egress path.\n\nThe layout basis assumes \\(3\\) responders, \\(1.0\\ \\mathrm{m^2}\\) per responder for PPE, \\(0.55\\ \\mathrm{m^2}\\) per responder for tools, and a shared reserve area of \\(1.1\\ \\mathrm{m^2}\\).\n\nUse this relationship: \\[A_{\\mathrm{stage}}=N\\left(A_{\\mathrm{PPE/person}}+A_{\\mathrm{tools/person}}\\right)+A_{\\mathrm{reserve}}\\]\n\nWhat staging area should be reserved? Round to 0.1 m^2.",
+    "opts": [
+      "6.2 m^2",
+      "5.8 m^2",
+      "4.7 m^2",
+      "5.2 m^2"
+    ],
+    "correct": 1,
+    "explanation": "Staging area = 3×(1.0+0.55)+1.1 = 5.8 m^2."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Rescue-route width calculation: A confined-space entry route must be checked for stretcher movement, not just normal walking access.\n\nThe stretcher width is \\(0.78\\ \\mathrm{m}\\), and side clearance of \\(0.32\\ \\mathrm{m}\\) is required on both sides. The route also has a minimum screening value of \\(1.2\\ \\mathrm{m}\\).\n\nUse this relationship: \\[W_{\\mathrm{route}}=\\max\\!\\left(1.2\\ \\mathrm{m},\\,W_{\\mathrm{stretcher}}+2C_{\\mathrm{side}}\\right)\\]\n\nWhat rescue-route width governs? Round to 0.1 m.",
+    "opts": [
+      "1.5 m",
+      "1.4 m",
+      "1.2 m",
+      "1.8 m"
+    ],
+    "correct": 1,
+    "explanation": "Stretcher case = 0.78+2×0.32 = 1.42 m. The route is governed by 1.42 m, rounded to 1.4 m."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "HAZID-to-maintainability score: A high-temperature drain valve is ranked for DFM attention because it will be accessed during abnormal operation and periodic cleaning.\n\nThe probability score is \\(4\\), consequence score is \\(4\\), and maintenance exposure score is \\(5\\).\n\nUse this relationship: \\[R=PCE\\]\n\nWhat risk number should be entered for prioritization? Select the calculated value.",
+    "opts": [
+      "80",
+      "96",
+      "75",
+      "64"
+    ],
+    "correct": 0,
+    "explanation": "Risk number = 4×4×5 = 80."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Weighted maintainability score: The DFM manager combines discipline scores into one project score to track whether the scale-up layout is improving.\n\nThe access score is \\(86\\), the isolation score is \\(72\\), the lifting score is \\(81\\), and the emergency-response score is \\(76\\). The agreed weights are 0.38, 0.27, 0.20, and 0.15.\n\nUse this relationship: \\[S=0.38A_{\\mathrm{access}}+0.27I_{\\mathrm{isolation}}+0.20L_{\\mathrm{lifting}}+0.15E_{\\mathrm{emergency}}\\]\n\nWhat weighted score is obtained? Round to 0.1 points.",
+    "opts": [
+      "82.4 points",
+      "79.7 points",
+      "77.6 points",
+      "80.8 points"
+    ],
+    "correct": 1,
+    "explanation": "Score = 0.38×86 + 0.27×72 + 0.20×81 + 0.15×76 = 79.7 points."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Cleanout waste routing: A filter cleanout campaign produces damp residue and wash water that must be routed through a maintainable waste-handling path.\n\nThe residue mass is \\(780\\ \\mathrm{kg}\\), the residue bulk density is \\(1{,}450\\ \\mathrm{kg/m^3}\\), and the expected wash water volume is \\(2.9\\ \\mathrm{m^3}\\).\n\nUse this relationship: \\[V_{\\mathrm{waste,total}}=\\dfrac{m_{\\mathrm{residue}}}{\\rho_{\\mathrm{residue}}}+V_{\\mathrm{wash}}\\]\n\nWhat total waste volume must the route handle? Round to 0.1 m^3.",
+    "opts": [
+      "3.7 m^3",
+      "3.4 m^3",
+      "3.1 m^3",
+      "4.0 m^3"
+    ],
+    "correct": 1,
+    "explanation": "Residue volume = 780/1,450 = 0.538 m^3. Total = 0.538+2.9 = 3.4 m^3."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "Vendor-growth allowance: A packaged solids feeder has an early access allowance, but the DFM review adds both vendor growth and layout contingency before model freeze.\n\nThe base access dimension is \\(1.35\\ \\mathrm{m}\\), the vendor growth allowance is \\(12\\%\\), and the layout contingency is \\(18\\%\\).\n\nUse this relationship: \\[C_{\\mathrm{final}}=C_{\\mathrm{base}}\\left(1+g_{\\mathrm{vendor}}\\right)\\left(1+c_{\\mathrm{layout}}\\right)\\]\n\nWhat final access allowance should be carried? Round to 0.01 m.",
+    "opts": [
+      "1.90 m",
+      "1.78 m",
+      "1.51 m",
+      "1.63 m"
+    ],
+    "correct": 1,
+    "explanation": "Final allowance = 1.35×1.12×1.18 = 1.78 m."
+  },
+  {
+    "section": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "q": "DFM workshop duration: A pre-RFQ maintainability review has a fixed review productivity, so the project needs a day count for the discipline schedule.\n\nThe review scope contains \\(142\\) maintainability items, and the review team can close \\(18\\) items/day when vendor data is available.\n\nUse this relationship: \\[d_{\\mathrm{review}}=\\left\\lceil\\dfrac{N_{\\mathrm{items}}}{r_{\\mathrm{items/day}}}\\right\\rceil\\]\n\nHow many review days should be scheduled? Select the calculated value.",
+    "opts": [
+      "7 days",
+      "9 days",
+      "10 days",
+      "8 days"
+    ],
+    "correct": 3,
+    "explanation": "Review days = ceiling(142/18)=ceiling(7.89)=8 days."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Tank-farm shell-spacing review: Two acid storage tanks are being placed in the commercial plot, and the designer must choose a shell-to-shell distance that protects both inspections and temporary scaffold setup.\n\nThe first tank diameter is \\(3.8\\ \\mathrm{m}\\), the second tank diameter is \\(4.2\\ \\mathrm{m}\\), the facing nozzle projection is \\(0.35\\ \\mathrm{m}\\), the facing valve projection is \\(0.28\\ \\mathrm{m}\\), the walking clearance is \\(1.25\\ \\mathrm{m}\\), and the scaffold case uses \\(1.65\\ \\mathrm{m}\\).\n\nUse this relationship: \\[S_{\\mathrm{req}}=\\max\\!\\left(1.0\\ \\mathrm{m},\\,0.25(D_1+D_2),\\,P_1+P_2+C_{\\mathrm{walk}},\\,P_1+P_2+C_{\\mathrm{scaffold}}\\right)\\]\n\nWhat shell-to-shell spacing should be reserved? Round to 0.1 m.",
+    "opts": [
+      "2.0 m",
+      "3.3 m",
+      "2.5 m",
+      "2.3 m"
+    ],
+    "correct": 3,
+    "explanation": "Code screen = max(1.0,0.25×8.0)=2.0 m. Scaffold case = 0.35+0.28+1.65 = 2.28 m, so the spacing rounds to 2.3 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Tank centreline mark-up: After the shell spacing is selected, the civil designer needs the centreline distance for the tank-foundation layout.\n\nThe tank diameters are \\(D_1=3.8\\ \\mathrm{m}\\) and \\(D_2=4.2\\ \\mathrm{m}\\), and the selected shell-to-shell spacing is \\(2.28\\ \\mathrm{m}\\).\n\nUse this relationship: \\[CL=\\dfrac{D_1}{2}+S_{\\mathrm{shell}}+\\dfrac{D_2}{2}\\]\n\nWhat centreline spacing should be marked? Round to 0.1 m.",
+    "opts": [
+      "6.3 m",
+      "5.8 m",
+      "6.6 m",
+      "6.0 m"
+    ],
+    "correct": 0,
+    "explanation": "Centreline spacing = 3.8/2 + 2.28 + 4.2/2 = 6.28 m, rounded to 6.3 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Rectangular containment sizing: A small tank pair sits in one berm, but the tanks are not equal diameter and the layout must still keep wall access on all sides.\n\nThe larger tank is \\(3.4\\ \\mathrm{m}\\) diameter, the smaller tank is \\(2.8\\ \\mathrm{m}\\) diameter, the shell gap is \\(2.4\\ \\mathrm{m}\\), and the wall clearance is \\(1.6\\ \\mathrm{m}\\) on both ends and both sides.\n\nUse this relationship: \\[\\begin{aligned}L_{\\mathrm{internal}}&=C_{\\mathrm{wall}}+D_1+S_{\\mathrm{gap}}+D_2+C_{\\mathrm{wall}}\\\\W_{\\mathrm{internal}}&=C_{\\mathrm{wall}}+\\max(D_1,D_2)+C_{\\mathrm{wall}}\\end{aligned}\\]\n\nWhat internal containment dimensions are required? Round to 0.1 m.",
+    "opts": [
+      "L=11.8 m; W=6.8 m",
+      "L=10.2 m; W=6.4 m",
+      "L=10.0 m; W=6.2 m",
+      "L=11.8 m; W=6.6 m"
+    ],
+    "correct": 3,
+    "explanation": "Length = 1.6+3.4+2.4+2.8+1.6 = 11.8 m. Width = 1.6+max(3.4,2.8)+1.6 = 6.6 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Containment effective area: The environmental reviewer asks for the wetted containment area available to hold liquid after the two tank footprints are displaced.\n\nThe internal containment dimensions from the layout are \\(L=11.8\\ \\mathrm{m}\\) and \\(W=6.6\\ \\mathrm{m}\\). The tank diameters are \\(3.4\\ \\mathrm{m}\\) and \\(2.8\\ \\mathrm{m}\\).\n\nUse this relationship: \\[A_{\\mathrm{eff}}=LW-\\pi\\left(\\dfrac{D_1}{2}\\right)^2-\\pi\\left(\\dfrac{D_2}{2}\\right)^2\\]\n\nWhat effective containment area remains? Round to 0.1 m^2.",
+    "opts": [
+      "60.4 m^2",
+      "62.6 m^2",
+      "64.1 m^2",
+      "68.8 m^2"
+    ],
+    "correct": 1,
+    "explanation": "Gross area = 11.8×6.6 = 77.88 m^2. Tank footprints = π×1.7^2 + π×1.4^2 = 15.23 m^2. Effective area = 62.7 m^2."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Tank containment volume check: A three-tank acid storage area is reviewed against the largest-tank-plus-allowance rule before dike height is finalized.\n\nThe largest tank holds \\(72\\ \\mathrm{m^3}\\). The other two tanks hold \\(48\\ \\mathrm{m^3}\\) and \\(35\\ \\mathrm{m^3}\\). The effective containment area is \\(62.65\\ \\mathrm{m^2}\\).\n\nUse this relationship: \\[\\begin{aligned}V_{\\mathrm{req}}&=V_{\\mathrm{largest}}+0.10\\max\\!\\left(V_{\\mathrm{largest}},\\sum V_{\\mathrm{other}}\\right)\\\\H_{\\mathrm{liquid}}&=\\dfrac{V_{\\mathrm{req}}}{A_{\\mathrm{eff}}}\\end{aligned}\\]\n\nWhat liquid height is required before adding freeboard? Round to 0.01 m.",
+    "opts": [
+      "1.18 m",
+      "1.38 m",
+      "1.28 m",
+      "1.43 m"
+    ],
+    "correct": 2,
+    "explanation": "Other-tank sum = 48+35 = 83 m^3. Required volume = 72+0.10×83 = 80.3 m^3. Liquid height = 80.3/62.65 = 1.28 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Outdoor dike wall height: The tank-farm containment is outdoors, so rainwater and freeboard must be included in the wall-height estimate.\n\nThe required containment volume is \\(80.3\\ \\mathrm{m^3}\\), the open area exposed to rainfall is \\(92\\ \\mathrm{m^2}\\), the design rainfall depth is \\(85\\ \\mathrm{mm}\\), the effective liquid area is \\(62.65\\ \\mathrm{m^2}\\), and freeboard is \\(0.25\\ \\mathrm{m}\\).\n\nUse this relationship: \\[H_{\\mathrm{wall}}=\\dfrac{V_{\\mathrm{req}}+A_{\\mathrm{open}}d_{\\mathrm{rain}}}{A_{\\mathrm{eff}}}+h_{\\mathrm{freeboard}}\\]\n\nWhat dike wall height should be carried? Round to 0.01 m.",
+    "opts": [
+      "1.50 m",
+      "1.61 m",
+      "1.80 m",
+      "1.66 m"
+    ],
+    "correct": 3,
+    "explanation": "Rain volume = 92×0.085 = 7.82 m^3. Wall height = (80.3+7.82)/62.65+0.25 = 1.66 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Four-tank containment rule: A solvent storage bay contains one larger tank and three smaller tanks, and the design team needs the containment volume before rainfall is added.\n\nThe tank volumes are \\(95\\ \\mathrm{m^3}\\), \\(42\\ \\mathrm{m^3}\\), \\(42\\ \\mathrm{m^3}\\), and \\(38\\ \\mathrm{m^3}\\). The larger tank is the credible single release.\n\nUse this relationship: \\[V_{\\mathrm{req}}=V_{\\mathrm{largest}}+0.10\\max\\!\\left(V_{\\mathrm{largest}},\\sum V_{\\mathrm{other}}\\right)\\]\n\nWhat containment volume is required before rainfall and freeboard? Round to 0.1 m^3.",
+    "opts": [
+      "107.2 m^3",
+      "112.0 m^3",
+      "108.2 m^3",
+      "104.5 m^3"
+    ],
+    "correct": 0,
+    "explanation": "Other tank sum = 42+42+38 = 122 m^3. Required volume = 95+0.10×122 = 107.2 m^3."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Tank-to-berm clearance decision: The civil model has limited space between a tank shell and the inside face of the berm, and the reviewer must choose the governing clearance.\n\nThe manway access requirement is \\(1.25\\ \\mathrm{m}\\), the temporary scaffold requirement is \\(1.85\\ \\mathrm{m}\\), the inspection walking requirement is \\(1.40\\ \\mathrm{m}\\), and the baseline wall clearance is \\(1.50\\ \\mathrm{m}\\).\n\nUse this relationship: \\[C_{\\mathrm{wall}}=\\max\\!\\left(1.5\\ \\mathrm{m},\\,C_{\\mathrm{manway}},\\,C_{\\mathrm{scaffold}},\\,C_{\\mathrm{inspection}}\\right)\\]\n\nWhat tank shell-to-berm clearance should be used? Round to 0.1 m.",
+    "opts": [
+      "1.4 m",
+      "1.9 m",
+      "2.0 m",
+      "1.5 m"
+    ],
+    "correct": 1,
+    "explanation": "The governing value is max(1.5,1.25,1.85,1.40)=1.85 m, rounded to 1.9 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Gross area back-calculation: The dike wall height has already been constrained by site grading, so the containment gross area must be estimated from allowable liquid height.\n\nThe required liquid volume is \\(88\\ \\mathrm{m^3}\\), the maximum liquid height before freeboard is \\(1.25\\ \\mathrm{m}\\), and tank/curb footprints displace \\(24\\ \\mathrm{m^2}\\).\n\nUse this relationship: \\[A_{\\mathrm{gross}}=\\dfrac{V_{\\mathrm{req}}}{H_{\\mathrm{liquid}}}+A_{\\mathrm{footprints}}\\]\n\nWhat gross containment area is needed? Round to 0.1 m^2.",
+    "opts": [
+      "94.4 m^2",
+      "88.4 m^2",
+      "98.2 m^2",
+      "90.8 m^2"
+    ],
+    "correct": 0,
+    "explanation": "Effective area = 88/1.25 = 70.4 m^2. Gross area = 70.4+24 = 94.4 m^2."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Unstable-liquid spacing screen: A project-specific hazard note doubles the basic spacing screen for two tanks holding an unstable intermediate.\n\nThe tank diameters are \\(4.6\\ \\mathrm{m}\\) and \\(4.1\\ \\mathrm{m}\\). The base screen is the larger of \\(1.0\\ \\mathrm{m}\\) and one quarter of the sum of diameters, then doubled for this hazard class.\n\nUse this relationship: \\[S_{\\mathrm{unstable}}=2\\max\\!\\left(1.0\\ \\mathrm{m},\\,0.25(D_1+D_2)\\right)\\]\n\nWhat screening spacing is required? Round to 0.1 m.",
+    "opts": [
+      "4.8 m",
+      "3.8 m",
+      "4.4 m",
+      "4.0 m"
+    ],
+    "correct": 2,
+    "explanation": "Base screen = max(1.0,0.25×8.7)=2.175 m. Doubled spacing = 4.35 m, rounded to 4.4 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Projection-facing tank gap: Two small day tanks are not controlled by diameter-based spacing, but their facing valves and instruments reduce the working path.\n\nThe first projection is \\(0.18\\ \\mathrm{m}\\), the second projection is \\(0.34\\ \\mathrm{m}\\), and the required working gap between projections is \\(1.35\\ \\mathrm{m}\\).\n\nUse this relationship: \\[S_{\\mathrm{req}}=\\max\\!\\left(1.0\\ \\mathrm{m},\\,P_1+P_2+C_{\\mathrm{work}}\\right)\\]\n\nWhat shell-to-shell spacing is required? Round to 0.1 m.",
+    "opts": [
+      "2.1 m",
+      "1.9 m",
+      "1.7 m",
+      "1.4 m"
+    ],
+    "correct": 1,
+    "explanation": "Projection spacing = 0.18+0.34+1.35 = 1.87 m. Required shell spacing rounds to 1.9 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Four-tank row length: A row of four identical neutralization tanks is placed inside a single berm, and the internal length must include both end clearances and shell gaps.\n\nThe wall clearance is \\(1.7\\ \\mathrm{m}\\), there are \\(4\\) tanks at \\(2.6\\ \\mathrm{m}\\) diameter each, and the gap between adjacent tank shells is \\(1.9\\ \\mathrm{m}\\).\n\nUse this relationship: \\[L=2C_{\\mathrm{wall}}+ND+(N-1)S_{\\mathrm{gap}}\\]\n\nWhat internal row length is required? Round to 0.1 m.",
+    "opts": [
+      "18.6 m",
+      "19.0 m",
+      "20.4 m",
+      "19.5 m"
+    ],
+    "correct": 3,
+    "explanation": "Row length = 2×1.7+4×2.6+3×1.9 = 19.5 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Containment obstruction correction: A tank pad includes three small vessels and a concrete pipe sleeper inside the dike, so the effective area cannot be taken from the gross rectangle.\n\nThe internal containment is \\(16.4\\ \\mathrm{m}\\) by \\(6.1\\ \\mathrm{m}\\). Three tanks each have diameter \\(2.4\\ \\mathrm{m}\\), the concrete obstruction area is \\(5.2\\ \\mathrm{m^2}\\), the containment volume is \\(70\\ \\mathrm{m^3}\\), and freeboard is \\(0.22\\ \\mathrm{m}\\).\n\nUse this relationship: \\[\\begin{aligned}A_{\\mathrm{eff}}&=LW-N\\pi\\left(\\dfrac{D}{2}\\right)^2-A_{\\mathrm{obs}}\\\\H_{\\mathrm{wall}}&=\\dfrac{V_{\\mathrm{req}}}{A_{\\mathrm{eff}}}+h_{\\mathrm{freeboard}}\\end{aligned}\\]\n\nWhat wall height is required? Round to 0.01 m.",
+    "opts": [
+      "1.05 m",
+      "1.20 m",
+      "1.35 m",
+      "1.08 m"
+    ],
+    "correct": 3,
+    "explanation": "Effective area = 16.4×6.1−3π(1.2)^2−5.2 = 81.33 m^2. Wall height = 70/81.33+0.22 = 1.08 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Circular tank pad diameter: A storage tank foundation must include annular maintenance clearance for shell inspection and anchor-bolt access.\n\nThe tank diameter is \\(3.9\\ \\mathrm{m}\\), and the annular maintenance clearance is \\(0.85\\ \\mathrm{m}\\) on all sides.\n\nUse this relationship: \\[D_{\\mathrm{pad}}=D_{\\mathrm{tank}}+2C_{\\mathrm{annular}}\\]\n\nWhat pad diameter is required? Round to 0.1 m.",
+    "opts": [
+      "5.6 m",
+      "5.8 m",
+      "5.2 m",
+      "5.4 m"
+    ],
+    "correct": 0,
+    "explanation": "Pad diameter = 3.9+2×0.85 = 5.6 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Circular tank pad area: The civil quantity estimate needs the concrete area for the pad diameter selected during the maintainability review.\n\nThe maintainable pad diameter is \\(5.6\\ \\mathrm{m}\\).\n\nUse this relationship: \\[A_{\\mathrm{pad}}=\\pi\\left(\\dfrac{D_{\\mathrm{pad}}}{2}\\right)^2\\]\n\nWhat pad area is required? Round to 0.1 m^2.",
+    "opts": [
+      "22.1 m^2",
+      "24.0 m^2",
+      "27.4 m^2",
+      "24.6 m^2"
+    ],
+    "correct": 3,
+    "explanation": "Pad area = π(5.6/2)^2 = 24.6 m^2."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Walking gap after projections: The plot-plan drawing shows a tank shell gap, but the actual worker path is reduced by a nozzle and a sample cabinet facing each other.\n\nThe shell-to-shell gap is \\(2.35\\ \\mathrm{m}\\), the first projection is \\(0.42\\ \\mathrm{m}\\), and the second projection is \\(0.31\\ \\mathrm{m}\\).\n\nUse this relationship: \\[C_{\\mathrm{clear}}=S_{\\mathrm{shell}}-P_1-P_2\\]\n\nWhat clear walking gap remains? Round to 0.01 m.",
+    "opts": [
+      "1.62 m",
+      "1.44 m",
+      "1.70 m",
+      "1.55 m"
+    ],
+    "correct": 0,
+    "explanation": "Clear gap = 2.35−0.42−0.31 = 1.62 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Tank-to-building setback review: A chemical tank is close to a utility building, and several discipline criteria have to be compared without averaging them.\n\nThe code screen is \\(3.5\\ \\mathrm{m}\\), the hazard review requires \\(5.2\\ \\mathrm{m}\\), routine maintenance requires \\(2.8\\ \\mathrm{m}\\), and emergency response access requires \\(4.6\\ \\mathrm{m}\\).\n\nUse this relationship: \\[S_{\\mathrm{req}}=\\max\\!\\left(S_{\\mathrm{code}},\\,S_{\\mathrm{hazard}},\\,S_{\\mathrm{maintenance}},\\,S_{\\mathrm{response}}\\right)\\]\n\nWhat setback governs? Round to 0.1 m.",
+    "opts": [
+      "4.6 m",
+      "5.8 m",
+      "5.2 m",
+      "5.0 m"
+    ],
+    "correct": 2,
+    "explanation": "Setback = max(3.5,5.2,2.8,4.6)=5.2 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Fire response travel margin: The firewater hose route to the tank farm is checked by actual route segments rather than a straight-line distance on the plot plan.\n\nThe allowable response route is \\(70\\ \\mathrm{m}\\), and the walking/hose path uses route segments of \\(21\\ \\mathrm{m}\\), \\(18\\ \\mathrm{m}\\), and \\(24\\ \\mathrm{m}\\).\n\nUse this relationship: \\[M=d_{\\mathrm{allowable}}-\\sum d_{\\mathrm{segments}}\\]\n\nWhat route margin remains? Round to 0.1 m.",
+    "opts": [
+      "6.5 m",
+      "7.0 m",
+      "5.0 m",
+      "8.0 m"
+    ],
+    "correct": 1,
+    "explanation": "Route length = 21+18+24 = 63 m. Margin = 70−63 = 7.0 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Containment pumpout time: A sump pump is selected for the dike, and O&M wants to know how long a credible contained volume would take to remove.\n\nThe contained volume is \\(80\\ \\mathrm{m^3}\\), and the temporary pump rate is \\(22\\ \\mathrm{m^3/h}\\).\n\nUse this relationship: \\[t=\\dfrac{V}{Q_{\\mathrm{pump}}}\\]\n\nWhat pumpout time is required? Round to 0.1 h.",
+    "opts": [
+      "3.8 h",
+      "3.1 h",
+      "4.2 h",
+      "3.6 h"
+    ],
+    "correct": 3,
+    "explanation": "Pumpout time = 80/22 = 3.6 h."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Rainfall volume addition: The outdoor containment basis includes rainfall on the exposed tank-farm surface.\n\nThe exposed open area is \\(155\\ \\mathrm{m^2}\\), and the rainfall depth is \\(90\\ \\mathrm{mm}\\).\n\nUse this relationship: \\[V_{\\mathrm{rain}}=A_{\\mathrm{open}}d_{\\mathrm{rain}}\\]\n\nWhat rainfall volume is added? Round to 0.1 m^3.",
+    "opts": [
+      "15.1 m^3",
+      "14.0 m^3",
+      "13.5 m^3",
+      "12.0 m^3"
+    ],
+    "correct": 1,
+    "explanation": "Rain depth = 0.090 m. Rain volume = 155×0.090 = 14.0 m^3."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "High-high level response time: A containment sump has positive accumulation during washdown, and the operator response time must be checked.\n\nThe remaining free volume before high-high level is \\(18.4\\ \\mathrm{m^3}\\), and net accumulation is \\(3.1\\ \\mathrm{m^3/h}\\).\n\nUse this relationship: \\[t_{\\mathrm{fill}}=\\dfrac{V_{\\mathrm{free}}}{Q_{\\mathrm{net}}}\\]\n\nHow long until high-high level? Round to 0.1 h.",
+    "opts": [
+      "5.9 h",
+      "6.3 h",
+      "6.8 h",
+      "5.2 h"
+    ],
+    "correct": 0,
+    "explanation": "Time to high-high level = 18.4/3.1 = 5.9 h."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "IBC unloading bay width: The chemical unloading area must fit a pallet, operator work zones on both sides, and a hose-management strip without blocking the tank-farm aisle.\n\nThe pallet width is \\(1.2\\ \\mathrm{m}\\), the required working clearance is \\(1.25\\ \\mathrm{m}\\) on each side, and the hose strip is \\(0.75\\ \\mathrm{m}\\).\n\nUse this relationship: \\[W_{\\mathrm{bay}}=W_{\\mathrm{pallet}}+2C_{\\mathrm{work}}+C_{\\mathrm{hose}}\\]\n\nWhat bay width is required? Round to 0.1 m.",
+    "opts": [
+      "4.5 m",
+      "4.2 m",
+      "3.8 m",
+      "5.1 m"
+    ],
+    "correct": 0,
+    "explanation": "Bay width = 1.2+2×1.25+0.75 = 4.45 m, rounded to 4.5 m."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Gross containment area from fixed wall height: A late civil constraint fixes the dike wall, so the gross floor area has to grow if the contained volume is not reduced.\n\nThe required volume is \\(125\\ \\mathrm{m^3}\\), the wall height is \\(1.75\\ \\mathrm{m}\\), freeboard is \\(0.30\\ \\mathrm{m}\\), and internal footprints occupy \\(28\\ \\mathrm{m^2}\\).\n\nUse this relationship: \\[\\begin{aligned}A_{\\mathrm{eff}}&=\\dfrac{V_{\\mathrm{req}}}{H_{\\mathrm{wall}}-h_{\\mathrm{freeboard}}}\\\\A_{\\mathrm{gross}}&=A_{\\mathrm{eff}}+A_{\\mathrm{footprints}}\\end{aligned}\\]\n\nWhat gross area is required? Round to 0.1 m^2.",
+    "opts": [
+      "118.2 m^2",
+      "114.2 m^2",
+      "112.6 m^2",
+      "109.4 m^2"
+    ],
+    "correct": 1,
+    "explanation": "Effective area = 125/(1.75−0.30)=86.21 m^2. Gross area = 86.21+28 = 114.2 m^2."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Tank roof access platform: Roof instruments cover only part of the tank circumference, but the access width still needs to be quantified for steel takeoff.\n\nThe tank diameter is \\(4.8\\ \\mathrm{m}\\), the platform covers \\(40\\%\\) of the circumference, and the platform width is \\(1.1\\ \\mathrm{m}\\).\n\nUse this relationship: \\[A_{\\mathrm{platform}}=\\pi D f_{\\mathrm{coverage}}W_{\\mathrm{platform}}\\]\n\nWhat platform area is required? Round to 0.1 m^2.",
+    "opts": [
+      "6.6 m^2",
+      "5.9 m^2",
+      "6.4 m^2",
+      "7.1 m^2"
+    ],
+    "correct": 0,
+    "explanation": "Platform area = π×4.8×0.40×1.1 = 6.6 m^2."
+  },
+  {
+    "section": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "q": "Tank-farm plot efficiency: The project controls team wants the percentage of the plot consumed by containment after the DFM area increase.\n\nThe containment area is \\(114.2\\ \\mathrm{m^2}\\), and the total tank-farm plot allocation is \\(205\\ \\mathrm{m^2}\\).\n\nUse this relationship: \\[f_{\\mathrm{containment}}=\\dfrac{A_{\\mathrm{containment}}}{A_{\\mathrm{plot}}}\\times100\\]\n\nWhat percentage of the plot is occupied by containment? Round to 1 decimal place.",
+    "opts": [
+      "55.7 %",
+      "57.4 %",
+      "60.2 %",
+      "52.7 %"
+    ],
+    "correct": 0,
+    "explanation": "Containment plot fraction = 114.2/205×100 = 55.7 %."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Vessel manway access review: A horizontal process vessel has a hinged cover that must swing and be handled safely without blocking the adjacent pipe rack aisle.\n\nThe measured cover swing/removal envelope is \\(1.58\\ \\mathrm{m}\\), and the DFM basis adds \\(0.65\\ \\mathrm{m}\\) for worker and tool clearance while preserving a \\(2.0\\ \\mathrm{m}\\) minimum.\n\nUse this relationship: \\[C_{\\mathrm{front}}=\\max\\!\\left(2.0\\ \\mathrm{m},\\,E_{\\mathrm{cover}}+0.65\\ \\mathrm{m}\\right)\\]\n\nWhat clear space is required in front of the manway? Round to 0.1 m.",
+    "opts": [
+      "2.5 m",
+      "2.1 m",
+      "2.0 m",
+      "2.2 m"
+    ],
+    "correct": 3,
+    "explanation": "Cover case = 1.58+0.65 = 2.23 m. This exceeds 2.0 m, so the required clearance rounds to 2.2 m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Confined-space entry setup: A vessel-entry location is reviewed for tripod, ventilation, cover laydown, and rescue clearance in one combined area.\n\nThe cover laydown area is \\(2.6\\ \\mathrm{m^2}\\), the tripod or davit footprint is \\(3.1\\ \\mathrm{m^2}\\), the temporary ventilation setup is \\(1.8\\ \\mathrm{m^2}\\), and the rescue clear area is \\(2.0\\ \\mathrm{m^2}\\).\n\nUse this relationship: \\[A_{\\mathrm{entry}}=A_{\\mathrm{cover}}+A_{\\mathrm{tripod/davit}}+A_{\\mathrm{ventilation}}+A_{\\mathrm{rescue}}\\]\n\nWhat entry setup area should be reserved? Round to 0.1 m^2.",
+    "opts": [
+      "9.0 m^2",
+      "9.5 m^2",
+      "10.1 m^2",
+      "8.5 m^2"
+    ],
+    "correct": 1,
+    "explanation": "Entry setup area = 2.6+3.1+1.8+2.0 = 9.5 m^2."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Agitator removal height: A top-entering reactor agitator must be pulled vertically during overhaul, and the maintenance envelope has to be kept clear of pipe bridges.\n\nThe shaft length is \\(4.4\\ \\mathrm{m}\\), the impeller height is \\(0.9\\ \\mathrm{m}\\), the rigging allowance is \\(1.3\\ \\mathrm{m}\\), and the vertical safety margin is \\(0.6\\ \\mathrm{m}\\).\n\nUse this relationship: \\[H_{\\mathrm{remove}}=L_{\\mathrm{shaft}}+H_{\\mathrm{impeller}}+H_{\\mathrm{rigging}}+C_{\\mathrm{margin}}\\]\n\nWhat vertical removal height is required? Round to 0.1 m.",
+    "opts": [
+      "7.6 m",
+      "6.9 m",
+      "6.4 m",
+      "7.2 m"
+    ],
+    "correct": 3,
+    "explanation": "Removal height = 4.4+0.9+1.3+0.6 = 7.2 m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Top gearbox hook-height check: A gearbox on a raised platform must be removed with a hoist, and the hook height must include platform elevation rather than only the component height.\n\nThe platform elevation is \\(4.6\\ \\mathrm{m}\\), the gearbox height is \\(1.9\\ \\mathrm{m}\\), the rigging height is \\(1.15\\ \\mathrm{m}\\), and the required clearance is \\(0.55\\ \\mathrm{m}\\).\n\nUse this relationship: \\[H_{\\mathrm{hook}}=H_{\\mathrm{platform}}+H_{\\mathrm{component}}+H_{\\mathrm{rigging}}+C_{\\mathrm{clearance}}\\]\n\nWhat hook height is required? Round to 0.1 m.",
+    "opts": [
+      "7.9 m",
+      "8.2 m",
+      "8.7 m",
+      "7.6 m"
+    ],
+    "correct": 1,
+    "explanation": "Hook height = 4.6+1.9+1.15+0.55 = 8.2 m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Centrifuge basket laydown: A removable basket must be placed on the floor with worker clearance on every side rather than squeezed into the nominal basket footprint.\n\nThe basket is \\(2.8\\ \\mathrm{m}\\) long and \\(1.35\\ \\mathrm{m}\\) wide. The DFM laydown rule adds \\(0.6\\ \\mathrm{m}\\) clearance on all sides.\n\nUse this relationship: \\[A_{\\mathrm{laydown}}=\\left(L_{\\mathrm{component}}+1.2\\right)\\left(W_{\\mathrm{component}}+1.2\\right)\\]\n\nWhat laydown area is required? Round to 0.1 m^2.",
+    "opts": [
+      "9.4 m^2",
+      "11.2 m^2",
+      "10.5 m^2",
+      "10.2 m^2"
+    ],
+    "correct": 3,
+    "explanation": "Laydown area = (2.8+1.2)×(1.35+1.2)=10.2 m^2."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Exchanger bundle pull: A shell-and-tube exchanger is installed near a pipe rack, and the bundle pull zone must be protected before rack bracing is finalized.\n\nThe removable bundle length is \\(4.85\\ \\mathrm{m}\\), and the working clearance at the pull end is \\(1.15\\ \\mathrm{m}\\).\n\nUse this relationship: \\[L_{\\mathrm{pull}}=L_{\\mathrm{bundle}}+C_{\\mathrm{working}}\\]\n\nWhat pull space is required? Round to 0.1 m.",
+    "opts": [
+      "6.0 m",
+      "6.6 m",
+      "5.7 m",
+      "6.3 m"
+    ],
+    "correct": 0,
+    "explanation": "Pull space = 4.85+1.15 = 6.0 m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Exchanger head and bundle path: The pull path for a heat exchanger includes not only the bundle length but also channel cover thickness and lifting room.\n\nThe bundle length is \\(4.1\\ \\mathrm{m}\\), the channel cover thickness is \\(0.52\\ \\mathrm{m}\\), and the lifting working clearance is \\(1.10\\ \\mathrm{m}\\).\n\nUse this relationship: \\[L_{\\mathrm{total}}=L_{\\mathrm{bundle}}+T_{\\mathrm{cover}}+C_{\\mathrm{lifting}}\\]\n\nWhat total pull path is needed? Round to 0.01 m.",
+    "opts": [
+      "6.02 m",
+      "5.72 m",
+      "5.85 m",
+      "5.42 m"
+    ],
+    "correct": 1,
+    "explanation": "Total pull path = 4.1+0.52+1.10 = 5.72 m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Pressure-filter door swing: A pressure filter door opens into a maintenance aisle, and the model must reserve the full swing plus a worker/tool zone.\n\nThe door swing envelope is \\(1.35\\ \\mathrm{m}\\), and the worker/tool clearance is \\(0.70\\ \\mathrm{m}\\).\n\nUse this relationship: \\[C_{\\mathrm{door}}=E_{\\mathrm{door\\,swing}}+C_{\\mathrm{worker/tool}}\\]\n\nWhat clear door envelope is required? Round to 0.1 m.",
+    "opts": [
+      "2.2 m",
+      "2.4 m",
+      "2.1 m",
+      "1.8 m"
+    ],
+    "correct": 2,
+    "explanation": "Door envelope = 1.35+0.70 = 2.05 m, rounded to 2.1 m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Removable basket SWL: A centrifuge basket is lifted during inspection, and the trolley SWL must include a lifting factor instead of the nameplate basket mass only.\n\nThe basket mass is \\(560\\ \\mathrm{kg}\\), and the screening lifting factor is \\(1.25\\).\n\nUse this relationship: \\[SWL_{\\min}=W_{\\mathrm{component}}F_{\\mathrm{lifting}}\\]\n\nWhat minimum SWL is required? Round to whole kg.",
+    "opts": [
+      "760 kg",
+      "700 kg",
+      "660 kg",
+      "625 kg"
+    ],
+    "correct": 1,
+    "explanation": "Minimum SWL = 560×1.25 = 700 kg."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Cartridge filter straight pull: A cartridge filter is mounted near a wall, and the removable element must pull straight out during maintenance.\n\nThe cartridge length is \\(1.10\\ \\mathrm{m}\\), and the working clearance beyond the cartridge is \\(0.65\\ \\mathrm{m}\\).\n\nUse this relationship: \\[C_{\\mathrm{pull}}=L_{\\mathrm{cartridge}}+C_{\\mathrm{working}}\\]\n\nWhat clear pull space is required? Round to 0.01 m.",
+    "opts": [
+      "1.95 m",
+      "1.85 m",
+      "1.75 m",
+      "1.55 m"
+    ],
+    "correct": 2,
+    "explanation": "Pull space = 1.10+0.65 = 1.75 m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Dryer access-door PPE case: A dryer inspection door opens into an area where operators wear chemical PPE and carry a scraper kit.\n\nThe door swing envelope is \\(1.40\\ \\mathrm{m}\\), PPE body width is \\(0.82\\ \\mathrm{m}\\), and the tool allowance is \\(0.45\\ \\mathrm{m}\\).\n\nUse this relationship: \\[C_{\\mathrm{access}}=E_{\\mathrm{door\\,swing}}+W_{\\mathrm{PPE}}+C_{\\mathrm{tool}}\\]\n\nWhat clear access depth is required? Round to 0.1 m.",
+    "opts": [
+      "2.9 m",
+      "2.7 m",
+      "3.1 m",
+      "2.4 m"
+    ],
+    "correct": 1,
+    "explanation": "Access depth = 1.40+0.82+0.45 = 2.67 m, rounded to 2.7 m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Reactor operating platform area: A reactor needs a 270-degree platform for charging, vent servicing, and top-nozzle inspection.\n\nThe reactor diameter is \\(3.1\\ \\mathrm{m}\\), the platform covers \\(75\\%\\) of the circumference, and the platform width is \\(1.15\\ \\mathrm{m}\\).\n\nUse this relationship: \\[A_{\\mathrm{platform}}=\\pi D f_{\\mathrm{coverage}}W_{\\mathrm{platform}}\\]\n\nWhat platform area is required? Round to 0.1 m^2.",
+    "opts": [
+      "9.4 m^2",
+      "8.4 m^2",
+      "7.7 m^2",
+      "8.0 m^2"
+    ],
+    "correct": 1,
+    "explanation": "Platform area = π×3.1×0.75×1.15 = 8.4 m^2."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "High valve platform elevation: A frequently operated vessel valve is too high for safe reach from grade, so a platform elevation is calculated.\n\nThe valve handwheel centerline is at \\(3.35\\ \\mathrm{m}\\), and the allowed safe reach above platform is \\(1.45\\ \\mathrm{m}\\).\n\nUse this relationship: \\[H_{\\mathrm{platform}}=H_{\\mathrm{valve\\,CL}}-H_{\\mathrm{safe\\,reach}}\\]\n\nWhat platform elevation places the valve within reach? Round to 0.1 m.",
+    "opts": [
+      "1.9 m",
+      "2.1 m",
+      "1.8 m",
+      "1.7 m"
+    ],
+    "correct": 0,
+    "explanation": "Platform elevation = 3.35−1.45 = 1.90 m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Bottom-outlet rodding envelope: A solids hopper has a bottom outlet cleanout that must allow a rodding tool to be inserted without dismantling nearby steel.\n\nThe rodding tool is \\(2.1\\ \\mathrm{m}\\) long, and the operator needs \\(0.75\\ \\mathrm{m}\\) working clearance behind it.\n\nUse this relationship: \\[C_{\\mathrm{rodding}}=L_{\\mathrm{rod}}+C_{\\mathrm{operator}}\\]\n\nWhat straight-line clearance is required? Round to 0.1 m.",
+    "opts": [
+      "3.1 m",
+      "2.6 m",
+      "2.9 m",
+      "3.9 m"
+    ],
+    "correct": 2,
+    "explanation": "Rodding clearance = 2.1+0.75 = 2.85 m, rounded to 2.9 m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Hopper inspection-panel clearance: A rectangular inspection panel must open fully, and the working envelope is based on the larger of its width and swing.\n\nThe panel width is \\(0.95\\ \\mathrm{m}\\), the swing envelope is \\(1.10\\ \\mathrm{m}\\), and worker clearance is \\(0.65\\ \\mathrm{m}\\).\n\nUse this relationship: \\[C_{\\mathrm{panel}}=\\max\\!\\left(W_{\\mathrm{panel}},\\,E_{\\mathrm{panel\\,swing}}\\right)+C_{\\mathrm{worker}}\\]\n\nWhat clearance is required? Round to 0.1 m.",
+    "opts": [
+      "1.8 m",
+      "2.0 m",
+      "1.6 m",
+      "1.9 m"
+    ],
+    "correct": 0,
+    "explanation": "Panel clearance = max(0.95,1.10)+0.65 = 1.75 m, rounded to 1.8 m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Dust-collector bag removal: A dust collector bag is removed vertically, and overhead tray routing cannot occupy the removal space.\n\nThe bag length is \\(2.75\\ \\mathrm{m}\\), the rigging allowance is \\(0.80\\ \\mathrm{m}\\), and the margin is \\(0.35\\ \\mathrm{m}\\).\n\nUse this relationship: \\[H_{\\mathrm{clear}}=L_{\\mathrm{bag}}+H_{\\mathrm{rigging}}+C_{\\mathrm{margin}}\\]\n\nWhat vertical clearance is required? Round to 0.1 m.",
+    "opts": [
+      "4.1 m",
+      "3.9 m",
+      "4.3 m",
+      "3.6 m"
+    ],
+    "correct": 1,
+    "explanation": "Vertical clearance = 2.75+0.80+0.35 = 3.90 m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Tank roof instrument platform: A roof platform serves multiple vents and transmitters, and the common access zone is shared across points.\n\nThere are \\(5\\) service points, each requiring \\(1.35\\ \\mathrm{m^2}\\), plus a common access area of \\(1.8\\ \\mathrm{m^2}\\).\n\nUse this relationship: \\[A_{\\mathrm{total}}=N_{\\mathrm{points}}A_{\\mathrm{per\\,point}}+A_{\\mathrm{common}}\\]\n\nWhat total platform area is required? Round to 0.1 m^2.",
+    "opts": [
+      "7.9 m^2",
+      "8.6 m^2",
+      "9.1 m^2",
+      "8.2 m^2"
+    ],
+    "correct": 1,
+    "explanation": "Total area = 5×1.35+1.8 = 8.55 m^2, rounded to 8.6 m^2."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Large flange bolt-access check: A vessel flange needs enough clearance for bolt removal and tool swing around the outside diameter.\n\nThe flange outside diameter is \\(0.72\\ \\mathrm{m}\\), and bolt-access clearance is \\(0.65\\ \\mathrm{m}\\) on both sides.\n\nUse this relationship: \\[W_{\\mathrm{access}}=OD_{\\mathrm{flange}}+2C_{\\mathrm{bolt}}\\]\n\nWhat access width is needed? Round to 0.01 m.",
+    "opts": [
+      "2.12 m",
+      "2.02 m",
+      "1.92 m",
+      "1.82 m"
+    ],
+    "correct": 1,
+    "explanation": "Access width = 0.72+2×0.65 = 2.02 m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Temporary vessel-entry ventilation: Before a confined-space entry, the team sizes a temporary ventilation blower from vessel volume and air-change target.\n\nThe vessel internal volume is \\(58\\ \\mathrm{m^3}\\), and the required ventilation rate is \\(8\\) air changes per hour.\n\nUse this relationship: \\[Q=\\dfrac{V_{\\mathrm{vessel}}ACH}{60}\\]\n\nWhat airflow is required? Round to 0.1 m^3/min.",
+    "opts": [
+      "7.7 m^3/min",
+      "7.2 m^3/min",
+      "8.5 m^3/min",
+      "6.8 m^3/min"
+    ],
+    "correct": 0,
+    "explanation": "Airflow = 58×8/60 = 7.7 m^3/min."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Vessel drain residual volume: A vessel drain line remains full after isolation, and the residual volume affects both drain time and waste-container sizing.\n\nThe internal pipe diameter is \\(0.09\\ \\mathrm{m}\\), and the isolated length is \\(20\\ \\mathrm{m}\\).\n\nUse this relationship: \\[V_{\\mathrm{pipe}}=\\pi\\left(\\dfrac{D}{2}\\right)^2L\\]\n\nWhat residual volume is in the line? Round to 0.001 m^3.",
+    "opts": [
+      "0.162 m^3",
+      "0.148 m^3",
+      "0.099 m^3",
+      "0.127 m^3"
+    ],
+    "correct": 3,
+    "explanation": "Residual volume = π(0.09/2)^2×20 = 0.127 m^3."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Removable nozzle spool: A reactor nozzle spool must be removed for gasket replacement, so a straight removal envelope is marked around the nozzle.\n\nThe removable spool length is \\(1.65\\ \\mathrm{m}\\), and the removal allowance is \\(0.35\\ \\mathrm{m}\\).\n\nUse this relationship: \\[C_{\\mathrm{remove}}=L_{\\mathrm{spool}}+C_{\\mathrm{removal}}\\]\n\nWhat clear removal envelope is required? Round to 0.1 m.",
+    "opts": [
+      "1.8 m",
+      "2.4 m",
+      "2.2 m",
+      "2.0 m"
+    ],
+    "correct": 3,
+    "explanation": "Removal envelope = 1.65+0.35 = 2.0 m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Exchanger head laydown square: A circular exchanger head is placed in a square laydown zone that includes clear working space on all sides.\n\nThe exchanger head diameter is \\(1.45\\ \\mathrm{m}\\), and the clear working space is \\(0.65\\ \\mathrm{m}\\) around the head.\n\nUse this relationship: \\[A_{\\mathrm{laydown}}=\\left(D_{\\mathrm{head}}+2C_{\\mathrm{clear}}\\right)^2\\]\n\nWhat laydown area is required? Round to 0.1 m^2.",
+    "opts": [
+      "7.6 m^2",
+      "6.8 m^2",
+      "7.2 m^2",
+      "8.4 m^2"
+    ],
+    "correct": 0,
+    "explanation": "Laydown area = (1.45+2×0.65)^2 = 7.6 m^2."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Filter-cake tote route: A removable tote for filter cake must pass through a maintainable route with clearance on both sides of the pallet.\n\nThe tote pallet width is \\(1.25\\ \\mathrm{m}\\), and side clearance is \\(0.50\\ \\mathrm{m}\\) on both sides.\n\nUse this relationship: \\[W_{\\mathrm{route}}=W_{\\mathrm{pallet}}+2C_{\\mathrm{side}}\\]\n\nWhat route width is required? Round to 0.1 m.",
+    "opts": [
+      "2.5 m",
+      "3.3 m",
+      "2.0 m",
+      "2.3 m"
+    ],
+    "correct": 3,
+    "explanation": "Route width = 1.25+2×0.50 = 2.25 m, rounded to 2.3 m."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Packaged dryer maintainable footprint: A packaged dryer skid has service panels at both ends and both sides, so the maintainable footprint is much larger than the shipped footprint.\n\nThe package is \\(4.8\\ \\mathrm{m}\\) long and \\(2.6\\ \\mathrm{m}\\) wide. End access is \\(1.6\\ \\mathrm{m}\\), and side access is \\(1.25\\ \\mathrm{m}\\).\n\nUse this relationship: \\[A_{\\mathrm{required}}=\\left(L_{\\mathrm{package}}+2C_{\\mathrm{end}}\\right)\\left(W_{\\mathrm{package}}+2C_{\\mathrm{side}}\\right)\\]\n\nWhat maintainable area is required? Round to 0.1 m^2.",
+    "opts": [
+      "45.6 m^2",
+      "40.8 m^2",
+      "41.8 m^2",
+      "38.7 m^2"
+    ],
+    "correct": 1,
+    "explanation": "Maintainable area = (4.8+2×1.6)×(2.6+2×1.25) = 40.8 m^2."
+  },
+  {
+    "section": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "q": "Platform stair riser count: A vessel service platform is added for a high manway, and the stair design needs a preliminary riser count.\n\nThe platform rise from grade is \\(2.1\\ \\mathrm{m}\\), and the maximum riser height used for screening is \\(0.18\\ \\mathrm{m}\\).\n\nUse this relationship: \\[N_{\\mathrm{risers}}=\\left\\lceil\\dfrac{H_{\\mathrm{platform}}}{h_{\\mathrm{riser,max}}}\\right\\rceil\\]\n\nHow many risers are required? Select the calculated count.",
+    "opts": [
+      "12 risers",
+      "13 risers",
+      "10 risers",
+      "11 risers"
+    ],
+    "correct": 0,
+    "explanation": "Risers = ceiling(2.1/0.18)=ceiling(11.67)=12 risers."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Pump motor pull-out review: A centrifugal pump is placed near a pipe bridge, and the service side must protect horizontal motor removal before piping is routed.\n\nThe motor length is \\(1.22\\ \\mathrm{m}\\), the maintenance allowance is \\(0.65\\ \\mathrm{m}\\), and the minimum pull-out criterion is \\(1.5\\ \\mathrm{m}\\).\n\nUse this relationship: \\[L_{\\mathrm{pull}}=\\max\\!\\left(1.5\\ \\mathrm{m},\\,L_{\\mathrm{motor}}+0.65\\ \\mathrm{m}\\right)\\]\n\nWhat pull-out clearance is required? Round to 0.01 m.",
+    "opts": [
+      "1.87 m",
+      "1.50 m",
+      "1.72 m",
+      "2.05 m"
+    ],
+    "correct": 0,
+    "explanation": "Pull-out case = 1.22+0.65 = 1.87 m, so required clearance is 1.87 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Small utility pump access: A small dosing pump is compact, but the model still needs the minimum service clearance because technicians work in PPE.\n\nThe motor length is \\(0.68\\ \\mathrm{m}\\), the removal allowance is \\(0.65\\ \\mathrm{m}\\), and the minimum pull-out allowance is \\(1.5\\ \\mathrm{m}\\).\n\nUse this relationship: \\[L_{\\mathrm{pull}}=\\max\\!\\left(1.5\\ \\mathrm{m},\\,L_{\\mathrm{motor}}+0.65\\ \\mathrm{m}\\right)\\]\n\nWhat pull-out clearance is required? Round to 0.1 m.",
+    "opts": [
+      "1.4 m",
+      "1.2 m",
+      "1.7 m",
+      "1.5 m"
+    ],
+    "correct": 3,
+    "explanation": "Motor case = 0.68+0.65 = 1.33 m. The minimum 1.5 m governs."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Pump service rectangle: The pump service zone is modeled as a simple rectangle for clash review and pipe-support exclusion.\n\nThe motor pull-out clearance is \\(1.87\\ \\mathrm{m}\\), and the service aisle width is \\(1.6\\ \\mathrm{m}\\).\n\nUse this relationship: \\[A_{\\mathrm{service}}=C_{\\mathrm{pull\\text{-}out}}W_{\\mathrm{aisle}}\\]\n\nWhat service area should be reserved? Round to 0.1 m^2.",
+    "opts": [
+      "3.0 m^2",
+      "2.6 m^2",
+      "3.4 m^2",
+      "2.8 m^2"
+    ],
+    "correct": 0,
+    "explanation": "Service area = 1.87×1.6 = 3.0 m^2."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Pump-row depth check: A row of pump baseplates needs enough depth for the installed base, motor pull-out, and a safe operator aisle.\n\nThe baseplate width is \\(1.05\\ \\mathrm{m}\\), the pull-out zone is \\(1.87\\ \\mathrm{m}\\), and the operator aisle is \\(1.35\\ \\mathrm{m}\\).\n\nUse this relationship: \\[D_{\\mathrm{row}}=W_{\\mathrm{baseplate}}+L_{\\mathrm{pull}}+W_{\\mathrm{aisle}}\\]\n\nWhat total row depth is required? Round to 0.1 m.",
+    "opts": [
+      "4.3 m",
+      "4.6 m",
+      "4.1 m",
+      "3.9 m"
+    ],
+    "correct": 0,
+    "explanation": "Row depth = 1.05+1.87+1.35 = 4.27 m, rounded to 4.3 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Pump motor lifting capacity: A davit is proposed over a pump row, and the minimum lifting capacity must include a screening factor.\n\nThe motor mass is \\(340\\ \\mathrm{kg}\\), and the lifting factor is \\(1.25\\).\n\nUse this relationship: \\[SWL_{\\min}=W_{\\mathrm{motor}}F_{\\mathrm{lifting}}\\]\n\nWhat minimum SWL is needed? Round to whole kg.",
+    "opts": [
+      "400 kg",
+      "440 kg",
+      "500 kg",
+      "425 kg"
+    ],
+    "correct": 3,
+    "explanation": "SWL = 340×1.25 = 425 kg."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Basket strainer pull-out: A basket strainer sits immediately upstream of a pump, and the basket must be removable without cutting suction piping.\n\nThe basket length is \\(0.95\\ \\mathrm{m}\\), and the working clearance is \\(0.65\\ \\mathrm{m}\\).\n\nUse this relationship: \\[C_{\\mathrm{pull}}=L_{\\mathrm{basket}}+C_{\\mathrm{working}}\\]\n\nWhat clear pull-out is required? Round to 0.01 m.",
+    "opts": [
+      "1.60 m",
+      "1.80 m",
+      "1.45 m",
+      "1.70 m"
+    ],
+    "correct": 0,
+    "explanation": "Strainer pull-out = 0.95+0.65 = 1.60 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Pump suction spool removal: A removable suction spool is required for pump removal and gasket replacement, so the straight extraction space is checked.\n\nThe removable spool length is \\(1.48\\ \\mathrm{m}\\), and the removal allowance is \\(0.35\\ \\mathrm{m}\\).\n\nUse this relationship: \\[C_{\\mathrm{remove}}=L_{\\mathrm{spool}}+C_{\\mathrm{removal}}\\]\n\nWhat removal envelope is required? Round to 0.01 m.",
+    "opts": [
+      "1.83 m",
+      "1.63 m",
+      "1.90 m",
+      "2.05 m"
+    ],
+    "correct": 0,
+    "explanation": "Removal envelope = 1.48+0.35 = 1.83 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Piping flange access: A bolted flange near a pump must have enough tool clearance on both sides of the flange outside diameter.\n\nThe flange outside diameter is \\(0.55\\ \\mathrm{m}\\), and bolt-access clearance is \\(0.65\\ \\mathrm{m}\\) on each side.\n\nUse this relationship: \\[W_{\\mathrm{access}}=OD_{\\mathrm{flange}}+2C_{\\mathrm{bolt}}\\]\n\nWhat access width should be reserved? Round to 0.01 m.",
+    "opts": [
+      "1.85 m",
+      "1.95 m",
+      "1.65 m",
+      "1.75 m"
+    ],
+    "correct": 0,
+    "explanation": "Access width = 0.55+2×0.65 = 1.85 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Overhead pipe headroom: A process line crosses a maintenance walkway, and the pipe centerline must be high enough after insulation is included.\n\nThe required headroom is \\(2.25\\ \\mathrm{m}\\), the bare pipe OD is \\(0.32\\ \\mathrm{m}\\), and insulation thickness is \\(0.075\\ \\mathrm{m}\\).\n\nUse this relationship: \\[H_{\\mathrm{pipe\\,CL,min}}=H_{\\mathrm{headroom}}+\\dfrac{OD_{\\mathrm{pipe}}+2t_{\\mathrm{ins}}}{2}\\]\n\nWhat minimum pipe centerline elevation is required? Round to 0.01 m.",
+    "opts": [
+      "2.49 m",
+      "2.58 m",
+      "2.50 m",
+      "2.43 m"
+    ],
+    "correct": 0,
+    "explanation": "Insulated diameter = 0.32+2×0.075 = 0.47 m. Centerline = 2.25+0.47/2 = 2.49 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "MCC row depth: An electrical room has front and rear service requirements that must be added to the panel depth.\n\nThe MCC panel depth is \\(0.9\\ \\mathrm{m}\\), the front working clearance is \\(1.3\\ \\mathrm{m}\\), and the rear maintenance clearance is \\(0.95\\ \\mathrm{m}\\).\n\nUse this relationship: \\[D_{\\mathrm{room}}=D_{\\mathrm{panel}}+C_{\\mathrm{front}}+C_{\\mathrm{rear}}\\]\n\nWhat room depth is required? Round to 0.1 m.",
+    "opts": [
+      "3.4 m",
+      "2.9 m",
+      "3.0 m",
+      "3.2 m"
+    ],
+    "correct": 3,
+    "explanation": "Room depth = 0.9+1.3+0.95 = 3.15 m, rounded to 3.2 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Electrical room footprint: The MCC row depth is translated into a preliminary floor area for the electrical-room layout.\n\nThe MCC row length is \\(9.4\\ \\mathrm{m}\\), and the required room depth is \\(3.15\\ \\mathrm{m}\\).\n\nUse this relationship: \\[A=L_{\\mathrm{row}}D_{\\mathrm{room}}\\]\n\nWhat footprint area is required? Round to 0.1 m^2.",
+    "opts": [
+      "29.6 m^2",
+      "28.8 m^2",
+      "27.5 m^2",
+      "31.2 m^2"
+    ],
+    "correct": 0,
+    "explanation": "Footprint area = 9.4×3.15 = 29.6 m^2."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Instrument access gap erosion: An analyzer access gap is reduced by a cable tray and a junction box added during late electrical routing.\n\nThe starting clear gap is \\(1.62\\ \\mathrm{m}\\), the cable tray projects \\(0.22\\ \\mathrm{m}\\), and the junction box projects \\(0.16\\ \\mathrm{m}\\).\n\nUse this relationship: \\[C_{\\mathrm{remaining}}=C_{\\mathrm{start}}-P_{\\mathrm{tray}}-P_{\\mathrm{junction\\,box}}\\]\n\nWhat clear gap remains? Round to 0.01 m.",
+    "opts": [
+      "1.36 m",
+      "1.24 m",
+      "1.18 m",
+      "1.28 m"
+    ],
+    "correct": 1,
+    "explanation": "Remaining gap = 1.62−0.22−0.16 = 1.24 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Valve-station platform height: A utility valve station is elevated for pipe routing, and the handwheel must be within allowable reach from a platform.\n\nThe handwheel elevation is \\(3.55\\ \\mathrm{m}\\), and the allowed reach above the platform is \\(1.55\\ \\mathrm{m}\\).\n\nUse this relationship: \\[H_{\\mathrm{platform}}=H_{\\mathrm{handwheel}}-H_{\\mathrm{allowed\\,reach}}\\]\n\nWhat platform elevation is needed? Round to 0.1 m.",
+    "opts": [
+      "1.8 m",
+      "2.0 m",
+      "2.2 m",
+      "2.4 m"
+    ],
+    "correct": 1,
+    "explanation": "Platform elevation = 3.55−1.55 = 2.0 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Pump drain-line residual volume: A small drain line remains full after pump isolation, and the maintenance plan needs the residual fluid volume.\n\nThe internal diameter is \\(0.06\\ \\mathrm{m}\\), and the isolated length is \\(16\\ \\mathrm{m}\\).\n\nUse this relationship: \\[V=\\pi\\left(\\dfrac{D}{2}\\right)^2L\\]\n\nWhat residual volume is in the line? Round to 0.001 m^3.",
+    "opts": [
+      "0.060 m^3",
+      "0.035 m^3",
+      "0.045 m^3",
+      "0.052 m^3"
+    ],
+    "correct": 2,
+    "explanation": "Residual volume = π(0.06/2)^2×16 = 0.045 m^3."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Pump drain time: The residual volume in a pump drain line is converted into drain time so the line-break permit can use a realistic sequence.\n\nThe residual volume is \\(0.0452\\ \\mathrm{m^3}\\), and the controlled drain rate is \\(0.0075\\ \\mathrm{m^3/min}\\).\n\nUse this relationship: \\[t_{\\mathrm{drain}}=\\dfrac{V_{\\mathrm{residual}}}{Q_{\\mathrm{drain}}}\\]\n\nWhat drain time is required? Round to 0.1 min.",
+    "opts": [
+      "5.4 min",
+      "6.0 min",
+      "6.8 min",
+      "7.5 min"
+    ],
+    "correct": 1,
+    "explanation": "Drain time = 0.0452/0.0075 = 6.0 min."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Utility manifold panel width: A utility panel has multiple valves and needs edge clearance at both ends.\n\nThe panel includes \\(12\\) valves, valve-to-valve spacing is \\(0.20\\ \\mathrm{m}\\), and edge allowance is \\(0.35\\ \\mathrm{m}\\) on both sides.\n\nUse this relationship: \\[W_{\\mathrm{panel}}=(N_{\\mathrm{valves}}-1)s+2C_{\\mathrm{edge}}\\]\n\nWhat panel width is required? Round to 0.01 m.",
+    "opts": [
+      "2.85 m",
+      "2.70 m",
+      "3.10 m",
+      "2.90 m"
+    ],
+    "correct": 3,
+    "explanation": "Panel width = (12−1)×0.20+2×0.35 = 2.90 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Analyzer calibration gas area: Analyzer calibration cylinders must be staged with a working zone instead of being placed tight against the skid.\n\nThe calibration setup uses \\(4\\) cylinders, each requiring \\(0.28\\ \\mathrm{m^2}\\), plus a shared working area of \\(0.95\\ \\mathrm{m^2}\\).\n\nUse this relationship: \\[A=N_{\\mathrm{cyl}}A_{\\mathrm{cylinder}}+A_{\\mathrm{working}}\\]\n\nWhat area is required? Round to 0.01 m^2.",
+    "opts": [
+      "2.15 m^2",
+      "1.79 m^2",
+      "2.30 m^2",
+      "2.07 m^2"
+    ],
+    "correct": 3,
+    "explanation": "Area = 4×0.28+0.95 = 2.07 m^2."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Heat-tracing junction-box access: A junction box needs local access on all sides for troubleshooting and termination checks.\n\nThe box is \\(1.05\\ \\mathrm{m}\\) long and \\(0.70\\ \\mathrm{m}\\) wide. The DFM rule adds \\(0.30\\ \\mathrm{m}\\) on each side.\n\nUse this relationship: \\[A_{\\mathrm{access}}=\\left(L_{\\mathrm{box}}+0.6\\right)\\left(W_{\\mathrm{box}}+0.6\\right)\\]\n\nWhat access area is required? Round to 0.1 m^2.",
+    "opts": [
+      "2.1 m^2",
+      "2.0 m^2",
+      "1.9 m^2",
+      "2.4 m^2"
+    ],
+    "correct": 0,
+    "explanation": "Access area = (1.05+0.6)×(0.70+0.6) = 2.15 m^2, rounded to 2.1 m^2."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Compressor acoustic door clearance: A compressor enclosure door swings into the service side, and a worker clearance must remain outside the door swing.\n\nThe acoustic door swing is \\(1.15\\ \\mathrm{m}\\), and the worker clearance is \\(0.55\\ \\mathrm{m}\\).\n\nUse this relationship: \\[C_{\\mathrm{door}}=E_{\\mathrm{door\\,swing}}+C_{\\mathrm{worker}}\\]\n\nWhat clear envelope is needed? Round to 0.1 m.",
+    "opts": [
+      "1.7 m",
+      "1.8 m",
+      "2.0 m",
+      "1.5 m"
+    ],
+    "correct": 0,
+    "explanation": "Door envelope = 1.15+0.55 = 1.70 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Acoustic panel lifting check: A removable compressor enclosure panel will be handled with a small hoist, and the SWL must include a factor.\n\nThe removable panel weighs \\(62\\ \\mathrm{kg}\\), and the lifting factor is \\(1.25\\).\n\nUse this relationship: \\[SWL_{\\min}=W_{\\mathrm{panel}}F_{\\mathrm{lifting}}\\]\n\nWhat minimum SWL is required? Round to whole kg.",
+    "opts": [
+      "78 kg",
+      "80 kg",
+      "90 kg",
+      "70 kg"
+    ],
+    "correct": 0,
+    "explanation": "SWL = 62×1.25 = 77.5 kg, rounded to 78 kg."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Vacuum-package filter pull: A vacuum package has a service filter element that must be pulled straight out from the package panel.\n\nThe filter length is \\(0.82\\ \\mathrm{m}\\), and the required pull clearance beyond the element is \\(0.70\\ \\mathrm{m}\\).\n\nUse this relationship: \\[C_{\\mathrm{pull}}=L_{\\mathrm{filter}}+C_{\\mathrm{clearance}}\\]\n\nWhat pull space is required? Round to 0.1 m.",
+    "opts": [
+      "1.7 m",
+      "1.5 m",
+      "1.9 m",
+      "1.3 m"
+    ],
+    "correct": 1,
+    "explanation": "Pull space = 0.82+0.70 = 1.52 m, rounded to 1.5 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Temporary drain hose length: A temporary hose route must include horizontal travel, vertical drop, and slack so it can be handled safely.\n\nThe horizontal hose route is \\(9.5\\ \\mathrm{m}\\), the vertical drop is \\(1.6\\ \\mathrm{m}\\), and the slack factor is \\(1.18\\).\n\nUse this relationship: \\[L_{\\mathrm{hose}}=(L_{\\mathrm{horizontal}}+H_{\\mathrm{drop}})F_{\\mathrm{slack}}\\]\n\nWhat hose length is needed? Round to 0.1 m.",
+    "opts": [
+      "12.2 m",
+      "13.1 m",
+      "12.8 m",
+      "13.7 m"
+    ],
+    "correct": 1,
+    "explanation": "Hose length = (9.5+1.6)×1.18 = 13.1 m."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Analyzer effluent tank sizing: Analyzer sample effluent is captured in a small tank, and the design basis uses sample count, sample size, and storage days.\n\nThe analyzer generates \\(16\\) samples/day, each sample is \\(0.65\\ \\mathrm{L}\\), and storage is required for \\(7\\) days.\n\nUse this relationship: \\[V_{\\mathrm{tank}}=\\dfrac{N_{\\mathrm{samples/day}}V_{\\mathrm{sample}}d}{1000}\\]\n\nWhat tank volume is required? Round to 0.001 m^3.",
+    "opts": [
+      "0.065 m^3",
+      "0.073 m^3",
+      "0.078 m^3",
+      "0.084 m^3"
+    ],
+    "correct": 1,
+    "explanation": "Tank volume = 16×0.65×7/1,000 = 0.073 m^3."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Cooling-water user maintainability points: Each cooling-water user needs local isolation, drain, vent, and flush connection points.\n\nThe utility list contains \\(14\\) cooling-water users, and the DFM basis assigns \\(4\\) maintainability points per user.\n\nUse this relationship: \\[N_{\\mathrm{tagged\\,points}}=N_{\\mathrm{users}}\\times4\\]\n\nHow many utility maintainability points are required?",
+    "opts": [
+      "48 points",
+      "56 points",
+      "60 points",
+      "52 points"
+    ],
+    "correct": 1,
+    "explanation": "Tagged points = 14×4 = 56."
+  },
+  {
+    "section": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "q": "Electrical LOTO count: Energized maintainable devices are counted so lockout/tagout locations are visible before the electrical layout is frozen.\n\nThe area includes \\(24\\) motors, \\(11\\) heaters or tracing circuits, \\(15\\) instruments requiring isolation, and \\(6\\) local disconnects.\n\nUse this relationship: \\[N_{\\mathrm{LOTO}}=N_{\\mathrm{motors}}+N_{\\mathrm{heaters/tracing}}+N_{\\mathrm{instruments}}+N_{\\mathrm{disconnects}}\\]\n\nHow many LOTO points are required?",
+    "opts": [
+      "56 LOTO points",
+      "54 LOTO points",
+      "60 LOTO points",
+      "50 LOTO points"
+    ],
+    "correct": 0,
+    "explanation": "LOTO points = 24+11+15+6 = 56."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Closed drain-down planning: A reactor must be drained to a closed collection system before line break, and the outage schedule needs the drain duration.\n\nThe drained process volume is \\(24\\ \\mathrm{m^3}\\), and the controlled drain rate is \\(5.5\\ \\mathrm{m^3/h}\\).\n\nUse this relationship: \\[t_{\\mathrm{drain}}=\\dfrac{V}{Q_{\\mathrm{drain}}}\\]\n\nWhat drain time is required? Round to 0.1 h.",
+    "opts": [
+      "4.4 h",
+      "3.9 h",
+      "5.0 h",
+      "4.6 h"
+    ],
+    "correct": 0,
+    "explanation": "Drain time = 24/5.5 = 4.4 h."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Emergency sump pump sizing: A containment sump must be pumped down within a defined response window after a credible release.\n\nThe volume to remove is \\(46\\ \\mathrm{m^3}\\), and the target pumpout time is \\(3.0\\ \\mathrm{h}\\).\n\nUse this relationship: \\[Q_{\\mathrm{pump,req}}=\\dfrac{V}{t_{\\mathrm{target}}}\\]\n\nWhat pump rate is required? Round to 0.1 m^3/h.",
+    "opts": [
+      "15.8 m^3/h",
+      "17.2 m^3/h",
+      "15.3 m^3/h",
+      "14.0 m^3/h"
+    ],
+    "correct": 2,
+    "explanation": "Pump rate = 46/3.0 = 15.3 m^3/h."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Nitrogen purge cylinder estimate: A vessel-entry plan requires multiple purge volumes before opening, and cylinder count is checked before the outage.\n\nThe vessel volume is \\(30\\ \\mathrm{m^3}\\), the purge target is \\(4\\) vessel volumes, and each cylinder provides \\(8.8\\ \\mathrm{m^3}\\) usable nitrogen.\n\nUse this relationship: \\[N_{\\mathrm{cyl}}=\\left\\lceil\\dfrac{V_{\\mathrm{vessel}}N_{\\mathrm{purge\\,volumes}}}{V_{\\mathrm{cyl,usable}}}\\right\\rceil\\]\n\nHow many nitrogen cylinders are required?",
+    "opts": [
+      "14 cylinders",
+      "12 cylinders",
+      "15 cylinders",
+      "16 cylinders"
+    ],
+    "correct": 0,
+    "explanation": "Purge volume = 30×4 = 120 m^3. Cylinders = ceiling(120/8.8)=ceiling(13.64)=14."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Dike crossover ramp: A wheeled spill-response cart must cross a containment curb without manual lifting, so the ramp length is screened.\n\nThe dike rise is \\(1.05\\ \\mathrm{m}\\), and the ramp slope basis is \\(1:12\\).\n\nUse this relationship: \\[L_{\\mathrm{ramp}}=h_{\\mathrm{rise}}\\times12\\]\n\nWhat ramp length is required? Round to 0.1 m.",
+    "opts": [
+      "12.6 m",
+      "12.0 m",
+      "11.4 m",
+      "13.2 m"
+    ],
+    "correct": 0,
+    "explanation": "Ramp length = 1.05×12 = 12.6 m."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Emergency shower route: The design team checks a realistic walking path from an acid unloading point to the emergency shower.\n\nThe unobstructed route has segments of \\(3.2\\ \\mathrm{m}\\), \\(4.1\\ \\mathrm{m}\\), and \\(2.9\\ \\mathrm{m}\\).\n\nUse this relationship: \\[L_{\\mathrm{route}}=\\sum L_{\\mathrm{segments}}\\]\n\nWhat route length must be compared with the response-time criterion? Round to 0.1 m.",
+    "opts": [
+      "9.7 m",
+      "11.2 m",
+      "10.8 m",
+      "10.2 m"
+    ],
+    "correct": 3,
+    "explanation": "Route length = 3.2+4.1+2.9 = 10.2 m."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Emergency route margin: After the route is measured, the DFM lead records the remaining margin against the maximum allowed route length.\n\nThe maximum allowed route length is \\(12.6\\ \\mathrm{m}\\), and the actual route length is \\(10.2\\ \\mathrm{m}\\).\n\nUse this relationship: \\[M=L_{\\max}-L_{\\mathrm{actual}}\\]\n\nWhat margin remains? Round to 0.1 m.",
+    "opts": [
+      "1.8 m",
+      "2.4 m",
+      "2.8 m",
+      "2.0 m"
+    ],
+    "correct": 1,
+    "explanation": "Margin = 12.6−10.2 = 2.4 m."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Gearbox laydown during shutdown: A gearbox will be removed during a short shutdown, and laydown clearance must be available before scaffolding is placed.\n\nThe gearbox footprint is \\(3.4\\ \\mathrm{m}\\) by \\(1.6\\ \\mathrm{m}\\). The DFM laydown rule adds \\(0.6\\ \\mathrm{m}\\) to all sides.\n\nUse this relationship: \\[A_{\\mathrm{laydown}}=(L+1.2)(W+1.2)\\]\n\nWhat laydown area is required? Round to 0.1 m^2.",
+    "opts": [
+      "12.2 m^2",
+      "14.5 m^2",
+      "13.4 m^2",
+      "12.9 m^2"
+    ],
+    "correct": 3,
+    "explanation": "Laydown area = (3.4+1.2)×(1.6+1.2)=12.9 m^2."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Stretcher route check: A rescue route from a confined-space manway must accommodate a stretcher and side clearance.\n\nThe stretcher width is \\(0.82\\ \\mathrm{m}\\), and side clearance is \\(0.38\\ \\mathrm{m}\\) on each side. The minimum route screen is \\(1.2\\ \\mathrm{m}\\).\n\nUse this relationship: \\[W_{\\mathrm{route}}=\\max\\!\\left(1.2\\ \\mathrm{m},\\,W_{\\mathrm{stretcher}}+2C_{\\mathrm{side}}\\right)\\]\n\nWhat route width governs? Round to 0.01 m.",
+    "opts": [
+      "1.50 m",
+      "1.40 m",
+      "1.58 m",
+      "1.65 m"
+    ],
+    "correct": 2,
+    "explanation": "Stretcher case = 0.82+2×0.38 = 1.58 m. This governs over 1.2 m."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Monorail hoist capacity: A heavy motor will be removed from a raised platform, and the monorail SWL must include the lifting factor.\n\nThe component mass is \\(1{,}850\\ \\mathrm{kg}\\), and the lifting factor is \\(1.25\\).\n\nUse this relationship: \\[SWL_{\\min}=W_{\\mathrm{load}}F_{\\mathrm{lifting}}\\]\n\nWhat minimum SWL is required? Round to whole kg.",
+    "opts": [
+      "2,250 kg",
+      "2,400 kg",
+      "2,313 kg",
+      "2,180 kg"
+    ],
+    "correct": 2,
+    "explanation": "Minimum SWL = 1,850×1.25 = 2,312.5 kg, rounded to 2,313 kg."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Raised-plinth lift path: A pump package component is lifted from a raised plinth, and the hook height must include plinth height, component height, rigging, and clearance.\n\nThe plinth height is \\(2.8\\ \\mathrm{m}\\), the component height is \\(2.0\\ \\mathrm{m}\\), the rigging height is \\(1.35\\ \\mathrm{m}\\), and the clearance is \\(0.65\\ \\mathrm{m}\\).\n\nUse this relationship: \\[H_{\\mathrm{hook}}=H_{\\mathrm{plinth}}+H_{\\mathrm{component}}+H_{\\mathrm{rigging}}+C_{\\mathrm{clearance}}\\]\n\nWhat hook height is required? Round to 0.1 m.",
+    "opts": [
+      "7.1 m",
+      "6.6 m",
+      "6.3 m",
+      "6.8 m"
+    ],
+    "correct": 3,
+    "explanation": "Hook height = 2.8+2.0+1.35+0.65 = 6.8 m."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Two-leg sling tension: A maintenance lift uses a two-leg sling, and the rigging planner checks the tension per leg from sling angle.\n\nThe load is \\(1{,}450\\ \\mathrm{kgf}\\), and the sling angle to horizontal is \\(55^\\circ\\).\n\nUse this relationship: \\[T_{\\mathrm{sling}}=\\dfrac{W_{\\mathrm{load}}}{2\\sin\\theta}\\]\n\nWhat is the tension per sling? Round to whole kgf.",
+    "opts": [
+      "825 kgf",
+      "1,010 kgf",
+      "885 kgf",
+      "930 kgf"
+    ],
+    "correct": 2,
+    "explanation": "Tension = 1,450/(2×sin55°)=885 kgf per sling."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Vertical lift-path width: A removable package component is lifted through a vertical no-build slot with side clearance.\n\nThe component width is \\(1.9\\ \\mathrm{m}\\), and side clearance is \\(0.55\\ \\mathrm{m}\\) on both sides.\n\nUse this relationship: \\[W_{\\mathrm{lift}}=W_{\\mathrm{component}}+2C_{\\mathrm{side}}\\]\n\nWhat no-build lift width is required? Round to 0.1 m.",
+    "opts": [
+      "2.7 m",
+      "3.0 m",
+      "3.2 m",
+      "3.4 m"
+    ],
+    "correct": 1,
+    "explanation": "Lift width = 1.9+2×0.55 = 3.0 m."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Containment stair run: A crossover stair is screened for horizontal run so it does not consume a maintenance aisle.\n\nThe dike rise is \\(1.35\\ \\mathrm{m}\\), the maximum riser height is \\(0.18\\ \\mathrm{m}\\), and tread depth is \\(0.30\\ \\mathrm{m}\\).\n\nUse this relationship: \\[\\begin{aligned}N_{\\mathrm{risers}}&=\\left\\lceil\\dfrac{h_{\\mathrm{rise}}}{0.18\\ \\mathrm{m}}\\right\\rceil\\\\L_{\\mathrm{run}}&=(N_{\\mathrm{risers}}-1)d_{\\mathrm{tread}}\\end{aligned}\\]\n\nWhat horizontal run is required? Round to 0.01 m.",
+    "opts": [
+      "1.80 m",
+      "2.40 m",
+      "2.05 m",
+      "2.10 m"
+    ],
+    "correct": 3,
+    "explanation": "Risers = ceiling(1.35/0.18)=8. Run = (8−1)×0.30 = 2.10 m."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Temporary hose supports: A chemical transfer hose is used during maintenance, and supports are counted so the hose is not laid loose across the route.\n\nThe hose route length is \\(18.2\\ \\mathrm{m}\\), and support spacing is \\(3.2\\ \\mathrm{m}\\). Add one support at the start/end allowance.\n\nUse this relationship: \\[N_{\\mathrm{supports}}=\\left\\lceil\\dfrac{L_{\\mathrm{hose}}}{s_{\\mathrm{support}}}\\right\\rceil+1\\]\n\nHow many supports are required?",
+    "opts": [
+      "8 supports",
+      "6 supports",
+      "9 supports",
+      "7 supports"
+    ],
+    "correct": 3,
+    "explanation": "Supports = ceiling(18.2/3.2)+1 = ceiling(5.69)+1 = 7."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Filled acid hose weight: The field team checks whether a filled temporary hose can be moved safely by operators or must be mechanically assisted.\n\nThe hose length is \\(15\\ \\mathrm{m}\\), empty hose mass is \\(2.1\\ \\mathrm{kg/m}\\), internal diameter is \\(0.06\\ \\mathrm{m}\\), and liquid density is \\(1{,}180\\ \\mathrm{kg/m^3}\\).\n\nUse this relationship: \\[W_{\\mathrm{total}}=LW_{\\mathrm{empty/m}}+\\pi\\left(\\dfrac{ID}{2}\\right)^2L\\rho\\]\n\nWhat filled hose weight is expected? Round to 0.1 kg.",
+    "opts": [
+      "81.5 kg",
+      "82.4 kg",
+      "75.2 kg",
+      "90.1 kg"
+    ],
+    "correct": 0,
+    "explanation": "Empty hose = 15×2.1 = 31.5 kg. Fluid mass = π(0.03)^2×15×1,180 = 50.0 kg. Total = 81.5 kg."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Neutralization tank sizing: A credible spill must be collected in a neutralization tank with allowance rather than using only the nominal spill volume.\n\nThe credible spill volume is \\(9.5\\ \\mathrm{m^3}\\), and the allowance factor is \\(1.30\\).\n\nUse this relationship: \\[V_{\\mathrm{tank}}=V_{\\mathrm{spill}}F_{\\mathrm{allowance}}\\]\n\nWhat tank volume is required? Round to 0.1 m^3.",
+    "opts": [
+      "12.8 m^3",
+      "12.4 m^3",
+      "11.4 m^3",
+      "13.5 m^3"
+    ],
+    "correct": 1,
+    "explanation": "Tank volume = 9.5×1.30 = 12.35 m^3, rounded to 12.4 m^3."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Spill-kit absorbent count: The emergency-response plan checks absorbent pack quantity against a credible localized spill.\n\nThe credible spill volume is \\(410\\ \\mathrm{L}\\), and one absorbent pack handles \\(55\\ \\mathrm{L}\\).\n\nUse this relationship: \\[N_{\\mathrm{packs}}=\\left\\lceil\\dfrac{V_{\\mathrm{spill}}}{C_{\\mathrm{pack}}}\\right\\rceil\\]\n\nHow many absorbent packs are required?",
+    "opts": [
+      "10 packs",
+      "8 packs",
+      "9 packs",
+      "7 packs"
+    ],
+    "correct": 1,
+    "explanation": "Packs = ceiling(410/55)=ceiling(7.45)=8."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Drain header accumulation: A shared emergency drain header receives two inflows while one pump removes liquid; the positive accumulation rate affects response time.\n\nThe first inflow is \\(7.8\\ \\mathrm{m^3/h}\\), the second inflow is \\(5.4\\ \\mathrm{m^3/h}\\), and pumpout is \\(9.6\\ \\mathrm{m^3/h}\\).\n\nUse this relationship: \\[Q_{\\mathrm{net}}=Q_{\\mathrm{in,1}}+Q_{\\mathrm{in,2}}-Q_{\\mathrm{pumpout}}\\]\n\nWhat net accumulation rate remains? Round to 0.1 m^3/h.",
+    "opts": [
+      "3.0 m^3/h",
+      "3.6 m^3/h",
+      "4.6 m^3/h",
+      "3.8 m^3/h"
+    ],
+    "correct": 1,
+    "explanation": "Net accumulation = 7.8+5.4−9.6 = 3.6 m^3/h."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Confined-space ventilation blower: A vessel-entry plan uses a high air-change target because residual vapors may remain after draining.\n\nThe vessel volume is \\(44\\ \\mathrm{m^3}\\), and the required ventilation rate is \\(12\\) air changes per hour.\n\nUse this relationship: \\[Q=\\dfrac{V\\times ACH}{60}\\]\n\nWhat blower flow is required? Round to 0.1 m^3/min.",
+    "opts": [
+      "7.4 m^3/min",
+      "8.2 m^3/min",
+      "9.5 m^3/min",
+      "8.8 m^3/min"
+    ],
+    "correct": 3,
+    "explanation": "Blower flow = 44×12/60 = 8.8 m^3/min."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Gas testing time: Confined-space entry requires multiple gas-test rounds at several sampling locations.\n\nThe plan uses \\(10\\) sample points, \\(4\\ \\mathrm{min}\\) per point, and \\(3\\) rounds before entry release.\n\nUse this relationship: \\[t_{\\mathrm{test,total}}=N_{\\mathrm{points}}t_{\\mathrm{point}}N_{\\mathrm{rounds}}\\]\n\nWhat testing time is required?",
+    "opts": [
+      "120 min",
+      "80 min",
+      "140 min",
+      "100 min"
+    ],
+    "correct": 0,
+    "explanation": "Testing time = 10×4×3 = 120 min."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Line-break residual inventory: A short isolated header section must be drained before line break, and the residual volume is estimated from pipe geometry.\n\nThe isolated pipe internal diameter is \\(0.12\\ \\mathrm{m}\\), and the isolated length is \\(18\\ \\mathrm{m}\\).\n\nUse this relationship: \\[V=\\pi\\left(\\dfrac{D}{2}\\right)^2L\\]\n\nWhat residual volume remains before drainage? Round to 0.001 m^3.",
+    "opts": [
+      "0.228 m^3",
+      "0.180 m^3",
+      "0.204 m^3",
+      "0.250 m^3"
+    ],
+    "correct": 2,
+    "explanation": "Residual volume = π(0.12/2)^2×18 = 0.204 m^3."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Emergency staging area: Spill response, ventilation, rescue, and clear-path equipment must be staged beside a hazardous vessel entry point.\n\nThe spill-kit area is \\(1.5\\ \\mathrm{m^2}\\), portable ventilation area is \\(1.7\\ \\mathrm{m^2}\\), tripod area is \\(2.8\\ \\mathrm{m^2}\\), and clear-path allowance is \\(1.2\\ \\mathrm{m^2}\\).\n\nUse this relationship: \\[A_{\\mathrm{stage}}=A_{\\mathrm{spill\\,kit}}+A_{\\mathrm{portable\\,ventilation}}+A_{\\mathrm{tripod}}+A_{\\mathrm{clear\\,path}}\\]\n\nWhat staging area is needed? Round to 0.1 m^2.",
+    "opts": [
+      "6.9 m^2",
+      "7.8 m^2",
+      "7.2 m^2",
+      "6.4 m^2"
+    ],
+    "correct": 2,
+    "explanation": "Staging area = 1.5+1.7+2.8+1.2 = 7.2 m^2."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Mobile-equipment no-build route: A maintenance forklift route is reserved between process areas so turnarounds do not require dismantling pipe supports.\n\nThe route length is \\(22\\ \\mathrm{m}\\), and the route width is \\(3.4\\ \\mathrm{m}\\).\n\nUse this relationship: \\[A_{\\mathrm{route}}=L_{\\mathrm{route}}W_{\\mathrm{route}}\\]\n\nWhat no-build area is reserved? Round to whole m^2.",
+    "opts": [
+      "75 m^2",
+      "72 m^2",
+      "68 m^2",
+      "82 m^2"
+    ],
+    "correct": 0,
+    "explanation": "No-build area = 22×3.4 = 74.8 m^2, rounded to 75 m^2."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "Temporary fall-arrest anchor rating: A maintenance anchor is screened from worker mass, tools, and a design factor.\n\nThe worker mass is \\(115\\ \\mathrm{kg}\\), tool mass is \\(18\\ \\mathrm{kg}\\), and the design factor is \\(2.0\\).\n\nUse this relationship: \\[R_{\\min}=\\left(m_{\\mathrm{worker}}+m_{\\mathrm{tools}}\\right)F_{\\mathrm{design}}\\]\n\nWhat minimum rating is calculated? Round to whole kgf.",
+    "opts": [
+      "280 kgf",
+      "250 kgf",
+      "266 kgf",
+      "240 kgf"
+    ],
+    "correct": 2,
+    "explanation": "Minimum rating = (115+18)×2.0 = 266 kgf."
+  },
+  {
+    "section": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "q": "High-pressure flush wastewater: Equipment cleaning produces washwater that must be routed to a drain system with enough collection capacity.\n\nThe flush flow is \\(150\\ \\mathrm{L/min}\\), and the planned flush duration is \\(22\\ \\mathrm{min}\\).\n\nUse this relationship: \\[V_{\\mathrm{flush}}=\\dfrac{Qt}{1000}\\]\n\nWhat volume must the drain route handle? Round to 0.01 m^3.",
+    "opts": [
+      "3.60 m^3",
+      "3.15 m^3",
+      "3.30 m^3",
+      "2.85 m^3"
+    ],
+    "correct": 2,
+    "explanation": "Flush volume = 150×22/1,000 = 3.30 m^3."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "30% FEED access reservation: Before civil layout freeze, the project reserves a mobile maintenance corridor through the future plant expansion edge.\n\nThe corridor length is \\(48\\ \\mathrm{m}\\), and the corridor width is \\(3.2\\ \\mathrm{m}\\).\n\nUse this relationship: \\[A_{\\mathrm{corridor}}=LW\\]\n\nWhat plot area is reserved? Round to whole m^2.",
+    "opts": [
+      "144 m^2",
+      "150 m^2",
+      "154 m^2",
+      "160 m^2"
+    ],
+    "correct": 2,
+    "explanation": "Reserved area = 48×3.2 = 153.6 m^2, rounded to 154 m^2."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "60% model-review workload: The maintainability review team needs a schedule duration for a model-review list before the next gate meeting.\n\nThe list contains \\(214\\) DFM items, and the review team can complete \\(26\\) items/day.\n\nUse this relationship: \\[d_{\\mathrm{review}}=\\left\\lceil\\dfrac{N_{\\mathrm{items}}}{r_{\\mathrm{items/day}}}\\right\\rceil\\]\n\nHow many review days are required?",
+    "opts": [
+      "10 days",
+      "8 days",
+      "11 days",
+      "9 days"
+    ],
+    "correct": 3,
+    "explanation": "Review duration = ceiling(214/26)=ceiling(8.23)=9 days."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Vendor envelope data completeness: RFQ readiness depends on whether vendor maintenance-envelope information has been received for tagged equipment.\n\nThe vendor data log shows \\(53\\) received maintenance-envelope packages out of \\(68\\) required packages.\n\nUse this relationship: \\[\\mathrm{Completeness}\\%=\\dfrac{N_{\\mathrm{received}}}{N_{\\mathrm{required}}}\\times100\\]\n\nWhat completeness percentage is achieved? Round to 1 decimal place.",
+    "opts": [
+      "75.0 %",
+      "80.9 %",
+      "77.9 %",
+      "82.4 %"
+    ],
+    "correct": 2,
+    "explanation": "Completeness = 53/68×100 = 77.9 %."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "HOLD closure forecast: A 90% FEED meeting leaves maintainability HOLD items open, and the project manager needs a realistic closure duration.\n\nThere are \\(43\\) open HOLD items, and the team can close \\(7\\) items/day.\n\nUse this relationship: \\[d_{\\mathrm{closure}}=\\left\\lceil\\dfrac{N_{\\mathrm{open\\,HOLD}}}{r_{\\mathrm{closure/day}}}\\right\\rceil\\]\n\nHow many days are required to close the HOLD list?",
+    "opts": [
+      "7 days",
+      "6 days",
+      "8 days",
+      "5 days"
+    ],
+    "correct": 0,
+    "explanation": "Closure duration = ceiling(43/7)=ceiling(6.14)=7 days."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Missing vendor-data rate: The RFQ package is screened for missing maintenance envelope information before purchasing freezes the equipment geometry.\n\nThe package has \\(11\\) missing envelopes out of \\(72\\) total vendor-data items.\n\nUse this relationship: \\[\\mathrm{Missing\\ rate}\\%=\\dfrac{N_{\\mathrm{missing}}}{N_{\\mathrm{total}}}\\times100\\]\n\nWhat missing rate should be reported? Round to 1 decimal place.",
+    "opts": [
+      "16.0 %",
+      "18.5 %",
+      "13.2 %",
+      "15.3 %"
+    ],
+    "correct": 3,
+    "explanation": "Missing rate = 11/72×100 = 15.3 %."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Commercial equipment weight scale-up: A pilot drive was hand-movable, but the commercial drive weight is estimated using a scale-up exponent for lifting review.\n\nThe pilot component weight is \\(72\\ \\mathrm{kg}\\), and the equipment scale factor is \\(26\\). Use the exponent \\(0.67\\).\n\nUse this relationship: \\[W_{\\mathrm{commercial}}=W_{\\mathrm{pilot}}SF^{0.67}\\]\n\nWhat estimated commercial weight results? Round to whole kg.",
+    "opts": [
+      "580 kg",
+      "690 kg",
+      "620 kg",
+      "639 kg"
+    ],
+    "correct": 3,
+    "explanation": "Estimated weight = 72×26^0.67 = 639 kg."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Drain capacity scale-up ratio: A commercial drain header is compared with a pilot drain, using diameter-squared capacity screening.\n\nThe pilot drain internal diameter is \\(0.060\\ \\mathrm{m}\\), and the commercial drain internal diameter is \\(0.125\\ \\mathrm{m}\\).\n\nUse this relationship: \\[R_{\\mathrm{capacity}}=\\left(\\dfrac{D_{\\mathrm{commercial}}}{D_{\\mathrm{pilot}}}\\right)^2\\]\n\nWhat capacity ratio is expected? Round to 1 decimal.",
+    "opts": [
+      "3.8 ×",
+      "4.3 ×",
+      "4.0 ×",
+      "4.8 ×"
+    ],
+    "correct": 1,
+    "explanation": "Capacity ratio = (0.125/0.060)^2 = 4.3×."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Annual maintenance-hour forecast: The FEED team sums annual labor by task category to understand whether planned access and manpower assumptions are credible.\n\nThe task list includes pump checks \\(30\\times1.2\\ \\mathrm{h}\\times6\\), filter service \\(9\\times5.5\\ \\mathrm{h}\\times3\\), and vessel inspections \\(6\\times9\\ \\mathrm{h}\\times1\\).\n\nUse this relationship: \\[H_{\\mathrm{annual}}=\\sum\\left(N_i h_i n_i\\right)\\]\n\nWhat annual labor is required? Round to whole h/year.",
+    "opts": [
+      "419 h/year",
+      "432 h/year",
+      "408 h/year",
+      "380 h/year"
+    ],
+    "correct": 0,
+    "explanation": "Annual hours = 30×1.2×6 + 9×5.5×3 + 6×9×1 = 418.5 h/year, rounded to 419 h/year."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Availability-driven MTTR target: A critical package has an availability target, and maintainability design must limit repair duration.\n\nThe expected MTBF is \\(950\\ \\mathrm{h}\\), and the target availability is \\(0.975\\).\n\nUse this relationship: \\[MTTR=MTBF\\left(\\dfrac{1}{A}-1\\right)\\]\n\nWhat maximum MTTR is allowed? Round to 0.1 h.",
+    "opts": [
+      "20.6 h",
+      "24.4 h",
+      "26.0 h",
+      "23.1 h"
+    ],
+    "correct": 1,
+    "explanation": "MTTR = 950×(1/0.975−1) = 24.4 h."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "90% FEED DFM scorecard: The project combines discipline readiness scores to decide whether maintainability can proceed to final closeout.\n\nThe access score is \\(78\\), isolation score is \\(88\\), lifting score is \\(73\\), emergency-response score is \\(84\\), with weights \\(0.32\\), \\(0.28\\), \\(0.22\\), and \\(0.18\\).\n\nUse this relationship: \\[S=0.32A_{\\mathrm{access}}+0.28I_{\\mathrm{isolation}}+0.22L_{\\mathrm{lifting}}+0.18E_{\\mathrm{emergency}}\\]\n\nWhat weighted DFM score results? Round to 0.1 points.",
+    "opts": [
+      "80.2 points",
+      "78.8 points",
+      "82.6 points",
+      "80.8 points"
+    ],
+    "correct": 3,
+    "explanation": "Score = 0.32×78+0.28×88+0.22×73+0.18×84 = 80.8 points."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Late detail-growth corridor check: A corridor looked acceptable at FEED, but detail growth from cladding, vendor changes, and an added projection reduces the actual clear width.\n\nThe FEED corridor is \\(1.95\\ \\mathrm{m}\\). Cladding consumes \\(0.15\\ \\mathrm{m}\\), vendor growth consumes \\(0.18\\ \\mathrm{m}\\), and an added projection consumes \\(0.24\\ \\mathrm{m}\\).\n\nUse this relationship: \\[C_{\\mathrm{remaining}}=C_{\\mathrm{FEED}}-C_{\\mathrm{cladding}}-C_{\\mathrm{vendor\\,growth}}-P_{\\mathrm{added}}\\]\n\nWhat clear corridor remains? Round to 0.01 m.",
+    "opts": [
+      "1.38 m",
+      "1.55 m",
+      "1.42 m",
+      "1.28 m"
+    ],
+    "correct": 0,
+    "explanation": "Remaining corridor = 1.95−0.15−0.18−0.24 = 1.38 m."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Maintainability clash closure: The model-clash log is reviewed to decide whether access-envelope conflicts can be closed before RFQ issue.\n\nThe DFM clash log has \\(44\\) closed clashes out of \\(52\\) total clashes.\n\nUse this relationship: \\[\\mathrm{Closure}\\%=\\dfrac{N_{\\mathrm{closed\\,clashes}}}{N_{\\mathrm{total\\,clashes}}}\\times100\\]\n\nWhat closure percentage is achieved? Round to 1 decimal place.",
+    "opts": [
+      "88.5 %",
+      "80.8 %",
+      "84.6 %",
+      "84.0 %"
+    ],
+    "correct": 2,
+    "explanation": "Closure = 44/52×100 = 84.6 %."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "No-build volume takeoff: Vendor pull-out and lifting envelopes are aggregated so the BIM coordinator can preserve no-build volumes in the model.\n\nThere are \\(18\\) reserved maintenance envelopes, with an average no-build volume of \\(22.4\\ \\mathrm{m^3}\\) each.\n\nUse this relationship: \\[V_{\\mathrm{reserved,total}}=N_{\\mathrm{envelopes}}\\overline{V}_{\\mathrm{envelope}}\\]\n\nWhat total no-build volume is reserved? Round to 1 decimal m^3.",
+    "opts": [
+      "418.0 m^3",
+      "403.2 m^3",
+      "392.5 m^3",
+      "380.8 m^3"
+    ],
+    "correct": 1,
+    "explanation": "Total no-build volume = 18×22.4 = 403.2 m^3."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "O&M comment density: The project tracks comment density to understand whether the design is converging or whether maintainability problems are still widespread.\n\nThe O&M review generated \\(92\\) comments across \\(230\\) reviewed items.\n\nUse this relationship: \\[D_{\\mathrm{comments}}=\\dfrac{N_{\\mathrm{OM\\,comments}}}{N_{\\mathrm{reviewed\\,items}}}\\]\n\nWhat comment density results? Round to 2 decimals.",
+    "opts": [
+      "0.45 comments/item",
+      "0.52 comments/item",
+      "0.32 comments/item",
+      "0.40 comments/item"
+    ],
+    "correct": 3,
+    "explanation": "Comment density = 92/230 = 0.40 comments/item."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "IFC inspection planning: The asset-register inspection plan spreads tags evenly through the year so access and labor assumptions can be checked.\n\nThe inspection register contains \\(168\\) tags, and planning distributes them evenly over \\(12\\) months.\n\nUse this relationship: \\[N_{\\mathrm{tags/month}}=\\dfrac{N_{\\mathrm{inspection\\,tags}}}{12}\\]\n\nHow many tags are planned per month?",
+    "opts": [
+      "14 tags/month",
+      "16 tags/month",
+      "13 tags/month",
+      "12 tags/month"
+    ],
+    "correct": 0,
+    "explanation": "Tags per month = 168/12 = 14."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Critical spare storage volume: Spare motors, seals, and filter elements need storage volume that is visible in the maintenance and warehouse plan.\n\nThe critical spares list includes motors \\(5\\times1.0\\ \\mathrm{m^3}\\), seals \\(8\\times0.42\\ \\mathrm{m^3}\\), and cartridges \\(15\\times0.11\\ \\mathrm{m^3}\\).\n\nUse this relationship: \\[V_{\\mathrm{total}}=\\sum q_iV_i\\]\n\nWhat storage volume is required? Round to 0.1 m^3.",
+    "opts": [
+      "10.0 m^3",
+      "9.8 m^3",
+      "9.4 m^3",
+      "10.6 m^3"
+    ],
+    "correct": 0,
+    "explanation": "Storage volume = 5×1.0 + 8×0.42 + 15×0.11 = 10.0 m^3."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Shutdown crew size estimate: The turnaround plan converts total maintenance labor into crew size for a fixed shutdown window.\n\nThe total labor is \\(216\\ \\mathrm{h}\\), each person works \\(12\\ \\mathrm{h/day}\\), and the shutdown window is \\(3\\) days.\n\nUse this relationship: \\[N_{\\mathrm{crew}}=\\left\\lceil\\dfrac{H_{\\mathrm{labor,total}}}{t_{\\mathrm{shift}}d_{\\mathrm{shutdown}}}\\right\\rceil\\]\n\nWhat crew size is required?",
+    "opts": [
+      "5 people",
+      "7 people",
+      "6 people",
+      "8 people"
+    ],
+    "correct": 2,
+    "explanation": "Crew size = ceiling(216/(12×3))=ceiling(6)=6 people."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Schedule float after maintainability rework: A late DFM rework package consumes schedule float before the final model review.\n\nThe original float is \\(15\\) days, maintainability rework takes \\(8\\) days, and the follow-up review takes \\(4\\) days.\n\nUse this relationship: \\[F_{\\mathrm{remaining}}=F_{\\mathrm{original}}-d_{\\mathrm{rework}}-d_{\\mathrm{review}}\\]\n\nHow much float remains?",
+    "opts": [
+      "4 days",
+      "3 days",
+      "2 days",
+      "5 days"
+    ],
+    "correct": 1,
+    "explanation": "Remaining float = 15−8−4 = 3 days."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Pilot-to-commercial residual volume ratio: The line-break volume from pilot equipment is compared with a larger commercial header to show why drain and isolation design must change.\n\nThe pilot line has \\(D_1=0.05\\ \\mathrm{m}\\) and \\(L_1=8\\ \\mathrm{m}\\). The commercial line has \\(D_2=0.12\\ \\mathrm{m}\\) and \\(L_2=24\\ \\mathrm{m}\\).\n\nUse this relationship: \\[R_V=\\dfrac{\\pi\\left(D_2/2\\right)^2L_2}{\\pi\\left(D_1/2\\right)^2L_1}\\]\n\nWhat residual volume ratio results? Round to 1 decimal.",
+    "opts": [
+      "16.8 ×",
+      "19.2 ×",
+      "14.4 ×",
+      "17.3 ×"
+    ],
+    "correct": 3,
+    "explanation": "Ratio = (0.12/0.05)^2×(24/8)=5.76×3 = 17.3×."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Platform steel takeoff: Maintenance platforms are estimated for FEED quantities across large, medium, and small platform classes.\n\nThe takeoff includes large platforms \\(4\\times9.0\\ \\mathrm{m^2}\\), medium platforms \\(3\\times5.8\\ \\mathrm{m^2}\\), and small platforms \\(5\\times3.2\\ \\mathrm{m^2}\\).\n\nUse this relationship: \\[A_{\\mathrm{platform,total}}=\\sum N_iA_i\\]\n\nWhat total platform area is required? Round to 0.1 m^2.",
+    "opts": [
+      "72.2 m^2",
+      "68.0 m^2",
+      "65.4 m^2",
+      "69.4 m^2"
+    ],
+    "correct": 3,
+    "explanation": "Platform area = 4×9.0 + 3×5.8 + 5×3.2 = 69.4 m^2."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Lost-production cost from access issue: A maintainability problem adds downtime during an outage, and the project quantifies the production-cost impact.\n\nThe added downtime is \\(22\\ \\mathrm{h}\\), and the lost production value is \\(\\$14{,}800/\\mathrm{h}\\).\n\nUse this relationship: \\[C_{\\mathrm{lost}}=t_{\\mathrm{downtime}}V_{\\mathrm{hour}}\\]\n\nWhat lost production cost is estimated?",
+    "opts": [
+      "281,600 $",
+      "350,400 $",
+      "325,600 $",
+      "310,800 $"
+    ],
+    "correct": 2,
+    "explanation": "Lost production cost = 22×14,800 = $325,600."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "P&ID maintainability tag count: The P&ID review counts maintainability tags for process lines so drain, vent, blind, and flush connections are not missed.\n\nThere are \\(32\\) maintainable lines. Each line needs \\(1\\) drain, \\(1\\) vent, \\(2\\) blind points, and \\(1\\) flush point.\n\nUse this relationship: \\[N_{\\mathrm{tags}}=N_{\\mathrm{lines}}\\left(N_{\\mathrm{drains}}+N_{\\mathrm{vents}}+N_{\\mathrm{blind\\,points}}+N_{\\mathrm{flush}}\\right)\\]\n\nHow many tags are required?",
+    "opts": [
+      "160 tags",
+      "128 tags",
+      "176 tags",
+      "144 tags"
+    ],
+    "correct": 0,
+    "explanation": "Tags = 32×(1+1+2+1)=160."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Vendor document review progress: The RFQ closeout dashboard reports progress on vendor document reviews tied to maintenance envelopes.\n\nThe team has reviewed \\(79\\) documents out of \\(92\\) total documents.\n\nUse this relationship: \\[\\mathrm{Review\\ progress}\\%=\\dfrac{N_{\\mathrm{reviewed\\,docs}}}{N_{\\mathrm{total\\,docs}}}\\times100\\]\n\nWhat progress percentage is achieved? Round to 1 decimal place.",
+    "opts": [
+      "85.9 %",
+      "87.2 %",
+      "90.1 %",
+      "82.9 %"
+    ],
+    "correct": 0,
+    "explanation": "Review progress = 79/92×100 = 85.9 %."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Final readiness score: The maintainability sign-off combines general closure, critical HOLD closure, and O&M acceptance into a weighted readiness score.\n\nThe general closure score is \\(94\\%\\), critical HOLD closure is \\(96\\%\\), and O&M acceptance is \\(90\\%\\). The weights are \\(0.45\\), \\(0.35\\), and \\(0.20\\).\n\nUse this relationship: \\[R_{\\mathrm{readiness}}=0.45C_{\\mathrm{general}}+0.35C_{\\mathrm{critical\\,HOLD}}+0.20A_{\\mathrm{OM}}\\]\n\nWhat readiness score results? Round to 1 decimal.",
+    "opts": [
+      "95.4 %",
+      "92.8 %",
+      "93.5 %",
+      "93.9 %"
+    ],
+    "correct": 3,
+    "explanation": "Readiness = 0.45×94 + 0.35×96 + 0.20×90 = 93.9 %."
+  },
+  {
+    "section": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "q": "Punch-list burn-down forecast: The final maintainability punch list is forecast over the next month to decide whether additional workshop time is needed.\n\nThe open item count is \\(68\\), the closure rate is \\(14\\) items/week, and the forecast period is \\(4\\) weeks.\n\nUse this relationship: \\[N_{\\mathrm{remaining}}=N_{\\mathrm{open}}-r_{\\mathrm{closure/week}}w\\]\n\nHow many items remain after the forecast period?",
+    "opts": [
+      "8 items",
+      "10 items",
+      "12 items",
+      "14 items"
+    ],
+    "correct": 2,
+    "explanation": "Remaining items = 68−14×4 = 12 items."
+  }
+];
+const SECTIONS  = [
+  {
+    "key": "Design Basis, Hazards & Scale-Up Screening Calculations",
+    "label": "I - Design Basis, Hazards & Scale-Up Screening Calculations",
+    "cls": "sec-conduction",
+    "range": "Questions 1-25"
+  },
+  {
+    "key": "Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "label": "II - Plot Plan, Tank Spacing & Secondary Containment Calculations",
+    "cls": "sec-convection",
+    "range": "Questions 26-50"
+  },
+  {
+    "key": "Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "label": "III - Static Equipment, Vessel & Package Maintenance Envelope Calculations",
+    "cls": "sec-radiation",
+    "range": "Questions 51-75"
+  },
+  {
+    "key": "Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "label": "IV - Rotating Equipment, Piping, Utilities & Electrical Clearance Calculations",
+    "cls": "sec-hx",
+    "range": "Questions 76-100"
+  },
+  {
+    "key": "Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "label": "V - Isolation, Drainage, Lifting & Emergency Response Calculations",
+    "cls": "sec-boiling",
+    "range": "Questions 101-125"
+  },
+  {
+    "key": "FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "label": "VI - FEED Review, HOLD Closure & Scale-Up Pitfall Calculations",
+    "cls": "sec-applications",
+    "range": "Questions 126-150"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+const TOTAL_Q = QUESTIONS.length;
+
+let mode = 'guided', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 4*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function formatText(s){ return escapeHtml(s).replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>'); }
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+
+function typesetMath(){
+  const nodes=[document.getElementById('exam'),document.getElementById('results')].filter(Boolean);
+  if(window.MathJax && MathJax.typesetPromise){
+    try{ if(MathJax.typesetClear) MathJax.typesetClear(nodes); }catch(e){}
+    MathJax.typesetPromise(nodes).catch(function(err){ console.warn('MathJax typeset failed:', err); });
+  }
+}
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='04:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+formatText(q.q)+'</div>'
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+  typesetMath();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+  typesetMath();
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/'+TOTAL_Q;
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/'+TOTAL_Q;
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  // Design for Maintenance calculation readiness benchmarks
+  if(pct>=0.90){ grade='Design for Maintenance - Distinction'; blurb='Outstanding command of maintenance basis, plot-plan clearances, equipment access envelopes, isolation philosophy, lifting and rigging logic, and FEED-stage maintainability review discipline.'; }
+  else if(pct>=0.80){ grade='Design for Maintenance - Solid Pass'; blurb='Strong performance across most DFM domains. Review missed items to sharpen clearance numbers, isolation matrices, lifting and pull-out logic, and HOLD-closure expectations.'; }
+  else if(pct>=0.70){ grade='Design for Maintenance - Borderline'; blurb='Good foundation with targeted review needed, especially on plot-plan corridors, drainage and isolation, manway and bundle-pull envelopes, and 30/60/90 FEED checkpoints.'; }
+  else if(pct>=0.60){ grade='Approaching Pass Threshold'; blurb='Below a typical pass range. Rework spacing tables, equipment-specific maintainability rules, isolation and drainage matrices, lifting plans, and HOLD-item discipline.'; }
+  else if(pct>=0.45){ grade='Developing DFM Practitioner'; blurb='Core ideas are forming, but important gaps remain. Rebuild from the maintenance basis, plot-plan clearances, equipment access envelopes, isolation philosophy, and scale-up failure modes.'; }
+  else { grade='Begin the Design for Maintenance Journey'; blurb='Start with maintainability fundamentals: maintenance basis, plot-plan and spacing rules, equipment access envelopes, isolation and drainage, lifting plans, and FEED-stage review gates.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+  typesetMath();
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one calculation case at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 150 calculation cases on one page. Each answer reveals the worked explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one calculation case at a time. 4-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Certificate name</label>
+    <input id="chmlCertNameInput" type="text" maxlength="80" placeholder="Enter name for certificate" oninput="chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" type="button" onclick="chmlPrintCertificate()">Print / Save as PDF</button>
+    <button class="chml-cert-btn secondary" type="button" onclick="chmlHideCertificate()">Hide Certificate</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div><div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker"><span id="chmlCertExamKicker">Knowledge Hub Examination</span></div>
+      <h1 class="chml-cert-h1">Certificate of Completion</h1>
+      <div class="chml-cert-rule"></div>
+      <p class="chml-cert-pre">This certifies that</p>
+      <p class="chml-cert-name" id="chmlCertName">Learner</p>
+      <p class="chml-cert-body">has successfully completed the <b id="chmlCertExamName">Knowledge Hub Exam</b>.</p>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">0 / 0</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">-</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Quak Foo Lee</div><div class="chml-cert-sig-label">Chmltech Ltd.</div></div>
+        <div class="chml-cert-id">Certificate ID: <span id="chmlCertId">-</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertificateInstalled) return;
+  window.__chmlCertificateInstalled = true;
+  function textOf(sel){var el=document.querySelector(sel);return el?el.textContent.trim():'';}
+  function examTitle(){return textOf('h1.title')||textOf('header h1')||textOf('h1')||document.title.replace(/\s+/g,' ').trim()||'Knowledge Hub Exam';}
+  function parseFirstNumber(txt){var m=String(txt||'').match(/\d+/);return m?parseInt(m[0],10):null;}
+  function parseScoreTotal(){
+    var correct=parseFirstNumber(textOf('#rScore'));
+    var total=null;
+    var rt=textOf('#rTotal');
+    if(rt) total=parseFirstNumber(rt);
+    if(!total){var sb=textOf('.score-big');var m=sb.match(/\/\s*(\d+)/);if(m) total=parseInt(m[1],10);}
+    if(!total) total=parseFirstNumber(textOf('#progTotal'));
+    if(!total){var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;if(cards) total=cards;}
+    if(!correct && correct!==0) correct=parseFirstNumber(textOf('#scoreNum'));
+    return {correct:correct||0,total:total||0};
+  }
+  function totalFromBreakdown(byType){
+    if(!byType || typeof byType!=='object') return null;
+    var total=0, found=false;
+    Object.keys(byType).forEach(function(k){var v=byType[k];if(v&&typeof v==='object'){var n=v.t||v.total||v.count;if(typeof n==='number'){total+=n;found=true;}}});
+    return found?total:null;
+  }
+  function hashCode(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+  window.chmlUpdateCertificateName=function(name){document.getElementById('chmlCertName').textContent=(name||'').trim()||'Learner';};
+  window.chmlHideCertificate=function(){var c=document.getElementById('chmlCertificate');if(c)c.classList.remove('show');};
+  window.chmlPrintCertificate=function(){window.print();};
+  window.chmlRenderCertificate=function(correct,total,grade){
+    var cert=document.getElementById('chmlCertificate');if(!cert)return;
+    var title=examTitle();
+    var nameInput=document.getElementById('chmlCertNameInput');
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
+    var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
+    document.getElementById('chmlCertExamName').textContent=title;
+    document.getElementById('chmlCertName').textContent=learner;
+    document.getElementById('chmlCertScore').textContent=String(correct)+' / '+String(total||0)+(total?(' ('+Math.round((correct/total)*100)+'%)'):'');
+    document.getElementById('chmlCertDate').textContent=date;
+    document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
+    cert.classList.add('show');
+  };
+
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
+    var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){
+      var parsed=parseScoreTotal();
+      if(correct===null || isNaN(correct)) correct=parsed.correct;
+      if(!total) total=parsed.total;
+      if(total || correct || document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0);
+    },60);
+  }
+  if(typeof window.showResults==='function'){
+    var originalShowResults=window.showResults;
+    window.showResults=function(){var out=originalShowResults.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  if(typeof window.submitExam==='function'){
+    var originalSubmitExam=window.submitExam;
+    window.submitExam=function(){var out=originalSubmitExam.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  ['resetExam','newExam'].forEach(function(fn){
+    if(typeof window[fn]==='function'){
+      var original=window[fn];
+      window[fn]=function(){window.chmlHideCertificate();return original.apply(this,arguments);};
+    }
+  });
+})();
+</script>
+
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>

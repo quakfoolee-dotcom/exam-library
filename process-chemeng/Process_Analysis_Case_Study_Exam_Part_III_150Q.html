@@ -1,0 +1,2537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Process Analysis Case Study Exam Part III · Advanced 150Q Exam</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  --conduction:#6b2d2d;
+  --convection:#0e5f73;
+  --radiation:#7a5b12;
+  --hx:#264c86;
+  --boiling:#5e2a7e;
+  --applications:#26633a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+  --muted:#5a5246;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(114,47,55,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 22px}
+header.masthead,.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px;background:transparent;box-shadow:none;border-radius:0;overflow:visible;position:relative}
+.masthead::after{content:none!important}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px;font-weight:700}
+h1.title,.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.6rem);line-height:.98;letter-spacing:-.02em;margin:0 0 10px;max-width:none}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin:0 auto 22px;max-width:850px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4);margin:0 auto;position:relative;z-index:1}
+.exambar span{font-family:inherit;font-size:inherit;background:transparent;border:none;border-radius:0;padding:0;color:inherit}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px auto 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;background:rgba(255,255,255,.45)}
+button{font:inherit}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s;box-shadow:none;border-radius:0}
+.modebar button:hover{background:rgba(23,26,35,.07);transform:none;box-shadow:none}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin:0 0 8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border:none;border-bottom:1px solid var(--line);border-radius:0;display:flex;align-items:center;gap:18px;flex-wrap:wrap;box-shadow:none}
+.hud .bar-track,.bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill,.bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--conduction),var(--convection),var(--radiation),var(--hx),var(--boiling),var(--applications));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat,.stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap;color:#332b1e}
+.hud .stat b,.stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct,.sc-correct{color:var(--green)}
+.hud .stat.timer b,.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b,.timer.warn b{color:#b8341a}
+.hud .stat.timer.critical b,.timer.critical b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-divider{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-divider h2{font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;line-height:1.2;letter-spacing:.01em;margin:0;color:#fff}
+.section-divider span{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap;opacity:1;color:#fff}
+.section-divider.sec-foundations{background:linear-gradient(100deg,var(--conduction),#4d1f23)}
+.section-divider.sec-materials{background:linear-gradient(100deg,var(--convection),#06403f)}
+.section-divider.sec-utilities{background:linear-gradient(100deg,var(--radiation),#5f3406)}
+.section-divider.sec-labor{background:linear-gradient(100deg,var(--hx),#0c2349)}
+.section-divider.sec-waste{background:linear-gradient(100deg,var(--boiling),#311148)}
+.section-divider.sec-finance{background:linear-gradient(100deg,var(--applications),#0e3d18)}
+.qcard{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:0;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s;overflow:hidden}
+.qcard:hover{box-shadow:0 4px 18px var(--shadow)}
+.qcard .accent{height:5px;background:var(--gold)}
+.qcard.sec-foundations .accent,.qcard.sec-foundations .badge{background:var(--conduction)}
+.qcard.sec-materials .accent,.qcard.sec-materials .badge{background:var(--convection)}
+.qcard.sec-utilities .accent,.qcard.sec-utilities .badge{background:var(--radiation)}
+.qcard.sec-labor .accent,.qcard.sec-labor .badge{background:var(--hx)}
+.qcard.sec-waste .accent,.qcard.sec-waste .badge{background:var(--boiling)}
+.qcard.sec-finance .accent,.qcard.sec-finance .badge{background:var(--applications)}
+.qinner{padding:24px 26px 20px}
+.qhead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px;flex-wrap:wrap;color:#7a705c;font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase}
+.badge{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff;line-height:1.5;border:none;display:inline-flex;align-items:center;gap:6px}
+.qtext{font-family:'Newsreader',Georgia,serif;font-size:1.06rem;line-height:1.62;margin:0 0 18px;font-weight:500;letter-spacing:0;color:var(--ink)}
+.options{display:flex;flex-direction:column;gap:9px}
+.option{width:100%;display:flex;align-items:flex-start;gap:13px;padding:12px 14px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.55);transition:all .18s ease;position:relative;color:var(--ink);text-align:left;box-shadow:none;font-family:'Newsreader',Georgia,serif}
+.option:hover:not(:disabled){border-color:var(--gold);background:rgba(139,101,38,.08);transform:translateX(2px);box-shadow:none}
+.option:disabled{cursor:default;pointer-events:none;opacity:1;transform:none;box-shadow:none}
+.letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);background:transparent;color:var(--gold-deep);transition:all .18s;margin-top:1px}
+.option span:not(.letter){flex:1;font-size:1rem;line-height:1.55;word-break:break-word;padding-top:2px}
+.option.selected{border-color:var(--gold-deep);background:rgba(139,101,38,.12)}
+.option.selected .letter{background:var(--gold-deep);color:#fff}
+.option.correct{border-color:var(--green);background:var(--green-soft)}
+.option.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.option.wrong{border-color:var(--red);background:var(--red-soft)}
+.option.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.feedback{margin-top:16px;padding:15px 18px;border:none;border-left:3px solid var(--gold);border-radius:0 3px 3px 0;background:rgba(139,101,38,.06)}
+.feedback strong{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);display:block;margin-bottom:7px}
+.feedback p{font-size:1rem;line-height:1.62;color:#332e23;margin:0}
+.actions{display:flex;gap:14px;justify-content:center;align-items:center;flex-wrap:wrap;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line)}
+.actions .note{flex-basis:100%;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase;font-style:normal}
+.actions button,.modal-card button,.cert-actions button{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border-radius:3px;cursor:pointer;transition:all .2s;background:transparent;color:var(--ink);border:1.5px solid var(--ink);box-shadow:none}
+.actions button:hover,.modal-card button:hover,.cert-actions button:hover{background:var(--ink);color:var(--paper);transform:none;box-shadow:none}
+.actions button.primary,.modal-card button.primary,.cert-actions button.primary{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.actions button.primary:hover,.modal-card button.primary:hover,.cert-actions button.primary:hover{background:var(--gold-deep);border-color:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.actions button:disabled,.modal-card button:disabled,.cert-actions button:disabled{background:#928a76;color:#e3ddc9;border-color:#928a76;cursor:not-allowed;transform:none;box-shadow:none;opacity:1}
+.pill{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.06em;border:1px solid var(--line);border-radius:99px;padding:7px 10px;background:rgba(255,255,255,.55);color:#4c443a}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results h2{font-family:'Fraunces',serif;font-weight:900;font-size:3rem;line-height:1;margin:0 0 12px;letter-spacing:-.02em;color:var(--ink)}
+.results p{font-size:1.05rem;color:#3e382c;max-width:680px;margin:0 auto 18px;line-height:1.62}
+.timeout{display:none;max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.scoreline{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:18px 0 24px}
+.scoreline .pill{min-width:150px;border-radius:4px;padding:10px 16px;background:rgba(255,255,255,.55)}
+.breakdown{width:100%;border-collapse:collapse;margin:0 auto 26px;background:rgba(255,255,255,.45);border:1px solid var(--line);font-size:.95rem;text-align:left}
+.breakdown th,.breakdown td{border-bottom:1px solid var(--line);padding:10px 12px;vertical-align:top}
+.breakdown th{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-deep);background:rgba(139,101,38,.08)}
+.breakdown td:nth-child(3),.breakdown td:nth-child(4){font-family:'JetBrains Mono',monospace;white-space:nowrap;text-align:center}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.modal-backdrop{display:none;position:fixed;inset:0;z-index:80;align-items:center;justify-content:center;padding:18px;background:rgba(28,26,23,.55);backdrop-filter:blur(2px)}
+.modal-card{width:min(520px,100%);background:#f4efe6;color:#1c1a17;padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25)}
+.modal-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;color:#1c1a17;letter-spacing:0}
+.modal-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;font-size:1rem}
+.modal-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;margin:0 0 16px;font-family:Arial,sans-serif}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap}
+.certificate{display:none;margin:26px auto 0;max-width:860px;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);border:3px double #1c1a17;border-radius:2px;box-shadow:0 14px 40px rgba(40,32,18,.18);text-align:center;color:#1c1a17}
+.certificate .cert-title{font-family:Georgia,serif;font-weight:700;font-size:2.3rem;color:#1c1a17;margin:0 0 8px;letter-spacing:0}
+.certificate p{font-family:Georgia,serif;color:#1c1a17;margin:6px auto;font-size:1.08rem;line-height:1.55}
+.certificate .cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.1rem;color:#1c1a17;margin:10px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px}
+.certificate .cert-meta{display:flex;justify-content:center;gap:16px;margin:22px 0 28px;flex-wrap:wrap}
+.certificate .cert-meta div{border:1px solid var(--line);border-radius:4px;padding:10px 16px;background:rgba(255,255,255,.55);min-width:150px;text-align:center}
+.certificate .cert-meta b{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px}
+.certificate .cert-meta span{font-family:Georgia,serif;font-weight:700;font-size:1.15rem;color:#1c1a17}
+.signature{margin:30px auto 0;display:inline-block;min-width:220px;border-top:1px solid #1c1a17;padding-top:4px;color:#1c1a17;font-family:Georgia,serif;text-align:left}
+.cert-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:18px;border-top:1px solid var(--line);padding-top:16px}
+@media(max-width:560px){
+  .wrap{padding:0 16px}.qinner{padding:20px 16px}.qtext{font-size:.98rem}.option span:not(.letter){font-size:.92rem}.results h2{font-size:2.4rem}.hud{gap:12px}.section-divider{align-items:flex-start;flex-direction:column;gap:8px}.modebar{flex-direction:column;border-radius:8px;width:100%}.modebar button{width:100%}.breakdown{font-size:.85rem}.breakdown th,.breakdown td{padding:8px}.certificate .cert-meta{display:grid;grid-template-columns:1fr}.actions button,.modal-card button,.cert-actions button{width:100%}
+}
+@media print{
+  body *{visibility:hidden}
+  #certificate,#certificate *{visibility:visible}
+  #certificate{display:block!important;position:absolute;inset:0;margin:0;border-radius:0;box-shadow:none;background:#ebe3d5}
+  .cert-actions{display:none!important}
+}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="masthead">
+      <div class="kicker">Process Analysis · Case Study Exam Part III · Advanced 150-Question Mock</div>
+      <h1 class="title">Process Analysis Case Study Exam Part III</h1>
+      <div class="byline">An advanced case-study exam for process engineers, project engineers, operations leaders, and scaleup teams. Questions require multi-step reasoning across boundaries, balances, utilities, process data, causal evidence, economics, risk gates, and commercial-readiness decisions.</div>
+      <div class="exambar">
+        <span><b>150</b> Questions</span>
+        <span><b>4</b> Options Each</span>
+        <span><b>1</b> Mark per Question</span>
+        <span>Total: <b>150</b> Marks</span>
+        <span>Exam Mode: <b>4-hour</b> timer</span>
+      </div>
+    </header>
+
+    <div class="modebar" role="tablist" aria-label="Exam modes">
+      <button id="mode-guided" onclick="setMode('guided')" class="active">Guided Path</button>
+      <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+      <button id="mode-exam" onclick="setMode('exam')">Exam Mode</button>
+    </div>
+
+    <p class="mode-hint" id="modeHint"></p>
+
+    <div class="hud">
+      <span class="stat" id="progStat">Progress <b id="progCount">0</b>/150</span>
+      <div class="bar-track" aria-hidden="true"><div class="bar-fill" id="barFill"></div></div>
+      <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+      <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">04:00:00</b></span>
+    </div>
+
+    <main id="exam"></main>
+    <div class="actions" id="bottomActions"></div>
+
+    <section class="results" id="results">
+      <h2 id="resultTitle">Results</h2>
+      <p id="resultBlurb"></p>
+      <div class="timeout" id="timeoutNote">Time expired. The exam was auto-submitted using your saved answers.</div>
+      <div class="scoreline">
+        <span class="pill">Score: <b id="resultScore">0/150</b></span>
+        <span class="pill">Percentage: <b id="resultPct">0%</b></span>
+        <span class="pill">Grade: <b id="resultGrade">—</b></span>
+      </div>
+      <table class="breakdown" aria-label="Section breakdown">
+        <thead><tr><th>Section</th><th>Range</th><th>Score</th><th>Percent</th></tr></thead>
+        <tbody id="sectionBreakdown"></tbody>
+      </table>
+      <div class="actions">
+        <button class="primary" onclick="reviewAnswers()">Review Answers</button>
+        <button onclick="requestCertificate()">Create / Update Certificate</button>
+        <button onclick="retakeExam()">Retake Exam</button>
+      </div>
+      <div class="certificate" id="certificate">
+        <p class="cert-title">Certificate of Completion</p>
+        <p>This certifies that</p>
+        <p class="cert-name" id="certName">Learner</p>
+        <p>has completed the <b>Process Analysis Case Study Exam Part III</b>.</p>
+        <div class="cert-meta">
+          <div><b>Score</b><span id="certScore">0/150</span></div>
+          <div><b>Percentage</b><span id="certPct">0%</span></div>
+          <div><b>Date</b><span id="certDate">—</span></div>
+          <div><b>Certificate ID</b><span id="certId">—</span></div>
+        </div>
+        <div class="signature">
+          <strong>Quak Foo Lee</strong><br>
+          Chmltech Ltd.
+        </div>
+        <div class="cert-actions">
+          <button class="primary" onclick="window.print()">Print / Save as PDF</button>
+          <button onclick="document.getElementById('certificate').style.display='none'">Hide Certificate</button>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Process Analysis Case Study Exam Part III · Advanced educational mock exam for process-analysis practice. Validate assumptions, calculations, process data, costs, bottlenecks, risks, and scaleup decisions against project-specific engineering and operating requirements before business or design use.
+    </footer>
+  </div>
+
+  <div class="modal-backdrop" id="nameModal" role="dialog" aria-modal="true" aria-labelledby="nameModalTitle">
+    <div class="modal-card">
+      <h2 id="nameModalTitle">Learner name</h2>
+      <p id="nameModalText">Enter your name to start Exam Mode and generate a certificate after submission.</p>
+      <input id="learnerNameInput" type="text" placeholder="Your name" autocomplete="name" />
+      <div class="modal-actions">
+        <button onclick="cancelNameModal()">Cancel</button>
+        <button class="primary" onclick="submitNameModal()" id="modalPrimaryBtn">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const QUESTIONS = [
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "A campaign dashboard reports 91% yield for May by dividing final packed product by raw material receipts. The process actually consumed April inventory, left 14 tonnes of May intermediate in a surge tank, and reworked 3 tonnes of April off-spec material into May product. Which adjustment is essential before the yield can support a scaleup decision?",
+            "opts": [
+                  "Use receipts as the denominator because purchasing data is externally auditable and therefore the strongest yield basis.",
+                  "Rebuild the yield on a campaign material-flow basis using beginning inventory, receipts, consumption, ending WIP, rework source, and final disposition.",
+                  "Exclude all rework from the calculation because reworked material cannot be part of a commercial yield model.",
+                  "Use packed product divided by May receipts but add a footnote that inventory timing may affect the result."
+            ],
+            "correct": 1,
+            "explanation": "The reported KPI mixes accounting receipts with physical campaign output. A defensible yield needs a mass-flow basis that accounts for opening/closing inventory and distinguishes new production from rework."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "A solvent-recovery condenser serves two products. Product A has high solvent loading but short campaigns; Product B has lower solvent loading but runs almost continuously. The utility meter is on the shared condenser package, and management wants product-level OpEx. Which allocation basis is most technically defensible for first-pass process analysis?",
+            "opts": [
+                  "Allocate only by campaign hours because heat duty and solvent loading introduce unnecessary complexity.",
+                  "Assign all utility to the product with the higher total annual sales because it can absorb the cost.",
+                  "Allocate condenser utility by recovered solvent mass and heat duty, then reconcile against campaign hours as a reasonableness check.",
+                  "Allocate utility equally between products because both use the same condenser equipment."
+            ],
+            "correct": 2,
+            "explanation": "Shared utilities should be allocated by the physical driver of the load. Campaign hours can help check the allocation, but recovered solvent and latent/sensible duty better represent condenser energy use."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "A process analyst receives three numbers for the same stream: a PFD design flow of 2.4 m³/h, a historian average of 2.1 m³/h, and a batch-record total that implies 2.7 m³/h during transfer. The decision is whether to size a commercial pump. What should the analyst do first?",
+            "opts": [
+                  "Average the three values to create a neutral basis that avoids bias from any one source.",
+                  "Use the largest value immediately because pump sizing should always be based on the highest number found.",
+                  "Use the PFD value because design documents are more reliable than operating records by definition.",
+                  "Resolve the operating state and time basis for each number before using any of them as the sizing or performance value."
+            ],
+            "correct": 3,
+            "explanation": "The apparent conflict may reflect different states: design, average operation, or transfer-only flow. Without a common state and time basis, the numbers are not directly comparable."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "During a scaleup review, the team notices that the process model treats a bypass line as normally closed, but operator interviews reveal it is opened whenever filter pressure rises. The bypassed liquid returns upstream after a hold tank. What is the most important model correction?",
+            "opts": [
+                  "Delete the bypass from the PFD because it is not part of the formal design intent.",
+                  "Add the bypass valve symbol to the diagram but leave stream flows unchanged until final design.",
+                  "Treat the bypass as a pure loss because all material that leaves the main line should be counted as waste.",
+                  "Represent the bypass as an operating mode with frequency, trigger condition, recycle delay, inventory effect, and quality consequence."
+            ],
+            "correct": 3,
+            "explanation": "A normally used bypass changes residence time, recycle, WIP, and possibly product quality. Treating it as a real operating mode makes the analysis decision-grade."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "A data set combines one-second reactor temperature, one-minute feed-flow values, batch-end laboratory assays, and monthly wastewater invoices. The analyst wants to compare impurity formation per batch. Which data treatment is most reliable?",
+            "opts": [
+                  "Ignore wastewater and lab data because different sampling frequencies cannot be used in one analysis.",
+                  "Use one-second temperature records only because high-frequency tags dominate lower-frequency observations.",
+                  "Average all variables monthly because monthly invoices are the lowest-frequency data source.",
+                  "Create batch event windows, integrate continuous tags over each window, and join lab and waste data only when the allocation rule is explicit."
+            ],
+            "correct": 3,
+            "explanation": "Hard process questions often require aligning data with the physical event. Batch windows and explicit allocation prevent mismatched time scales from creating false conclusions."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "A pilot plant shows high yield when a senior scientist manually slows addition if the reaction turns darker. The commercial system will use a fixed addition recipe with no color measurement. What is the key analytical risk if the pilot yield is copied into the commercial model?",
+            "opts": [
+                  "The senior scientist's intervention should be treated as a permanent equipment capability.",
+                  "The color observation can be ignored because it is qualitative and therefore cannot affect yield.",
+                  "The model is conservative because fixed recipes always produce higher yield than manual operation.",
+                  "The model embeds an unmodeled human feedback loop that may not exist in commercial operation."
+            ],
+            "correct": 3,
+            "explanation": "Manual expert actions can function as process controls. If the commercial process does not measure or reproduce the intervention, pilot yield may overstate sustainable performance."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "A materials spreadsheet lists 'acid solution' in kg, the P&ID tags the transfer as m³, and the dosing skid reports L/min at temperature. The recipe tolerance is ±2% by mass. Which conversion control is most important?",
+            "opts": [
+                  "Compare all values in their native units because conversion can introduce rounding error.",
+                  "Use water density for every aqueous stream because most process solutions are close enough for ±2% control.",
+                  "Use temperature-appropriate density and a controlled unit-conversion basis so volumetric tags are converted to mass before recipe comparison.",
+                  "Convert all kg values into m³ using nominal tank capacity because tank size defines process quantity."
+            ],
+            "correct": 2,
+            "explanation": "The recipe is mass-based, while instruments are volume-based. Density and temperature can materially affect dosing accuracy when tolerance is tight."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "A process model closes the overall mass balance to 0.5%, but it combines a calibrated feed meter, uncalibrated tote counts, inferred vent flow, and estimated tank heels. The sponsor says the closure proves the model is accurate. What is the best response?",
+            "opts": [
+                  "A 0.5% closure proves each individual stream is correct because the total balance is nearly exact.",
+                  "The model should be rejected because any estimated value makes mass-balance closure impossible.",
+                  "The residual should be forced to zero by distributing the 0.5% error across all outlet streams.",
+                  "A small residual is encouraging but not proof; uncertainty, covariance, inventory estimates, and possible compensating errors must be reviewed."
+            ],
+            "correct": 3,
+            "explanation": "Good overall closure can occur even when errors offset one another. Decision confidence depends on measurement quality and whether critical local balances are reliable."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "An executive asks for one capacity number. Engineering gives design capacity, operations gives demonstrated peak, planning gives sustainable average, and sales wants committed supply. What is the most defensible way to present the answer?",
+            "opts": [
+                  "Use design capacity because it came from engineering and should override operating history.",
+                  "Use demonstrated peak because it is the highest number and supports a stronger commercial story.",
+                  "Average the values so all departments are equally represented in the final number.",
+                  "Present a capacity ladder with definitions, assumptions, confidence, and the business use for each number rather than collapsing them into one value."
+            ],
+            "correct": 3,
+            "explanation": "Capacity is context-dependent. Design, peak, sustainable, and committed capacities answer different business questions and should not be blended without definition."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "A quality-loss study samples only final product lots that passed release because failed lots were reworked before formal release. The analyst finds very low defect variability. What bias is most likely?",
+            "opts": [
+                  "Scale bias because final product lots are always larger than intermediate samples.",
+                  "Confirmation bias only if the analyst personally expected good results.",
+                  "Survivorship or censoring bias because the worst observations were removed before the analyzed population was defined.",
+                  "Seasonality bias because all quality problems must be caused by calendar effects."
+            ],
+            "correct": 2,
+            "explanation": "If failed lots are reworked out of the release data set, the analysis understates true process variability and defect creation."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "A stream table assigns all off-gas solvent to environmental loss, but the site has a carbon bed that is regenerated and returns condensate to the solvent tank twice per week. What is the strongest correction?",
+            "opts": [
+                  "Ignore the carbon bed because regeneration is intermittent and therefore too difficult to model.",
+                  "Treat all captured solvent as immediately returned during the same batch to simplify the balance.",
+                  "Split off-gas solvent into emitted, captured, regenerated, returned, and disposal fractions on a consistent time basis.",
+                  "Count all off-gas solvent as product loss because it left the reactor boundary at some point."
+            ],
+            "correct": 2,
+            "explanation": "Intermittent recovery systems create timing and disposition effects. The process boundary must distinguish true loss from delayed recovery and disposal."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "A model version used for investment approval differs from the latest engineering workbook. The approved model assumed 6 batches/day, while the latest workbook uses 5 batches/day after cleaning validation. What governance action is needed?",
+            "opts": [
+                  "Use the older approved model until construction is complete because approval locks every assumption permanently.",
+                  "Create a controlled assumption-change record showing the changed basis, owner approval, economic impact, and which decision documents are superseded.",
+                  "Delete the older workbook to prevent confusion, without documenting the change.",
+                  "Keep both models active because different departments can choose the version that best fits their needs."
+            ],
+            "correct": 1,
+            "explanation": "Process-analysis models affect investment decisions. Changes in critical assumptions need traceability, ownership, and decision-impact review."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "A root-cause team wants to analyze filtration losses, but the sampling plan measures feed slurry before a surge tank and cake after a 10-hour hold. The surge tank sometimes receives rework. What is the main flaw?",
+            "opts": [
+                  "The plan is valid because both samples are taken somewhere upstream and downstream of the filter.",
+                  "The flaw is only that the hold time is 10 hours; any shorter hold would make the samples automatically valid.",
+                  "The sample pair does not isolate filtration because inventory hold time and rework can change composition between the two points.",
+                  "The plan should sample only the cake because feed sampling adds unnecessary analytical cost."
+            ],
+            "correct": 2,
+            "explanation": "Loss localization requires matching samples that bracket the step being tested. Surge inventory and rework can contaminate the attribution."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "A plant team claims an improvement reduced cycle time from 11.5 h to 10.2 h. The new data were collected during a week with extra QA staffing and no raw-material changeovers. What evidence is needed before the claim supports annual capacity planning?",
+            "opts": [
+                  "Use the new best-week value but apply a generic 50% discount factor without investigating drivers.",
+                  "A representative comparison controlling for staffing, changeovers, product mix, and queue conditions, with enough batches to capture variability.",
+                  "No further evidence is needed because any observed cycle-time reduction proves sustainable capacity improvement.",
+                  "The claim should be rejected permanently because improvement data are never representative."
+            ],
+            "correct": 1,
+            "explanation": "A point improvement under favorable conditions may not represent sustainable performance. Capacity planning needs representative operating conditions or explicit normalization."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "An analyst must choose between using operator logs, historian tags, and invoice totals for steam usage. The historian tag has a known range-limit clipping issue above 80% valve opening. The process often runs at 95% valve opening during heat-up. What should be done?",
+            "opts": [
+                  "Do not use the clipped tag alone; reconcile it with condensate, boiler, duty calculations, or temporary metering during heat-up.",
+                  "Use invoice totals only and allocate steam equally to all processes regardless of heat-up profile.",
+                  "Use the historian tag because automated data always outranks manual and invoice data.",
+                  "Discard all steam analysis because no available data source is perfect."
+            ],
+            "correct": 0,
+            "explanation": "A known instrument limitation during the critical operating state can bias the result. Reconciliation or targeted measurement is more defensible."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "A batch genealogy system records raw material lot, reactor ID, and final lot, but not the intermediate tote ID used during a 48-hour hold. A contamination pattern appears only after the hold. What gap limits the analysis?",
+            "opts": [
+                  "The genealogy breaks at the intermediate hold, so tote-specific contamination, residence time, and handling effects cannot be separated.",
+                  "The contamination must be caused by reactor ID because all later steps are unrecorded.",
+                  "The missing tote ID matters only to inventory accounting, not to process troubleshooting.",
+                  "The genealogy is complete because final lots and raw material lots are recorded."
+            ],
+            "correct": 0,
+            "explanation": "Traceability must cover the point where the suspected cause can enter. Missing intermediate identity prevents confident causal attribution."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "A model estimates annual output by multiplying ideal batch size by batches/day and calendar days. It excludes preventive maintenance, QA release holds, cleaning verification, material staging, and utilities curtailment. Why is this especially risky for Part III-level process analysis?",
+            "opts": [
+                  "It treats nameplate rhythm as sustainable flow and omits constraints that commonly dominate real commercial throughput.",
+                  "It should be corrected only by replacing calendar days with fiscal-year days.",
+                  "It is acceptable if the ideal batch size was demonstrated once during pilot operation.",
+                  "It is conservative because excluding constraints usually lowers calculated output."
+            ],
+            "correct": 0,
+            "explanation": "Commercial capacity is governed by the full constraint system. Ignoring non-process holds and resource availability usually overstates sustainable throughput."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "A chemical process has both a normal steady-state mode and a startup mode that creates 4% more impurity for the first two batches after a shutdown. The analyst uses only steady-state data to forecast customer qualification lots. What is the key risk?",
+            "opts": [
+                  "The forecast may understate qualification failure risk if early commercial lots include startup-mode batches.",
+                  "The forecast is valid because startup batches are not part of steady-state chemistry.",
+                  "The startup mode proves the process cannot be commercialized under any condition.",
+                  "The impurity increase should be averaged across the entire year and ignored for lot-level decisions."
+            ],
+            "correct": 0,
+            "explanation": "The correct basis depends on the decision. Customer qualification lots are lot-specific, so startup-mode risk cannot be hidden in annual averages."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "A process analysis uses a black-box machine-learning prediction of yield, but the model was trained with final lab results, rework decisions, and shipment approval flags. It will be used to recommend actions before rework decisions exist. What is the main problem?",
+            "opts": [
+                  "The model is automatically stronger because it includes more variables than a first-principles balance.",
+                  "The model likely contains data leakage because it uses future or downstream information unavailable at the decision time.",
+                  "The model is unsuitable only because machine learning cannot be applied to process data.",
+                  "The model should be accepted if the historical R² is high, regardless of decision timing."
+            ],
+            "correct": 1,
+            "explanation": "Predictive variables must be available when the decision is made. Leakage can produce impressive historical accuracy that fails in real operation."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "A process analyst is asked to compare two suppliers. Supplier 1 has lower average impurity but higher variance; Supplier 2 has higher average impurity but tight variance. The process has a nonlinear impurity removal step that overloads above a threshold. What comparison is needed?",
+            "opts": [
+                  "Choose Supplier 1 because lower average impurity always means lower process risk.",
+                  "Average the two suppliers' assay values and use that blend as the design basis.",
+                  "Compare the full impurity distribution against the removal threshold and downstream capacity, not only average supplier assay.",
+                  "Choose Supplier 2 because low variance always outweighs average impurity."
+            ],
+            "correct": 2,
+            "explanation": "When a threshold or nonlinear capacity limit exists, variance and tail behavior can matter more than the mean."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "A management report states that 'yield loss occurs in drying' because the final product is lower than wet cake mass. The wet cake contains 48% solvent and the dryer removes solvent without losing active solids. What reasoning flaw is present?",
+            "opts": [
+                  "The report is correct because any mass decrease across a dryer is a process yield loss.",
+                  "The report proves drying should be removed from the process to improve yield.",
+                  "The report should use dryer outlet moisture only and ignore inlet wet-cake composition.",
+                  "The report confuses mass reduction from solvent removal with active-material yield loss."
+            ],
+            "correct": 3,
+            "explanation": "Yield must be defined on the conserved or valuable component. Removing volatile solvent lowers gross mass but is not necessarily active-material loss."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "A preliminary economic model assumes wastewater is proportional to production mass. Operators report that each campaign has a fixed line-flush volume plus variable wash volume per batch. What model form is more appropriate?",
+            "opts": [
+                  "Allocate wastewater by sales revenue because wastewater cost is a business expense.",
+                  "Keep a simple proportional model because all wastewater ultimately comes from production.",
+                  "Use a mixed fixed-plus-variable wastewater model tied to campaigns, batches, and product mass where appropriate.",
+                  "Use only fixed campaign wastewater because variable wash water is too difficult to forecast."
+            ],
+            "correct": 2,
+            "explanation": "Many process costs have mixed drivers. Separating fixed campaign flushes from variable batch washes improves scale and scheduling decisions."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "A reviewer finds that the process-analysis workbook has hidden cells containing manual overrides for three recycle streams. The final outputs look reasonable. What should be required before accepting the model?",
+            "opts": [
+                  "Expose and justify the overrides, trace their source, test sensitivity, and define when they must be replaced by measured values.",
+                  "Delete the hidden cells and let spreadsheet errors reveal themselves later.",
+                  "Average the overridden streams with adjacent streams so the override is less visible.",
+                  "Accept the workbook if the final answer matches management expectation."
+            ],
+            "correct": 0,
+            "explanation": "Hidden overrides can dominate a model. They may be legitimate temporary assumptions, but they must be visible, justified, and sensitivity-tested."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "A team wants to use a single 'commercial readiness score' made by averaging yield, capacity, safety, waste, and cost scores. A low safety-margin score is offset by strong cost performance. What is the main decision risk?",
+            "opts": [
+                  "The lowest score should automatically cancel the project without reviewing mitigations.",
+                  "Averaging can mask a non-compensable constraint; some readiness gates should be pass/fail rather than offset by economics.",
+                  "Averaging is always best because executives need one number for every complex decision.",
+                  "The safety score should be removed because it prevents the cost benefit from being visible."
+            ],
+            "correct": 1,
+            "explanation": "Integrated decisions often include gates that cannot be offset by other strengths. A high margin does not compensate for unacceptable safety or compliance risk."
+      },
+      {
+            "section": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "q": "The commercial design basis lists 'typical batch' data but no P10/P50/P90 ranges for cycle time, yield, impurity, utility demand, or wastewater. What limitation does this create for scaleup planning?",
+            "opts": [
+                  "The missing ranges matter only after startup and not during scaleup approval.",
+                  "P10/P50/P90 ranges are useful only for financial portfolios, not process engineering.",
+                  "The team cannot assess downside capacity, tail-risk quality, surge capacity, or economic uncertainty from a single typical value.",
+                  "A typical value is sufficient because design always targets the average condition."
+            ],
+            "correct": 2,
+            "explanation": "Difficult process decisions depend on variability and tails. Averages do not reveal worst-case utility loads, low-yield economics, or waste-surge constraints."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A commercial batch charges 1,400 kg wet feed at 18 wt% moisture and 88 wt% active on a dry-solids basis. It produces 940 kg dried product at 92 wt% active. If no active is intentionally added downstream, what active-material yield should be reported?",
+            "opts": [
+                  "Yield = 1,400×0.82/940 = 122.1% because dry feed is divided by product mass.",
+                  "Yield = 940×0.92/(1,400×0.88) = 70.1% because moisture should be ignored.",
+                  "Feed active = 1,400×0.82×0.88 = 1,010 kg; product active = 940×0.92 = 865 kg; yield ≈ 85.6%.",
+                  "Yield = 940/1,400 = 67.1% because wet feed mass is the charged material."
+            ],
+            "correct": 2,
+            "explanation": "The feed assay is on dry solids, so moisture must be removed first. Matching active basis prevents wet mass from distorting yield."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A weekly balance begins with 12.0 tonnes of intermediate in storage, produces 44.0 tonnes, consumes 39.5 tonnes in finishing, ships 37.8 tonnes finished product, and ends with 15.4 tonnes intermediate. What intermediate loss or measurement residual should be investigated?",
+            "opts": [
+                  "Available intermediate is 56.0 tonnes; accounted intermediate is 39.5 + 15.4 = 54.9 tonnes, leaving 1.1 tonnes residual.",
+                  "Residual is 44.0 − 37.8 = 6.2 tonnes because shipped product is the only outlet.",
+                  "Residual is zero because production and consumption are both recorded in the ERP.",
+                  "Residual is 15.4 − 12.0 = 3.4 tonnes because inventory increase equals loss."
+            ],
+            "correct": 0,
+            "explanation": "Inventory changes must be included. The intermediate balance is beginning inventory plus production minus consumption minus ending inventory."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A recycle loop generates impurity at 4.8 kg/h. The purge is 3.5% of a 2,400 kg/h recycle flow. A quality limit requires recycle impurity below 6.0 wt%. At steady state, is the purge sufficient?",
+            "opts": [
+                  "Concentration is 84/4.8 = 17.5 wt%, so the loop is far above the limit.",
+                  "Concentration is 4.8/2,400 = 0.20 wt%, so the purge has a very large margin.",
+                  "Concentration is 3.5 wt% because purge percentage equals impurity percentage.",
+                  "Purge is 84 kg/h; steady concentration is 4.8/84 = 5.7 wt%, so it is barely below the limit."
+            ],
+            "correct": 3,
+            "explanation": "At steady state, impurity generated equals impurity removed in the purge. The purge flow, not the full recycle flow, controls the impurity concentration."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A condenser recovers 760 kg solvent from a batch. The product cake retains 84 kg, wastewater contains 41 kg, carbon-bed disposal contains 26 kg, and the tank inventory falls by 945 kg. What unaccounted solvent remains?",
+            "opts": [
+                  "Accounted outlets are 760 + 84 + 41 + 26 = 911 kg; compared with 945 kg inventory decrease, residual is 34 kg.",
+                  "Residual is zero because inventory decline always equals condenser recovery plus product retention.",
+                  "Residual is 760 + 84 + 41 + 26 + 945 = 1,856 kg because all listed values are losses.",
+                  "Residual is 945 − 760 = 185 kg because only condenser recovery should be counted."
+            ],
+            "correct": 0,
+            "explanation": "The inventory decrease is the solvent source. All measured dispositions should be subtracted before treating the remainder as unaccounted loss."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A reaction follows 2A + B → P. The batch charges 180 kmol A and 92 kmol B. Analysis shows 18 kmol A remains unreacted and no B remains. What conversion of A and yield to P based on charged A should be reported?",
+            "opts": [
+                  "A conversion = 90.0%, and yield = 162/180 = 90.0% because consumed A equals product.",
+                  "A consumed is 162 kmol; P formed is 81 kmol; A conversion = 90.0%, and charged-A molar yield to P = 81/180 = 45.0%.",
+                  "A conversion = 10.0%, and yield = 18/92 = 19.6% because unreacted A controls yield.",
+                  "A conversion = 51.1%, and yield = 92/180 = 51.1% because B is the limiting reactant."
+            ],
+            "correct": 1,
+            "explanation": "Two moles of A produce one mole of P. Conversion and yield are different metrics, and stoichiometry must be applied."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A centrifuge treats 1,800 kg/h slurry at 9 wt% solids. It captures 88% of solids into cake. The cake is 42 wt% solids, and centrate solids are lost. What cake flow and solids loss should be used?",
+            "opts": [
+                  "Cake flow is 162/0.42 = 385.7 kg/h, and solids loss is zero.",
+                  "Cake flow is 142.6×0.42 = 59.9 kg/h, and solids loss is 142.6 kg/h.",
+                  "Cake flow is 1,800×0.88 = 1,584 kg/h, and solids loss is 216 kg/h.",
+                  "Feed solids are 162 kg/h; captured solids are 142.6 kg/h; cake flow ≈ 339.4 kg/h; solids loss ≈ 19.4 kg/h."
+            ],
+            "correct": 3,
+            "explanation": "Capture applies to solids, not total slurry. Cake mass is captured solids divided by cake solids fraction."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A filter cake contains 520 kg dry solids and 0.62 kg mother liquor per kg dry solids. A wash adds 1.8 kg wash liquid per kg dry solids. After dewatering, final cake contains 28 wt% liquid. Ignoring dissolution, what filtrate/wash liquid leaves?",
+            "opts": [
+                  "Liquid leaving is 520/0.28 = 1,857 kg because dry solids are divided by final liquid fraction.",
+                  "Liquid leaving is 322.4 + 936 + 202.2 = 1,461 kg because final retained liquid is another outlet.",
+                  "Liquid leaving is 936 kg because only wash liquid becomes filtrate.",
+                  "Initial retained liquid is 322.4 kg; wash is 936 kg; final liquid is 520×0.28/0.72 ≈ 202.2 kg; liquid leaving ≈ 1,056 kg."
+            ],
+            "correct": 3,
+            "explanation": "The liquid balance includes initial retained liquid plus added wash minus final retained liquid. The final liquid is calculated from dry solids and final moisture fraction."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A purge reduction project lowers purge from 120 kg/h to 80 kg/h. The impurity generation rate remains 3.6 kg/h, and the recycle impurity limit is 4.0 wt%. What happens at steady state?",
+            "opts": [
+                  "The concentration falls from 3.0 wt% to 2.0 wt% because less purge means less impurity leaves.",
+                  "The concentration remains 3.6 wt% because impurity generation is unchanged.",
+                  "The old concentration was 3.0 wt%; the new concentration is 4.5 wt%, exceeding the limit.",
+                  "The concentration becomes 80/3.6 = 22.2 wt%, which is the old purge ratio."
+            ],
+            "correct": 2,
+            "explanation": "Reducing purge raises the concentration required to remove the same impurity generation. This can convert a solvent-saving action into a quality risk."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A carbon balance enters 680 kg C in raw materials. Outputs include 548 kg C in product, 36 kg C in CO₂, 22 kg C in wastewater, and 18 kg C in purge solvent. Measurement uncertainty for the carbon balance is ±20 kg. What is the most defensible interpretation?",
+            "opts": [
+                  "The residual is 56 kg C, but any residual below 10% of input must be ignored.",
+                  "The residual is 56 kg C, which is larger than the ±20 kg uncertainty and deserves investigation.",
+                  "The residual is within uncertainty because ±20 kg applies separately to each listed outlet and can be added without review.",
+                  "The residual is 680 − 548 = 132 kg C, so every non-product stream is missing."
+            ],
+            "correct": 1,
+            "explanation": "Accounted carbon is 624 kg, leaving 56 kg. Comparing the residual with uncertainty helps distinguish noise from a potential missing stream or bias."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A tank level drops by 3.8 m³ during charging. The density correlation at 35°C is 1.12 kg/L, but the batch record used the 20°C density of 1.18 kg/L. How much did the batch record overstate the mass charge?",
+            "opts": [
+                  "Overstatement is 4,484/4,256 = 5.4 kg because percent difference is the mass error.",
+                  "Overstatement is 3.8×(1.18−1.12) = 0.23 kg because m³ can be used directly with kg/L.",
+                  "Actual mass is 3,800×1.12 = 4,256 kg; recorded mass is 3,800×1.18 = 4,484 kg; overstatement is 228 kg.",
+                  "Overstatement is zero because density differences affect only volume, not mass."
+            ],
+            "correct": 2,
+            "explanation": "Density units require conversion from m³ to L. Temperature-dependent density can materially affect mass charge and recipe stoichiometry."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A product lot weighs 2,600 kg at 87 wt% active. It will be sold on a 95 wt% active equivalent basis. The customer order is 2,500 kg equivalent. What is the shipment status?",
+            "opts": [
+                  "The lot equals 2,839 kg equivalent because physical mass is divided by 0.87 and multiplied by 0.95.",
+                  "The lot is short by 338 kg active because 95% − 87% = 8% on 2,600 kg.",
+                  "The lot exceeds the order by 100 kg because 2,600 kg physical mass is greater than 2,500 kg.",
+                  "The lot contains 2,262 kg active, equal to 2,381 kg at 95 wt%; it is short by about 119 kg equivalent."
+            ],
+            "correct": 3,
+            "explanation": "Equivalent mass must conserve active content. Physical mass alone can overstate saleable quantity when assay differs from the reference basis."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A blending tank contains a 600 kg heel at 12 wt% active. The next batch target is 3,000 kg at 20 wt% active. The available concentrate is 55 wt% active, and dilution water contains no active. How much concentrate is required?",
+            "opts": [
+                  "Concentrate required is 600×0.12/0.55 = 131 kg because only the heel needs adjustment.",
+                  "Concentrate required is 3,000×0.20/0.55 = 1,091 kg because the heel should be ignored.",
+                  "Concentrate required is 3,000×0.55×0.20 = 330 kg because target and concentrate fractions multiply.",
+                  "Final active required is 600 kg; heel contributes 72 kg; concentrate needed is 528/0.55 = 960 kg."
+            ],
+            "correct": 3,
+            "explanation": "Heel composition affects the next batch. Active in the heel must be credited before calculating concentrate addition."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A batch produces 1,100 kg off-spec intermediate at 78 wt% active. Rework recovers 70% of the active into 620 kg saleable product at 96 wt% active. What active is unrecovered in the rework step?",
+            "opts": [
+                  "Unrecovered active is 858/0.70 = 1,226 kg because recovery fraction should be in the denominator.",
+                  "Unrecovered active is 1,100 − 620 = 480 kg because physical mass reduction is active loss.",
+                  "Initial active is 858 kg; recovered active is 0.70×858 = 601 kg, consistent with 620×0.96 = 595 kg within rounding; unrecovered active is about 257 kg.",
+                  "Unrecovered active is 620×0.96 = 595 kg because the saleable product contains active."
+            ],
+            "correct": 2,
+            "explanation": "Rework should be evaluated on active content, not wet mass. The active not recovered becomes loss, purge, waste, or another inventory category."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "An evaporator feed is 3,500 kg/h at 11 wt% dissolved solids. Product is targeted at 38 wt% solids, but measured product is 1,060 kg/h. Assuming no solids loss, what does this indicate?",
+            "opts": [
+                  "Feed solids are 385 kg/h; target product should be 1,013 kg/h, so 1,060 kg/h product is only about 36.3 wt% solids and under-concentrated.",
+                  "The evaporator is losing 47 kg/h solids because measured product differs from calculated product.",
+                  "The product must be 38 wt% because the target concentration defines the outlet composition.",
+                  "The product is over-concentrated because 1,060 kg/h is higher than the target product flow."
+            ],
+            "correct": 0,
+            "explanation": "Solids conservation provides an independent check. If product flow is too high for the target solids rate, the product concentration is lower than target."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A reactor has single-pass conversion of 64% for A. Unreacted A is recovered with 90% efficiency and recycled; the remaining unreacted A is purged. For 1,000 mol fresh A feed, what approximate A leaves as purge per pass at steady operating basis?",
+            "opts": [
+                  "Purge is 360 mol because all unreacted A leaves the process.",
+                  "Unreacted A after reaction is 360 mol; 10% of that escapes recovery, so about 36 mol A is purged per pass.",
+                  "Purge is 640 mol because conversion is the purged fraction.",
+                  "Purge is 90 mol because recovery efficiency is subtracted from fresh feed."
+            ],
+            "correct": 1,
+            "explanation": "Single-pass conversion and recovery are separate effects. Only the unrecovered fraction of unreacted A becomes purge loss."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A trace impurity enters with raw material at 180 ppm in 2,000 kg/batch. It is nonvolatile, not consumed, and 60% partitions to product while 40% leaves in aqueous waste. What impurity mass reaches product?",
+            "opts": [
+                  "Product impurity is 180×0.60 = 108 kg because ppm is a mass amount.",
+                  "Impurity in feed is 2,000×180/1,000,000 = 0.360 kg; product receives 60%, or 0.216 kg.",
+                  "Product impurity is 0.360/0.40 = 0.900 kg because waste partition is in the denominator.",
+                  "Product impurity is 2,000×0.60 = 1,200 kg because 60% partitions to product."
+            ],
+            "correct": 1,
+            "explanation": "ppm must be converted to a mass fraction before partitioning. This is a common source of trace-contaminant errors."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A dryer receives 700 kg wet cake containing 55 wt% solvent. The dried product contains 8 wt% residual solvent and no dry-solids loss. How much solvent should the condenser and vent system account for?",
+            "opts": [
+                  "Solvent removed is 700 − 315 = 385 kg and final product mass is irrelevant.",
+                  "Dry solids are 315 kg; final product mass is 315/0.92 = 342.4 kg with 27.4 kg solvent; solvent removed is 385 − 27.4 = 357.6 kg.",
+                  "Solvent removed is 700×0.55 = 385 kg because all inlet solvent must evaporate.",
+                  "Solvent removed is 315×0.08 = 25.2 kg because residual solvent is the removed amount."
+            ],
+            "correct": 1,
+            "explanation": "Residual solvent remains with product. Solvent recovery expectations should subtract final retained solvent, not assume complete evaporation."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A slurry feed contains 22 wt% solids. A decanter centrate contains 3 wt% solids, and cake contains 48 wt% solids. If the feed is 2,000 kg/h and no other streams exist, what cake flow follows from a total and solids balance?",
+            "opts": [
+                  "Cake flow is 2,000×0.48 = 960 kg/h because cake solids fraction multiplies feed.",
+                  "Solids balance: 440 = 0.48C + 0.03(2,000−C); C ≈ 844 kg/h cake.",
+                  "Cake flow is 2,000×0.22/0.03 = 14,667 kg/h because centrate concentration controls cake.",
+                  "Cake flow is 440/0.48 = 917 kg/h because centrate solids can be ignored."
+            ],
+            "correct": 1,
+            "explanation": "Both cake and centrate contain solids. A two-outlet balance requires simultaneous total and solids balances, not a simple capture assumption."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A catalyst charge is specified at 1.2 mol% relative to reactive sites. The feed has 720 kg dry polymer with 3.5 mol reactive sites per kg. Catalyst molecular weight is 250 kg/kmol. What catalyst mass is required?",
+            "opts": [
+                  "Catalyst mass is 720×0.012 = 8.64 kg because mol% can be applied directly to dry mass.",
+                  "Catalyst mass is 250/2.520/0.012 = 8,267 kg because molecular weight belongs in the denominator.",
+                  "Catalyst mass is 2,520×250×0.012 = 7,560 kg because mol should not be converted to kmol.",
+                  "Reactive sites are 720×3.5 = 2,520 mol = 2.520 kmol; catalyst is 0.012×2.520 = 0.03024 kmol; mass ≈ 7.56 kg."
+            ],
+            "correct": 3,
+            "explanation": "Mol% loading must be based on moles of reactive sites, then converted to catalyst mass using molecular weight."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A process produces 460 kg good product per batch at 91% right-first-time quality. Reworked failed batches recover 65% of the original good-product equivalent after one extra cycle. If 900 batches are attempted per year, what annual good-product equivalent is expected?",
+            "opts": [
+                  "First-pass good is 900×0.91×460 = 376,740 kg; failed batch recovery is 900×0.09×0.65×460 = 24,219 kg; total ≈ 400,959 kg.",
+                  "Annual output is 900×460 = 414,000 kg because rework eventually fixes failures.",
+                  "Annual output is 900×0.09×460 = 37,260 kg because failed batches determine rework output.",
+                  "Annual output is 900×0.91×0.65×460 = 244,881 kg because right-first-time and recovery both apply to all batches."
+            ],
+            "correct": 0,
+            "explanation": "Right-first-time and rework recovery affect different populations. Expected output includes first-pass good plus recovered fraction of failed batches."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A side reaction converts 12% of consumed A to byproduct B. Fresh A feed is 500 mol/h, unreacted A in the outlet is 110 mol/h, and desired product requires 1 mol A per mol product. What desired product formation rate should be inferred?",
+            "opts": [
+                  "Desired product is 500 − 110 = 390 mol/h because all consumed A becomes product.",
+                  "Desired product is 500×0.88 = 440 mol/h because side reaction applies to fresh feed.",
+                  "Desired product is 110×0.12 = 13.2 mol/h because outlet A controls byproduct formation.",
+                  "A consumed is 390 mol/h; 88% goes to desired product, so desired product formation is 343.2 mol/h."
+            ],
+            "correct": 3,
+            "explanation": "Byproduct selectivity applies to consumed A. Conversion alone is insufficient to calculate desired production when side reactions exist."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A neutralization tank receives 3,000 kg wastewater containing 1.8 wt% HCl. NaOH solution is 32 wt%. Using HCl + NaOH → NaCl + H₂O, what approximate NaOH solution mass is stoichiometrically required?",
+            "opts": [
+                  "NaOH solution required is 3,000×0.32×0.018 = 17.3 kg.",
+                  "NaOH solution required is 54/0.32 = 169 kg because acid and caustic masses are equal.",
+                  "NaOH solution required is 54×36.5/40/0.32 = 154 kg because molecular weights should be inverted.",
+                  "HCl is 54 kg = 1.48 kmol; NaOH required is 1.48×40 = 59.2 kg pure, or 185 kg of 32 wt% solution."
+            ],
+            "correct": 3,
+            "explanation": "Neutralization is molar. HCl mass must be converted to moles, then to pure NaOH mass, then to solution mass."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A washing operation uses 3.2 diavolumes based on 750 L retained slurry volume. The filtrate tank already contains 1.1 m³ from pre-rinse and has a working limit of 4.0 m³. Does the planned wash exceed the tank limit before transfer-out?",
+            "opts": [
+                  "Total is 1.1 + 0.75 = 1.85 m³ because diavolume is already included in retained volume.",
+                  "Wash filtrate is 3.2×750 = 2.4 m³; total expected is 3.5 m³, so it stays below the 4.0 m³ limit.",
+                  "Total is 4.3 m³ because 3.2 diavolumes should be added directly to 1.1 m³.",
+                  "Wash filtrate is 3.2×750 = 2,400 m³, so the tank will overflow immediately."
+            ],
+            "correct": 1,
+            "explanation": "Diavolume is a multiple of retained volume, and litres must be converted to m³. Existing tank inventory must be included in the surge check."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A process has two recovery stages. Stage 1 recovers 82% of active into an intermediate; Stage 2 recovers 76% of that active into final product. A new solvent wash can improve Stage 1 to 88% but reduces Stage 2 to 72%. Which route gives higher overall active recovery?",
+            "opts": [
+                  "Current recovery is 82% + 76% = 158%, so the current route is better.",
+                  "The routes are equal because one stage improves by 6 points and the other falls by 4 points.",
+                  "Current recovery is 0.82×0.76 = 62.3%; new recovery is 0.88×0.72 = 63.4%, so the new route is slightly better overall.",
+                  "New recovery is 88% − 72% = 16%, so the new route is worse."
+            ],
+            "correct": 2,
+            "explanation": "Sequential recoveries multiply. Percentage-point changes at different stages cannot be compared by simple addition or subtraction."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A wet raw material costs $4.20/kg as delivered and contains 22 wt% water. A competing dry raw material costs $5.10/kg and is otherwise equivalent. Before logistics and handling, which has lower cost on a dry-solids basis?",
+            "opts": [
+                  "Wet material dry-solids cost is $4.20/0.78 = $5.38/kg dry; dry material at $5.10/kg is lower.",
+                  "Both are equal because water content does not affect purchase cost.",
+                  "Wet material is lower because $4.20/kg is less than $5.10/kg.",
+                  "Wet material dry-solids cost is $4.20×0.78 = $3.28/kg dry, so it is lower."
+            ],
+            "correct": 0,
+            "explanation": "Cost must be normalized to the useful dry component. A lower delivered price can be more expensive after moisture correction."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A campaign report shows 24 tonnes feed, 17 tonnes product, 3 tonnes waste, and 2 tonnes WIP increase. Operators say 1 tonne was sampled for development trials and not entered in the ERP. What residual remains after including the sampling stream?",
+            "opts": [
+                  "Residual is zero because sampling explains the entire gap between feed and product.",
+                  "Residual is 7 tonnes because feed minus product equals total loss.",
+                  "Accounted mass is 17 + 3 + 2 + 1 = 23 tonnes, leaving 1 tonne residual.",
+                  "Residual is 4 tonnes because only product and waste count as outputs."
+            ],
+            "correct": 2,
+            "explanation": "Sampling, development trials, and inventory changes are real dispositions. The remaining residual after including them is still a balance concern."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "An extraction step distributes a valuable component between solvent and raffinate. Feed contains 300 kg valuable component. One extraction removes 72% into solvent. A second identical extraction is applied to the raffinate. What total recovery is expected?",
+            "opts": [
+                  "Total recovery is 72% + 72% = 144%, so complete recovery is guaranteed.",
+                  "Total recovery is 300×0.72×0.72 = 155.5 kg or 51.8%.",
+                  "Total recovery is 72% only because the second extraction treats the same feed again.",
+                  "After first extraction, 84 kg remains; second removes 72% of 84 = 60.5 kg; total recovery is 276.5 kg or 92.2%."
+            ],
+            "correct": 3,
+            "explanation": "Repeated fractional removal applies to the remaining material. The unrecovered fraction compounds: 1 − 0.28² = 92.2%."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A slurry contains 600 kg/h dry solids and 1,400 kg/h liquid. A thickener underflow is 45 wt% solids, while overflow contains 2 wt% solids. What underflow rate is implied by solids balance?",
+            "opts": [
+                  "Let U be underflow. Solids: 600 = 0.45U + 0.02(2,000−U); U ≈ 1,302 kg/h.",
+                  "Underflow is 2,000×0.45 = 900 kg/h because underflow solids fraction applies to feed.",
+                  "Underflow is 600/0.02 = 30,000 kg/h because overflow solids control underflow.",
+                  "Underflow is 600/0.45 = 1,333 kg/h because overflow solids can be ignored."
+            ],
+            "correct": 0,
+            "explanation": "Because overflow also carries solids, the underflow cannot be calculated from cake concentration alone. Both outlet compositions matter."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A reactor feed contains 4.0 wt% inert salt. The process recycles mother liquor, causing inert salt to enter at 18 kg/h and leave through purge at 15 kg/h during the trial. What does the salt balance imply?",
+            "opts": [
+                  "The recycle loop is accumulating salt at 3 kg/h, so the trial is not at steady state for the inert component.",
+                  "The process is at steady state because both inlet and outlet contain salt.",
+                  "The salt concentration must be decreasing because purge removes salt.",
+                  "The salt balance proves a hidden salt generation reaction of 33 kg/h."
+            ],
+            "correct": 0,
+            "explanation": "For an inert component at steady state, in equals out. A positive difference means accumulation unless there is an unmeasured outlet."
+      },
+      {
+            "section": "Advanced Material Balance, Recycle & Loss Localization",
+            "q": "A process uses 50 kg/h of a 30 wt% additive solution. The additive is active, and the water is inert. A proposed supplier offers 42 wt% solution, but the process active rate must stay unchanged. What new solution flow is required?",
+            "opts": [
+                  "New solution flow is 50×0.42/0.30 = 70.0 kg/h because concentration increased.",
+                  "New solution flow remains 50 kg/h because additive solution is the same material name.",
+                  "New solution flow is 50×(0.42−0.30) = 6.0 kg/h.",
+                  "Active rate is 15 kg/h; required 42 wt% solution flow is 15/0.42 = 35.7 kg/h."
+            ],
+            "correct": 3,
+            "explanation": "When concentration changes, the solution flow should be adjusted to hold active addition constant."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A reaction releases 520 kJ per kg of limiting reagent. At the proposed maximum addition rate of 420 kg/h, the jacket can remove 48 kW at the planned temperature difference. Ignoring heat capacity buffering, what should the analyst conclude?",
+            "opts": [
+                  "The jacket is acceptable because 48 kW is close to 60.7 kW and heat balances need not close exactly.",
+                  "Heat release is 420×520/3,600 = 60.7 kW, above jacket capacity; the addition rate or cooling basis is not acceptable.",
+                  "Heat release is 420×520 = 218,400 kW, so the process is impossible at any scale.",
+                  "Heat release is 420/520 = 0.81 kW, so the jacket has large margin."
+            ],
+            "correct": 1,
+            "explanation": "The heat-release rate must be converted from kJ/h to kW. Peak heat release exceeding heat removal is a scaleup risk."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A batch heater warms 6,000 kg liquid from 18°C to 82°C. cp = 3.6 kJ/kg·K. The heater delivers 190 kW net to the liquid, and fixed heat loss during heat-up is 18 kW. What heat-up time should be expected?",
+            "opts": [
+                  "Time is 190/(6,000×3.6×64) = 0.00014 h because power is divided by energy.",
+                  "Time is 6,000×64/190 = 2,021 h because cp can be omitted.",
+                  "Time is 1,382 MJ/190 kW = 2.02 h because heat loss does not affect net heating.",
+                  "Energy to liquid is 6,000×3.6×64 = 1,382 MJ; useful net after loss is 172 kW; time ≈ 2.23 h."
+            ],
+            "correct": 3,
+            "explanation": "When heater rating includes gross delivered power but losses occur during heat-up, the net rate available for warming the liquid is reduced."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A condenser, reactor jacket, and product cooler can overlap for 25 minutes during a high-rate sequence. Their loads are 310 kW, 180 kW, and 95 kW. The reliable summer cooling capacity is 520 kW. What is the correct dynamic capacity finding?",
+            "opts": [
+                  "The system is adequate because the largest individual user is only 310 kW.",
+                  "The shortfall is 585 kW because all users need standby capacity equal to total load.",
+                  "The system has 65 kW spare capacity because 585 − 520 is positive.",
+                  "The overlapping peak is 585 kW, creating a 65 kW shortfall during that sequence even if average daily load is acceptable."
+            ],
+            "correct": 3,
+            "explanation": "Utility constraints are often peak-overlap problems. Average load can hide short periods where simultaneous users exceed reliable capacity."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A commercial vessel is geometrically similar to the pilot vessel but has 27 times the volume. If heat generation scales with volume and heat-transfer area scales with surface area, what happens to heat generation per unit area?",
+            "opts": [
+                  "It stays constant because geometric similarity preserves all scale ratios.",
+                  "It increases 27× because volume is the only relevant scale factor.",
+                  "It decreases to one third because larger vessels are more thermally stable.",
+                  "Linear scale increases 3×, area 9×, volume 27×, so heat generation per area increases 3×."
+            ],
+            "correct": 3,
+            "explanation": "Volume scales with length cubed and area with length squared. Heat removal becomes harder as scale increases."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A solvent vapor stream condenses at 160 kg/h. Latent heat is 360 kJ/kg, and sensible cooling adds 18% to the latent load. Cooling water is allowed to warm 8 K. What cooling-water flow is required?",
+            "opts": [
+                  "Water flow is 160×360/(4.18×8) = 1,722 kg/s because kg/h is already kg/s.",
+                  "Total duty is 160×360×1.18/3,600 = 18.9 kW; water flow = 18.9/(4.18×8) = 0.57 kg/s.",
+                  "Water flow is 160/(4.18×8) = 4.78 kg/s because latent heat can be ignored.",
+                  "Water flow is 18.9×4.18×8 = 632 kg/s because duty should be multiplied by heat capacity."
+            ],
+            "correct": 1,
+            "explanation": "The vapor duty must be converted from kJ/h to kW before calculating cooling-water mass flow. Sensible load adds to latent duty."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A feed addition is limited by heat removal. Cooling capacity available at the current temperature difference is 72 kW. Reaction heat is 410 kJ/kg feed, and a 15% safety margin must remain unused. What maximum feed addition rate should be set?",
+            "opts": [
+                  "Maximum rate is 72×3,600/410 = 632 kg/h because margin is added after operation.",
+                  "Usable capacity is 0.85×72 = 61.2 kW; feed rate = 61.2×3,600/410 ≈ 537 kg/h.",
+                  "Maximum rate is 72/410 = 0.176 kg/h because kW and kJ/kg are directly compatible.",
+                  "Maximum rate is 410×0.85/72 = 4.84 kg/h because heat release belongs in the numerator."
+            ],
+            "correct": 1,
+            "explanation": "The heat-removal margin reduces usable cooling capacity. Unit conversion from kW to kJ/h is required."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A plant has two 300 kW chillers, but one must be available as standby for a critical process. During a trial, the required process cooling load is 420 kW. What is the defensible conclusion?",
+            "opts": [
+                  "The installed total is 600 kW, but N+1 reliable capacity is only 300 kW, so the trial exceeds the required reliability basis.",
+                  "The standby chiller can be counted at 50%, giving 450 kW reliable capacity without further analysis.",
+                  "The trial is unacceptable only if the load exceeds 600 kW.",
+                  "The trial is acceptable because 600 kW installed capacity is greater than 420 kW."
+            ],
+            "correct": 0,
+            "explanation": "Reliability basis matters. If one unit must remain standby, installed total is not the same as available process capacity."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A pneumatic transfer uses 520 Nm³/h air for 40 minutes per batch and 1,200 batches per year. Compressed air cost is $0.032/Nm³. What annual cost should be assigned before leakage margin?",
+            "opts": [
+                  "Annual cost is 520×0.032 = $16.64/year because batch count is not part of a rate.",
+                  "Annual cost is 520×40×1,200×0.032 = $798,720 because minutes are hours.",
+                  "Annual cost is 520×1,200×0.032 = $19,968 because minutes can be ignored.",
+                  "Annual air use is 520×(40/60)×1,200 = 416,000 Nm³; cost ≈ $13,312/year."
+            ],
+            "correct": 3,
+            "explanation": "Batch utility costs require converting operating minutes to hours, then multiplying by batch count and unit cost."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A transfer pump delivers 12 m³/h through a pressure rise of 680 kPa. Overall efficiency is 54%. The liquid density is already reflected in the pressure rise calculation. What power should be estimated?",
+            "opts": [
+                  "Power is 0.00333×680,000×0.54 = 1.22 kW because efficiency reduces input demand.",
+                  "Power is 12×680/0.54 = 15,111 kW because m³/h and kPa can be multiplied directly.",
+                  "Flow is 0.00333 m³/s; hydraulic power is 2.27 kW; input power is 2.27/0.54 = 4.2 kW.",
+                  "Power is 680,000/(12×0.54) = 104,938 kW because pressure should be divided by flow."
+            ],
+            "correct": 2,
+            "explanation": "Pump power is Q·ΔP divided by efficiency. The flow unit must be m³/s and pressure must be Pa."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A powder charging room is 12 m by 9 m by 5 m. The hazard review requires 10 air changes per hour, but the installed exhaust is 4,200 m³/h. What is the ventilation conclusion?",
+            "opts": [
+                  "Required exhaust is 540/10 = 54 m³/h, so the installed system has excess capacity.",
+                  "Required exhaust is 12×9×10 = 1,080 m³/h, so the installed system is adequate.",
+                  "Room volume is 540 m³; required exhaust is 5,400 m³/h; installed exhaust is short by 1,200 m³/h.",
+                  "Installed exhaust is adequate because 4,200 m³/h exceeds the room floor area times height."
+            ],
+            "correct": 2,
+            "explanation": "Air changes per hour multiply the full room volume, not floor area alone."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A hot filtrate stream rejects 260 kW between 75°C and 45°C. A cold feed needs 310 kW between 20°C and 55°C. Ignoring approach-temperature limits for the first screen, what is the maximum direct heat recovery?",
+            "opts": [
+                  "The theoretical recovery is limited by the smaller compatible duty, 260 kW, before temperature-approach checks.",
+                  "The recovery is 310 kW because the cold stream can accept that much heat.",
+                  "The recovery is 50 kW because only the difference between duties is useful.",
+                  "The recovery is 570 kW because hot and cold duties are added."
+            ],
+            "correct": 0,
+            "explanation": "The first-law maximum is the lower of available heat and heat demand. Temperature compatibility can reduce it further."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A dryer evaporates 850 kg/h water. Latent heat is 2,257 kJ/kg, and overall thermal efficiency from fuel to evaporation is 58%. Fuel costs $11/GJ. What hourly fuel cost should be estimated?",
+            "opts": [
+                  "Cost is 2.257/0.58×11 = $42.8/h because water rate is not needed.",
+                  "Cost is 1.918×11 = $21.1/h because thermal efficiency can be ignored.",
+                  "Evaporation duty is 1.918 GJ/h; fuel input is 1.918/0.58 = 3.31 GJ/h; cost ≈ $36.4/h.",
+                  "Cost is 850×11 = $9,350/h because water evaporation rate multiplies fuel price."
+            ],
+            "correct": 2,
+            "explanation": "Fuel cost depends on required heat input, not useful evaporation duty alone. Thermal efficiency increases fuel demand."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A CIP cycle uses 4,000 kg water heated from 22°C to 72°C. A heat-recovery exchanger preheats incoming water to 45°C using spent CIP return. What energy saving is achieved per cycle, ignoring losses?",
+            "opts": [
+                  "Saving is 4,000×(45−22) = 92,000 kWh because heat capacity can be omitted.",
+                  "Saving is 4,000×4.18×(45−22) = 384,560 kJ, about 107 kWh.",
+                  "Saving is 4,000×4.18×(72−45) = 451,440 kJ because remaining heat demand is the saving.",
+                  "Saving is 4.18×50 = 209 kJ because water mass cancels."
+            ],
+            "correct": 1,
+            "explanation": "Heat recovery reduces the temperature rise that utilities must provide. The saved energy is the preheat temperature increase times mass and heat capacity."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A batch reactor cooling step removes 900 MJ over 2.5 h. The cooling system is also committed to a 65 kW condenser during the same window. If reliable capacity is 175 kW, what is the margin?",
+            "opts": [
+                  "Combined load is 65 kW because batch energy is not a continuous load.",
+                  "Reactor cooling averages 100 kW; combined load is 165 kW, leaving only 10 kW margin.",
+                  "Reactor cooling averages 360 kW, so the deficit is 250 kW.",
+                  "Margin is 175 − 900 = negative 725 kW because MJ and kW are directly subtracted."
+            ],
+            "correct": 1,
+            "explanation": "Batch energy must be converted to average duty over the time window, then combined with simultaneous loads."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A hold tube contains 9.5 m³ liquid. The recipe requires at least 4.0 h residence time, but the commercial pump cycles between 1.8 and 3.2 m³/h depending on upstream level. Which conclusion is strongest?",
+            "opts": [
+                  "The system fails permanently because residence time always equals 9.5×3.2 = 30.4 h.",
+                  "The system passes because average flow can be chosen as 1.8 m³/h for residence-time calculations.",
+                  "Residence time ranges from 5.3 h to 3.0 h; the high-flow portion can violate the 4 h requirement unless controlled or buffered.",
+                  "Residence time cannot be estimated because pump flow is variable."
+            ],
+            "correct": 2,
+            "explanation": "For minimum residence-time requirements, the highest flow often controls. Dynamic operation must be considered, not just nominal flow."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "An exchanger had UA = 18 kW/K after cleaning. Six months later, the same duty requires a 27 K driving force instead of 19 K. What approximate current UA and performance loss are indicated for a 342 kW duty?",
+            "opts": [
+                  "Current UA is 342×27 = 9,234 kW/K, so performance improved.",
+                  "Current UA is 342/27 = 12.7 kW/K, about 30% below the clean value.",
+                  "Current UA is 18×27/19 = 25.6 kW/K, about 42% above clean.",
+                  "UA is unchanged because duty remains 342 kW."
+            ],
+            "correct": 1,
+            "explanation": "UA is duty divided by temperature driving force. Increasing required driving force at the same duty indicates fouling or lost heat-transfer performance."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A 22 kW agitator runs 5.5 h/batch for 700 batches/year. Motor data show average load is only 62% of nameplate during the recipe. Electricity is $0.105/kWh. What annual electricity cost is closest?",
+            "opts": [
+                  "Energy cost = 22×0.62×5.5×700×0.105 ≈ $5,515/year.",
+                  "Cost = 22×5.5×700×0.105 = $8,894/year because nameplate always equals actual draw.",
+                  "Cost = 22/0.62×5.5×700×0.105 = $14,345/year because load factor increases consumption.",
+                  "Cost = 22×0.62×0.105 = $1.43/year because batch time is included in load factor."
+            ],
+            "correct": 0,
+            "explanation": "Actual energy is nameplate multiplied by load factor and operating time. Nameplate alone overstates energy if average load is known."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A steam-heated process uses 2.8 t/h of steam for 4 h/batch. Condensate recovery reduces net steam cost from $44/t to $36/t. At 280 batches/year, what annual cost difference does condensate recovery create?",
+            "opts": [
+                  "Annual steam use is 2.8×4×280 = 3,136 t; savings are 3,136×($44−$36) = $25,088/year.",
+                  "Savings are 2.8×($44−$36) = $22/year because operating hours and batches are not cost drivers.",
+                  "Savings are 2.8×4×280×$44 = $137,984/year because all steam cost disappears.",
+                  "Savings are 3,136×$36 = $112,896/year because recovered condensate makes steam free."
+            ],
+            "correct": 0,
+            "explanation": "Condensate recovery changes the unit cost, not the steam use unless process operation also changes."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A reactor has 1,800 kg contents with cp = 3.2 kJ/kg·K. A credible dosing error could release 410 MJ rapidly. What adiabatic temperature rise should be used for a screening risk discussion?",
+            "opts": [
+                  "ΔT_ad is zero because a jacketed reactor cannot heat adiabatically.",
+                  "ΔT_ad ≈ 410/(1,800×3.2) = 0.071 K because MJ and kJ are equivalent.",
+                  "ΔT_ad ≈ 1,800×3.2/410,000 = 0.014 K because heat capacity belongs in the numerator.",
+                  "ΔT_ad ≈ 410,000 kJ/(1,800×3.2) = 71 K."
+            ],
+            "correct": 3,
+            "explanation": "Adiabatic rise estimates severity if heat removal is unavailable or overwhelmed. MJ must be converted to kJ to match cp units."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A line pressure drop is 120 kPa at 10 m³/h. The process team proposes 15 m³/h through the same line with similar fluid properties. If frictional pressure drop scales with flow squared, what new drop should be expected?",
+            "opts": [
+                  "New drop ≈ 120×(15/10)² = 270 kPa.",
+                  "New drop ≈ 120×15/10 = 180 kPa because all pressure drop is linear with flow.",
+                  "New drop ≈ 120×10/15 = 80 kPa because faster flow spends less time in the pipe.",
+                  "New drop remains 120 kPa because the pipe did not change."
+            ],
+            "correct": 0,
+            "explanation": "Turbulent frictional losses often rise approximately with flow squared. This can turn a modest rate increase into a large pressure-drop increase."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A 9-hour batch cycle includes a 2.5-hour drying step. A dryer control change cuts drying time by 40%, but adds 0.3 h to setup and does not change other steps. What is the approximate capacity change at constant batch size?",
+            "opts": [
+                  "Capacity increases by 40% because drying time improves by 40%.",
+                  "Capacity decreases because any setup increase offsets all drying improvement.",
+                  "New cycle is 9 − 1.0 + 0.3 = 8.3 h; capacity increases by 9/8.3 − 1 ≈ 8.4%.",
+                  "Capacity increases by (2.5×0.40 − 0.3)/9 = 7.8% exactly because time savings equals capacity gain."
+            ],
+            "correct": 2,
+            "explanation": "Cycle-time improvements affect total cycle inversely. Savings in one step must be netted against added setup time."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A shared steam meter covers a reactor heat-up duty of 420 kWh useful, a CIP duty of 180 kWh useful, and building heat estimated at 250 kWh useful during the same shift. Metered steam energy input is 1,100 kWh. If process duties are allocated by useful duty, what portion belongs to the reactor?",
+            "opts": [
+                  "Process useful duty is 420 + 180 = 600 kWh; reactor share of process allocation is 420/600 = 70% of process steam, not building heat.",
+                  "Reactor share is 420/(420+180+250) = 49% because building heat should be included in process OpEx.",
+                  "Reactor share is 100% because reactor heat-up is the largest single process duty.",
+                  "Reactor share is 420/1,100 = 38% because metered input is the denominator for every allocation."
+            ],
+            "correct": 0,
+            "explanation": "Allocation must follow the defined cost boundary. If building heat is excluded from process OpEx, reactor and CIP share only the process portion."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "Energy intensity rose from 1.8 to 2.2 kWh/kg in a month when production volume fell from 100 tonnes to 72 tonnes, while fixed base-load electricity stayed near 38,000 kWh/month. What is the key interpretation?",
+            "opts": [
+                  "Part of the intensity increase may be mathematical dilution of fixed base load over fewer kg, not only worse unit-operation efficiency.",
+                  "The fixed base load proves that all variable energy meters are wrong.",
+                  "The plant used less electricity per month, so energy intensity should be ignored.",
+                  "The process equipment efficiency definitely worsened by 22% because kWh/kg increased by 22%."
+            ],
+            "correct": 0,
+            "explanation": "Energy per kg combines fixed and variable consumption. Lower volume can increase intensity even if variable equipment performance does not change."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A cooling jacket calculation uses arithmetic mean ΔT of 18 K, but one end of the jacket has 4 K approach and the other has 32 K approach. Why should the analyst challenge the area estimate?",
+            "opts": [
+                  "The arithmetic mean is always more conservative than LMTD for heat-transfer calculations.",
+                  "The area estimate is unaffected because heat transfer depends only on coolant flow rate.",
+                  "The temperature driving force is highly nonuniform; LMTD or a dynamic model is needed because arithmetic mean can overstate heat-transfer performance.",
+                  "The small 4 K approach can be ignored because the other end has 32 K driving force."
+            ],
+            "correct": 2,
+            "explanation": "When end-point temperature differences are very different, arithmetic mean can distort the true driving force. The pinch end often controls design margin."
+      },
+      {
+            "section": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "q": "A utility header pressure falls whenever two batch reactors start heat-up together. Each reactor alone meets heat-up time. Which scheduling-level fix should be evaluated before buying a larger boiler?",
+            "opts": [
+                  "Reduce both batch temperatures permanently because utility pressure controls product specification.",
+                  "Ignore the issue because each reactor meets heat-up time when tested alone.",
+                  "Stagger heat-up starts or sequence peak steam users to reduce simultaneous demand, then compare lost schedule time with boiler upgrade economics.",
+                  "Buy a larger boiler immediately because any pressure drop proves installed capacity is inadequate."
+            ],
+            "correct": 2,
+            "explanation": "Many utility bottlenecks are simultaneity problems. Scheduling can be a lower-capital solution if it does not create larger throughput losses."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A monthly average yield improved from 84.2% to 86.0% after a recipe change. However, the post-change month used only one raw-material lot, while the baseline included five lots with different assays. What is the strongest statistical concern?",
+            "opts": [
+                  "The apparent improvement may be confounded by raw-material lot variation, so the recipe effect is not isolated.",
+                  "The baseline should be deleted because multiple lots make it less controlled.",
+                  "The improvement is proven because the average increased by 1.8 percentage points.",
+                  "The post-change data are always superior because fewer lots reduce noise."
+            ],
+            "correct": 0,
+            "explanation": "A before/after comparison can be misleading when other factors change at the same time. Lot variation must be controlled or modeled."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A control chart shows one point outside the upper control limit immediately after instrument recalibration, followed by stable values at a new average. Production claims the process shifted. What should be checked first?",
+            "opts": [
+                  "The process definitely shifted because control charts cannot be affected by instruments.",
+                  "The upper control limit should be widened until the new average is inside the old limits.",
+                  "The out-of-control point should be removed automatically because recalibration events are not process data.",
+                  "Whether the recalibration changed measurement bias or scaling before concluding the physical process shifted."
+            ],
+            "correct": 3,
+            "explanation": "Measurement system changes can mimic process changes. Instrument events must be reviewed when trends shift abruptly at calibration."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A process capability study reports Cpk = 1.45 for final moisture. The data exclude batches that required re-drying before release. What is the main issue with the capability claim?",
+            "opts": [
+                  "The capability is overstated because re-dried batches represent process output that was censored before release data were analyzed.",
+                  "Cpk is unaffected by excluded data as long as final released product meets specification.",
+                  "The capability is understated because re-drying proves the process can correct itself.",
+                  "The capability result should be converted to Cp because Cpk cannot be used for moisture."
+            ],
+            "correct": 0,
+            "explanation": "Capability should represent the process as operated, not only successful final outcomes after correction. Excluding rework hides defect generation."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A regression model predicts impurity from temperature, residence time, and raw-material lot. It has high R², but residuals show strong autocorrelation within campaigns. What does this imply?",
+            "opts": [
+                  "Autocorrelation proves the model is physically wrong and must be discarded without review.",
+                  "The model may overstate independent evidence because observations within a campaign are correlated and unmodeled campaign effects remain.",
+                  "Autocorrelation is useful only for financial time series, not process campaigns.",
+                  "High R² automatically overrides residual diagnostics."
+            ],
+            "correct": 1,
+            "explanation": "When residuals are correlated, standard significance and confidence intervals can be misleading. Campaign-level effects or time-series structure may need modeling."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A DOE changes feed rate and coolant temperature. The best yield occurs at high feed rate and low coolant temperature, but only one replicate was run at that corner and it had an operator intervention. What is the appropriate conclusion?",
+            "opts": [
+                  "Treat the result as a hypothesis requiring confirmation because the apparent optimum may depend on an unreplicated intervention.",
+                  "Declare the corner condition optimum because DOE results should always use the highest response.",
+                  "Reject the entire DOE because one run had an intervention.",
+                  "Remove the intervention from the batch record and use the yield as if it were normal operation."
+            ],
+            "correct": 0,
+            "explanation": "A single unreplicated high result with an abnormal intervention is weak evidence for a robust operating optimum."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A moisture analyzer has repeatability of ±0.15 wt% and bias of +0.20 wt% against the reference method. The process change claims a 0.18 wt% moisture reduction using only the analyzer. What is the strongest concern?",
+            "opts": [
+                  "The analyzer should be ignored for all future monitoring because it has any bias.",
+                  "The reduction is confirmed because 0.18 wt% is larger than zero.",
+                  "The claimed change is comparable to measurement error and bias, so reference confirmation or replication is needed.",
+                  "Bias improves the claim because positive bias makes reductions more conservative."
+            ],
+            "correct": 2,
+            "explanation": "Measurement system capability determines whether small observed differences can be trusted. Repeatability and bias can overwhelm a marginal effect."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A histogram of batch cycle time has two peaks: one around 7 h and one around 12 h. The 12 h peak occurs mostly when QC testing is not staffed overnight. What is the best modeling choice?",
+            "opts": [
+                  "Use only the 12 h peak because worst-case values should replace all planning data.",
+                  "Use the overall average because bimodal distributions become normal when enough data are collected.",
+                  "Model normal processing time and QC queue delay as separate operating states rather than using one average cycle time.",
+                  "Delete the 12 h batches because QC staffing is outside production."
+            ],
+            "correct": 2,
+            "explanation": "Bimodality often indicates distinct process states. Separating the states points to the actual constraint and intervention."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A Pareto chart shows most deviations are due to 'operator error.' Further review finds the category includes wrong material staged, unclear batch sheet, valve label mismatch, and alarm overload. What should the analyst do?",
+            "opts": [
+                  "Prioritize retraining only because all listed mechanisms involve operators.",
+                  "Accept the category because Pareto charts require broad labels.",
+                  "Break the category into actionable failure mechanisms instead of treating 'operator error' as a root cause.",
+                  "Remove the category because human factors cannot be analyzed quantitatively."
+            ],
+            "correct": 2,
+            "explanation": "Broad human-error labels often hide system causes. Process analysis should translate them into specific, fixable mechanisms."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A predictive model for dryer endpoint uses final moisture as an input feature. It predicts final moisture with excellent accuracy. The team wants to use it for real-time endpoint control. What is the flaw?",
+            "opts": [
+                  "The model should be used only in winter because dryer endpoint varies seasonally.",
+                  "The model is excellent for control because high accuracy is the only requirement.",
+                  "The model flaw is that final moisture is a laboratory value rather than a historian tag.",
+                  "The model uses the answer as an input, so it cannot be used before final moisture is known."
+            ],
+            "correct": 3,
+            "explanation": "This is data leakage. A control model must use variables available before or at the time the endpoint decision is made."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A control loop oscillates with a period close to the sample-line transport delay plus analyzer cycle time. Operators compensate manually. Which root-cause hypothesis is most plausible?",
+            "opts": [
+                  "The oscillation proves the reaction kinetics are random and cannot be controlled.",
+                  "Manual compensation is the root cause because operators always create oscillations.",
+                  "The loop may be tuned without accounting for dead time, causing delayed corrections and sustained oscillation.",
+                  "The analyzer should be sampled less often to hide the oscillation."
+            ],
+            "correct": 2,
+            "explanation": "Dead time can destabilize feedback control. If correction arrives after the process has already changed, overshoot and cycling can result."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A shift comparison shows Shift C has 30% more deviations. Shift C also runs most startup batches and smaller customer lots. What should be done before assigning performance responsibility?",
+            "opts": [
+                  "Ignore shift data because operational comparisons are always unfair.",
+                  "Assign responsibility to Shift C because raw deviation counts are the clearest evidence.",
+                  "Compare only the best batch from each shift to avoid penalizing difficult schedules.",
+                  "Adjust for product mix, startup frequency, lot size, and operating context before comparing shift effects."
+            ],
+            "correct": 3,
+            "explanation": "Fair comparisons require case-mix adjustment. Raw counts can reflect the work assigned rather than the quality of execution."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A 5-Why analysis stops at 'filter blinded because particles were too fine.' Particle-size data show fines increased after a milling screen was changed, but the screen change was not in the MOC log. What is the deeper corrective-action target?",
+            "opts": [
+                  "Control the milling screen change through MOC, specifications, verification, and linkage to filterability before production release.",
+                  "Stop collecting particle-size data because it complicates the filter investigation.",
+                  "Tell operators to watch pressure more closely because blinding is detected at the filter.",
+                  "Replace the filter media with a larger one and leave milling unchanged."
+            ],
+            "correct": 0,
+            "explanation": "The fine particles are a mechanism, but the unmanaged upstream change is a system cause that needs control."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "An A/B trial compares old and new wash recipes. The new recipe was tested on 8 batches, all with high-purity feed, while the old recipe data include 80 historical batches across all feed grades. What is the key validity issue?",
+            "opts": [
+                  "The comparison has unequal and biased feed-quality distributions, so the wash-recipe effect is not isolated.",
+                  "The trial is invalid only because A/B testing cannot be used in manufacturing.",
+                  "The new recipe is proven better because all 8 batches passed.",
+                  "The old recipe is proven better because 80 observations always beat 8 observations."
+            ],
+            "correct": 0,
+            "explanation": "Sample size is not the only issue. The treated and comparison groups must be comparable or adjusted for key covariates."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A process engineer sees a strong negative correlation between wash volume and impurity. However, operators increase wash volume only when early impurity tests are high. What causal problem exists?",
+            "opts": [
+                  "Confounding by indication: high impurity triggers more washing, so the correlation may not represent the causal effect of wash volume.",
+                  "Correlation cannot be used for any process insight, even as a hypothesis.",
+                  "The correlation proves washing causes higher impurity because operators intervene.",
+                  "The negative correlation proves wash volume reduces impurity and should be maximized."
+            ],
+            "correct": 0,
+            "explanation": "Operator decision rules can create biased observational data. The wash volume is not randomly assigned; it responds to the process condition."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A model classifies batches as pass/fail with 96% accuracy, but only 4% of batches fail. It predicts every batch will pass. What metric issue is present?",
+            "opts": [
+                  "Accuracy is misleading for an imbalanced data set; recall, precision, false negatives, and cost of missed failures are needed.",
+                  "The model is excellent because 96% accuracy exceeds typical quality thresholds.",
+                  "The model is poor only because it does not use enough neural-network layers.",
+                  "The model should be evaluated only on passed batches because failures are rare."
+            ],
+            "correct": 0,
+            "explanation": "With rare failures, a trivial all-pass model can have high accuracy while being useless for risk control."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A lab method was changed mid-year. After the change, impurity results appear 15% lower, but retain samples tested by both methods show the new method reads lower by about the same amount. What should the trend analysis do?",
+            "opts": [
+                  "Normalize or bridge the methods before interpreting the apparent impurity reduction as process improvement.",
+                  "Average old and new results without documenting the method change.",
+                  "Credit the full 15% reduction because the current approved method is the official value.",
+                  "Delete all old-method data so the trend starts fresh and looks stable."
+            ],
+            "correct": 0,
+            "explanation": "Analytical method changes can create artificial trend shifts. Bridge data are needed to separate measurement bias from process change."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A reaction impurity rises when feed rate rises. But feed rate is increased mostly during periods when coolant supply is strongest. If impurity still rises after controlling for coolant temperature, what does that suggest?",
+            "opts": [
+                  "Feed rate cannot matter because coolant supply was strongest at high rate.",
+                  "Coolant temperature must be the only cause because it was associated with feed-rate changes.",
+                  "Feed rate may have an independent effect, though remaining confounders and mechanism should still be checked.",
+                  "The analysis proves causality completely and no further confirmation is needed."
+            ],
+            "correct": 2,
+            "explanation": "Adjusting for a confounder can strengthen evidence for an independent association, but causal claims still require mechanism and confirmation."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "An alarm KPI improves after the alarm limit is widened. Deviations and off-spec batches do not improve. What should the analyst conclude?",
+            "opts": [
+                  "Alarm count is now irrelevant and should never be monitored again.",
+                  "The wider limit should be applied to product specification as well.",
+                  "The process improved because fewer alarms always mean fewer problems.",
+                  "The KPI improved because the measurement rule changed, not necessarily because process control improved."
+            ],
+            "correct": 3,
+            "explanation": "KPI definitions can be gamed or changed. A control improvement should show better process behavior, not just fewer alarms from wider limits."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A time study records only successful transfers. Transfers that plug are recorded in a maintenance log, not the time-study sheet. The average transfer time looks excellent. What bias exists?",
+            "opts": [
+                  "Failed or plugged transfers are missing from the time distribution, causing optimistic cycle-time and reliability estimates.",
+                  "Maintenance logs should never be combined with process time data.",
+                  "The time study is valid because only completed transfers have a measurable time.",
+                  "The average is conservative because failures usually take less time than successful transfers."
+            ],
+            "correct": 0,
+            "explanation": "Missing failure cases can bias capability analysis. Reliability and recovery time are part of practical process performance."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A supplier change appears to reduce filtration time. The change also reduced batch solids concentration by 12%, and filter area loading was not normalized. What analysis is needed?",
+            "opts": [
+                  "Use raw filtration time because operators experience time directly.",
+                  "Normalize filtration performance by solids mass or cake loading before attributing the time reduction to supplier quality.",
+                  "Reject the supplier because lower solids concentration always means poorer material.",
+                  "Attribute all improvement to the supplier because the change occurred at the same time."
+            ],
+            "correct": 1,
+            "explanation": "Filtration time depends on load. Lower solids concentration can reduce time even if intrinsic filterability did not improve."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A process has specification limits of 9.5 to 10.5. The mean is 10.3 and standard deviation is 0.08. Cp is high, but Cpk is lower. What is the most useful interpretation?",
+            "opts": [
+                  "The process is centered because the mean lies inside the specification range.",
+                  "Variation is small, but the process is off-center toward the upper specification, reducing upper-side capability.",
+                  "The process has high variation because Cp is high and Cpk is low.",
+                  "Cp should be used alone because centering does not affect customer risk."
+            ],
+            "correct": 1,
+            "explanation": "Cp measures spread relative to tolerance; Cpk also accounts for centering. A process can be precise but close to one limit."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A root-cause team identifies 'low temperature' as a cause of low conversion. Trend data show the temperature dip starts after conversion has already slowed, because heat release decreases. What causal mistake is possible?",
+            "opts": [
+                  "Low temperature must be the root cause because it appears in the same batch record.",
+                  "Conversion cannot affect temperature because temperature is a controlled variable.",
+                  "The team may be reversing cause and effect; low temperature could be a consequence of reduced reaction rate rather than the initial cause.",
+                  "The trend should be averaged by batch so timing no longer matters."
+            ],
+            "correct": 2,
+            "explanation": "Temporal order is essential for causal reasoning. A variable that changes after the outcome begins may be an effect or amplifier, not the original cause."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A dashboard uses moving averages to smooth noisy pH data. During a fast neutralization endpoint, the moving average crosses the target 90 seconds after the actual pH overshoots. What is the risk?",
+            "opts": [
+                  "The smoothing hides fast excursions and may make endpoint decisions too late for tight control.",
+                  "The actual pH should be ignored because raw data are noisy.",
+                  "The endpoint should be based on monthly average pH instead of batch data.",
+                  "The moving average is always better because smooth trends prevent operator overreaction."
+            ],
+            "correct": 0,
+            "explanation": "Filtering can help visualization but introduces lag. For endpoint control, lag can create overshoot and quality variability."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A new operator training program is followed by fewer deviations, but the same period also introduced barcode material verification and revised batch sheets. What conclusion is most defensible?",
+            "opts": [
+                  "Barcode verification caused the improvement because digital controls always outperform training.",
+                  "No improvement occurred because multiple changes make conclusions impossible.",
+                  "The total package appears beneficial, but the individual effect of training cannot be separated without a better design or staged evidence.",
+                  "Training alone caused the improvement because it was the most visible change."
+            ],
+            "correct": 2,
+            "explanation": "Multiple simultaneous changes can improve performance, but attribution among them requires designed rollout, controls, or additional evidence."
+      },
+      {
+            "section": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "q": "A historian tag for flow is stored only when the value changes by more than a threshold. During steady low-flow operation, few points are recorded. A simple average of recorded values overstates flow. Why?",
+            "opts": [
+                  "The instrument must be broken because averages cannot be affected by historian compression.",
+                  "The flow should be averaged by counting only maximum values during the batch.",
+                  "Event-based compression overweights changing periods and underrepresents steady periods unless time-weighted reconstruction is used.",
+                  "The simple average should be trusted because fewer points mean less noise."
+            ],
+            "correct": 2,
+            "explanation": "Historian compression affects statistical summaries. Time-weighted averages are needed for process quantities over time."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A constrained reactor earns $6.40/kg contribution at 180 kg/h for 5,000 h/year. A catalyst improves rate by 12% but lowers contribution to $5.85/kg on all production. Assuming all output can be sold, what is the approximate annual contribution change?",
+            "opts": [
+                  "Gain is zero because rate and contribution changes offset exactly.",
+                  "Baseline is 180×6.40×5,000 = $5.76M; new is 201.6×5.85×5,000 = $5.897M; gain ≈ $137k/year.",
+                  "Gain is 12% of $5.76M = $691k/year because contribution per kg is unchanged.",
+                  "Loss is $0.55×180×5,000 = $495k/year because only the price penalty matters."
+            ],
+            "correct": 1,
+            "explanation": "Throughput and margin effects must be evaluated together across all units produced, not only on incremental volume."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A process upgrade costs $1.4M. It has a 70% chance of saving $520k/year and a 30% chance of saving $180k/year for five years. Using a present-worth factor of 3.79 and ignoring tax, what expected NPV is closest?",
+            "opts": [
+                  "NPV is $180k×3.79 − $1.4M = −$718k because only the downside case is credible.",
+                  "NPV is $520k×3.79 − $1.4M = $571k because the best case should be used.",
+                  "Expected NPV is 0.70×520k + 0.30×180k − $1.4M = −$982k because present value is unnecessary.",
+                  "Expected annual saving is 0.70×520k + 0.30×180k = $418k; PV ≈ $1.584M; expected NPV ≈ $184k."
+            ],
+            "correct": 3,
+            "explanation": "Expected value combines scenario probabilities and discounted savings before subtracting capital."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A dryer debottleneck costs $900k and adds 8 batches/month. Each incremental batch contributes $7,500, but the extra operation increases annual maintenance by $95k. What simple payback is closest?",
+            "opts": [
+                  "Annual incremental margin is 8×12×$7,500 = $720k; net benefit is $625k; payback ≈ 1.44 years.",
+                  "Payback is $900k/$95k = 9.47 years because maintenance is the only recurring effect.",
+                  "Payback is $900k/$720k = 1.25 years because maintenance is fixed and should be ignored.",
+                  "Payback is $720k/$900k = 0.80 years because benefit should be divided by cost."
+            ],
+            "correct": 0,
+            "explanation": "Recurring costs tied to the project must be deducted from incremental contribution before simple payback is calculated."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A second filter doubles filtration capacity, but downstream drying allows only 18% more final output. The filter project team claims a 100% throughput benefit. What economic correction is required?",
+            "opts": [
+                  "Value the project using the 18% system output increase unless another action also removes the dryer constraint.",
+                  "Use zero benefit because the dryer remains a bottleneck.",
+                  "Use the average of 100% and 18% because both constraints should be represented equally.",
+                  "Use the 100% filter capacity increase because the purchased asset is a filter."
+            ],
+            "correct": 0,
+            "explanation": "The economic value of debottlenecking is determined by the system constraint, not isolated equipment capacity."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A batch-size increase saves $900 setup cost per batch but raises expected scrap exposure. Current operation has 1,000 kg batches, 2% full-batch failure probability, and $8/kg variable cost. Proposed operation has 2,500 kg batches, 3% failure probability. Ignoring throughput effects, what happens to expected scrap cost per kg?",
+            "opts": [
+                  "Expected scrap cost is unchanged because failure probability applies per batch, not per kg.",
+                  "Current expected scrap is 0.02×$8 = $0.16/kg; proposed expected scrap is 0.03×$8 = $0.24/kg, so scrap risk rises by $0.08/kg.",
+                  "Proposed expected scrap is 2,500×0.03×$8 = $600/kg.",
+                  "Expected scrap cost falls because larger batches spread failure probability over more kg."
+            ],
+            "correct": 1,
+            "explanation": "If a full batch is lost, expected scrap cost per kg produced scales with failure probability and value per kg. Larger batch size affects event size and scheduling risk, but probability matters directly on a per-kg basis."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A wash reduction saves $0.42/kg in water, treatment, and cycle time. It also increases reject probability from 1.5% to 3.2%. Rejects cost $28/kg of finished product. What is the net expected effect per kg?",
+            "opts": [
+                  "Net savings are $28×0.032 − $0.42 = $0.476/kg.",
+                  "Added expected reject cost is (0.032−0.015)×$28 = $0.476/kg, so the change is negative by about $0.056/kg.",
+                  "Net cost is $28/kg because any reject risk means all material is lost.",
+                  "Net savings are $0.42/kg because reject probability is still below 5%."
+            ],
+            "correct": 1,
+            "explanation": "Expected quality cost can overturn apparent process savings. Small probability changes matter when failure cost is large."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A make-versus-buy option frees 1,200 constrained reactor hours per year. In-house variable cost is $4.90/kg for 80,000 kg/year; buy price is $6.10/kg. Freed reactor time can earn $130/h contribution on another product. Which option is economically better before strategic risks?",
+            "opts": [
+                  "Making is better by $96k/year because $4.90/kg is lower than $6.10/kg.",
+                  "Buying adds $96k purchase cost but frees $156k contribution, giving a net $60k/year advantage to buying.",
+                  "Buying is worse because opportunity cost should never be included in make-versus-buy.",
+                  "The options are equal because the same annual demand is required."
+            ],
+            "correct": 1,
+            "explanation": "Opportunity cost of constrained capacity is relevant. A higher unit purchase price can be justified if it unlocks more valuable production."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A furnace optimization lowers electricity by 0.22 kWh/kg but adds nitrogen use of 0.08 Nm³/kg. Electricity is $0.12/kWh; nitrogen is $0.45/Nm³. What is the net utility cost change?",
+            "opts": [
+                  "Net cost increases by $0.45/kg because nitrogen is used.",
+                  "Net cost decreases by $0.026/kg because the electricity reduction is the only utility change.",
+                  "Electricity saves $0.026/kg; nitrogen adds $0.036/kg; net cost increases by about $0.010/kg.",
+                  "Net cost decreases by $0.062/kg because both numbers are savings."
+            ],
+            "correct": 2,
+            "explanation": "Utility trade-offs should be converted to the same economic basis. A process can save energy while increasing total utility cost."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A process improvement reduces WIP inventory by 30,000 kg valued at $14/kg. Finance uses 16% annual carrying cost. The project also frees the cash tied in inventory. What recurring annual carrying-cost saving is correct?",
+            "opts": [
+                  "Recurring saving is $420k/year because the full inventory value repeats every year.",
+                  "Inventory value reduction is $420k, and recurring carrying-cost saving is $420k×0.16 = $67.2k/year.",
+                  "Recurring saving is $14×0.16 = $2.24/year because inventory mass cancels.",
+                  "Recurring saving is 30,000×0.16 = $4,800/year because value per kg is not relevant."
+            ],
+            "correct": 1,
+            "explanation": "Cash release and recurring carrying-cost savings are different. Carrying cost is annual rate times inventory value."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A reliability project prevents 60% of failures. Failures occur 5 times/year, each causing 9 h lost constraint time at $3,800/h plus $4,000 repair cost. The project costs $82k/year to maintain. What expected annual net benefit is closest?",
+            "opts": [
+                  "Avoided cost is 0.60×5×(9×3,800+4,000) = $114.6k; net benefit ≈ $32.6k/year.",
+                  "Net benefit is 5×4,000 − 82,000 = −$62k because downtime is not a real cost.",
+                  "Net benefit is 82,000/0.60 = $136.7k because project cost should be divided by effectiveness.",
+                  "Net benefit is 0.60×5×9×3,800 = $102.6k because repair costs and maintenance cancel."
+            ],
+            "correct": 0,
+            "explanation": "Expected benefit includes avoided downtime and repair cost, adjusted by the probability or fraction of failures prevented, then subtracts recurring project cost."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A raw material price drops by $0.80/kg if purchased in bulk, but bulk storage increases average inventory by 90,000 kg. Carrying cost is 18%/year and material value after discount is $7/kg. Annual usage is 400,000 kg. What is the net annual effect?",
+            "opts": [
+                  "Net saving is $320k/year because inventory carrying cost is not a process concern.",
+                  "Net saving is $0.80×90,000 = $72k/year because only additional inventory earns discount.",
+                  "Net cost is $113.4k/year because bulk purchasing creates inventory.",
+                  "Purchase saving is $320k/year; added carrying cost is 90,000×7×0.18 = $113.4k/year; net saving ≈ $206.6k/year."
+            ],
+            "correct": 3,
+            "explanation": "Procurement savings should be compared with working-capital and handling costs introduced by the buying strategy."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A project reduces utility cost by $210k/year but requires a shutdown causing a one-time lost contribution of $330k. Installed cost is $700k. For simple payback including the shutdown loss as project cost, what is the payback?",
+            "opts": [
+                  "Payback is $700k/$210k = 3.3 years because shutdown loss is not paid to a supplier.",
+                  "Payback is $330k/$210k = 1.6 years because installed cost is sunk once approved.",
+                  "Payback is $210k/$1.03M = 0.20 years.",
+                  "Effective upfront cost is $1.03M; payback is $1.03M/$210k ≈ 4.9 years."
+            ],
+            "correct": 3,
+            "explanation": "Opportunity cost during implementation can be relevant when comparing project timing and true economic burden."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A vendor offers an analyzer for $240k installed. It reduces off-spec release risk by catching failures earlier, saving an expected $95k/year, but it also allows faster release worth $60k/year in working-capital benefit. Annual maintenance is $28k. What net annual benefit should be modeled?",
+            "opts": [
+                  "Net annual benefit is $95k/year because working capital is not a process-analysis outcome.",
+                  "Net annual benefit is $240k − $28k = $212k/year because installed cost is annual benefit.",
+                  "Net annual benefit is $60k − $95k − $28k = −$63k/year because risk savings should be treated as cost.",
+                  "Net annual benefit is $95k + $60k − $28k = $127k/year."
+            ],
+            "correct": 3,
+            "explanation": "A good economic model includes all recurring benefits and costs within the chosen boundary; installed cost is used separately for payback/NPV."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A new dryer recipe increases yield from 88% to 91%, but energy rises by 0.7 kWh/kg feed. Feed cost is $18/kg, product sells for $27/kg, electricity is $0.11/kWh, and feed rate is the same. What is the first-pass margin effect per kg feed?",
+            "opts": [
+                  "Margin improves by 3%×$18 = $0.54/kg because yield should be valued at feed cost only.",
+                  "Extra product revenue is 0.03×$27 = $0.81/kg feed; extra energy is $0.077/kg feed; net margin improves by about $0.73/kg feed.",
+                  "Margin worsens by $0.077/kg because any energy increase is unfavorable.",
+                  "Margin improves by $27−$18−$0.077 = $8.92/kg feed because the entire product price is incremental."
+            ],
+            "correct": 1,
+            "explanation": "Incremental yield value should be based on additional saleable product, while utility penalty is incremental energy cost."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A plant can spend $400k on better metering before committing to a $5M expansion. Better data has a 40% chance of revealing a hidden constraint that would stop the expansion and avoid a $1.6M expected loss. What is the expected value of the metering information before other benefits?",
+            "opts": [
+                  "Expected value is $640k + $400k = $1.04M because cost is added to benefit.",
+                  "Expected value is negative $400k because metering itself does not increase production.",
+                  "Expected avoided loss is 0.40×$1.6M = $640k; net expected value after metering cost is $240k.",
+                  "Expected value is $1.6M because the hidden constraint is the full avoided loss."
+            ],
+            "correct": 2,
+            "explanation": "Value of information comes from improved decisions. If data can prevent a bad investment, its expected avoided loss can justify the measurement cost."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A process has average cost of $9/kg at 70% utilization and $7.80/kg at 90% utilization because fixed costs spread over more volume. A customer asks for a special order that uses spare capacity at 75% utilization. Which cost basis matters most for pricing the incremental order?",
+            "opts": [
+                  "The 90% utilization average cost because it is lower and helps win the order.",
+                  "Incremental variable cost and any true opportunity cost, not the current average fully loaded cost.",
+                  "The 70% utilization average cost because it is the current accounting value.",
+                  "The average of $9 and $7.80 because special orders require neutral pricing."
+            ],
+            "correct": 1,
+            "explanation": "For spare-capacity decisions, marginal economics can differ from average cost. Fixed-cost allocation should not automatically determine incremental pricing."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A yield-improvement project and a downtime-reduction project compete for the same engineering resource. Yield project NPV is $420k with high technical uncertainty; downtime project NPV is $350k with low uncertainty and also reduces safety exposure. Which ranking method is strongest?",
+            "opts": [
+                  "Use risk-adjusted value plus strategic/safety impact and resource constraints rather than ranking by nominal NPV alone.",
+                  "Choose the yield project because $420k is greater than $350k.",
+                  "Delay both until uncertainty is zero.",
+                  "Choose the downtime project only because low uncertainty always beats higher NPV."
+            ],
+            "correct": 0,
+            "explanation": "Portfolio ranking should consider uncertainty, risk reduction, dependencies, and resource bottlenecks, not only point-estimate NPV."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A new filtration aid costs $0.36/kg product but reduces cycle time enough to add 1,800 kg/month at $5.20/kg contribution before filtration-aid cost. Current production is 28,000 kg/month. What is the monthly net effect?",
+            "opts": [
+                  "Net loss is 28,000×$0.36 = $10,080/month because added production has no value.",
+                  "Net benefit is 1,800×$5.20 = $9,360/month because the aid enables extra volume.",
+                  "Net benefit is 1,800×($5.20−$0.36) = $8,712/month because aid cost applies only to extra product.",
+                  "Added contribution is 1,800×$5.20 = $9,360; filtration aid cost on all production is (29,800×$0.36) = $10,728; net is −$1,368/month."
+            ],
+            "correct": 3,
+            "explanation": "If the aid is used on all production, its cost applies to base and incremental volume. This can overturn a throughput-only benefit."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A tariff schedule charges $16/kW-month demand based on the highest 15-minute peak. A process change adds a 420 kW heater for 20 minutes once per day, but only during the current plant peak. What monthly demand-charge impact is expected?",
+            "opts": [
+                  "Impact is 420×20/60×$16 = $2,240/month because demand charge is energy-weighted.",
+                  "Impact is zero because the heater runs for only 20 minutes per day.",
+                  "The demand charge can rise by about 420×$16 = $6,720/month if it increases the monthly peak.",
+                  "Impact is 420×24×30×$16 because all hours in the month are charged."
+            ],
+            "correct": 2,
+            "explanation": "Demand charges depend on peak power, not total energy. Short high-load events can materially affect cost if they set the peak."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A quality project reduces complaint probability from 1.2% to 0.4%. Each complaint costs $42,000 on average. The plant ships 500 lots/year. The project costs $120,000/year to operate. What net annual benefit is expected?",
+            "opts": [
+                  "Net benefit is $42,000×0.8% = $336/year because probability is already annual.",
+                  "Avoided expected complaint cost is (0.012−0.004)×500×$42,000 = $168,000; net benefit is $48,000/year.",
+                  "Net benefit is $168,000 + $120,000 = $288,000/year because project cost adds confidence.",
+                  "Net benefit is negative because complaints still occur after the project."
+            ],
+            "correct": 1,
+            "explanation": "Expected quality cost equals probability times number of opportunities times consequence. Operating cost must be subtracted."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "An old evaporator has $160k/year maintenance and 62% thermal efficiency. A replacement costs $1.8M, cuts maintenance to $55k/year, and improves efficiency to 78%, saving $210k/year fuel at current rates. What simple payback is closest?",
+            "opts": [
+                  "Payback is $315k/$1.8M = 0.175 years.",
+                  "Payback is $1.8M/$105k = 17.1 years because maintenance is the only controllable saving.",
+                  "Annual benefit is ($160k−$55k)+$210k = $315k; payback ≈ 5.7 years.",
+                  "Payback is $1.8M/$210k = 8.6 years because fuel is the only true saving."
+            ],
+            "correct": 2,
+            "explanation": "Replacement economics combine maintenance and energy savings when both are recurring and attributable to the project."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A higher-purity feed costs $1.10/kg more but raises yield from 82% to 87%. Product value is $24/kg product, and other variable costs are unchanged. Per kg feed, is the premium justified?",
+            "opts": [
+                  "The premium is not justified because $1.10/kg feed is larger than the 5 percentage-point yield change.",
+                  "The premium is justified by $24−$1.10 = $22.90/kg feed.",
+                  "The options are equal because 87% and 82% are both below 100%.",
+                  "Extra product value is 0.05×$24 = $1.20/kg feed, slightly above the $1.10/kg premium."
+            ],
+            "correct": 3,
+            "explanation": "Yield improvement should be valued as incremental saleable product per kg feed. The premium is justified only if that value exceeds added cost."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "Two constraints alternate: reactor limits rate during normal weeks, but QC release limits shipments at month-end. A reactor upgrade has positive modeled NPV using average reactor utilization. What should be checked before approval?",
+            "opts": [
+                  "Average reactor utilization is enough because bottlenecks should be assessed annually.",
+                  "Whether the upgrade creates saleable shipments or simply moves more WIP into the QC release queue during constrained periods.",
+                  "The reactor upgrade should be rejected because any second constraint makes reactor capacity worthless.",
+                  "The QC constraint should be ignored because it is not process equipment."
+            ],
+            "correct": 1,
+            "explanation": "A project creates value only if it increases system throughput to the market. Time-varying downstream constraints can absorb upstream gains as WIP."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A data-quality project costs $75k and is expected to reduce yield-model uncertainty from ±8% to ±3%. It does not directly improve the process. When can it still be economically justified?",
+            "opts": [
+                  "Always, because any reduction in uncertainty is worth more than its cost.",
+                  "Only when it can be capitalized as equipment rather than expensed.",
+                  "Never, because only projects that directly increase yield have economic value.",
+                  "When reduced uncertainty changes decisions, prevents over/under-investment, or enables better control actions worth more than the data cost."
+            ],
+            "correct": 3,
+            "explanation": "Measurement and analysis work have value when they improve decisions, reduce risk, or enable profitable actions. Uncertainty reduction is not automatically worthless or priceless."
+      },
+      {
+            "section": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "q": "A sensitivity table shows project NPV is most affected by yield, then market price, then wastewater cost. The team spends most effort optimizing electricity because it is easiest to measure. What is the process-analysis critique?",
+            "opts": [
+                  "Effort is misaligned with value drivers unless electricity also affects a critical risk or enabling constraint not captured in the table.",
+                  "Wastewater cost should be optimized first because it appears last in the sensitivity ranking.",
+                  "The team is correct because easy-to-measure variables should always be improved first.",
+                  "The sensitivity table should be ignored because it makes the project look risky."
+            ],
+            "correct": 0,
+            "explanation": "Improvement resources should target high-leverage drivers, while also considering feasibility and risk. Convenience alone can misdirect effort."
+      },
+      {
+            "section": "Scaleup Readiness, Risk Gates & Integrated Executive Decisions",
+            "q": "A proposed commercial rollout meets average yield and cost targets, but the P90 cooling load exceeds reliable summer capacity, and the impurity model becomes unstable if recycle purge is reduced below 4%. What recommendation is most defensible?",
+            "opts": [
+                  "Ignore purge sensitivity because purge is an operating detail rather than a scaleup gate.",
+                  "Cancel the project because any P90 utility constraint makes commercialization impossible.",
+                  "Proceed directly to full rate because average yield and cost targets are met.",
+                  "Proceed only with staged rate increase and explicit cooling/purge gates, or resolve those constraints before full-rate commitment."
+            ],
+            "correct": 3,
+            "explanation": "Part III decisions must distinguish average performance from tail risk. Full-rate approval needs constraints and sensitivities under control."
+      },
+      {
+            "section": "Scaleup Readiness, Risk Gates & Integrated Executive Decisions",
+            "q": "A validation plan includes three qualification batches, but operators are allowed to adjust feed rate, wash volume, and endpoint rules during those batches. The sponsor wants to call them validation runs. What should be changed?",
+            "opts": [
+                  "Use only the best of the three batches for validation because it shows capability.",
+                  "Separate engineering-learning batches from qualification batches run under locked conditions with predefined acceptance criteria.",
+                  "Accept them as validation because commercial-scale batches are automatically qualifying evidence.",
+                  "Let operators adjust freely and choose acceptance criteria after reviewing the data."
+            ],
+            "correct": 1,
+            "explanation": "Validation should demonstrate repeatability under intended conditions. Tuning and qualification are different activities."
+      },
+      {
+            "section": "Scaleup Readiness, Risk Gates & Integrated Executive Decisions",
+            "q": "A switch from 98 wt% acid to 90 wt% acid reduces procurement risk but increases water load, heat of dilution difference, tank volume, wastewater, and potentially reaction selectivity. Which process-analysis action is required?",
+            "opts": [
+                  "Run a full MOC update covering composition basis, heat/mass balance, equipment capacity, safety, quality, waste, cost, and validation needs.",
+                  "Approve the switch if supplier lead time improves, then check process effects after startup.",
+                  "Update only the purchase price because the chemical name is unchanged.",
+                  "Change only the density in the spreadsheet because concentration mainly affects volume."
+            ],
+            "correct": 0,
+            "explanation": "A concentration change can propagate through the entire process. It is a technical and business MOC, not just procurement substitution."
+      },
+      {
+            "section": "Scaleup Readiness, Risk Gates & Integrated Executive Decisions",
+            "q": "A ramp-up gate says 'advance to 100% rate if no major problems occur.' The process has an exotherm, filtration variability, and a tight impurity limit. What is the most important improvement to the gate?",
+            "opts": [
+                  "Keep the wording flexible so the team can advance quickly if management pressure is high.",
+                  "Replace subjective wording with numerical limits for heat removal, impurity, pressure drop, filter rate, alarms, yield, and waste surge before rate increase.",
+                  "Use only final product pass/fail because it is the customer-facing measure.",
+                  "Advance based on calendar date because ramp-up schedule is the approved commitment."
+            ],
+            "correct": 1,
+            "explanation": "Good gates are evidence-based and pre-defined. Subjective gates are vulnerable to optimism and schedule pressure."
+      },
+      {
+            "section": "Scaleup Readiness, Risk Gates & Integrated Executive Decisions",
+            "q": "Engineering hands over a model showing expected 6 batches/day. Operations receives no abnormal-situation guide for high viscosity, slow filtration, or off-gas temperature excursions. What is the most serious handover gap?",
+            "opts": [
+                  "The gap is only documentation style because operators can infer responses from experience.",
+                  "The analysis has not been converted into operating limits, diagnostic triggers, and response actions for real process deviations.",
+                  "No gap exists because operations only needs the target batch rate.",
+                  "The model should be hidden from operations because too much information slows execution."
+            ],
+            "correct": 1,
+            "explanation": "A process-analysis result is useful only if it supports decisions during real operation, including abnormal conditions."
+      },
+      {
+            "section": "Scaleup Readiness, Risk Gates & Integrated Executive Decisions",
+            "q": "A startup contingency plan includes spare pumps and overtime labor, but no plan for off-spec intermediate, limited quarantine tanks, wastewater surge, or delayed customer orders. What is the best critique?",
+            "opts": [
+                  "Wastewater surge matters only after the first environmental incident.",
+                  "The plan is complete because pumps and labor are the most common startup constraints.",
+                  "Customer orders are outside process analysis and should be omitted.",
+                  "The plan covers equipment response but not material disposition, environmental capacity, storage constraints, or commercial impact."
+            ],
+            "correct": 3,
+            "explanation": "Startup failures often become material, storage, waste, and customer problems. Contingency planning must follow the consequences through the system."
+      },
+      {
+            "section": "Scaleup Readiness, Risk Gates & Integrated Executive Decisions",
+            "q": "A solvent-saving change reduces solvent purchase by 14% but increases VOC loading to carbon beds and raises bed-change waste by 35%. What should the executive summary say?",
+            "opts": [
+                  "The change is clearly unacceptable because one waste metric increases.",
+                  "The change is clearly beneficial because purchased solvent is lower.",
+                  "The carbon-bed issue should be omitted because it belongs to the environmental department.",
+                  "The change may be beneficial, but it needs total-cost and environmental trade-off review across solvent, emissions control, waste, safety, and compliance."
+            ],
+            "correct": 3,
+            "explanation": "Sustainability and cost improvements can shift burden. Integrated analysis is needed before claiming net benefit."
+      },
+      {
+            "section": "Scaleup Readiness, Risk Gates & Integrated Executive Decisions",
+            "q": "A single qualified supplier provides a reagent with variable assay. The process is profitable only if yield stays above 84%, and sensitivity analysis shows assay drives yield strongly. What scaleup condition should be added?",
+            "opts": [
+                  "Supplier qualification, incoming assay control, safety stock, alternate-source plan, and yield-adjusted production planning should be gates or tracked risks.",
+                  "Proceed normally because supplier risk is procurement's responsibility.",
+                  "Use the highest historical assay in the model to avoid penalizing the supplier.",
+                  "Reduce the customer specification so yield sensitivity disappears."
+            ],
+            "correct": 0,
+            "explanation": "Supply variability can be a process-performance risk. Commercial readiness should connect procurement controls with yield and capacity assumptions."
+      },
+      {
+            "section": "Scaleup Readiness, Risk Gates & Integrated Executive Decisions",
+            "q": "A manual viscosity-based endpoint will be automated. The automation package includes a control valve and PLC code but no validated viscosity measurement, failure-state logic, or operator override criteria. What is the correct readiness conclusion?",
+            "opts": [
+                  "Automation is ready because PLC control is more repeatable than manual judgment.",
+                  "Automation should be rejected permanently because manual endpoints can never be automated.",
+                  "Automation is not ready; the measurement, control basis, failure modes, alarms, override rules, and validation evidence are incomplete.",
+                  "Automation readiness depends only on whether the valve strokes correctly."
+            ],
+            "correct": 2,
+            "explanation": "Automation only stabilizes a process when it measures the right variable, acts correctly, and handles abnormal states safely."
+      },
+      {
+            "section": "Scaleup Readiness, Risk Gates & Integrated Executive Decisions",
+            "q": "A high-rate trial is successful, but post-run review shows three near misses: cooling valve saturated, filter pressure approached trip limit, and waste tank reached 92% working capacity. What should the go/no-go team conclude?",
+            "opts": [
+                  "The issues should be handled informally by operators during future campaigns.",
+                  "The trial failed completely because near misses are the same as product failures.",
+                  "The trial demonstrated potential but also showed eroded operating margins that must be addressed before routine high-rate operation.",
+                  "The trial proves readiness because no actual trip or overflow occurred."
+            ],
+            "correct": 2,
+            "explanation": "Success is not only product output. Near-limit operation can indicate insufficient robustness for routine commercial operation."
+      },
+      {
+            "section": "Scaleup Readiness, Risk Gates & Integrated Executive Decisions",
+            "q": "A model predicts positive NPV at full rate, but negative NPV if yield is 3 percentage points lower or if wastewater disposal cost doubles. Both uncertainties are plausible during first-year operation. What decision structure is strongest?",
+            "opts": [
+                  "Approve full investment because the base-case NPV is positive.",
+                  "Ignore wastewater sensitivity because cost doubles are outside engineering scope.",
+                  "Reject the project because any downside case is negative.",
+                  "Use a staged investment or ramp-up plan with trigger points tied to actual yield and wastewater data before committing irreversible spend."
+            ],
+            "correct": 3,
+            "explanation": "When uncertainty can change the investment decision, staged commitment and learning gates can protect capital while preserving upside."
+      },
+      {
+            "section": "Scaleup Readiness, Risk Gates & Integrated Executive Decisions",
+            "q": "A HAZOP action requires confirmation of maximum credible heat release, but the process-analysis team has only average heat-release data. The project wants to close the action using the average. What is the correct response?",
+            "opts": [
+                  "Close it because average heat release is the most statistically stable value.",
+                  "Do not close it with average data; identify credible worst-case addition, accumulation, concentration, and cooling-failure scenarios.",
+                  "Move it to operations because HAZOP actions are not part of process analysis.",
+                  "Close it if the average is below jacket capacity by at least 10%."
+            ],
+            "correct": 1,
+            "explanation": "Safety actions often need credible worst case, not average performance. Process analysis supports HAZOP by quantifying scenarios and margins."
+      },
+      {
+            "section": "Scaleup Readiness, Risk Gates & Integrated Executive Decisions",
+            "q": "A customer qualification campaign passes all specifications, but only because QA manually selected the best three lots from seven commercial runs. Four lots required rework. What is the correct executive-risk statement?",
+            "opts": [
+                  "The process is qualified because the customer only sees the three passing lots.",
+                  "Customer samples passed, but routine right-first-time capability is not proven and rework dependence must be disclosed and reduced.",
+                  "The four reworked lots should be removed from readiness metrics because they did not ship.",
+                  "The campaign proves the process fails because fewer than all seven lots passed initially."
+            ],
+            "correct": 1,
+            "explanation": "Qualification should not hide selection bias. Commercial readiness depends on routine capability, not only curated passing samples."
+      },
+      {
+            "section": "Scaleup Readiness, Risk Gates & Integrated Executive Decisions",
+            "q": "A process has acceptable pilot impurity, but commercial residence time distribution will be broader due to a larger hold tank and intermittent downstream filtration. Which risk should be evaluated?",
+            "opts": [
+                  "Residence time distribution does not matter if average hold time matches the pilot.",
+                  "Long-tail residence time may increase degradation or impurity for material held longer than the pilot exposure.",
+                  "The broader distribution automatically improves quality by increasing mixing time.",
+                  "The risk is only lower throughput because hold tanks cannot affect chemistry."
+            ],
+            "correct": 1,
+            "explanation": "Scaleup can broaden exposure time distribution. For time-sensitive chemistry, tails can matter more than averages."
+      },
+      {
+            "section": "Scaleup Readiness, Risk Gates & Integrated Executive Decisions",
+            "q": "A final report recommends immediate full-scale implementation but lists unresolved assumptions: purge concentration, cooling peak overlap, wet-cake variability, and customer impurity sensitivity. What should be changed?",
+            "opts": [
+                  "Convert unresolved assumptions into decision-critical risks with owners, evidence needed, interim limits, and go/no-go implications.",
+                  "Move the assumptions to an appendix so the recommendation appears clearer.",
+                  "Delete the assumptions and rely on startup troubleshooting.",
+                  "Keep the full-scale recommendation because assumptions are normal in every report."
+            ],
+            "correct": 0,
+            "explanation": "A strong recommendation must be consistent with unresolved risk. Decision-critical assumptions should be managed, not buried."
+      },
+      {
+            "section": "Scaleup Readiness, Risk Gates & Integrated Executive Decisions",
+            "q": "A post-startup review finds the plant meets throughput but uses 26% more steam per kg than the investment model, mainly from longer heat-up and standby losses. What should be done before closing the project?",
+            "opts": [
+                  "Update the model to match actual steam use without investigating causes.",
+                  "Reconcile design versus actual energy by phase, update the economic model, and create actions for heat-up scheduling, insulation, controls, or heat recovery.",
+                  "Close the project because throughput is the only startup acceptance measure.",
+                  "Blame the boiler efficiency and ignore batch-phase behavior."
+            ],
+            "correct": 1,
+            "explanation": "Post-startup analysis should compare actual performance to the decision basis and convert gaps into corrective actions or revised economics."
+      },
+      {
+            "section": "Scaleup Readiness, Risk Gates & Integrated Executive Decisions",
+            "q": "A 90-day improvement roadmap has 28 actions. The highest-value capital project depends on fixing unreliable mass-flow data and confirming impurity-removal kinetics. What sequencing is most practical?",
+            "opts": [
+                  "Work alphabetically through the action list to avoid prioritization bias.",
+                  "Delay every action until all 28 items are complete.",
+                  "Prioritize data-foundation and kinetics confirmation first, while preparing the capital scope so the high-value project is not approved on weak evidence.",
+                  "Approve the capital project first because it has the highest theoretical value."
+            ],
+            "correct": 2,
+            "explanation": "Roadmaps should respect dependencies. Foundational evidence may be the fastest route to a defensible high-value investment."
+      },
+      {
+            "section": "Scaleup Readiness, Risk Gates & Integrated Executive Decisions",
+            "q": "A regulatory filing includes a process description based on the old batch route. The new commercial route changes solvent ratio, wash endpoint, and dryer temperature. Production wants to start while documentation is updated later. What is the proper decision?",
+            "opts": [
+                  "Start production if operations can show the new route is cheaper.",
+                  "Start production because the product name and final specification are unchanged.",
+                  "Treat the change as a controlled readiness gate requiring regulatory/quality review before production under the new route.",
+                  "Update only the internal PFD because external filings do not affect process analysis."
+            ],
+            "correct": 2,
+            "explanation": "Documentation, customer, and regulatory commitments can be part of commercial readiness. Process changes may require approval before use."
+      },
+      {
+            "section": "Scaleup Readiness, Risk Gates & Integrated Executive Decisions",
+            "q": "A commercial-scale dryer has the same endpoint specification as pilot, but the commercial sensor measures exhaust humidity while the pilot endpoint used direct product moisture. What must be established?",
+            "opts": [
+                  "Set the exhaust endpoint by choosing the value from the first passing commercial batch only.",
+                  "A validated relationship between exhaust humidity endpoint and product moisture across load, airflow, temperature, and material variability.",
+                  "No work is needed because both endpoints relate to drying.",
+                  "Use the pilot endpoint time because endpoint method changes do not affect moisture."
+            ],
+            "correct": 1,
+            "explanation": "A changed measurement method must be correlated to the quality attribute it controls. Otherwise endpoint control can drift across operating conditions."
+      },
+      {
+            "section": "Scaleup Readiness, Risk Gates & Integrated Executive Decisions",
+            "q": "An executive asks for the Part III conclusion in one sentence. The process has strong margin, unresolved cooling-tail risk, uncertain right-first-time yield, and a clear 60-day plan to close data gaps. Which sentence is most appropriate?",
+            "opts": [
+                  "The opportunity is economically attractive but should proceed through staged approval tied to cooling-margin proof, right-first-time yield evidence, and closure of the 60-day data plan.",
+                  "The project should be approved immediately because strong margin is the dominant decision factor.",
+                  "The project should be described as risk-free if the 60-day plan is included in the appendix.",
+                  "The project should be cancelled because unresolved technical risks exist."
+            ],
+            "correct": 0,
+            "explanation": "Executive recommendations should integrate value, risk, and next decision gates. This is harder than giving a pure technical or pure financial answer."
+      }
+];
+    const SECTIONS = [
+      {
+            "key": "Boundary Reconciliation, Data Integrity & Model Governance",
+            "label": "I — Boundary Reconciliation, Data Integrity & Model Governance",
+            "cls": "sec-foundations",
+            "range": "Questions 1–25"
+      },
+      {
+            "key": "Advanced Material Balance, Recycle & Loss Localization",
+            "label": "II — Advanced Material Balance, Recycle & Loss Localization",
+            "cls": "sec-materials",
+            "range": "Questions 26–55"
+      },
+      {
+            "key": "Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "label": "III — Energy, Heat Removal, Utilities & Dynamic Capacity",
+            "cls": "sec-utilities",
+            "range": "Questions 56–80"
+      },
+      {
+            "key": "Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "label": "IV — Statistical Diagnostics, Control Evidence & Causal Reasoning",
+            "cls": "sec-labor",
+            "range": "Questions 81–105"
+      },
+      {
+            "key": "Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "label": "V — Techno-Economic Trade-offs, Constraint Economics & Uncertainty",
+            "cls": "sec-waste",
+            "range": "Questions 106–130"
+      },
+      {
+            "key": "Scaleup Readiness, Risk Gates & Integrated Executive Decisions",
+            "label": "VI — Scaleup Readiness, Risk Gates & Integrated Executive Decisions",
+            "cls": "sec-finance",
+            "range": "Questions 131–150"
+      }
+];
+    const TOTAL = QUESTIONS.length;
+    const LETTERS = ["A", "B", "C", "D"];
+    const EXAM_DURATION_MS = 4 * 60 * 60 * 1000;
+
+    let mode = "guided";
+    let answers = Array(TOTAL).fill(null);
+    let locked = Array(TOTAL).fill(false);
+    let guidedIndex = 0;
+    let examIndex = 0;
+    let examSubmitted = false;
+    let submittedDueToTimeout = false;
+    let timerInterval = null;
+    let timeLeft = EXAM_DURATION_MS;
+    let learnerName = "";
+    let modalPurpose = "exam";
+    let certificateId = "";
+
+    function esc(value){
+      return String(value).replace(/[&<>"']/g, function(ch){
+        return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[ch];
+      });
+    }
+
+    function getSectionInfo(key){
+      return SECTIONS.find(s => s.key === key) || SECTIONS[0];
+    }
+
+    function answeredCount(){
+      return answers.filter(v => v !== null).length;
+    }
+
+    function scoreCount(){
+      return QUESTIONS.reduce((sum, q, i) => sum + (answers[i] === q.correct ? 1 : 0), 0);
+    }
+
+    function allAnswered(){
+      return answeredCount() === TOTAL;
+    }
+
+    function resetState(){
+      answers = Array(TOTAL).fill(null);
+      locked = Array(TOTAL).fill(false);
+      guidedIndex = 0;
+      examIndex = 0;
+      examSubmitted = false;
+      submittedDueToTimeout = false;
+      timeLeft = EXAM_DURATION_MS;
+      stopTimer();
+      document.getElementById("results").style.display = "none";
+      document.getElementById("certificate").style.display = "none";
+      updateHUD();
+    }
+
+    function setActiveModeButton(){
+      ["guided","instant","exam"].forEach(m => {
+        const btn = document.getElementById("mode-" + m);
+        if(btn) btn.classList.toggle("active", mode === m);
+      });
+    }
+
+    function setMode(nextMode){
+      if(nextMode === "exam"){
+        modalPurpose = "exam";
+        document.getElementById("nameModalTitle").textContent = "Start Exam Mode";
+        document.getElementById("nameModalText").textContent = "Enter your name. The 4-hour timer starts after you continue.";
+        document.getElementById("modalPrimaryBtn").textContent = "Start Exam";
+        document.getElementById("learnerNameInput").value = learnerName || "";
+        showNameModal();
+        return;
+      }
+      mode = nextMode;
+      resetState();
+      setActiveModeButton();
+      document.getElementById("timerStat").style.display = "none";
+      if(mode === "guided"){
+        document.getElementById("modeHint").textContent = "Guided Path shows one question at a time with immediate feedback and teaching explanations.";
+        renderGuided();
+      }else{
+        document.getElementById("modeHint").textContent = "Instant Feedback shows all questions. Each answer locks as soon as you select it.";
+        renderInstant();
+      }
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+
+    function showNameModal(){
+      const modal = document.getElementById("nameModal");
+      modal.style.display = "flex";
+      setTimeout(() => document.getElementById("learnerNameInput").focus(), 50);
+    }
+
+    function cancelNameModal(){
+      document.getElementById("nameModal").style.display = "none";
+    }
+
+    function submitNameModal(){
+      const input = document.getElementById("learnerNameInput");
+      const name = input.value.trim();
+      if(!name){
+        input.focus();
+        input.style.borderColor = "rgba(168,65,47,.80)";
+        return;
+      }
+      input.style.borderColor = "rgba(104,74,15,.26)";
+      learnerName = name;
+      document.getElementById("nameModal").style.display = "none";
+      if(modalPurpose === "exam"){
+        beginExamMode();
+      }else{
+        renderCertificate();
+      }
+    }
+
+    function beginExamMode(){
+      mode = "exam";
+      resetState();
+      setActiveModeButton();
+      document.getElementById("modeHint").textContent = "Exam Mode hides score and explanations until submission. You may change answers before submitting.";
+      document.getElementById("timerStat").style.display = "";
+      startTimer();
+      renderExam();
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+
+    function startTimer(){
+      stopTimer();
+      timeLeft = EXAM_DURATION_MS;
+      updateTimerDisplay();
+      timerInterval = setInterval(() => {
+        timeLeft -= 1000;
+        if(timeLeft <= 0){
+          timeLeft = 0;
+          updateTimerDisplay();
+          stopTimer();
+          submitExam(true);
+        }else{
+          updateTimerDisplay();
+        }
+      }, 1000);
+    }
+
+    function stopTimer(){
+      if(timerInterval){
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    }
+
+    function formatTime(ms){
+      const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+      const h = String(Math.floor(totalSeconds / 3600)).padStart(2, "0");
+      const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, "0");
+      const s = String(totalSeconds % 60).padStart(2, "0");
+      return `${h}:${m}:${s}`;
+    }
+
+    function updateTimerDisplay(){
+      const timer = document.getElementById("timerStat");
+      document.getElementById("timerVal").textContent = formatTime(timeLeft);
+      timer.classList.toggle("warn", timeLeft <= 5 * 60 * 1000 && timeLeft > 60 * 1000);
+      timer.classList.toggle("critical", timeLeft <= 60 * 1000);
+    }
+
+    function updateHUD(){
+      const count = answeredCount();
+      document.getElementById("progCount").textContent = count;
+      document.getElementById("barFill").style.width = (count / TOTAL * 100).toFixed(1) + "%";
+      const scoreEl = document.getElementById("scoreNum");
+      if(mode === "exam" && !examSubmitted){
+        scoreEl.textContent = "—";
+      }else{
+        scoreEl.textContent = scoreCount();
+      }
+      updateTimerDisplay();
+    }
+
+    function renderSectionDivider(section){
+      return `<div class="section-divider ${section.cls}"><h2>${esc(section.label)}</h2><span>${esc(section.range)}</span></div>`;
+    }
+
+    function renderCard(i, forceReview){
+      const q = QUESTIONS[i];
+      const section = getSectionInfo(q.section);
+      const selected = answers[i];
+      const answered = selected !== null;
+      const showFeedback = forceReview || examSubmitted || ((mode === "guided" || mode === "instant") && answered);
+      const disabled = examSubmitted || forceReview || ((mode === "guided" || mode === "instant") && locked[i]);
+      const status = showFeedback && answered
+        ? (selected === q.correct ? "Correct" : "Incorrect")
+        : (answered ? "Answered" : "Not answered");
+      const optionHtml = q.opts.map((opt, idx) => {
+        const classes = ["option"];
+        if(selected === idx) classes.push("selected");
+        if(showFeedback && idx === q.correct) classes.push("correct");
+        if(showFeedback && selected === idx && idx !== q.correct) classes.push("wrong");
+        return `<button class="${classes.join(" ")}" onclick="selectOption(${i}, ${idx})" ${disabled ? "disabled" : ""}>
+          <span class="letter">${LETTERS[idx]}</span>
+          <span>${esc(opt)}</span>
+        </button>`;
+      }).join("");
+      const feedback = showFeedback ? `<div class="feedback">
+        <strong>${status}. Correct answer: ${LETTERS[q.correct]}</strong>
+        <p>${esc(q.explanation)}</p>
+      </div>` : "";
+      return `<article class="qcard ${section.cls}" id="q${i+1}">
+        <div class="accent"></div>
+        <div class="qinner">
+          <div class="qhead">
+            <span class="badge">${esc(section.label)}</span>
+            <span>Question ${i+1} of ${TOTAL} · ${status}</span>
+          </div>
+          <h3 class="qtext">${i+1}. ${esc(q.q)}</h3>
+          <div class="options">${optionHtml}</div>
+          ${feedback}
+        </div>
+      </article>`;
+    }
+
+    function renderGuided(){
+      mode = "guided";
+      setActiveModeButton();
+      const exam = document.getElementById("exam");
+      const q = QUESTIONS[guidedIndex];
+      const section = getSectionInfo(q.section);
+      exam.innerHTML = renderSectionDivider(section) + renderCard(guidedIndex, false);
+      const answered = answers[guidedIndex] !== null;
+      document.getElementById("bottomActions").innerHTML = `
+        <button onclick="prevGuided()" ${guidedIndex === 0 ? "disabled" : ""}>Previous</button>
+        <span class="pill">Question ${guidedIndex + 1} / ${TOTAL}</span>
+        <button class="primary" onclick="${guidedIndex === TOTAL - 1 ? "showResults(false)" : "nextGuided()"}" ${answered ? "" : "disabled"}>
+          ${guidedIndex === TOTAL - 1 ? "View Results" : "Continue"}
+        </button>
+        <div class="note">${answered ? "Feedback is shown above." : "Select an answer to unlock feedback and continue."}</div>`;
+      updateHUD();
+    }
+
+    function nextGuided(){
+      if(guidedIndex < TOTAL - 1){
+        guidedIndex += 1;
+        renderGuided();
+        window.scrollTo({top:document.getElementById("exam").offsetTop - 120, behavior:"smooth"});
+      }
+    }
+
+    function prevGuided(){
+      if(guidedIndex > 0){
+        guidedIndex -= 1;
+        renderGuided();
+        window.scrollTo({top:document.getElementById("exam").offsetTop - 120, behavior:"smooth"});
+      }
+    }
+
+    function renderInstant(){
+      mode = "instant";
+      setActiveModeButton();
+      let html = "";
+      QUESTIONS.forEach((q, i) => {
+        if(i === 0 || q.section !== QUESTIONS[i-1].section){
+          html += renderSectionDivider(getSectionInfo(q.section));
+        }
+        html += renderCard(i, false);
+      });
+      document.getElementById("exam").innerHTML = html;
+      document.getElementById("bottomActions").innerHTML = `
+        <button class="primary" onclick="showResults(false)" ${allAnswered() ? "" : "disabled"}>View Results</button>
+        <button onclick="retakeExam()">Reset Answers</button>
+        <div class="note">${allAnswered() ? "All questions are answered." : "Answer all 150 questions to generate a complete result."}</div>`;
+      updateHUD();
+    }
+
+    function renderExam(){
+      setActiveModeButton();
+      const exam = document.getElementById("exam");
+      const q = QUESTIONS[examIndex];
+      const section = getSectionInfo(q.section);
+      exam.innerHTML = renderSectionDivider(section) + renderCard(examIndex, false);
+      document.getElementById("bottomActions").innerHTML = `
+        <button onclick="prevExam()" ${examIndex === 0 ? "disabled" : ""}>Previous</button>
+        <span class="pill">Answered ${answeredCount()} / ${TOTAL}</span>
+        <button onclick="nextExam()" ${examIndex === TOTAL - 1 ? "disabled" : ""}>Next</button>
+        <button class="primary" onclick="submitExam(false)" ${allAnswered() ? "" : "disabled"}>Submit Exam</button>
+        <div class="note">Score and explanations are hidden until submission. The submit button unlocks after all questions are answered.</div>`;
+      updateHUD();
+    }
+
+    function prevExam(){
+      if(examIndex > 0){
+        examIndex -= 1;
+        renderExam();
+        window.scrollTo({top:document.getElementById("exam").offsetTop - 120, behavior:"smooth"});
+      }
+    }
+
+    function nextExam(){
+      if(examIndex < TOTAL - 1){
+        examIndex += 1;
+        renderExam();
+        window.scrollTo({top:document.getElementById("exam").offsetTop - 120, behavior:"smooth"});
+      }
+    }
+
+    function selectOption(i, idx){
+      if(examSubmitted) return;
+      if((mode === "guided" || mode === "instant") && locked[i]) return;
+      answers[i] = idx;
+      if(mode === "guided" || mode === "instant"){
+        locked[i] = true;
+      }
+      if(mode === "guided"){
+        renderGuided();
+      }else if(mode === "instant"){
+        renderInstant();
+      }else if(mode === "exam"){
+        renderExam();
+      }
+      updateHUD();
+    }
+
+    function submitExam(timeout){
+      if(examSubmitted) return;
+      submittedDueToTimeout = Boolean(timeout);
+      examSubmitted = true;
+      stopTimer();
+      updateHUD();
+      reviewAnswers();
+      showResults(submittedDueToTimeout);
+    }
+
+    function reviewAnswers(){
+      let html = "";
+      QUESTIONS.forEach((q, i) => {
+        if(i === 0 || q.section !== QUESTIONS[i-1].section){
+          html += renderSectionDivider(getSectionInfo(q.section));
+        }
+        html += renderCard(i, true);
+      });
+      document.getElementById("exam").innerHTML = html;
+      document.getElementById("bottomActions").innerHTML = `
+        <button class="primary" onclick="window.scrollTo({top:0, behavior:'smooth'})">Back to Top</button>
+        <button onclick="retakeExam()">Retake Exam</button>`;
+      updateHUD();
+    }
+
+    function getGrade(pct){
+      if(pct >= 0.90) return ["Advanced Process Analysis Leader — Distinction", "Excellent command of process boundaries, balances, utility analysis, data interpretation, economics, troubleshooting, and scaleup decision logic."];
+      if(pct >= 0.80) return ["Advanced Process Analysis Review — Solid Pass", "Strong process-analysis understanding. Review missed sections to sharpen calculations, data basis, bottleneck logic, and business-case interpretation."];
+      if(pct >= 0.70) return ["Advanced Process Analysis Practitioner — Competent", "Good practical foundation. Focus on weaker categories before leading or relying on process-analysis decisions."];
+      if(pct >= 0.60) return ["Approaching Advanced Process-Analysis Readiness", "You understand several core ideas, but need more practice with basis selection, material and energy calculations, process data, and economic trade-offs."];
+      if(pct >= 0.45) return ["Developing Process-Analysis Knowledge", "The basics are forming. Revisit control boundaries, stream tables, balances, variability, cost drivers, and scaleup assumptions."];
+      return ["Rebuild Process-Analysis Foundations", "Begin with process boundaries, data basis, material balances, energy duties, bottleneck logic, and clear improvement recommendations."];
+    }
+
+    function sectionScores(){
+      return SECTIONS.map(section => {
+        let total = 0, score = 0;
+        QUESTIONS.forEach((q, i) => {
+          if(q.section === section.key){
+            total += 1;
+            if(answers[i] === q.correct) score += 1;
+          }
+        });
+        return {...section, total, score, pct: total ? score / total : 0};
+      });
+    }
+
+    function showResults(timeout){
+      const score = scoreCount();
+      const pct = score / TOTAL;
+      const percentText = (pct * 100).toFixed(1) + "%";
+      const [grade, blurb] = getGrade(pct);
+      document.getElementById("resultScore").textContent = `${score}/${TOTAL}`;
+      document.getElementById("resultPct").textContent = percentText;
+      document.getElementById("resultGrade").textContent = grade;
+      document.getElementById("resultTitle").textContent = "Exam Results";
+      document.getElementById("resultBlurb").textContent = blurb;
+      document.getElementById("timeoutNote").style.display = timeout ? "block" : "none";
+      document.getElementById("sectionBreakdown").innerHTML = sectionScores().map(s => `
+        <tr>
+          <td>${esc(s.label)}</td>
+          <td>${esc(s.range)}</td>
+          <td>${s.score}/${s.total}</td>
+          <td>${(s.pct * 100).toFixed(1)}%</td>
+        </tr>`).join("");
+      document.getElementById("results").style.display = "block";
+      if(learnerName){
+        renderCertificate();
+      }
+      document.getElementById("results").scrollIntoView({behavior:"smooth", block:"start"});
+      updateHUD();
+    }
+
+    function requestCertificate(){
+      modalPurpose = "certificate";
+      document.getElementById("nameModalTitle").textContent = "Certificate name";
+      document.getElementById("nameModalText").textContent = "Enter the learner name to display on the certificate.";
+      document.getElementById("modalPrimaryBtn").textContent = "Create Certificate";
+      document.getElementById("learnerNameInput").value = learnerName || "";
+      showNameModal();
+    }
+
+    function renderCertificate(){
+      if(!learnerName) return;
+      if(!certificateId){
+        certificateId = "Process Analysis-Part-I-" + new Date().getFullYear() + "-" + Math.random().toString(36).slice(2,8).toUpperCase();
+      }
+      const score = scoreCount();
+      const pct = (score / TOTAL * 100).toFixed(1) + "%";
+      document.getElementById("certName").textContent = learnerName;
+      document.getElementById("certScore").textContent = `${score}/${TOTAL}`;
+      document.getElementById("certPct").textContent = pct;
+      document.getElementById("certDate").textContent = new Date().toLocaleDateString();
+      document.getElementById("certId").textContent = certificateId;
+      document.getElementById("certificate").style.display = "block";
+    }
+
+    function retakeExam(){
+      certificateId = "";
+      learnerName = "";
+      mode = "guided";
+      resetState();
+      setActiveModeButton();
+      document.getElementById("timerStat").style.display = "none";
+      document.getElementById("modeHint").textContent = "Guided Path shows one question at a time with immediate feedback and teaching explanations.";
+      renderGuided();
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+
+    document.addEventListener("keydown", function(e){
+      if(document.getElementById("nameModal").style.display === "flex" && e.key === "Enter"){
+        submitNameModal();
+      }
+    });
+
+    (function validateExam(){
+      const errors = [];
+      if(TOTAL !== 150) errors.push("Expected 150 questions, found " + TOTAL);
+      const sectionKeys = new Set(SECTIONS.map(s => s.key));
+      QUESTIONS.forEach((q, i) => {
+        if(!sectionKeys.has(q.section)) errors.push(`Question ${i+1} has unknown section`);
+        if(!Array.isArray(q.opts) || q.opts.length !== 4) errors.push(`Question ${i+1} does not have four options`);
+        if(![0,1,2,3].includes(q.correct)) errors.push(`Question ${i+1} has invalid correct index`);
+      });
+      if(errors.length){
+        document.getElementById("exam").innerHTML = `<div class="qcard"><div class="qinner"><h2>Exam validation error</h2><p>${errors.map(esc).join("<br>")}</p></div></div>`;
+        throw new Error(errors.join("; "));
+      }
+    })();
+
+    setMode("guided");
+  </script>
+</body>
+</html>

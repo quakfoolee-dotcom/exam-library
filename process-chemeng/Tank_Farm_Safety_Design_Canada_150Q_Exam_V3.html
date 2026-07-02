@@ -1,0 +1,2615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Process Safety &middot; Tank Farm Safety Design Canada &middot; 150Q Exam &middot; Balanced Options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  --conduction:#6b2d2d;
+  --convection:#0e5f73;
+  --radiation:#7a5b12;
+  --hx:#264c86;
+  --boiling:#5e2a7e;
+  --applications:#26633a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(114,47,55,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.6rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--conduction),var(--convection),var(--radiation),var(--hx),var(--boiling),var(--applications));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-conduction{background:linear-gradient(100deg,var(--conduction),#4d1f23)}
+.sec-convection{background:linear-gradient(100deg,var(--convection),#06403f)}
+.sec-radiation{background:linear-gradient(100deg,var(--radiation),#5f3406)}
+.sec-hx{background:linear-gradient(100deg,var(--hx),#0c2349)}
+.sec-boiling{background:linear-gradient(100deg,var(--boiling),#311148)}
+.sec-applications{background:linear-gradient(100deg,var(--applications),#0e3d18)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.06rem;line-height:1.62;margin-bottom:18px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:12px 14px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.55);transition:all .18s ease;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.08);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s;margin-top:1px}
+.opt .otext{flex:1;font-size:1.0rem;line-height:1.55;word-break:break-word;padding-top:2px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.12)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center;font-family:'JetBrains Mono',monospace}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:160px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 16px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:.98rem}
+  .opt .otext{font-size:.92rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Process Safety &middot; Tank Farm Layout &middot; Canadian Fire Code &middot; 150-Question Exam</div>
+    <h1 class="title">Tank Farm Safety Design &middot; <span class="amp">Canada Regulation</span> Exam</h1>
+    <div class="byline">150 scenario and calculation questions across Canadian regulatory scope, tank standards, overfill protection, venting and filling connections, secondary containment capacity, spacing and fire access, operation and maintenance, leak detection, inspection, records, transfer areas, and withdrawal from service.</div>
+    <div class="exambar">
+      <span><b>150</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>150</b> Marks</span>
+      <span>Exam Mode: <b>4 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/150</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">04:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/150</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 4-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    Process Safety &middot; Tank Farm Safety Design Canada &middot; 150-question exam
+    <div class="disclaimer">Training resource based on Canadian regulatory concepts, including the Storage Tank Systems for Petroleum Products and Allied Petroleum Products Regulations (SOR/2008-197), the National Fire Code of Canada tank-storage provisions where adopted, and the CCME Environmental Code of Practice. Always verify current federal, provincial, territorial, municipal, AHJ, insurer, owner, and professional-engineering requirements before design, construction, transfer, operation, inspection, withdrawal from service, or removal.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "A project team is preparing a tank-farm design basis for a petroleum terminal on Canadian federal port land. Which regulatory framing is the most defensible starting point?",
+    "opts": [
+      "Use only API 650 because tank shell design automatically covers transfer, registration, emergency planning, and records; without local-code adoption review; leaving federal scope unresolved.",
+      "Use only NFPA 30 because the tank-farm article uses international bund terminology; leaving federal scope unresolved; with records checked later; assuming permits are not controlling.",
+      "Use the applicable Canadian fire-code/AHJ requirements, the National Fire Code of Canada where adopted, and the federal Storage Tank Systems Regulations because the site is under federal jurisdiction.",
+      "Use the owner's global tank standard and treat Canadian statutory requirements as optional; assuming permits are not controlling; without owner/operator duty review; with jurisdiction treated as fixed."
+    ],
+    "correct": 2,
+    "explanation": "Canadian tank-farm design is layered. The federal Storage Tank Systems Regulations apply to specified federal-jurisdiction systems, while adopted fire codes, provincial/territorial rules, municipal permits, and AHJ requirements still control the final design."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "A private industrial site asks whether SOR/2008-197 automatically applies to every petroleum tank in Canada. What is the correct screening response?",
+    "opts": [
+      "They apply only to underground tanks and never to aboveground tank farms, leaving federal scope unresolved; with records checked later; assuming permits are not controlling; without owner/operator duty review.",
+      "They apply to every petroleum tank in Canada regardless of ownership, location, capacity, or product; with records checked later; assuming permits are not controlling; without owner/operator duty review; with jurisdiction treated as fixed.",
+      "The federal regulations apply only to storage tank systems within their defined federal-jurisdiction scope; other Canadian sites still require provincial, territorial, municipal, fire-code, environmental, and AHJ review.",
+      "They apply only after a spill occurs, not during design or operation, without owner/operator duty review; with jurisdiction treated as fixed; with emergency planning postponed; with AHJ screening deferred."
+    ],
+    "correct": 2,
+    "explanation": "The federal rule has a defined application section. A Canadian exam answer should not imply universal federal coverage for every privately operated tank system."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "A 2,400 L diesel day tank connected to an emergency generator is being screened against the federal regulation. Which answer is the safest Canadian interpretation?",
+    "opts": [
+      "It may fall outside the specific federal regulation exclusion for aboveground heating/emergency-generator systems with aggregate capacity of 2,500 L or less, but other codes and AHJ requirements may still apply.",
+      "It is exempt from every Canadian tank, fire, and environmental requirement, assuming permits are not controlling; without owner/operator duty review; with jurisdiction treated as fixed; with emergency planning postponed.",
+      "It needs no review because diesel is a combustible liquid rather than a flammable liquid; without owner/operator duty review; with jurisdiction treated as fixed; with emergency planning postponed.",
+      "It is always federally regulated because it contains diesel, with jurisdiction treated as fixed; with emergency planning postponed; with AHJ screening deferred; without local-code adoption review."
+    ],
+    "correct": 0,
+    "explanation": "The federal exclusion does not erase provincial fire-code, environmental, insurance, manufacturer, or owner requirements."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "During layout review, an operator argues that a slow leak is acceptable if it can be cleaned up by the end of shift. What does the federal general requirement emphasize?",
+    "opts": [
+      "A release is acceptable if it is cleaned up within 24 hours, assuming permits are not controlling; without owner/operator duty review.",
+      "A release is automatically acceptable if less than 100 L, without owner/operator duty review; with jurisdiction treated as fixed; with AHJ screening deferred.",
+      "A release is acceptable if the tank is less than 250,000 L, with jurisdiction treated as fixed; with emergency planning postponed.",
+      "A person must not release, permit, or cause a petroleum or allied petroleum product in liquid form into the environment from a storage tank system."
+    ],
+    "correct": 3,
+    "explanation": "Canadian regulatory design should focus on prevention of releases to the environment. Reporting thresholds are not permission to leak."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "A tank overfills, but the product remains entirely inside the designed secondary containment and does not escape. What is the best regulatory interpretation?",
+    "opts": [
+      "It is automatically harmless and requires no internal response, without owner/operator duty review; with jurisdiction treated as fixed; with emergency planning postponed.",
+      "The release-to-environment prohibition exception may apply because it did not reach outside secondary containment, but the event still requires response, investigation, and corrective action.",
+      "It must be treated as a release outside containment because any product outside the tank is always outside secondary containment; with emergency planning postponed; leaving federal scope unresolved.",
+      "It proves the tank does not need overfill protection, with AHJ screening deferred; without local-code adoption review; leaving federal scope unresolved; with records checked later."
+    ],
+    "correct": 1,
+    "explanation": "Secondary containment is a mitigation layer, not a substitute for overfill prevention, supervision, alarms, training, and emergency planning."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "A hose connection drips during truck unloading, but the product remains in a transfer area designed to contain transfer releases. Which statement is most consistent with the federal regulation?",
+    "opts": [
+      "The transfer-release exception can apply only if the product does not reach outside the designed transfer area; the drip still requires operating control and corrective action.",
+      "A transfer release is acceptable even when it drains to soil because it did not come from the tank shell; with emergency planning postponed; with AHJ screening deferred; leaving federal scope unresolved.",
+      "Transfer drips are always acceptable because they occur outside the tank, with AHJ screening deferred; without local-code adoption review; leaving federal scope unresolved.",
+      "Transfer releases need not be contained if the truck driver is present, without local-code adoption review; leaving federal scope unresolved; with records checked later."
+    ],
+    "correct": 0,
+    "explanation": "The federal rule distinguishes transfer areas that are designed to contain liquid releases. Design quality and operating discipline still matter."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "A tank that stored diesel will be repurposed for methanol, an allied petroleum product. What Canadian design-basis item must be revisited first?",
+    "opts": [
+      "Only the pump horsepower, with emergency planning postponed, with AHJ screening deferred; without local-code adoption review; leaving federal scope unresolved.",
+      "Only the tank paint colour, with AHJ screening deferred, without local-code adoption review; leaving federal scope unresolved; with records checked later; assuming permits are not controlling.",
+      "Compatibility between the stored product and the tank-system materials of construction, plus product identification, venting, emergency plan, and registration data.",
+      "Only the secondary containment volume, because materials are irrelevant once the tank is diked; leaving federal scope unresolved; with records checked later."
+    ],
+    "correct": 2,
+    "explanation": "Product changes can affect tank materials, elastomers, linings, piping, vents, overfill devices, spill containment, fire classification, and federal identification data."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "A designer proposes a closed storage tank with no dedicated fill pipe or vent line. What is the correct Canadian response for a regulated system?",
+    "opts": [
+      "Accept the design if the tank is inside secondary containment, with AHJ screening deferred; without local-code adoption review; leaving federal scope unresolved.",
+      "Do not store petroleum or allied petroleum products in the tank unless a fill pipe and vent line are installed and other openings are sealed or connected to piping.",
+      "Accept the design if the tank is filled only by pump, leaving federal scope unresolved; with records checked later; assuming permits are not controlling; without owner/operator duty review.",
+      "Accept the design because fewer nozzles reduce leak points, with records checked later; assuming permits are not controlling; without owner/operator duty review."
+    ],
+    "correct": 1,
+    "explanation": "The federal configuration requirement supports safe filling, venting, isolation, inspection, and emergency response."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "The maintenance group wants to store spare hoses, scaffold boards, and pallets inside the secondary containment. What is the correct Canadian rule?",
+    "opts": [
+      "Storage is permitted during winter because snow reduces vapour generation.",
+      "Storage is permitted if the remaining volume is still greater than 110% of the largest tank.",
+      "Secondary containment areas must not be used for storage purposes.",
+      "Storage is permitted if the stored items are noncombustible, assuming permits are not controlling."
+    ],
+    "correct": 2,
+    "explanation": "Stored materials reduce containment capacity, obstruct access and drainage, introduce ignition/housekeeping hazards, and conflict with Canadian containment rules."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "A new federally regulated storage tank system is ready for first fill, but the team has not confirmed the applicable CCME Code of Practice and referenced-standard requirements. What is the correct hold point?",
+    "opts": [
+      "Proceed if the owner accepts environmental liability, leaving federal scope unresolved; with records checked later.",
+      "Proceed with first fill and verify compliance during commissioning, with records checked later.",
+      "Do not transfer product into the system until the applicable requirements have been met before first transfer.",
+      "Proceed if the tank has passed a hydrotest, regardless of registration and installation requirements."
+    ],
+    "correct": 2,
+    "explanation": "For regulated systems/components, compliance with applicable requirements is a prerequisite before product is first transferred into the system."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "A supplier arrives to deliver gasoline to a regulated system, but the storage tank system identification number is not visible on or near the system. What is the compliance action?",
+    "opts": [
+      "Transfer at reduced flow because identification is administrative only, with records checked later; assuming permits are not controlling.",
+      "Transfer only if the operator verbally confirms registration, assuming permits are not controlling; without owner/operator duty review.",
+      "Do not transfer product into the system until the valid identification number is visible; the supplier must also record the number.",
+      "Transfer the product and add the number to the ticket later, with jurisdiction treated as fixed; with emergency planning postponed."
+    ],
+    "correct": 2,
+    "explanation": "Federal delivery rules link product transfer to visible system identification and supplier record keeping."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "The registered owner changes the stored product and operator contact information. Within what period must changed identification information be submitted under the federal regulation?",
+    "opts": [
+      "Within 7 days after the change.",
+      "Within 30 days after the change.",
+      "Only at the next ten-year inspection.",
+      "Within 60 days after the change."
+    ],
+    "correct": 3,
+    "explanation": "The exam should train designers to include a management-of-change trigger for the 60-day update requirement."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "A delivery contractor sees evidence of a liquid leak during product transfer. What must the delivery person do under the federal delivery requirements?",
+    "opts": [
+      "Ignore the observation if less than 100 L appears to be involved, without owner/operator duty review; with jurisdiction treated as fixed.",
+      "Finish the transfer first and report only to the dispatch office, with jurisdiction treated as fixed; with emergency planning postponed.",
+      "Immediately notify the operator of the release or evidence of leak and keep the required storage tank system identification record.",
+      "Notify only the owner after the monthly delivery summary is issued, with AHJ screening deferred; without local-code adoption review."
+    ],
+    "correct": 2,
+    "explanation": "The delivery requirement includes immediate operator notification of transfer releases or evidence of leaks/releases."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "An emergency plan is being prepared for a regulated tank farm. Which factors must be considered at the start of the plan?",
+    "opts": [
+      "Only the number of operators on night shift, with jurisdiction treated as fixed, with emergency planning postponed; with AHJ screening deferred.",
+      "Only the municipal hydrant flow rate, with emergency planning postponed, with AHJ screening deferred; without local-code adoption review; leaving federal scope unresolved.",
+      "Product properties and characteristics, maximum expected quantity stored, and site/surrounding conditions that could increase environmental or human-health risk.",
+      "Only the tank diameters and shell heights, without local-code adoption review, leaving federal scope unresolved; with records checked later."
+    ],
+    "correct": 2,
+    "explanation": "Emergency planning must address both product hazards and the local receiving environment, neighbours, receptors, access, and site characteristics."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "Which content belongs in a regulated storage tank system emergency plan?",
+    "opts": [
+      "Only the supplier emergency phone number, with emergency planning postponed, with AHJ screening deferred; without local-code adoption review.",
+      "Only tank capacities and product names, with AHJ screening deferred, without local-code adoption review; leaving federal scope unresolved; with records checked later.",
+      "Measures to prevent, warn of, prepare for, respond to, and recover from emergencies; roles; training; emergency equipment locations; and public-notification measures.",
+      "Only the construction schedule and hydrotest certificate, leaving federal scope unresolved; with records checked later; assuming permits are not controlling."
+    ],
+    "correct": 2,
+    "explanation": "The emergency plan is an operating and response tool, not just an equipment list."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "For a new regulated tank system, when must the emergency plan be ready to implement?",
+    "opts": [
+      "Before the first transfer of petroleum or allied petroleum product into any tank of the system.",
+      "Only after the first reportable spill, without local-code adoption review, leaving federal scope unresolved.",
+      "Within two years after first transfer, leaving federal scope unresolved, with records checked later.",
+      "At the first API 653 inspection, with records checked later, assuming permits are not controlling."
+    ],
+    "correct": 0,
+    "explanation": "Emergency readiness is a startup gate for new regulated systems."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "A tank installation contractor is proposed in a province that has approved persons for storage tank installation. Which path is compliant under the federal rule?",
+    "opts": [
+      "Use any mechanical contractor if the owner watches the work, without local-code adoption review; leaving federal scope unresolved; with records checked later.",
+      "Use a person approved by the province; if no approved person exists, installation must be supervised by a professional engineer, and the owner/operator must keep the record.",
+      "Use no approved person if the tank is shop-fabricated, with records checked later; assuming permits are not controlling; without owner/operator duty review.",
+      "Use only the tank manufacturer regardless of provincial approval, assuming permits are not controlling; without owner/operator duty review; with jurisdiction treated as fixed."
+    ],
+    "correct": 1,
+    "explanation": "Installation accountability is a key Canadian compliance control."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "A regulated tank installation package has drawings and specifications but no professional engineer stamp. What is missing?",
+    "opts": [
+      "Design plans, drawings, and specifications must bear the stamp and signature of a professional engineer.",
+      "Only a stamp after the tank has been filled once, with records checked later, assuming permits are not controlling.",
+      "Only the equipment supplier quotation, assuming permits are not controlling, without owner/operator duty review.",
+      "Only the operator's verbal approval, without owner/operator duty review, with jurisdiction treated as fixed."
+    ],
+    "correct": 0,
+    "explanation": "The professional engineer stamp and signature establish accountability before installation."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "Before first transfer, which information must be included on as-built drawings for a regulated storage tank system?",
+    "opts": [
+      "Only fencing, lighting, and fire extinguishers, with records checked later, assuming permits are not controlling; without owner/operator duty review; with jurisdiction treated as fixed.",
+      "Only P&IDs and the equipment list, assuming permits are not controlling, without owner/operator duty review; with jurisdiction treated as fixed; with emergency planning postponed.",
+      "Tank outlines, piping centrelines, underground electrical power and monitor sensor conduit centrelines, foundation outlines, property lines, and secondary containment systems.",
+      "Only tank model numbers and coating colours, with jurisdiction treated as fixed, with emergency planning postponed; with AHJ screening deferred; without local-code adoption review."
+    ],
+    "correct": 2,
+    "explanation": "As-built drawings are regulatory records that support inspection, emergency response, future modifications, and environmental protection."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "How long must most records required under the federal Storage Tank Systems Regulations be kept at the nearest place of work?",
+    "opts": [
+      "Three years after the record is made, assuming permits are not controlling, without owner/operator duty review; with jurisdiction treated as fixed.",
+      "Five years after the record is made, with certain installation/as-built/inspection records retained until the system is removed.",
+      "One year after the record is made, with jurisdiction treated as fixed, with emergency planning postponed; with AHJ screening deferred.",
+      "Only until the next delivery, with emergency planning postponed, with AHJ screening deferred; without local-code adoption review."
+    ],
+    "correct": 1,
+    "explanation": "Record retention is part of compliance. Some key documents must remain available for the life of the system."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "A design team copies a U.S. NFPA-based layout into a Canadian project without an AHJ review. What is the best review comment?",
+    "opts": [
+      "Accept the layout because API 650 is international, without owner/operator duty review; with jurisdiction treated as fixed; with emergency planning postponed.",
+      "Accept the layout if the owner accepts the risk, with jurisdiction treated as fixed; with emergency planning postponed; with AHJ screening deferred.",
+      "Translate the design into Canadian adopted-code, provincial/territorial, AHJ, federal-jurisdiction, CCME, and CAN/ULC requirements before layout freeze.",
+      "Accept the layout because NFPA values are always stricter than Canadian values, with AHJ screening deferred; without local-code adoption review."
+    ],
+    "correct": 2,
+    "explanation": "International sources are useful, but Canadian compliance requires local adoption and AHJ interpretation."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "A plant manager says the National Fire Code of Canada is not relevant because the tank farm is outdoors. What is the correct answer?",
+    "opts": [
+      "The NFC can apply to facilities besides buildings, including tank farms and storage yards, where adopted by the jurisdiction.",
+      "The NFC applies only to portable containers under 230 L, with emergency planning postponed; with AHJ screening deferred.",
+      "The NFC applies only to underground tanks, with AHJ screening deferred, without local-code adoption review.",
+      "The NFC applies only to offices and enclosed buildings, without local-code adoption review; leaving federal scope unresolved."
+    ],
+    "correct": 0,
+    "explanation": "The model fire code includes provisions for outdoor storage tanks and tank farms where adopted."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "The CCME Code of Practice is cited, but the design package has no permits/approvals or professional sign-off plan. What is the correct design-basis statement?",
+    "opts": [
+      "Installation company selection is irrelevant once the tank is built to API 650, with emergency planning postponed; with AHJ screening deferred; without local-code adoption review.",
+      "The CCME Code applies only to underground storage tanks, with AHJ screening deferred; without local-code adoption review; leaving federal scope unresolved; with records checked later.",
+      "Permits are not needed if the owner has an internal standard, without local-code adoption review; leaving federal scope unresolved; with records checked later; assuming permits are not controlling.",
+      "Aboveground storage tank systems should be designed and installed according to manufacturer's instructions, appropriate standards, the code, permits/approvals, and AHJ/professional requirements."
+    ],
+    "correct": 3,
+    "explanation": "The CCME code supports a managed design/installation process, not just a tank-shell calculation."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "A tank-farm layout shows containment and spacing but no local fire-department access review. What is the most defensible Canadian comment?",
+    "opts": [
+      "The tank vendor is responsible for all site fire access, with AHJ screening deferred.",
+      "Fire access is only a commissioning issue, without local-code adoption review, leaving federal scope unresolved.",
+      "Verify fire access, emergency response, and adopted-code compliance with the AHJ before layout freeze.",
+      "No review is needed if the tanks have overfill alarms, with records checked later; assuming permits are not controlling."
+    ],
+    "correct": 2,
+    "explanation": "Fire department access and emergency response requirements affect plot plan, roads, gates, hydrants, monitors, hose routes, and containment-wall details."
+  },
+  {
+    "section": "Canadian Regulatory Scope, Governance & Design Basis",
+    "q": "A learner wants to treat an exam answer as a compliance certificate for a real tank farm. What limitation should be stated?",
+    "opts": [
+      "A training exam is legally binding if it mentions the National Fire Code, without local-code adoption review; leaving federal scope unresolved; with records checked later; assuming permits are not controlling.",
+      "Exam answers override AHJ comments if they cite the federal regulation, leaving federal scope unresolved; with records checked later; assuming permits are not controlling; without owner/operator duty review.",
+      "A training exam can replace a professional engineer's stamp, with records checked later; assuming permits are not controlling; without owner/operator duty review; with jurisdiction treated as fixed; with emergency planning postponed.",
+      "Training answers are not legal opinions or stamped engineering; final design must be checked against current law, adopted code editions, provincial/territorial requirements, AHJ rulings, and project-specific hazards."
+    ],
+    "correct": 3,
+    "explanation": "A Canadian tank farm is a regulated, high-consequence facility. Training material should guide learning, not replace professional and regulatory review."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "A new atmospheric aboveground gasoline tank is specified without a recognized construction standard. What correction should be made?",
+    "opts": [
+      "Use only the owner's procurement specification, leaving compatibility open, assuming the tank standard covers controls; without sealed-opening verification; with filling controls checked later.",
+      "Select a recognized standard listed by the Canadian fire-code framework, such as API 650 or an applicable CAN/ULC aboveground tank standard, unless an accepted material-specific engineering exception applies.",
+      "Use any welded vessel standard because atmospheric tanks have no pressure risk, without sealed-opening verification; with filling controls checked later; without AHJ acceptance confirmed.",
+      "Use only the product-identification colour standard, with filling controls checked later; without AHJ acceptance confirmed; with alarm function unverified; without venting review; with overfill checks deferred; leaving compatibility open."
+    ],
+    "correct": 1,
+    "explanation": "Tank shell standards are the foundation of safe storage design. They do not replace venting, spacing, containment, and operating controls."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "A pressure vessel will be used to store a flammable liquid. Which Canadian standard family is directly relevant to pressure-vessel construction?",
+    "opts": [
+      "CAN/ULC-S668 only, assuming the tank standard covers controls, without sealed-opening verification.",
+      "CFA 1990 only, without sealed-opening verification, with filling controls checked later.",
+      "CSA B51, Boiler, pressure vessel, and pressure piping code.",
+      "CAN/ULC-S663 only, without AHJ acceptance confirmed, with alarm function unverified."
+    ],
+    "correct": 2,
+    "explanation": "Pressure-vessel service must follow pressure-vessel code requirements in addition to storage/fire safety requirements."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "A low-pressure storage tank is proposed for a process liquid. Which construction standards are directly relevant in the Canadian fire-code framework?",
+    "opts": [
+      "API 620 or ASME BPVC, depending on the selected design basis.",
+      "Only CAN/ULC-S661 because it has an overfill device, with filling controls checked later.",
+      "Only the Transportation of Dangerous Goods Regulations, without AHJ acceptance confirmed.",
+      "Only API 653 because the tank will be inspected later, with alarm function unverified."
+    ],
+    "correct": 0,
+    "explanation": "Low-pressure tanks are not ordinary atmospheric tanks and need appropriate pressure-design standards."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "A stored product would rapidly corrode a listed steel tank or contaminate the liquid. How can the design remain code-aligned?",
+    "opts": [
+      "Ignore tank construction standards completely because corrosion exists, with filling controls checked later; without AHJ acceptance confirmed; with alarm function unverified.",
+      "Use a suitable material tank only when justified by corrosion/contamination concerns and design it to good engineering practice for that material, with AHJ acceptance as required.",
+      "Use API 650 carbon steel regardless of compatibility, with alarm function unverified; without venting review; with overfill checks deferred; leaving compatibility open.",
+      "Oversize secondary containment and ignore tank-material compatibility, without venting review; with overfill checks deferred; leaving compatibility open; assuming the tank standard covers controls."
+    ],
+    "correct": 1,
+    "explanation": "Canadian code provisions allow engineering flexibility for unusual materials but still require sound design and acceptance."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "A proposed atmospheric tank would store liquid at its boiling point. What is the correct design conclusion?",
+    "opts": [
+      "Do not use an atmospheric flammable/combustible liquid storage tank at temperatures at or above the liquid's boiling point.",
+      "Accept it if the tank is outdoors, with alarm function unverified, without venting review; with overfill checks deferred.",
+      "Accept it if containment is sized to 110%, without venting review, with overfill checks deferred; leaving compatibility open.",
+      "Accept it if the tank has a floating roof, with overfill checks deferred, leaving compatibility open; assuming the tank standard covers controls."
+    ],
+    "correct": 0,
+    "explanation": "Operating at or above the boiling point can create pressure and vapour hazards incompatible with atmospheric storage assumptions."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "Nitrogen blanketing could drive normal tank pressure above the design pressure. What must be corrected?",
+    "opts": [
+      "Accept the pressure because blanketing is not liquid storage, with alarm function unverified; without venting review.",
+      "Accept it if the dike can contain the tank volume, without venting review, with overfill checks deferred; leaving compatibility open.",
+      "Accept it if the tank is inspected every ten years, with overfill checks deferred; leaving compatibility open.",
+      "Normal operating pressure must not exceed the tank design pressure; revise blanketing, venting, relief, or tank design."
+    ],
+    "correct": 3,
+    "explanation": "Pressure control is a primary tank integrity requirement. Secondary containment cannot compensate for overpressure design errors."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "An aboveground tank is exposed to de-icing salts and coastal air. What design requirement is triggered?",
+    "opts": [
+      "Corrosion is controlled only by emergency response planning, without venting review; with overfill checks deferred; leaving compatibility open.",
+      "Corrosion protection is optional if the tank is painted white, with overfill checks deferred; leaving compatibility open.",
+      "Corrosion protection applies only to underground tanks, leaving compatibility open; assuming the tank standard covers controls.",
+      "Aboveground tanks and integral fittings subject to corrosion must be protected against exposure conditions that initiate corrosion."
+    ],
+    "correct": 3,
+    "explanation": "Corrosion protection is part of safe storage-system design for both tanks and fittings."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "An internal floating cover is selected for vapour control. What construction principle applies?",
+    "opts": [
+      "They can be fabricated from any plastic sheet because they do not support liquid, with overfill checks deferred; leaving compatibility open; assuming the tank standard covers controls.",
+      "Except for perimeter seals, floating roof assemblies or internal floating covers should be constructed of metal or other materials and designed to one of the applicable tank construction standards.",
+      "They are regulated only by the emergency plan, assuming the tank standard covers controls; without sealed-opening verification; with filling controls checked later; without AHJ acceptance confirmed; with alarm function unverified.",
+      "They require no standard because they are internal components, without sealed-opening verification; with filling controls checked later; without AHJ acceptance confirmed."
+    ],
+    "correct": 1,
+    "explanation": "Floating roof/cover design affects fire, emission, maintenance, and static-control risks."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "A tank farm stores gasoline, diesel, biodiesel, and ethanol-blended fuel. What product-identification control is expected?",
+    "opts": [
+      "Use no permanent identification because products change seasonally, leaving compatibility open; assuming the tank standard covers controls.",
+      "Identify storage tanks and filling/emptying connections using the Canadian Fuels colour-symbol system where applicable.",
+      "Identify only the tank shells, not fill points, without sealed-opening verification; with filling controls checked later.",
+      "Rely only on the truck manifest, with filling controls checked later, without AHJ acceptance confirmed."
+    ],
+    "correct": 1,
+    "explanation": "Clear product identification reduces misdelivery, incompatible-product transfer, and emergency response confusion."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "A normally attended tank filling operation is proposed. Which general overfill-prevention approach is accepted by the Canadian fire-code framework?",
+    "opts": [
+      "Continuous supervision by qualified personnel or an overfill protection device conforming to CAN/ULC-S661, subject to more specific requirements for tight-filled tanks.",
+      "Only a paper checklist with no level indication, without sealed-opening verification; with filling controls checked later; without AHJ acceptance confirmed.",
+      "Only a sight glass that is not visible from the fill point, with filling controls checked later; without AHJ acceptance confirmed; with alarm function unverified.",
+      "No overfill prevention if the dike is large enough, without AHJ acceptance confirmed; with alarm function unverified; without venting review; with overfill checks deferred."
+    ],
+    "correct": 0,
+    "explanation": "Overfill prevention is a primary safeguard; secondary containment is a backup, not the design basis for routine filling."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "A tight-filled aboveground horizontal tank is filled by delivery truck. What specific overfill protection is required?",
+    "opts": [
+      "A positive shut-off device conforming to CAN/ULC-S661.",
+      "A manual dipstick only, with filling controls checked later, without AHJ acceptance confirmed.",
+      "A written procedure only, without AHJ acceptance confirmed, with alarm function unverified.",
+      "A secondary containment volume check only, with alarm function unverified, without venting review."
+    ],
+    "correct": 0,
+    "explanation": "Tight-filled tanks require positive shutoff because rapid overfill can occur before manual response is effective."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "A field-erected tank receives product by truck, rail, ship, or barge. Which overfill concept should the design include?",
+    "opts": [
+      "No alarm if the tank has a floating roof, with filling controls checked later, without AHJ acceptance confirmed; with alarm function unverified; without venting review.",
+      "Only a painted high-level mark on the shell, without AHJ acceptance confirmed, with alarm function unverified; without venting review; with overfill checks deferred.",
+      "A visual and audible high-level alarm that alerts personnel early enough to terminate flow, or another accepted overfill-protection basis such as API RP 2350 where applicable.",
+      "Only larger secondary containment, without venting review, with overfill checks deferred; leaving compatibility open; assuming the tank standard covers controls; without sealed-opening verification."
+    ],
+    "correct": 2,
+    "explanation": "For transfer delivery, alarms must initiate action before overfill occurs. Alarm response time is part of the design."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "A venting calculation is missing for an atmospheric tank. Which standard is commonly referenced for normal and emergency venting?",
+    "opts": [
+      "CFA 1990 only, without AHJ acceptance confirmed, with alarm function unverified.",
+      "CSA B51 only for every atmospheric tank, with alarm function unverified, without venting review.",
+      "CAN/ULC-S668 only, without venting review, with overfill checks deferred, leaving compatibility open.",
+      "API Standard 2000 or the applicable tank design standard."
+    ],
+    "correct": 3,
+    "explanation": "Venting must address normal breathing, filling/emptying, fire exposure, and any product-specific reaction hazards."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "A stored liquid can polymerize and generate gas. How should venting capacity be treated?",
+    "opts": [
+      "Account for heat and gas from polymerization, decomposition, condensation, or self-reactivity when determining total venting capacity.",
+      "Use only ambient temperature breathing, without venting review, with overfill checks deferred; leaving compatibility open.",
+      "Reduce venting because unstable liquids are usually stored in smaller tanks, with overfill checks deferred; leaving compatibility open.",
+      "Ignore reaction gas if the tank is outdoors, leaving compatibility open, assuming the tank standard covers controls; without sealed-opening verification."
+    ],
+    "correct": 0,
+    "explanation": "Unstable-liquid vent sizing is not just a routine in-breathing/out-breathing calculation."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "A Class I liquid normal vent outlet is 2.8 m above adjacent grade and 1.2 m from a window. What is the correct review comment?",
+    "opts": [
+      "Revise it to at least 3.5 m above adjacent grade and at least 1.5 m from building openings, with discharge arranged so vapours do not enter or become trapped near buildings.",
+      "Accept it because the tank is outdoors, with overfill checks deferred, leaving compatibility open; assuming the tank standard covers controls; without sealed-opening verification.",
+      "Accept it if the vent has a rain cap, leaving compatibility open, assuming the tank standard covers controls; without sealed-opening verification; with filling controls checked later.",
+      "Accept it if the tank is under 250,000 L, assuming the tank standard covers controls; without sealed-opening verification; with filling controls checked later."
+    ],
+    "correct": 0,
+    "explanation": "Class I vent outlet placement controls vapour ignition and building-entry hazards."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "A Class II combustible-liquid normal vent is 1.6 m above grade and 1.5 m from a door. What is the correct review result?",
+    "opts": [
+      "Accept it if the tank is less than 50,000 L, with overfill checks deferred, leaving compatibility open.",
+      "Accept it because the opening distance is 1.5 m, leaving compatibility open, assuming the tank standard covers controls.",
+      "Accept it if the vent is painted red, assuming the tank standard covers controls, without sealed-opening verification.",
+      "Revise the vent height to at least 2 m above adjacent grade while keeping at least 1.5 m from building openings."
+    ],
+    "correct": 3,
+    "explanation": "Class II/IIIA vent outlets have a 2 m minimum height and a 1.5 m minimum distance from openings."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "An emergency vent discharges 1.0 m from a combustible exterior wall component. What should the reviewer require?",
+    "opts": [
+      "Accept it because emergency vents operate rarely, leaving compatibility open, assuming the tank standard covers controls.",
+      "Move or redesign it so emergency vent outlets discharge at least 1.5 m from building openings and combustible exterior wall components.",
+      "Accept it if the tank is grounded, without sealed-opening verification, with filling controls checked later; without AHJ acceptance confirmed.",
+      "Accept it if a high-level alarm is installed, with filling controls checked later; without AHJ acceptance confirmed."
+    ],
+    "correct": 1,
+    "explanation": "Emergency vent discharge must not expose combustible building components or openings to flammable vapours and heat during an emergency."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "A Class I tank vent is connected to a common header serving Class II and IIIA tanks with no special design. What is the correct response?",
+    "opts": [
+      "Do not connect Class I vent piping with Class II/IIIA vent piping unless an effective engineered arrangement is provided and accepted.",
+      "Accept it because a common header reduces emissions, without sealed-opening verification; with filling controls checked later.",
+      "Accept it if the header is larger than each individual vent, with filling controls checked later; without AHJ acceptance confirmed.",
+      "Accept it if all tanks are in the same containment, without AHJ acceptance confirmed; with alarm function unverified; with overfill checks deferred."
+    ],
+    "correct": 0,
+    "explanation": "Vent interconnection can transfer vapours, create incompatible classifications, and defeat safe venting assumptions."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "A filling connection is located indoors next to an ordinary building opening. What general rule applies to filling and emptying connections?",
+    "opts": [
+      "They should be outside buildings, free of ignition sources, and at least 1.5 m from building openings unless a specific permitted indoor arrangement with vapour control applies.",
+      "They can be indoors if the tank has an overfill alarm, with filling controls checked later; without AHJ acceptance confirmed; with alarm function unverified; without venting review.",
+      "They are regulated only by the delivery carrier, without AHJ acceptance confirmed; with alarm function unverified; without venting review; with overfill checks deferred.",
+      "They can be anywhere if the operator is trained, with alarm function unverified, without venting review; with overfill checks deferred; leaving compatibility open."
+    ],
+    "correct": 0,
+    "explanation": "Connection location controls vapour entry, ignition, spill response, and building exposure."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "A tank fill connection is normally left open between deliveries. What is the correct Canadian fire-code principle?",
+    "opts": [
+      "They can remain open inside secondary containment, with filling controls checked later.",
+      "Filling and emptying connections must be kept closed to prevent leakage when not in use.",
+      "They need caps only for Class I liquids, with alarm function unverified, without venting review.",
+      "They can remain open if the next delivery is within one day, without venting review."
+    ],
+    "correct": 1,
+    "explanation": "Closed connections limit leakage, vapour release, water entry, and foreign-object contamination."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "A fill point has no spill bucket or spill containment device. Which standard reference is directly relevant?",
+    "opts": [
+      "CAN/ULC-S663 for spill containment devices at aboveground flammable/combustible liquid storage tanks.",
+      "CSA B51 for pressure vessels, with alarm function unverified, without venting review.",
+      "CFA 1990 for product colour symbols, without venting review, with overfill checks deferred.",
+      "CAN/ULC-S668 for liners, with overfill checks deferred, leaving compatibility open; assuming the tank standard covers controls."
+    ],
+    "correct": 0,
+    "explanation": "Fill and emptying connections require devices that catch, retain, and allow evacuation of spilled liquid."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "A tank nozzle valve is selected based only on normal line pressure, ignoring heat exposure. What correction is needed?",
+    "opts": [
+      "Accept the valve if the tank is under 250,000 L, with alarm function unverified, without venting review; with overfill checks deferred.",
+      "Accept the valve if it is downstream of a block valve, without venting review, with overfill checks deferred; leaving compatibility open.",
+      "Accept the valve if secondary containment is oversized, with overfill checks deferred; leaving compatibility open; assuming the tank standard covers controls.",
+      "Select materials for valves and tank connections that are suitable for expected pressures, stresses, temperatures, including possible fire exposure."
+    ],
+    "correct": 3,
+    "explanation": "Fire exposure and thermal stress can control valve and connection suitability in tank service."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "A Class I tank has an independent manual level-gauge opening. How should this opening be managed?",
+    "opts": [
+      "Leave it open for passive venting, without venting review, with overfill checks deferred.",
+      "Weld it shut because gauge openings are prohibited, with overfill checks deferred.",
+      "Equip it with a cap or cover and open it only when measuring the liquid level.",
+      "Leave it open if a floating roof is installed, assuming the tank standard covers controls."
+    ],
+    "correct": 2,
+    "explanation": "Level-gauge openings can release vapours; caps/covers and controlled opening reduce ignition and exposure risk."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "A used tank removed from service is proposed for relocation into a new flammable-liquid service. Which statement is correct?",
+    "opts": [
+      "Reuse requires refurbishment/conformance to listed standards or accepted repair practice; riveted tanks must not be relocated.",
+      "Reuse is acceptable without review if the previous product was similar, leaving compatibility open; assuming the tank standard covers controls.",
+      "Reuse is acceptable if the tank is placed in a new dike, assuming the tank standard covers controls; without sealed-opening verification.",
+      "Reuse is acceptable after pressure washing only, without sealed-opening verification; with filling controls checked later."
+    ],
+    "correct": 0,
+    "explanation": "Relocated tanks can carry hidden integrity, corrosion, and construction risks. Canadian fire-code rules control reuse."
+  },
+  {
+    "section": "Tank Standards, Overfill Protection, Venting & Connections",
+    "q": "A tank farm design uses only an overfill alarm and deletes the operating procedure for supervised filling. What is the best review comment?",
+    "opts": [
+      "Overfill protection must include both engineered devices and an operating response capable of stopping flow before overfill occurs; qualified supervision is part of the accepted approach where used.",
+      "The alarm can replace all training and emergency planning, assuming the tank standard covers controls; without sealed-opening verification; with filling controls checked later.",
+      "The alarm alone is sufficient even if no one can hear or act on it, without sealed-opening verification; with filling controls checked later; without AHJ acceptance confirmed.",
+      "The alarm is unnecessary if secondary containment capacity is large, with filling controls checked later; without AHJ acceptance confirmed; with alarm function unverified; without venting review; with overfill checks deferred."
+    ],
+    "correct": 0,
+    "explanation": "A high-level alarm is only effective if it is located, tested, maintained, heard/seen, and acted on in time."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "A report uses the international term 'bund.' In the Canadian code-facing design calculation, what term and system concept should be used?",
+    "opts": [
+      "Decorative landscape berm outside the process area, without firefighting-water allowance; with drainage checked later; assuming storage in the dike is acceptable.",
+      "Secondary containment: the contained space, wall/base, impermeability, capacity, drainage/removal controls, access, egress, and firefighting access.",
+      "Firewater moat for firefighting water only, assuming storage in the dike is acceptable; without access impacts reviewed; with permeability unverified.",
+      "Traffic barrier for vehicle impact only, without access impacts reviewed, with permeability unverified; without water draw-off control."
+    ],
+    "correct": 1,
+    "explanation": "Canadian code language emphasizes secondary containment as a complete engineered system, not merely a wall around tanks."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "An asphalt containment floor has no hydrostatic or permeability verification. What code concern should be raised?",
+    "opts": [
+      "The base and walls of secondary containment must be noncombustible and designed, constructed, and maintained to withstand full hydrostatic head and provide permeability not more than 1 × 10^-6 cm/s to the stored liquid.",
+      "The containment floor may be combustible if the tank contains diesel, assuming storage in the dike is acceptable; without access impacts reviewed; with permeability unverified; without water draw-off control.",
+      "Only wall height matters, not base permeability, without access impacts reviewed, with permeability unverified; without water draw-off control; leaving sump routing open; with base integrity assumed.",
+      "Any paved surface is acceptable, with permeability unverified, without water draw-off control; leaving sump routing open; with base integrity assumed; without firefighting-water allowance; with drainage checked later; assuming storage in the dike is acceptable."
+    ],
+    "correct": 0,
+    "explanation": "Containment integrity depends on both hydraulic capacity and liquid-tight performance."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "A membrane liner is proposed to provide the required containment impermeability. Which standard should the specification reference?",
+    "opts": [
+      "CSA B51 pressure vessel code only, assuming storage in the dike is acceptable, without access impacts reviewed.",
+      "CFA 1990 product identification only, without access impacts reviewed, with permeability unverified.",
+      "CAN/ULC-S668 and the manufacturer's installation instructions.",
+      "CAN/ULC-S661 overfill protection only, without water draw-off control."
+    ],
+    "correct": 2,
+    "explanation": "A liner that provides containment impermeability must be qualified for that containment function."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "A pipe passes through the secondary containment wall using an unsealed annular gap. What is the correct review comment?",
+    "opts": [
+      "Accept it if the opening faces away from the property line, without access impacts reviewed; with permeability unverified.",
+      "Accept it because mechanical penetrations are exempt, with permeability unverified; without water draw-off control.",
+      "Accept it if the pipe is above the normal rainwater level, without water draw-off control.",
+      "Openings are generally not permitted; pipe passages must maintain containment integrity and impermeability."
+    ],
+    "correct": 3,
+    "explanation": "Penetrations are common failure points. They must not compromise containment."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "A single aboveground storage tank has a nominal capacity of 900,000 L. Precipitation and firefighting water can enter the containment. What minimum secondary containment volume is required?",
+    "opts": [
+      "990,000 L",
+      "1,125,000 L",
+      "900,000 L",
+      "1,800,000 L"
+    ],
+    "correct": 0,
+    "explanation": "For one tank, NFC secondary containment capacity is at least 110% of tank capacity. 900,000 × 1.10 = 990,000 L."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "A containment area holds tanks with capacities of 600,000 L, 200,000 L, 200,000 L. Precipitation and firefighting water can enter. What is the minimum secondary containment volume?",
+    "opts": [
+      "660,000 L",
+      "792,000 L",
+      "600,000 L",
+      "1,000,000 L"
+    ],
+    "correct": 0,
+    "explanation": "For multiple tanks: largest tank + 10% of the greater of the largest tank or the aggregate capacity of all other tanks. Largest = 600,000 L; other tanks = 400,000 L; required = 660,000 L."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "A containment area holds tanks with capacities of 600,000 L, 500,000 L, 300,000 L, 200,000 L. Precipitation and firefighting water can enter. What is the minimum secondary containment volume?",
+    "opts": [
+      "700,000 L",
+      "600,000 L",
+      "1,600,000 L",
+      "660,000 L"
+    ],
+    "correct": 0,
+    "explanation": "For multiple tanks: largest tank + 10% of the greater of the largest tank or the aggregate capacity of all other tanks. Largest = 600,000 L; other tanks = 1,000,000 L; required = 700,000 L."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "A containment area holds tanks with capacities of 1,200,000 L, 500,000 L, 300,000 L. Precipitation and firefighting water can enter. What is the minimum secondary containment volume?",
+    "opts": [
+      "2,000,000 L",
+      "1,320,000 L",
+      "1,200,000 L",
+      "1,584,000 L"
+    ],
+    "correct": 1,
+    "explanation": "For multiple tanks: largest tank + 10% of the greater of the largest tank or the aggregate capacity of all other tanks. Largest = 1,200,000 L; other tanks = 800,000 L; required = 1,320,000 L."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "A containment area holds tanks with capacities of 900,000 L, 800,000 L, 700,000 L. Precipitation and firefighting water can enter. What is the minimum secondary containment volume?",
+    "opts": [
+      "990,000 L",
+      "900,000 L",
+      "2,400,000 L",
+      "1,050,000 L"
+    ],
+    "correct": 3,
+    "explanation": "For multiple tanks: largest tank + 10% of the greater of the largest tank or the aggregate capacity of all other tanks. Largest = 900,000 L; other tanks = 1,500,000 L; required = 1,050,000 L."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "A roofed containment system is designed to prevent the entry of precipitation and water used for firefighting into the contained space. For three tanks of 400,000 L, 250,000 L, and 250,000 L, what minimum containment volume may be used under the special NFC rule?",
+    "opts": [
+      "900,000 L, the aggregate capacity of all tanks, with drainage checked later.",
+      "440,000 L, 110% of the largest tank, assuming storage in the dike is acceptable.",
+      "400,000 L, the capacity of the largest tank.",
+      "500,000 L, the largest tank plus 10% of the other tanks, with permeability unverified."
+    ],
+    "correct": 2,
+    "explanation": "If the containment is designed to prevent entry of precipitation and firefighting water, the required volume can be not less than the capacity of the largest tank located in the contained space."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "A secondary containment wall is only 1.0 m from the shell of a 500,000 L single-wall aboveground tank. No special protected or double-wall waiver applies. What is the review result?",
+    "opts": [
+      "Non-compliant as shown; no part of a secondary containment wall should be less than 1.5 m from the tank shell unless a specific code exception applies.",
+      "Compliant if the tank has an overfill alarm, without access impacts reviewed, with permeability unverified; without water draw-off control.",
+      "Compliant if the tank stores a Class II liquid, with permeability unverified, without water draw-off control; leaving sump routing open; with base integrity assumed.",
+      "Compliant because 1.0 m is enough for walking access, without water draw-off control; leaving sump routing open; with base integrity assumed."
+    ],
+    "correct": 0,
+    "explanation": "The 1.5 m clearance protects access, inspection, wall integrity, and firefighting/egress inside the contained space."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "An 80,000 L double-wall aboveground tank assembly is shown with the containment wall close to the shell. Which review comment is most precise?",
+    "opts": [
+      "A clearance waiver may be possible only if the tank meets the specific capacity and construction/protected-tank conditions in the code; document the exact basis.",
+      "The waiver applies automatically to all diesel tanks, with permeability unverified; without water draw-off control; leaving sump routing open.",
+      "The wall can be close for any tank below 500,000 L, without water draw-off control; leaving sump routing open; with base integrity assumed; without firefighting-water allowance.",
+      "The 1.5 m rule never has exceptions, leaving sump routing open, with base integrity assumed; without firefighting-water allowance; with drainage checked later."
+    ],
+    "correct": 0,
+    "explanation": "The code allows limited exceptions for certain small contained/double-wall/protected tank assemblies. The design basis must cite the actual condition."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "An aboveground tank is exposed to forklift traffic beside the loading lane. What protective feature is required?",
+    "opts": [
+      "Only a painted warning line on the pavement, with permeability unverified, without water draw-off control.",
+      "Posts, guardrails, or equivalent protection against potential collision damage.",
+      "No protection if the tank is inside secondary containment, leaving sump routing open.",
+      "Only a lower filling rate, with base integrity assumed, without firefighting-water allowance."
+    ],
+    "correct": 1,
+    "explanation": "Collision protection is separate from spill containment and is required where the tank is exposed to impact."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "A secondary containment design has capacity but no safe access to tank valves, no egress path, and no fire access. What is missing?",
+    "opts": [
+      "Nothing; volume is the only secondary containment criterion, without water draw-off control; leaving sump routing open.",
+      "Only a sump needs to be added, leaving sump routing open, with base integrity assumed; without firefighting-water allowance.",
+      "The containment must permit access to tanks, valves and ancillary equipment, egress from the contained space, and firefighting access.",
+      "Only a higher wall is needed, without firefighting-water allowance, with drainage checked later; assuming storage in the dike is acceptable."
+    ],
+    "correct": 2,
+    "explanation": "Containment that traps workers or blocks firefighting access is not an acceptable Canadian tank-farm design."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "A Class I tank sits inside a containment wall with an average interior height of 3.8 m. Operators must enter the contained space to operate routine valves. What correction is needed?",
+    "opts": [
+      "Provide normal valve operation and roof access without entering the contained space because the average secondary containment height exceeds 3.5 m.",
+      "Accept it because the wall reduces vapour travel, with base integrity assumed, without firefighting-water allowance; with drainage checked later.",
+      "Accept it if the operator enters only during daylight, without firefighting-water allowance; with drainage checked later.",
+      "Accept it if workers wear fall protection, with drainage checked later, assuming storage in the dike is acceptable; without access impacts reviewed."
+    ],
+    "correct": 0,
+    "explanation": "For Class I liquids, tall secondary containment can create entrapment and vapour hazards; routine operation must be possible without entering."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "For a Class I tank, the tank shell is closer to the top inside edge of the secondary containment wall than the wall height. What access implication follows?",
+    "opts": [
+      "Provide normal valve operation and tank-roof access without entering the contained space.",
+      "Require operators to climb the containment wall, without firefighting-water allowance.",
+      "Ignore the condition if the tank stores less than 250,000 L, with drainage checked later.",
+      "Reduce the wall height until the condition disappears, assuming storage in the dike is acceptable."
+    ],
+    "correct": 0,
+    "explanation": "Where a Class I containment wall is close relative to its height, the code requires access provisions without entering the contained space."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "A secondary containment is enclosed rather than open to atmosphere. What additional safeguard is required?",
+    "opts": [
+      "Only a larger drain valve, without firefighting-water allowance, with drainage checked later.",
+      "Only a product label at the entry point, with drainage checked later, assuming storage in the dike is acceptable.",
+      "Emergency venting to relieve internal pressure buildup in the contained space when exposed to heat or fire.",
+      "No additional safeguard because containment is stronger when enclosed, without access impacts reviewed."
+    ],
+    "correct": 2,
+    "explanation": "An enclosed contained space can pressurize during fire exposure; emergency venting protects containment integrity."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "A contained space is not accessible for internal visual examination and is not sloped to a monitoring point. What must be provided?",
+    "opts": [
+      "A monitoring device to indicate loss of secondary-containment integrity.",
+      "Only a higher wall, assuming storage in the dike is acceptable, without access impacts reviewed.",
+      "Only a manual dipstick in the tank, without access impacts reviewed, with permeability unverified.",
+      "Nothing, because inaccessible containment is safer, with permeability unverified."
+    ],
+    "correct": 0,
+    "explanation": "If containment integrity cannot be visually checked and liquid cannot flow to a monitored point, leak/integrity monitoring is required."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "Rainwater, debris, and oily residue routinely accumulate inside a tank-farm containment. Which code principle is being violated?",
+    "opts": [
+      "Accumulation is acceptable if the sump pump is manual, assuming storage in the dike is acceptable.",
+      "Accumulation is acceptable if the wall height is sufficient, without access impacts reviewed; with permeability unverified.",
+      "Liquids, debris, and precipitation must not accumulate in the contained space; removal provisions must be available.",
+      "Accumulation is acceptable in winter only, without water draw-off control, leaving sump routing open."
+    ],
+    "correct": 2,
+    "explanation": "Standing water and debris reduce containment capacity, hide leaks, increase corrosion, and complicate emergency response."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "The containment drain valve is normally open so rainwater can leave automatically. What is the correct Canadian design response?",
+    "opts": [
+      "Normally open drains are preferred to keep the dike dry, without access impacts reviewed; with permeability unverified; without water draw-off control.",
+      "The valve can be open if the discharge goes to a storm sewer, with permeability unverified; without water draw-off control.",
+      "Drain/removal system controls must be normally closed, accessible under fire exposure conditions, and operable from outside the contained space.",
+      "The valve position does not matter if containment volume is large, leaving sump routing open; with base integrity assumed; without firefighting-water allowance."
+    ],
+    "correct": 2,
+    "explanation": "Normally open drains defeat secondary containment. Canadian fire-code provisions require controlled removal."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "A containment sump pump control is located inside the diked area near the tank shell. Why is this a design problem?",
+    "opts": [
+      "Controls should be inside containment to shorten cable runs, with permeability unverified; without water draw-off control.",
+      "Removal controls must be accessible under fire exposure conditions and located so they can be operated from outside the contained space.",
+      "Controls need only be accessible during normal weather, leaving sump routing open; with base integrity assumed; without firefighting-water allowance.",
+      "Controls are not part of secondary containment design, with base integrity assumed; without firefighting-water allowance."
+    ],
+    "correct": 1,
+    "explanation": "Emergency drainage/removal controls must be usable without exposing personnel to the contained hazard."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "A secondary containment is used as a parking and materials-storage area between deliveries. What is the correct exam answer?",
+    "opts": [
+      "Allow parking if the tank stores diesel, without water draw-off control, leaving sump routing open.",
+      "Allow storage if the items are on pallets, leaving sump routing open, with base integrity assumed.",
+      "Do not use the contained space for storage purposes.",
+      "Allow storage if the emergency plan mentions it, without firefighting-water allowance."
+    ],
+    "correct": 2,
+    "explanation": "Storage within containment reduces effective capacity, blocks egress/firefighting, and conflicts with both federal and fire-code requirements."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "A release from a tank remains inside secondary containment. Which design statement is most correct?",
+    "opts": [
+      "No emergency plan is needed if containment is 110%, leaving sump routing open, with base integrity assumed; without firefighting-water allowance; with drainage checked later.",
+      "No leak prevention is needed if containment is large enough, with base integrity assumed; without firefighting-water allowance; with drainage checked later; assuming storage in the dike is acceptable.",
+      "No records are needed because the release was contained, without firefighting-water allowance; with drainage checked later; assuming storage in the dike is acceptable.",
+      "Secondary containment can prevent a release from reaching the environment, but the tank system still requires leak prevention, overfill control, emergency response, and cleanup procedures."
+    ],
+    "correct": 3,
+    "explanation": "Containment is a last line of defence. It does not replace primary tank integrity and operations controls."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "A transfer area drains to a storm catch basin outside containment. What is the correct Canadian design concern?",
+    "opts": [
+      "Storm drainage is acceptable if the catch basin has a grate, with base integrity assumed; without firefighting-water allowance; with drainage checked later.",
+      "Transfer areas do not require containment because the truck driver is present, without firefighting-water allowance; with drainage checked later; without access impacts reviewed.",
+      "Transfer areas for regulated systems must be designed to contain releases during transfer so product does not reach outside the transfer area or the environment.",
+      "Only tank-shell releases need containment, assuming storage in the dike is acceptable; without access impacts reviewed; with permeability unverified."
+    ],
+    "correct": 2,
+    "explanation": "Canadian storage-tank regulation specifically addresses transfer releases as well as tank releases."
+  },
+  {
+    "section": "Secondary Containment, Drainage & Capacity Calculations",
+    "q": "A building housing a tank has secondary containment equivalent to a maximum hydraulic conductivity of 1 × 10^-6 cm/s on a continuous basis. What is the exam-level significance?",
+    "opts": [
+      "It means overfill protection can be omitted, without firefighting-water allowance; with drainage checked later; assuming storage in the dike is acceptable.",
+      "It means all Canadian regulations are waived, with drainage checked later, assuming storage in the dike is acceptable; without access impacts reviewed.",
+      "This condition is part of a specific federal-regulation application exclusion, but the design still needs fire-code/AHJ and other applicable reviews.",
+      "It means no emergency plan is needed for any product, without access impacts reviewed; with permeability unverified; without water draw-off control."
+    ],
+    "correct": 2,
+    "explanation": "Application exclusions must be read carefully and do not eliminate every legal or engineering requirement."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "A 400,000 L aboveground tank contains a stable liquid and working pressure not more than 17 kPa(g), without fixed fire/explosion protection. Using the Canadian location table logic, what minimum distance to a property line or same-property building applies?",
+    "opts": [
+      "2.2 m",
+      "4.5 m",
+      "15 m",
+      "No fixed Canadian requirement applies once the tank is outdoors."
+    ],
+    "correct": 1,
+    "explanation": "Use NFC Table 4.3.2.1 and the applicable multiplier. The table distance for 400,000 L is 4.5 m; the required result is 4.5 m."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "A 2,000,000 L aboveground tank contains a stable liquid and working pressure not more than 17 kPa(g), with fixed fire/explosion protection. Using the Canadian location table logic, what minimum distance to a property line or same-property building applies?",
+    "opts": [
+      "4.5 m",
+      "27 m",
+      "9 m",
+      "No fixed Canadian requirement applies once the tank is outdoors."
+    ],
+    "correct": 0,
+    "explanation": "Use NFC Table 4.3.2.1 and the applicable multiplier. The table distance for 2,000,000 L is 9 m; the required result is 4.5 m."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "A 6,000,000 L aboveground tank contains a stable liquid and working pressure not more than 17 kPa(g), without fixed fire/explosion protection. Using the Canadian location table logic, what minimum distance to a property line or same-property building applies?",
+    "opts": [
+      "15 m",
+      "45 m",
+      "7.5 m",
+      "No fixed Canadian requirement applies once the tank is outdoors."
+    ],
+    "correct": 0,
+    "explanation": "Use NFC Table 4.3.2.1 and the applicable multiplier. The table distance for 6,000,000 L is 15 m; the required result is 15 m."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "A 500,000 L aboveground tank contains a unstable liquid and working pressure not more than 17 kPa(g), with fixed fire/explosion protection. Using the Canadian location table logic, what minimum distance to a property line or same-property building applies?",
+    "opts": [
+      "15 m",
+      "2.2 m",
+      "7.5 m",
+      "4.5 m"
+    ],
+    "correct": 2,
+    "explanation": "Use NFC Table 4.3.2.1 and the applicable multiplier. The table distance for 500,000 L is 4.5 m; the required result is 7.5 m."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "A 500,000 L aboveground tank contains a unstable liquid and working pressure not more than 17 kPa(g), without fixed fire/explosion protection. Using the Canadian location table logic, what minimum distance to a property line or same-property building applies?",
+    "opts": [
+      "15 m",
+      "No fixed Canadian requirement applies once the tank is outdoors.",
+      "4.5 m",
+      "2.2 m"
+    ],
+    "correct": 0,
+    "explanation": "Use NFC Table 4.3.2.1 and the applicable multiplier. The table distance for 500,000 L is 4.5 m; the required result is 15 m."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "A 5,000,000 L aboveground tank contains a boil-over liquid and working pressure not more than 17 kPa(g), with fixed fire/explosion protection. Using the Canadian location table logic, what minimum distance to a property line or same-property building applies?",
+    "opts": [
+      "12 m",
+      "36 m",
+      "6 m",
+      "9 m"
+    ],
+    "correct": 3,
+    "explanation": "Use NFC Table 4.3.2.1 and the applicable multiplier. The table distance for 5,000,000 L is 12 m; the required result is 9 m."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "A 250,000 L aboveground tank contains a stable liquid and working pressure greater than 17 kPa(g), with fixed fire/explosion protection. Using the Canadian location table logic, what minimum distance to a property line or same-property building applies?",
+    "opts": [
+      "3 m",
+      "15 m",
+      "7.5 m",
+      "1.5 m"
+    ],
+    "correct": 2,
+    "explanation": "Use NFC Table 4.3.2.1 and the applicable multiplier. The table distance for 250,000 L is 3 m; the required result is 7.5 m."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "A Class II or IIIA liquid tank of 40,000 L is located near a building on the same property. What special Canadian location allowance may apply?",
+    "opts": [
+      "The distance is always 15 m for every aboveground tank, assuming firefighting reach is adequate; without road access checked; with egress checked after layout freeze.",
+      "The allowance applies only to Class I liquids, without road access checked, with egress checked after layout freeze; without property-line exposure checked.",
+      "The minimum distance to that same-property building may be reduced to 1.5 m when the tank contains only Class II or IIIA liquid and capacity is not more than 50,000 L.",
+      "The distance is always zero for combustible liquids, without property-line exposure checked; with water-supply review postponed; without exposure review; leaving fire access open."
+    ],
+    "correct": 2,
+    "explanation": "The NFC includes capacity-limited reductions for Class II/IIIA tanks to same-property buildings."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "A 2,000 L tank contains only Class II or IIIA liquid and is near a same-property building. Which special location allowance can apply?",
+    "opts": [
+      "The distance to that same-property building may be reduced to zero when the capacity is not more than 2,500 L, subject to the code conditions and AHJ acceptance.",
+      "It must always be 3 m from the building, with egress checked after layout freeze, without property-line exposure checked; with water-supply review postponed.",
+      "It must always be 7.5 m from the building, without property-line exposure checked; with water-supply review postponed; without exposure review; leaving fire access open.",
+      "It is exempt from every fire-code rule, with water-supply review postponed, without exposure review; leaving fire access open; with AHJ spacing review deferred."
+    ],
+    "correct": 0,
+    "explanation": "The small-capacity allowance is specific. Other protection, installation, and AHJ requirements still matter."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "A protected aboveground tank assembly conforming to CAN/ULC-S655 is proposed. What is the exam-level implication for location distances?",
+    "opts": [
+      "It automatically waives every AHJ requirement, with egress checked after layout freeze; without property-line exposure checked.",
+      "It applies only to underground tanks, without property-line exposure checked, with water-supply review postponed; without exposure review.",
+      "The NFC permits the minimum distance requirement to be waived for such protected tank assemblies where the code conditions apply.",
+      "It automatically eliminates secondary containment for all installations, without exposure review; leaving fire access open."
+    ],
+    "correct": 2,
+    "explanation": "Protected tank assemblies can change separation requirements, but the exact standard, conditions, and AHJ acceptance must be documented."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "Two aboveground tanks have diameters of 12 m and 20 m and capacities of 300,000 L and 400,000 L. What minimum tank-to-tank spacing is required?",
+    "opts": [
+      "16 m",
+      "8 m",
+      "No fixed Canadian requirement applies once the tank is outdoors.",
+      "3.2 m"
+    ],
+    "correct": 1,
+    "explanation": "For tank spacing, use 0.25 × (12 + 20) = 8.0 m, not less than 1 m. Required spacing = 8 m."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "Two aboveground tanks have diameters of 10 m and 10 m and capacities of 200,000 L and 240,000 L. What minimum tank-to-tank spacing is required?",
+    "opts": [
+      "10 m",
+      "No fixed Canadian requirement applies once the tank is outdoors.",
+      "2 m",
+      "1 m"
+    ],
+    "correct": 3,
+    "explanation": "For tank spacing, use because neither tank is over 250,000 L, the special minimum distance is 1 m. Required spacing = 1 m."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "Two aboveground tanks have diameters of 30 m and 36 m and capacities of 600,000 L and 600,000 L. What minimum tank-to-tank spacing is required?",
+    "opts": [
+      "16.5 m",
+      "No fixed Canadian requirement applies once the tank is outdoors.",
+      "6.6 m",
+      "33 m"
+    ],
+    "correct": 0,
+    "explanation": "For tank spacing, use 0.25 × (30 + 36) = 16.5 m, not less than 1 m. Required spacing = 16.5 m."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "Two aboveground tanks have diameters of 30 m and 36 m and capacities of 600,000 L and 600,000 L. One contains an unstable liquid. What minimum tank-to-tank spacing is required?",
+    "opts": [
+      "No fixed Canadian requirement applies once the tank is outdoors.",
+      "6.6 m",
+      "33 m",
+      "16.5 m"
+    ],
+    "correct": 2,
+    "explanation": "For tank spacing, use 0.25 × (30 + 36) = 16.5 m, not less than 1 m. One tank contains an unstable liquid, so double the spacing. Required spacing = 33 m."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "A flammable-liquid tank is proposed 4 m from a liquefied petroleum gas cylinder storage area. What is the Canadian fire-code review comment?",
+    "opts": [
+      "Accept 4 m if both are inside the same secondary containment, with AHJ spacing review deferred; assuming firefighting reach is adequate.",
+      "Accept 4 m because both are outdoor hazards, assuming firefighting reach is adequate; without road access checked.",
+      "Increase separation to at least 6 m between the flammable/combustible liquid storage tank and LPG cylinder or tank.",
+      "Reduce the distance if the tank contains diesel, with egress checked after layout freeze; without property-line exposure checked."
+    ],
+    "correct": 2,
+    "explanation": "The NFC sets a 6 m minimum separation between flammable/combustible liquid storage tanks and LPG cylinders or tanks."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "A design places LPG cylinders inside the secondary containment for a flammable-liquid tank farm. What is the correct Canadian review result?",
+    "opts": [
+      "Accept it because the containment also protects the LPG cylinders, assuming firefighting reach is adequate.",
+      "Accept it if the product is Class II liquid only, without road access checked, with egress checked after layout freeze.",
+      "Do not place LPG cylinders or tanks inside the secondary containment of flammable/combustible liquid storage tanks.",
+      "Accept it if the cylinders are strapped, without property-line exposure checked, with water-supply review postponed."
+    ],
+    "correct": 2,
+    "explanation": "Combining LPG with flammable/combustible liquid containment can create incompatible fire and explosion exposure scenarios."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "A secondary containment wall centreline is 2 m from LPG cylinders and 4 m from an LPG tank. What correction is required?",
+    "opts": [
+      "No correction; the wall itself is a barrier, without road access checked, with egress checked after layout freeze.",
+      "The distances apply only to underground LPG tanks, with egress checked after layout freeze.",
+      "Move it so the wall centreline is at least 3 m from LPG cylinders and 6 m from an LPG tank.",
+      "Only the tank-shell distance matters, not wall centreline, with water-supply review postponed."
+    ],
+    "correct": 2,
+    "explanation": "The NFC specifies wall-centreline distances to LPG cylinders and tanks, in addition to prohibiting LPG inside the containment."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "An outdoor tank farm road layout leaves one storage tank 85 m travel distance from fire department vehicle access. What is the correct review comment?",
+    "opts": [
+      "Accept it if the operator has a pickup truck, with egress checked after layout freeze; without property-line exposure checked; with water-supply review postponed; without exposure review.",
+      "Accept it because the tank is outdoors, without property-line exposure checked, with water-supply review postponed; without exposure review; leaving fire access open; with AHJ spacing review deferred.",
+      "Provide an access route so fire department vehicles can approach within 60 m travel distance of any storage tank, unless the code alternative fire-extinguishing measures are provided where applicable.",
+      "Accept it if the tank has a high-level alarm, without exposure review, leaving fire access open; with AHJ spacing review deferred; assuming firefighting reach is adequate."
+    ],
+    "correct": 2,
+    "explanation": "Firefighting access is a plot-plan requirement, not an operations preference."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "Fire department access to Class I and II liquid tanks cannot be provided in the plot plan. What must the design provide under the fire-code logic?",
+    "opts": [
+      "Only a longer emergency response plan, without property-line exposure checked, with water-supply review postponed.",
+      "Fire extinguishing measures conforming to the code's fixed-protection provisions must be provided.",
+      "No additional protection because the tanks are outside, without exposure review, leaving fire access open.",
+      "Only larger secondary containment, leaving fire access open, with AHJ spacing review deferred."
+    ],
+    "correct": 1,
+    "explanation": "When access is not provided for Class I/II storage tanks, the code requires compensating extinguishing measures."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "An aboveground storage tank has a diameter of 48 m. Which fire-protection design issue is triggered?",
+    "opts": [
+      "Tanks exceeding 45 m diameter require protection against fires or explosions using fixed protection systems designed to good engineering practice, such as foam, water spray, or explosion prevention systems.",
+      "Only portable extinguishers are required, without exposure review, leaving fire access open; with AHJ spacing review deferred; assuming firefighting reach is adequate; without road access checked.",
+      "No fixed protection is needed if the tank is below 5,000,000 L, leaving fire access open; with AHJ spacing review deferred; assuming firefighting reach is adequate; without road access checked.",
+      "Only the overfill alarm needs redundancy, with AHJ spacing review deferred, assuming firefighting reach is adequate; without road access checked; with egress checked after layout freeze; without property-line exposure checked."
+    ],
+    "correct": 0,
+    "explanation": "Large-diameter tanks challenge manual firefighting and cooling. The code triggers fixed protection above 45 m diameter."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "A tank fire-protection basis cites only portable extinguishers for a large floating-roof tank. Which reference family better fits fixed protection under the Canadian fire-code examples?",
+    "opts": [
+      "CSA B51 pressure-vessel rules only, without exposure review, leaving fire access open; with AHJ spacing review deferred.",
+      "CFA 1990 product colour symbols only, leaving fire access open, with AHJ spacing review deferred; assuming firefighting reach is adequate.",
+      "Good engineering practice such as NFPA 11 foam, NFPA 15 water spray, and NFPA 69 explosion-prevention systems, as applicable.",
+      "CAN/ULC-S668 secondary containment liners only, assuming firefighting reach is adequate; without road access checked."
+    ],
+    "correct": 2,
+    "explanation": "Canadian code examples point to fixed protection system standards where fixed fire/explosion protection is required."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "A tank support design uses untreated timber sleepers under an aboveground tank. What foundation/support review comment is most consistent with the fire code?",
+    "opts": [
+      "Timber is preferred because it insulates the tank from the ground, leaving fire access open; with AHJ spacing review deferred; assuming firefighting reach is adequate.",
+      "Storage tanks should rest on the ground or on concrete, masonry, or steel foundations/supports designed to minimize uneven settlement and corrosion.",
+      "Support material is outside fire-code scope, assuming firefighting reach is adequate; without road access checked; with egress checked after layout freeze.",
+      "Any support is acceptable if the dike is noncombustible, without road access checked; with egress checked after layout freeze."
+    ],
+    "correct": 1,
+    "explanation": "Support materials, settlement, corrosion, and fire exposure influence tank integrity."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "An elevated tank support gives 500 mm clearance below the tank base. What fire-resistance issue arises?",
+    "opts": [
+      "Where clearance below the tank base exceeds 300 mm, tank supports require a minimum 2 h fire-resistance rating.",
+      "No issue if the tank contains Class II liquid, assuming firefighting reach is adequate; without road access checked.",
+      "No issue; fire rating is needed only above 1.5 m, without road access checked, with egress checked after layout freeze.",
+      "Only the containment wall needs fire resistance, with egress checked after layout freeze; without property-line exposure checked."
+    ],
+    "correct": 0,
+    "explanation": "Exposed elevated supports can fail during a fire, so the code controls their fire resistance."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "A tank farm is located in a seismic region. Which design requirement should be included?",
+    "opts": [
+      "Seismic design is required only for underground tanks, assuming firefighting reach is adequate; without road access checked; with egress checked after layout freeze.",
+      "Tanks, supports, and connections should be designed to resist earthquake forces in accordance with the National Building Code and applicable CAN/ULC provisions.",
+      "Only the tank shell needs seismic design; connections do not, with egress checked after layout freeze; without property-line exposure checked.",
+      "Seismic design is not needed if the tank has secondary containment, without property-line exposure checked; with water-supply review postponed."
+    ],
+    "correct": 1,
+    "explanation": "Seismic forces can fail nozzles, piping, foundations, anchors, and containment features, not just the tank shell."
+  },
+  {
+    "section": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "q": "An aboveground tank is located in a flood-prone area. What must be addressed?",
+    "opts": [
+      "Only the emergency plan needs a flood contact list, without road access checked.",
+      "Only the fill pipe needs a cap, with egress checked after layout freeze.",
+      "Flooding is ignored because the tank is aboveground, without property-line exposure checked.",
+      "The tank must be securely anchored to prevent floating."
+    ],
+    "correct": 3,
+    "explanation": "Floating tanks can rupture piping, roll, leak, and create fire/environmental hazards."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "An operator becomes aware that a component of a regulated storage tank system is leaking. What must happen before return to service?",
+    "opts": [
+      "Continue operating until the next scheduled outage, with leak response checked later; without retention duties confirmed; without records evidence.",
+      "Keep operating if the release remains inside the dike, without retention duties confirmed; with reporting triggers unverified.",
+      "Withdraw the leaking component or system from service without delay and return it only after necessary repairs ensure it no longer leaks.",
+      "Return to service after wiping the component clean, without records evidence, leaving calibration open; with monitoring deferred."
+    ],
+    "correct": 2,
+    "explanation": "Leak response is immediate. Containment does not replace repair and safe return-to-service controls."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "A compatibility review is omitted because the tank is inside secondary containment. What is the correct Canadian response?",
+    "opts": [
+      "Compatibility between stored product and construction materials is still required; containment does not make incompatible tanks, piping, seals, or liners acceptable.",
+      "Compatibility can be ignored if the tank is painted, with reporting triggers unverified; without records evidence; leaving calibration open.",
+      "Compatibility is a vendor preference, not a compliance issue, without records evidence; leaving calibration open; with monitoring deferred; assuming inspections can close the gap.",
+      "Compatibility is needed only for underground tanks, leaving calibration open, with monitoring deferred; assuming inspections can close the gap."
+    ],
+    "correct": 0,
+    "explanation": "Material compatibility is a primary integrity requirement."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "A pre-2008 single-wall underground tank leaks. Which action is most consistent with the federal regulation?",
+    "opts": [
+      "Patch it and continue service indefinitely, with reporting triggers unverified, without records evidence; leaving calibration open; with monitoring deferred.",
+      "Use the dike around aboveground tanks as compensation, without records evidence, leaving calibration open; with monitoring deferred; assuming inspections can close the gap.",
+      "Ignore it if no product reaches the surface, leaving calibration open, with monitoring deferred; assuming inspections can close the gap.",
+      "Permanently withdraw the leaking single-wall underground tank and affected components from service according to the regulation, with required removal actions."
+    ],
+    "correct": 3,
+    "explanation": "Leaking single-wall underground systems receive strict treatment because releases can migrate unnoticed into soil and groundwater."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "A pre-2008 single-wall underground tank remains in service after the required precision test. Which ongoing leak-detection options are consistent with the federal approach?",
+    "opts": [
+      "Use only an operator smell check once per year, without records evidence, leaving calibration open; with monitoring deferred.",
+      "Use automatic tank gauging, continuous in-tank leak detection, or annual tank precision leak detection testing as applicable.",
+      "Use only a monthly inventory estimate with no testing, with monitoring deferred, assuming inspections can close the gap.",
+      "Use only secondary containment around nearby aboveground tanks, assuming inspections can close the gap; without repair triggers defined."
+    ],
+    "correct": 1,
+    "explanation": "The regulation specifies recognized leak-detection methods for these older risk configurations."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "A continuous external underground piping leak-monitoring system is specified. Which performance statement is correct?",
+    "opts": [
+      "It only needs to alarm in the contractor's office, leaving calibration open, with monitoring deferred; assuming inspections can close the gap; without repair triggers defined.",
+      "It must be capable of detecting a leak rate of at least 0.38 L/h within 96 hours, locating it within ±1 m, monitoring sensor integrity, and alarming where it can be seen and heard.",
+      "It needs no location accuracy if the pipe is marked on drawings, assuming inspections can close the gap; without repair triggers defined; with leak response checked later.",
+      "It must detect any leak within ten years, without repair triggers defined, with leak response checked later; without retention duties confirmed; with reporting triggers unverified."
+    ],
+    "correct": 1,
+    "explanation": "Performance requirements make leak detection actionable, not merely decorative."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "Automatic tank gauging is used as a leak detection method. What alarm feature is required?",
+    "opts": [
+      "The alarm can be located only inside the sealed tank cabinet, with monitoring deferred; assuming inspections can close the gap.",
+      "The alarm can be a silent data point in a vendor cloud portal only, assuming inspections can close the gap; without repair triggers defined.",
+      "The alarm must be located at a place of work where it can be readily heard and seen, with certified equipment as required.",
+      "The alarm is not needed if operators dip the tank monthly, with leak response checked later; without retention duties confirmed."
+    ],
+    "correct": 2,
+    "explanation": "Leak-detection alarms must be available to personnel who can respond."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "A vertical aboveground tank without secondary containment is part of an older regulated system. Which ongoing control is required?",
+    "opts": [
+      "Only product reconciliation at year end is required, assuming inspections can close the gap; without repair triggers defined; with leak response checked later.",
+      "Only a visual shell check from the road is required, without repair triggers defined; with leak response checked later; without retention duties confirmed.",
+      "Use continuous in-tank leak detection, continuous external vertical aboveground tank leak monitoring, or inspect the tank/floor at least once every ten years.",
+      "No control is needed because the tank is aboveground, without retention duties confirmed; with reporting triggers unverified; without records evidence."
+    ],
+    "correct": 2,
+    "explanation": "Vertical aboveground tanks without secondary containment need leak detection or periodic integrity inspection."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "A ten-year inspection is chosen for a vertical aboveground tank without secondary containment. Which standard governs the tank inspection?",
+    "opts": [
+      "CAN/ULC-S663 only, without repair triggers defined, with leak response checked later; without retention duties confirmed.",
+      "API Standard 653, Tank Inspection, Repair, Alteration, and Reconstruction, in effect at the time of inspection.",
+      "CSA B376 only, without retention duties confirmed, with reporting triggers unverified; without records evidence.",
+      "CFA 1990 only, with reporting triggers unverified, without records evidence, leaving calibration open."
+    ],
+    "correct": 1,
+    "explanation": "API 653 is the recognized inspection framework for existing aboveground storage tanks."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "Continuous external vertical aboveground tank leak monitoring is selected. What performance requirement applies?",
+    "opts": [
+      "It must detect 100 L/day within one year, with leak response checked later, without retention duties confirmed; with reporting triggers unverified.",
+      "It must detect at least 0.38 L/h within 30 days, locate the leak within ±1 m, monitor sensor integrity, and alarm where it can be heard and seen.",
+      "It needs no alarm if the tank is visually inspected, with reporting triggers unverified; without records evidence; leaving calibration open.",
+      "It needs only a manual inspection port, without records evidence, leaving calibration open; with monitoring deferred; assuming inspections can close the gap."
+    ],
+    "correct": 1,
+    "explanation": "Under-floor vertical tank leak monitoring has a longer detection window than piping monitoring but still has defined sensitivity, location, integrity, and alarm requirements."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "Aboveground piping without secondary containment in an older regulated system has been visually inspected. Which ongoing option is valid?",
+    "opts": [
+      "Inspect only after a spill occurs, without retention duties confirmed, with reporting triggers unverified; without records evidence; leaving calibration open; with monitoring deferred; assuming inspections can close the gap; without repair triggers defined.",
+      "Rely only on truck delivery tickets, with reporting triggers unverified, without records evidence; leaving calibration open; with monitoring deferred; assuming inspections can close the gap.",
+      "Perform no further checks if the first visual inspection found no leak, without records evidence; leaving calibration open; with monitoring deferred; assuming inspections can close the gap.",
+      "Use continuous external aboveground pipe leak monitoring, implement a corrosion analysis program with at least annual inspection, visually inspect monthly, or annually perform piping precision leak detection, as applicable."
+    ],
+    "correct": 3,
+    "explanation": "Aboveground piping without secondary containment needs an ongoing monitoring, inspection, or testing strategy."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "A sensor cable is used for continuous external aboveground pipe leak monitoring. Which detection target is correct?",
+    "opts": [
+      "Any leak rate within ten years, with reporting triggers unverified, without records evidence; leaving calibration open; with monitoring deferred; assuming inspections can close the gap.",
+      "No detection target if the pipe is aboveground, without records evidence, leaving calibration open; with monitoring deferred.",
+      "At least 0.38 L/h within 96 hours, with ±1 m location accuracy, sensor-integrity monitoring, and a visible/audible alarm at a place of work.",
+      "At least 10 L/h within 30 days, with monitoring deferred, assuming inspections can close the gap; without repair triggers defined."
+    ],
+    "correct": 2,
+    "explanation": "The regulation defines practical leak-detection performance for sensor-cable monitoring."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "A regulated storage tank system uses an oil-water separator. How must layers be monitored during normal operation?",
+    "opts": [
+      "Measure only after a release, without records evidence, leaving calibration open, with monitoring deferred.",
+      "Inspect only once per year, leaving calibration open, with monitoring deferred, assuming inspections can close the gap.",
+      "Measure the free-oil layer and separated-solids layer monthly near the baffle and keep records, or use electronic monitoring.",
+      "No monitoring is required if the separator is concrete, assuming inspections can close the gap; without repair triggers defined."
+    ],
+    "correct": 2,
+    "explanation": "Oil-water separators can become hidden release sources if layers are not monitored and removed."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "After a leak or environmental release is discovered, what must be done for an oil-water separator used by the system?",
+    "opts": [
+      "Measure only the water pH, leaving calibration open, with monitoring deferred.",
+      "Wait until the next monthly reading, with monitoring deferred, assuming inspections can close the gap.",
+      "Remove the separator from drawings only, assuming inspections can close the gap.",
+      "Measure the free-oil and separated-solids layer thickness without delay and keep a record."
+    ],
+    "correct": 3,
+    "explanation": "Post-incident separator layer measurements help assess migration, loading, and response actions."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "What is the maximum allowed free-oil layer thickness in an oil-water separator if not removed continuously by automatic skimmer?",
+    "opts": [
+      "50 mm.",
+      "25 mm.",
+      "150 mm.",
+      "500 mm."
+    ],
+    "correct": 0,
+    "explanation": "The free oil layer must be removed continuously by automatic skimmer or kept so it does not exceed 50 mm."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "What is the maximum allowed separated-solids layer thickness in an oil-water separator if not automatically removed?",
+    "opts": [
+      "300 mm.",
+      "150 mm.",
+      "500 mm.",
+      "50 mm."
+    ],
+    "correct": 1,
+    "explanation": "Separated solids must be removed automatically or kept so the layer does not exceed 150 mm."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "Free oil is removed from an oil-water separator. What record should be kept?",
+    "opts": [
+      "No record is required if the volume is small, without repair triggers defined.",
+      "Only the weather at the time of removal, with leak response checked later, without retention duties confirmed.",
+      "Only the operator's initials, without retention duties confirmed, with reporting triggers unverified.",
+      "Quantity disposed of, disposal method, and the place where the free oil was disposed of."
+    ],
+    "correct": 3,
+    "explanation": "Disposal records demonstrate that removed oil was managed without harmful environmental or human-health effects."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "A written release report is required under the CEPA reporting provision. Which information belongs in it?",
+    "opts": [
+      "Only the final cleanup cost, with leak response checked later, without retention duties confirmed; with reporting triggers unverified; without records evidence.",
+      "Only tank number and product colour, without retention duties confirmed, with reporting triggers unverified; without records evidence; leaving calibration open.",
+      "Owner/operator names, system identification number, date, product type, quantity or estimate, circumstances, mitigating measures, and measures to prevent recurrence.",
+      "Only the names of the truck driver and dispatcher, without records evidence, leaving calibration open; with monitoring deferred; assuming inspections can close the gap."
+    ],
+    "correct": 2,
+    "explanation": "Release reporting is designed to document what happened, what was released, what was done, and how recurrence will be prevented."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "A 60 L diesel release occurs and is controlled. What is the exam-level federal reporting nuance?",
+    "opts": [
+      "The release is automatically legal because it is under 100 L, without retention duties confirmed; with reporting triggers unverified; without records evidence; leaving calibration open.",
+      "The release must always be reported as if it were over 10,000 L, with reporting triggers unverified; without records evidence; leaving calibration open; with monitoring deferred; assuming inspections can close the gap.",
+      "The written report under the specified CEPA paragraph is not required for a release under 100 L, but emergency response, internal records, and other federal/provincial/local reporting duties may still apply.",
+      "No response is required because the release is under 100 L, leaving calibration open; with monitoring deferred; assuming inspections can close the gap; without repair triggers defined."
+    ],
+    "correct": 2,
+    "explanation": "A reporting exception is not permission to release. Other duties can still apply."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "How is temporary withdrawal from service distinguished from permanent withdrawal under the federal regulation?",
+    "opts": [
+      "Temporary withdrawal lasts less than ten years, with reporting triggers unverified; without records evidence.",
+      "Temporary withdrawal lasts less than 30 days, without records evidence, leaving calibration open.",
+      "Temporary withdrawal is any shutdown with product left in the tank, leaving calibration open.",
+      "Temporary withdrawal lasts less than two years; otherwise the system or component is permanently withdrawn."
+    ],
+    "correct": 3,
+    "explanation": "The two-year boundary matters because different return-to-service, labelling, and withdrawal duties apply."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "A tank system with cathodic protection is temporarily withdrawn from service. What must be maintained during withdrawal?",
+    "opts": [
+      "No protection is needed if product is removed, without records evidence, leaving calibration open.",
+      "The cathodic protection system must be maintained and operated.",
+      "Cathodic protection must be disconnected to save power, with monitoring deferred.",
+      "Only the tank paint must be maintained, assuming inspections can close the gap."
+    ],
+    "correct": 1,
+    "explanation": "Turning off corrosion protection during withdrawal can damage the system before return to service."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "A shop-fabricated aboveground tank has been temporarily out of service for more than one year. What must happen before it returns to service?",
+    "opts": [
+      "Only the operator must sign a checklist, leaving calibration open, with monitoring deferred.",
+      "Only the secondary containment must be drained, with monitoring deferred, assuming inspections can close the gap.",
+      "It must be tested for leaks using a tank precision leak detection test before return to service, as applicable.",
+      "It can return to service immediately after refilling, without repair triggers defined; with leak response checked later."
+    ],
+    "correct": 2,
+    "explanation": "Long out-of-service periods require integrity confirmation before product is reintroduced."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "A field-erected aboveground tank has been temporarily out of service for more than one year. What return-to-service integrity check is required?",
+    "opts": [
+      "Inspect the tank floor using ultrasonic, magnetic particle, videographic, or vacuum testing before return to service, as applicable.",
+      "Only inspect the roof ladder, assuming inspections can close the gap, without repair triggers defined; with leak response checked later.",
+      "Only dip the tank for water, without repair triggers defined, with leak response checked later; without retention duties confirmed.",
+      "Only repaint the exterior shell, with leak response checked later, without retention duties confirmed; with reporting triggers unverified."
+    ],
+    "correct": 0,
+    "explanation": "Field-erected tanks require floor integrity checks after extended temporary withdrawal."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "A storage tank system is temporarily out of service. What label is required?",
+    "opts": [
+      "No label if the tank is empty, assuming inspections can close the gap, without repair triggers defined.",
+      "A label only after two years, without repair triggers defined, with leak response checked later.",
+      "A label on the truck rack only, with leak response checked later, without retention duties confirmed.",
+      "A label on the fill pipe stating that the system is temporarily out of service."
+    ],
+    "correct": 3,
+    "explanation": "Fill-pipe labelling prevents accidental delivery into a system that is not ready to receive product."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "A system is permanently withdrawn from service. Who must perform or supervise the withdrawal?",
+    "opts": [
+      "No one if the tank is empty, without repair triggers defined, with leak response checked later.",
+      "Any operator on shift, with leak response checked later, without retention duties confirmed; without records evidence.",
+      "Only the product supplier, without retention duties confirmed, with reporting triggers unverified.",
+      "A person approved by the province; if no approved person exists, a professional engineer must supervise."
+    ],
+    "correct": 3,
+    "explanation": "Permanent withdrawal is a regulated activity with approval or professional supervision."
+  },
+  {
+    "section": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "q": "After a storage tank system is permanently withdrawn from service, when must the Minister be notified in writing under the federal regulation?",
+    "opts": [
+      "Only when the tank is physically removed, with leak response checked later.",
+      "Within 7 days.",
+      "Within 30 days.",
+      "Within 60 days after the day it is permanently withdrawn from service."
+    ],
+    "correct": 3,
+    "explanation": "Permanent withdrawal triggers a 60-day written notification requirement."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "Integrated transfer/containment review: a multi-tank containment calculation uses only the largest tank volume even though rain and firefighting water can enter. What is the correct review comment?",
+    "opts": [
+      "The largest tank only is always sufficient, without emergency duties confirmed, with containment at connections unverified; without transfer controls; leaving withdrawal records open; with release response deferred.",
+      "Use the multiple-tank rule: largest tank plus 10% of the greater of the largest tank or the aggregate capacity of the other tanks, unless the special exclusion for precipitation/firewater entry is justified.",
+      "Use 110% of the aggregate capacity for every tank group, without transfer controls; leaving withdrawal records open; with release response deferred; assuming product removal is routine.",
+      "Use 75% of the largest tank because Canadian dikes are lower, leaving withdrawal records open; with release response deferred; assuming product removal is routine; without waste handling checked."
+    ],
+    "correct": 1,
+    "explanation": "The largest-tank-only rule is allowed only where the containment prevents entry of precipitation and firefighting water. This is also an integrated operating-case check, not only a containment arithmetic question."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "A truck driver is about to deliver product to a regulated tank system and the identification number is hidden behind snow and equipment. What should happen?",
+    "opts": [
+      "Deliver because snow is a temporary obstruction, with containment at connections unverified.",
+      "Deliver only if the truck has a spill kit, without transfer controls, leaving withdrawal records open.",
+      "Stop the transfer until the identification number is visible, then record it as required.",
+      "Deliver product and ask the operator to clear the sign later, with release response deferred."
+    ],
+    "correct": 2,
+    "explanation": "Visible identification before transfer is a federal delivery control and should be protected in the layout and winterization plan."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "During unloading, a driver notices sheen in the transfer area sump. What is the correct delivery-duty action?",
+    "opts": [
+      "Immediately notify the operator of evidence of a leak or release.",
+      "Ignore it if the sump is inside containment, leaving withdrawal records open.",
+      "Notify only after the truck is empty, with release response deferred, assuming product removal is routine.",
+      "Report only during the next monthly audit, assuming product removal is routine."
+    ],
+    "correct": 0,
+    "explanation": "The delivery duty is immediate notification so the operator can stop transfer, investigate, and respond."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "A transfer area is sloped to a storm ditch to keep the rack dry. What is the correct design correction?",
+    "opts": [
+      "Accept the design if the delivery truck carries insurance, leaving withdrawal records open; with release response deferred; assuming product removal is routine.",
+      "Use absorbent pads instead of redesigning containment, with release response deferred; assuming product removal is routine; without waste handling checked.",
+      "Keep the storm ditch because dilution reduces fire risk, assuming product removal is routine; without waste handling checked; with delivery records checked later.",
+      "Redesign the transfer area to contain releases from the transfer process and route liquids to an approved safe collection or treatment destination."
+    ],
+    "correct": 3,
+    "explanation": "Canadian tank-system design treats transfer releases as a regulated scenario; storm drainage should not become the release path."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "An emergency plan lists products but not maximum expected annual quantities or local receptors. What is missing?",
+    "opts": [
+      "Nothing; product names alone are sufficient, with release response deferred, assuming product removal is routine; without waste handling checked.",
+      "Only the fire extinguisher count is missing, assuming product removal is routine, without waste handling checked; with delivery records checked later.",
+      "The plan must consider maximum expected quantity stored and site/surrounding characteristics that increase environmental or human-health risk.",
+      "Only the contractor emergency phone number is missing, with delivery records checked later; without emergency duties confirmed."
+    ],
+    "correct": 2,
+    "explanation": "Maximum inventory and surrounding receptors drive emergency equipment, notification, firefighting, spill containment, and response time."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "A tank-farm emergency plan does not identify emergency-response equipment locations. What is the best review comment?",
+    "opts": [
+      "Add the list of emergency response equipment and its location, plus training, roles, and public-notification measures.",
+      "No change; the fire department supplies all equipment, without waste handling checked; with delivery records checked later.",
+      "Only add a generic statement that equipment is available, with delivery records checked later; without emergency duties confirmed.",
+      "Remove the emergency plan until a release occurs, without emergency duties confirmed; with containment at connections unverified."
+    ],
+    "correct": 0,
+    "explanation": "A usable plan must tell responders what equipment exists, where it is, who uses it, and how people are notified."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "A truck-unloaded field-erected tank has only a remote level reading in the control room and no audible/visible high-level alert for unloading personnel. What correction is most aligned with Canadian guidance?",
+    "opts": [
+      "Rely only on the control-room trend, without waste handling checked, with delivery records checked later; without emergency duties confirmed.",
+      "Rely only on the trucker's watch, with delivery records checked later, without emergency duties confirmed; with containment at connections unverified.",
+      "Rely only on secondary containment capacity, without emergency duties confirmed, with containment at connections unverified.",
+      "Provide a high-level alarm or accepted overfill system that visually and audibly alerts personnel in enough time to terminate product flow."
+    ],
+    "correct": 3,
+    "explanation": "Overfill protection must create timely action at the transfer interface, not only after product has overflowed."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "A fill connection is 1.0 m from a building opening and no spill containment device is shown. What are the two main corrections?",
+    "opts": [
+      "Only repaint the connection and leave it in place, with delivery records checked later; without emergency duties confirmed; without transfer controls; leaving withdrawal records open.",
+      "Only increase secondary containment capacity, without emergency duties confirmed, with containment at connections unverified.",
+      "Only add a high-level alarm, with containment at connections unverified, without transfer controls; leaving withdrawal records open.",
+      "Move/protect the connection to meet the 1.5 m opening clearance and provide a spill containment device conforming to the appropriate CAN/ULC standard."
+    ],
+    "correct": 3,
+    "explanation": "Filling connection location and local spill containment are both Canadian fire-code controls."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "A dike area is filled with spare drums and pallets to save warehouse space. Which integrated risk is most important?",
+    "opts": [
+      "It violates the no-storage rule, reduces effective containment, blocks access/egress/firefighting, and adds fuel/loading to the emergency scenario.",
+      "It is acceptable if the dike is still 110% of the largest tank, with containment at connections unverified; without transfer controls.",
+      "It is acceptable if the drums are empty, without transfer controls, leaving withdrawal records open; with release response deferred.",
+      "It is acceptable if the pallets are stacked neatly, leaving withdrawal records open; with release response deferred; assuming product removal is routine."
+    ],
+    "correct": 0,
+    "explanation": "The contained space is a safety system and must not become a storage yard."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "Integrated calculation: a common contained area holds 1,200,000 L, 500,000 L, and 300,000 L tanks, and rain/firewater can enter. What minimum secondary containment volume is required?",
+    "opts": [
+      "1,584,000 L",
+      "1,200,000 L",
+      "1,320,000 L",
+      "2,000,000 L"
+    ],
+    "correct": 2,
+    "explanation": "For multiple tanks: largest tank + 10% of the greater of the largest tank or the aggregate capacity of all other tanks. Largest = 1,200,000 L; other tanks = 800,000 L; required = 1,320,000 L."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "Integrated calculation: a common contained area holds 900,000 L, 800,000 L, and 700,000 L tanks, and rain/firewater can enter. What minimum secondary containment volume is required?",
+    "opts": [
+      "1,050,000 L",
+      "900,000 L",
+      "990,000 L",
+      "2,400,000 L"
+    ],
+    "correct": 0,
+    "explanation": "For multiple tanks: largest tank + 10% of the greater of the largest tank or the aggregate capacity of all other tanks. Largest = 900,000 L; other tanks = 1,500,000 L; required = 1,050,000 L."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "Integrated location check: a 600,000 L stable-liquid tank at not more than 17 kPa(g) has no fixed fire/explosion protection. What minimum property-line/same-property-building distance follows from the Canadian table?",
+    "opts": [
+      "9 m.",
+      "3 m.",
+      "15 m.",
+      "4.5 m."
+    ],
+    "correct": 0,
+    "explanation": "A 600,000 L tank falls in the 2,500,000 L table row, which gives 9 m for stable liquid without the fire/explosion protection reduction."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "Integrated location check: the same 600,000 L stable-liquid tank has fixed fire/explosion protection accepted under the code. What minimum distance applies?",
+    "opts": [
+      "15 m.",
+      "9 m.",
+      "4.5 m.",
+      "3 m."
+    ],
+    "correct": 2,
+    "explanation": "For stable liquids at not more than 17 kPa(g), accepted fixed protection allows half the table distance. Half of 9 m is 4.5 m."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "Integrated spacing check: two tanks have diameters of 30 m and 36 m, and at least one tank exceeds 250,000 L. What minimum spacing is required for stable liquids?",
+    "opts": [
+      "33 m.",
+      "16.5 m.",
+      "8.25 m.",
+      "1 m."
+    ],
+    "correct": 1,
+    "explanation": "Use 0.25 × (D1 + D2) with a 1 m minimum. 0.25 × (30 + 36) = 16.5 m."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "Integrated spacing check: two tanks of 200,000 L and 240,000 L have diameters of 10 m and 10 m. Neither tank exceeds 250,000 L. What minimum spacing applies?",
+    "opts": [
+      "10 m.",
+      "5 m.",
+      "2 m.",
+      "1 m."
+    ],
+    "correct": 3,
+    "explanation": "The NFC special rule sets the minimum distance between two tanks, neither over 250,000 L, at 1 m."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "Integrated spacing check: two tanks have diameters of 30 m and 36 m, at least one exceeds 250,000 L, and one contains an unstable liquid. What minimum spacing is required?",
+    "opts": [
+      "33 m.",
+      "8.25 m.",
+      "1 m.",
+      "16.5 m."
+    ],
+    "correct": 0,
+    "explanation": "Base spacing is 0.25 × (30 + 36) = 16.5 m. If either tank contains an unstable liquid, the required distance is doubled to 33 m."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "Integrated vent check: a Class I tank normal vent is designed at 3.0 m above grade and 2.0 m from the nearest opening. What correction is required?",
+    "opts": [
+      "Raise the outlet to at least 3.5 m above adjacent grade while maintaining at least 1.5 m from openings and preventing vapour entry/trapping.",
+      "No correction because the opening distance is adequate, with containment at connections unverified; without transfer controls.",
+      "Lower the outlet to 2.0 m because Class I and Class II vents use the same height, without transfer controls; leaving withdrawal records open.",
+      "Move the vent inside the building to protect it from weather, leaving withdrawal records open; with release response deferred."
+    ],
+    "correct": 0,
+    "explanation": "Class I normal vent outlets need the 3.5 m height and 1.5 m opening clearance."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "Integrated vent check: a Class II tank normal vent is designed 2.2 m above grade but only 1.0 m from a door. What correction is required?",
+    "opts": [
+      "Move the vent so it is at least 1.5 m from the door while maintaining at least 2 m above adjacent grade.",
+      "Replace the vent with a normally open gauge hatch, without transfer controls, leaving withdrawal records open.",
+      "No correction because the height is adequate, leaving withdrawal records open, with release response deferred.",
+      "Raise it to 3.5 m only; the door distance does not matter, with release response deferred."
+    ],
+    "correct": 0,
+    "explanation": "Class II/IIIA vents need both 2 m height and 1.5 m distance from building openings."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "Integrated drainage check: a containment drain valve is normally open and operated from a handwheel inside the dike. What is the correct design change?",
+    "opts": [
+      "Keep it normally open to prevent rain accumulation, without transfer controls, leaving withdrawal records open.",
+      "Place the handwheel closer to the tank shell, leaving withdrawal records open, with release response deferred.",
+      "Make the control normally closed, accessible under fire exposure, and operable from outside the contained space.",
+      "Use a larger valve but leave it normally open, assuming product removal is routine; without waste handling checked."
+    ],
+    "correct": 2,
+    "explanation": "Containment drainage must remove water/debris without defeating containment during a spill or fire."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "A new underground storage tank is subject to vehicular traffic. What cover/protection is required by the Canadian fire-code provisions?",
+    "opts": [
+      "Only warning tape above the tank, leaving withdrawal records open, with release response deferred; assuming product removal is routine; without waste handling checked; with delivery records checked later.",
+      "At least 1 m below finished ground level, or an accepted slab arrangement such as 150 mm reinforced concrete or 200 mm unreinforced concrete over at least 450 mm of sand extending at least 300 mm beyond the tank.",
+      "Only 300 mm of soil cover, assuming product removal is routine, without waste handling checked; with delivery records checked later; without emergency duties confirmed; with containment at connections unverified.",
+      "No cover if the tank is double-walled, without waste handling checked, with delivery records checked later; without emergency duties confirmed; with containment at connections unverified."
+    ],
+    "correct": 1,
+    "explanation": "Traffic loading can damage underground tanks; cover or slab protection is required."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "An underground storage tank is shown 0.4 m from an adjacent underground structure, 0.8 m from a building foundation, and 1.0 m from another property line. What is the correct review?",
+    "opts": [
+      "Revise the layout to at least 600 mm from adjacent underground tanks/structures, 1 m from building foundations or street lines, and 1.5 m from other property lines.",
+      "Accept the layout because the tank is underground, assuming product removal is routine; without waste handling checked; with delivery records checked later.",
+      "Only revise the adjacent structure distance, without waste handling checked, with delivery records checked later; without emergency duties confirmed; with containment at connections unverified.",
+      "Only revise the building foundation distance, with delivery records checked later; without emergency duties confirmed; with containment at connections unverified."
+    ],
+    "correct": 0,
+    "explanation": "Underground tank location clearances protect tanks from structural loads, excavation conflicts, and property-line exposure."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "A new regulated installation is complete, but no record proves it was installed by an approved person or supervised by a professional engineer. What is missing?",
+    "opts": [
+      "Only a delivery ticket, assuming product removal is routine, without waste handling checked; with delivery records checked later.",
+      "A retained installation record establishing provincial approval of the installer or professional-engineer supervision.",
+      "Only a photograph of the tank, with delivery records checked later, without emergency duties confirmed.",
+      "Only a tank paint certificate, without emergency duties confirmed, with containment at connections unverified."
+    ],
+    "correct": 1,
+    "explanation": "Installation records are part of the compliance file and must be available to the owner/operator."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "Before first transfer, the as-built drawings are not stamped and do not show secondary containment. What is the correct hold point?",
+    "opts": [
+      "Proceed and update drawings after one year of operation, without waste handling checked; with delivery records checked later; without emergency duties confirmed; with containment at connections unverified.",
+      "Proceed if the tank has been hydrotested, with delivery records checked later, without emergency duties confirmed; with containment at connections unverified; without transfer controls.",
+      "Proceed if the P&ID is complete, without emergency duties confirmed, with containment at connections unverified; without transfer controls; leaving withdrawal records open.",
+      "Do not proceed until professional-engineer-stamped as-built drawings are prepared showing the required tank, piping, conduit, foundation, property-line, and secondary-containment information."
+    ],
+    "correct": 3,
+    "explanation": "As-built drawings before first transfer are a regulatory and emergency-response control."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "A regulated tank system has a valid identification number, but a site change is not reported for 90 days. What compliance issue is present?",
+    "opts": [
+      "No issue; updates are annual, with delivery records checked later, without emergency duties confirmed.",
+      "Changed identification information should have been submitted within 60 days after the change.",
+      "No issue if deliveries continued, with containment at connections unverified, without transfer controls.",
+      "No issue if the tank capacity did not change, without transfer controls, leaving withdrawal records open."
+    ],
+    "correct": 1,
+    "explanation": "Management of change must include regulatory data updates, not just mechanical changes."
+  },
+  {
+    "section": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "q": "A project team wants the final design package to state 'Canadian compliant' because the exam checklist is complete. What final action is still required?",
+    "opts": [
+      "Use the international bund article as the final AHJ approval, without emergency duties confirmed; with containment at connections unverified; without transfer controls; leaving withdrawal records open; with release response deferred.",
+      "Use the exam checklist as the final stamped design, with containment at connections unverified; without transfer controls; leaving withdrawal records open; with release response deferred; assuming product removal is routine.",
+      "Verify the design against the current federal regulation where applicable, the adopted provincial/territorial fire code, municipal/AHJ requirements, professional-engineer review, emergency-response input, and site-specific hazards before construction or operation.",
+      "Use API 650 alone as full Canadian compliance, leaving withdrawal records open, with release response deferred; assuming product removal is routine; without waste handling checked; with delivery records checked later; without emergency duties confirmed; with containment at connections unverified."
+    ],
+    "correct": 2,
+    "explanation": "The integrated answer reinforces that tank farm safety design is a regulated engineering process, not just a multiple-choice checklist."
+  }
+];
+const SECTIONS  = [
+  {
+    "key": "Canadian Regulatory Scope, Governance & Design Basis",
+    "label": "I - Canadian Regulatory Scope, Governance & Design Basis",
+    "cls": "sec-conduction",
+    "range": "Questions 1-25"
+  },
+  {
+    "key": "Tank Standards, Overfill Protection, Venting & Connections",
+    "label": "II - Tank Standards, Overfill Protection, Venting & Connections",
+    "cls": "sec-convection",
+    "range": "Questions 26-50"
+  },
+  {
+    "key": "Secondary Containment, Drainage & Capacity Calculations",
+    "label": "III - Secondary Containment, Drainage & Capacity Calculations",
+    "cls": "sec-radiation",
+    "range": "Questions 51-75"
+  },
+  {
+    "key": "Tank Spacing, Location, Fire Protection & Site Layout",
+    "label": "IV - Tank Spacing, Location, Fire Protection & Site Layout",
+    "cls": "sec-hx",
+    "range": "Questions 76-100"
+  },
+  {
+    "key": "Operation, Maintenance, Leak Detection, Inspection & Records",
+    "label": "V - Operation, Maintenance, Leak Detection, Inspection & Records",
+    "cls": "sec-boiling",
+    "range": "Questions 101-125"
+  },
+  {
+    "key": "Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "label": "VI - Transfer Areas, Withdrawal from Service & Integrated Cases",
+    "cls": "sec-applications",
+    "range": "Questions 126-150"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+const TOTAL_Q = QUESTIONS.length;
+
+let mode = 'guided', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 4*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='04:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/'+TOTAL_Q;
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/'+TOTAL_Q;
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  // Canadian tank farm safety design readiness benchmarks
+  if(pct>=0.90){ grade='Tank Farm Safety Design - Distinction'; blurb='Outstanding command of Canadian tank-farm regulatory scope, tank standards, secondary containment, spacing, fire access, overfill protection, leak detection, emergency planning, records, and integrated design calculations.'; }
+  else if(pct>=0.80){ grade='Tank Farm Safety Design - Solid Pass'; blurb='Strong performance across most Canadian tank-farm safety domains. Review missed items to sharpen containment capacity, spacing, venting, overfill, leak detection, inspection, transfer-area, and recordkeeping logic.'; }
+  else if(pct>=0.70){ grade='Tank Farm Safety Design - Borderline'; blurb='Good foundation with targeted review needed, especially on Canadian regulatory scope, secondary-containment calculations, tank spacing/location, transfer-area design, emergency plans, and inspection records.'; }
+  else if(pct>=0.60){ grade='Approaching Canadian Tank-Farm Pass Threshold'; blurb='Below a typical pass range. Rework Canadian tank standards, secondary containment, spacing tables, overfill and venting controls, leak detection, oil-water separator duties, withdrawal-from-service rules, and AHJ verification.'; }
+  else if(pct>=0.45){ grade='Developing Tank-Farm Safety Practitioner'; blurb='Core ideas are forming, but important gaps remain. Rebuild from the Canadian regulatory basis, tank construction standards, containment rules, spacing/location logic, fire access, leak detection, and emergency planning.'; }
+  else { grade='Begin the Tank-Farm Safety Design Journey'; blurb='Start with tank-farm fundamentals: Canadian jurisdiction screening, tank standards, overfill and venting, secondary containment, spacing and location, transfer containment, leak detection, emergency planning, and record keeping.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 150 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one question at a time. 4-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Certificate name</label>
+    <input id="chmlCertNameInput" type="text" maxlength="80" placeholder="Enter name for certificate" oninput="chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" type="button" onclick="chmlPrintCertificate()">Print / Save as PDF</button>
+    <button class="chml-cert-btn secondary" type="button" onclick="chmlHideCertificate()">Hide Certificate</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div><div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker"><span id="chmlCertExamKicker">Knowledge Hub Examination</span></div>
+      <h1 class="chml-cert-h1">Certificate of Completion</h1>
+      <div class="chml-cert-rule"></div>
+      <p class="chml-cert-pre">This certifies that</p>
+      <p class="chml-cert-name" id="chmlCertName">Learner</p>
+      <p class="chml-cert-body">has successfully completed the <b id="chmlCertExamName">Knowledge Hub Exam</b>.</p>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">0 / 0</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">-</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Quak Foo Lee</div><div class="chml-cert-sig-label">Chmltech Ltd.</div></div>
+        <div class="chml-cert-id">Certificate ID: <span id="chmlCertId">-</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertificateInstalled) return;
+  window.__chmlCertificateInstalled = true;
+  function textOf(sel){var el=document.querySelector(sel);return el?el.textContent.trim():'';}
+  function examTitle(){return textOf('h1.title')||textOf('header h1')||textOf('h1')||document.title.replace(/\s+/g,' ').trim()||'Knowledge Hub Exam';}
+  function parseFirstNumber(txt){var m=String(txt||'').match(/\d+/);return m?parseInt(m[0],10):null;}
+  function parseScoreTotal(){
+    var correct=parseFirstNumber(textOf('#rScore'));
+    var total=null;
+    var rt=textOf('#rTotal');
+    if(rt) total=parseFirstNumber(rt);
+    if(!total){var sb=textOf('.score-big');var m=sb.match(/\/\s*(\d+)/);if(m) total=parseInt(m[1],10);}
+    if(!total) total=parseFirstNumber(textOf('#progTotal'));
+    if(!total){var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;if(cards) total=cards;}
+    if(!correct && correct!==0) correct=parseFirstNumber(textOf('#scoreNum'));
+    return {correct:correct||0,total:total||0};
+  }
+  function totalFromBreakdown(byType){
+    if(!byType || typeof byType!=='object') return null;
+    var total=0, found=false;
+    Object.keys(byType).forEach(function(k){var v=byType[k];if(v&&typeof v==='object'){var n=v.t||v.total||v.count;if(typeof n==='number'){total+=n;found=true;}}});
+    return found?total:null;
+  }
+  function hashCode(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+  window.chmlUpdateCertificateName=function(name){document.getElementById('chmlCertName').textContent=(name||'').trim()||'Learner';};
+  window.chmlHideCertificate=function(){var c=document.getElementById('chmlCertificate');if(c)c.classList.remove('show');};
+  window.chmlPrintCertificate=function(){window.print();};
+  window.chmlRenderCertificate=function(correct,total,grade){
+    var cert=document.getElementById('chmlCertificate');if(!cert)return;
+    var title=examTitle();
+    var nameInput=document.getElementById('chmlCertNameInput');
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
+    var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
+    document.getElementById('chmlCertExamName').textContent=title;
+    document.getElementById('chmlCertName').textContent=learner;
+    document.getElementById('chmlCertScore').textContent=String(correct)+' / '+String(total||0)+(total?(' ('+Math.round((correct/total)*100)+'%)'):'');
+    document.getElementById('chmlCertDate').textContent=date;
+    document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
+    cert.classList.add('show');
+  };
+
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
+    var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){
+      var parsed=parseScoreTotal();
+      if(correct===null || isNaN(correct)) correct=parsed.correct;
+      if(!total) total=parsed.total;
+      if(total || correct || document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0);
+    },60);
+  }
+  if(typeof window.showResults==='function'){
+    var originalShowResults=window.showResults;
+    window.showResults=function(){var out=originalShowResults.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  if(typeof window.submitExam==='function'){
+    var originalSubmitExam=window.submitExam;
+    window.submitExam=function(){var out=originalSubmitExam.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  ['resetExam','newExam'].forEach(function(fn){
+    if(typeof window[fn]==='function'){
+      var original=window[fn];
+      window[fn]=function(){window.chmlHideCertificate();return original.apply(this,arguments);};
+    }
+  });
+})();
+</script>
+
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Process Analysis of Wastewater Treatment · 150Q Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;--paper:#efece4;--paper2:#e3e0d3;--gold:#8b6526;--gold-deep:#684a0f;
+  --green:#2f6b4f;--green-soft:#e1ece4;--red:#a8412f;--red-soft:#f3e3df;
+  --line:#cdc6b1;--shadow:rgba(20,18,8,.14);
+  --c1:#6b2d2d;--c2:#0e5f73;--c3:#7a5b12;--c4:#264c86;--c5:#5e2a7e;--c6:#26633a;
+}
+*{box-sizing:border-box;margin:0;padding:0} html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;background:
+  radial-gradient(circle at 12% 6%,rgba(14,95,115,.08),transparent 38%),
+  radial-gradient(circle at 90% 96%,rgba(90,37,133,.06),transparent 42%),var(--paper);
+  color:var(--ink);line-height:1.6;padding:0 0 80px;
+}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.45;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 22px}
+.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.15rem,5.4vw,3.55rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin:0 auto 22px;max-width:820px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 22px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;padding:12px 22px;border:1px solid var(--line);background:rgba(255,255,255,.42)}
+.modebar{display:flex;justify-content:center;margin:26px auto 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:0;background:transparent;cursor:pointer;color:#5a5246}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c6));transition:width .35s;border-radius:99px}
+.stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;white-space:nowrap}.stat b{font-size:.95rem;color:var(--gold-deep)}.sc-correct{color:var(--green)!important}.timer.warn b,.timer.crit b{color:#b8341a}.timer.crit b{animation:blink 1s infinite}@keyframes blink{50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.14rem;color:#fff;display:flex;justify-content:space-between;gap:14px;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-conduction{background:linear-gradient(100deg,var(--c1),#4d1f23)}.sec-convection{background:linear-gradient(100deg,var(--c2),#06403f)}.sec-radiation{background:linear-gradient(100deg,var(--c3),#5f3406)}.sec-hx{background:linear-gradient(100deg,var(--c4),#0c2349)}.sec-boiling{background:linear-gradient(100deg,var(--c5),#311148)}.sec-applications{background:linear-gradient(100deg,var(--c6),#0e3d18)}
+.q-card{background:rgba(255,255,255,.62);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05)}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}.q-card.locked .opt{pointer-events:none;cursor:default}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);min-width:54px}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.06rem;line-height:1.62;margin-bottom:18px;font-weight:500}.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:12px 14px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.58);transition:.18s;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.08);transform:translateX(2px)}.q-card.locked .opt:hover{transform:none}
+.letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);margin-top:1px}
+.otext{flex:1;font-size:1rem;line-height:1.55;word-break:break-word;padding-top:2px}.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.12)}.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:.3s;align-self:center;font-family:'JetBrains Mono',monospace}.opt.correct .mark{opacity:1;color:var(--green)}.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s,opacity .4s,margin .4s,padding .4s;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:1200px;opacity:1;margin-top:16px;padding:15px 18px}.elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px}.ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:0;border-radius:3px;cursor:pointer}.btn-gold{background:var(--ink);color:var(--paper)}.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}.btn:disabled{background:#928a76;color:#e3ddc9;border-color:#928a76;cursor:not-allowed}.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}.results.show{display:block}.rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}.score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1}.score-big span:last-child{font-size:2rem;color:#7a705c}.grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}.blurb{max-width:620px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}.timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-weight:600}.breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:160px}.bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}.bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+.cert{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px}.cert.show{display:block}.cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px}.cert input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px}.cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer}.cert-btn.secondary{background:transparent;color:#1c1a17}.cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18)}.cert-border{border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed,#f0e7d2);text-align:center}.cert-h1{font-family:Georgia,serif;font-size:2.45rem}.cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;margin:12px 0;color:#1c1a17;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px}.cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0;flex-wrap:wrap}.cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28}.cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.25rem}.cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap}.sig{text-align:left}.sig-line{font-family:Georgia,serif;font-style:italic;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px}.sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a}.cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em}
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px)}.modal.show{display:flex}.modal-card{background:#f4efe6;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25)}.modal-card h2{font-family:Georgia,serif;font-size:1.5rem;margin-bottom:8px}.modal-card p{color:#6b5f4a;margin-bottom:16px}.modal-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28}.modal-card input{width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+@media(max-width:560px){.q-card{padding:20px 16px}.q-text{font-size:.98rem}.otext{font-size:.92rem}.score-big{font-size:3.5rem}.section-head{flex-direction:column}.modebar{flex-direction:column;border-radius:8px;width:100%}.modebar button{width:100%}}
+@media print{body>*:not(#certificate){display:none!important}#certificate{display:block!important;position:fixed!important;inset:0!important;margin:0!important;max-width:none!important}.cert-toolbar{display:none!important}@page{size:landscape;margin:6mm}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="masthead">
+  <div class="kicker">Process Analysis · Wastewater Treatment · 150-Question Exam</div>
+  <h1 class="title">Process Analysis of <span class="amp">Wastewater Treatment</span> Exam</h1>
+  <div class="byline">150 practical case-study questions covering wastewater characterization, equalization, physical separation, chemical treatment, pH control, biological treatment, sludge handling, reuse, compliance, troubleshooting, economics, EH&S, and commercial readiness.</div>
+  <div class="exambar"><span><b>150</b> Questions</span><span><b>4</b> Options Each</span><span><b>1</b> Mark per Question</span><span>Total: <b>150</b> Marks</span><span>Exam Mode: <b>4 hr</b> timer</span></div>
+</header>
+<div class="modebar" role="tablist"><button id="mode-guided" onclick="setMode('guided')" class="active">Guided Path</button><button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button><button id="mode-exam" onclick="requestExamName()">Exam Mode</button></div>
+<p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+<div class="hud"><span class="stat" id="progStat">Question <b id="progCount">1</b>/150</span><div class="bar-track"><div class="bar-fill" id="barFill"></div></div><span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span><span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">04:00:00</b></span></div>
+<main id="exam"></main><div class="actions" style="margin-top:34px" id="bottomActions"></div>
+<section class="results" id="results"><div class="rk">Your Result</div><div class="score-big"><span id="rScore">0</span><span>/150</span></div><div class="grade" id="rGrade"></div><p class="timeout-note" id="rTimeout" style="display:none">Time expired — exam auto-submitted at the 4-hour limit.</p><p class="blurb" id="rBlurb"></p><div class="breakdown" id="rBreak"></div><div class="actions"><button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button><button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button></div></section>
+<footer>Process Analysis · Wastewater Treatment · 150-question exam<div class="disclaimer">Educational mock exam for professional training. Verify site-specific wastewater permits, sampling rules, chemical compatibility, biological treatability, sludge disposal routes, equipment limits, safety procedures, and environmental requirements before applying any concept in real design or operation.</div></footer>
+</div>
+<div id="nameModal" class="modal" onclick="if(event.target===this)closeNameModal()"><div class="modal-card"><h2>Begin Exam Mode</h2><p>Enter the learner name for the certificate. The 4-hour timer starts after you click Start Exam.</p><label for="nameInput">Learner name</label><input id="nameInput" maxlength="80" placeholder="Enter learner name" onkeydown="if(event.key==='Enter')startExamFromModal(); if(event.key==='Escape')closeNameModal();"><div class="modal-actions"><button class="cert-btn secondary" onclick="closeNameModal()">Cancel</button><button class="cert-btn" onclick="startExamFromModal()">Start Exam</button></div></div></div>
+<div id="certificate" class="cert"><div class="cert-toolbar"><label>Certificate name <input id="certNameInput" oninput="updateCertName(this.value)" placeholder="Enter name"></label><button class="cert-btn" onclick="window.print()">Print / Save as PDF</button><button class="cert-btn secondary" onclick="hideCertificate()">Hide Certificate</button></div><div class="cert-paper"><div class="cert-border"><div style="font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28">Process Analysis of Wastewater Treatment Exam</div><h1 class="cert-h1">Certificate of Completion</h1><p style="font-style:italic;color:#6b5f4a">This certifies that</p><p class="cert-name" id="certName">Learner</p><p>has successfully completed the <b>Process Analysis of Wastewater Treatment Exam</b>.</p><div class="cert-stats"><div><div class="cert-stat-l">Score</div><div class="cert-stat-v" id="certScore">0 / 150</div></div><div><div class="cert-stat-l">Date</div><div class="cert-stat-v" id="certDate">-</div></div></div><div class="cert-foot"><div class="sig"><div class="sig-line">Quak Foo Lee</div><div class="sig-label">Chmltech Ltd.</div></div><div class="cert-id">Certificate ID: <span id="certId">-</span></div></div></div></div></div>
+<script>
+const QUESTIONS = [
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A chemical plant sends reactor wash water, floor drains, cooling-tower blowdown, and occasional acid-cleaning waste to one sump. The process engineer wants a wastewater treatment basis before selecting equipment. What is the strongest first action?",
+    "opts": [
+      "Use the monthly water bill as the design flow and let the package plant vendor fill in the missing chemistry basis.",
+      "Define the treatment boundary, stream list, time basis, pollutant loads, and upset cases before sizing units.",
+      "Design only from the final discharge sample because it is closest to the compliance point and looks easiest to interpret.",
+      "Select the unit operation with the lowest capital cost, then adjust chemical feed after startup testing."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Wastewater design begins with a defined boundary and loading basis. Combining variable streams without a stream inventory can hide slug loads, incompatible chemistries, hydraulic peaks, and treatment inhibition. Equipment sizing should follow a mass-load and variability basis, not one blended sample."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A batch manufacturing area reports acceptable average COD, but operators observe short dark slugs after vessel cleanout. Which sampling plan best supports process analysis of the treatment load?",
+    "opts": [
+      "Use one morning grab sample each week and multiply it by the annual plant flow to simplify the design spreadsheet.",
+      "Use only final effluent samples because upstream samples are not needed once the plant has a discharge limit.",
+      "Average all lab results without tagging production phase, cleaning event, or flow condition.",
+      "Use flow-paced composites for routine load and targeted grab samples during cleanout slugs."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: A composite captures normal load, while grab samples capture short-duration events that can shock treatment or violate pH/COD limits. Process phase tagging is essential because equal average concentration can hide very different treatability risks."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A wastewater lab result shows COD = 1,200 mg/L and BOD₅ = 300 mg/L for a new solvent-wash stream. What does the BOD/COD ratio suggest for treatment planning?",
+    "opts": [
+      "BOD/COD = 1,200 ÷ 300 = 4.0, proving the stream is highly biodegradable and suitable for direct aeration.",
+      "BOD/COD = 300 + 1,200 = 1,500 mg/L, so the biological load is simply the sum of both tests.",
+      "BOD/COD = 300 ÷ 1,200 = 0.25, indicating limited biodegradability and a need for treatability review.",
+      "BOD/COD is irrelevant because COD alone determines whether a wastewater can be biologically treated."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: The ratio is 0.25, which suggests a significant non-biodegradable or slowly biodegradable fraction. Biological treatment may still be part of the solution, but toxicity, acclimation, pretreatment, or segregation should be evaluated before relying on aeration alone."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A clarifier feed has TSS = 820 mg/L and VSS = 500 mg/L. The team wants to understand whether the solids are mostly biological/organic or mineral/inert. Which calculation is most useful?",
+    "opts": [
+      "VSS/TSS = 500 ÷ 820 = 61%, showing a substantial volatile fraction but not purely biological solids.",
+      "TSS/VSS = 820 ÷ 500 = 164%, showing that volatile solids exceed total solids and create a sampling error.",
+      "VSS + TSS = 1,320 mg/L, which is the correct solids fraction for sludge age calculation.",
+      "VSS/TSS should not be calculated because volatile solids apply only to drinking-water filters."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: VSS/TSS helps interpret sludge character. A 61% volatile fraction suggests much of the solids may be organic or biological, while the remaining fixed fraction can affect grit, ash, disposal, and dewatering behavior."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A production line discharges 110 m³/h for 2 hours after a cleaning step, while downstream treatment can accept only 55 m³/h without hydraulic upset. What equalization volume is required for that event before adding freeboard and margin?",
+    "opts": [
+      "Equalization need = 110 × 2 = 220 m³, ignoring the treatment capacity that continues during the event.",
+      "Equalization need = 55 × 2 = 110 m³ because treatment capacity alone defines storage volume.",
+      "Equalization need = 110 ÷ 55 = 2 m³, using a flow ratio instead of a surge volume.",
+      "Equalization need = (110 − 55) × 2 = 110 m³ of temporary storage."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Equalization volume is the excess flow above treatment capacity multiplied by event duration. The plant can treat 55 m³/h during the upset, so only the additional 55 m³/h must be stored for 2 hours."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A neutralization system records one pH value per shift, yet corrosion is observed downstream of the equalization tank. What measurement upgrade gives the strongest process evidence?",
+    "opts": [
+      "Keep the shift log because average pH is enough to verify all corrosion and permit risks in mixed wastewater.",
+      "Measure only final effluent pH because upstream pH excursions cannot damage plant equipment.",
+      "Install continuous pH logging with event tags for cleaning, batch dumps, and chemical addition periods.",
+      "Replace pH monitoring with conductivity only, since conductivity directly proves acidity or alkalinity."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: pH excursions can be short and damaging even if shift averages look acceptable. Continuous pH data with operating-event tags identifies acid/caustic slugs, neutralization delay, and corrosion exposure that grab readings miss."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A wastewater stream has 200 m³/d flow and COD concentration of 1,500 mg/L. What COD load should be used for a treatment sizing screen?",
+    "opts": [
+      "COD load = 200 ÷ 1,500 = 0.133 kg/d, reversing the flow and concentration relationship.",
+      "COD load = 200 × 1,500 ÷ 1,000 = 300 kg/d.",
+      "COD load = 200 × 1,500 = 300,000 kg/d, missing the mg/L to kg/m³ conversion.",
+      "COD load = 1,500 ÷ 1,000 = 1.5 kg/d, ignoring the plant flow."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: For water-like streams, mg/L is numerically g/m³. Multiplying 200 m³/d by 1,500 g/m³ gives 300,000 g/d, or 300 kg/d. Load, not concentration alone, controls treatment capacity."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A plant wants to explain why total COD removal is poor even though primary clarification removes most visible solids. Which additional test split is most useful?",
+    "opts": [
+      "Measure only turbidity, because COD removal can be inferred from water clarity in all industrial wastewaters.",
+      "Measure only final pH, because soluble COD becomes removable once neutralization is complete.",
+      "Measure filtered COD and unfiltered COD to separate soluble load from particulate load.",
+      "Measure only settleable solids, because soluble organics cannot affect treatment economics."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Clarifiers remove settleable and suspended material, not dissolved COD. Comparing filtered and unfiltered COD shows how much load can be removed physically versus what requires biological, chemical oxidation, adsorption, or other treatment."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A cleaning agent is suspected of inhibiting the activated-sludge basin. The COD load looks normal, but oxygen uptake falls after cleaning campaigns. Which test plan is most defensible?",
+    "opts": [
+      "Increase aeration automatically because all low oxygen uptake events come from blower undersizing.; this overlooks equipment and operating limits.",
+      "Ignore the cleaning agent if total COD is unchanged, since COD fully predicts biological response.",
+      "Blend the cleaning waste into the basin without testing because dilution always removes biological inhibition.",
+      "Run toxicity or respirometry tests on cleaning-event wastewater and compare oxygen uptake with a control sample."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Equal COD loads can have very different biological effects. Respirometry or treatability testing shows whether surfactants, biocides, solvents, oxidants, or pH shifts suppress biomass activity."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A wastewater process model has no beginning and ending inventory terms for equalization tanks, yet the analyst compares daily influent and effluent loads. What error can result?",
+    "opts": [
+      "Tank inventories are irrelevant because wastewater systems always operate at perfect steady state.",
+      "Apparent removal or loss may actually be accumulation or depletion inside the equalization tanks.",
+      "Effluent load should equal influent concentration multiplied by design flow even during batch operations.",
+      "The model should force daily influent and effluent loads to match by changing lab values."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Equalization tanks decouple influent and effluent timing. A correct daily balance must include tank inventory changes; otherwise, storage effects can be mistaken for treatment performance or unexplained losses."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "An equalization basin holds 480 m³, and the average feed is 80 m³/h during normal production. What hydraulic retention time does the basin provide at that flow?",
+    "opts": [
+      "HRT = 80 ÷ 480 = 0.17 h, using the reciprocal of the residence-time formula.",
+      "HRT = 480 × 80 = 38,400 h, multiplying volume and flow.",
+      "HRT = 480 ÷ 80 = 6.0 h.",
+      "HRT = 480 − 80 = 400 h, subtracting flow from volume."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Hydraulic retention time is volume divided by flow. This gives the average time available for mixing, pH dampening, and flow equalization, but actual performance still depends on short-circuiting and usable volume."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A reuse project relies on conductivity to estimate dissolved salts, but the wastewater contains organic acids, metals, and surfactants. What should the analyst avoid?",
+    "opts": [
+      "Use conductivity alone for all reuse design because it captures every dissolved and suspended contaminant.",
+      "Ignore conductivity because it never helps screen salinity or RO loading in industrial wastewater.",
+      "Convert conductivity to COD directly and eliminate separate organic testing.; this ignores the controlling load case.",
+      "Avoid treating conductivity as a complete substitute for TDS, metals, and organic contaminant measurements."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Conductivity is a useful salinity indicator but not a complete composition analysis. Reuse design also needs ions, metals, organics, hardness, fouling potential, pH, and sometimes trace contaminants."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A discharge contains 75 mg/L ammonia-N at 1,600 m³/d. What nitrogen load should be used when screening nitrification capacity?",
+    "opts": [
+      "NH₃-N load = 75 × 1,600 ÷ 1,000 = 120 kg/d as N.",
+      "NH₃-N load = 75 ÷ 1,600 = 0.047 kg/d, reversing concentration and flow.",
+      "NH₃-N load = 75 × 1,600 = 120,000 kg/d, missing the mg/L conversion.",
+      "NH₃-N load = 75 ÷ 1,000 = 0.075 kg/d, ignoring the wastewater flow."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: The nitrogen mass load drives oxygen demand, alkalinity demand, sludge yield, and reactor sizing. With mg/L and m³/d, divide by 1,000 to convert to kg/d."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A sampling campaign collected final effluent after heavy rainfall, and the plant appears to meet COD concentration targets easily. What should be checked before claiming process improvement?",
+    "opts": [
+      "Claim improvement immediately because effluent concentration is the only treatment-performance metric that matters.",
+      "Ignore flow rate during rain events because concentration already includes all hydraulic effects.",
+      "Check rainfall dilution, bypasses, infiltration, and mass load because concentration may drop without actual removal improvement.",
+      "Use only the wet-weather sample to set the permanent design basis.; this assumes ideal behavior without verification.; this misses the required mass-balance check."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Dilution can reduce concentration while increasing total hydraulic load and pollutant mass discharge. Treatment performance should be evaluated using flow, concentration, load, and event conditions."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A process wastewater density is 1.18 kg/L because it contains dissolved salts. The site estimates mass discharge by assuming 1.00 kg/L. What is the likely issue?",
+    "opts": [
+      "Mass balance and chemical-dosing estimates may be biased because volume-to-mass conversion is wrong.",
+      "No issue exists because all aqueous wastewater must be treated as exactly 1.00 kg/L for engineering calculations.",
+      "Density affects only tank level readings, not pollutant loads or chemical dosing.",
+      "The error cancels automatically as long as pH is measured correctly."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Dense saline wastewater can distort mass balances, dosing rates, and sludge estimates if water density is assumed. Density correction is especially important for concentrated brines, acids, caustics, and metal-bearing streams."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A COD method is used on high-chloride brine, and results vary widely between labs. What should be checked before using the COD values for design?",
+    "opts": [
+      "Use the highest COD result without review because conservative numbers are always technically correct.",
+      "Average all lab results because method interference disappears when enough data are averaged.",
+      "Check chloride interference, method range, dilution, blanks, and lab QA/QC before accepting the COD basis.",
+      "Drop COD testing entirely because chloride-bearing wastewater cannot be characterized.; this would not support an engineering review."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: High chloride can interfere with some COD methods. Design data should be supported by appropriate method selection, blanks, dilution, spike recovery, and consistent QA/QC."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A treatment vendor sizes equipment from average monthly flow, but production has short daily peaks that exceed average by a factor of four. What basis should the owner require?",
+    "opts": [
+      "Use both average load and peak hydraulic or contaminant loads that control equalization, pumps, and reactors.",
+      "Use average monthly flow only because wastewater plants always dampen peak loads without design impact.",
+      "Use only the single highest recorded flow, with no concentration or duration basis.",
+      "Use annual water purchase volume as the sole design criterion.; this uses the wrong flow or concentration basis."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Different equipment is controlled by different cases. Average load affects steady treatment capacity, while peak flow and slug concentration affect equalization, hydraulics, pH control, safety, and compliance."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A production KPI reports kg COD per tonne of product, and the value rises after product output drops even though wastewater COD load is unchanged. What does this indicate?",
+    "opts": [
+      "The treatment plant removed less COD because the KPI always tracks removal efficiency directly.; this treats a symptom as the root cause.",
+      "The lab method must be invalid because kg/tonne product cannot change when COD load is unchanged.",
+      "The normalized KPI increased because the production denominator fell, not necessarily because the wastewater process worsened.",
+      "The wastewater flow must have increased, since normalized KPIs cannot change with production rate."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Normalized KPIs combine wastewater load and production rate. They are useful for benchmarking but must be interpreted with both numerator and denominator trends."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A biological treatment model uses summer removal rates for a plant that discharges cold wastewater during winter. What should be adjusted?",
+    "opts": [
+      "No adjustment is needed because biological treatment rates are independent of temperature.",
+      "Only the final effluent pH changes with temperature, so reactor sizing is unaffected.; this overlooks equipment and operating limits.",
+      "Kinetics, oxygen transfer, nitrification margin, and sludge age should be checked at winter temperature.",
+      "Winter temperature improves all biological kinetics and can be used as a conservative basis."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Temperature affects microbial growth, nitrification, oxygen solubility, oxygen transfer, viscosity, and settling. Winter performance can control sizing and operating margin."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A data set has several non-detect results for a trace solvent that matters to reuse. What is the most defensible data practice?",
+    "opts": [
+      "Treat every non-detect as exactly zero without mentioning the laboratory detection limit.",
+      "State the detection limit and use a documented non-detect convention or sensitivity analysis.",
+      "Replace non-detects with the highest detected value from another project.",
+      "Delete all non-detects because they contain no engineering information.; this hides a relevant compliance or safety risk."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Non-detects still contain information bounded by the detection limit. A transparent convention prevents hidden bias in risk, reuse, and compliance calculations."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A pilot claims 60% COD removal, but the feed was diluted by adding clean water before treatment. Which calculation should be requested?",
+    "opts": [
+      "Accept the percent concentration drop because lower concentration always means treatment removal.",
+      "Compare only treated effluent concentration with the undiluted influent permit limit.",
+      "Compare COD mass load before dilution and after treatment to separate removal from dilution.",
+      "Ignore the dilution water because it is not a pollutant and cannot affect the removal calculation."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Dilution lowers concentration without destroying pollutant mass. Removal efficiency should be based on mass load across a consistent boundary and flow basis."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A final effluent flow is low but concentration is high during a maintenance week. Which value best indicates the environmental loading for that week?",
+    "opts": [
+      "Concentration alone, because flow does not matter when comparing discharge impact.",
+      "Flow alone, because high concentrations are harmless at lower hydraulic rate.",
+      "Pollutant mass load, calculated from concentration multiplied by actual flow.",
+      "The design average, because actual flow and concentration are too variable for analysis."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Environmental loading is a mass discharge rate. Compliance may include concentration limits, but process analysis and receiving-water impact require flow-weighted load."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A wastewater characterization plan has no field blanks, duplicates, or chain-of-custody checks. What is the main engineering risk?",
+    "opts": [
+      "Data quality may be too weak to support treatment selection, guarantee tests, or compliance decisions.",
+      "QA/QC is only a laboratory preference and does not affect engineering design.",
+      "Field blanks are needed only for drinking water, not industrial wastewater.; this confuses a support metric with the design result.",
+      "Duplicates should be avoided because they expose normal variability in the process."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Treatment design decisions depend on defensible data. QA/QC detects contamination, sampling error, holding-time problems, and analytical variability before bad data drive capital choices."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A combined sewer connection receives more flow during rain, and operators suspect stormwater inflow into the industrial wastewater system. What process-analysis check should be added?",
+    "opts": [
+      "Assume the extra flow is process water because wastewater plants cannot receive stormwater unintentionally.",
+      "Use rainfall days as proof of better treatment because concentrations are lower.; this assumes ideal behavior without verification.; this misses the required mass-balance check.",
+      "Compare wet-weather and dry-weather flow, conductivity, COD load, and site drainage maps to identify infiltration or cross-connections.",
+      "Ignore stormwater because it contains no pollutants and cannot affect hydraulic capacity."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Infiltration and stormwater cross-connections can overload treatment hydraulically, dilute samples, mobilize solids, and increase compliance risk. Evidence requires flow and chemistry comparison against rainfall and drainage pathways."
+  },
+  {
+    "section": "Wastewater Characterization, Sampling & Process Basis",
+    "q": "A plant expansion increases production by 35%, but management expects wastewater load to rise by only 10% because water reuse will improve. What should the process analyst request?",
+    "opts": [
+      "Accept the 10% increase because management targets are valid process design assumptions.",
+      "Scale all wastewater equipment by production increase because contaminant loads always rise linearly with output.",
+      "Use current effluent limits as proof that future load will remain under control.; this misses the required mass-balance check.",
+      "A water and contaminant balance showing source reductions, reuse loops, purge streams, and residual treatment loads."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Expansion and reuse can shift loads rather than eliminate them. A complete balance identifies whether contaminants concentrate in purge streams, sludge, RO reject, or cleaning waste."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "A packaging area sends labels, fibers, and plastic fragments to the wastewater sump, causing pump blockages before equalization. Which front-end unit operation should be reviewed first?",
+    "opts": [
+      "Chemical oxidation ahead of pumps, because oxidation reliably removes rags and plastic pieces.",
+      "Final sand filtration only, because screens are needed only after biological treatment.",
+      "Coarse screening or rotary screening upstream of pumps, with cleaning access and solids handling.",
+      "Increasing blower capacity, because aeration prevents pump blockage from large debris.; this would not support an engineering review."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Large solids should be intercepted before pumps and downstream tanks. Screening protects pumps, mixers, valves, DAF nozzles, membranes, and instrumentation from ragging and blockage."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "A washdown stream contains abrasive mineral particles that wear pump impellers and settle in bends. Which physical pretreatment issue should be prioritized?",
+    "opts": [
+      "Additional nutrient dosing because grit is a sign of low biological food-to-microorganism ratio.",
+      "Grit removal and velocity control to separate dense inert particles before sensitive equipment.",
+      "Final chlorination because disinfectant removes mineral grit from pump surfaces.",
+      "Only pH neutralization, because grit cannot affect hydraulics once neutralized."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Dense grit causes abrasion, deposition, and loss of tank volume. Grit removal is a mechanical protection step and is distinct from chemical or biological treatment."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "An oil-water separator removes free oil but effluent still has milky appearance and high oil-and-grease results. What is the likely limitation?",
+    "opts": [
+      "The separator is unnecessary because free oil and emulsified oil settle at the same rate.; this treats a symptom as the root cause.",
+      "The result proves biological treatment has failed, even before the biological unit receives the stream.",
+      "The separator should be operated with no retention time to reduce turbulence and improve removal.",
+      "The remaining oil is emulsified or finely dispersed and may need coagulation, DAF, or emulsion breaking."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Gravity separators remove free-floating oil droplets, not stable emulsions. Emulsified oil often needs chemical destabilization, flotation, membranes, or source control."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "A food-ingredient plant has high fats, oils, and grease with fine suspended solids that do not settle well. Which unit operation is usually a better first physical-chemical separation than a plain clarifier?",
+    "opts": [
+      "Grit chamber only, because all food solids behave like dense sand in wastewater.",
+      "Dissolved air flotation with coagulation/polymer testing to float light solids and FOG.",
+      "Final UV disinfection, because UV removes FOG and suspended solids before discharge.",
+      "Aerated lagoon only, with no FOG pretreatment or loading assessment.; this overlooks equipment and operating limits."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: DAF is commonly suited for light solids, fats, oils, and fine particles after chemical conditioning. Plain settling can be poor when particles are buoyant or slow-settling."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "A primary clarifier receives 600 m³/d and has 30 m² surface area. What surface overflow rate should be checked against design guidance?",
+    "opts": [
+      "SOR = 30 ÷ 600 = 0.05 m³/m²·d, reversing the hydraulic loading relationship.",
+      "SOR = 600 × 30 = 18,000 m³/m²·d, multiplying flow and area.",
+      "SOR = 600 ÷ 30 = 20 m³/m²·d.",
+      "SOR = 600 − 30 = 570 m³/m²·d, subtracting area from flow."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Clarifier hydraulic capacity is commonly screened by flow divided by surface area. SOR helps evaluate whether particles with a given settling velocity can be removed."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "A rectangular equalization tank has 360 m³ usable volume and receives 90 m³/h during production. What residence time is available for damping short concentration changes?",
+    "opts": [
+      "Residence time = 360 ÷ 90 = 4.0 h.",
+      "Residence time = 90 ÷ 360 = 0.25 h, using the reciprocal of the HRT relationship.",
+      "Residence time = 360 × 90 = 32,400 h, multiplying flow by volume.",
+      "Residence time = 360 − 90 = 270 h, subtracting flow from tank volume."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Equalization HRT is usable volume divided by flow. Actual smoothing also depends on mixing, inlet/outlet arrangement, dead zones, and batch dump timing."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "A mixed equalization basin forms a heavy sludge layer and loses useful volume over several weeks. What design or operating issue is most likely?",
+    "opts": [
+      "The basin is over-aerated because oxygen always causes mineral solids to settle faster.",
+      "The pH controller is too accurate, because stable pH creates sludge layers.; this ignores the controlling load case.",
+      "Mixing energy and basin geometry are not keeping settleable solids suspended or directed to removal.",
+      "The issue proves biological nitrification is too strong inside the equalization tank."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Equalization tanks need enough mixing to prevent solids deposition without creating excessive shear or foam. Accumulated solids reduce surge volume and can turn anaerobic or septic."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "A DAF unit has two trains in parallel, but one train receives 70% of the flow and the other receives 30%. What should the process review address?",
+    "opts": [
+      "Nothing, because parallel units always self-balance after several days of operation.",
+      "Flow split control, inlet hydraulics, chemical dosing distribution, and train-level performance monitoring.",
+      "Only final effluent pH, because hydraulic imbalance cannot affect separation.",
+      "Add more air to the lower-flow train so it receives the same pollutant load.; this confuses a support metric with the design result."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Uneven flow split changes hydraulic loading, chemical dose, bubble contact, and sludge removal in each train. Average plant performance can hide train-level overload."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "A lamella clarifier works well on clean trial water but plugs during production with sticky solids. What limitation should be recognized?",
+    "opts": [
+      "Inclined plates increase settling area but can foul if feed solids are sticky or poorly conditioned.",
+      "Lamella plates prevent every type of fouling because gravity acts in a shorter distance.",
+      "Plugging proves the wastewater is fully soluble and cannot contain suspended solids.",
+      "The clarifier should be operated at higher overflow rate to scour plates clean.; this assumes ideal behavior without verification."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Lamella clarifiers intensify settling area but introduce narrow passages. Feed conditioning, solids character, cleaning access, and hydraulic distribution remain critical."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "A wastewater filter shows rising differential pressure while filtrate turbidity remains low. What is the most useful operating interpretation?",
+    "opts": [
+      "Solids are being captured, but headloss is accumulating and backwash or cartridge changeout timing must be controlled.",
+      "The filter is failing because turbidity must rise before differential pressure changes.; this misses the required mass-balance check.",
+      "Differential pressure is irrelevant because turbidity is the only filter performance indicator.",
+      "The correct response is to increase upstream coagulant until differential pressure reaches zero."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Filtration performance includes both removal and hydraulic resistance. Good filtrate quality with high ΔP means the filter may be nearing its hydraulic or mechanical limit."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "Backwash waste from tertiary filters is recycled to the head of the plant without measurement. What risk does this create?",
+    "opts": [
+      "No risk exists because recycle water has already been filtered once and contains no solids.",
+      "Recycle should always be maximized because it lowers the recorded discharge volume.",
+      "The only effect is lower final effluent temperature, not treatment loading.; this would not support an engineering review.",
+      "Internal recycle loads may create unrecognized hydraulic and solids peaks at the treatment inlet."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Backwash recycle returns captured solids and flow to upstream units. If unmanaged, it can increase peak loading, upset clarification, and bias performance calculations."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "A primary treatment report shows 80% TSS removal but only 15% soluble COD removal. What does this indicate?",
+    "opts": [
+      "The primary unit failed because COD and TSS must always be removed at the same percentage.",
+      "The soluble COD result proves the TSS measurement is wrong.; this uses the wrong flow or concentration basis.; this treats a symptom as the root cause.",
+      "Downstream treatment is unnecessary because visible solids have been removed.",
+      "Physical separation removed particulate material but most dissolved organic load still needs downstream treatment."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: TSS and soluble COD are different pollutant fractions. Clarification can be excellent while dissolved organics remain nearly unchanged."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "A high-strength solvent wash is accidentally sent directly to the biological basin instead of an upset tank. Which physical-system design feature would reduce this risk?",
+    "opts": [
+      "A diversion or quarantine tank with online pH/COD/conductivity triggers and operator response rules.",
+      "A larger final clarifier only, because clarification will remove solvents after the biological tank.",
+      "A second final effluent sampler, because detecting the upset after discharge protects the biomass.",
+      "A higher sludge wasting rate, because wasting prevents toxic shocks from entering the reactor.; this treats a symptom as the root cause."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Upset management should intercept abnormal streams before they reach sensitive treatment units. Diversion capacity and reliable triggers protect biomass, membranes, and compliance."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "A plant considers eliminating equalization because average flow is below treatment capacity. Which question should be answered before removal?",
+    "opts": [
+      "Whether the final effluent tank is painted and labeled correctly for wastewater service.; this overlooks equipment and operating limits.",
+      "Whether average flow is below capacity, because that is the only relevant equalization criterion.",
+      "Whether laboratory COD bottles can be collected more quickly after equalization removal.",
+      "Whether peak flow, pH, temperature, and contaminant slugs can still be handled without equalization volume."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Equalization is not only about average flow. It protects downstream units from peaks, slugs, pH swings, temperature shocks, and intermittent production events."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "A DAF saturator pressure is reduced to save energy, and effluent TSS rises after the change. What mechanism should be checked?",
+    "opts": [
+      "Lower air dissolution and bubble release may reduce flotation capture of fine particles and FOG.",
+      "Lower saturator pressure must improve flotation because large bubbles settle faster.",
+      "TSS rise proves the polymer tank is empty, regardless of air system performance.",
+      "Saturator pressure affects only noise level, not DAF separation.; this hides a relevant compliance or safety risk."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: DAF performance depends on bubble generation, particle conditioning, and hydraulic loading. Reducing saturator pressure can reduce bubble availability and flotation efficiency."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "A sludge blanket rises in a primary clarifier during hot weather, and gas bubbles are seen. What is a likely physical-treatment issue?",
+    "opts": [
+      "The clarifier is removing too much soluble COD, which always creates gas bubbles.",
+      "Solids may be septically generating gas, causing flotation and blanket instability.",
+      "The effluent weir is too level, which causes all sludge to float.; this omits the stated wastewater basis.",
+      "The influent screen is too fine, so dissolved gases cannot leave the basin."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Septic conditions can generate gas in settled sludge, lifting solids and degrading effluent quality. Sludge removal frequency and retention time should be reviewed."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "A surface-loading calculation for a DAF uses average daily flow, but flow arrives in short batch dumps. What should be added?",
+    "opts": [
+      "Peak or equalized flow basis, dump duration, recycle ratio, and air-solids loading for the operating case.",
+      "Only annual average flow, because DAF units respond only to total yearly volume.",
+      "Only the smallest batch flow, because short dumps are too brief to affect DAF hydraulics.",
+      "Only pH, because hydraulic loading does not affect flotation.; this ignores the controlling load case.; this confuses a support metric with the design result."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Batch dumps can overload a DAF even if average daily flow looks acceptable. Short-duration hydraulic and solids loading cases often control unit sizing."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "A settling jar test shows good solids removal after 45 minutes, but the plant clarifier provides only 18 minutes at peak flow. What is the main concern?",
+    "opts": [
+      "The plant residence and overflow conditions may not allow the settling observed in the jar test.",
+      "The jar test proves the clarifier will work because settling time is independent of hydraulic loading.",
+      "Peak flow should be ignored because jar tests define physical capacity directly.",
+      "The issue is only chemical dose cost, not hydraulic separability."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Jar settling results must be translated to plant HRT, surface overflow rate, floc fragility, and short-circuiting. Good bench settling can fail under inadequate plant hydraulics."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "A neutralization tank has good pH control at the probe, but downstream pH oscillates. What physical design issue should be considered?",
+    "opts": [
+      "The downstream probe must be wrong because pH cannot change after neutralization.",
+      "Poor mixing, probe location, short-circuiting, or insufficient reaction time in the tank.",
+      "Neutralization chemistry is unrelated to tank hydraulics.; this assumes ideal behavior without verification.",
+      "The remedy is to remove the upstream pH probe and dose manually."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Neutralization requires contact time and mixing. A well-controlled local probe can hide unmixed zones or short-circuit paths that cause downstream pH swings."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "A plant installs a fine screen upstream of equalization, and maintenance reports frequent blinding after polymer spills. What review is appropriate?",
+    "opts": [
+      "Check screen opening, upstream spill control, cleaning method, bypass protection, and solids disposal route.",
+      "Remove all screening because screens cannot handle wastewater service.; this misses the required mass-balance check.",
+      "Increase polymer concentration so the material forms larger openings in the screen.",
+      "Ignore blinding because fine screens are intended to operate fully plugged."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Screens must be matched to solids type and cleaning method. Sticky polymer can blind fine openings, so spill prevention, screen selection, and maintenance access matter."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "An equalization tank outlet is located close to the inlet, and tracer testing shows rapid breakthrough. What does this indicate?",
+    "opts": [
+      "The tank is oversized because rapid tracer breakthrough proves perfect mixing.",
+      "Short-circuiting reduces effective equalization volume and weakens slug dampening.",
+      "Tracer tests apply only to drinking water and not industrial wastewater.",
+      "Short-circuiting improves treatment by sending fresh wastewater directly to downstream units."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Equalization requires usable mixed volume. Short-circuiting lets slugs pass through quickly, reducing pH, hydraulic, and concentration dampening."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "A plant sends acid-cleaning wastewater and caustic-cleaning wastewater to the same small neutralization tank at different times. What physical/process risk should be reviewed?",
+    "opts": [
+      "No risk exists because acid and caustic always neutralize safely when combined.",
+      "Only final effluent color matters because neutralization is visually obvious.; this uses the wrong flow or concentration basis.",
+      "Reaction heat, gas release, mixing intensity, dosing control, and surge volume during incompatible or concentrated dumps.",
+      "The tank can be smaller because opposite pH streams cancel exactly in every batch."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Neutralization of strong acid and caustic can be rapid and exothermic, with gas release or local extremes. The equipment must manage concentrated dumps safely and uniformly."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "A DAF produces a thick float layer, but skimmer speed is reduced to lower motor wear and effluent solids rise. What is the likely issue?",
+    "opts": [
+      "Lower skimmer speed always improves separation because solids settle more quietly.",
+      "Skimmer speed affects only sludge appearance, not effluent quality.",
+      "Effluent solids must come from soluble COD, not floated sludge behavior.",
+      "Excess float residence or re-entrainment can return solids to the water phase."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Flotation performance includes removing floated solids before they collapse or re-entrain. Skimmer operation, beach design, and float handling affect effluent TSS."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "A plant considers adding a sand filter after DAF, but DAF effluent still contains high dissolved COD. What should be clarified before purchase?",
+    "opts": [
+      "Sand filtration will remove dissolved COD as long as the bed is deep enough.",
+      "Whether the polishing goal is suspended-solids removal or dissolved-organic reduction, because filters do not remove most soluble COD.",
+      "The DAF can be removed because a sand filter replaces all upstream separation.",
+      "Dissolved COD is irrelevant after visible solids are removed.; this overlooks equipment and operating limits.; this hides a relevant compliance or safety risk."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Granular media filters remove particulate matter and some associated organics. If the main problem is soluble COD, biological, adsorption, oxidation, or source-control options may be needed."
+  },
+  {
+    "section": "Equalization, Screening & Physical Separation",
+    "q": "A tanker unloading station lacks containment and drains directly to the wastewater sump. What process-analysis concern should be included?",
+    "opts": [
+      "No concern exists because all tanker contents are wastewater-compatible by definition.",
+      "Only annual unloading volume matters; spill concentration and timing are irrelevant.; this hides a relevant compliance or safety risk.",
+      "Accidental spills can create short-duration toxic or high-strength loads beyond normal treatment design.",
+      "The final clarifier will remove any chemical spill regardless of solubility or toxicity."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Bulk unloading areas can create severe slug loads. Containment, diversion, compatibility review, and emergency procedures protect the treatment system from accidental releases."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "A neutralization tank receives 10 m³ of wastewater containing 0.02 mol/L free HCl. How much pure NaOH is required for stoichiometric neutralization before adding operating margin?",
+    "opts": [
+      "NaOH = 10,000 L × 0.02 mol/L × 40 g/mol = 8.0 kg.",
+      "NaOH = 10 × 0.02 × 40 = 8 g, missing the m³-to-L conversion.",
+      "NaOH = 10,000 ÷ 0.02 × 40 = 20,000 kg, dividing by acid concentration.",
+      "NaOH = 10,000 × 0.02 ÷ 40 = 5 g, dividing by molecular weight."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: HCl neutralizes NaOH at a 1:1 molar ratio. The batch contains 200 mol HCl, requiring 200 mol NaOH, or 8,000 g. Actual dose should account for strength, mixing, buffering, and endpoint control."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "A waste stream contains 0.01 mol/L H₂SO₄ at 5,000 L. What pure NaOH mass is needed for stoichiometric neutralization?",
+    "opts": [
+      "NaOH = 5,000 × 0.01 × 40 = 2.0 kg, missing the two acid equivalents.",
+      "NaOH = 5,000 ÷ 0.01 × 40 = 20,000 kg, using the inverse concentration.",
+      "NaOH = 5,000 × 0.01 × 2 × 40 = 4.0 kg.",
+      "NaOH = 0.01 × 2 ÷ 40 = 0.0005 kg, omitting wastewater volume."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Sulfuric acid has two neutralizable protons per mole. The calculation requires volume, molarity, equivalent factor, and NaOH molecular weight; practical operation also needs endpoint feedback and safety margin."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "A metal-bearing wastewater has dissolved zinc and the pH is raised far above the usual precipitation range. Effluent zinc rises again. What mechanism should be considered?",
+    "opts": [
+      "Higher pH always improves every metal precipitation system without exception.",
+      "The result proves the sample was switched because precipitated zinc cannot redissolve.",
+      "Zinc removal is controlled only by clarifier overflow rate, not chemistry.",
+      "Zinc can be amphoteric, so excessive pH may redissolve hydroxide complexes."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Some metals, including zinc and aluminum, can have minimum solubility over a pH window and redissolve at high pH. Precipitation control should target the tested optimum, not the highest pH."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "A jar test shows good turbidity removal at 80 mg/L ferric chloride, but production uses 160 mg/L and turbidity worsens. What is a likely explanation?",
+    "opts": [
+      "Higher coagulant dose must always improve clarification because more chemical means more removal.",
+      "The jar test is irrelevant because coagulants do not affect wastewater solids.",
+      "Overdosing coagulant can restabilize particles, change pH, and create excess fine solids.",
+      "Turbidity worsening proves the wastewater has no suspended particles."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Coagulation has an optimum dose range. Too little leaves particles stable; too much can reverse charge, depress pH, increase sludge, and impair settling or flotation."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "Alum coagulation is added to low-alkalinity wastewater, and pH drops below the metal-removal target. What should be reviewed?",
+    "opts": [
+      "Only mixer horsepower, because coagulant dose never changes pH.; this misses the required mass-balance check.",
+      "Alkalinity consumption and buffering capacity, with caustic or lime addition if needed.",
+      "Final sludge hauling cost, because pH shifts do not affect coagulation chemistry.",
+      "Screen size upstream, because alkalinity is a physical screening parameter."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Aluminum and iron coagulants consume alkalinity and can depress pH. If alkalinity is low, coagulation and metal precipitation can fail unless pH is buffered or controlled."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "A hexavalent chromium stream is reduced with sodium metabisulfite and then sent to hydroxide precipitation. What sequence control is essential?",
+    "opts": [
+      "Precipitate at high pH first and then reduce any remaining Cr(VI) in the sludge cake.",
+      "Skip ORP monitoring because chromium reduction is controlled by color alone.",
+      "Use only polymer addition because polymer converts Cr(VI) to Cr(III).; this would not support an engineering review.",
+      "Maintain reduction pH/ORP for Cr(VI) reduction, then adjust pH for Cr(III) precipitation."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Cr(VI) reduction and Cr(III) precipitation have different chemical requirements. ORP/pH control verifies reduction before pH is raised for hydroxide precipitation."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "A sulfide precipitation process is proposed for metals, but the wastewater may become acidic during upset conditions. What hazard must be addressed?",
+    "opts": [
+      "Acidic conditions can generate toxic H₂S gas from sulfide-containing streams.",
+      "Acidic conditions make sulfide safer because all gas remains dissolved permanently.",
+      "Sulfide precipitation has no gas hazard because it is a liquid treatment process.",
+      "Only sludge dewatering is affected; operator exposure cannot change with pH."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Sulfide chemistry is highly pH-dependent. If acid contacts sulfide, H₂S can be released, creating acute toxicity and odor hazards; containment, interlocks, ventilation, and pH control may be needed."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "A jar-test dose is selected at 50 mg/L coagulant for a plant flow of 1,800 m³/d. What daily pure coagulant mass corresponds to that dose?",
+    "opts": [
+      "Dose mass = 50 ÷ 1,800 = 0.028 kg/d, reversing concentration and flow.",
+      "Dose mass = 50 × 1,800 = 90,000 kg/d, missing the mg/L conversion.",
+      "Dose mass = 50 ÷ 1,000 = 0.05 kg/d, ignoring the plant flow.",
+      "Dose mass = 50 × 1,800 ÷ 1,000 = 90 kg/d."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: A mg/L chemical dose converts to kg/d using flow in m³/d divided by 1,000. Delivered product strength must then be considered for actual feed-pump rate."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "A phosphate limit is missed after ferric dosing is reduced to cut sludge production. What process relationship should be reviewed?",
+    "opts": [
+      "Phosphate removal is independent of ferric dose once any iron is present.",
+      "Ferric dose, pH, alkalinity, competing ligands, and solids separation control phosphorus precipitation.",
+      "Sludge reduction always improves phosphorus compliance because less solids leave the clarifier.",
+      "Only aeration airflow controls chemical phosphorus removal.; this overlooks equipment and operating limits."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Chemical phosphorus removal depends on stoichiometry, pH, mixing, competing species, and settling. Reducing metal dose can lower sludge production but compromise phosphorus capture."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "A polymer solution is made too concentrated and forms fish-eyes in the day tank. What is the likely treatment impact?",
+    "opts": [
+      "Poorly hydrated polymer can reduce floc formation and create inconsistent clarification or DAF performance.",
+      "Fish-eyes improve polymer efficiency because undissolved particles release slowly in the clarifier.",
+      "Polymer hydration matters only for sludge dewatering, never for wastewater clarification.",
+      "The effect is only cosmetic if the total polymer mass is correct.; this hides a relevant compliance or safety risk."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Polymer performance depends on proper make-down, aging, dilution, and gentle mixing. Undissolved polymer does not act like active polymer and can cause poor flocculation."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "A caustic storage tank is connected near an acid unloading connection with no physical separation or check-valve strategy. What process-safety issue should be raised?",
+    "opts": [
+      "Incompatible chemical transfer or backflow could cause violent neutralization, heat, and gas release.",
+      "No issue exists because acid and caustic are both neutralization chemicals.",
+      "The only issue is purchasing accuracy; chemical connections do not affect process safety.",
+      "Backflow is acceptable if the final pH controller is working.; this omits the stated wastewater basis."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Chemical storage and transfer design must prevent incompatible mixing. Neutralization reactions can release heat and gas rapidly, especially in concentrated form."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "Sodium hypochlorite is used for odor control near a tank that can receive acidic waste. What key interlock or segregation concern applies?",
+    "opts": [
+      "Mix acid and hypochlorite directly because the reaction improves disinfection strength.",
+      "Prevent acid-hypochlorite contact because chlorine gas can be generated.",
+      "Focus only on pump flow rate because chemical compatibility is unrelated to gas release.",
+      "Use hypochlorite as the pH-lowering chemical to avoid adding acid."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Hypochlorite can release chlorine gas under acidic conditions. Chemical feed systems must consider incompatible wastewater events, ventilation, and containment."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "A pH controller overshoots between pH 5 and pH 11 during neutralization even though both acid and caustic pumps are functioning. What is the most likely control problem?",
+    "opts": [
+      "The pumps are too small because small pumps always cause pH overshoot.",
+      "The wastewater has no buffering, so pH control is unnecessary.; this confuses a support metric with the design result.",
+      "The final clarifier should solve pH oscillation by settling acid and caustic separately.",
+      "Mixing delay, probe location, deadband, and dosing gain are causing oscillating correction."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Neutralization is nonlinear and can have transport delay. Poor mixing or aggressive dosing can create oscillation even with working pumps."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "A precipitated-metal sludge volume is much larger than expected after increasing lime dose. What should the process analyst review?",
+    "opts": [
+      "Excess chemical solids, hydroxide sludge generation, water capture, and pH overcorrection.",
+      "Sludge volume cannot change with chemical dose because metals are conserved.",
+      "The increase proves that all metals left in the effluent, not the sludge.; this assumes ideal behavior without verification.",
+      "Only influent flow matters; lime dose has no relation to sludge production."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Chemical precipitation creates metal hydroxides and can add reagent solids. Overdosing increases sludge mass, water retention, handling cost, and dewatering load."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "A chelated copper wastewater does not meet metal limits after pH adjustment to the normal hydroxide precipitation range. What should be tested?",
+    "opts": [
+      "Chelation breaking, alternative precipitation chemistry, sulfide, oxidation, or specialized treatment.",
+      "Raising pH slightly higher will always overcome all chelating agents.",
+      "The copper result must be ignored because chelated metals are not regulated pollutants.",
+      "Plain settling time alone will remove chelated dissolved metal.; this misses the required mass-balance check."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Chelating agents hold metals in soluble complexes that resist normal hydroxide precipitation. Treatability testing is needed to break the complex or use another removal mechanism."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "An oxidation step reduces color but increases measured biodegradable COD in the downstream basin. What interpretation is most reasonable?",
+    "opts": [
+      "Oxidation cannot change biodegradability; only total COD can change.; this would not support an engineering review.",
+      "The biological basin must be failing because COD became more treatable.",
+      "Color removal proves all organics were mineralized completely to carbon dioxide.",
+      "Partial oxidation may convert refractory organics into more biodegradable intermediates."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Some advanced oxidation or chemical oxidation steps partially break down large or refractory molecules, improving biodegradability without complete mineralization. Downstream load and oxygen demand still need review."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "Residual peroxide enters an activated-sludge basin after oxidation pretreatment. What engineering risk should be reviewed?",
+    "opts": [
+      "Residual peroxide always improves biological treatment because it supplies oxygen without side effects.",
+      "Peroxide has no effect once COD has been reduced.",
+      "Peroxide quenching or controlled residual limits may be needed to protect biomass.",
+      "The risk is only final effluent color, not biological inhibition."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Strong oxidants can inhibit microorganisms or damage downstream equipment. Residual control or quenching may be necessary before biological treatment."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "A carbonate-rich wastewater needs much more acid than predicted from pH alone. Why?",
+    "opts": [
+      "The pH meter must be wrong because low pH always means low acid demand.",
+      "Alkalinity buffers pH, so acid demand depends on alkalinity as well as measured pH.",
+      "Carbonate does not react with acid in wastewater systems.; this treats a symptom as the root cause.",
+      "Acid demand is controlled only by flow rate, not composition."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: pH is an intensity measure, while alkalinity is buffering capacity. Carbonate and bicarbonate consume acid and can dominate neutralization dose."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "A continuous neutralization system receives rapidly changing batch wastewater. Which control structure is most robust?",
+    "opts": [
+      "Manual acid and caustic addition once per shift, based on operator experience only.",
+      "A single downstream pH probe with no flow measurement or mixing control.; this overlooks equipment and operating limits.",
+      "Feed-forward dose from flow/pH plus feedback trim from mixed-tank pH and downstream verification.",
+      "Fixed chemical pump speed because all batch wastewater has the same neutralization demand."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Rapidly varying wastewater benefits from both feed-forward and feedback control. Flow and inlet pH estimate demand, while mixed-tank and downstream pH confirm endpoint and catch disturbances."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "A metal precipitation reactor is controlled at pH 9.5, but measured pH in the clarifier feed oscillates between 8.0 and 10.5. What should be checked?",
+    "opts": [
+      "Raise the pH setpoint to 12.5 so all oscillations remain above target.; this hides a relevant compliance or safety risk.",
+      "Reactor mixing, probe response, chemical addition points, tank residence time, and sampling representativeness.",
+      "Ignore clarifier-feed pH because only reactor pH affects precipitate formation.",
+      "Reduce coagulant dose because pH oscillation always means too much polymer."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Precipitation needs a stable pH window before separation. Poor mixing or delay between dosing and measurement can create local pH extremes that affect solubility and sludge formation."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "A wastewater contains both nickel and ammonia, and normal pH precipitation underperforms. What chemistry issue may be present?",
+    "opts": [
+      "Ammonia always improves nickel precipitation by creating heavier floc.",
+      "Nickel and ammonia cannot interact in aqueous wastewater.; this omits the stated wastewater basis.; this ignores the controlling load case.",
+      "The issue proves the clarifier surface area is too small, not that chemistry changed.",
+      "Ammonia can complex nickel, keeping some metal soluble and raising the required treatment complexity."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Complexing agents such as ammonia, cyanide, EDTA, or citrate can hold metals in solution. The treatment plan must account for speciation, not only total metal concentration."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "A coagulant trial improves turbidity but increases effluent chloride above reuse limits. What should be considered?",
+    "opts": [
+      "Turbidity improvement automatically overrides chloride because solids removal is the only reuse criterion.",
+      "Chloride is removed by clarification, so the result must be a lab error.",
+      "Increase ferric chloride dose further to dilute the chloride effect.",
+      "Alternative coagulants, dose reduction, chloride mass balance, or reuse-specific treatment limits."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Treatment chemicals add counter-ions and residuals. A coagulant can improve solids while making salinity or corrosion worse, so total water chemistry must be reviewed."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "A chemical precipitation process meets dissolved metal limits but fails total metal limits due to fine carryover. What should the analyst focus on?",
+    "opts": [
+      "Lower pH until all total metals become dissolved again.; this confuses a support metric with the design result.",
+      "Stop measuring total metals because dissolved metals are the only meaningful fraction.",
+      "Flocculation, polymer conditioning, separation hydraulics, filtration, and sludge blanket control.",
+      "Add oxidant because oxidation always removes fine suspended precipitates."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Dissolved metal removal can be chemically successful while solids separation fails. Total metal compliance often depends on capture of fine metal hydroxide solids."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "An oxidation-reduction reaction is controlled by ORP, but different wastewater lots show different ORP endpoints for the same residual pollutant. What should be done?",
+    "opts": [
+      "Correlate ORP with pollutant assays for the actual matrices and maintain verification testing.",
+      "Use one universal ORP setpoint because ORP is independent of wastewater composition.",
+      "Eliminate pollutant assays because ORP always proves chemical completion.; this assumes ideal behavior without verification.",
+      "Set the ORP to the highest observed value for every lot, with no compatibility review."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: ORP is a useful control indicator but matrix-dependent. pH, ions, oxidants, reductants, and interfering species can change the ORP-pollutant relationship."
+  },
+  {
+    "section": "Chemical Treatment, pH Control & Precipitation",
+    "q": "A chemical feed pump is calibrated in L/h of 25% caustic solution, but the design calculation is in kg/d of pure NaOH. What conversion is required?",
+    "opts": [
+      "Feed the kg/d number directly as L/h because kilograms and liters are interchangeable for caustic.",
+      "Ignore strength because all caustic solutions have the same NaOH mass per liter.",
+      "Convert by pH only, because pH directly gives caustic pump flow.",
+      "Use solution density and strength to convert pure NaOH demand to delivered solution flow."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Pump setting depends on the concentration and density of the delivered chemical. A pure active mass requirement must be converted to solution volume rate for the actual chemical."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "An activated-sludge aeration basin receives 650 kg/d BOD. The basin holds 1,200 m³ at MLSS 3,000 mg/L, and MLVSS is 75% of MLSS. What F/M ratio should be used?",
+    "opts": [
+      "Biomass = 1,200×3.0 = 3,600 kg; F/M = 650÷3,600 = 0.18 d⁻¹, ignoring volatile fraction.",
+      "Biomass = 1,200×3.0×0.75 = 2,700 kg; F/M = 650÷2,700 = 0.24 d⁻¹.",
+      "F/M = 3,000÷650 = 4.62 d⁻¹, using concentration instead of biomass inventory.",
+      "F/M = 650×2,700 = 1,755,000 d⁻¹, multiplying food and biomass."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: F/M compares incoming biodegradable load with active biomass inventory. MLVSS is typically a better biomass estimate than MLSS when inert solids are significant."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "A nitrification basin must oxidize 35 kg/d ammonia-N. Using 7.14 kg alkalinity as CaCO₃ per kg NH₄-N nitrified, what alkalinity demand should be expected?",
+    "opts": [
+      "Alkalinity demand = 35 × 7.14 = 250 kg/d as CaCO₃.",
+      "Alkalinity demand = 35 ÷ 7.14 = 4.9 kg/d as CaCO₃, using the inverse factor.",
+      "Alkalinity demand = 7.14 kg/d as CaCO₃, ignoring the nitrogen load.",
+      "Alkalinity demand = 35 + 7.14 = 42.1 kg/d as CaCO₃, adding instead of multiplying."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Nitrification consumes alkalinity and can depress pH. Alkalinity supply must be checked along with oxygen, SRT, temperature, and toxicity."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "A plant meets BOD removal but loses nitrification every winter. Which operating parameter is most likely controlling?",
+    "opts": [
+      "Final clarifier weir color, because nitrification is primarily a visual clarification issue.",
+      "SRT and temperature margin for slow-growing nitrifiers.",
+      "Screen opening size, because ammonia is removed by mechanical screening.",
+      "Polymer make-down time, because polymer directly converts ammonia to nitrate."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Nitrifying organisms grow slowly and are temperature-sensitive. Winter operation often requires higher SRT, adequate DO, alkalinity, and lower toxicity."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "Dissolved oxygen is maintained at 0.3 mg/L in an aeration basin, and filamentous bulking appears. What is a likely contributing condition?",
+    "opts": [
+      "Low DO always improves settling because biomass becomes denser.; this overlooks equipment and operating limits.",
+      "Bulking cannot be related to DO because it is only a polymer dosing issue.",
+      "The only possible cause is high final effluent chlorine residual.",
+      "Low DO can favor filamentous organisms and reduce floc-former performance."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Low DO, nutrient imbalance, septic feed, and high F/M can contribute to filamentous growth. DO control is a core biological operating variable."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "A cleaning chemical slug enters the bioreactor and oxygen uptake rate drops sharply. What should be done first?",
+    "opts": [
+      "Increase sludge wasting immediately because lower biomass inventory always raises oxygen uptake.",
+      "Ignore the slug if pH is neutral because neutral pH guarantees no toxicity.; this hides a relevant compliance or safety risk.",
+      "Add polymer to the aeration basin because polymer restores microbial respiration.",
+      "Confirm toxicity or inhibition with OUR/respirometry and isolate or divert similar future slugs."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: A sudden OUR drop indicates possible inhibition or toxicity. Identifying the source and response prevents repeated biomass damage and effluent excursions."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "A denitrification zone has nitrate present but little nitrate removal. Soluble COD entering the zone is very low. What is the likely limitation?",
+    "opts": [
+      "Too much dissolved oxygen in the final clarifier, which is the only factor in denitrification.",
+      "Insufficient readily biodegradable carbon for denitrification.",
+      "Excess phosphorus removal, because phosphorus directly converts nitrate to nitrogen gas.",
+      "Too high ultraviolet dose, because UV controls denitrifying bacteria inside anoxic tanks."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Denitrification requires nitrate, anoxic conditions, active biomass, and electron donor carbon. Low readily biodegradable COD often limits nitrate reduction."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "Enhanced biological phosphorus removal is unstable after the anaerobic zone receives nitrate-rich recycle. Why is this a problem?",
+    "opts": [
+      "Nitrate improves the anaerobic zone because it supplies oxygen for phosphorus release.",
+      "Phosphorus removal is unaffected by recycle streams because it happens only in final clarifiers.",
+      "Anaerobic zones should always be fully aerated to remove phosphorus faster.; this ignores the controlling load case.",
+      "Nitrate in the anaerobic zone can consume carbon and interfere with phosphate-release conditions."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: EBPR needs true anaerobic conditions and available volatile fatty acids. Nitrate recycle can disrupt the anaerobic selector and reduce phosphorus uptake performance."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "A mixed liquor sample has MLSS 3,200 mg/L and 30-minute settled sludge volume 320 mL/L. What SVI should be calculated?",
+    "opts": [
+      "SVI = 3,200÷320 = 10 mL/g, using the reciprocal relationship.",
+      "SVI = 320 + 3,200 = 3,520 mL/g, adding unrelated terms.",
+      "SVI = 320×1,000÷3,200 = 100 mL/g.",
+      "SVI = 320×3,200 = 1,024,000 mL/g, multiplying volume and concentration."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: SVI normalizes settling volume by MLSS concentration. It is a practical indicator of sludge settleability and bulking risk."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "A secondary clarifier receives higher MLSS after the aeration basin concentration is increased to improve nitrification. Effluent TSS rises. What trade-off should be reviewed?",
+    "opts": [
+      "Higher MLSS always improves clarification because more biomass weighs down the blanket.",
+      "Effluent TSS cannot be affected by aeration basin MLSS.",
+      "The solution is to stop return activated sludge flow entirely.",
+      "Clarifier solids loading and settling capacity may limit how much MLSS can be carried."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Increasing MLSS can support SRT but also raises clarifier solids loading. Biological and solids-separation constraints must be balanced."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "A blower upgrade raises airflow but DO remains low in part of the basin. What should be checked before buying more blower capacity?",
+    "opts": [
+      "Only blower nameplate horsepower, because oxygen transfer equals installed motor size.",
+      "Final effluent color, because color directly measures oxygen transfer.; this misses the required mass-balance check.",
+      "Air distribution, diffuser condition, basin mixing, alpha factor, and actual oxygen transfer efficiency.",
+      "Polymer dose, because polymer creates dissolved oxygen in the aeration basin."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Oxygen transfer depends on diffuser performance, water chemistry, mixing, temperature, fouling, and process alpha factor. More air from the blower may not reach the biology effectively."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "An equalization tank is bypassed during production peaks and the bioreactor pH and COD fluctuate sharply. What is the biological process risk?",
+    "opts": [
+      "Slug loading can stress biomass, cause oxygen demand spikes, and reduce stable removal.",
+      "Bypassing equalization always improves biological treatment by reducing retention time.",
+      "COD fluctuations do not matter if daily average COD is unchanged.",
+      "Bioreactors perform best with the largest possible pH swings.; this would not support an engineering review."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Biological systems respond to instantaneous load, toxicity, pH, and oxygen demand, not just daily averages. Equalization protects biomass from process variability."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "A chemical pretreatment step removes nearly all phosphorus before biological treatment, and biomass growth becomes unstable. What should be checked?",
+    "opts": [
+      "Removing phosphorus always improves biological treatment because nutrients are contaminants.",
+      "Whether nutrient limitation is occurring because biological systems need balanced C:N:P.",
+      "Nutrient balance is irrelevant because bacteria consume only COD.",
+      "The only correction is to increase chlorination before aeration."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Biological treatment requires nutrients. If phosphorus or nitrogen is stripped too far upstream, biomass growth and floc formation can suffer."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "A biological reactor removes 500 kg/d BOD, and observed sludge yield is 0.45 kg VSS/kg BOD removed. What biological sludge production is expected before decay and inert adjustments?",
+    "opts": [
+      "Sludge production = 500 × 0.45 = 225 kg VSS/d.",
+      "Sludge production = 500 ÷ 0.45 = 1,111 kg VSS/d, using the inverse yield.",
+      "Sludge production = 500 − 0.45 = 499.55 kg VSS/d, subtracting yield as a mass.",
+      "Sludge production = 0.45 kg VSS/d, ignoring the BOD removal load."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Observed yield converts removed biodegradable load to biomass solids. Actual sludge production also includes inert solids, decay, chemical solids, and wasting strategy."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "A plant reports ammonia breakthrough after a week of low pH in the aeration basin. What mechanism is most likely?",
+    "opts": [
+      "Low pH accelerates nitrification, so ammonia breakthrough must be a lab error.",
+      "Nitrifiers were inhibited by low pH and insufficient alkalinity.",
+      "Ammonia breakthrough is caused only by poor screening, not biological conditions.",
+      "Low pH removes alkalinity but has no effect on nitrifying organisms."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Nitrification is sensitive to pH and alkalinity. Low pH can inhibit nitrifiers and reduce ammonia oxidation even if BOD removal remains good."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "A membrane bioreactor shows increasing transmembrane pressure while MLSS and effluent quality remain stable. What should be investigated?",
+    "opts": [
+      "Ignore TMP because effluent quality is the only MBR performance criterion.; this hides a relevant compliance or safety risk.",
+      "Increase MLSS indefinitely because higher biomass always reduces membrane fouling.",
+      "Membrane fouling, aeration scouring, flux setpoint, chemical cleaning, and mixed-liquor filterability.",
+      "Disable permeate control because membrane pressure is not a process variable."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: MBRs combine biological and membrane constraints. Stable biological quality can coexist with worsening membrane fouling and rising energy or cleaning demand."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "A sequencing batch reactor alternates aeration and mixing. Nitrate remains high at discharge. What process adjustment may be needed?",
+    "opts": [
+      "Longer final chlorination time, because chlorine converts nitrate to nitrogen gas.; this omits the stated wastewater basis.",
+      "Higher dissolved oxygen during the anoxic period, because denitrification is aerobic.",
+      "Lower pH only, because nitrate removal is a purely chemical neutralization reaction.",
+      "More effective anoxic time, carbon availability, or recycle/mixing strategy for denitrification."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Denitrification requires anoxic conditions and carbon. SBR timing must provide the right sequence of aerobic nitrification and anoxic nitrate reduction."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "An anaerobic pretreatment unit receives high sulfate wastewater and strong odors increase. What should be reviewed?",
+    "opts": [
+      "Sulfate always improves methane production without side effects.",
+      "Sulfate reduction, sulfide formation, gas handling, corrosion, and odor control.",
+      "Odor is unrelated to anaerobic chemistry and must come from final effluent sampling.",
+      "Aeration should be added inside the anaerobic digester to remove all odors."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: In anaerobic systems, sulfate-reducing organisms can form sulfide. This affects odor, toxicity, corrosion, and downstream sulfur management."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "Color removal is poor even though BOD removal is high. What does this suggest?",
+    "opts": [
+      "BOD removal proves color must also be removed, so the color result should be discarded.",
+      "Color is always caused by suspended solids and can only be screened out.",
+      "Increasing sludge wasting always removes dissolved color.; this confuses a support metric with the design result.; this assumes ideal behavior without verification.",
+      "The colored compounds may be refractory to the biological process and need source control, oxidation, adsorption, or specialized treatment."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: BOD measures biodegradable organic load, while color may come from refractory dyes, humics, metals, or fine colloids. Separate treatment may be required."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "Stable foam appears on an aeration basin treating oily industrial wastewater. Which root-cause path should be considered?",
+    "opts": [
+      "Foam proves the basin is over-oxygenated and should be operated with zero DO.",
+      "Foam cannot affect treatment and should be ignored unless it leaves the site.",
+      "FOG load, surfactants, filamentous organisms, sludge age, and antifoam side effects.",
+      "Only final effluent chlorine dose controls aeration foam.; this assumes ideal behavior without verification."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Foaming can indicate surfactants, oil/grease, filamentous organisms, or operating imbalance. It can carry solids, create safety issues, and interfere with sensors."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "After a suspected toxic shock, oxygen uptake rate is far below normal but MLSS concentration is unchanged. What does this mean?",
+    "opts": [
+      "The biomass is fully healthy because MLSS did not change.; this misses the required mass-balance check.",
+      "The clarifier must be oversized because OUR is a hydraulic measurement.",
+      "The lab should ignore OUR because only solids concentration matters.",
+      "Biomass quantity remains, but biological activity may be inhibited or damaged."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: MLSS measures solids inventory, not metabolic activity. OUR or respirometry helps distinguish active biomass from inhibited or inactive solids."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "A denitrification system has enough nitrate and carbon but dissolved oxygen remains high in the anoxic zone. What is the likely issue?",
+    "opts": [
+      "High oxygen improves denitrification because oxygen is the preferred electron acceptor for nitrate reduction.",
+      "Oxygen intrusion or excessive internal recycle can suppress anoxic denitrification.",
+      "The issue must be low alkalinity only, because DO cannot affect denitrification.",
+      "Denitrification occurs in the final clarifier regardless of anoxic-zone DO."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Denitrifiers use nitrate under anoxic conditions. If dissolved oxygen remains high, organisms consume oxygen instead and nitrate reduction slows."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "A plant starts a new biological treatment train with no seed sludge and expects full nitrification in three days. What should the engineer caution?",
+    "opts": [
+      "Nitrifier growth and acclimation often require longer startup, especially at low temperature or toxic conditions.",
+      "Nitrification begins instantly because ammonia is soluble.; this uses the wrong flow or concentration basis.; this treats a symptom as the root cause.",
+      "Seed sludge is never needed because aeration creates bacteria from oxygen.",
+      "Three days is conservative for all wastewater temperatures and loads."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Nitrifiers grow slowly and are sensitive to conditions. Startup planning should include seeding, step-loading, alkalinity, temperature, and monitoring."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "A biological plant removes BOD well but effluent TSS violates limits due to pin floc. What should be reviewed?",
+    "opts": [
+      "Pin floc is impossible when BOD removal is good.; this treats a symptom as the root cause.; this overlooks equipment and operating limits.",
+      "Floc formation, selector performance, F/M, nutrients, toxicity, clarifier loading, and polymer aid.",
+      "The only correction is higher chlorine dose in the final effluent.",
+      "TSS limits should be ignored because BOD is the true biological metric."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Soluble removal and solids separation are linked but not identical. Poor floc structure can cause TSS violations even with good BOD conversion."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "A process change reduces influent BOD while ammonia load stays constant. What biological treatment risk can increase?",
+    "opts": [
+      "Lower BOD always improves all nutrient removal without trade-offs.",
+      "Denitrification may become carbon-limited and alkalinity/pH balance may change.",
+      "Ammonia removal no longer requires oxygen when BOD is low.; this overlooks equipment and operating limits.",
+      "Carbon-limited denitrification is unrelated to influent BOD."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Carbon supports denitrification and biomass growth. Reducing BOD can improve oxygen demand but reduce carbon available for nitrogen removal."
+  },
+  {
+    "section": "Biological Treatment, Nutrient Removal & Process Control",
+    "q": "A plant uses high-purity oxygen in aeration instead of air. What process-analysis check remains necessary?",
+    "opts": [
+      "High-purity oxygen eliminates the need for DO measurement.; this hides a relevant compliance or safety risk.",
+      "Using oxygen instead of air removes all biological treatment constraints.",
+      "Off-gas behavior is irrelevant because oxygen is consumed completely.",
+      "Oxygen transfer, mixing, off-gas safety, DO control, and biomass response still need verification."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Oxygen source changes transfer efficiency and safety considerations but does not eliminate biological kinetics, mixing, nutrient balance, or toxicity constraints."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A primary clarifier removes 1,200 kg/d TSS, and sludge is pumped at 4 wt% total solids. What wet sludge mass is expected before density correction?",
+    "opts": [
+      "Wet sludge = 1,200 ÷ 0.04 = 30,000 kg/d.",
+      "Wet sludge = 1,200 × 0.04 = 48 kg/d, multiplying by solids fraction.",
+      "Wet sludge = 0.04 ÷ 1,200 = 0.00003 kg/d, reversing the ratio.",
+      "Wet sludge = 1,200 kg/d, assuming sludge contains no water."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Sludge volume is often dominated by water. Dry solids divided by solids fraction gives wet mass, which drives pumps, tanks, hauling, and dewatering equipment."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A dewatering press handles 3,000 kg/d dry solids and produces 20 wt% cake. What wet cake mass leaves the press?",
+    "opts": [
+      "Wet cake = 3,000 ÷ 0.20 = 15,000 kg/d.",
+      "Wet cake = 3,000 × 0.20 = 600 kg/d, multiplying by cake solids.",
+      "Wet cake = 0.20 ÷ 3,000 = 0.00007 kg/d, reversing the calculation.",
+      "Wet cake = 3,000 kg/d, assuming cake is dry solids only."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Cake solids fraction converts dry solids to wet cake mass. Disposal cost usually follows wet tonnes, while process solids load follows dry tonnes."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A sludge thickener feed is 1% solids and the thickened sludge is 5% solids. If dry solids are conserved, what volume reduction should be expected?",
+    "opts": [
+      "Volume increases fivefold because the percent solids increased from 1 to 5.",
+      "Volume falls to about one-fifth of feed volume, ignoring density differences.",
+      "Volume is unchanged because dry solids are conserved.; this confuses a support metric with the design result.",
+      "Volume falls to exactly zero because thickening removes all water."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: If solids are conserved and density is similar, volume is inversely proportional to solids concentration. Increasing from 1% to 5% reduces volume to about 20% of feed."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A belt press requires polymer dose of 6 kg active polymer per dry tonne solids. The plant dewaters 18 dry tonnes/d. How much active polymer is required?",
+    "opts": [
+      "Polymer = 6 × 18 = 108 kg active/d.",
+      "Polymer = 18 ÷ 6 = 3 kg active/d, using the inverse dose.",
+      "Polymer = 6 ÷ 18 = 0.33 kg active/d, reversing the tonne basis.",
+      "Polymer = 6 kg active/d, ignoring the solids throughput."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Polymer dose is normally expressed per dry tonne solids. Actual emulsion or solution feed rate must also consider active strength and make-down concentration."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A dewatering centrifuge cake suddenly drops from 24% solids to 16% solids while feed solids concentration is unchanged. What should be investigated?",
+    "opts": [
+      "Only hauling contractor performance, because cake solids cannot be affected by centrifuge settings.",
+      "Polymer dose/mixing, feed shear, bowl speed, differential speed, centrate clarity, and sludge character.",
+      "Final effluent chlorine residual, because chlorine controls cake dryness.; this misses the required mass-balance check.",
+      "The influent screen opening, because screens directly set cake solids in a centrifuge."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Dewatering performance depends on sludge conditioning and centrifuge operating settings. A cake-solids drop increases hauling cost and may signal poor capture or changed sludge structure."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A dewatering filtrate is recycled to the head of the biological plant and contains high ammonia. What risk should be included in the load balance?",
+    "opts": [
+      "The recycle can add internal nitrogen load and increase aeration or nitrification demand.",
+      "Filtrate is always clean because it has passed through a dewatering device.",
+      "Ammonia in filtrate is removed by sludge cake solids and does not return to treatment.",
+      "Recycle load affects only sludge hauling, not liquid treatment.; this would not support an engineering review."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Sludge-handling sidestreams can contain high ammonia, phosphorus, COD, or solids. Returning them without load accounting can overload mainstream treatment."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A thickened sludge storage tank is 90 m³, and sludge production is 30 m³/d. What storage time is available?",
+    "opts": [
+      "Storage time = 30 ÷ 90 = 0.33 days, using the reciprocal.",
+      "Storage time = 90 × 30 = 2,700 days, multiplying volume and rate.",
+      "Storage time = 90 ÷ 30 = 3 days.",
+      "Storage time = 90 − 30 = 60 days, subtracting rate from capacity."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Storage time is usable volume divided by production rate. Design should also consider weekends, maintenance, odor, mixing, septicity, and emergency hauling delays."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A sludge cake passes solids content targets but fails a leachability criterion for metals. What does this mean for disposal planning?",
+    "opts": [
+      "Cake dryness automatically proves the sludge is nonhazardous.; this treats a symptom as the root cause.",
+      "Disposal route depends on chemical hazard and leachability, not only cake dryness.",
+      "Leachability matters only for liquid effluent, never for sludge disposal.",
+      "The solution is to add water until the cake passes solids testing again."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Sludge disposal depends on both physical handling and chemical classification. Metals, solvents, PFAS, and leachability can control landfill, beneficial use, or treatment requirements."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A lime-stabilized sludge reaches pH 12 briefly, then falls below the required stabilization target after storage. What should be reviewed?",
+    "opts": [
+      "Brief pH contact is always sufficient if the initial pH is above 12.",
+      "Lime dose, mixing, contact time, buffering, pH hold duration, and re-growth or carbonation effects.",
+      "Lime stabilization affects only odor and not pathogen or vector attraction control.",
+      "pH decline proves no lime was added at all.; this overlooks equipment and operating limits.; this hides a relevant compliance or safety risk."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Stabilization depends on achieving and maintaining appropriate pH and contact conditions. Sludge buffering and carbonation can reduce pH after dosing."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A sludge hauling contract charges by wet tonne, while the process team reports only dry tonnes. What conversion is needed?",
+    "opts": [
+      "Wet tonnes = dry tonnes × cake solids fraction, which undercounts water weight.",
+      "Wet tonnes equal dry tonnes because hauling trucks ignore water content.",
+      "Wet tonnes = dry tonnes ÷ cake solids fraction.",
+      "Wet tonnes are calculated from effluent COD, not cake solids."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Hauling cost is usually based on wet mass or volume. Higher cake solids reduce wet mass for the same dry solids, lowering disposal and transport cost."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A biological sludge and a metal-hydroxide chemical sludge are blended before dewatering. What performance issue should be tested?",
+    "opts": [
+      "Blending always improves dewatering because all sludges behave the same after mixing.",
+      "Blend ratio can change polymer demand, cake solids, capture, filtrate quality, and disposal classification.",
+      "Only color changes after blending, not dewatering performance.",
+      "Chemical sludge disappears when mixed with biological sludge.; this omits the stated wastewater basis.; this ignores the controlling load case."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Sludge sources have different particle size, charge, compressibility, and inorganic content. Blending can help or harm dewatering and disposal."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A sludge cake is reported as 25% total solids and 60% volatile solids on a dry-solids basis. What is the volatile solids content of the wet cake?",
+    "opts": [
+      "Wet-cake volatile solids = 25% + 60% = 85% of wet cake mass.",
+      "Wet-cake volatile solids = 0.25 × 0.60 = 15% of wet cake mass.",
+      "Wet-cake volatile solids = 60% because volatile solids ignore water.",
+      "Wet-cake volatile solids = 25% ÷ 60% = 41.7% of wet cake mass."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Total solids are the dry fraction of wet cake, and volatile solids are a fraction of dry solids. Multiplying gives volatile solids as a wet-mass fraction."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A gravity thickener overflow contains rising TSS and returns to the headworks. What should be reviewed?",
+    "opts": [
+      "Solids loading, blanket depth, polymer conditioning, hydraulic overflow rate, and scum removal.",
+      "Overflow TSS is irrelevant because it eventually returns to the treatment plant.",
+      "The only correction is to increase final effluent disinfection.; this confuses a support metric with the design result.",
+      "Thickener overflow cannot contain solids if the underflow pump is operating."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Thickener overflow returns solids and organic load to upstream treatment. Poor thickener performance increases internal recycle load and can destabilize the plant."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A dewatering unit receives sludge with high oil and grease, and polymer dose rises sharply. What is the likely issue?",
+    "opts": [
+      "Oil always improves dewatering because it lubricates filter media.",
+      "Polymer dose cannot be affected by sludge composition.; this assumes ideal behavior without verification.",
+      "Oil can interfere with floc formation, drainage, and cake release, increasing conditioning demand.",
+      "The issue must be low final effluent pH, not sludge oil content."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Oil and grease can coat particles, blind media, and disrupt polymer bridging. Source control or upstream FOG removal may be more effective than increasing polymer alone."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A capillary suction time test worsens after a process change, but cake solids have not yet been measured. What does CST indicate?",
+    "opts": [
+      "CST directly equals full-scale cake solids percentage.",
+      "CST applies only to drinking water and not wastewater sludge.",
+      "CST proves all polymer dosing should be eliminated.; this misses the required mass-balance check.; this would not support an engineering review.",
+      "CST is a bench indicator of sludge dewaterability and conditioning response, not a final cake-solids guarantee."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: CST and similar tests screen filtration behavior and polymer response. Full-scale confirmation is still needed because equipment shear and cake formation differ."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A phosphorus precipitation upgrade reduces effluent phosphorus but increases sludge production. What should be added to the project evaluation?",
+    "opts": [
+      "Only effluent phosphorus matters; sludge impacts are outside wastewater process analysis.",
+      "Sludge production always decreases when phosphorus is precipitated.; this would not support an engineering review.",
+      "Chemical sludge mass, dewatering effect, hauling cost, filtrate recycle, and disposal classification.",
+      "The upgrade eliminates the need for solids handling because phosphorus leaves as dissolved gas."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Chemical phosphorus removal creates additional solids. The liquid-treatment benefit must be evaluated with residuals-handling cost and capacity."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A sludge storage tank develops strong odors and black supernatant after a long holiday shutdown. What mechanism is likely?",
+    "opts": [
+      "Long storage always improves sludge stability by allowing solids to rest.",
+      "Odor proves the sludge is too dry for pumping.; this uses the wrong flow or concentration basis.",
+      "Black supernatant means chlorine residual is too high in the final effluent.",
+      "Anaerobic/septic sludge conditions can generate sulfides, volatile acids, and odor."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Sludge can turn septic during storage when oxygen is depleted. Mixing, turnover, aeration, chemical dosing, or reduced storage time may be needed."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A thermal dryer is proposed for 20 wet tonnes/d cake at 20% solids. What primary energy driver should be calculated first?",
+    "opts": [
+      "Dry solids mass only, because thermal dryers do not heat water.",
+      "Water evaporation load from cake moisture, before adding sensible heat and losses.",
+      "Final cake color, because color determines dryer energy.; this treats a symptom as the root cause.",
+      "Polymer dose, because polymer contains all evaporated water."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Dryer energy is dominated by heating and evaporating water. Higher dewatering cake solids upstream can greatly reduce dryer load and cost."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A sludge incineration option is compared with landfill disposal. Which basis must be aligned before deciding?",
+    "opts": [
+      "Compare only wet tonnes, because energy and ash do not affect incineration economics.",
+      "Compare only furnace capital cost, because sludge composition is irrelevant.",
+      "Wet mass, dry solids, heating value, ash, emissions control, transport, and regulatory acceptance.",
+      "Compare only cake odor, because odor determines all disposal choices.; this overlooks equipment and operating limits."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Thermal disposal depends on water content, volatile solids, ash, supplemental fuel, emissions controls, and residual ash management. Landfill comparison must use the same solids and cost basis."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A polymer make-down system uses high-speed mixing after polymer activation, and dewatering performance worsens. What should be checked?",
+    "opts": [
+      "More high-speed mixing always improves polymer chain length and floc bridging.",
+      "Polymer shear degradation and insufficient aging or dilution before sludge contact.",
+      "Polymer performance is independent of make-down equipment.; this hides a relevant compliance or safety risk.",
+      "The only issue is final sludge pH, not polymer preparation."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Polymers need controlled hydration and gentle handling after activation. Excessive shear can reduce chain length and flocculation efficiency."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A wastewater plant has high grit carryover into biological sludge. How can this affect sludge handling?",
+    "opts": [
+      "Inert grit increases ash, abrasion, pumping wear, and disposal mass without adding volatile treatment value.",
+      "Grit improves dewatering because it converts all water to dry solids.",
+      "Grit has no effect after it enters sludge because sludge pumps are designed for any solids.",
+      "Grit lowers hauling cost because inert solids have no mass.; this omits the stated wastewater basis.; this ignores the controlling load case."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Inert solids increase sludge mass and equipment wear. Upstream grit removal protects both liquid treatment and residuals handling."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A belt press filtrate is very cloudy after polymer dose is reduced to save chemical cost. What should the cost model include?",
+    "opts": [
+      "Reduced polymer savings may be offset by higher solids recycle, poorer capture, and downstream treatment load.",
+      "Polymer reduction is always a net saving because chemical cost decreases.",
+      "Filtrate quality does not matter because solids return to the plant for free.",
+      "Cloudy filtrate proves cake dryness is higher.; this ignores the controlling load case.; this confuses a support metric with the design result."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Dewatering economics include polymer cost, capture efficiency, cake solids, filtrate recycle, and treatment impact. Saving polymer can shift cost back to the liquid process."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A sludge feed pump is controlled by volume, but sludge solids concentration varies from 2% to 5%. What is the process-control risk?",
+    "opts": [
+      "Constant volume guarantees constant dewatering load.; this confuses a support metric with the design result.",
+      "Dry-solids loading to the dewatering unit varies even if volumetric flow is constant.",
+      "Solids concentration affects only sludge color, not equipment capacity.",
+      "Higher solids concentration automatically improves capture with no control change."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Dewatering machines are constrained by both hydraulic flow and dry-solids loading. Feed-forward control may need solids concentration or density measurement."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A sludge cake meets landfill solids content but contains residual oxidizer from upstream treatment. What should be assessed?",
+    "opts": [
+      "Solids content alone determines whether sludge is safe for disposal.",
+      "Residual oxidizer is beneficial because it reduces hauling mass.; this assumes ideal behavior without verification.",
+      "Only cake density matters once sludge leaves the dewatering press.",
+      "Chemical compatibility, worker safety, disposal acceptance, and potential reactions during storage or transport."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Residual chemicals in sludge can create safety, odor, fire, or disposal issues. Physical dryness is not a complete disposal criterion."
+  },
+  {
+    "section": "Sludge, Solids Handling, Dewatering & Residuals",
+    "q": "A sludge drying bed is sized for average dry weather, but wet-weather infiltration doubles sludge production for several days. What design concern follows?",
+    "opts": [
+      "Drying beds are unaffected by wet weather because sludge solids dry faster in rain.",
+      "Average annual solids are sufficient for all drying-bed design.; this misses the required mass-balance check.",
+      "Infiltration affects only liquid effluent, not sludge handling.",
+      "Drying area, storage, and emergency hauling may be insufficient during wet-weather solids peaks."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Residuals handling must consider peak solids production and weather effects. Drying beds are especially sensitive to rainfall, humidity, and loading cycles."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A final effluent sample exceeds COD concentration limits during a rain event, but flow is also three times higher than normal. What should the compliance review include?",
+    "opts": [
+      "Only concentration, because flow does not affect receiving-water load.",
+      "Only flow, because dilution makes concentration limits irrelevant.; this would not support an engineering review.",
+      "Both concentration compliance and mass load impact, with wet-weather operating conditions documented.",
+      "Neither value, because rain events should always be excluded from wastewater review."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Compliance may be written as concentration, load, or both. Process analysis should explain flow, load, and event context so corrective actions target the true cause."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A reuse project proposes sand filtration, activated carbon, reverse osmosis, and UV disinfection. Which stream should be included in the water balance but is often forgotten?",
+    "opts": [
+      "RO concentrate and filter backwash streams, including their disposal or recycle impacts.",
+      "Only reused product water, because reject streams are outside the reuse process.",
+      "Only UV-treated water, because UV creates no physical side stream.; this uses the wrong flow or concentration basis.",
+      "Only the incoming wastewater, because treatment side streams have no mass."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Reuse treatment creates reject and backwash streams with concentrated contaminants. A reuse project must account for both product water and residuals."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A reuse system treats 1,000 m³/d and recovers 70% as reusable water. What reject or residual liquid flow must be managed, ignoring backwash and losses?",
+    "opts": [
+      "Reject flow = 1,000 × (1 − 0.70) = 300 m³/d.",
+      "Reject flow = 1,000 × 0.70 = 700 m³/d, using product recovery as reject.",
+      "Reject flow = 1,000 ÷ 0.70 = 1,429 m³/d, dividing feed by recovery.",
+      "Reject flow = 70 m³/d, treating percent as m³/d."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Recovery is the product-water fraction. The unrecovered fraction must be discharged, recycled, evaporated, or otherwise managed, often with higher contaminant concentration."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A reverse-osmosis reuse system meets product-water conductivity but RO reject exceeds the biological plant's salinity tolerance when recycled. What should be done?",
+    "opts": [
+      "Recycle all reject because RO has already treated the water.; this overlooks equipment and operating limits.; this hides a relevant compliance or safety risk.",
+      "Ignore salinity because conductivity in the product water is acceptable.",
+      "Send reject to the aeration basin at the highest possible rate to dilute it quickly.",
+      "Evaluate reject segregation, controlled bleed, alternative disposal, or salinity management before recycling."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: RO concentrate can carry salts, hardness, organics, antiscalant, and metals. Recycling it can build up salinity or inhibit biological treatment unless purged or managed."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "An equalization upgrade costs $480,000 and is expected to prevent $140,000/year in surcharges and $40,000/year in production downtime. What simple payback should be reported?",
+    "opts": [
+      "Payback = (140,000 + 40,000) ÷ 480,000 = 0.38 years, using the inverse ratio.",
+      "Payback = 480,000 ÷ 140,000 = 3.4 years, omitting downtime benefit.",
+      "Payback = 480,000 ÷ (140,000 + 40,000) = 2.7 years.",
+      "Payback = 480,000 × 180,000 = 86.4 billion years, multiplying capital and savings."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Simple payback is capital divided by annual net benefit. It is a screening metric and should be paired with risk, compliance, and reliability assessment."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A blower system consumes 180 kW continuously and electricity is $0.11/kWh. What annual energy cost should be included for continuous operation?",
+    "opts": [
+      "Cost = 180 × 8,760 × 0.11 = $173,448/year.",
+      "Cost = 180 × 0.11 = $19.80/year, ignoring operating hours.",
+      "Cost = 8,760 × 0.11 = $963.60/year, ignoring blower power.",
+      "Cost = 180 ÷ 0.11 = $1,636/year, dividing by unit cost."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Continuous aeration energy is power times hours times unit price. Aeration is often one of the largest wastewater operating costs, so efficiency and control are important."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A coagulant dose is 120 mg/L at 900 m³/d, and the delivered chemical costs $0.75/kg. What daily chemical cost applies if the dose is expressed as delivered product?",
+    "opts": [
+      "Chemical mass = 120×900÷1,000 = 108 kg/d; cost = 108×0.75 = $81/d.",
+      "Chemical cost = 120×0.75 = $90/d, ignoring flow and conversion.",
+      "Chemical mass = 120×900 = 108,000 kg/d; cost = $81,000/d.",
+      "Chemical mass = 900÷120 = 7.5 kg/d; cost = $5.63/d.; this ignores the controlling load case."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Chemical operating cost requires dose, flow, conversion, and delivered product price. If dose is as active ingredient, delivered solution strength must also be included."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A compliance dashboard shows all monthly averages within limit, but several daily maximums exceed the permit. What is the process-analysis issue?",
+    "opts": [
+      "Monthly averages automatically prove daily limits are met.",
+      "Daily excursions should be ignored because treatment plants operate continuously.",
+      "The permit should be interpreted only by annual totals.; this confuses a support metric with the design result.",
+      "The plant may comply on average but fail short-term limits; both averaging periods must be tracked."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Permits may include instantaneous, daily, monthly, and loading limits. Process controls must be able to prevent short-term exceedances, not just average compliance."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A plant expansion claims no new wastewater permit risk because total water use will drop after reuse. What should be checked?",
+    "opts": [
+      "Whether pollutants concentrate in reject, sludge, or purge streams despite lower fresh-water use.",
+      "Lower fresh-water use always lowers every pollutant concentration and mass load.",
+      "Reuse eliminates all wastewater permitting questions.; this assumes ideal behavior without verification.",
+      "Only the potable-water bill matters for wastewater compliance."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Water reuse can reduce volume while increasing concentration in residual streams. Compliance and treatment capacity depend on contaminant mass and where it leaves the system."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A root-cause review sees COD spikes every Friday night after a production campaign ends. Which data set is most useful?",
+    "opts": [
+      "Annual average COD only, because weekly patterns are not useful for process analysis.",
+      "Batch schedule, cleaning records, sump flow/concentration trends, and operator diversion logs by timestamp.",
+      "Final effluent pH only, because COD spikes are always pH-driven.; this misses the required mass-balance check.",
+      "Sludge cake percent solids only, because COD spikes originate only from dewatering."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Time-correlated spikes usually require event-based data. Linking production, cleaning, flow, and sampling identifies source and pathway."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A wastewater mass balance shows 500 kg/d COD entering pretreatment, 310 kg/d to biological treatment, and 80 kg/d in removed sludge. What residual COD should be investigated?",
+    "opts": [
+      "Residual = 500 − 310 − 80 = 110 kg/d.",
+      "Residual = 310 + 80 = 390 kg/d, adding known outlet streams only.",
+      "Residual = 500 + 310 + 80 = 890 kg/d, adding input and outputs.",
+      "Residual = 500 − 310 = 190 kg/d, omitting sludge COD removal."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: A mass balance should account for all measured outlets and transformations. The residual may represent unmeasured emissions, sampling mismatch, degradation, storage change, or measurement error."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A treatment plant performs well in summer but violates ammonia limits in winter. What should a scaleup model include?",
+    "opts": [
+      "Summer performance only, because high-temperature operation proves annual capacity.",
+      "Temperature-dependent nitrification kinetics, SRT margin, oxygen demand, and alkalinity at winter conditions.",
+      "Winter dilution only, because cold weather affects flow but not biology.; this uses the wrong flow or concentration basis.",
+      "Final disinfection dose, because disinfection controls ammonia oxidation."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Winter conditions often control nitrification design. Lower temperature slows nitrifiers and can require longer SRT, more volume, or operational changes."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A proposed treatment train has one pH probe controlling all neutralization and no redundancy. What operational risk should be assessed?",
+    "opts": [
+      "No risk exists because pH probes do not drift in wastewater service.",
+      "Redundancy is needed only for flowmeters, not chemical dosing controls.",
+      "Single-instrument failure can cause chemical overdose, pH excursions, corrosion, or permit violations.",
+      "The pH probe can be replaced by operator smell checks.; this treats a symptom as the root cause.; this overlooks equipment and operating limits."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Critical online instruments need calibration, maintenance, plausibility checks, and sometimes redundancy. pH control failures can quickly create safety and compliance events."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A package plant vendor offers a guaranteed effluent COD but excludes high-salinity cleaning waste from the guarantee. What should the owner do?",
+    "opts": [
+      "Ensure the guarantee feed basis matches all real operating streams or define segregation and treatment responsibility.",
+      "Accept the guarantee because vendors always cover every future wastewater stream.",
+      "Ignore excluded streams because cleaning waste is not production wastewater.",
+      "Use the guarantee as proof that no sampling plan is needed.; this overlooks equipment and operating limits.; this hides a relevant compliance or safety risk."
+    ],
+    "correct": 0,
+    "explanation": "Engineering explanation: Guarantees are only meaningful for the stated feed basis. Excluded high-strength or toxic streams can dominate real plant performance and need a defined handling route."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A process wastewater has high heat content and enters treatment at 55°C. What integrated opportunity and risk should be evaluated?",
+    "opts": [
+      "High temperature always improves treatment and needs no cooling or review.",
+      "Heat content has no economic value because wastewater is not a utility stream.",
+      "Only final pH matters; temperature cannot affect treatment.; this hides a relevant compliance or safety risk.",
+      "Heat recovery potential, biological temperature limits, odor, corrosion, and worker exposure."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Warm wastewater can be a heat-recovery source but may inhibit biology, increase odor, accelerate corrosion, or create safety issues. Thermal integration and treatment limits should be considered together."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A carbon-footprint project replaces aeration energy with chemical oxidation, reducing electricity but increasing chemical deliveries and sludge. What is the correct analysis boundary?",
+    "opts": [
+      "Count only site electricity because offsite chemical impacts are outside the plant fence.; this omits the stated wastewater basis.",
+      "Approve the project because any electricity reduction lowers total footprint automatically.",
+      "Count only sludge mass because carbon footprint is always proportional to disposal volume.",
+      "Compare electricity, chemical manufacture/delivery, sludge handling, safety, and treatment performance on a lifecycle basis."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Sustainability decisions can shift impacts between energy, chemicals, waste, and safety. A credible analysis uses a consistent lifecycle or agreed boundary."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A final effluent sampler is installed upstream of a side-stream return line. What compliance risk does this create?",
+    "opts": [
+      "Upstream sampling is always more conservative because the water has less dilution.",
+      "The sample may not represent the actual combined discharge reaching the compliance point.",
+      "Side-stream returns cannot affect compliance if they are internal plant streams.",
+      "Sampler location matters only for drinking water plants.; this ignores the controlling load case."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Compliance samples must represent the regulated discharge location and conditions. Incorrect sampler placement can miss pollutants or misstate performance."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A plant relies on manual jar tests to set coagulant dose, but influent changes faster than operators can test. What process control upgrade should be evaluated?",
+    "opts": [
+      "Eliminate jar tests and use one fixed dose forever.; this confuses a support metric with the design result.",
+      "Dose from tank color only because visual observation is faster than instruments.",
+      "Use only final effluent results because they arrive after the process event.",
+      "Online turbidity/UV/pH/flow feed-forward with validated jar-test correlation and operator trim."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Rapid influent variability may require online indicators and feed-forward dosing. Jar tests remain valuable for calibration and troubleshooting but may be too slow for every change."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A treatment plant has no defined response when influent COD exceeds the biological design basis. What should be added?",
+    "opts": [
+      "Nothing, because operators can decide each event without written limits.",
+      "Only a final effluent sample after discharge, because early action is not needed.",
+      "An upset response plan with diversion, equalization, source notification, dose changes, and monitoring triggers.",
+      "A higher monthly average COD limit in the internal report.; this assumes ideal behavior without verification.; this misses the required mass-balance check."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Upset response plans prevent reactive decision-making. Defined triggers and actions protect biomass, equipment, safety, and permit compliance."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A plant wants N+1 redundancy for critical pumps. What does N+1 mean in this context?",
+    "opts": [
+      "Every pump runs at 1% above normal speed during all operating conditions.",
+      "One pump is installed for every unit operation, with no standby capacity.",
+      "The plant can meet duty only when all pumps are operating.; this misses the required mass-balance check.",
+      "The installed system can meet required duty with one critical unit out of service."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: N+1 redundancy provides maintainability and reliability. It should be checked against peak duty, not just average flow."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A wastewater project removes COD upstream but increases sludge hauling by 40%. What should the business case include?",
+    "opts": [
+      "Only effluent COD improvement because sludge is not part of wastewater economics.",
+      "Only the lowest capital option because operating residuals are unpredictable.; this would not support an engineering review.",
+      "Net value from effluent improvement minus added sludge dewatering, hauling, disposal, and handling costs.",
+      "Only chemical dose savings because hauling contracts are external to the plant."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Wastewater treatment shifts pollutants to effluent, gas, or sludge. Economic evaluation must include the residuals created by the treatment mechanism."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A historian dashboard has flow and pH tags but no production-state tags. What analytical limitation results?",
+    "opts": [
+      "Production-state tags are cosmetic because wastewater trends explain themselves.",
+      "Flow and pH tags alone identify every root cause.; this uses the wrong flow or concentration basis.; this treats a symptom as the root cause.",
+      "Trends cannot be reliably linked to batch steps, cleaning events, product campaigns, or abnormal discharges.",
+      "State tags are needed only for financial dashboards, not treatment analysis."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Wastewater is often event-driven. Production-state tags let analysts connect water quality to sources, operating modes, and corrective actions."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A plant reports zero exceedances after changing from grab sampling to weekly composite sampling. What should be verified?",
+    "opts": [
+      "Weekly composites prove all short-term limits are eliminated.",
+      "Whether the sampling method still captures short pH, toxicity, or slug-load events required by the compliance and process basis.",
+      "Grab samples are never valid in wastewater treatment.; this treats a symptom as the root cause.; this overlooks equipment and operating limits.",
+      "Composite samples always increase measured peak concentration."
+    ],
+    "correct": 1,
+    "explanation": "Engineering explanation: Composite samples smooth variability. They are useful for average loading but can hide short-duration excursions that matter for pH, toxicity, metals, or permit limits."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A new production line introduces a biodegradable solvent, and management assumes the existing bioreactor will handle it. What evidence is needed?",
+    "opts": [
+      "The word biodegradable proves the existing treatment plant has unlimited capacity.",
+      "Only solvent purchase volume matters; oxygen demand does not change.; this overlooks equipment and operating limits.",
+      "Treatability, toxicity, oxygen demand, acclimation, nutrient balance, and peak-load impact for the new solvent.",
+      "Final product quality data are sufficient to approve wastewater treatment."
+    ],
+    "correct": 2,
+    "explanation": "Engineering explanation: Biodegradable compounds still consume oxygen and can be toxic at high concentrations. Biological capacity must be assessed against load, kinetics, and acclimation."
+  },
+  {
+    "section": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "q": "A scaleup run will triple wastewater flow for two days per month. The plant has spare average capacity but limited equalization. What should be checked?",
+    "opts": [
+      "Annual average flow only, because monthly peaks do not affect treatment design.",
+      "Final discharge pipe diameter only, because treatment reactions are independent of flow.",
+      "Only operator staffing, because process capacity is always average-based.; this hides a relevant compliance or safety risk.",
+      "Short-duration hydraulic, pollutant, and sludge-production peaks during the campaign days."
+    ],
+    "correct": 3,
+    "explanation": "Engineering explanation: Intermittent scaleup campaigns can overload equalization, chemical feed, clarifiers, biology, and sludge handling even if monthly averages are acceptable."
+  }
+];
+const SECTIONS = [
+  {
+    "key": "Wastewater Characterization, Sampling & Process Basis",
+    "label": "I — Wastewater Characterization, Sampling & Process Basis",
+    "cls": "sec-conduction",
+    "range": "Questions 1–25"
+  },
+  {
+    "key": "Equalization, Screening & Physical Separation",
+    "label": "II — Equalization, Screening & Physical Separation",
+    "cls": "sec-convection",
+    "range": "Questions 26–50"
+  },
+  {
+    "key": "Chemical Treatment, pH Control & Precipitation",
+    "label": "III — Chemical Treatment, pH Control & Precipitation",
+    "cls": "sec-radiation",
+    "range": "Questions 51–75"
+  },
+  {
+    "key": "Biological Treatment, Nutrient Removal & Process Control",
+    "label": "IV — Biological Treatment, Nutrient Removal & Process Control",
+    "cls": "sec-hx",
+    "range": "Questions 76–100"
+  },
+  {
+    "key": "Sludge, Solids Handling, Dewatering & Residuals",
+    "label": "V — Sludge, Solids Handling, Dewatering & Residuals",
+    "cls": "sec-boiling",
+    "range": "Questions 101–125"
+  },
+  {
+    "key": "Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "label": "VI — Reuse, Compliance, Economics & Integrated Troubleshooting",
+    "cls": "sec-applications",
+    "range": "Questions 126–150"
+  }
+];
+const LETTERS=['A','B','C','D']; const TOTAL_Q=QUESTIONS.length; const EXAM_DURATION_MS=4*60*60*1000;
+let mode='guided', current=0, answers=new Array(TOTAL_Q).fill(null), locked=new Array(TOTAL_Q).fill(false), submitted=false, timedOut=false, timerInterval=null, examEndTime=null, learnerName='';
+function escapeHtml(s){return String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));}
+function sectionMeta(key){return SECTIONS.find(s=>s.key===key);}
+function fmtHMS(ms){if(ms<0)ms=0;const t=Math.floor(ms/1000),h=Math.floor(t/3600),m=Math.floor((t%3600)/60),s=t%60,p=n=>String(n).padStart(2,'0');return p(h)+':'+p(m)+':'+p(s);}
+function startTimer(){stopTimer();examEndTime=Date.now()+EXAM_DURATION_MS;document.getElementById('timerStat').style.display='';tick();timerInterval=setInterval(tick,1000);}
+function stopTimer(){if(timerInterval){clearInterval(timerInterval);timerInterval=null;}}
+function hideTimer(){stopTimer();examEndTime=null;document.getElementById('timerStat').style.display='none';document.getElementById('timerVal').textContent='04:00:00';}
+function tick(){if(!examEndTime)return;const remain=examEndTime-Date.now();document.getElementById('timerVal').textContent=fmtHMS(remain);const ts=document.getElementById('timerStat');ts.classList.toggle('crit',remain<=60000);ts.classList.toggle('warn',remain<=300000&&remain>60000);if(remain<=0){timedOut=true;submitExam();}}
+function makeCard(idx,num,globalNum){const q=QUESTIONS[idx],sec=sectionMeta(q.section),chosen=answers[idx],isLocked=locked[idx];let opts='';q.opts.forEach((o,i)=>{let cls='opt';if(isLocked){if(i===q.correct)cls+=' correct';else if(i===chosen)cls+=' wrong';}else if(i===chosen)cls+=' sel';const mark=isLocked?(i===q.correct?'✓':(i===chosen?'✗':'')):'';opts+=`<div class="${cls}" data-i="${i}" onclick="choose(${idx},${i})"><span class="letter">${LETTERS[i]}</span><span class="otext">${escapeHtml(o)}</span><span class="mark">${mark}</span></div>`;});return `<div class="q-card ${isLocked?'locked answered':(chosen!==null?'answered':'')}" id="q${idx}"><div class="q-top"><span class="q-num">Q${globalNum?idx+1:num}</span><span class="q-sect ${sec.cls}">${escapeHtml(sec.key)}</span></div><div class="q-text">${escapeHtml(q.q)}</div><div class="opts">${opts}</div><div class="${isLocked?'explain show':'explain'}" id="exp${idx}"><div class="elabel">Engineering Explanation</div><div class="ans-line">Correct Answer: ${LETTERS[q.correct]} — ${escapeHtml(q.opts[q.correct])}</div><p>${escapeHtml(q.explanation)}</p></div></div>`;}
+function build(){const exam=document.getElementById('exam');if(mode==='instant'){let html='',qi=0;SECTIONS.forEach(sec=>{html+=`<div class="section-head ${sec.cls}"><span>${escapeHtml(sec.label)}</span><span class="tag">${escapeHtml(sec.range)}</span></div>`;QUESTIONS.forEach((q,idx)=>{if(q.section===sec.key){qi++;html+=makeCard(idx,qi,false);}});});exam.innerHTML=html;}else{let html=makeCard(current,current+1,true);const last=current===TOTAL_Q-1,answered=answers[current]!==null,all=answers.every(a=>a!==null);const next=mode==='guided'?(last?`<button class="btn btn-gold" onclick="showResultsFromGuided()" ${answered?'':'disabled'}>Show Results</button>`:`<button class="btn btn-gold" onclick="nextQ()" ${answered?'':'disabled'}>Continue</button>`):(last?`<button class="btn btn-gold" onclick="submitExam()" ${all?'':'disabled'}>Submit Exam</button>`:`<button class="btn btn-gold" onclick="nextQ()">Continue</button>`);html+=`<div class="nav"><div class="left"><button class="btn btn-ghost" onclick="prevQ()" ${current===0?'disabled':''}>Back</button><button class="btn btn-ghost" onclick="resetExam(false)">Reset</button></div><div class="note">${mode==='exam'?'No feedback until submission.':'Feedback appears after selection.'}</div><div class="right">${next}</div></div>`;exam.innerHTML=html;}document.getElementById('bottomActions').innerHTML='';updateHud();}
+function choose(idx,i){if(locked[idx]||submitted)return;answers[idx]=i;if(mode==='instant'){locked[idx]=true;updateOptionUI(idx);}else if(mode==='guided'){locked[idx]=true;build();}else{build();}updateHud();}
+function updateOptionUI(idx){const q=QUESTIONS[idx],card=document.getElementById('q'+idx),chosen=answers[idx];card.classList.add('answered','locked');card.querySelectorAll('.opt').forEach(o=>{const oi=+o.dataset.i,mark=o.querySelector('.mark');o.classList.remove('sel','correct','wrong');mark.textContent='';if(oi===q.correct){o.classList.add('correct');mark.textContent='✓';}else if(oi===chosen){o.classList.add('wrong');mark.textContent='✗';}});document.getElementById('exp'+idx).classList.add('show');}
+function nextQ(){if(current<TOTAL_Q-1){current++;build();window.scrollTo({top:0,behavior:'smooth'});}}
+function prevQ(){if(current>0){current--;build();window.scrollTo({top:0,behavior:'smooth'});}}
+function updateHud(){const done=answers.filter(a=>a!==null).length;document.getElementById('progStat').innerHTML=(mode==='instant'?`Progress <b id="progCount">${done}</b>/${TOTAL_Q}`:`Question <b id="progCount">${current+1}</b>/${TOTAL_Q}`);document.getElementById('barFill').style.width=((mode==='instant'?done/TOTAL_Q:(current+1)/TOTAL_Q)*100)+'%';const sc=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'—':sc;}
+function submitExam(){if(submitted)return;locked=locked.map(()=>true);submitted=true;stopTimer();showResults();}
+function showResultsFromGuided(){submitted=true;showResults();}
+function showResults(){const sc=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0),pct=sc/TOTAL_Q;document.getElementById('rScore').textContent=sc;document.getElementById('scoreNum').textContent=sc;let grade,blurb;if(pct>=.9){grade='Wastewater Treatment Process Analysis — Distinction';blurb='Excellent command of wastewater characterization, hydraulics, physical separation, chemical treatment, biological control, sludge handling, reuse, compliance, and economics.';}else if(pct>=.8){grade='Wastewater Treatment Process Analysis — Solid Pass';blurb='Strong performance. Review missed questions to sharpen load calculations, treatment selection, process controls, sludge impacts, and compliance reasoning.';}else if(pct>=.7){grade='Wastewater Treatment Process Analysis — Competent';blurb='Good working knowledge with targeted review needed on wastewater calculations, treatment mechanisms, operating windows, and integrated decision cases.';}else if(pct>=.6){grade='Approaching Wastewater Process Readiness';blurb='Core ideas are present, but more practice is needed with mass loads, pH/chemical dosing, biological controls, sludge handling, and process economics.';}else{grade='Developing Wastewater Process Knowledge';blurb='Revisit wastewater characterization, hydraulic loading, treatment mechanisms, sludge management, compliance, and scaleup decision logic.';}document.getElementById('rGrade').textContent=grade;document.getElementById('rBlurb').textContent=blurb;document.getElementById('rTimeout').style.display=timedOut?'block':'none';const by={};QUESTIONS.forEach((q,i)=>{by[q.section]=by[q.section]||{c:0,t:0};by[q.section].t++;if(answers[i]===q.correct)by[q.section].c++;});const bd=document.getElementById('rBreak');bd.innerHTML='';SECTIONS.forEach(sec=>{const d=by[sec.key];const el=document.createElement('div');el.className='bd-item';el.innerHTML=`<div class="bd-t">${escapeHtml(sec.key)}</div><div class="bd-s">${d.c}/${d.t}</div>`;bd.appendChild(el);});document.getElementById('results').classList.add('show');if(mode==='exam'||mode==='guided')renderReviewList();else build();renderCertificate(sc,TOTAL_Q);setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth'}),200);}
+function renderReviewList(){let html='',qi=0;SECTIONS.forEach(sec=>{html+=`<div class="section-head ${sec.cls}"><span>${escapeHtml(sec.label)}</span><span class="tag">${escapeHtml(sec.range)}</span></div>`;QUESTIONS.forEach((q,idx)=>{if(q.section===sec.key){qi++;html+=makeCard(idx,qi,false);}});});document.getElementById('exam').innerHTML=html;}
+function reviewAnswers(){const exam=document.getElementById('exam');if(exam.firstElementChild)exam.firstElementChild.scrollIntoView({behavior:'smooth'});}
+function setMode(m){mode=m;document.getElementById('mode-guided').classList.toggle('active',m==='guided');document.getElementById('mode-instant').classList.toggle('active',m==='instant');document.getElementById('mode-exam').classList.toggle('active',m==='exam');document.getElementById('modeHint').textContent=m==='guided'?'Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.':m==='instant'?'Instant Feedback: all 150 questions on one page. Each answer reveals the explanation immediately.':'Exam Mode: one question at a time. 4-hour countdown; feedback and score are hidden until final submission.';resetExam(false);}
+function resetExam(jump){current=0;answers=new Array(TOTAL_Q).fill(null);locked=new Array(TOTAL_Q).fill(false);submitted=false;timedOut=false;document.getElementById('results').classList.remove('show');hideCertificate();if(mode==='exam')startTimer();else hideTimer();build();if(jump)window.scrollTo({top:0,behavior:'smooth'});}
+function requestExamName(){if(learnerName){setMode('exam');return;}document.getElementById('nameModal').classList.add('show');setTimeout(()=>document.getElementById('nameInput').focus(),50);}
+function closeNameModal(){document.getElementById('nameModal').classList.remove('show');}
+function startExamFromModal(){const n=document.getElementById('nameInput').value.trim();if(!n){document.getElementById('nameInput').focus();return;}learnerName=n;document.getElementById('certNameInput').value=n;updateCertName(n);closeNameModal();setMode('exam');}
+function hashCode(str){let h=0;for(let i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+function updateCertName(n){document.getElementById('certName').textContent=(n||'').trim()||'Learner';}
+function hideCertificate(){document.getElementById('certificate').classList.remove('show');}
+function renderCertificate(sc,total){const n=learnerName||document.getElementById('certNameInput').value.trim()||'Learner';const date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});updateCertName(n);document.getElementById('certNameInput').value=n;document.getElementById('certScore').textContent=`${sc} / ${total} (${Math.round(sc/total*100)}%)`;document.getElementById('certDate').textContent=date;document.getElementById('certId').textContent='CHML-'+hashCode('WWT|'+n+'|'+date+'|'+sc+'|'+total);document.getElementById('certificate').classList.add('show');}
+(function validate(){const errors=[];if(QUESTIONS.length!==150)errors.push('Expected 150 questions, found '+QUESTIONS.length);const keys=new Set(SECTIONS.map(s=>s.key));QUESTIONS.forEach((q,i)=>{if(!keys.has(q.section))errors.push('Question '+(i+1)+' unknown section');if(!Array.isArray(q.opts)||q.opts.length!==4)errors.push('Question '+(i+1)+' option count');if(![0,1,2,3].includes(q.correct))errors.push('Question '+(i+1)+' invalid correct index');});if(errors.length){document.getElementById('exam').innerHTML='<div class="q-card"><h2>Validation error</h2><p>'+errors.map(escapeHtml).join('<br>')+'</p></div>';throw new Error(errors.join('; '));}})();
+build();updateHud();
+</script>
+</body>
+</html>

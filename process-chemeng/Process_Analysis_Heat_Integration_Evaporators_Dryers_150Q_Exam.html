@@ -1,0 +1,1960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Process Analysis of Heat Integration of Evaporators and Dryers · 150Q Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;--paper:#efece4;--paper2:#e3e0d3;--gold:#8b6526;--gold-deep:#684a0f;
+  --green:#2f6b4f;--green-soft:#e1ece4;--red:#a8412f;--red-soft:#f3e3df;
+  --line:#cdc6b1;--shadow:rgba(20,18,8,.14);
+  --c1:#6b2d2d;--c2:#0e5f73;--c3:#7a5b12;--c4:#264c86;--c5:#5e2a7e;--c6:#26633a;
+}
+*{box-sizing:border-box;margin:0;padding:0} html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;background:
+  radial-gradient(circle at 12% 6%,rgba(14,95,115,.08),transparent 38%),
+  radial-gradient(circle at 90% 96%,rgba(90,37,133,.06),transparent 42%),var(--paper);
+  color:var(--ink);line-height:1.6;padding:0 0 80px;
+}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.45;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E")}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 22px}
+.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.15rem,5.4vw,3.55rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin:0 auto 22px;max-width:820px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 22px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;padding:12px 22px;border:1px solid var(--line);background:rgba(255,255,255,.42)}
+.modebar{display:flex;justify-content:center;margin:26px auto 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:0;background:transparent;cursor:pointer;color:#5a5246}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c6));transition:width .35s;border-radius:99px}
+.stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;white-space:nowrap}.stat b{font-size:.95rem;color:var(--gold-deep)}.sc-correct{color:var(--green)!important}.timer.warn b,.timer.crit b{color:#b8341a}.timer.crit b{animation:blink 1s infinite}@keyframes blink{50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.14rem;color:#fff;display:flex;justify-content:space-between;gap:14px;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-conduction{background:linear-gradient(100deg,var(--c1),#4d1f23)}.sec-convection{background:linear-gradient(100deg,var(--c2),#06403f)}.sec-radiation{background:linear-gradient(100deg,var(--c3),#5f3406)}.sec-hx{background:linear-gradient(100deg,var(--c4),#0c2349)}.sec-boiling{background:linear-gradient(100deg,var(--c5),#311148)}.sec-applications{background:linear-gradient(100deg,var(--c6),#0e3d18)}
+.q-card{background:rgba(255,255,255,.62);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05)}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}.q-card.locked .opt{pointer-events:none;cursor:default}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);min-width:54px}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.06rem;line-height:1.62;margin-bottom:18px;font-weight:500}.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:12px 14px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.58);transition:.18s;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.08);transform:translateX(2px)}.q-card.locked .opt:hover{transform:none}
+.letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);margin-top:1px}
+.otext{flex:1;font-size:1rem;line-height:1.55;word-break:break-word;padding-top:2px}.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.12)}.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:.3s;align-self:center;font-family:'JetBrains Mono',monospace}.opt.correct .mark{opacity:1;color:var(--green)}.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s,opacity .4s,margin .4s,padding .4s;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:1200px;opacity:1;margin-top:16px;padding:15px 18px}.elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px}.ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:0;border-radius:3px;cursor:pointer}.btn-gold{background:var(--ink);color:var(--paper)}.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}.btn:disabled{background:#928a76;color:#e3ddc9;border-color:#928a76;cursor:not-allowed}.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}.results.show{display:block}.rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}.score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1}.score-big span:last-child{font-size:2rem;color:#7a705c}.grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}.blurb{max-width:620px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}.timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-weight:600}.breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:160px}.bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}.bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+.cert{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px}.cert.show{display:block}.cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px}.cert input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px}.cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer}.cert-btn.secondary{background:transparent;color:#1c1a17}.cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18)}.cert-border{border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed,#f0e7d2);text-align:center}.cert-h1{font-family:Georgia,serif;font-size:2.45rem}.cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;margin:12px 0;color:#1c1a17;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px}.cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0;flex-wrap:wrap}.cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28}.cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.25rem}.cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap}.sig{text-align:left}.sig-line{font-family:Georgia,serif;font-style:italic;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px}.sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a}.cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em}
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px)}.modal.show{display:flex}.modal-card{background:#f4efe6;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25)}.modal-card h2{font-family:Georgia,serif;font-size:1.5rem;margin-bottom:8px}.modal-card p{color:#6b5f4a;margin-bottom:16px}.modal-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28}.modal-card input{width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+@media(max-width:560px){.q-card{padding:20px 16px}.q-text{font-size:.98rem}.otext{font-size:.92rem}.score-big{font-size:3.5rem}.section-head{flex-direction:column}.modebar{flex-direction:column;border-radius:8px;width:100%}.modebar button{width:100%}}
+@media print{body>*:not(#certificate){display:none!important}#certificate{display:block!important;position:fixed!important;inset:0!important;margin:0!important;max-width:none!important}.cert-toolbar{display:none!important}@page{size:landscape;margin:6mm}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="masthead">
+  <div class="kicker">Process Analysis · Heat Integration of Evaporators and Dryers · 150-Question Exam</div>
+  <h1 class="title">Process Analysis of <span class="amp">Heat Integration of Evaporators and Dryers</span> Exam</h1>
+  <div class="byline">150 practical scenario and calculation questions covering evaporation and drying mass balances, boiling-point elevation, multiple-effect systems, MVR, condensate recovery, dryer psychrometrics, exhaust heat recovery, pinch analysis, exchanger networks, fouling, controls, safety, economics, and integrated utility optimization.</div>
+  <div class="exambar"><span><b>150</b> Questions</span><span><b>4</b> Options Each</span><span><b>1</b> Mark per Question</span><span>Total: <b>150</b> Marks</span><span>Exam Mode: <b>4 hr</b> timer</span></div>
+</header>
+<div class="modebar" role="tablist"><button id="mode-guided" onclick="setMode('guided')" class="active">Guided Path</button><button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button><button id="mode-exam" onclick="requestExamName()">Exam Mode</button></div>
+<p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+<div class="hud"><span class="stat" id="progStat">Question <b id="progCount">1</b>/150</span><div class="bar-track"><div class="bar-fill" id="barFill"></div></div><span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span><span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">04:00:00</b></span></div>
+<main id="exam"></main><div class="actions" style="margin-top:34px" id="bottomActions"></div>
+<section class="results" id="results"><div class="rk">Your Result</div><div class="score-big"><span id="rScore">0</span><span>/150</span></div><div class="grade" id="rGrade"></div><p class="timeout-note" id="rTimeout" style="display:none">Time expired — exam auto-submitted at the 4-hour limit.</p><p class="blurb" id="rBlurb"></p><div class="breakdown" id="rBreak"></div><div class="actions"><button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button><button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button></div></section>
+<footer>Process Analysis · Heat Integration of Evaporators and Dryers · 150-question exam<div class="disclaimer">Educational mock exam for professional training. Verify stream data, product moisture limits, boiling-point elevation, fouling margins, exchanger materials, utility pressures, relief and vent assumptions, dust/VOC hazards, site procedures, and management-of-change requirements before applying any heat-integration concept in real design or operation.</div></footer>
+</div>
+<div id="nameModal" class="modal" onclick="if(event.target===this)closeNameModal()"><div class="modal-card"><h2>Begin Exam Mode</h2><p>Enter the learner name for the certificate. The 4-hour timer starts after you click Start Exam.</p><label for="nameInput">Learner name</label><input id="nameInput" maxlength="80" placeholder="Enter learner name" onkeydown="if(event.key==='Enter')startExamFromModal(); if(event.key==='Escape')closeNameModal();"><div class="modal-actions"><button class="cert-btn secondary" onclick="closeNameModal()">Cancel</button><button class="cert-btn" onclick="startExamFromModal()">Start Exam</button></div></div></div>
+<div id="certificate" class="cert"><div class="cert-toolbar"><label>Certificate name <input id="certNameInput" oninput="updateCertName(this.value)" placeholder="Enter name"></label><button class="cert-btn" onclick="window.print()">Print / Save as PDF</button><button class="cert-btn secondary" onclick="hideCertificate()">Hide Certificate</button></div><div class="cert-paper"><div class="cert-border"><div style="font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28">Process Analysis of Heat Integration of Evaporators and Dryers Exam</div><h1 class="cert-h1">Certificate of Completion</h1><p style="font-style:italic;color:#6b5f4a">This certifies that</p><p class="cert-name" id="certName">Learner</p><p>has successfully completed the <b>Process Analysis of Heat Integration of Evaporators and Dryers Exam</b>.</p><div class="cert-stats"><div><div class="cert-stat-l">Score</div><div class="cert-stat-v" id="certScore">0 / 150</div></div><div><div class="cert-stat-l">Date</div><div class="cert-stat-v" id="certDate">-</div></div></div><div class="cert-foot"><div class="sig"><div class="sig-line">Quak Foo Lee</div><div class="sig-label">Chmltech Ltd.</div></div><div class="cert-id">Certificate ID: <span id="certId">-</span></div></div></div></div></div>
+<script>
+const QUESTIONS = [
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "An operations team wants to integrate a triple-effect evaporator with a spray dryer. What objective function should be set before changing operating targets?",
+    "opts": [
+      "Optimize evaporator outlet solids only, because lower dryer feed water always gives the best plant result.",
+      "Optimize total cost per saleable kg, including steam, dryer fuel, yield, quality, fouling, emissions, and safety limits.",
+      "Optimize dryer inlet temperature only, because higher air temperature always reduces total energy cost.",
+      "Optimize live-steam flow only, because the dryer and quality effects can be corrected after operation, for the retrofit."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: The useful target is whole-process value, not a single unit target. Evaporator concentration can change dryer load, quality, viscosity, fouling, and safety margins."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "A dryer exhaust stream is proposed as a heat source for evaporator feed preheating. Which data set is the minimum defensible starting point?",
+    "opts": [
+      "Stack height, fan colour, access ladder, duct label, roof clearance, and platform dimensions, for this review.",
+      "Packing rate, pallet count, label stock, dispatch route, warehouse queue, and forklift access.",
+      "Boiler age, invoice date, condensate tank size, operator roster, and utility billing contact.",
+      "Exhaust flow, humidity, temperature profile, dust load, dew point, available hours, and feed heating demand."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: A real match needs heat quantity, temperature level, latent behaviour, fouling risk, and time overlap with the cold stream."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "Evaporator feed and dryer feed are reported as wet tonnes per hour, but the production target is dry solids. What basis should the heat-integration model use?",
+    "opts": [
+      "Use a dry-solids basis first, then calculate water evaporation and product moisture on one consistent basis.",
+      "Use a wet-feed basis only, then compare steam and air duties without correcting solids loading.",
+      "Use final bag count only, then infer energy savings from the packaging schedule and pallet mass.",
+      "Use boiler fuel only, then compare utility invoices without closing the material balance, under plant conditions."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Water removal and heat duty depend on dry-solids conservation. Wet mass alone can hide concentration or moisture changes."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "Hot condensate from an evaporator is drained while the dryer make-up air heater uses live steam. What first screen should be performed?",
+    "opts": [
+      "Install the exchanger immediately, because all hot condensate recovery is automatically profitable.",
+      "Ignore condensate recovery, because only vapour streams count in heat-integration studies, under plant conditions.",
+      "Estimate recoverable condensate sensible heat, temperature level, cleanliness, demand timing, and return value.",
+      "Use condensate for product contact directly, because high temperature proves the stream is clean."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Condensate can be valuable, but its temperature, cleanliness, hydraulics, and time match must be proven."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "A preliminary evaporator model ignores boiling-point elevation for a concentrated syrup. Why can this mislead the heat-integration target?",
+    "opts": [
+      "Boiling-point elevation only changes pump NPSH and has no effect on heat-transfer design.",
+      "Boiling-point elevation raises liquor boiling temperature, reducing useful ΔT and increasing required area.",
+      "Ignoring boiling-point elevation is conservative because it always predicts lower heat recovery.",
+      "Boiling-point elevation matters only to taste and never changes effect pressure targets, under plant conditions."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Boiling-point elevation consumes temperature driving force, especially at high solids and in later effects."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "The dryer runs well in winter but loses capacity in summer when ambient air is warmer and more humid. What should the integration study include?",
+    "opts": [
+      "Seasonal psychrometric cases for humidity, wet-bulb temperature, exhaust condition, fan load, and moisture margin.",
+      "Winter operation only, because it represents the largest heating duty for the air heater, with safeguards unchanged.",
+      "Dry-bulb temperature only, because moisture in ambient air does not affect drying capacity.",
+      "One annual average condition, because dryer heat balances are independent of humidity swings."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Drying potential depends strongly on humidity and wet-bulb temperature, not only dry-bulb temperature."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "A food powder discolours above a particle-temperature limit, but the energy team proposes higher dryer inlet-air temperature. What target is appropriate?",
+    "opts": [
+      "Use the highest inlet-air temperature, because faster drying always lowers total utility use.",
+      "Use the lowest steam flow, because final moisture testing will catch any quality issue later.",
+      "Use the current air temperature only, because heat-integration changes cannot affect colour, with safeguards unchanged.",
+      "Set an operating window using product temperature, moisture profile, residence time, heat recovery, and quality limits."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Heat integration must preserve product quality. Particle temperature and residence history can be more important than inlet-air temperature alone."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "An exhaust recirculation scheme reduces fuel in a spreadsheet, but exhaust humidity and oxygen concentration were not included. What is the concern?",
+    "opts": [
+      "Recirculation always improves drying because hotter exhaust contains useful heat.",
+      "Humidity can be ignored if the burner duty decreases in the fuel calculation, under plant conditions.",
+      "Recirculation may reduce drying driving force and alter oxygen, VOC, odour, or dust safety margins.",
+      "Oxygen concentration matters only in furnaces, not in product dryers or exhaust ducts."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Recirculation changes gas composition as well as heat content. Humidity and flammability limits must be checked."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "An evaporator heat-transfer coefficient declines after several days, and operators increase steam pressure to maintain rate. What should be added to the basis?",
+    "opts": [
+      "Dirty U, fouling rate, cleaning interval, pressure-drop change, product quality, and steam-pressure limit.",
+      "Clean U only, because fouling is a maintenance item outside the energy calculation.",
+      "First-day steam rate only, because it shows the best heat-recovery potential, for this review, before approval.",
+      "Maximum steam pressure only, because higher pressure restores all lost performance safely."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Sustained savings depend on dirty performance and cleaning, not clean start-up operation."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "A plant proposes to use evaporator vapour to heat dryer inlet air through a coil. What temperature-level check is essential?",
+    "opts": [
+      "Vapour mass flow alone is sufficient, because latent heat can heat any air stream to any target.",
+      "Vapour condensing temperature must exceed required air temperature plus coil approach and fouling margin.",
+      "Dryer fan speed alone is sufficient, because airflow fixes the heat-source temperature, for the retrofit.",
+      "Condensate return pressure alone is sufficient, because it defines the entire coil duty."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: A heat source must be hot enough at realistic approach temperatures; total kW alone is not enough."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "A direct-contact recovery idea would mix dryer exhaust with fresh product feed slurry. Why is this proposal high risk?",
+    "opts": [
+      "It is always safer than indirect heat exchange because no heat-transfer surface can foul.",
+      "It eliminates all contamination risk because hot exhaust sterilizes the feed slurry, for this review.",
+      "It should be approved if the recovered heat duty is larger than the feed preheat duty.",
+      "It can transfer dust, odour, solvent, microbes, or corrosion products into a product-contact stream."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Direct contact removes a barrier between streams, so contamination and product safety dominate the feasibility screen."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "An evaporator feed preheater uses recovered condensate, and feed flashes in the suction line to the feed pump. What should be reviewed?",
+    "opts": [
+      "Only the recovered duty, because hotter feed always improves pump reliability, under plant conditions.",
+      "Only the condensate temperature, because suction pressure cannot affect flashing.",
+      "NPSH, pressure profile, flashing margin, control valve location, bypass logic, and pump protection.",
+      "Only final product solids, because preheater hydraulics are outside heat integration."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Heat recovery can create hydraulic problems if liquid is heated near its boiling point before a pump."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "A multiple-effect evaporator model uses nominal effect pressures, but plant data show unstable vacuum and air leakage. What is the main consequence?",
+    "opts": [
+      "Only vacuum-pump power changes, while evaporator heat transfer remains fixed, for this review, before approval.",
+      "Actual boiling temperatures, ΔT distribution, condenser duty, and steam economy may differ from the model.",
+      "Air leakage improves vapour-side turbulence and therefore raises steam economy.",
+      "Nominal pressure is sufficient if the final product concentration is on target."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Pressure profile determines boiling temperature and inter-effect driving force. Air leakage also affects condensation and condenser load."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "A dryer exhaust exchanger fouls rapidly, so operators bypass it halfway through each run. What metric should replace nameplate recovery?",
+    "opts": [
+      "Vendor clean duty, because fouling does not belong in an energy-benefit calculation.",
+      "First-hour recovery only, because it proves the exchanger can reach design performance.",
+      "Installed surface area only, because duty is too variable to include in economics, under plant conditions.",
+      "Average recovered duty over the full run, including bypass time, cleaning time, and fan-power penalty."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: The business case should use sustained dirty-duty performance and the real operating pattern."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "Steam-trap surveys find traps blowing live steam into the condensate return header. Why does this matter for integration analysis?",
+    "opts": [
+      "Live-steam leakage distorts steam balance, condensate temperature, flash losses, and savings attribution.",
+      "Live-steam leakage improves recovery because hotter condensate always gives free energy.",
+      "Trap leakage affects maintenance only and should not change utility targeting.",
+      "Trap leakage can be ignored if boiler-house fuel is measured monthly, for the retrofit, during operation."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Trap faults can make condensate appear hotter and steam use appear different from the process duty."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "A batch tray dryer is the main heat sink, while the evaporator is continuous. What integration issue must be solved before piping recovered vapour to the dryer heater?",
+    "opts": [
+      "Pipe diameter only, because continuous heat sources automatically match batch heat sinks.",
+      "Exchanger metallurgy only, because scheduling has no effect on recovered duty.",
+      "Source-sink timing, storage, bypass, backup heat, and control during dryer idle periods.",
+      "Dryer loading paperwork only, because vapour can be vented without economic impact."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Heat recovery needs time overlap. Otherwise the system needs storage, alternative sinks, or controlled bypass."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "A hygroscopic powder meets dryer moisture specification but absorbs water while cooling in humid plant air. What should the study include?",
+    "opts": [
+      "Dryer outlet moisture only, because moisture pickup after discharge is not a process issue.",
+      "Boiler steam pressure only, because post-dryer cooling does not affect product quality.",
+      "Bag weight only, because hygroscopic pickup is corrected during warehouse storage, under plant conditions.",
+      "Cooling-air humidity, product temperature, residence time, packaging delay, and final water activity."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Integrated drying performance may extend through cooling and packaging when product is hygroscopic."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "Feed viscosity increases sharply near the proposed evaporator outlet solids, and dryer nozzles plug more often. What should define the concentration target?",
+    "opts": [
+      "The maximum evaporator solids, because less water to the dryer always improves the system.",
+      "A window balancing evaporator duty, viscosity, atomization, dryer load, fouling, and product quality.",
+      "The minimum dryer temperature, because atomization problems are unrelated to concentration.",
+      "The lowest steam flow, because nozzle plugging can be corrected by maintenance cleaning, for this review."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Evaporator concentration affects downstream handling and dryer performance, so the target must be system-wide."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "Only total boiler-house gas use is metered, but the site has several evaporators, dryers, CIP heaters, and building loads. What should be done before claiming retrofit savings?",
+    "opts": [
+      "Submeter or reconcile unit duties against production, moisture removal, weather, and operating state.",
+      "Use total boiler gas directly, because one meter gives the most complete energy picture.",
+      "Use vendor savings only, because plant metering is too broad to support analysis, under plant conditions.",
+      "Use monthly production tonnes only, because heat recovery is independent of product mix."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Savings claims need a baseline that separates the affected units from unrelated utility loads."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "A vendor proposes mechanical vapour recompression for an evaporator. Which items belong in the feasibility screen?",
+    "opts": [
+      "Compressor colour, baseplate size, vendor logo, spare bolts, and shipping route, under plant conditions.",
+      "Steam price only, because compressor power and turndown do not affect MVR economics.",
+      "Vapour flow, temperature lift, compressor map, power cost, turndown, fouling, materials, and controls.",
+      "Final product solids only, because MVR always gives the same utility benefit at any load."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: MVR feasibility depends on thermodynamics, compressor operability, electricity cost, and process reliability."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "Condensate from one evaporator effect sometimes contains volatile product due to entrainment. What should the heat-integration design do?",
+    "opts": [
+      "Return all condensate to the boiler, because hot condensate is automatically clean.",
+      "Segregate suspect condensate, monitor quality, provide diversion, and avoid unsafe product-contact reuse.",
+      "Use suspect condensate in feed heating, because dilution removes product carryover risk.",
+      "Ignore the issue if the heat exchanger is indirect and the energy saving is large, under plant conditions."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Condensate quality affects boiler return, product-contact heating, wastewater, and safety."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "A heat-integration study recommends moving heat from below the process pinch to a cold stream above the pinch. What is the likely issue?",
+    "opts": [
+      "The match can violate pinch rules and increase both hot and cold utility demand.",
+      "The match is always preferred because every process-to-process exchanger saves utilities.",
+      "The match affects only capital cost and cannot change minimum utility targets.",
+      "The match is acceptable if exchanger area is large enough to reach zero approach."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Across-pinch heat transfer destroys the separation of heat-surplus and heat-deficit regions."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "A vacuum evaporator loses capacity after a door gasket leak develops, and the condenser load rises. What mechanism should be considered?",
+    "opts": [
+      "Air leakage adds useful cooling, so condenser duty should fall after the leak appears.",
+      "Only feed solids change, because vacuum leakage cannot affect vapour condensation, for this review, before approval.",
+      "Only mechanical noise changes, because air ingress is unrelated to heat-transfer stability.",
+      "Air ingress adds noncondensables, worsens heat transfer, changes boiling temperature, and loads the condenser."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Air leaks add noncondensables and destabilize vacuum, reducing condensation coefficients and increasing condenser load."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "A plant trial changes evaporator outlet solids, dryer inlet temperature, and exhaust recirculation in the same week. What is the main analysis limitation?",
+    "opts": [
+      "The result proves all three changes are beneficial if total fuel use decreases, for this review.",
+      "The evaporator change must be the cause, because concentration always dominates.",
+      "The effects are confounded, so the trial cannot identify individual effects or interactions.",
+      "The dryer change must be the cause, because air temperature is the only fuel driver."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Multiple simultaneous changes can screen possibilities, but they do not prove causality."
+  },
+  {
+    "section": "Heat Integration Basis, Objectives & Plant Data",
+    "q": "A dryer exhaust heat pump is proposed, but low-pressure evaporator vapour may satisfy the same heat sink. What comparison is needed?",
+    "opts": [
+      "Compare each heat sink on temperature level, duty, electricity, steam value, controls, reliability, and carbon.",
+      "Select the heat pump automatically, because heat pumps always outperform process vapour reuse.",
+      "Select process vapour automatically, because existing vapour has no opportunity cost, with safeguards unchanged.",
+      "Compare installed cost only, because operating energy and carbon are secondary to approval."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Competing heat sources should be evaluated on the same sink basis, including temperature level and net utility impact."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "A syrup evaporator receives 12,000 kg/h feed at 12.0% total solids and sends product at 45.0% solids. With no solids loss, how much water is evaporated?",
+    "opts": [
+      "Evaporated water = 12,000 − (12,000×0.12/0.45) = 8,800 kg/h.",
+      "Evaporated water = 12,000×(0.45−0.12) = 3,960 kg/h.",
+      "Evaporated water = 12,000×0.45 = 5,400 kg/h, in stated units.",
+      "Evaporated water = 12,000×0.12/0.45 = 3,200 kg/h."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Solids are conserved. The feed contains 1,440 kg/h solids, so product flow is 1,440/0.45 = 3,200 kg/h and water removed is 12,000 − 3,200 = 8,800 kg/h."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "A concentrate leaves an evaporator at 2,250 kg/h and 40.0% solids. If the feed was 10.0% solids, what feed flow entered the evaporator?",
+    "opts": [
+      "Feed flow = 2,250×0.10/0.40 = 563 kg/h.",
+      "Feed flow = 2,250×(0.40−0.10) = 675 kg/h.",
+      "Feed flow = product solids/feed solids = 2,250×0.40/0.10 = 9,000 kg/h.",
+      "Feed flow = 2,250/0.40 = 5,625 kg/h, on the same basis, before losses."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Product solids are 900 kg/h. Dividing by the feed solids fraction gives 9,000 kg/h feed."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "A single-effect evaporator handles 8,000 kg/h feed heated from 25°C to 80°C and evaporates 5,000 kg/h water. With cp = 3.8 kJ/kg·K and latent heat = 2250 kJ/kg, what total duty is required?",
+    "opts": [
+      "Duty = 5,000×2250/3600 = 3,125 kW, in stated units.",
+      "Duty = [8,000×3.8×55 + 5,000×2250]/3600 = 3,589 kW.",
+      "Duty = 8,000×3.8×55/3600 = 464 kW.",
+      "Duty = [8,000×55 + 5,000×2250]/3600 = 3,247 kW."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: The required load includes sensible heating of the feed and latent heat for evaporated water. Both terms must be converted from kJ/h to kW."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "An evaporator requires 4,600 kW from condensing steam. If usable steam latent heat is 2100 kJ/kg, what steam rate is required?",
+    "opts": [
+      "Steam rate = 4,600/2100 = 2.19 kg/h.",
+      "Steam rate = 2100×3600/4,600 = 1,643 kg/h.",
+      "Steam rate = 4,600×2100/3600 = 2,683 kg/h.",
+      "Steam rate = 4,600×3600/2100 = 7,886 kg/h."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Convert kW to kJ/h and divide by latent heat. This gives the required mass flow of steam."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "An evaporator effect transfers 1.20 MW through a calandria with U = 1050 W/m²·K and effective ΔT = 16 K. What heat-transfer area is implied?",
+    "opts": [
+      "Area = 1,200/(1050×16) = 0.071 m².",
+      "Area = 1,200,000/(1050×16) = 71.4 m².",
+      "Area = 1050×16/1,200,000 = 0.014 m².",
+      "Area = 1,200,000×16/1050 = 18,286 m²."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Use Q = U A ΔT with Q in watts. The unit conversion from MW to W is essential."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "Heating vapour condenses at 110°C. The liquor pressure gives a pure-water boiling point of 78°C, and boiling-point elevation is 7 K. What useful temperature driving force remains?",
+    "opts": [
+      "Useful ΔT = 110 − (78 + 7) = 25 K.",
+      "Useful ΔT = 110 − 78 = 32 K.",
+      "Useful ΔT = 110 − 7 = 103 K.",
+      "Useful ΔT = 78 + 7 = 85 K, before losses."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: The liquor boils above the pure-water saturation temperature by the boiling-point elevation, reducing useful driving force."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "A unit removes 9,600 kg/h of water while using 3,500 kg/h live steam. What steam economy should be reported?",
+    "opts": [
+      "Economy = 3,500/9,600 = 0.36 kg water/kg steam.",
+      "Economy = 9,600−3,500 = 6,100 kg/h.",
+      "Economy = 9,600+3,500 = 13,100 kg/h.",
+      "Economy = 9,600/3,500 = 2.74 kg water/kg steam."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Steam economy is water evaporated divided by live steam consumed on a consistent mass basis."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "An evaporator feed is 7,200 kg/h at 18% solids. If 3,500 kg/h water is removed, what solids concentration leaves the unit?",
+    "opts": [
+      "Outlet solids = 18% + 3,500/7,200 = 66.6%.",
+      "Outlet solids = 7,200×0.18/3,500 = 37.0%, before losses.",
+      "Outlet solids = 7,200×0.18/(7,200−3,500) = 35.0%.",
+      "Outlet solids = 18%×(7,200−3,500)/7,200 = 9.3%."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Solids remain 1,296 kg/h while total product flow falls to 3,700 kg/h, so solids are 35.0%."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "A feed preheater is added upstream of an evaporator, but the evaporator steam flow does not fall by the full preheater duty. What balance check should be made?",
+    "opts": [
+      "Separate sensible preheat, flashing, live-steam duty, and vapour recompression before assigning savings.",
+      "Count the preheater duty and evaporator latent duty as two independent steam savings.",
+      "Use boiler fuel reduction only and ignore feed temperature measurements during the trial.",
+      "Assume all recovered heat raises evaporation rate even when feed rate is unchanged, under plant conditions."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Recovered preheat normally displaces sensible load first. Savings should be reconciled across feed temperature, steam rate, vapour load, and product concentration."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "A vacuum evaporator is run at lower pressure to protect flavour, but the condenser load rises sharply. What physical effect should be included in the analysis?",
+    "opts": [
+      "Lower pressure always reduces condenser duty because the boiling point is lower.",
+      "Lower boiling temperature can increase vapour volume and noncondensable load handled by the condenser.",
+      "Vacuum level affects flavour only and should be excluded from the energy balance.",
+      "Condenser load should be fixed at design value unless steam pressure changes, with safeguards unchanged."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Vacuum operation changes boiling temperature, vapour specific volume, air leakage sensitivity, and condenser duty."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "Condensate from an evaporator effect shows high conductivity after a rate increase. What is the most useful first check?",
+    "opts": [
+      "Route all condensate to the boiler immediately because high temperature proves purity.",
+      "Raise steam pressure to force salts back into the product liquor during boiling.",
+      "Ignore conductivity if the evaporator still meets the water-removal target, for this review.",
+      "Check entrainment, demister condition, vapour velocity, and condensate sampling location."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Contaminated condensate often indicates entrainment or carryover. Heat integration must not reuse suspect condensate without quality control."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "A feed stream of 10,000 kg/h is preheated from 30°C to 70°C before evaporation. With cp = 4.0 kJ/kg·K, what sensible duty is supplied?",
+    "opts": [
+      "Sensible duty = 10,000×40/3600 = 111 kW.",
+      "Sensible duty = 4.0×40 = 160 kW, before losses.",
+      "Sensible duty = 10,000×4.0×40/3600 = 444 kW.",
+      "Sensible duty = 10,000×4.0/40 = 1,000 kW."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Sensible heat is mass flow times heat capacity times temperature rise, converted from kJ/h to kW."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "A concentrated liquor shows rapidly rising boiling-point elevation near final solids. Why does this matter to heat integration?",
+    "opts": [
+      "It increases useful ΔT, so the last effect always becomes easier to heat, for this review.",
+      "It reduces useful ΔT and can lower capacity even when steam pressure is unchanged.",
+      "It affects laboratory density only and not evaporator heat-transfer duty.",
+      "It can be ignored when the product concentration is measured by solids testing."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Boiling-point elevation raises the liquor boiling temperature and consumes part of the available temperature difference."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "A fouled evaporator has U = 850 W/m²·K instead of the clean value of 1300 W/m²·K. At the same area and ΔT, what fraction of clean duty remains?",
+    "opts": [
+      "Duty fraction = 1300/850 = 153% of clean duty.",
+      "Duty fraction = (1300−850)/1300 = 34.6% of clean duty.",
+      "Duty fraction = 850×1300/1000 = 1105% of clean duty.",
+      "Duty fraction = 850/1300 = 65.4% of clean duty."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: At fixed area and temperature difference, heat duty is proportional to U. Fouling therefore directly reduces capacity."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "Clean condensate of 5,000 kg/h cools from 95°C to 60°C in a feed preheater. With cp = 4.2 kJ/kg·K, what heat is recovered?",
+    "opts": [
+      "Recovered heat = 5,000×4.2×35/3600 = 204 kW.",
+      "Recovered heat = 5,000×35/3600 = 48.6 kW.",
+      "Recovered heat = 4.2×35 = 147 kW, before losses.",
+      "Recovered heat = 5,000×4.2/35 = 600 kW."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Condensate sensible heat can be recovered if cleanliness, hydraulics, and temperature approach are acceptable."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "A trial claims an evaporator needs less heat than the measured evaporation and feed preheat require. What should be checked before accepting the result?",
+    "opts": [
+      "Accept the lower duty because plant data always override material and energy balances.",
+      "Use final product solids alone because steam and condensate meters are not part of quality.",
+      "Reconcile steam meters, condensate traps, product solids, vent losses, and recovered-heat credits.",
+      "Assign the difference to operator skill and remove the batch from utility analysis, for this review."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: An energy balance should close within reasonable uncertainty. Meter errors, traps, vents, and uncounted heat recovery are common causes of mismatch."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "A steam-pressure reduction is proposed for an evaporator to save energy. What determines the lowest practical pressure?",
+    "opts": [
+      "Only the steam-header minimum pressure, because all effects use the same heat duty, for this review.",
+      "Only the clean heat-transfer coefficient, because fouling is handled by maintenance.",
+      "Only the product solids target, because boiling temperature is independent of pressure.",
+      "Required boiling temperature, BPE, dirty U, area, vapour pressure drop, and product-quality limit."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Steam pressure sets condensing temperature. The feasible limit depends on temperature approach, fouling, pressure drops, and product constraints."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "Feed flashes when it enters a vacuum evaporator after upstream heat recovery. How should this be treated in the model?",
+    "opts": [
+      "Ignore the flash because the heat was recovered before the feed entered the evaporator.",
+      "Include flash vapour in the vapour-body and condenser loads, not only in the preheater balance.",
+      "Count flashed vapour as extra product water and leave condenser duty unchanged, for this review.",
+      "Raise feed-pump pressure only, without revising temperature and vapour balances."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Flashing shifts heat release and vapour generation into the evaporator system. The condenser and vapour separator must handle it."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "A heat-sensitive product darkens when the boiling surface temperature is raised, even though average outlet solids are correct. What operating choice is most defensible?",
+    "opts": [
+      "Use lower-temperature operation or shorter residence time while checking capacity and fouling.",
+      "Raise steam temperature further because correct outlet solids prove product quality.",
+      "Reduce laboratory colour testing because the evaporator mass balance already closes.",
+      "Move all evaporation to the hottest effect to reduce equipment count and sampling, for this review."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Product quality can depend on local temperature and residence time, not only final solids."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "An evaporator vaporizes 3,600 kg/h of water with latent heat of 2240 kJ/kg. What latent evaporation load is this?",
+    "opts": [
+      "Latent load = 3,600/2240 = 1.61 kW.",
+      "Latent load = 2240/3600 = 0.62 kW, before losses.",
+      "Latent load = 3,600×2240/3600 = 2,240 kW.",
+      "Latent load = 3,600×2240 = 8,064,000 kW."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: The kg/h term cancels the seconds-per-hour conversion, giving 2,240 kW."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "Noncondensable gas builds up in an evaporator calandria after a condensate-return change. What heat-transfer effect is expected?",
+    "opts": [
+      "Condensing-side resistance falls, so the same area transfers more heat.",
+      "Condensing-side resistance rises, so effective U and heat duty can fall.",
+      "Only condensate temperature changes; heat-transfer coefficient is unaffected.",
+      "The effect disappears if product solids are measured after the evaporator."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Noncondensables blanket condensing surfaces and reduce the effective condensing heat-transfer coefficient."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "A high-solids liquor causes calandria pressure drop and poor circulation near the target concentration. What limit should be reviewed?",
+    "opts": [
+      "Hydraulic circulation, viscosity, tube wetting, fouling rate, and allowable product temperature.",
+      "Only steam economy, because pressure drop is a utility-accounting variable, under plant conditions.",
+      "Only final tank level, because circulation problems do not affect heat transfer.",
+      "Only feed-pump nameplate flow, because calandria hydraulics are self-correcting."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Viscosity and circulation can set the practical concentration limit before the thermal balance is exhausted."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "A refractometer reports concentrate strength on a dry-solids basis, while the production report uses wet-basis mass fraction. What should the analyst do?",
+    "opts": [
+      "Average the two readings because both describe product concentration, for this review.",
+      "Use the higher number because it gives the most conservative water removal.",
+      "Use the production basis for mass balance and lab basis for energy balance.",
+      "Convert all concentration data to one basis before closing mass and energy balances."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Mixed concentration bases cause false water-removal and duty calculations. One consistent basis is required."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "A multi-effect evaporator has uneven effect duties after a feed-solids increase. What should be adjusted in the heat-duty review?",
+    "opts": [
+      "Divide total ΔT equally because each effect evaporates the same material, for this review.",
+      "Put all available ΔT in the first effect to maximize live-steam condensation.",
+      "Distribute ΔT using BPE, dirty U, area, pressure drops, and viscosity in each effect.",
+      "Keep design pressure profile because the feed-solids change is upstream only."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Higher solids change BPE, viscosity, heat-transfer coefficient, and pressure drop. Effect loading should be recalculated."
+  },
+  {
+    "section": "Evaporator Balances, Boiling & Heat Duty",
+    "q": "A feed preheater brings liquor close to its boiling point before a forced-circulation evaporator. What benefit should be claimed?",
+    "opts": [
+      "Claim displaced sensible heating unless measured evaporation rate or steam flow proves more benefit.",
+      "Claim full latent evaporation credit because all preheated feed becomes vapour.",
+      "Claim no utility credit because preheating occurs outside the evaporator body, under plant conditions.",
+      "Claim extra product solids even if feed rate and outlet concentration are unchanged."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Preheating normally reduces the sensible part of evaporator duty. More evaporation credit needs measured evidence."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "A three-effect evaporator removes 14,400 kg/h of water with measured steam economy of 3.60 kg/kg. What live-steam flow should be used?",
+    "opts": [
+      "Live steam = 14,400/3.60 = 4,000 kg/h.",
+      "Live steam = 14,400×3.60 = 51,840 kg/h.",
+      "Live steam = 3.60/14,400 = 0.00025 kg/h.",
+      "Live steam = 14,400−3.60 = 14,396 kg/h."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Steam economy is evaporated water per kg live steam, so steam flow is evaporation divided by economy."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "An MVR compressor handles 6,000 kg/h vapour, needs a 42 kJ/kg enthalpy lift, and has 70% efficiency. What shaft power is required?",
+    "opts": [
+      "Power = 6,000×42/3600 = 70 kW.",
+      "Power = 6,000×0.70/(42×3600) = 0.028 kW.",
+      "Power = 6,000×42/(0.70×3600) = 100 kW.",
+      "Power = 42/(6,000×0.70) = 0.010 kW."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Compressor work is mass flow times enthalpy lift divided by efficiency, with kJ/h converted to kW."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "An MVR system delivers 3,800 kW of condensing heat while the compressor draws 320 kW. What effective heating COP is indicated?",
+    "opts": [
+      "COP = power/useful heat = 320/3,800 = 0.084.",
+      "COP = useful heat/power = 3,800/320 = 11.9.",
+      "COP = useful heat−power = 3,480.",
+      "COP = useful heat×power = 1,216,000."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: For a heat pump or MVR comparison, COP is useful heat delivered divided by power input."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "Condensate at 8,000 kg/h cools from 125°C to a 100°C flash receiver. With cp = 4.2 kJ/kg·K and latent heat = 2257 kJ/kg, what flash vapour is produced?",
+    "opts": [
+      "Flash vapour = 8,000×25/2257 = 88.6 kg/h.",
+      "Flash vapour = 8,000×4.2/25 = 1,344 kg/h.",
+      "Flash vapour = 8,000×2257/(4.2×25) = 171,962 kg/h.",
+      "Flash vapour = 8,000×4.2×25/2257 = 372 kg/h."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Available sensible cooling is converted into latent heat of flash vapour on an energy basis."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "A forward-feed evaporator is considered for a heat-sensitive liquid whose viscosity rises at high solids. Which trade-off is most important?",
+    "opts": [
+      "High-solids liquor sees the highest temperature, so forward feed always reduces viscosity.",
+      "High-solids liquor sees lower temperature, but viscosity may limit circulation and heat transfer.",
+      "Forward feed removes the need to consider boiling-point elevation in later effects, for this review.",
+      "Feed arrangement affects pumps only and not product quality or evaporator capacity."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Forward feed can protect heat-sensitive concentrate but may create high viscosity at low-temperature effects."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "A backward-feed arrangement is proposed for a viscous concentrate. What is the main engineering reason to consider it?",
+    "opts": [
+      "The most concentrated liquor can run in a hotter effect, reducing viscosity but raising heat exposure.",
+      "The most concentrated liquor can run in the coldest effect, eliminating heat damage risk.",
+      "Backward feed always eliminates inter-effect pumping and pressure-drop concerns.",
+      "Backward feed makes steam economy independent of feed temperature and fouling, under plant conditions."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Backward feed can improve heat transfer for viscous high-solids liquor, but the hotter exposure may affect product quality."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "A mixed-feed evaporator layout is suggested after pilot tests show both heat sensitivity and viscosity constraints. What should the layout optimize?",
+    "opts": [
+      "Only the first-effect steam pressure, because feed path does not change product history.",
+      "Only the final solids meter, because the intermediate effects do not affect quality.",
+      "Only the number of effects, because arrangement has no influence on heat transfer, for this review.",
+      "Effect order, residence time, solids profile, temperature exposure, and pumpability together."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Mixed feed can be useful when no single feed direction satisfies viscosity and heat-sensitivity limits."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "Vapour is bled from the second effect to heat dryer make-up air. What must be checked before claiming net savings?",
+    "opts": [
+      "Treat all bled vapour as free heat because it was already generated by the evaporator.",
+      "Ignore downstream effects because the dryer receives the recovered heat directly.",
+      "Confirm the bleed does not starve downstream effects or increase live-steam demand elsewhere.",
+      "Credit the bleed twice, once as dryer heat and once as extra evaporator economy, for this review."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Vapour bleeding changes the internal heat balance of the multiple-effect system and may reduce evaporation in later effects."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "A thermocompressor is proposed to reuse low-pressure vapour. What comparison is needed against the existing steam system?",
+    "opts": [
+      "Compare motive steam, entrained vapour, discharge pressure, net live-steam use, and controllability.",
+      "Compare only entrained vapour rate, because motive steam is recovered without cost.",
+      "Compare only equipment price, because thermocompressors have no operating penalty, for the retrofit.",
+      "Compare only discharge pressure, because steam economy is independent of motive flow."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: A TVR or thermocompressor consumes motive steam. The correct basis is net utility and control performance."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "Condensate from several effects is combined before quality testing. Why can this weaken heat-recovery design?",
+    "opts": [
+      "Mixing condensate always improves quality because contaminants are diluted equally.",
+      "One contaminated source can make all mixed condensate unsuitable for direct reuse or boiler return.",
+      "Quality testing is unnecessary when the condensate temperature is above 90°C.",
+      "Combined condensate should always be used as potable water replacement, for this review, before approval."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Segregating clean and suspect condensate protects boiler return, product-contact heaters, and heat-recovery loops."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "Vapour from one effect condenses at 90°C to heat the next effect. The next liquor has pure-water boiling point 66°C and BPE of 8 K. What inter-effect ΔT is available?",
+    "opts": [
+      "Inter-effect ΔT = 90 − 66 = 24 K.",
+      "Inter-effect ΔT = 90 − 8 = 82 K, before losses.",
+      "Inter-effect ΔT = 66 + 8 = 74 K.",
+      "Inter-effect ΔT = 90 − (66 + 8) = 16 K."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: The liquor boiling temperature includes BPE, reducing the driving force between effects."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "A calandria has 110 m² installed area, dirty U = 900 W/m²·K, and effective ΔT = 14 K. What duty can it transfer?",
+    "opts": [
+      "Duty = 900×110/14/1000 = 7.1 kW.",
+      "Duty = 110×14/900 = 1.71 kW.",
+      "Duty = 900×110×14/1000 = 1,386 kW.",
+      "Duty = 900×14/110 = 115 kW, before losses."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Use Q = U A ΔT and convert W to kW. Dirty U should be used for realistic capacity."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "An MVR compressor discharge is superheated before entering the heater. What integration opportunity may be available?",
+    "opts": [
+      "Vent the superheat because only latent heat can ever be useful in evaporation.",
+      "Desuperheat the vapour for feed preheat before using latent condensation in the heater.",
+      "Increase compressor speed until superheat disappears without checking surge margin.",
+      "Ignore superheat because it has no effect on heat-transfer area or controls, for this review."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Superheat can provide sensible heat, but the main evaporator duty is usually supplied during condensation."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "A triple-effect evaporator was designed for economy 3.5 but reconciled data show 2.9. What should be investigated first?",
+    "opts": [
+      "Report 3.5 because design economy is more reliable than operating data, on the same basis.",
+      "Increase boiler pressure immediately because economy is independent of fouling.",
+      "Delete feed-solids data because economy uses only steam and water rates.",
+      "Check air leaks, fouling, BPE, condensate drainage, steam bypasses, and product carryover."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Lower economy indicates the actual heat cascade is losing effectiveness or the data basis is wrong."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "A flash tank vents visible steam while a low-pressure feed heater needs heat. What recovery option should be screened?",
+    "opts": [
+      "Route clean flash vapour to a compatible low-pressure heater or deaerator if pressure allows.",
+      "Vent the steam because flash vapour has no recoverable latent heat, with safeguards unchanged.",
+      "Compress all flash vapour to high-pressure steam without checking economics.",
+      "Send flash vapour to product contact even if condensate quality is unknown."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Flash vapour often has useful latent heat at a low temperature level, provided pressure and cleanliness match the heat sink."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "An MVR evaporator is asked to run at 35% of design vapour flow during small campaigns. What compressor issue should be checked?",
+    "opts": [
+      "Maximum nameplate power only, because compressors are always efficient at low load.",
+      "Final product tank volume only, because vapour flow does not affect compressor control.",
+      "Minimum stable flow, surge margin, recycle strategy, and part-load power demand.",
+      "Steam-trap capacity only, because MVR systems have no rotating-equipment limits."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: MVR compressors have operating maps. Low flow may require recycle and can erode energy savings."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "A study compares MVR, a closed-loop heat pump, and live steam for the same evaporator. What common basis is required?",
+    "opts": [
+      "Compare only installed heat-transfer area, because utility systems have the same emissions.",
+      "Compare only steam pressure, because electrical power is outside the evaporator boundary.",
+      "Compare only first cost, because operating cost is already reflected in product solids, for this review.",
+      "Compare temperature lift, COP, electricity price, steam price, carbon factor, turndown, and maintenance."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Different heat-upgrading technologies trade capital, electricity, steam, carbon, and operability."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "Operators close noncondensable vents to reduce visible vapour losses from a multiple-effect unit. What can happen?",
+    "opts": [
+      "Steam economy must improve because all vent losses are eliminated at once.",
+      "Noncondensables can blanket surfaces, lowering U and reducing evaporator capacity.",
+      "Heat-transfer area effectively increases because gas blanketing raises turbulence.",
+      "Only the vent header changes; evaporator temperatures and duties stay fixed."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Some venting is needed to remove air and other noncondensables from condensing surfaces."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "A vacuum-system leak develops in the last effect of a multiple-effect evaporator. What integrated effect is likely?",
+    "opts": [
+      "Boiling temperature, condenser duty, vapour flow, and steam economy can all shift.",
+      "Only the vacuum pump power changes; evaporation balance remains unchanged.",
+      "Capacity always increases because more air improves vapour-side turbulence.",
+      "The first effect becomes independent of the rest of the pressure profile, for this review."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Air leakage affects pressure profile, heat transfer, condenser load, and vapour handling."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "A scaling product is moved to a forced-circulation effect in a retrofit. What benefit is expected?",
+    "opts": [
+      "Forced circulation eliminates boiling-point elevation from the concentration step.",
+      "Forced circulation guarantees lower pumping power than natural circulation.",
+      "Higher circulation velocity can reduce tube dry-out and make cleaning more manageable.",
+      "Forced circulation allows any product to run without fouling allowance, for this review."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Forced circulation can improve wetting and handling of viscous or scaling liquors, but it adds pumping cost."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "Low-pressure evaporator vapour is proposed as the heat source for a dryer air coil. What temperature-level check is essential?",
+    "opts": [
+      "Vapour flow alone is sufficient because latent heat always heats air to any target temperature.",
+      "Vapour condensing temperature must exceed required air temperature plus coil approach and fouling margin.",
+      "Dryer fan speed alone is sufficient because airflow fixes the heat-source temperature, under plant conditions.",
+      "Condensate return pressure alone is sufficient because it defines all coil performance."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: A heat source is useful only if it is hot enough after realistic approach temperatures and fouling allowance."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "An MVR compressor draws 280 kW for 6,500 h/year. If electricity costs $0.10/kWh, what annual power cost should be included?",
+    "opts": [
+      "Power cost = 280×6,500×$0.10 = $182,000/year.",
+      "Power cost = 280/6,500×$0.10 = $0.004/year.",
+      "Power cost = 6,500×$0.10 = $650/year.",
+      "Power cost = 280×$0.10 = $28/year, before losses."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Annual power cost is kW times operating hours times unit electricity price."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "A retrofit cuts live steam from 5.4 t/h to 1.2 t/h for 7,000 h/year. At $42/t steam, what gross steam saving is expected?",
+    "opts": [
+      "Gross saving = 5.4×1.2×7,000×$42 = $1,905,120/year.",
+      "Gross saving = (5.4−1.2)×$42 = $176/year, before losses.",
+      "Gross saving = 7,000×$42/(5.4−1.2) = $70,000/year.",
+      "Gross saving = (5.4−1.2)×7,000×$42 = $1,234,800/year."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: The saving uses the reduction in steam rate, annual operating hours, and unit steam price."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "Hot condensate near its boiling point is routed through a long return line after heat recovery. What hydraulic issue should be checked?",
+    "opts": [
+      "Only pipe insulation thickness, because condensate pressure cannot affect pumpability.",
+      "Only condensate colour, because temperature and pressure do not affect flashing.",
+      "Flashing, NPSH margin, two-phase pressure drop, and receiver venting along the return path.",
+      "Only boiler-house makeup rate, because return-line hydraulics are outside heat integration."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Hot condensate can flash when pressure drops. That can reduce pump NPSH and create unstable return flow."
+  },
+  {
+    "section": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "q": "Evaporator vapour contains volatile acids that would pass through an MVR compressor. What should be reviewed before selection?",
+    "opts": [
+      "Materials, corrosion allowance, condensate quality, seal system, and compressor fouling risk.",
+      "Only compressor power, because vapour chemistry is removed during compression, for this review.",
+      "Only feed concentration, because volatile acids remain entirely in the liquid.",
+      "Only the steam economy, because metallurgy is unrelated to utility optimization."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Vapour composition affects compressor materials, reliability, condensate reuse, and maintenance cost."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "A wet cake feed to a dryer is 4,000 kg/h at 45% moisture wet basis. Product leaves at 8% moisture wet basis. With no dry-solids loss, how much water is evaporated?",
+    "opts": [
+      "Water evaporated = 4,000 − [4,000×0.55/(1−0.08)] = 1,609 kg/h.",
+      "Water evaporated = 4,000×(0.45−0.08) = 1,480 kg/h.",
+      "Water evaporated = 4,000×0.45 = 1,800 kg/h, on the same basis.",
+      "Water evaporated = 4,000×0.55/0.08 = 27,500 kg/h."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Dry solids are conserved at 2,200 kg/h. Product flow is 2,200/0.92 = 2,391 kg/h, so water removed is about 1,609 kg/h."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "A convective dryer evaporates 1,600 kg/h water. Inlet humidity is 0.010 and exhaust humidity is 0.055 kg water/kg dry air. What dry-air flow is required?",
+    "opts": [
+      "Dry-air flow = 1,600/0.055 = 29,091 kg dry air/h.",
+      "Dry-air flow = 1,600×(0.055−0.010) = 72 kg dry air/h.",
+      "Dry-air flow = 1,600/(0.055−0.010) = 35,556 kg dry air/h.",
+      "Dry-air flow = 1,600/(0.055+0.010) = 24,615 kg dry air/h."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Moisture picked up by the air equals dry-air flow times the humidity increase."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "Dryer inlet air flow is 30,000 kg/h dry air and is heated from 30°C to 150°C. With humid-air cp = 1.08 kJ/kg dry air·K, what heater duty is needed?",
+    "opts": [
+      "Heater duty = 30,000×120/3600 = 1,000 kW.",
+      "Heater duty = 30,000×1.08×120/3600 = 1,080 kW.",
+      "Heater duty = 1.08×120 = 130 kW, before losses.",
+      "Heater duty = 30,000×1.08/120 = 270 kW."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Air sensible heating uses dry-air flow, humid-air heat capacity, and temperature rise."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "A dryer evaporates 1,800 kg/h water and the effective latent heat is 2400 kJ/kg. What latent drying load is represented?",
+    "opts": [
+      "Latent load = 1,800/2400 = 0.75 kW.",
+      "Latent load = 2400/3600 = 0.67 kW, before losses.",
+      "Latent load = 1,800×2400 = 4,320,000 kW.",
+      "Latent load = 1,800×2400/3600 = 1,200 kW."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: The evaporation load is water removal rate times latent heat, converted from kJ/h to kW."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "A dryer exhaust heat exchanger cools 25,000 kg/h dry air equivalent from 130°C to 70°C. With cp = 1.05 kJ/kg·K, what sensible heat is recovered?",
+    "opts": [
+      "Recovered heat = 25,000×60/3600 = 417 kW.",
+      "Recovered heat = 25,000×1.05×60/3600 = 438 kW.",
+      "Recovered heat = 1.05×60 = 63 kW, before losses.",
+      "Recovered heat = 25,000×1.05/60 = 438 kW."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Sensible exhaust recovery uses air-equivalent mass flow, heat capacity, and temperature drop."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "A proposed exhaust cooler would drop dryer exhaust below its water dew point. What extra design issue appears?",
+    "opts": [
+      "Condensation can add latent recovery but also fouling, corrosion, drainage, and plume issues.",
+      "Dew-point crossing prevents any heat recovery because exhaust heat becomes unavailable.",
+      "Condensation guarantees a clean exchanger because water washes all particles away.",
+      "Only fan speed changes; materials and condensate handling are not affected, for the retrofit."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Cooling below dew point changes the exchanger from dry sensible service to condensing service, with new materials and cleaning requirements."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "A dryer exhaust recirculation scheme lowers fuel use but raises inlet humidity. What performance limit should be checked?",
+    "opts": [
+      "Only fuel-meter reduction, because humidity does not affect convective drying.",
+      "Only stack temperature, because recirculation cannot affect product moisture, with safeguards unchanged.",
+      "Only duct pressure drop, because gas composition is unrelated to dryer safety.",
+      "Drying-rate loss, exhaust humidity limit, oxygen level, VOC concentration, and product moisture control."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Recirculation saves heat but can reduce moisture-driving force and affect oxygen or solvent safety margins."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "A heat-sensitive powder meets final moisture but shows surface scorching after inlet-air temperature is increased. What target is appropriate?",
+    "opts": [
+      "Raise inlet-air temperature further because final moisture is already within specification.",
+      "Reduce moisture testing because quality is proven by the dryer energy balance.",
+      "Control product temperature and residence time, not only inlet-air temperature and final moisture.",
+      "Use maximum exhaust recirculation because lower fuel use is the only target, under plant conditions."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Dryer quality often depends on particle temperature history and residence time, not just final moisture."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "An evaporator condensate coil is added to preheat dryer make-up air, and the dryer fan approaches its limit. What should be reviewed?",
+    "opts": [
+      "Coil pressure drop, air distribution, fan curve, bypass control, and cleanability.",
+      "Only condensate temperature, because air-side pressure drop cannot affect drying rate.",
+      "Only steam-trap size, because the fan operates independently of heat recovery.",
+      "Only product moisture lab data, because airflow does not affect dryer capacity."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Air-side pressure drop and distribution can erase energy benefits by limiting dryer airflow."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "A moisture report gives product moisture on a dry basis, while the dryer guarantee uses wet basis. What should be done?",
+    "opts": [
+      "Average the wet-basis and dry-basis percentages to reduce measurement noise.",
+      "Convert moisture data to one basis before calculating water removal or guarantees.",
+      "Use dry-basis values for feed and wet-basis values for product to be conservative.",
+      "Ignore the basis if both readings were produced by the same laboratory method."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Wet-basis and dry-basis moisture percentages are not interchangeable; the mass balance changes."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "A heat-pump dryer loop delivers 900 kW of useful air-heater duty with COP = 3.2. What electrical demand should enter the utility comparison?",
+    "opts": [
+      "Electrical demand = useful heat×COP = 900×3.2 = 2,880 kW.",
+      "Electrical demand = COP/useful heat = 3.2/900 = 0.0036 kW.",
+      "Electrical demand = useful heat−COP = 900−3.2 = 897 kW.",
+      "Electrical demand = useful heat/COP = 900/3.2 = 281 kW."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: COP is useful heat divided by electrical input, so input power is useful heat divided by COP."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "A dryer has 42,000 kg/h dry air, inlet humidity 0.010, and exhaust humidity 0.052 kg/kg dry air. What evaporation rate is indicated?",
+    "opts": [
+      "Evaporation = 42,000×0.052 = 2,184 kg/h.",
+      "Evaporation = 42,000×0.010 = 420 kg/h.",
+      "Evaporation = 42,000×(0.052−0.010) = 1,764 kg/h.",
+      "Evaporation = 42,000/(0.052−0.010) = 1,000,000 kg/h."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Water removal equals dry-air flow times the humidity increase through the dryer."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "A dryer uses 2,500 kW fuel input while evaporating 1,800 kg/h water. What specific energy consumption is indicated?",
+    "opts": [
+      "SEC = 1,800/2,500 = 0.72 kWh per kg water evaporated.",
+      "SEC = 2,500/1,800 = 1.39 kWh per kg water evaporated.",
+      "SEC = 2,500×1,800 = 4,500,000 kWh per kg water.",
+      "SEC = (2,500−1,800)/2,500 = 0.28 kWh per kg water."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Because both values are hourly rates, kW divided by kg/h gives kWh/kg water evaporated."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "An exhaust condenser recovers latent heat by condensing 900 kg/h water vapour at 2350 kJ/kg. What latent heat recovery is possible?",
+    "opts": [
+      "Latent recovery = 900/2350 = 0.38 kW.",
+      "Latent recovery = 2350/3600 = 0.65 kW.",
+      "Latent recovery = 900×2350 = 2,115,000 kW.",
+      "Latent recovery = 900×2350/3600 = 588 kW."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Condensed water vapour releases latent heat. Condensate quality and fouling must still be addressed."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "Dryer exhaust contains solvent vapour near its lower explosive limit during upset conditions. What must a recirculation project include?",
+    "opts": [
+      "LEL monitoring, purge strategy, oxygen control, ignition-source review, and alarm response.",
+      "Only heat-duty calculations, because solvent concentration is diluted by recirculation.",
+      "Only stack temperature control, because flammability is unrelated to heat recovery.",
+      "Only product moisture testing, because solvent safety belongs to the laboratory, for this review."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Heat recovery cannot be separated from flammability risk when solvent vapours or combustible dust are present."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "Psychrometric calculations use total wet-gas flow, but the moisture pickup equation needs dry-air flow. What correction is needed?",
+    "opts": [
+      "Use total wet-gas flow directly because humidity ratio is already wet basis.",
+      "Use water vapour flow only because dry air does not carry energy.",
+      "Convert wet-gas flow to dry-air flow before using humidity-ratio differences.",
+      "Use stack volumetric flow only and ignore temperature and humidity corrections."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Humidity ratio is expressed per kg dry air. Using wet-gas mass flow can bias evaporation estimates."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "A dryer loses capacity during monsoon operation even though burner duty is unchanged. What ambient variable should be added to the model?",
+    "opts": [
+      "Only dry-bulb temperature, because moisture in ambient air does not affect drying.",
+      "Only barometric pressure, because humidity is removed by the burner flame.",
+      "Only feed rate, because seasonal air changes cannot affect final moisture.",
+      "Inlet-air humidity and wet-bulb temperature, because they reduce drying potential."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Humid ambient air enters with less remaining moisture capacity, reducing the driving force for drying."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "A staged dryer has high evaporation in the first zone and quality risk in the final zone. How should heat recovery be allocated?",
+    "opts": [
+      "Send all recovered heat to the final zone because it has the lowest moisture content.",
+      "Match recovered heat to zones that can accept lower-grade heat without exceeding product limits.",
+      "Send all recovered heat to the hottest zone because high temperature ensures savings.",
+      "Ignore zone duties because only total dryer fuel use matters for integration, under plant conditions."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Drying zones differ in moisture load, temperature sensitivity, and heat-transfer need."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "A dryer exhaust exchanger fouls with product fines after every run. What should replace clean-design duty in the savings case?",
+    "opts": [
+      "Average dirty duty over the run, including cleaning time and fan-power penalty.",
+      "Vendor clean duty, because fouling is not part of heat-integration performance.",
+      "First-hour duty only, because it shows the exchanger maximum potential.",
+      "Nameplate area only, because heat-transfer coefficient is difficult to measure."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: A real business case should use dirty operation, cleaning frequency, and pressure-drop effects."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "A recovered-heat coil overheats dryer inlet air when feed moisture falls. What control element is needed?",
+    "opts": [
+      "A larger recovered-heat coil, because more area always improves temperature control.",
+      "A fixed maximum-recovery valve position, because energy saving is the only target, for this review.",
+      "A bypass or trim-heat strategy that holds inlet temperature across feed-moisture swings.",
+      "A lower product sampling frequency, because control swings are a quality-lab issue."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Heat recovery must remain controllable when feed rate, feed moisture, or ambient air changes."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "A dryer product contains 3,000 kg/h dry solids and 300 kg/h water. What wet-basis product moisture is this?",
+    "opts": [
+      "Wet-basis moisture = 300/3,000 = 10.0%.",
+      "Wet-basis moisture = 300/(3,000+300) = 9.1%.",
+      "Wet-basis moisture = 3,000/(3,000+300) = 90.9%.",
+      "Wet-basis moisture = (3,000−300)/3,000 = 90.0%."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Wet-basis moisture is water divided by total wet product mass."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "A leak in dryer exhaust ducting draws cold air before the heat-recovery coil. What is the likely impact?",
+    "opts": [
+      "Recovered heat and fan load can change, while oxygen reading and stack loss become misleading.",
+      "Heat recovery always improves because extra cold air increases temperature difference.",
+      "Only the duct noise changes, because leakage does not affect mass or energy balances, for this review.",
+      "The dryer becomes safer automatically because more oxygen reduces all combustion risks."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Air leakage dilutes humidity and heat content, changes flow, and distorts performance measurements."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "After a heat-recovery retrofit, the burner valve and exhaust bypass hunt against each other. What should be reviewed?",
+    "opts": [
+      "Only exchanger area, because control interaction cannot reduce recovered energy.",
+      "Only final product moisture, because oscillation does not affect utility use, for this review.",
+      "Only operator shift reports, because tuning is unrelated to heat-integration design.",
+      "Control-loop interaction, valve authority, sensor lag, minimum firing rate, and bypass logic."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Recovered heat changes process dynamics. Controls must be tuned so energy saving does not destabilize drying."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "A rotary dryer retrofit lowers inlet-gas temperature to use more recovered heat, but capacity falls. What should be checked?",
+    "opts": [
+      "Whether the stack temperature alone is lower, because that proves the retrofit works.",
+      "Whether the burner nameplate is smaller, because installed duty controls capacity.",
+      "Whether heat transfer or drying kinetics require a higher inlet temperature profile.",
+      "Whether product packaging speed is higher, because dryer conditions are secondary."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Lower-grade recovered heat can reduce temperature driving force and slow drying despite lower fuel use."
+  },
+  {
+    "section": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "q": "A combustible-dust dryer proposes higher exhaust recycle to reduce fuel. What safety basis must be updated?",
+    "opts": [
+      "Dust loading, oxygen concentration, LEL or MEC margin, explosion protection, and purge controls.",
+      "Only the steam-cost basis, because dust hazards are independent of recycle ratio.",
+      "Only dryer outlet moisture, because combustible dust is controlled by product testing.",
+      "Only fan motor efficiency, because recycle flow reduces explosion consequences, for this review."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Heat integration in dryers must consider dust and vapour explosion hazards when recycle or condensation is changed."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "A hot process stream has heat-capacity flowrate 24 kW/K and cools from 180°C to 90°C. What heat load is available?",
+    "opts": [
+      "Available heat = 24×(180−90) = 2,160 kW.",
+      "Available heat = 24/(180−90) = 0.27 kW.",
+      "Available heat = 180−90 = 90 kW, before losses.",
+      "Available heat = 24×180/90 = 48 kW."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: For a sensible stream, heat load is heat-capacity flowrate times temperature change."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "An exchanger recovers 800 kW with terminal ΔT values of 60 K and 30 K. If U = 400 W/m²·K, what area is needed using LMTD?",
+    "opts": [
+      "Area = 800,000/(400×60) = 33.3 m².",
+      "Area = 800,000/(400×30) = 66.7 m².",
+      "Area = 800,000/[400×((60−30)/ln(60/30))] = 46.2 m².",
+      "Area = 800/(400×45) = 0.044 m², with consistent units."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: For unequal terminal temperature differences, use the log-mean temperature difference, not a simple endpoint alone."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "A pinch study lists dryer exhaust as one hot stream with a constant heat capacity, even though water condensation begins halfway through cooling. What should be corrected?",
+    "opts": [
+      "Use one average heat capacity because composite curves cannot include latent heat.",
+      "Split the stream into sensible and condensing intervals with separate heat loads.",
+      "Ignore condensation because pinch analysis applies only to liquid streams.",
+      "Treat all exhaust heat as high-temperature heat because the inlet is hot."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Phase change creates a different heat-load segment and often a different temperature profile."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "A heat-recovery project displaces 700 kW of steam heating for 6,000 h/year. If useful steam costs $12/GJ, what annual saving is expected?",
+    "opts": [
+      "Saving = 700×6,000×$12 = $50,400,000/year.",
+      "Saving = 700×$12 = $8,400/year, in stated units.",
+      "Saving = 6,000×3.6×$12/1000 = $259/year.",
+      "Saving = 700×6,000×3.6×$12/1000 = $181,440/year."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Convert kWh to GJ using 3.6 MJ/kWh, then multiply by the steam energy cost."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "A proposed exchanger uses heat from below the process pinch to heat a cold stream above the pinch. What is the pinch-rule concern?",
+    "opts": [
+      "It always reduces both utilities because every process-process exchanger helps.",
+      "It can increase both hot and cold utility by transferring heat across the pinch.",
+      "It affects exchanger area only and has no influence on utility targets, for this review.",
+      "It is acceptable if the recovered-heat duty is measured in kW instead of GJ."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Across-pinch heat transfer violates the basic pinch target and can destroy expected utility savings."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "A hot condensate stream is 18,000 kg/h with cp = 4.0 kJ/kg·K. What heat-capacity flowrate should be entered in the stream table?",
+    "opts": [
+      "CP = 18,000×4.0/3600 = 20 kW/K.",
+      "CP = 18,000/4.0 = 4,500 kW/K.",
+      "CP = 4.0/18,000 = 0.00022 kW/K.",
+      "CP = 18,000×4.0 = 72,000 kW/K."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Mass flow in kg/h times cp gives kJ/h·K; divide by 3600 to obtain kW/K."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "Composite curves show a heat surplus at 70–85°C, while a dryer air heater needs air near 145°C. What conclusion is most defensible?",
+    "opts": [
+      "The surplus can heat the air to 145°C because total kW is the only requirement.",
+      "The dryer air heater should be removed from the study because it is too hot, with consistent units.",
+      "The surplus should be credited as steam saving without checking approach temperature.",
+      "Direct recovery may be temperature-limited; heat upgrading or a lower-temperature sink is needed."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Heat must be available at a useful temperature, not merely as total energy."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "An exchanger retrofit recovers 1.10 MW. With dirty U = 350 W/m²·K and LMTD = 25 K, what installed area is required?",
+    "opts": [
+      "Area = 1,100/(350×25) = 0.126 m².",
+      "Area = 350×25/1,100,000 = 0.008 m².",
+      "Area = 1,100,000/(350×25) = 126 m².",
+      "Area = 1,100,000×25/350 = 78,571 m²."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Area estimates should use dirty U and realistic LMTD to avoid overstating savings."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "A heat cascade shows a negative residual in one temperature interval before utilities are added. What does this indicate?",
+    "opts": [
+      "Additional hot utility is required at or above that interval to make the cascade feasible.",
+      "Extra cold utility is required only below ambient temperature, for this review, before approval.",
+      "The exchanger network has too much area and should remove heat recovery.",
+      "The stream temperatures should be averaged to eliminate the negative interval."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: A heat cascade identifies where heat deficits occur after temperature shifting."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "A cold stream can be heated by either low-pressure steam or high-pressure steam. Pinch targets show low-pressure steam is hot enough. What utility choice is preferred?",
+    "opts": [
+      "Use high-pressure steam because higher temperature always improves energy efficiency.",
+      "Use the lowest temperature utility that satisfies approach, control, and reliability limits.",
+      "Use both steam levels at once so the heat load receives double utility credit.",
+      "Use no steam utility because pinch analysis eliminates all external heating, for this review."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Good utility selection preserves high-grade heat for duties that actually require it."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "A recovered-hot-water loop is proposed between a continuous evaporator and an intermittent dryer. What scheduling issue must be addressed?",
+    "opts": [
+      "The loop will self-balance because both units are on the same production line, for this review.",
+      "The dryer schedule can be ignored if the evaporator heat source is continuous.",
+      "Only pipe diameter matters because timing does not affect heat-recovery value.",
+      "Thermal storage, bypass, or backup heat is needed when source and sink loads do not coincide."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Heat integration between asynchronous units needs storage, control, or alternate sinks."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "A cooling-water duty is reduced by 450 kW for 7,000 h/year. At $8/GJ cooling utility cost, what annual saving is credited?",
+    "opts": [
+      "Saving = 450×7,000×$8 = $25,200,000/year.",
+      "Saving = 450×$8 = $3,600/year, in stated units.",
+      "Saving = 450×7,000×3.6×$8/1000 = $90,720/year.",
+      "Saving = 7,000×3.6×$8/1000 = $202/year."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Utility savings require converting kW over operating hours into GJ before applying $/GJ."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "A process-process exchanger places product feed on the tube side and dryer exhaust on the shell side. What non-thermal issue is critical?",
+    "opts": [
+      "Only LMTD, because exchanger side selection has no hygienic or safety implications.",
+      "Cross-contamination risk, cleanability, pressure hierarchy, and leak-detection strategy.",
+      "Only exchanger colour coding, because the streams remain separated by drawings.",
+      "Only pump power, because contamination risk is handled by the utility balance, for this review."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Recovered heat can create product safety or contamination risks if a leak path is not properly managed."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "An evaporator vapour stream condenses at nearly constant temperature in a heat exchanger network model. How should it appear in the composite curve?",
+    "opts": [
+      "As a single sensible stream from inlet temperature to condensate temperature.",
+      "As a cold stream because condensation creates liquid water, with safeguards unchanged.",
+      "As no stream because latent heat is not part of pinch analysis.",
+      "As a latent heat segment at the condensing temperature, with any superheat separate."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Condensing vapour releases latent heat at near-constant temperature, which should be represented explicitly."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "A new heat-recovery exchanger leaves the cold feed control valve nearly closed at normal rate. What retrofit risk does this show?",
+    "opts": [
+      "Valve authority and controllability may be poor even if the energy target is met.",
+      "The exchanger area is too small because a closed valve always means low heat recovery.",
+      "The hot stream is below the pinch because valve position defines pinch location.",
+      "The utility saving should be doubled because the valve has unused pressure drop."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Heat integration must preserve usable control range; otherwise product temperature can become unstable."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "Clean condensate at 6,000 kg/h is cooled from 95°C to 55°C in a product-feed preheater. With cp = 4.18 kJ/kg·K, what heat is recovered?",
+    "opts": [
+      "Recovered heat = 6,000×40/3600 = 66.7 kW.",
+      "Recovered heat = 4.18×40 = 167 kW, before losses.",
+      "Recovered heat = 6,000×4.18×40/3600 = 279 kW.",
+      "Recovered heat = 6,000×4.18/40 = 627 kW."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: This is a sensible heat-recovery calculation using condensate flow, heat capacity, and cooling range."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "A heat-integration target was developed at full rate, but the plant often runs at 55% rate with one dryer idle. What should be added?",
+    "opts": [
+      "Only full-rate targets, because lower-rate cases are automatically easier.",
+      "Only nameplate exchanger areas, because stream heat loads do not change with rate.",
+      "Only annual production totals, because hourly operating modes are not relevant.",
+      "Part-load stream tables and control cases for common operating modes."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Stream matches and pinch location can change at part load. A retrofit should work for realistic operating cases."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "A retrofit design uses clean U values in every exchanger while product fines and syrup scaling are expected. What correction is needed?",
+    "opts": [
+      "Use clean U because fouling is a maintenance task outside energy accounting.",
+      "Use dirty U, fouling resistance, cleaning interval, and pressure-drop limits in the target.",
+      "Increase ΔTmin to zero so fouling no longer affects calculated area, under plant conditions.",
+      "Ignore pressure drop because only heat-transfer area affects utility savings."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Dirty heat-transfer performance determines sustained heat recovery and operating cost."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "An exchanger match has one terminal temperature difference approaching zero in the spreadsheet. What is the design concern?",
+    "opts": [
+      "A zero approach implies infinite area or no practical control margin at that end.",
+      "A zero approach proves the exchanger has perfect heat recovery and low cost.",
+      "A zero approach is acceptable if both streams are process streams.",
+      "A zero approach means the hot stream has crossed below the cold stream physically."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Practical exchangers need finite temperature approach, fouling allowance, and controllable driving force."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "A heat-recovery match reduces steam by 0.80 t/h for 6,500 h/year. Steam costs $45/t. What annual gross saving is expected?",
+    "opts": [
+      "Saving = 0.80×$45 = $36/year, before losses.",
+      "Saving = 6,500×$45 = $292,500/year.",
+      "Saving = 0.80×6,500×$45 = $234,000/year.",
+      "Saving = 0.80×6,500/45 = $116/year."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Gross steam saving uses the steam-rate reduction, annual hours, and unit steam price."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "Dryer exhaust is proposed to preheat evaporator feed slurry in a plate exchanger. What feasibility issue should be checked first?",
+    "opts": [
+      "Only total exhaust kW, because plate exchangers handle all fouling services equally, for this review.",
+      "Exhaust dew point, fouling by fines, slurry viscosity, pressure drop, and cleanability.",
+      "Only slurry feed tank level, because exchanger feasibility is independent of fluids.",
+      "Only final product moisture, because feed preheat cannot affect evaporator operation."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: A thermally attractive match can fail because of fouling, condensation, or slurry-side hydraulics."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "A hot utility is used below the pinch while an air cooler rejects heat above the pinch. What does pinch analysis suggest?",
+    "opts": [
+      "There may be avoidable utility use due to heat transfer that violates pinch placement.",
+      "This is always optimal because hot and cold utilities are in separate systems.",
+      "This proves the ΔTmin target is too large and should be set to zero, for the retrofit.",
+      "This affects capital only and cannot change boiler or cooling demand."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Above the pinch, heat should not be rejected if it can satisfy cold-stream demand; below the pinch, hot utility is usually avoidable."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "A cold stream is split between two recovered-heat exchangers to improve temperature matching. What non-energy factor must be included?",
+    "opts": [
+      "Only the total recovered duty, because stream splitting has no hydraulic effect, for this review.",
+      "Only the warmer branch temperature, because the colder branch receives free heat.",
+      "Only exchanger purchase price, because operation is unchanged after installation.",
+      "Flow distribution control, minimum velocity, fouling, clean-in-place access, and bypass needs."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Stream splits can improve heat recovery but add hydraulic and control complexity."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "A utility target assumes all condensate returns at 90°C, but traps discharge into a vented tank at 70°C. What should be revised?",
+    "opts": [
+      "Only boiler fuel price, because condensate temperature does not affect energy balance.",
+      "Only steam pressure, because return temperature is unrelated to useful heat.",
+      "Condensate sensible recovery, flash losses, makeup-water heating, and deaerator duty.",
+      "Only dryer inlet temperature, because condensate systems are outside the pinch study."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Condensate return temperature and flashing affect the real utility balance and savings claim."
+  },
+  {
+    "section": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "q": "A heat exchanger network retrofit needs long pipe runs between the evaporator area and dryer building. What cost item should be added?",
+    "opts": [
+      "Piping heat loss, pumping or fan power, insulation, supports, drainage, and maintenance access.",
+      "Only exchanger shell cost, because piping does not affect heat-recovery economics.",
+      "Only control-valve tag numbers, because installed cost is independent of routing, for this review.",
+      "Only stream temperatures, because distance does not affect operability or losses."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Remote integration can be dominated by distribution cost and operability, not only exchanger area."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "A heat-integration retrofit saves 0.62 t/h steam for 6,800 h/year. Steam costs $44/t. What annual operating saving is expected before maintenance and capital charges?",
+    "opts": [
+      "Annual saving = 0.62×6,800×$44 = $185,504/year.",
+      "Annual saving = 0.62×$44 = $27/year, before losses.",
+      "Annual saving = 6,800×$44 = $299,200/year.",
+      "Annual saving = 0.62×6,800/44 = $95.8/year."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: The saving is the reduced steam rate multiplied by operating hours and steam unit cost."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "An evaporator/dryer heat-recovery project costs $520,000 installed and saves $150,000/year after maintenance. What simple payback should be reported?",
+    "opts": [
+      "Payback = $150,000/$520,000 = 0.29 years.",
+      "Payback = ($520,000−$150,000)/12 = $30,833 months.",
+      "Payback = $520,000/$150,000 per year = 3.5 years.",
+      "Payback = $520,000+$150,000 = $670,000/year."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Simple payback is installed capital divided by annual recurring net benefit."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "A retrofit cuts steam by 0.85 t/h for 7,000 h/year. If steam emits 195 kg CO₂/t, what annual CO₂ reduction is expected?",
+    "opts": [
+      "CO₂ reduction = 7,000×195/1000 = 1,365 t/year.",
+      "CO₂ reduction = 0.85×7,000×195/1000 = 1,160 t/year.",
+      "CO₂ reduction = 0.85×195/1000 = 0.166 t/year, before losses.",
+      "CO₂ reduction = 0.85×7,000/195 = 30.5 t/year."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Multiply steam saving by annual hours and emissions factor, then convert kg to tonnes."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "A fouled heat-recovery exchanger loses 350 kW of expected duty for 6,000 h/year. If displaced steam energy is worth $12/GJ, what annual lost benefit is this?",
+    "opts": [
+      "Lost benefit = 350×6,000×$12 = $25,200,000/year.",
+      "Lost benefit = 350×$12 = $4,200/year, in stated units.",
+      "Lost benefit = 6,000×3.6×$12/1000 = $259/year.",
+      "Lost benefit = 350×6,000×3.6×$12/1000 = $90,720/year."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: The lost heat recovery is an energy loss over time. Convert kWh to GJ before applying the cost."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "After an exhaust heat-recovery coil is installed, dryer outlet humidity oscillates with the burner valve. What control review is most useful?",
+    "opts": [
+      "Lock the bypass closed because maximum recovery should stabilize all dryer variables.",
+      "Review bypass tuning, sensor lag, valve authority, burner minimum fire, and feed-forward signals.",
+      "Reduce moisture sampling because measurement noise is usually the main cause, under plant conditions.",
+      "Increase dryer inlet temperature limit without revising alarms or product testing."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Heat recovery changes process dynamics and can create interacting loops. Control design must be part of the retrofit."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "A retrofit lowers evaporator steam pressure and changes vacuum conditions, while the relief study uses old operating data. What must the MOC verify?",
+    "opts": [
+      "Relief basis, vent load, condenser capacity, alarm response, and safe operating envelope.",
+      "Only the energy saving, because relief calculations are unchanged by pressure profile.",
+      "Only the exchanger area, because MOC does not cover utility-pressure changes.",
+      "Only the operator log sheet, because vacuum changes are routine adjustments, for this review."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Management of change must verify that altered pressure, temperature, and vapour loads remain within the safety basis."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "A heat-recovery coil needs chemical cleaning every 12 days, causing four hours of dryer downtime. What should the business case include?",
+    "opts": [
+      "Only clean-coil duty, because cleaning is a maintenance department responsibility.",
+      "Only chemical cost, because downtime does not belong in an energy calculation, before losses.",
+      "Only first-week fuel saving, because fouling confirms the exchanger is recovering heat.",
+      "Cleaning labour, chemicals, lost production, wastewater, pressure drop, and dirty-duty trend."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Fouling and cleaning affect sustained savings and capacity, so they are part of the economic case."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "A new dryer air coil adds 900 Pa pressure drop at 40,000 m³/h, with fan efficiency 65%. What extra fan power is required?",
+    "opts": [
+      "Fan power = 900×40,000/0.65 = 55,384 kW.",
+      "Fan power = 900/(40,000×0.65) = 0.035 kW.",
+      "Fan power = 900×(40,000/3600)/0.65 = 15.4 kW.",
+      "Fan power = 40,000/3600/900 = 0.012 kW, before losses."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Fan power is pressure rise times volumetric flow divided by efficiency, with flow converted to m³/s."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "Condensed dryer exhaust may contain odorous organics before it is reused as warm wash water. What review is required?",
+    "opts": [
+      "Condensate quality, wastewater permit, odour control, material compatibility, and reuse limits.",
+      "Only condensate temperature, because warm water is always acceptable for washing.",
+      "Only recovered kW, because contaminants are destroyed during condensation, under plant conditions.",
+      "Only pump sizing, because liquid reuse has no environmental permitting impact."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Latent heat recovery can create contaminated condensate that needs environmental and reuse controls."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "A materials review finds chloride-rich condensate on the cold end of an exhaust exchanger. What should be included in the design basis?",
+    "opts": [
+      "Only higher steam pressure, because corrosion is solved by higher temperature.",
+      "Corrosion allowance, alloy selection, drainage, washdown, inspection interval, and leak response.",
+      "Only exchanger area, because materials do not affect heat-integration reliability.",
+      "Only annual fuel saving, because corrosion cost belongs to asset maintenance, under plant conditions."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Condensing exhaust can form corrosive liquids. Materials and inspection strategy affect safety and economics."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "A retrofit saving claim is based on boiler gas use, but production rate and ambient humidity changed during the trial. What should be done?",
+    "opts": [
+      "Use the lower gas bill directly because it is the only measured plant outcome, under plant conditions.",
+      "Use the vendor guarantee because plant data are always too variable for analysis.",
+      "Use final product moisture only because utility meters are not needed for savings.",
+      "Normalize utility use to feed rate, moisture removal, ambient condition, and product specification."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Savings claims need a consistent operating basis, especially for dryers affected by weather and production rate."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "A heat-recovery exchanger works at steady state but causes slow warm-up during dryer startup. What should the operating procedure include?",
+    "opts": [
+      "Permanent bypass removal, because any bypass reduces the maximum energy saving.",
+      "A higher product-moisture limit during startup without quality approval, under plant conditions.",
+      "Startup bypass, warm-up sequence, condensate drainage, alarm limits, and handover criteria.",
+      "No procedure change, because steady-state savings define the whole project."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Startup and shutdown can have different constraints from normal operation and must be controlled explicitly."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "An MVR retrofit saves 1.5 t/h steam but uses 450 kW electricity. What comparison should decide the utility benefit?",
+    "opts": [
+      "Steam saved only, because compressor electricity is outside the evaporator battery limit.",
+      "Net cost and carbon using steam saved, electricity consumed, operating hours, and emission factors.",
+      "Electricity consumed only, because steam reduction has already been counted by operators.",
+      "Installed motor size only, because actual compressor load does not affect savings, in stated units."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Heat-upgrading projects can shift energy from steam to electricity. Net economics and emissions should be compared."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "Returning 2,000 kg/h condensate at 90°C instead of makeup water at 20°C replaces makeup at 20°C. What sensible heat credit is provided?",
+    "opts": [
+      "Heat credit = 2,000×70/3600 = 38.9 kW.",
+      "Heat credit = 4.2×70 = 294 kW, before losses.",
+      "Heat credit = 2,000×4.2/70 = 120 kW.",
+      "Heat credit = 2,000×4.2×70/3600 = 163 kW."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Hot condensate return reduces makeup heating load if it is clean and recoverable."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "A team proposes lowering dryer outlet temperature after adding heat recovery, but product shelf-life depends on residual moisture profile. What approval evidence is needed?",
+    "opts": [
+      "Moisture distribution, water activity, stability testing, residence time, and quality limits.",
+      "Only average outlet temperature, because lower temperature always protects product.",
+      "Only fuel saving, because product testing is unchanged by heat recovery, under plant conditions.",
+      "Only final bag weight, because internal moisture profile is not a process variable."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Energy optimization must preserve critical quality attributes, not just average temperature or fuel consumption."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "An electric trim heater adds 360 kW to maintain dryer inlet temperature when recovered heat is low. What electrical energy is used over 5,000 h/year?",
+    "opts": [
+      "Electrical energy = 360/5,000 = 0.072 kWh/year.",
+      "Electrical energy = 5,000/360 = 13.9 kWh/year.",
+      "Electrical energy = 360×5,000 = 1,800,000 kWh/year.",
+      "Electrical energy = 360×5,000/1000 = 1,800 kWh/year."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Annual electrical energy is power multiplied by operating hours. No efficiency correction is needed for resistance heat at the point of use."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "Operators report evaporator feed temperature and product solids swing after heat recovery was added. Which control question should be answered first?",
+    "opts": [
+      "Can the bypass be locked closed so the exchanger always gives maximum recovery?, for this review.",
+      "Can product sampling be delayed until the oscillation disappears from the trend?",
+      "Can the solids target be widened without checking customer or safety requirements?",
+      "Are exchanger bypass, steam valve, feed-forward trim, and level controls fighting each other?"
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Oscillation after heat integration often comes from loop interaction, delays, and poor valve authority."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "A cleaning contractor recommends doubling caustic strength to restore exchanger duty faster. What should be checked before adopting it?",
+    "opts": [
+      "Only cleaning duration, because higher chemical strength cannot affect equipment risk.",
+      "Metallurgy, gasket compatibility, effluent limits, residue risk, cleaning validation, and worker safety.",
+      "Only steam saving, because cleaning chemicals are outside the utility comparison, under plant conditions.",
+      "Only contractor availability, because site materials are covered by the purchase order."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Cleaning changes can affect materials, effluent, safety, and product-contact risk."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "A dryer exhaust condenser may recover heat from solvent-laden air. What safety analysis is essential before installation?",
+    "opts": [
+      "Condensation curve, LEL margin, ignition sources, inerting or purge needs, and condensate handling.",
+      "Only water dew point, because solvent vapour condenses exactly like clean steam, under plant conditions.",
+      "Only heat-transfer area, because flammability is eliminated by lower temperature.",
+      "Only stack plume visibility, because solvent recovery is an environmental topic only."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Solvent condensation can create flammable mixtures or contaminated condensate and must be assessed before heat recovery."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "A recovered-heat exchanger bypass is opened during CIP, but the control system still assumes full recovery. What should be changed?",
+    "opts": [
+      "Remove the bypass because maintenance states should not affect control logic, for this review.",
+      "Disable alarms during CIP because heat recovery is unavailable by definition.",
+      "Add operating-state logic so steam trim, alarms, and production targets follow bypass status.",
+      "Keep controls unchanged because the exchanger returns to service after cleaning."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: CIP and bypass states change heat availability and should be reflected in control logic."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "An MVR project saves 1.1 t/h steam at $42/t but consumes 310 kW electricity at $0.10/kWh for 7,000 h/year. What net annual utility saving is expected?",
+    "opts": [
+      "Net saving = 1.1×7,000×$42 = $323,400/year, for this balance.",
+      "Net saving = 1.1×7,000×$42 − 310×7,000×$0.10 = $106,400/year.",
+      "Net saving = 310×7,000×$0.10 = $217,000/year.",
+      "Net saving = 1.1×$42 − 310×$0.10 = $15/year."
+    ],
+    "correct": 1,
+    "explanation": "Engineering Explanation: Net utility saving subtracts the new electricity cost from the avoided steam cost."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "A dryer heat-recovery exchanger adds 7 h/month of cleaning downtime. If constrained contribution margin is $2,800/h, what annual downtime cost should be charged?",
+    "opts": [
+      "Downtime cost = 7×$2,800 = $19,600/year, before losses.",
+      "Downtime cost = 12×$2,800 = $33,600/year.",
+      "Downtime cost = $2,800/(7×12) = $33/year.",
+      "Downtime cost = 7×12×$2,800 = $235,200/year."
+    ],
+    "correct": 3,
+    "explanation": "Engineering Explanation: Cleaning downtime on a constrained dryer has an opportunity cost that belongs in the project economics."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "A condensate-recovery retrofit sends warm condensate back to the boiler house, but intermittent product carryover is suspected. What safeguard is needed?",
+    "opts": [
+      "A fixed open return valve, because warm condensate should always be recovered, under plant conditions.",
+      "A higher deaerator temperature, because heat alone removes dissolved contamination.",
+      "Conductivity or TOC monitoring, diversion logic, sampling plan, and defined boiler-return limits.",
+      "A lower feed-solids target, because product carryover is unrelated to condensate reuse."
+    ],
+    "correct": 2,
+    "explanation": "Engineering Explanation: Condensate heat is valuable only when quality is acceptable for the receiving system."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "A retrofit changes normal valve positions, bypass use, and startup sequence for evaporator and dryer operators. What implementation step is required?",
+    "opts": [
+      "Update procedures, operator training, alarms, operating limits, and abnormal-condition response.",
+      "Keep procedures unchanged because the equipment names and product targets are the same.",
+      "Train only maintenance staff because operators do not maintain heat exchangers, for this review.",
+      "Delay alarm review until after several excursions prove which limits matter most."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Heat-integration projects change operating behaviour and must be implemented through procedures, training, and alarm review."
+  },
+  {
+    "section": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "q": "A heat-recovery exchanger gives excellent first-month savings but then loses 45% duty from scaling. What should the approval basis use?",
+    "opts": [
+      "Use dirty-duty data with cleaning interval, chemicals, downtime, pressure drop, and materials limits.",
+      "Use clean-month duty with a small allowance, because early savings show full project potential.",
+      "Use installed area alone, assuming operators can recover duty by raising heating temperature.",
+      "Use steam price only, treating scale removal as routine maintenance outside the energy case, before losses."
+    ],
+    "correct": 0,
+    "explanation": "Engineering Explanation: Sustained economics depend on dirty operation, cleaning cost, downtime, pressure drop, and equipment limits, not first-month performance alone."
+  }
+];
+const SECTIONS = [
+  {
+    "key": "Heat Integration Basis, Objectives & Plant Data",
+    "label": "I — Heat Integration Basis, Objectives & Plant Data",
+    "cls": "sec-conduction",
+    "range": "Questions 1–25"
+  },
+  {
+    "key": "Evaporator Balances, Boiling & Heat Duty",
+    "label": "II — Evaporator Balances, Boiling & Heat Duty",
+    "cls": "sec-convection",
+    "range": "Questions 26–50"
+  },
+  {
+    "key": "Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "label": "III — Multiple-Effect Evaporation, MVR & Condensate Recovery",
+    "cls": "sec-radiation",
+    "range": "Questions 51–75"
+  },
+  {
+    "key": "Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "label": "IV — Dryer Psychrometrics, Exhaust Heat & Moisture Removal",
+    "cls": "sec-hx",
+    "range": "Questions 76–100"
+  },
+  {
+    "key": "Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "label": "V — Pinch Analysis, Heat Exchanger Networks & Utility Systems",
+    "cls": "sec-boiling",
+    "range": "Questions 101–125"
+  },
+  {
+    "key": "Control, Fouling, Safety, Economics & Integrated Optimization",
+    "label": "VI — Control, Fouling, Safety, Economics & Integrated Optimization",
+    "cls": "sec-applications",
+    "range": "Questions 126–150"
+  }
+];
+const LETTERS=['A','B','C','D']; const TOTAL_Q=QUESTIONS.length; const EXAM_DURATION_MS=4*60*60*1000;
+let mode='guided', current=0, answers=new Array(TOTAL_Q).fill(null), locked=new Array(TOTAL_Q).fill(false), submitted=false, timedOut=false, timerInterval=null, examEndTime=null, learnerName='';
+function escapeHtml(s){return String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));}
+function sectionMeta(key){return SECTIONS.find(s=>s.key===key);}
+function fmtHMS(ms){if(ms<0)ms=0;const t=Math.floor(ms/1000),h=Math.floor(t/3600),m=Math.floor((t%3600)/60),s=t%60,p=n=>String(n).padStart(2,'0');return p(h)+':'+p(m)+':'+p(s);}
+function startTimer(){stopTimer();examEndTime=Date.now()+EXAM_DURATION_MS;document.getElementById('timerStat').style.display='';tick();timerInterval=setInterval(tick,1000);}
+function stopTimer(){if(timerInterval){clearInterval(timerInterval);timerInterval=null;}}
+function hideTimer(){stopTimer();examEndTime=null;document.getElementById('timerStat').style.display='none';document.getElementById('timerVal').textContent='04:00:00';}
+function tick(){if(!examEndTime)return;const remain=examEndTime-Date.now();document.getElementById('timerVal').textContent=fmtHMS(remain);const ts=document.getElementById('timerStat');ts.classList.toggle('crit',remain<=60000);ts.classList.toggle('warn',remain<=300000&&remain>60000);if(remain<=0){timedOut=true;submitExam();}}
+function makeCard(idx,num,globalNum){const q=QUESTIONS[idx],sec=sectionMeta(q.section),chosen=answers[idx],isLocked=locked[idx];let opts='';q.opts.forEach((o,i)=>{let cls='opt';if(isLocked){if(i===q.correct)cls+=' correct';else if(i===chosen)cls+=' wrong';}else if(i===chosen)cls+=' sel';const mark=isLocked?(i===q.correct?'✓':(i===chosen?'✗':'')):'';opts+=`<div class="${cls}" data-i="${i}" onclick="choose(${idx},${i})"><span class="letter">${LETTERS[i]}</span><span class="otext">${escapeHtml(o)}</span><span class="mark">${mark}</span></div>`;});return `<div class="q-card ${isLocked?'locked answered':(chosen!==null?'answered':'')}" id="q${idx}"><div class="q-top"><span class="q-num">Q${globalNum?idx+1:num}</span><span class="q-sect ${sec.cls}">${escapeHtml(sec.key)}</span></div><div class="q-text">${escapeHtml(q.q)}</div><div class="opts">${opts}</div><div class="${isLocked?'explain show':'explain'}" id="exp${idx}"><div class="elabel">Engineering Explanation</div><div class="ans-line">Correct Answer: ${LETTERS[q.correct]} — ${escapeHtml(q.opts[q.correct])}</div><p>${escapeHtml(q.explanation)}</p></div></div>`;}
+function build(){const exam=document.getElementById('exam');if(mode==='instant'){let html='',qi=0;SECTIONS.forEach(sec=>{html+=`<div class="section-head ${sec.cls}"><span>${escapeHtml(sec.label)}</span><span class="tag">${escapeHtml(sec.range)}</span></div>`;QUESTIONS.forEach((q,idx)=>{if(q.section===sec.key){qi++;html+=makeCard(idx,qi,false);}});});exam.innerHTML=html;}else{let html=makeCard(current,current+1,true);const last=current===TOTAL_Q-1,answered=answers[current]!==null,all=answers.every(a=>a!==null);const next=mode==='guided'?(last?`<button class="btn btn-gold" onclick="showResultsFromGuided()" ${answered?'':'disabled'}>Show Results</button>`:`<button class="btn btn-gold" onclick="nextQ()" ${answered?'':'disabled'}>Continue</button>`):(last?`<button class="btn btn-gold" onclick="submitExam()" ${all?'':'disabled'}>Submit Exam</button>`:`<button class="btn btn-gold" onclick="nextQ()">Continue</button>`);html+=`<div class="nav"><div class="left"><button class="btn btn-ghost" onclick="prevQ()" ${current===0?'disabled':''}>Back</button><button class="btn btn-ghost" onclick="resetExam(false)">Reset</button></div><div class="note">${mode==='exam'?'No feedback until submission.':'Feedback appears after selection.'}</div><div class="right">${next}</div></div>`;exam.innerHTML=html;}document.getElementById('bottomActions').innerHTML='';updateHud();}
+function choose(idx,i){if(locked[idx]||submitted)return;answers[idx]=i;if(mode==='instant'){locked[idx]=true;updateOptionUI(idx);}else if(mode==='guided'){locked[idx]=true;build();}else{build();}updateHud();}
+function updateOptionUI(idx){const q=QUESTIONS[idx],card=document.getElementById('q'+idx),chosen=answers[idx];card.classList.add('answered','locked');card.querySelectorAll('.opt').forEach(o=>{const oi=+o.dataset.i,mark=o.querySelector('.mark');o.classList.remove('sel','correct','wrong');mark.textContent='';if(oi===q.correct){o.classList.add('correct');mark.textContent='✓';}else if(oi===chosen){o.classList.add('wrong');mark.textContent='✗';}});document.getElementById('exp'+idx).classList.add('show');}
+function nextQ(){if(current<TOTAL_Q-1){current++;build();window.scrollTo({top:0,behavior:'smooth'});}}
+function prevQ(){if(current>0){current--;build();window.scrollTo({top:0,behavior:'smooth'});}}
+function updateHud(){const done=answers.filter(a=>a!==null).length;document.getElementById('progStat').innerHTML=(mode==='instant'?`Progress <b id="progCount">${done}</b>/${TOTAL_Q}`:`Question <b id="progCount">${current+1}</b>/${TOTAL_Q}`);document.getElementById('barFill').style.width=((mode==='instant'?done/TOTAL_Q:(current+1)/TOTAL_Q)*100)+'%';const sc=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'—':sc;}
+function submitExam(){if(submitted)return;locked=locked.map(()=>true);submitted=true;stopTimer();showResults();}
+function showResultsFromGuided(){submitted=true;showResults();}
+function showResults(){const sc=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0),pct=sc/TOTAL_Q;document.getElementById('rScore').textContent=sc;document.getElementById('scoreNum').textContent=sc;let grade,blurb;if(pct>=.9){grade='Evaporator & Dryer Heat Integration — Distinction';blurb='Excellent command of evaporation and drying balances, pinch targeting, exchanger networks, utility integration, controls, economics, and decarbonization trade-offs.';}else if(pct>=.8){grade='Evaporator & Dryer Heat Integration — Solid Pass';blurb='Strong performance. Review missed questions to sharpen moisture-balance logic, ΔTmin targeting, retrofit feasibility, and operating-case interpretation.';}else if(pct>=.7){grade='Evaporator & Dryer Heat Integration — Competent';blurb='Good working knowledge with targeted review needed on evaporator duties, dryer psychrometrics, pinch rules, exchanger design, and project economics.';}else if(pct>=.6){grade='Approaching Heat Integration Readiness';blurb='Core ideas are present, but more practice is needed with stream tables, moisture balances, heat cascades, exchanger feasibility, and utility economics.';}else{grade='Developing Evaporator & Dryer Heat Integration Knowledge';blurb='Revisit evaporation and drying heat-duty basics, composite curves, pinch rules, heat exchanger sizing, utility systems, and retrofit decision logic.';}document.getElementById('rGrade').textContent=grade;document.getElementById('rBlurb').textContent=blurb;document.getElementById('rTimeout').style.display=timedOut?'block':'none';const by={};QUESTIONS.forEach((q,i)=>{by[q.section]=by[q.section]||{c:0,t:0};by[q.section].t++;if(answers[i]===q.correct)by[q.section].c++;});const bd=document.getElementById('rBreak');bd.innerHTML='';SECTIONS.forEach(sec=>{const d=by[sec.key];const el=document.createElement('div');el.className='bd-item';el.innerHTML=`<div class="bd-t">${escapeHtml(sec.key)}</div><div class="bd-s">${d.c}/${d.t}</div>`;bd.appendChild(el);});document.getElementById('results').classList.add('show');if(mode==='exam'||mode==='guided')renderReviewList();else build();renderCertificate(sc,TOTAL_Q);setTimeout(()=>document.getElementById('results').scrollIntoView({behavior:'smooth'}),200);}
+function renderReviewList(){let html='',qi=0;SECTIONS.forEach(sec=>{html+=`<div class="section-head ${sec.cls}"><span>${escapeHtml(sec.label)}</span><span class="tag">${escapeHtml(sec.range)}</span></div>`;QUESTIONS.forEach((q,idx)=>{if(q.section===sec.key){qi++;html+=makeCard(idx,qi,false);}});});document.getElementById('exam').innerHTML=html;}
+function reviewAnswers(){const exam=document.getElementById('exam');if(exam.firstElementChild)exam.firstElementChild.scrollIntoView({behavior:'smooth'});}
+function setMode(m){mode=m;document.getElementById('mode-guided').classList.toggle('active',m==='guided');document.getElementById('mode-instant').classList.toggle('active',m==='instant');document.getElementById('mode-exam').classList.toggle('active',m==='exam');document.getElementById('modeHint').textContent=m==='guided'?'Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.':m==='instant'?'Instant Feedback: all 150 questions on one page. Each answer reveals the explanation immediately.':'Exam Mode: one question at a time. 4-hour countdown; feedback and score are hidden until final submission.';resetExam(false);}
+function resetExam(jump){current=0;answers=new Array(TOTAL_Q).fill(null);locked=new Array(TOTAL_Q).fill(false);submitted=false;timedOut=false;document.getElementById('results').classList.remove('show');hideCertificate();if(mode==='exam')startTimer();else hideTimer();build();if(jump)window.scrollTo({top:0,behavior:'smooth'});}
+function requestExamName(){if(learnerName){setMode('exam');return;}document.getElementById('nameModal').classList.add('show');setTimeout(()=>document.getElementById('nameInput').focus(),50);}
+function closeNameModal(){document.getElementById('nameModal').classList.remove('show');}
+function startExamFromModal(){const n=document.getElementById('nameInput').value.trim();if(!n){document.getElementById('nameInput').focus();return;}learnerName=n;document.getElementById('certNameInput').value=n;updateCertName(n);closeNameModal();setMode('exam');}
+function hashCode(str){let h=0;for(let i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+function updateCertName(n){document.getElementById('certName').textContent=(n||'').trim()||'Learner';}
+function hideCertificate(){document.getElementById('certificate').classList.remove('show');}
+function renderCertificate(sc,total){const n=learnerName||document.getElementById('certNameInput').value.trim()||'Learner';const date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});updateCertName(n);document.getElementById('certNameInput').value=n;document.getElementById('certScore').textContent=`${sc} / ${total} (${Math.round(sc/total*100)}%)`;document.getElementById('certDate').textContent=date;document.getElementById('certId').textContent='CHML-'+hashCode('HIED|'+n+'|'+date+'|'+sc+'|'+total);document.getElementById('certificate').classList.add('show');}
+(function validate(){const errors=[];if(QUESTIONS.length!==150)errors.push('Expected 150 questions, found '+QUESTIONS.length);const keys=new Set(SECTIONS.map(s=>s.key));QUESTIONS.forEach((q,i)=>{if(!keys.has(q.section))errors.push('Question '+(i+1)+' unknown section');if(!Array.isArray(q.opts)||q.opts.length!==4)errors.push('Question '+(i+1)+' option count');if(![0,1,2,3].includes(q.correct))errors.push('Question '+(i+1)+' invalid correct index');});if(errors.length){document.getElementById('exam').innerHTML='<div class="q-card"><h2>Validation error</h2><p>'+errors.map(escapeHtml).join('<br>')+'</p></div>';throw new Error(errors.join('; '));}})();
+build();updateHud();
+</script>
+</body>
+</html>

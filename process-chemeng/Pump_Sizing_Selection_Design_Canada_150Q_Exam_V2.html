@@ -1,0 +1,2615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Process Engineering &middot; Pump Sizing, Selection and Design &middot; Canada Regulation &middot; 150Q Exam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171a23;
+  --paper:#efece4;
+  --paper2:#e3e0d3;
+  --gold:#8b6526;
+  --gold-deep:#684a0f;
+  --green:#2f6b4f;
+  --green-soft:#e1ece4;
+  --red:#a8412f;
+  --red-soft:#f3e3df;
+  --conduction:#6b2d2d;
+  --convection:#0e5f73;
+  --radiation:#7a5b12;
+  --hx:#264c86;
+  --boiling:#5e2a7e;
+  --applications:#26633a;
+  --line:#cdc6b1;
+  --shadow:rgba(20,18,8,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Newsreader',Georgia,serif;
+  background:
+    radial-gradient(circle at 10% 6%, rgba(114,47,55,.07), transparent 40%),
+    radial-gradient(circle at 92% 96%, rgba(90,37,133,.06), transparent 40%),
+    var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  padding:0 0 80px;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 22px}
+header.masthead{text-align:center;padding:54px 0 30px;border-bottom:3px double var(--ink);margin-bottom:8px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px}
+h1.title{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(2.2rem,5.5vw,3.6rem);line-height:.98;letter-spacing:-.02em;margin-bottom:10px}
+h1.title .amp{font-style:italic;font-weight:400;color:var(--gold-deep)}
+.byline{font-style:italic;font-size:1.05rem;color:#5a5246;margin-bottom:22px}
+.exambar{display:inline-flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.04em;color:#4c443a;padding:12px 26px;border:1px solid var(--line);border-radius:2px;background:rgba(255,255,255,.4)}
+.exambar b{color:var(--ink)}
+.modebar{display:flex;align-items:center;justify-content:center;gap:0;margin:26px 0 8px;border:1px solid var(--line);border-radius:99px;overflow:hidden;width:fit-content;margin-left:auto;margin-right:auto;background:rgba(255,255,255,.45)}
+.modebar button{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:none;background:transparent;cursor:pointer;color:#5a5246;transition:all .2s}
+.modebar button.active{background:var(--ink);color:var(--paper)}
+.mode-hint{text-align:center;font-style:italic;color:#6b6252;font-size:.92rem;margin-bottom:8px}
+.hud{position:sticky;top:0;z-index:20;margin:0 -22px 30px;padding:14px 22px;background:rgba(239,236,228,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hud .bar-track{flex:1;min-width:140px;height:8px;background:var(--paper2);border-radius:99px;overflow:hidden;border:1px solid var(--line)}
+.hud .bar-fill{height:100%;width:0;background:linear-gradient(90deg,var(--conduction),var(--convection),var(--radiation),var(--hx),var(--boiling),var(--applications));border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.hud .stat{font-family:'JetBrains Mono',monospace;font-size:.78rem;letter-spacing:.03em;white-space:nowrap}
+.hud .stat b{font-size:.95rem;color:var(--gold-deep)}
+.hud .stat .sc-correct{color:var(--green)}
+.hud .stat.timer b{font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--gold-deep)}
+.hud .stat.timer.warn b{color:#b8341a}
+.hud .stat.timer.crit b{color:#b8341a;animation:tpulse 1s ease-in-out infinite}
+@keyframes tpulse{0%,100%{opacity:1}50%{opacity:.45}}
+.section-head{margin:46px 0 8px;padding:13px 20px;border-radius:3px;font-family:'Fraunces',serif;font-weight:700;font-size:1.16rem;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:14px;justify-content:space-between;box-shadow:0 4px 16px var(--shadow)}
+.section-head .tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.2);white-space:nowrap}
+.sec-conduction{background:linear-gradient(100deg,var(--conduction),#4d1f23)}
+.sec-convection{background:linear-gradient(100deg,var(--convection),#06403f)}
+.sec-radiation{background:linear-gradient(100deg,var(--radiation),#5f3406)}
+.sec-hx{background:linear-gradient(100deg,var(--hx),#0c2349)}
+.sec-boiling{background:linear-gradient(100deg,var(--boiling),#311148)}
+.sec-applications{background:linear-gradient(100deg,var(--applications),#0e3d18)}
+.q-card{background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:24px 26px 20px;margin:16px 0;box-shadow:0 2px 10px rgba(20,18,8,.05);transition:box-shadow .3s,border-color .3s}
+.q-card.answered{box-shadow:0 4px 18px var(--shadow)}
+.q-top{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.q-num{font-family:'Fraunces',serif;font-weight:900;font-size:1.5rem;color:var(--gold-deep);line-height:1;min-width:54px}
+.q-sect{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px;border-radius:99px;color:#fff}
+.q-text{font-size:1.06rem;line-height:1.62;margin-bottom:18px;font-weight:500}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{display:flex;align-items:flex-start;gap:13px;padding:12px 14px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:rgba(255,255,255,.55);transition:all .18s ease;position:relative}
+.opt:hover{border-color:var(--gold);background:rgba(139,101,38,.08);transform:translateX(2px)}
+.opt .letter{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.85rem;width:25px;height:25px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--gold-deep);color:var(--gold-deep);transition:all .18s;margin-top:1px}
+.opt .otext{flex:1;font-size:1.0rem;line-height:1.55;word-break:break-word;padding-top:2px}
+.opt.sel{border-color:var(--gold-deep);background:rgba(139,101,38,.12)}
+.opt.sel .letter{background:var(--gold-deep);color:#fff}
+.q-card.locked .opt{cursor:default;pointer-events:none}
+.q-card.locked .opt:hover{transform:none}
+.opt.correct{border-color:var(--green);background:var(--green-soft)}
+.opt.correct .letter{background:var(--green);color:#fff;border-color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt.wrong .letter{background:var(--red);color:#fff;border-color:var(--red)}
+.opt .mark{margin-left:auto;font-weight:700;font-size:1.1rem;opacity:0;transition:opacity .3s;align-self:center;font-family:'JetBrains Mono',monospace}
+.opt.correct .mark{opacity:1;color:var(--green)}
+.opt.wrong .mark{opacity:1;color:var(--red)}
+.explain{max-height:0;overflow:hidden;opacity:0;transition:max-height .5s ease,opacity .4s ease,margin .4s ease,padding .4s ease;border-left:3px solid var(--gold);background:rgba(139,101,38,.06);border-radius:0 3px 3px 0;margin-top:0;padding:0 18px}
+.explain.show{max-height:900px;opacity:1;margin-top:16px;padding:15px 18px}
+.explain .elabel{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px}
+.explain .ans-line{font-weight:600;color:var(--green);margin-bottom:6px;font-size:.98rem}
+.explain p{font-size:1rem;line-height:1.62;color:#332e23}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:24px 0 0;padding-top:18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.nav .left,.nav .right{display:flex;gap:10px;flex-wrap:wrap}
+.nav .note{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;color:#7a705c;text-transform:uppercase}
+.results{margin:48px 0 0;padding:38px 34px;border-radius:6px;text-align:center;background:linear-gradient(160deg,#fff,var(--paper2));border:1px solid var(--line);box-shadow:0 8px 30px var(--shadow);display:none}
+.results.show{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.results .rk{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px}
+.results .score-big{font-family:'Fraunces',serif;font-weight:900;font-size:4.5rem;line-height:1;margin-bottom:6px}
+.results .score-big span{font-size:2rem;color:#7a705c}
+.results .grade{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;margin-bottom:14px}
+.results .blurb{max-width:560px;margin:0 auto 24px;color:#3e382c;font-size:1.05rem}
+.results .timeout-note{max-width:560px;margin:0 auto 18px;color:#a8412f;font-size:.96rem;font-weight:600}
+.results .breakdown{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:26px}
+.bd-item{padding:10px 16px;border-radius:4px;border:1px solid var(--line);background:rgba(255,255,255,.55);min-width:160px}
+.bd-item .bd-t{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+.bd-item .bd-s{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem}
+.btn{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:14px 30px;border:none;border-radius:3px;cursor:pointer;transition:all .2s}
+.btn-gold{background:var(--ink);color:var(--paper)}
+.btn-gold:hover{background:var(--gold-deep);transform:translateY(-2px);box-shadow:0 6px 18px var(--shadow)}
+.btn-gold:disabled{background:#928a76;color:#e3ddc9;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+.btn-ghost:disabled{color:#928a76;border-color:#928a76;cursor:not-allowed}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px}
+footer{text-align:center;margin-top:60px;padding-top:24px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.06em;color:#7a705c;line-height:1.7}
+.disclaimer{margin-top:10px;font-family:'Newsreader',Georgia,serif;font-size:.92rem;letter-spacing:0;color:#5a5246;font-style:italic}
+@media(max-width:560px){
+  .q-card{padding:20px 16px}
+  .q-num{font-size:1.25rem;min-width:44px}
+  .q-text{font-size:.98rem}
+  .opt .otext{font-size:.92rem}
+  .results .score-big{font-size:3.5rem}
+  .hud{gap:12px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .modebar{flex-direction:column;border-radius:8px;width:100%}
+  .modebar button{width:100%}
+}
+</style>
+
+<style id="chml-one-question-style">
+.chml-oat-hidden{display:none!important;}
+.chml-oat-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin:22px 0 0;padding:18px 20px;border:1px solid var(--line,#d4c9b4);border-radius:6px;background:rgba(255,255,255,.45);}
+.chml-oat-nav .chml-oat-hint{flex:1;text-align:center;min-width:200px;font-style:italic;color:#7a6e58;font-size:.92rem;}
+.chml-oat-cluster{display:flex;gap:10px;flex-wrap:wrap;}
+.chml-oat-nav button[disabled]{opacity:.45;cursor:not-allowed;pointer-events:none;}
+</style>
+
+<style id="chml-cert-style">
+.chml-cert-wrap{display:none;margin:34px auto 26px;max-width:920px;padding:0 16px;position:relative;z-index:2;}
+.chml-cert-wrap.show{display:block;}
+.chml-cert-toolbar{display:flex;gap:10px;justify-content:flex-end;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.chml-cert-toolbar label{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:#5d5241;text-transform:uppercase;letter-spacing:.06em;}
+.chml-cert-toolbar input{padding:10px 12px;border:1px solid #cbbfaa;border-radius:4px;min-width:220px;font-size:1rem;background:#fff;color:#1c1a17;}
+.chml-cert-btn{font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:4px;border:1px solid #1c1a17;background:#1c1a17;color:#fff;cursor:pointer;}
+.chml-cert-btn.secondary{background:transparent;color:#1c1a17;}
+.chml-cert-paper{background:#ebe3d5;padding:14px;border-radius:4px;box-shadow:0 14px 40px rgba(40,32,18,.18);}
+.chml-cert-border{position:relative;border:3px double #1c1a17;padding:42px 50px 32px;background:linear-gradient(180deg,#fcf8ed 0%,#f0e7d2 100%);text-align:center;border-radius:2px;color:#1c1a17;}
+.chml-cert-corner{position:absolute;width:34px;height:34px;border:2px solid #8a6d28;}
+.chml-cert-corner.tl{top:8px;left:8px;border-right:0;border-bottom:0}.chml-cert-corner.tr{top:8px;right:8px;border-left:0;border-bottom:0}.chml-cert-corner.bl{bottom:8px;left:8px;border-right:0;border-top:0}.chml-cert-corner.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.chml-cert-kicker{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.72rem;letter-spacing:.18em;color:#8a6d28;margin-bottom:6px;}
+.chml-cert-h1{font-family:Georgia,serif;font-weight:700;font-size:2.45rem;color:#1c1a17;margin:0 0 8px;}
+.chml-cert-rule{width:120px;height:2px;background:#b08d3c;margin:8px auto 22px;}
+.chml-cert-pre{font-family:Georgia,serif;font-style:italic;color:#6b5f4a;margin:0 0 8px;font-size:1.05rem;}
+.chml-cert-name{font-family:Georgia,serif;font-weight:700;font-size:2.25rem;color:#1c1a17;margin:6px 0 14px;border-bottom:1px solid rgba(28,26,23,.25);display:inline-block;padding:0 28px 8px;}
+.chml-cert-body{font-family:Georgia,serif;font-size:1.08rem;line-height:1.55;color:#1c1a17;max-width:680px;margin:6px auto 26px;}
+.chml-cert-stats{display:flex;justify-content:center;gap:54px;margin:22px 0 28px;flex-wrap:wrap;}
+.chml-cert-stat{text-align:center;min-width:140px;}.chml-cert-stat-l{font-family:Arial,sans-serif;text-transform:uppercase;font-size:.66rem;letter-spacing:.16em;color:#8a6d28;margin-bottom:6px;}.chml-cert-stat-v{font-family:Georgia,serif;font-weight:700;font-size:1.3rem;color:#1c1a17;}
+.chml-cert-foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;flex-wrap:wrap;gap:14px;}.chml-cert-sig{text-align:left;}.chml-cert-sig-line{font-family:Georgia,serif;font-style:italic;font-size:1.1rem;color:#1c1a17;border-top:1px solid #1c1a17;padding-top:4px;min-width:200px;}.chml-cert-sig-label{font-family:Arial,sans-serif;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:#6b5f4a;margin-top:2px;}.chml-cert-id{font-family:Arial,sans-serif;font-size:.7rem;color:#6b5f4a;text-transform:uppercase;letter-spacing:.08em;}
+@media print{*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}body>*:not(#chmlCertificate){display:none!important;}html,body{background:#fff!important;margin:0!important;padding:0!important;}#chmlCertificate .chml-cert-toolbar{display:none!important;}#chmlCertificate{display:block!important;position:fixed!important;inset:0!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;max-width:none!important;background:#fff!important;}#chmlCertificate .chml-cert-paper{position:absolute!important;inset:0!important;margin:0!important;padding:5mm!important;box-shadow:none!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-border{position:absolute!important;inset:5mm!important;margin:0!important;padding:38px 55px 32px!important;display:flex!important;flex-direction:column!important;justify-content:space-evenly!important;align-items:center!important;box-sizing:border-box!important;}#chmlCertificate .chml-cert-kicker,#chmlCertificate .chml-cert-h1,#chmlCertificate .chml-cert-rule,#chmlCertificate .chml-cert-pre,#chmlCertificate .chml-cert-name,#chmlCertificate .chml-cert-body,#chmlCertificate .chml-cert-stats,#chmlCertificate .chml-cert-foot{margin-top:0!important;margin-bottom:0!important;}#chmlCertificate .chml-cert-foot{width:100%!important;}@page{size:landscape;margin:6mm;}}
+.chml-name-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(28,26,23,.55);z-index:9999;backdrop-filter:blur(2px);}.chml-name-modal.show{display:flex;}.chml-name-card{background:#f4efe6;color:#1c1a17;width:min(520px,calc(100% - 32px));padding:26px 28px;border:1px solid #cbbfaa;border-radius:6px;box-shadow:0 24px 60px rgba(28,26,23,.25);}.chml-name-card h2{margin:0 0 8px;font-family:Georgia,serif;font-size:1.5rem;}.chml-name-card p{margin:0 0 16px;color:#6b5f4a;line-height:1.45;}.chml-name-card label{display:block;font-family:Arial,sans-serif;text-transform:uppercase;font-weight:700;font-size:.7rem;letter-spacing:.1em;color:#8a6d28;margin:0 0 5px;}.chml-name-card input{display:block;width:100%;padding:11px 13px;border:1px solid #cbbfaa;border-radius:4px;font-size:1rem;background:#fff;color:#1c1a17;}.chml-name-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="kicker">Process Engineering &middot; Pump Sizing, Selection and Design &middot; Canadian Regulation &middot; 150-Question Exam</div>
+    <h1 class="title">Pump Sizing, Selection &amp; Design &middot; <span class="amp">Canada Regulation</span> Exam</h1>
+    <div class="byline">150 questions across pump design basis, fluid properties, hydraulic calculations, NPSH, cavitation, pump curves, driver sizing, materials, seals, installation, controls, protection, commissioning, troubleshooting, reliability, and Canadian pressure-equipment / fire-code design interfaces</div>
+    <div class="exambar">
+      <span><b>150</b> Questions</span>
+      <span><b>4</b> Options Each</span>
+      <span><b>1</b> Mark per Question</span>
+      <span>Total: <b>150</b> Marks</span>
+      <span>Exam Mode: <b>4 hr</b> timer</span>
+    </div>
+  </header>
+
+  <div class="modebar" role="tablist">
+    <button id="mode-guided"  onclick="setMode('guided')" class="active">Guided Path</button>
+    <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+    <button id="mode-exam"    onclick="setMode('exam')">Exam Mode</button>
+  </div>
+  <p class="mode-hint" id="modeHint">Guided Path: one question at a time. Pick an answer to unlock Continue.</p>
+
+  <div class="hud">
+    <span class="stat" id="progStat">Progress <b id="progCount">0</b>/150</span>
+    <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
+    <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+    <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">04:00:00</b></span>
+  </div>
+
+  <main id="exam"></main>
+
+  <div class="actions" style="margin-top:34px" id="bottomActions"></div>
+
+  <section class="results" id="results">
+    <div class="rk">Your Result</div>
+    <div class="score-big"><span id="rScore">0</span><span>/150</span></div>
+    <div class="grade" id="rGrade"></div>
+    <p class="timeout-note" id="rTimeout" style="display:none">Time expired &mdash; exam auto-submitted at the 4-hour limit.</p>
+    <p class="blurb" id="rBlurb"></p>
+    <div class="breakdown" id="rBreak"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="reviewAnswers()">Review Answers</button>
+      <button class="btn btn-ghost" onclick="resetExam(true)">Retake Exam</button>
+    </div>
+  </section>
+
+  <footer>
+    Process Engineering &middot; Pump Sizing, Selection and Design &middot; Canada Regulation &middot; 150-question exam
+    <div class="disclaimer">Training resource only. Validate every pump, driver, seal system, piping tie-in, pressure boundary, relief/overpressure scenario, electrical classification, installation, commissioning, and operating decision against the current law, adopted code edition, provincial or territorial pressure-equipment authority, National Fire Code adoption, owner standards, manufacturer instructions, AHJ rulings, and project-specific HAZOP/PSSR before construction or operation.</div>
+  </footer>
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A FEED team wants to buy a transfer pump before the line list is finished. What is the safest starting point for pump sizing?",
+    "opts": [
+      "Use the largest nozzle size available and let the control valve absorb unused head, before vendor guarantees are accepted; while startup cases remain unchecked.",
+      "Select a pump from the normal flow only, then add margin after the vendor quote is received; without full fluid-property confirmation.",
+      "Confirm fluid properties, flow cases, suction source, destination pressure, elevation, losses, and operating philosophy before selecting the pump.",
+      "Choose the lowest-cost pump that meets nominal flow and revisit hydraulics during startup; with operating cases still unresolved."
+    ],
+    "correct": 2,
+    "explanation": "Pump sizing starts with a complete hydraulic and operating basis. Normal, minimum, maximum, startup, shutdown, upset, and cleaning cases can all change head, NPSH, driver power, materials, and controls."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A process engineer reports the required pump pressure in kPa but the pump vendor asks for head in metres. What principle should the team use?",
+    "opts": [
+      "Convert using water density even when the liquid is solvent, acid, slurry, or hot condensate; leaving AHJ screening incomplete.",
+      "Use the pressure value directly because kPa and metres of head are interchangeable for all liquids; while startup cases remain unchecked.",
+      "Pump head is energy per unit weight of liquid, so pressure must be converted using liquid density or specific gravity.",
+      "Add 10 m to the pressure number to cover density uncertainty and piping losses, before vendor guarantees are accepted."
+    ],
+    "correct": 2,
+    "explanation": "Centrifugal pump curves are normally expressed as head. Pressure depends on liquid density, so a pump producing the same head creates different discharge pressure in liquids with different specific gravity."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A pump will handle a solvent that can operate between 5°C and 55°C. Which data set should govern early design screening?",
+    "opts": [
+      "Use temperature-dependent density, viscosity, vapour pressure, corrosivity, and NPSH impacts across the full operating range.",
+      "Treat as acceptable: the coldest density with the hottest viscosity and ignore vapour pressure until commissioning.",
+      "Rely on the idea that supplier nominal data only and let the vendor select conservative materials independently; leaving AHJ screening incomplete.",
+      "Check the limited case that the room-temperature data sheet because pump curves are normally tested near ambient conditions."
+    ],
+    "correct": 0,
+    "explanation": "Liquid properties change with temperature. Viscosity affects curve correction and power, density affects pressure and motor load, vapour pressure affects NPSHA, and corrosivity may change material selection."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A new pump is connected to regulated pressure piping in a Canadian plant. What compliance interface should be screened?",
+    "opts": [
+      "Treat the pump as vendor equipment and exclude connected nozzles, spools, and relief devices from pressure-equipment screening.",
+      "Use the pump performance curve as the compliance document because pressure piping rules apply only to vessels; with operating cases still unresolved.",
+      "Accept the vendor country code as final and bypass Canadian AHJ review when the pump is imported; leaving AHJ screening incomplete.",
+      "Check the provincial or territorial AHJ, CSA B51/adopted piping code interface, registration needs, inspection, and owner standards."
+    ],
+    "correct": 3,
+    "explanation": "The pump casing, associated piping, fittings, relief devices, and installation can interact with Canadian pressure-equipment requirements. The applicable AHJ and adopted code path must be confirmed early."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A pump is proposed for a flammable-liquid unloading station. Which design basis item is missing if the scope covers hydraulics only?",
+    "opts": [
+      "Assume that A larger motor service factor, because flammable liquids require excess hydraulic power; with owner standards assumed.",
+      "Fire-code and hazardous-area controls such as spill containment, ignition control, bonding/grounding, emergency shutdown, and access.",
+      "Treat as acceptable: A reduced suction pipe size, because lower inventory in the line reduces flammable risk; leaving AHJ screening incomplete.",
+      "Rely on the idea that A higher impeller trim, because fire safety is controlled by increasing discharge head; while startup cases remain unchecked."
+    ],
+    "correct": 1,
+    "explanation": "Flammable-liquid pumps require more than flow and head sizing. Fire, electrical classification, containment, emergency isolation, safe drainage, and response access must be integrated."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A slurry pump is being sized using water properties because the carrier liquid is water. What key design information is still required?",
+    "opts": [
+      "Solids concentration, particle size, hardness, settling tendency, abrasion, viscosity, density, and minimum transport velocity.",
+      "Discharge flange rating, handwheel orientation, and housekeeping colour code, before vendor guarantees are accepted.",
+      "Suction tank diameter, motor paint system, and building occupancy classification, without full fluid-property confirmation.",
+      "Vendor nameplate voltage, bearing brand, and spare coupling elastomer size, with owner standards assumed; with operating cases still unresolved."
+    ],
+    "correct": 0,
+    "explanation": "Slurry service can control pump type, speed, impeller design, wear materials, pipe velocity, NPSH, maintenance frequency, and line flushing. Water-only data is not enough."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A process line includes a filter that becomes fouled near the end of a campaign. How should the pump design basis treat the filter?",
+    "opts": [
+      "Assume that the filter housing pressure rating as the pump head requirement without a system curve.",
+      "Ignore the filter at FEED because differential pressure is an operations problem, without full fluid-property confirmation.",
+      "Include clean and fouled differential-pressure cases so the selected pump can operate safely across the campaign.",
+      "Rely on the idea that clean-filter pressure drop and rely on operators to throttle flow when the filter plugs."
+    ],
+    "correct": 2,
+    "explanation": "System resistance changes as filters, strainers, exchangers, and static mixers foul. Pump selection must check low-resistance and high-resistance cases to avoid overload, cavitation, or loss of flow."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A batch transfer pump must empty tanks of different sizes to several destinations. What should the hydraulic basis include?",
+    "opts": [
+      "One average transfer case, because batch systems rarely run at design extremes, leaving AHJ screening incomplete.",
+      "A pump operating matrix covering each source level, destination pressure, route, valve lineup, fluid, and duty case.",
+      "Treat as acceptable: The shortest piping route only, with manual throttling used for the longer routes; before vendor guarantees are accepted.",
+      "Rely on the idea that the largest tank volume only, because volume determines pump head more than elevations."
+    ],
+    "correct": 1,
+    "explanation": "Batch systems often have many hydraulic cases. Minimum suction level, maximum destination pressure, longest route, highest viscosity, and cleanup routes may govern different parts of selection."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A designer adds 25% flow margin and 25% head margin to every pump because the process data is preliminary. What is the concern?",
+    "opts": [
+      "Oversizing is mainly a procurement cost issue and has little effect on vibration or seal life; without full fluid-property confirmation.",
+      "The margin is acceptable if the control valve can dissipate the extra head during normal operation; with owner standards assumed.",
+      "Stacked margins can push the pump away from BEP, oversize the motor, waste energy, and create control or minimum-flow problems.",
+      "Large margins always improve reliability because centrifugal pumps self-correct to the required operating point."
+    ],
+    "correct": 2,
+    "explanation": "Margins should be deliberate and traceable. Excessive margins may force throttling, create low-flow recirculation, increase heat, and reduce reliability."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A pump will handle a liquid near its boiling point. Which item becomes especially important in the design basis?",
+    "opts": [
+      "Discharge flange bolt count, because cavitation is controlled by flange stiffness.",
+      "Paint colour and motor enclosure style, because boiling risk is mainly an external hazard.",
+      "Vapour pressure at maximum operating temperature and available NPSH at minimum suction level.",
+      "Pump baseplate length, because longer skids reduce vapour pressure, without full fluid-property confirmation."
+    ],
+    "correct": 2,
+    "explanation": "Hot or volatile liquids often have low NPSH margin. NPSHA must be calculated using absolute pressure, vapour pressure, static head, and suction losses."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A pump datasheet lists normal flow but not minimum continuous stable flow. Why is that a design gap?",
+    "opts": [
+      "Assume that minimum flow can be set after startup by listening for noise at the pump casing; with owner standards assumed.",
+      "Use the assumption that low-flow operation is harmless if the motor is below rated amperage; before vendor guarantees are accepted.",
+      "Low-flow operation can cause overheating, internal recirculation, vibration, seal damage, and unstable operation.",
+      "Rely on the idea that minimum flow is needed only for positive-displacement pumps, not centrifugal pumps."
+    ],
+    "correct": 2,
+    "explanation": "A centrifugal pump needs a defined allowable operating range. Minimum continuous stable flow and minimum thermal flow are important for reliability and safety."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A pump will supply a critical cooling-water loop. What availability concept should be defined before selection?",
+    "opts": [
+      "Impeller material alone, because cooling-water pumps fail mainly by corrosion, with operating cases still unresolved.",
+      "Nameplate horsepower alone, because standby strategy is an operations decision, leaving AHJ screening incomplete.",
+      "Seal vendor preference alone, because cooling duty does not affect system availability.",
+      "Sparing philosophy, standby duty, automatic start logic, maintenance bypass, and acceptable downtime."
+    ],
+    "correct": 3,
+    "explanation": "Critical services may need 2 x 100%, 3 x 50%, auto-start standby, bypasses, and maintenance isolation. Availability requirements change pump count and control design."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A vendor offers a pump that meets flow at a single quoted head. What information is needed before accepting it?",
+    "opts": [
+      "Assume that the shipping weight and dimensional drawing, because hydraulic fit is confirmed by the quoted duty point.",
+      "Use the assumption that the spare-parts price list, because selection quality is controlled by long-term maintenance cost.",
+      "The full pump curve, efficiency, power, NPSHR, allowable operating range, impeller size, and minimum-flow limits.",
+      "Rely on the idea that the purchase price and delivery date, because pump curves are interchangeable for similar sizes."
+    ],
+    "correct": 2,
+    "explanation": "A single duty point is not enough. The curve shows whether the pump operates near BEP, whether power rises at runout, and whether NPSH and minimum-flow constraints are acceptable."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A chemical pump is being selected for a liquid with uncertain compatibility. What should be resolved before RFQ award?",
+    "opts": [
+      "Assume that the freight terms first, because vendor warranty covers material failure during the first year.",
+      "Use the assumption that the motor efficiency class first, because chemical compatibility is usually solved by coating the casing.",
+      "Wetted materials, elastomers, seal faces, corrosion allowance, temperature limits, and chemical compatibility evidence.",
+      "Rely on the idea that the paint specification first, because external coating protects wetted parts from corrosion."
+    ],
+    "correct": 2,
+    "explanation": "Chemical compatibility must include metal wetted parts, elastomers, gaskets, seal faces, flush fluids, coatings, and cleaning chemicals. Warranty is not a substitute for design verification."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A pump is installed outdoors in northern Canada. Which environmental design basis items matter?",
+    "opts": [
+      "Summer design temperature only, because pump heat from operation prevents winter freezing; without full fluid-property confirmation.",
+      "Motor colour and sun exposure only, because outdoor pumps fail mainly from heat, with owner standards assumed.",
+      "Minimum ambient temperature, freeze protection, snow/ice access, enclosure needs, heat tracing, drainage, and winter startup.",
+      "Pump curve at 20°C only, because installed environment does not affect hydraulic operation; leaving AHJ screening incomplete."
+    ],
+    "correct": 2,
+    "explanation": "Outdoor service can affect lubrication, seal flush, casing drains, standby lines, instruments, access, heat tracing, and motor protection. Winterization must be designed, not improvised."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A hygienic transfer pump is proposed for a food or pharmaceutical application. What additional design basis must be considered?",
+    "opts": [
+      "Cleanability, drainability, sanitary connections, surface finish, elastomer compatibility, CIP/SIP conditions, and contamination control.",
+      "Increase the pump speed to reduce residence time and avoid all cleanability review, with owner standards assumed.",
+      "Use a refinery-style pump standard because all centrifugal pumps are interchangeable by head and flow; before vendor guarantees are accepted.",
+      "Select cast iron wetted parts and rely on frequent rinsing to control contamination, without full fluid-property confirmation."
+    ],
+    "correct": 0,
+    "explanation": "Hygienic pumps require sanitary design, clean-in-place compatibility, drainability, surface finish, seal hygiene, and contamination controls beyond ordinary industrial pump selection."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A pump is expected to run at several production rates as the plant scales up. Which selection strategy is best?",
+    "opts": [
+      "Assume that buy for ultimate maximum flow and throttle heavily during the first year of operation; with owner standards assumed.",
+      "Check the full operating envelope and evaluate variable speed, impeller trim, recirculation, or staged pumps before purchase.",
+      "Use a larger suction pipe only, because pipe size can absorb scale-up uncertainty, leaving AHJ screening incomplete.",
+      "Rely on the idea that buy for current minimum flow and plan to replace the pump when production increases."
+    ],
+    "correct": 1,
+    "explanation": "Scale-up duty can require turndown. Selection should consider how the pump will operate at early, normal, future, and upset rates without damaging low-flow operation or wasting energy."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A pump discharge connects to a closed vessel whose pressure can vary. What must be included in TDH cases?",
+    "opts": [
+      "Minimum and maximum vessel pressure, liquid level, static elevation, friction loss, and control-valve pressure drop.",
+      "Use the assumption that vessel design pressure alone, because operating pressure is not needed for pump sizing.",
+      "Nominal vessel pressure alone, because the vessel relief valve fixes pump head, without full fluid-property confirmation.",
+      "Rely on the idea that vessel volume alone, because larger vessels require higher pump pressure; with owner standards assumed."
+    ],
+    "correct": 0,
+    "explanation": "Destination pressure is part of total head. Variable vessel pressure can govern minimum-flow, maximum-flow, motor-load, and relief cases."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A positive-displacement metering pump is proposed for chemical dosing. What is a critical design basis item?",
+    "opts": [
+      "Suction pipe colour, because dosing accuracy is controlled by visual identification, before vendor guarantees are accepted.",
+      "Discharge throttling valve size, because flow is controlled mainly by downstream resistance; without full fluid-property confirmation.",
+      "Relief path, calibration range, turndown, pulsation control, check valves, chemical compatibility, and suction acceleration head.",
+      "BEP margin and impeller trim, because metering pumps are selected from centrifugal curves; with operating cases still unresolved."
+    ],
+    "correct": 2,
+    "explanation": "Positive-displacement pumps need protection against blocked discharge, pulsation, accurate metering range, suction conditions, and compatible wetted parts. Their selection basis differs from centrifugal pumps."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A project team asks whether pump sizing should use gauge or absolute pressure for NPSH. What is the correct basis?",
+    "opts": [
+      "Assume that NPSH ignores atmospheric pressure because the pump curve already includes it.",
+      "NPSH uses absolute pressure at the suction source and subtracts vapour pressure and suction losses.",
+      "Treat as acceptable: NPSH uses gauge pressure only because pump gauges are installed in gauge units.",
+      "Rely on the idea that NPSH uses discharge pressure because cavitation begins at the impeller outlet."
+    ],
+    "correct": 1,
+    "explanation": "NPSH is an absolute-pressure calculation referenced to vapour pressure. Gauge values must be converted correctly before calculating NPSHA."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A pump will transfer a liquid with entrained gas during startup. What should the design basis flag?",
+    "opts": [
+      "Discharge pressure rating only, because gas affects the pipe more than the pump, without full fluid-property confirmation.",
+      "Paint system upgrade only, because gas mainly creates external corrosion risk, with owner standards assumed.",
+      "Priming, gas handling, venting, minimum submergence, suction geometry, and possible self-priming or vertical-pump needs.",
+      "Motor horsepower increase only, because gas reduces density and therefore needs more power; leaving AHJ screening incomplete."
+    ],
+    "correct": 2,
+    "explanation": "Gas entrainment can cause loss of prime, unstable head, vibration, and seal problems. Pump type, suction vessel design, vents, and operating procedure must address it."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A vendor asks for the design liquid viscosity but the datasheet includes only water-like values. What is the consequence?",
+    "opts": [
+      "Viscosity can reduce centrifugal pump head, flow, efficiency, and NPSH margin, and may change pump type selection.",
+      "Use the assumption that viscosity matters only after 10,000 cP and can be ignored for ordinary process fluids.",
+      "Treat as acceptable: Viscosity is captured by specific gravity, so a separate viscosity entry is unnecessary.",
+      "Rely on the idea that viscosity affects only the pipe schedule and does not change the pump curve; while startup cases remain unchecked."
+    ],
+    "correct": 0,
+    "explanation": "Viscosity is separate from density. Even moderate viscosity can require curve correction, larger motors, lower speeds, or positive-displacement pump selection."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A design team treats suction and discharge piping as outside the pump package. Why is this unsafe?",
+    "opts": [
+      "Suction piping is vendor scope only when the pump is ordered with a baseplate, with owner standards assumed.",
+      "Use the assumption that pump performance depends only on impeller diameter and motor speed after the casing is selected.",
+      "Piping layout matters only for installation cost and has no effect on reliability, without full fluid-property confirmation.",
+      "Pump performance depends on suction losses, inlet geometry, discharge losses, supports, valve placement, and nozzle loads."
+    ],
+    "correct": 3,
+    "explanation": "Pumps and piping form one hydraulic and mechanical system. Poor piping can cause cavitation, uneven flow into the impeller, vibration, nozzle overload, and failed seals."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A pump line has a manual bypass that can return hot liquid to the suction vessel. What design-basis issue should be checked?",
+    "opts": [
+      "Discharge nozzle size only, because recirculated liquid does not affect suction conditions; with operating cases still unresolved.",
+      "Electrical cable size only, because bypass flow changes motor current but not process safety.",
+      "Heat buildup, minimum-flow protection, suction temperature rise, NPSH reduction, and safe bypass destination.",
+      "Bypass line paint colour, because thermal effects are negligible if the pump is running; with owner standards assumed."
+    ],
+    "correct": 2,
+    "explanation": "Recirculation can heat liquid, reduce NPSHA, and create unstable operation. The bypass must be sized and routed so it protects the pump without creating a new hazard."
+  },
+  {
+    "section": "Design Basis, Fluid Data & Canadian Code Interface",
+    "q": "A project manager asks for the minimum documentation required to freeze pump selection. Which package is most complete?",
+    "opts": [
+      "Line number, normal flow, pump tag, discharge pressure, and construction schedule, before vendor guarantees are accepted.",
+      "Purchase requisition, quotation total, delivery date, paint colour, and spare-parts list; without full fluid-property confirmation.",
+      "General arrangement, coupling guard drawing, vendor catalogue page, and motor nameplate; with owner standards assumed; with operating cases still unresolved.",
+      "Datasheet, hydraulic calculation, system curve, pump curve, NPSH check, power check, materials, seal plan, P&ID, and operating cases."
+    ],
+    "correct": 3,
+    "explanation": "A defensible selection includes hydraulic basis, vendor curves, NPSH and power checks, mechanical/seal/material requirements, controls, and operating cases."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "A pump transfers water from an open tank at grade to an open tank 18 m higher. Estimated friction loss at design flow is 7 m. What TDH should be used before margin?",
+    "opts": [
+      "18 m.",
+      "25 m.",
+      "11 m.",
+      "32 m."
+    ],
+    "correct": 1,
+    "explanation": "For open tanks at the same surface pressure, TDH is static lift plus friction loss. 18 m + 7 m = 25 m."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "A pump must add 250 kPa to water. Using H = ΔP/(ρg), what pressure head is closest?",
+    "opts": [
+      "250 m.",
+      "2.55 m.",
+      "25.5 m.",
+      "18.4 m."
+    ],
+    "correct": 2,
+    "explanation": "For water, 1 m head is about 9.81 kPa. 250 kPa ÷ 9.81 kPa/m ≈ 25.5 m."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "A pump must add 250 kPa to a liquid with SG = 1.25. What head is closest?",
+    "opts": [
+      "20.4 m.",
+      "31.9 m.",
+      "204 m.",
+      "25.5 m."
+    ],
+    "correct": 0,
+    "explanation": "Head = ΔP/(SG × 9.81 kPa/m). 250/(1.25 × 9.81) ≈ 20.4 m."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "A suction tank is open to atmosphere. The pump centreline is 3 m above the minimum liquid level. What is the static suction term?",
+    "opts": [
+      "Assume that +3 m, because the liquid level is measured as a positive elevation difference.",
+      "-3 m, because the pump is lifting from below the centreline.",
+      "Treat as acceptable: 0 m, because open tanks always provide atmospheric suction head.",
+      "Rely on the idea that -6 m, because suction lift is doubled to cover priming losses."
+    ],
+    "correct": 1,
+    "explanation": "Static suction head is positive when liquid level is above the pump centreline and negative when the pump must lift liquid from below the centreline."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "At 60 m³/h a pipe has 5 m friction loss. If flow rises to 90 m³/h and turbulent flow behaviour is assumed, what is the approximate friction loss?",
+    "opts": [
+      "11.25 m.",
+      "15.0 m.",
+      "22.5 m.",
+      "7.5 m."
+    ],
+    "correct": 0,
+    "explanation": "For the same piping in turbulent flow, friction is often approximated as proportional to Q². 5 × (90/60)² = 11.25 m."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "A system curve is approximated by H = Hstatic + KQ². If Hstatic = 12 m and friction is 8 m at 40 m³/h, what is total head at 60 m³/h?",
+    "opts": [
+      "20 m.",
+      "42 m.",
+      "24 m.",
+      "30 m."
+    ],
+    "correct": 3,
+    "explanation": "Friction at 60 m³/h = 8 × (60/40)² = 18 m. Total head = 12 + 18 = 30 m."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "A pump takes suction from a tank pressurized to 50 kPa(g). For water, what added suction head is closest?",
+    "opts": [
+      "10.2 m.",
+      "50 m.",
+      "0.5 m.",
+      "5.1 m."
+    ],
+    "correct": 3,
+    "explanation": "50 kPa gauge pressure corresponds to about 50/9.81 = 5.1 m of water head added to the suction surface pressure term."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "An open suction tank is at 101 kPa(a). Vapour pressure is 20 kPa(a), static suction head is 4 m, and suction friction is 1.5 m. What NPSHA is closest for water?",
+    "opts": [
+      "17.5 m.",
+      "10.8 m.",
+      "12.8 m.",
+      "4.0 m."
+    ],
+    "correct": 1,
+    "explanation": "NPSHA ≈ (101-20)/9.81 + 4 - 1.5 = 8.26 + 4 - 1.5 = 10.8 m. Use absolute pressure and subtract vapour pressure and suction losses."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "A pump has NPSHR = 4.0 m at rated flow. The calculated NPSHA is 5.2 m. What is the most appropriate design response?",
+    "opts": [
+      "Ignore NPSHR because cavitation depends only on discharge pressure and motor load.",
+      "Check the required project or vendor NPSH margin; the 1.2 m excess may or may not be adequate.",
+      "Accept the pump automatically because any positive difference prevents cavitation in all cases.",
+      "Reject the pump automatically because NPSHA must always be at least double NPSHR."
+    ],
+    "correct": 1,
+    "explanation": "NPSH margin criteria depend on service, standard, vendor guidance, and risk. A small margin may be inadequate for hot, volatile, or variable systems."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "A pump curve shows 40 m head at zero flow and 30 m at the rated flow. What is zero-flow head commonly used to check?",
+    "opts": [
+      "Shutoff pressure, casing/nozzle rating, deadhead effects, and downstream pressure protection.",
+      "Minimum suction pipe diameter, because shutoff head controls suction velocity, while suction losses are still uncertain.",
+      "Bearing oil level, because zero-flow head determines lubrication volume, leaving density effects unresolved.",
+      "Normal operating efficiency, because the pump should operate at zero flow during production."
+    ],
+    "correct": 0,
+    "explanation": "Shutoff head can create high discharge pressure when the pump is deadheaded or discharge valves are closed. Downstream pressure rating and relief needs must be checked."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "A centrifugal pump handles a liquid at 1.40 SG. The vendor curve is in metres of head. What happens to motor power compared with water at the same flow and head?",
+    "opts": [
+      "Power increases roughly in proportion to specific gravity, before viscosity corrections.",
+      "Use the assumption that power decreases because heavier liquid needs less velocity to produce the same head.",
+      "Treat as acceptable: Power doubles for every 0.1 increase in specific gravity.",
+      "Rely on the idea that power is unchanged because pump curves are given in metres of head."
+    ],
+    "correct": 0,
+    "explanation": "Hydraulic power is ρgQH. For the same Q and H, higher density increases power and motor load."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "A centrifugal pump runs at 1,800 rpm. If speed is increased to 1,980 rpm, what is the approximate head ratio by affinity laws?",
+    "opts": [
+      "2.42 times the original head.",
+      "1.10 times the original head.",
+      "1.21 times the original head.",
+      "1.33 times the original head."
+    ],
+    "correct": 2,
+    "explanation": "Head varies approximately with speed squared. (1980/1800)² = 1.10² = 1.21."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "A pump operates at 100 m³/h and 40 m head. Speed is reduced from 1,800 rpm to 1,440 rpm. What flow is estimated by affinity laws?",
+    "opts": [
+      "72 m³/h.",
+      "125 m³/h.",
+      "64 m³/h.",
+      "80 m³/h."
+    ],
+    "correct": 3,
+    "explanation": "Flow varies approximately linearly with speed. 100 × (1440/1800) = 80 m³/h."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "A pump requires 22 kW hydraulic power at the liquid. If pump efficiency is 70%, what shaft power is closest?",
+    "opts": [
+      "31.4 kW.",
+      "15.4 kW.",
+      "70.0 kW.",
+      "22.0 kW."
+    ],
+    "correct": 0,
+    "explanation": "Shaft power = hydraulic power / efficiency = 22/0.70 ≈ 31.4 kW."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "A line has 2 m/s velocity in a given pipe. If the same flow is routed through a pipe with half the internal area, what velocity results?",
+    "opts": [
+      "4 m/s.",
+      "1 m/s.",
+      "8 m/s.",
+      "2 m/s."
+    ],
+    "correct": 0,
+    "explanation": "Velocity equals flow divided by area. Halving area doubles velocity for the same volumetric flow."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "A pump suction line includes a temporary strainer during startup. How should its pressure drop be treated?",
+    "opts": [
+      "Add it only to discharge head because strainers protect the pump outlet.",
+      "Exclude it because temporary strainers are removed after commissioning, with curve interaction unchecked.",
+      "Use the same pressure drop as a permanent Y-strainer without checking mesh area.",
+      "Include clean and partially blocked strainer cases in NPSHA and startup hydraulics."
+    ],
+    "correct": 3,
+    "explanation": "Temporary strainers can create high suction loss and cavitation risk during startup. They must be included in NPSHA and commissioning plans."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "A pump draws from an open tank. Minimum liquid level is 1 m above pump centreline, atmospheric head is 10.3 m, vapour pressure head is 2.0 m, and suction friction is 1.2 m. What NPSHA is closest?",
+    "opts": [
+      "6.1 m.",
+      "8.1 m.",
+      "9.5 m.",
+      "14.5 m."
+    ],
+    "correct": 1,
+    "explanation": "NPSHA = atmospheric head + static suction head - vapour pressure head - suction friction = 10.3 + 1.0 - 2.0 - 1.2 = 8.1 m."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "A system requires 20 m head at 50 m³/h and 45 m head at 100 m³/h. Which statement best describes the system curve?",
+    "opts": [
+      "Static head is likely present and friction increases strongly with flow.",
+      "Use the assumption that the pump curve is flat, so the system curve cannot be calculated.",
+      "Treat as acceptable: The suction tank pressure must be falling in exact proportion to flow.",
+      "Rely on the idea that the system has no friction because head rises with flow."
+    ],
+    "correct": 0,
+    "explanation": "System head usually includes a static term plus a friction term that increases with flow, commonly near Q² for turbulent flow."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "Two identical centrifugal pumps are installed in series. What is the ideal curve effect at the same flow?",
+    "opts": [
+      "Head is added while flow is approximately the same.",
+      "Both head and flow are cut in half, with curve interaction unchecked.",
+      "Efficiency becomes 100% because both pumps share load, while temperature effects remain open.",
+      "Flow is added while head is approximately the same, without checking the limiting operating case."
+    ],
+    "correct": 0,
+    "explanation": "Pumps in series add head at the same flow. Pumps in parallel add flow at approximately the same head, subject to system curve effects."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "Two identical centrifugal pumps are installed in parallel. What must be checked before assuming double flow?",
+    "opts": [
+      "Discharge valve count only, because curve interaction is not relevant for identical pumps.",
+      "The combined pump curve against the actual system curve, including runout, NPSH, and minimum-flow limits.",
+      "Suction tank volume only, because system resistance does not affect parallel operation; while suction losses are still uncertain.",
+      "Motor horsepower only, because parallel pumps always deliver exactly twice the single-pump flow."
+    ],
+    "correct": 1,
+    "explanation": "Parallel pumps may not double flow because system friction rises as flow increases. Each pump may move to a different operating point than the single-pump case."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "A closed-loop cooling-water pump has no elevation difference between supply and return tie-ins. What normally dominates TDH?",
+    "opts": [
+      "Friction losses through piping, equipment, fittings, and control valves.",
+      "Total building height, because closed loops require lifting water to the highest point every cycle.",
+      "Pump casing pressure rating, because closed-loop TDH is set by MAWP.",
+      "Expansion-tank volume, because volume directly sets pump head, with curve interaction unchecked."
+    ],
+    "correct": 0,
+    "explanation": "In a closed loop, static elevation often cancels because liquid returns to the source. Pump head mainly overcomes friction and equipment pressure drops."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "A pump discharges from an open tank to a vessel at 300 kPa(g), with 12 m elevation gain and 10 m friction. For water, what TDH is closest?",
+    "opts": [
+      "40.6 m.",
+      "22.0 m.",
+      "322 m.",
+      "52.6 m."
+    ],
+    "correct": 3,
+    "explanation": "300 kPa is about 30.6 m of water. TDH = 30.6 + 12 + 10 = 52.6 m."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "A pump is selected at 75% efficiency for 120 m³/h and 35 m head handling water. What shaft power is closest?",
+    "opts": [
+      "11.4 kW.",
+      "20.4 kW.",
+      "15.3 kW.",
+      "31.0 kW."
+    ],
+    "correct": 2,
+    "explanation": "Q = 120 m³/h = 0.0333 m³/s. Hydraulic power = 1000×9.81×0.0333×35 ≈ 11.45 kW. Shaft power = 11.45/0.75 ≈ 15.3 kW."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "A suction vessel operates under vacuum at 70 kPa(a). Liquid vapour pressure is 30 kPa(a), static head is 2 m, and suction loss is 1 m. For water, what NPSHA is closest?",
+    "opts": [
+      "5.1 m.",
+      "1.0 m.",
+      "3.1 m.",
+      "9.2 m."
+    ],
+    "correct": 0,
+    "explanation": "Pressure head above vapour pressure = (70-30)/9.81 ≈ 4.1 m. Add 2 m static and subtract 1 m loss: about 5.1 m."
+  },
+  {
+    "section": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "q": "A pressure gauge at the pump suction reads -20 kPa(g). Why can the pump still have positive NPSHA?",
+    "opts": [
+      "Absolute pressure may still be well above vapour pressure after adding atmospheric pressure.",
+      "NPSHA depends on discharge pressure, so suction gauge readings do not matter, with curve interaction unchecked.",
+      "Gauge pressure below zero means the pump always has zero NPSHA, while temperature effects remain open.",
+      "Negative gauge pressure adds to NPSH because vacuum increases boiling point, without checking the limiting operating case."
+    ],
+    "correct": 0,
+    "explanation": "NPSH is based on absolute pressure. A negative gauge pressure may still correspond to substantial absolute pressure if the liquid vapour pressure is low."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A low-viscosity liquid must be transferred continuously at moderate flow and head. Which pump family is normally screened first?",
+    "opts": [
+      "Progressive-cavity pump, because all continuous services require positive displacement.",
+      "Centrifugal pump, unless NPSH, viscosity, solids, metering accuracy, or shear limits point elsewhere.",
+      "Reciprocating plunger pump, because moderate head always requires pulsating flow, without confirming the preferred operating range.",
+      "Air-operated diaphragm pump, because continuous services should avoid rotating equipment."
+    ],
+    "correct": 1,
+    "explanation": "Centrifugal pumps are common for clean, low-viscosity continuous transfer, but the final choice depends on the full hydraulic and process basis."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A high-viscosity polymer must be moved at low flow with stable displacement. Which pump type is often more suitable than a standard centrifugal pump?",
+    "opts": [
+      "Regenerative turbine pump, because viscosity improves its efficiency at low flow, with vendor curve details assumed.",
+      "Vertical turbine pump, because viscosity is corrected by increasing bowl count, without confirming the preferred operating range.",
+      "Axial-flow pump, because high viscosity is best handled by high specific speed, leaving NPSH margin unresolved.",
+      "Positive-displacement pump such as gear, screw, lobe, or progressive-cavity, subject to compatibility and shear checks."
+    ],
+    "correct": 3,
+    "explanation": "High viscosity can severely reduce centrifugal pump performance. Positive-displacement pumps are commonly screened for viscous, low-flow, or metered services."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A pump selection lands far to the left of BEP during normal operation. What is the main concern?",
+    "opts": [
+      "Operation left of BEP is always preferred because it reduces motor power to zero.",
+      "Use the assumption that the pump will automatically move to BEP because centrifugal pumps self-adjust their best point.",
+      "Low-flow recirculation, vibration, heat, radial loads, seal stress, and reduced reliability.",
+      "Rely on the idea that the main concern is lower purchase cost because smaller impellers are usually cheaper."
+    ],
+    "correct": 2,
+    "explanation": "Operating far from BEP can create hydraulic instability and mechanical loading. Selection should keep normal operation within the preferred operating range."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A pump selection lands near the right end of the curve at normal operation. What should be checked?",
+    "opts": [
+      "Runout, NPSHR rise, motor load, vibration, and loss of control margin.",
+      "Paint thickness, because right-end operation is controlled by casing coating resistance.",
+      "Foundation grout cure time, because pump curves do not affect motor load.",
+      "Seal flush colour, because end-of-curve operation is mainly a maintenance-identification issue."
+    ],
+    "correct": 0,
+    "explanation": "At high flow, NPSHR and power can increase and operation may become unstable. The selected pump should not depend on unprotected runout operation."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A pump is selected with a BEP of 100 m³/h and the normal duty is 95 m³/h. What does this suggest?",
+    "opts": [
+      "The duty is close to BEP, pending checks for NPSH, power, margins, and all operating cases.",
+      "Use the assumption that the pump should be trimmed until BEP shifts below 50 m³/h, while future turndown remains uncertain.",
+      "Treat as acceptable: The pump is acceptable without reviewing NPSH or driver power.",
+      "Rely on the idea that the pump is unacceptable because duty must equal BEP exactly."
+    ],
+    "correct": 0,
+    "explanation": "Operation near BEP is favourable, but selection still requires checking the full envelope, NPSH, driver load, materials, seals, and control strategy."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A vendor curve shows NPSHR increasing rapidly above rated flow. What does this influence?",
+    "opts": [
+      "Paint specification, because NPSHR is controlled by external corrosion.",
+      "Maximum allowable flow, runout protection, suction design, and NPSH margin.",
+      "Discharge pipe support span, because NPSHR is a structural load, while future turndown remains uncertain.",
+      "Motor starter type only, because NPSHR matters during electrical acceleration."
+    ],
+    "correct": 1,
+    "explanation": "NPSHR is a function of pump design and flow. High-flow operation can cavitate even when rated flow has adequate margin."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A pump will operate with a variable-frequency drive. Which curve set should be reviewed?",
+    "opts": [
+      "Assume that the 60 Hz curve only, because VFD operation follows the same duty point at all speeds.",
+      "Use the assumption that the motor fan curve only, because hydraulic head does not change with speed.",
+      "Pump curves at expected speeds against system curves, including minimum speed, maximum speed, power, and NPSH.",
+      "Rely on the idea that the control-valve curve only, because VFDs remove the need for pump curves; before minimum-flow limits are checked."
+    ],
+    "correct": 2,
+    "explanation": "VFDs change flow, head, power, and operating point. Multiple speed curves must be checked against the system curve and operating limits."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A pump handling a hazardous solvent has frequent seal failures. Which selection option may reduce leak risk?",
+    "opts": [
+      "Sealless magnetic-drive or canned-motor pump, if service, solids, temperature, and containment requirements fit.",
+      "Use the assumption that A smaller motor, because lower horsepower reduces all seal leakage mechanisms.",
+      "Treat as acceptable: A higher pump speed, because shorter residence time protects the seal faces.",
+      "Rely on the idea that A larger packed gland, because hazardous services are safer with controlled packing leakage."
+    ],
+    "correct": 0,
+    "explanation": "Sealless pumps can reduce fugitive emissions, but they need careful service screening for solids, dry running, heat removal, bearing lubrication, and containment requirements."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A sump must be emptied from below grade, with the liquid level changing significantly. Which pump arrangement is often screened?",
+    "opts": [
+      "Vertical sump or submersible pump with proper level controls and materials.",
+      "Boiler feedwater pump with multistage casing and no level control, without confirming the preferred operating range.",
+      "Axial-flow pump installed above grade without a suction column, leaving NPSH margin unresolved.",
+      "Horizontal end-suction pump with suction lift beyond its priming capability."
+    ],
+    "correct": 0,
+    "explanation": "Sumps often need vertical or submersible arrangements because suction conditions vary and priming must be reliable."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A service requires accurate chemical dosing over a 20:1 turndown range. Which pump family is commonly screened?",
+    "opts": [
+      "Axial-flow pump because high-flow impellers improve chemical accuracy, without confirming the preferred operating range.",
+      "Vertical turbine pump because bowl stages create fixed-volume displacement, leaving NPSH margin unresolved.",
+      "Metering pump with verified turndown, check-valve performance, calibration, and relief protection.",
+      "Standard centrifugal pump with a fully open discharge valve and no flow feedback, while future turndown remains uncertain."
+    ],
+    "correct": 2,
+    "explanation": "Metering pumps are designed for controlled dosing. Turndown, pulsation, check valves, suction conditions, and calibration must be verified."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A clear water pump must generate high head at relatively low flow. Which centrifugal arrangement may be considered?",
+    "opts": [
+      "Multistage centrifugal pump or regenerative turbine pump, depending on duty and service limits.",
+      "Low-speed slurry pump, because wear design automatically creates high head, leaving NPSH margin unresolved.",
+      "Air-operated diaphragm pump, because it delivers smooth high-head flow without pulsation.",
+      "Axial-flow propeller pump, because it is best suited to high head and low flow, without confirming the preferred operating range."
+    ],
+    "correct": 0,
+    "explanation": "High-head, lower-flow clean-liquid services often lead to multistage or special pump designs, subject to NPSH, efficiency, and reliability considerations."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A pump for abrasive slurry is quoted as a standard chemical process pump. What should be challenged?",
+    "opts": [
+      "Discharge pressure gauge range, because gauges eliminate erosion in the casing, leaving NPSH margin unresolved.",
+      "Motor terminal box orientation, because abrasive wear is controlled mainly by cable entry direction.",
+      "Impeller type, casing thickness, wear materials, speed, solids passage, sealing, and maintenance access.",
+      "Paint colour, because slurry pumps need visual identification more than wear allowance; while driver load remains unverified."
+    ],
+    "correct": 2,
+    "explanation": "Abrasive slurry services often require lower speeds, larger passages, harder materials, replaceable liners, robust seals, and special maintenance planning."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A vendor proposes a pump with the maximum impeller already installed. Why is this a concern?",
+    "opts": [
+      "Assume that maximum impellers always overload motors at every flow, so the pump cannot be used.",
+      "Use the assumption that maximum impellers prevent operation near BEP even if the curve fits the duty.",
+      "There may be no future head margin available by impeller increase if the system resistance was underestimated.",
+      "Rely on the idea that maximum impellers eliminate the need for shutoff pressure review; leaving NPSH margin unresolved."
+    ],
+    "correct": 2,
+    "explanation": "Using the largest impeller can be acceptable, but it leaves less hydraulic adjustment margin. Shutoff pressure, power, and future operating cases still need review."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A vendor proposes trimming the impeller to meet a lower head. What should be checked after trimming?",
+    "opts": [
+      "Motor paint specification, because trimming changes electrical insulation class, with vendor curve details assumed.",
+      "Revised curve, efficiency, NPSHR, minimum flow, preferred operating range, and future adjustment margin.",
+      "Suction tank volume only, because trimming affects inventory rather than head, while driver load remains unverified.",
+      "Coupling guard thickness only, because trimmed impellers increase external rotation risk."
+    ],
+    "correct": 1,
+    "explanation": "Impeller trim changes the curve and efficiency. The new operating point and all limits should be confirmed from a vendor curve or acceptable correction."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A centrifugal pump must operate at low flow for long periods. Which protection is commonly required?",
+    "opts": [
+      "Removal of the discharge check valve to reduce casing temperature, while future turndown remains uncertain.",
+      "Suction throttling to force the pump into a lower-flow region, while driver load remains unverified.",
+      "Minimum-flow recycle or control strategy that maintains the pump above allowable thermal and stable-flow limits.",
+      "Increasing bearing grease volume to absorb hydraulic heat, with vendor curve details assumed; while future turndown remains uncertain."
+    ],
+    "correct": 2,
+    "explanation": "Low-flow operation can overheat and destabilize a pump. A minimum-flow system may be needed for protection."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A selected motor is sized only at the rated duty point. What additional power case is important?",
+    "opts": [
+      "Nameplate power of the previous pump, because similar tags need similar motors, without confirming the preferred operating range.",
+      "Minimum power at shutoff only, because this determines the largest motor current, leaving NPSH margin unresolved.",
+      "Average annual power, because short-term overload is not a motor selection issue, with vendor curve details assumed.",
+      "Maximum power over the expected operating range, including runout, density, viscosity, and speed cases."
+    ],
+    "correct": 3,
+    "explanation": "Motor selection must consider the non-overloading requirement or defined power cases across the full curve and all credible fluid conditions."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A pump will handle liquid with density varying from SG 0.75 to 1.20. Which case often controls motor sizing?",
+    "opts": [
+      "Assume that the lower-density case, because lighter liquids require larger motors for the same head.",
+      "Use the assumption that the average-density case, because motor sizing ignores density extremes.",
+      "The higher-density case at the maximum-power operating point.",
+      "Rely on the idea that the lowest-flow case, because power is always highest at shutoff."
+    ],
+    "correct": 2,
+    "explanation": "For the same flow and head, power rises with density. The controlling motor case may combine high density with high flow or high speed."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A process requires very low shear to protect a biological product. What should be screened during pump selection?",
+    "opts": [
+      "Harder seal faces, because seal material determines all product shear, leaving NPSH margin unresolved.",
+      "Higher head margin, because shear-sensitive liquids need extra discharge pressure, with vendor curve details assumed.",
+      "Pump type, speed, impeller geometry, clearances, recirculation, temperature rise, and product damage risk.",
+      "Smaller suction piping, because higher velocity reduces residence time and shear, while driver load remains unverified."
+    ],
+    "correct": 2,
+    "explanation": "Shear-sensitive products may require low-shear pump types or lower speeds. Hydraulic recirculation and high clearances can damage product quality."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A pump must handle liquid with small amounts of entrained vapour. Which selection feature may help?",
+    "opts": [
+      "Assume that A smaller suction nozzle, because higher inlet velocity sweeps vapour into the impeller.",
+      "Pump type or impeller design capable of limited gas handling, plus venting and suction design review.",
+      "Treat as acceptable: A higher NPSHR pump, because vapour pockets collapse more quickly.",
+      "Rely on the idea that A larger control valve drop, because discharge throttling removes vapour from suction."
+    ],
+    "correct": 1,
+    "explanation": "Gas handling is not automatic. Some pump designs tolerate limited vapour better, but suction design, venting, and operating procedure still matter."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A pump is required for boiler feedwater service. What selection issue is especially important?",
+    "opts": [
+      "Low pressure and high solids passage, because boiler feedwater behaves like slurry, with vendor curve details assumed.",
+      "High pressure, temperature, NPSH margin, materials, seals, recirculation, and applicable boiler/pressure-piping interface.",
+      "Open impeller design, because feedwater pumps require maximum solids clearance, while driver load remains unverified; before minimum-flow limits are checked.",
+      "No minimum-flow protection, because hot water cools the pump during low flow, before minimum-flow limits are checked."
+    ],
+    "correct": 1,
+    "explanation": "Boiler feedwater service often involves hot water, high pressure, low NPSH margin, minimum-flow protection, and pressure-equipment interface requirements."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A pump is installed in a noise-sensitive area. What selection and design factors should be considered?",
+    "opts": [
+      "Pump speed, hydraulic operating point, cavitation margin, motor noise, baseplate stiffness, and enclosure or acoustic treatment.",
+      "Suction valve handwheel size, because larger handwheels reduce pump noise, without confirming the preferred operating range.",
+      "Discharge flange colour, because noise usually originates from poor label visibility, leaving NPSH margin unresolved.",
+      "Spare-parts storage, because inventory level directly controls sound pressure, with vendor curve details assumed; while future turndown remains uncertain."
+    ],
+    "correct": 0,
+    "explanation": "Noise can indicate hydraulic or mechanical problems and can also be an occupational exposure issue. Selection near BEP and avoiding cavitation are important."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A pump for a corrosive but non-lubricating solvent is being considered as a magnetic-drive pump. What must be checked?",
+    "opts": [
+      "Internal bearing lubrication, heat removal, dry-run protection, materials, containment, and solids tolerance.",
+      "External coupling alignment, because magnetic-drive pumps have conventional exposed couplings.",
+      "Packing leakage rate, because magnetic-drive pumps require gland packing to cool the shaft; before minimum-flow limits are checked.",
+      "Seal-water flush pressure, because magnetic-drive pumps depend on external seal water; while future turndown remains uncertain."
+    ],
+    "correct": 0,
+    "explanation": "Sealless pumps rely on the process liquid for internal bearing lubrication and heat removal. Dry running, vapour, solids, and poor lubricity can be critical."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A pump is selected using a catalogue curve but the fluid is 300 cP. What additional step is needed?",
+    "opts": [
+      "Reduce suction pipe size to increase velocity and offset viscosity, while driver load remains unverified.",
+      "Increase motor speed until the original catalogue flow is restored, before minimum-flow limits are checked.",
+      "Apply vendor or Hydraulic Institute viscosity correction and recheck power, efficiency, NPSH, and operating point.",
+      "Use the water curve directly because head curves are independent of viscosity, without confirming the preferred operating range."
+    ],
+    "correct": 2,
+    "explanation": "Centrifugal pump curves are usually based on water tests. Viscous liquids may reduce head, capacity, and efficiency while increasing power."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A duty point has several acceptable pump models. Which option is generally preferred for reliability?",
+    "opts": [
+      "A pump operating near BEP with adequate NPSH margin, stable curve, suitable materials, and manageable minimum flow.",
+      "Use the assumption that the pump with the highest speed, even if vibration and wear are increased.",
+      "Treat as acceptable: The pump with the largest head margin, even if normal flow is near shutoff; while future turndown remains uncertain.",
+      "Rely on the idea that the pump with the smallest casing, even if velocity and NPSHR are high; while driver load remains unverified."
+    ],
+    "correct": 0,
+    "explanation": "Good selection balances hydraulic fit, efficiency, NPSH, stability, maintainability, materials, and controls—not just purchase cost or margin."
+  },
+  {
+    "section": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "q": "A vendor proposes two pumps in parallel with one VFD and one fixed-speed unit. What must be checked?",
+    "opts": [
+      "Paint colours, because operators can balance pumps visually from the skid, before minimum-flow limits are checked.",
+      "Motor insulation only, because controls do not affect centrifugal pump curves, while future turndown remains uncertain.",
+      "Common baseplate length only, because hydraulic sharing is guaranteed for identical pumps; while driver load remains unverified.",
+      "Load sharing, minimum flow, check valves, control logic, curve interaction, and stable operation across the envelope."
+    ],
+    "correct": 3,
+    "explanation": "Parallel pumps require careful control and curve review. Unequal sharing, backflow, hunting, and operation outside allowed ranges can occur."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A horizontal centrifugal pump has a suction reducer installed with the flat side down, creating a high pocket. What is the concern?",
+    "opts": [
+      "Assume that the reducer will always increase NPSHA because trapped vapour lowers suction density.",
+      "Use the assumption that the reducer will protect the impeller by separating gas before it reaches the casing.",
+      "Vapour or air can collect at the pump suction and cause cavitation, loss of prime, or unstable operation.",
+      "Flat-side orientation affects only visual appearance and has no hydraulic impact, before seal support is verified."
+    ],
+    "correct": 2,
+    "explanation": "Eccentric reducers in suction piping are commonly installed to avoid vapour pockets. The correct orientation depends on layout, but high points near the suction are hazardous."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A suction elbow is bolted directly to the pump nozzle with no straight run. What should be reviewed?",
+    "opts": [
+      "Motor overload protection only, because suction geometry changes electrical current but not hydraulics.",
+      "Paint thickness on the elbow, because inlet turbulence is controlled by corrosion coating.",
+      "Flow distortion at the impeller eye, NPSH margin, vibration, and vendor suction-piping recommendations.",
+      "Discharge pressure rating only, because suction elbows do not affect pump inlet flow, while thermal growth remains unchecked."
+    ],
+    "correct": 2,
+    "explanation": "Poor suction geometry can create uneven velocity, swirl, cavitation, and vibration. Vendor and good-practice suction piping recommendations should be followed."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A pump nozzle is carrying the weight of unsupported piping. What is the mechanical concern?",
+    "opts": [
+      "Pipe strain can distort the casing, misalign the shaft, increase vibration, and damage seals or bearings.",
+      "Unsupported piping improves alignment because the pump casing acts as a fixed anchor, leaving maintenance access unresolved.",
+      "Treat as acceptable: Pipe weight affects only the foundation and not the rotating assembly.",
+      "Nozzle load matters only for vertical pumps and not horizontal pumps, without installation-quality evidence."
+    ],
+    "correct": 0,
+    "explanation": "Pump nozzles are not pipe supports. Piping must be independently supported and flexibility checked so nozzle loads stay within allowable limits."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A discharge line from a positive-displacement pump has a block valve but no relief path. What is required?",
+    "opts": [
+      "Assume that A centrifugal check valve, because check valves limit deadhead pressure.",
+      "Use the assumption that A smaller motor, because lower horsepower eliminates blocked-discharge pressure risk.",
+      "A relief valve or safe bypass path upstream of any blockable section.",
+      "Rely on the idea that A larger discharge pressure gauge, because operators can stop the pump before pressure rises."
+    ],
+    "correct": 2,
+    "explanation": "Positive-displacement pumps can develop dangerous pressure when deadheaded. A relief path is a fundamental safety requirement."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A centrifugal pump has a discharge check valve and isolation valve. What arrangement principle is usually intended?",
+    "opts": [
+      "Replace the need for suction isolation and lockout/tagout, with suction geometry assumed; without installation-quality evidence.",
+      "Prevent reverse flow and allow isolation for maintenance while keeping valve access and drain/vent needs clear.",
+      "Increase NPSHA by holding liquid in the discharge pipe, without installation-quality evidence.",
+      "Eliminate the need for pump minimum-flow protection in every case, leaving maintenance access unresolved."
+    ],
+    "correct": 1,
+    "explanation": "Check and isolation valves serve different purposes. Their placement must support operation, maintenance, draining, and emergency response."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A pump handling hot liquid has no casing vent or drain. What design issue should be raised?",
+    "opts": [
+      "Assume that no issue if the casing material has a higher temperature rating than the liquid.",
+      "Use the assumption that no issue if operators can crack a flange to remove trapped liquid.",
+      "Treat as acceptable: No issue if the pump has a discharge pressure gauge and a motor current display.",
+      "Safe venting, draining, depressurization, warm-up, and maintenance isolation may be inadequate."
+    ],
+    "correct": 3,
+    "explanation": "Pumps need safe venting and draining for commissioning, maintenance, and line breaking. Cracking flanges is not a controlled drain/vent strategy."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A mechanical seal plan is omitted because the pump is considered a small utility pump. What should be checked?",
+    "opts": [
+      "Seal flush, cooling, quench, drain, containment, leakage detection, and compatibility with the pumped liquid.",
+      "Use the assumption that the pump tag prefix, because seal plans are determined by numbering conventions.",
+      "Motor paint and coupling guard colour, because seal systems are optional for utility pumps; leaving maintenance access unresolved.",
+      "Rely on the idea that the discharge pressure gauge range only, because seals respond only to discharge pressure."
+    ],
+    "correct": 0,
+    "explanation": "Seal support needs depend on fluid, temperature, pressure, solids, vapour pressure, emissions, and safety—not just pump size."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A pump is handling a crystallizing liquid. Which design features are especially important?",
+    "opts": [
+      "Suction throttling to keep crystals suspended near the impeller, without installation-quality evidence.",
+      "Smaller drains to limit inventory and reduce cleaning volume, leaving maintenance access unresolved.",
+      "Flush plans, heat tracing, drains, dead-leg elimination, seal-chamber design, and cleaning access.",
+      "Higher paint thickness and larger nameplate lettering, while thermal growth remains unchecked."
+    ],
+    "correct": 2,
+    "explanation": "Crystallizing services can plug seal lines, drains, suction paths, and dead legs. Temperature control and cleanout provisions are critical."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A baseplate is installed without grouting or final alignment checks. What is the reliability risk?",
+    "opts": [
+      "Lower discharge pressure, because alignment changes impeller diameter, without checking nozzle loads.",
+      "Reduced suction static head, because grout height determines NPSHA, with suction geometry assumed.",
+      "Soft foot, distortion, misalignment, vibration, coupling wear, and premature seal or bearing failure.",
+      "Improved flexibility, because ungrouted bases absorb vibration by moving, without installation-quality evidence."
+    ],
+    "correct": 2,
+    "explanation": "Foundation, grouting, and alignment are core installation quality controls. Poor baseplate installation can defeat a good hydraulic selection."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A pump suction line has a high-point pocket with no vent. What problem can occur?",
+    "opts": [
+      "Assume that the high point increases static suction head and improves NPSHA.",
+      "Use the assumption that the pocket raises liquid density and reduces motor load.",
+      "Gas accumulation can reduce capacity, cause cavitation, or prevent priming.",
+      "Rely on the idea that the gas pocket cushions the impeller and reduces vibration."
+    ],
+    "correct": 2,
+    "explanation": "High points in suction piping can trap air or vapour. Suction piping should be arranged to drain/vent and avoid pockets."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A pump for outdoor water service has a small stagnant branch to a pressure gauge. What winter design issue exists?",
+    "opts": [
+      "Assume that the branch will self-heat because gauge movement creates friction, with suction geometry assumed.",
+      "Use the assumption that the branch can be ignored because gauges are not pressure-containing parts; while thermal growth remains unchecked.",
+      "The branch can freeze, rupture, or give false readings unless heat tracing, insulation, isolation, or drainage is provided.",
+      "Rely on the idea that the branch is safe if the main line remains flowing during normal operation; leaving maintenance access unresolved."
+    ],
+    "correct": 2,
+    "explanation": "Small stagnant branches freeze before flowing mains. Winterization must consider impulse lines, drains, vents, instruments, and standby piping."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A pump skid has no coupling guard installed at turnover. What is the design/commissioning disposition?",
+    "opts": [
+      "Assume that operate if operators receive a verbal warning before startup, before seal support is verified.",
+      "Use the assumption that operate if the pump is below 5 kW and the coupling is difficult to reach.",
+      "Do not operate until rotating parts are guarded or an approved equivalent protection is in place.",
+      "Rely on the idea that operate during commissioning because coupling guards are needed only after performance testing."
+    ],
+    "correct": 2,
+    "explanation": "Exposed rotating parts are a serious personnel hazard. Guards must be installed before operation unless a formally approved equivalent control exists."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A vertical turbine pump has a long column and multiple bowl stages. What additional design issue should be checked?",
+    "opts": [
+      "Packing colour only, because vertical bowl stages do not affect reliability, while thermal growth remains unchecked.",
+      "Column alignment, thrust, bearing lubrication, minimum submergence, vibration, and lifting/removal access.",
+      "Discharge hose flexibility only, because vertical pumps do not have alignment concerns; leaving maintenance access unresolved.",
+      "Suction reducer orientation only, because vertical turbine pumps use horizontal reducers; before seal support is verified."
+    ],
+    "correct": 1,
+    "explanation": "Vertical pumps need checks for submergence, column/bowl alignment, shafting, bearings, thrust, lifting height, and maintenance access."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A pump will run at low flow with the discharge valve throttled. What bypass design may be needed?",
+    "opts": [
+      "Minimum-flow recycle sized and routed to avoid overheating and suction-vessel thermal problems.",
+      "Removal of discharge instruments to reduce pressure loss, without checking nozzle loads; before seal support is verified.",
+      "Suction valve throttling to reduce NPSHR and prevent cavitation, with suction geometry assumed.",
+      "A larger coupling guard to absorb hydraulic heat, while thermal growth remains unchecked."
+    ],
+    "correct": 0,
+    "explanation": "Minimum-flow recycle protects the pump, but the return destination must not overheat the suction source or create process instability."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A pump handles acidic liquid and the drain is routed to a carbon-steel open funnel. What should be reviewed?",
+    "opts": [
+      "Pump horsepower only, because acidic liquid affects power more than drains, without checking nozzle loads.",
+      "Funnel elevation only, because gravity drainage removes compatibility concerns, with suction geometry assumed.",
+      "Drain material compatibility, splash containment, closed collection, venting, and safe maintenance access.",
+      "Rely on the idea that drain colour only, because acidic services are controlled by labelling."
+    ],
+    "correct": 2,
+    "explanation": "Auxiliary drains, vents, seal lines, and funnels need the same hazard and material review as the main process line."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A pump suction strainer is installed with no space to remove the basket. What design principle was missed?",
+    "opts": [
+      "Basket strainers never need removal if differential pressure is monitored.",
+      "Maintenance envelope and isolation/drain access must be reserved for strainer cleaning.",
+      "Treat as acceptable: The discharge valve can be used as the access point for suction debris.",
+      "Rely on the idea that the strainer can be cleaned by reversing pump rotation during shutdown."
+    ],
+    "correct": 1,
+    "explanation": "Strainers require access, lifting or handling space, drainage, and isolation. If cleaning is difficult, operators may bypass or neglect the protection."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A pump on a hot service is aligned cold and then placed in service without hot alignment review. What can happen?",
+    "opts": [
+      "Thermal growth can change alignment, creating vibration, coupling wear, and seal or bearing damage.",
+      "Alignment matters only before grouting and not after the pump is commissioned, before seal support is verified.",
+      "Treat as acceptable: Thermal growth always improves alignment by expanding the pump toward the motor.",
+      "Hot alignment is unnecessary if the pump meets its flow guarantee, leaving maintenance access unresolved."
+    ],
+    "correct": 0,
+    "explanation": "Thermal growth can shift equipment positions. Hot alignment or thermal-growth allowances may be needed for hot services."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A reciprocating pump discharge line vibrates during operation. What design feature may be required?",
+    "opts": [
+      "A larger centrifugal impeller, because reciprocating vibration is solved by impeller trim.",
+      "Pulsation dampeners, adequate supports, acoustic/mechanical analysis, and fatigue-resistant piping details.",
+      "Painted vibration arrows, because operators need to see the pulsation path, without checking nozzle loads.",
+      "Suction throttling, because reducing suction pressure eliminates discharge pulsation, with suction geometry assumed."
+    ],
+    "correct": 1,
+    "explanation": "Reciprocating and metering pumps create pulsating flow. Supports, dampeners, piping geometry, and fatigue checks are important."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A pump seal flush line contains a restriction orifice but no flow indication. What should be considered?",
+    "opts": [
+      "Assume seal flush is correct if the pump reaches rated process flow, while thermal growth remains unchecked.",
+      "Use the discharge pressure gauge as the sole proof of seal flush flow.",
+      "Remove all seal flush restrictions because maximum flow always improves seal life.",
+      "How to verify adequate seal flush flow, pressure, cleanliness, and alarm response."
+    ],
+    "correct": 3,
+    "explanation": "Seal flush failures are a common cause of seal damage. Critical flush systems need a way to verify pressure, flow, cleanliness, and availability."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A suction pipe transitions from a larger line to the pump nozzle using a concentric reducer in horizontal service. What should be reviewed?",
+    "opts": [
+      "Assume that whether the reducer paint colour matches the pump nameplate, without installation-quality evidence.",
+      "Use the assumption that whether the reducer increases discharge pressure enough to overload the motor.",
+      "Treat as acceptable: Whether the reducer eliminates the need for a suction isolation valve.",
+      "Whether the reducer creates a vapour pocket or poor inlet geometry under the actual suction arrangement."
+    ],
+    "correct": 3,
+    "explanation": "Reducer geometry near a pump suction can affect gas pockets and inlet flow profile. The layout should follow vendor and good-practice guidance."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A pump casing is cast iron and the design includes possible water hammer. What should be checked?",
+    "opts": [
+      "Transient pressure, casing/nozzle rating, material toughness, valve closure, supports, and surge protection.",
+      "Paint system only, because cast iron failure is controlled by external corrosion, leaving maintenance access unresolved.",
+      "Normal TDH only, because transient pressure is not part of pump design, before seal support is verified.",
+      "Motor service factor only, because water hammer is an electrical overload issue, without installation-quality evidence."
+    ],
+    "correct": 0,
+    "explanation": "Transient pressure can exceed steady-state design pressure and damage casing, piping, supports, or seals. Surge cases must be considered where credible."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A chemical pump is located inside containment but its motor junction box sits in the likely spill path. What should be reviewed?",
+    "opts": [
+      "Hydraulic horsepower only, because electrical items do not affect pump safety, leaving maintenance access unresolved.",
+      "Impeller diameter only, because spill exposure is independent of layout, before seal support is verified; without installation-quality evidence.",
+      "Electrical classification, splash exposure, access, cable routing, emergency isolation, and relocation or protection of electrical equipment.",
+      "Normal bearing temperature only, because motor junction boxes are sealed permanently, without checking nozzle loads."
+    ],
+    "correct": 2,
+    "explanation": "Pump layouts must integrate process spills and electrical safety. Electrical equipment should be located or protected to avoid credible exposure hazards."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A suction isolation valve is installed with the stem horizontal and inaccessible behind piping. What is the issue?",
+    "opts": [
+      "Emergency and maintenance isolation may be delayed or impossible while wearing task PPE.",
+      "Inaccessible valves are acceptable if they are normally open during operation, without checking nozzle loads.",
+      "The discharge check valve can replace the suction isolation valve for maintenance.",
+      "Valve orientation has no safety impact if the pump can be stopped electrically."
+    ],
+    "correct": 0,
+    "explanation": "Isolation valves need accessible operation for maintenance, emergencies, and line breaking. Electrical stop does not isolate stored liquid or upstream pressure."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A pump skid includes lifting lugs, but no laydown or removal path is reserved. What design gap remains?",
+    "opts": [
+      "Lifting lugs alone complete the maintenance design for all pump components, before seal support is verified.",
+      "Laydown space is needed only for vessels and not rotating equipment, without installation-quality evidence.",
+      "Removal paths can be improvised after piping is installed, leaving maintenance access unresolved; with suction geometry assumed.",
+      "The maintenance plan must include lifting access, component weights, clear removal envelope, and safe laydown area."
+    ],
+    "correct": 3,
+    "explanation": "Pump maintainability requires more than lifting lugs. Motors, cartridges, seals, impellers, strainers, and guards need removal and set-down space."
+  },
+  {
+    "section": "Mechanical Design, Installation, Piping & Sealing",
+    "q": "A pump is installed with a flexible hose on the discharge to solve field misalignment. What must be checked?",
+    "opts": [
+      "Hose colour, because visual flexibility confirms mechanical adequacy, while thermal growth remains unchecked.",
+      "Pressure rating, chemical compatibility, restraint, fatigue, fire exposure, inspection, and whether it masks pipe-strain problems.",
+      "Pump curve at shutoff only, because hoses eliminate piping loads, leaving maintenance access unresolved.",
+      "Motor rotation, because hose use mainly affects electrical phasing, before seal support is verified; while thermal growth remains unchecked."
+    ],
+    "correct": 1,
+    "explanation": "Flexible connectors can reduce vibration or movement loads, but they introduce pressure, compatibility, restraint, fatigue, and inspection issues."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A pump P&ID has no suction or discharge pressure indication. What is the commissioning concern?",
+    "opts": [
+      "Assume that pressure indication is needed only on positive-displacement pumps, before as-built data is confirmed.",
+      "Operators cannot verify hydraulic performance, blocked suction, deadhead, cavitation symptoms, or filter/strainer condition.",
+      "Treat as acceptable: Pressure gauges should be omitted until after the pump curve is field tested; leaving startup conditions uncontrolled.",
+      "Rely on the idea that pressure indicators are cosmetic because flow rate alone proves all pump conditions."
+    ],
+    "correct": 1,
+    "explanation": "Basic pump troubleshooting and commissioning require suction and discharge pressure information, especially for NPSH, blocked strainers, deadhead, and system-curve checks."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A pump may run dry if the suction vessel level transmitter fails. What safeguard should be considered?",
+    "opts": [
+      "Increase motor horsepower because dry running is mainly an overload problem, before alarms and trips are proven.",
+      "Rely on the operator to hear the pump noise before seal damage occurs, leaving startup conditions uncontrolled.",
+      "Independent low-level, low-suction-pressure, flow, power, or seal protection logic based on risk.",
+      "Use a larger discharge valve because dry running is controlled by downstream resistance."
+    ],
+    "correct": 2,
+    "explanation": "Dry running can quickly damage seals, bearings, internal bushings, and sealless pumps. Safeguards should match service severity."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A pump starts automatically on low process pressure. What control item must be confirmed?",
+    "opts": [
+      "Pump tag sequence, because automatic starts are controlled by numbering, with turnover records incomplete.",
+      "Discharge flange bolt material, because automatic starts mainly load bolts.",
+      "Start permissives, valve lineup, suction inventory, minimum-flow path, and trip logic.",
+      "Motor paint class, because automatic starts increase external temperature."
+    ],
+    "correct": 2,
+    "explanation": "Automatic starts can damage equipment or create overpressure if the system is not lined up. Permissives and trips must verify safe conditions."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "During pre-startup review, the pump rotation has not been bump-tested. What is the risk?",
+    "opts": [
+      "Assume that rotation direction affects only energy efficiency and not mechanical safety.",
+      "Reverse rotation can damage the pump or fail to deliver required flow and head.",
+      "Treat as acceptable: Rotation checks are unnecessary if the motor leads are factory labelled.",
+      "Rely on the idea that reverse rotation improves priming and should be tested during normal transfer."
+    ],
+    "correct": 1,
+    "explanation": "Rotation checks are a basic commissioning step. Wrong rotation can damage certain pumps and can prevent the system from meeting duty."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A newly installed pump is started with the suction valve partly closed. What is the concern?",
+    "opts": [
+      "Lower discharge pressure always protects the pump from cavitation, without commissioning evidence.",
+      "Reduced NPSHA, cavitation, vibration, seal damage, and loss of flow.",
+      "Suction throttling is the preferred method to control centrifugal pump flow.",
+      "A partly closed suction valve improves inlet velocity profile, leaving startup conditions uncontrolled."
+    ],
+    "correct": 1,
+    "explanation": "Centrifugal pumps should not normally be controlled by suction throttling because it reduces suction pressure and NPSH margin."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A pump performance test shows lower head than the vendor curve at the same flow. What should be checked before blaming the pump?",
+    "opts": [
+      "Spare-parts list, because inventory controls test accuracy, while operator response remains untested; with turnover records incomplete.",
+      "Warehouse storage time, because pump head decays mainly with calendar age, before alarms and trips are proven.",
+      "Paint thickness and baseplate colour, because these change curve head, leaving startup conditions uncontrolled.",
+      "Speed, rotation, impeller diameter, fluid properties, gauge elevation, instrument calibration, and actual system losses."
+    ],
+    "correct": 3,
+    "explanation": "Field performance differences can come from measurement errors, speed, rotation, fluid density/viscosity, impeller trim, internal wear, or system assumptions."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A pump is commissioned without venting the casing on a non-self-venting arrangement. What can happen?",
+    "opts": [
+      "Assume that the motor will run cooler because air reduces hydraulic load safely.",
+      "Use the assumption that the pump curve automatically corrects for trapped air during startup.",
+      "Air binding, loss of prime, reduced capacity, seal damage, or false performance readings.",
+      "Rely on the idea that the pump will create more head because air is compressible."
+    ],
+    "correct": 2,
+    "explanation": "Pumps must be properly filled and vented unless specifically designed for gas handling or self-priming. Trapped air can prevent reliable operation."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A commissioning team removes the temporary suction strainer immediately after flushing, before first operation. What should be confirmed first?",
+    "opts": [
+      "Assume that removal is unnecessary to document because temporary items are not part of turnover; before alarms and trips are proven.",
+      "Use the assumption that removal is always required before any pump start because strainers create suction loss; leaving startup conditions uncontrolled.",
+      "Cleanliness acceptance, vendor requirements, debris risk, differential-pressure plan, and protection of the pump during initial run.",
+      "Rely on the idea that removal should be based only on the operator's visual inspection of the suction tank; before as-built data is confirmed."
+    ],
+    "correct": 2,
+    "explanation": "Temporary strainers can protect pumps during startup but can also reduce NPSH. Their installation and removal should be controlled and documented."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A seal flush line is installed but not commissioned before pump startup. What risk exists?",
+    "opts": [
+      "Process flow through the casing automatically proves flush flow, with turnover records incomplete.",
+      "Use the assumption that seal flush commissioning is needed only after the first seal failure.",
+      "Treat as acceptable: Seal flush pressure has no effect if the pump reaches rated head.",
+      "The seal may run hot, dry, dirty, or at the wrong pressure, causing early leakage or failure."
+    ],
+    "correct": 3,
+    "explanation": "Seal support systems are part of pump readiness. Flow, pressure, cleanliness, cooling, and alarm functions should be verified."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A pump trip is set only on motor overload. Which additional condition may need protection?",
+    "opts": [
+      "Low suction pressure, low flow, high vibration, high bearing temperature, seal leakage, or high discharge pressure.",
+      "Motor paint fade, coupling guard scratches, and nameplate readability, without commissioning evidence; before alarms and trips are proven.",
+      "Warehouse storage temperature, spare coupling colour, and baseplate length, before as-built data is confirmed.",
+      "Discharge pipe label height, local lighting colour, and gasket brand, with turnover records incomplete."
+    ],
+    "correct": 0,
+    "explanation": "Motor overload is not enough for many services. Pump damage can occur from dry running, cavitation, deadhead, low flow, blocked discharge, seal failure, or vibration before overload trips."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A vibration alarm is installed but no baseline measurement is taken at commissioning. What is missing?",
+    "opts": [
+      "Assume that A proof that the pump curve is independent of speed, without commissioning evidence.",
+      "A reference condition for trending, acceptance, diagnosis, and reliability monitoring.",
+      "Treat as acceptable: A substitute for alignment and grouting checks, before alarms and trips are proven.",
+      "Rely on the idea that A purchasing reference for future pump tags only, leaving startup conditions uncontrolled."
+    ],
+    "correct": 1,
+    "explanation": "Baseline vibration at known operating conditions helps detect degradation and distinguish hydraulic, mechanical, and installation problems."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A pump is started against a closed discharge valve and left there for several minutes. What should be checked?",
+    "opts": [
+      "Bearing grease volume only, because hydraulic heat cannot affect seals, while operator response remains untested.",
+      "Suction static head increase, because closed discharge raises liquid level, before alarms and trips are proven.",
+      "Motor efficiency improvement, because closed-valve operation is the most efficient point.",
+      "Minimum thermal flow, casing heating, seal condition, relief path, and operating procedure limits."
+    ],
+    "correct": 3,
+    "explanation": "Many centrifugal pumps can start briefly against a closed discharge valve, but prolonged deadhead can overheat the liquid and damage the pump."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A positive-displacement pump is started with the discharge valve closed. What is the immediate concern?",
+    "opts": [
+      "Reduced motor current only, because blocked discharge removes hydraulic load.",
+      "Low efficiency only, because flow naturally drops to zero without pressure rise.",
+      "Rapid overpressure unless a relief path protects the pump and discharge line.",
+      "Loss of prime only, because discharge valves control suction lift, while operator response remains untested."
+    ],
+    "correct": 2,
+    "explanation": "Positive-displacement pumps continue to displace volume. A blocked discharge can cause rapid pressure rise and equipment rupture without relief."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A pump's field flow is controlled by a manual valve, but no flowmeter is installed. What is the operating problem?",
+    "opts": [
+      "A discharge pressure gauge always converts to accurate flow for every system.",
+      "Flowmeters are useful only for custody transfer and not pump protection, leaving startup conditions uncontrolled.",
+      "Operators cannot confirm duty, minimum flow, runout, or process transfer rate reliably.",
+      "Manual valves automatically keep flow near BEP without measurement, before as-built data is confirmed."
+    ],
+    "correct": 2,
+    "explanation": "Flow indication may be required for process control, pump protection, troubleshooting, and acceptance testing depending on service criticality."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A pump seal fails repeatedly after solids upset events. What reliability action is appropriate?",
+    "opts": [
+      "Use a smaller impeller to grind solids before they reach the seal, with turnover records incomplete.",
+      "Reduce the maintenance interval only, without changing design or operating controls, without commissioning evidence.",
+      "Increase discharge throttling to push solids through the seal faces, before as-built data is confirmed.",
+      "Review upstream straining, solids handling, seal plan, flush quality, materials, and operating procedures."
+    ],
+    "correct": 3,
+    "explanation": "Repeated failures should trigger root-cause analysis. Solids may damage seals, plug flush lines, and change hydraulic conditions."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A pump is switched to a new chemical after an MOC, but the elastomer list was not checked. What is the gap?",
+    "opts": [
+      "Operator training only, because materials remain valid after any MOC, leaving startup conditions uncontrolled.",
+      "Material compatibility review for gaskets, O-rings, seal faces, coatings, hoses, and auxiliary piping.",
+      "Electrical load review only, because chemicals affect motor power but not elastomers, before as-built data is confirmed.",
+      "Paint-label review only, because elastomer compatibility is covered by pump size, with turnover records incomplete."
+    ],
+    "correct": 1,
+    "explanation": "Chemical changes can attack elastomers and seal parts even when metal casing materials remain acceptable. MOC must include all wetted and exposed materials."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A pump is aligned before piping is connected, but no final alignment is recorded after piping installation. What is missing?",
+    "opts": [
+      "Assume that A motor efficiency calculation, because final alignment determines hydraulic efficiency only.",
+      "Use the assumption that A paint inspection report, because paint confirms the pump was not moved.",
+      "Final alignment check after piping connection and before startup, plus pipe-strain verification where needed.",
+      "Rely on the idea that A spare coupling order, because alignment records are needed only for inventory control."
+    ],
+    "correct": 2,
+    "explanation": "Piping can pull a pump out of alignment. Final alignment and pipe-strain checks are important before operation."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A pump package arrives with relief valves, instruments, and drains capped for shipment. What should commissioning verify?",
+    "opts": [
+      "Shipping caps, blanks, locks, preservatives, and temporary supports are removed or configured according to turnover procedure.",
+      "All caps remain installed until the first full production campaign is complete, before as-built data is confirmed.",
+      "Treat as acceptable: Shipping caps are acceptable if the pump passed factory testing, with turnover records incomplete.",
+      "Temporary supports can remain if they reduce vibration during initial startup, without commissioning evidence; while operator response remains untested."
+    ],
+    "correct": 0,
+    "explanation": "Temporary shipping items can block relief paths, drains, vents, instruments, or seal systems. Turnover checks should remove or correctly manage them."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A pump has a minimum-flow recycle line, but its manual valve is normally closed. What should be verified?",
+    "opts": [
+      "Assume that whether the line is smaller than the discharge line, because small lines are self-controlling; before as-built data is confirmed.",
+      "Use the assumption that whether operators know the pump sound, because noise is a reliable low-flow indicator.",
+      "Treat as acceptable: Whether the valve paint matches the pump colour, because visual control prevents low flow.",
+      "Whether the recycle path is automatic, locked open, procedurally controlled, alarmed, or otherwise protected for low-flow cases."
+    ],
+    "correct": 3,
+    "explanation": "A minimum-flow line works only if it is available when needed. Valve position control and automation must match the risk."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A pump is operated by a VFD but the low-speed limit is not documented. What should be checked?",
+    "opts": [
+      "Cable tray fill only, because low-speed operation is an electrical routing issue, before alarms and trips are proven.",
+      "Maximum speed only, because low speed always reduces stress and improves reliability, leaving startup conditions uncontrolled.",
+      "Display brightness only, because VFD readability controls hydraulic stability, while operator response remains untested.",
+      "Minimum speed for cooling, lubrication, stable hydraulics, seal performance, and motor thermal limits."
+    ],
+    "correct": 3,
+    "explanation": "Very low speed can reduce cooling, flow through seal plans, hydrodynamic bearing performance, and control stability. Limits should be documented."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A pump PSSR checks mechanical completion but not operator response to low suction pressure. What is missing?",
+    "opts": [
+      "Assume that A foundation report, because operator response is controlled by grout quality.",
+      "Use the assumption that A vendor brochure, because operators can infer response from the pump curve.",
+      "Treat as acceptable: A larger discharge gauge, because low suction pressure is corrected downstream.",
+      "Procedure, alarm response, trip setpoint, training, and safe restart requirements."
+    ],
+    "correct": 3,
+    "explanation": "PSSR should confirm the human and control layers that protect pumps from cavitation, dry running, deadhead, leaks, and hazardous releases."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A pump curve in the operating manual does not match the installed impeller trim. What is the issue?",
+    "opts": [
+      "Operators and engineers may use the wrong curve for troubleshooting, power checks, and operating limits.",
+      "Use the assumption that no issue because curve information is used only before purchase; before alarms and trips are proven.",
+      "Treat as acceptable: No issue if the motor nameplate horsepower exceeds the original design.",
+      "Rely on the idea that no issue if the installed pump reaches any flow during commissioning."
+    ],
+    "correct": 0,
+    "explanation": "The as-built curve must match actual impeller, speed, and configuration. Incorrect curves lead to wrong decisions."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A pump has no preventive-maintenance task for bearing lubrication. What reliability risk exists?",
+    "opts": [
+      "Assume that no risk if operators check discharge pressure daily, without commissioning evidence.",
+      "Use the assumption that no risk if the pump is painted and protected from rain, before as-built data is confirmed.",
+      "Lubricant degradation, wrong lubricant, overgreasing, undergreasing, heat, vibration, and bearing failure.",
+      "Rely on the idea that no risk if the motor current stays below nameplate amps, leaving startup conditions uncontrolled."
+    ],
+    "correct": 2,
+    "explanation": "Bearings require correct lubrication type, amount, interval, contamination control, and condition monitoring where appropriate."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A critical pump is repaired, reinstalled, and immediately returned to service without a post-maintenance test. What should be required?",
+    "opts": [
+      "Post-maintenance verification of alignment, rotation, leaks, vibration, seal support, instruments, controls, and performance.",
+      "Use the assumption that return to service based only on work-order closure and mechanic signoff; before as-built data is confirmed.",
+      "Treat as acceptable: Return to service after painting the coupling guard and cleaning the area; with turnover records incomplete.",
+      "Rely on the idea that return to service if the spare pump is available in the warehouse; without commissioning evidence."
+    ],
+    "correct": 0,
+    "explanation": "Repairs can introduce new faults. Post-maintenance testing confirms mechanical, hydraulic, control, and safety readiness."
+  },
+  {
+    "section": "Controls, Testing, Commissioning & Reliability",
+    "q": "A pump trip setpoint is changed to stop nuisance shutdowns. What management control is needed?",
+    "opts": [
+      "Assume that A larger motor overload setting, because trip changes are electrical only; before as-built data is confirmed.",
+      "Use the assumption that A new label on the control screen, because visibility is the main safeguard.",
+      "Supervisor verbal approval, because nuisance trips are operational rather than design issues; without commissioning evidence.",
+      "MOC reviewing hazard basis, operating envelope, equipment protection, alarms, procedures, and approval authority."
+    ],
+    "correct": 3,
+    "explanation": "Trip setpoints protect equipment and people. Changing them can defeat safeguards and requires controlled review."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A federally regulated workplace installs pressure piping connected to a pump package. What federal principle may apply before first use?",
+    "opts": [
+      "Pressure piping must be inspected and certified safe for intended use where the federal pressure-system rule applies.",
+      "Pump packages are never part of pressure-system inspection because they are rotating equipment; leaving fire-code screening incomplete.",
+      "First use can proceed if the pump vendor completed a factory performance test, before classification is verified.",
+      "Inspection is replaced by operator training when the pump is below 15 kW, without environmental release controls."
+    ],
+    "correct": 0,
+    "explanation": "Federal occupational rules include requirements for boilers, pressure vessels, and pressure piping systems. Pump-connected pressure piping should be screened for applicable inspection duties."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A Canadian project imports a pump skid with pressure-retaining piping and fittings. What should procurement verify?",
+    "opts": [
+      "Factory country approval only, because imported skid equipment bypasses local AHJ requirements; leaving fire-code screening incomplete.",
+      "Shipping documents only, because pressure-equipment compliance begins after installation; before classification is verified; without environmental release controls.",
+      "Motor efficiency certification only, because pressure components are covered by the pump curve; without environmental release controls.",
+      "Canadian registration or acceptance requirements for regulated pressure components, fittings, and piping, as applicable by jurisdiction."
+    ],
+    "correct": 3,
+    "explanation": "Imported equipment may still need Canadian pressure-equipment registration, fitting acceptance, inspection, and documentation depending on province or territory."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A flammable-liquid pump is located in an area with possible vapour release. What Canadian design interface is commonly required?",
+    "opts": [
+      "Assume that A larger pump head margin, because fire risk is controlled by higher discharge pressure; with spill routing unresolved.",
+      "An ordinary motor enclosure, because vapour release is handled only by operator PPE, while LOTO details remain open.",
+      "Treat as acceptable: A smaller suction line, because reducing pipe volume eliminates vapour classification; without emergency response review.",
+      "Fire-code controls, hazardous-area electrical classification, bonding/grounding, ventilation, spill control, and emergency isolation."
+    ],
+    "correct": 3,
+    "explanation": "Flammable-liquid service requires integration of fire prevention, electrical classification, ignition control, spill management, and emergency response with pump design."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A petroleum storage-tank transfer pump leaks beyond containment at a federal facility. What issue should be considered?",
+    "opts": [
+      "Release response, reporting, corrective action, records, and storage-tank system compliance duties.",
+      "Use the assumption that no action if the pump was not operating at the moment the leak was found; leaving fire-code screening incomplete.",
+      "Treat as acceptable: No action if the pump casing remains intact and the leak comes from a flange.",
+      "Rely on the idea that no action if the liquid is recovered by housekeeping before the next shift."
+    ],
+    "correct": 0,
+    "explanation": "Pump and transfer piping leaks can be environmental releases. Applicable federal or provincial storage-tank and environmental requirements must be followed."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A toxic chemical pump uses single mechanical seals with no detection or containment. What should the safety review consider?",
+    "opts": [
+      "Assume that A different paint colour, because toxic service is managed mainly by visual warnings; while LOTO details remain open.",
+      "Use the assumption that A larger coupling guard, because guarding controls toxic vapour exposure; without emergency response review.",
+      "Dual seal, seal pot, leak detection, ventilation, containment, emergency shower access, and safe maintenance isolation.",
+      "Higher pump speed, because faster operation reduces toxic-liquid residence time, before classification is verified."
+    ],
+    "correct": 2,
+    "explanation": "Toxic service may require containment and detection layers beyond ordinary seal selection. Maintenance and emergency response also matter."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A corrosive acid pump is 20 m from the nearest eyewash and the route crosses a stair. What is the concern?",
+    "opts": [
+      "Emergency flushing access may be too slow or obstructed for credible splash exposure.",
+      "Eyewash location is unrelated to pump layout if operators wear face shields.",
+      "Treat as acceptable: The concern is mainly pump efficiency because acid reduces hydraulic power.",
+      "Rely on the idea that the stair improves drainage and therefore reduces eyewash requirements."
+    ],
+    "correct": 0,
+    "explanation": "Chemical splash response requires quick, unobstructed access to emergency shower/eyewash equipment where required by the hazard assessment."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A pump motor in a solvent area is not rated for the classified location. What is the design response?",
+    "opts": [
+      "Reassess area classification and select compliant electrical equipment or relocate/protect the motor.",
+      "Increase the motor horsepower so it runs cooler under the same hydraulic load, leaving fire-code screening incomplete.",
+      "Use stainless-steel pump casing because metal selection controls ignition risk, before classification is verified.",
+      "Install a larger discharge pressure gauge to detect vapour release, without environmental release controls."
+    ],
+    "correct": 0,
+    "explanation": "Hazardous-area electrical classification must match credible flammable vapour zones. Motor, instruments, switches, and wiring methods must be suitable."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A pump transfers hot condensate beside a normal access route. What personnel hazard should be controlled?",
+    "opts": [
+      "Lower motor current, because condensate lines near walkways cool the pump.",
+      "Increased suction lift, because nearby access routes reduce NPSHA, before classification is verified.",
+      "Burn exposure from hot surfaces, leaks, vents, drains, and maintenance line breaks.",
+      "Reduced pump efficiency, because personnel routes lower hydraulic performance."
+    ],
+    "correct": 2,
+    "explanation": "Hot services near access routes need insulation, guarding, leak shielding, drain routing, and emergency planning."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A pump transfers sodium hypochlorite and is exposed to sunlight and heat. What should be reviewed?",
+    "opts": [
+      "Motor bearing size only, because hypochlorite service mainly affects rotating loads, with spill routing unresolved.",
+      "Decomposition, gas generation, material compatibility, venting, temperature control, and relief or pressure buildup.",
+      "Discharge head only, because chemical decomposition cannot affect pump safety, without environmental release controls.",
+      "Pump colour only, because sunlight effects are managed by light-coloured paint, leaving fire-code screening incomplete."
+    ],
+    "correct": 1,
+    "explanation": "Some chemicals decompose or generate gas with heat, contamination, or sunlight. Pump and piping design must consider pressure, venting, compatibility, and storage conditions."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A pump is installed in secondary containment but its maintenance drain discharges outside the berm. What is wrong?",
+    "opts": [
+      "A drain outside containment is acceptable if the pump is normally dry, before classification is verified.",
+      "Use the assumption that the drain improves safety by moving liquid away from the pump faster.",
+      "Treat as acceptable: The berm applies only to tanks and never to pump maintenance liquids; leaving fire-code screening incomplete.",
+      "Maintenance drainage can bypass containment and create spill, exposure, and environmental non-compliance risk."
+    ],
+    "correct": 3,
+    "explanation": "Drains and vents can defeat containment if routed incorrectly. Maintenance liquids must go to safe, compatible collection or treatment."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A pump handles combustible liquid and has no bonding or grounding provisions at flexible hose connections. What should be checked?",
+    "opts": [
+      "Static accumulation, continuity, bonding/grounding, hose rating, and ignition-source control.",
+      "Pump paint conductivity only, because external coating provides grounding by default.",
+      "Motor speed only, because lower speed eliminates static charge generation, leaving fire-code screening incomplete.",
+      "Hydraulic head only, because static electricity is unrelated to pump transfer systems."
+    ],
+    "correct": 0,
+    "explanation": "Combustible and flammable liquid transfers can generate static. Bonding, grounding, conductive hoses, and procedures must be evaluated."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A pump is located so a seal leak would spray toward an electrical panel. What should be reviewed?",
+    "opts": [
+      "Leak trajectory, shielding, equipment relocation, electrical protection, containment, and emergency access.",
+      "Use the assumption that the panel label font size, because readability controls splash safety.",
+      "Treat as acceptable: The motor horsepower, because larger motors reduce seal leakage, with spill routing unresolved.",
+      "Rely on the idea that the pump curve shutoff head only, because leak direction is not a layout issue."
+    ],
+    "correct": 0,
+    "explanation": "Seal leaks can spray hazardous liquid. Layout should avoid directing leaks toward personnel, ignition sources, electrical panels, or emergency routes."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A pump for ammonia refrigeration service is added to a package. What Canadian code interface should be screened?",
+    "opts": [
+      "Refrigeration code, pressure-equipment rules, relief discharge, detection, ventilation, and emergency response.",
+      "Motor efficiency standard only, because refrigeration hazards are electrical, leaving fire-code screening incomplete.",
+      "Plumbing code only, because ammonia piping is a building utility, before classification is verified.",
+      "Tank-farm spacing only, because ammonia is always treated as bulk storage, without environmental release controls."
+    ],
+    "correct": 0,
+    "explanation": "Ammonia refrigeration has specific Canadian code and safety interfaces. Pressure equipment, relief, detection, ventilation, and emergency planning must be integrated."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A pump room has poor ventilation and handles volatile solvent. What safety review is required?",
+    "opts": [
+      "Pump efficiency review only, because ventilation does not affect process safety, leaving fire-code screening incomplete.",
+      "Foundation thickness review only, because vapours are controlled by structural mass, before classification is verified.",
+      "Vapour accumulation, hazardous classification, ventilation rate, gas detection, ignition control, and emergency shutdown.",
+      "Discharge head review only, because higher head prevents vapour formation, without emergency response review; leaving fire-code screening incomplete."
+    ],
+    "correct": 2,
+    "explanation": "Volatile solvent pumps can release vapours from seals, vents, drains, or maintenance. Ventilation and ignition-source control are critical."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A water pump in a freeze-prone fire protection system has no heat tracing on stagnant small-bore lines. What is the concern?",
+    "opts": [
+      "Heat tracing is needed only for process chemicals and never for water service, with spill routing unresolved.",
+      "Frozen sensing, drain, or recirculation lines can disable protection, rupture piping, or give false status.",
+      "Freeze risk is eliminated because fire pumps operate only during emergencies, without environmental release controls.",
+      "Small-bore lines are protected by the main pipe temperature at all times, leaving fire-code screening incomplete."
+    ],
+    "correct": 1,
+    "explanation": "Fire and utility systems must remain available in winter. Small-bore branches and instruments can freeze even when main lines are insulated."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A pump package has relief discharge routed to the floor near an operator station. What should be required?",
+    "opts": [
+      "Relief discharge to a safe, visible or contained location with exposure, reaction, and drainage hazards reviewed.",
+      "Use the assumption that local discharge is acceptable if the relief valve is small and rarely opens.",
+      "Treat as acceptable: Relief piping is unnecessary if the pump has a high-pressure alarm; without emergency response review.",
+      "Rely on the idea that local discharge is preferred because operators can see relief flow immediately."
+    ],
+    "correct": 0,
+    "explanation": "Relief devices must not create a new hazard. Discharge location needs compatibility, containment, visibility, backpressure, and personnel-exposure review."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A pump transfers a liquid that can polymerize if stagnant. What safety feature should be included?",
+    "opts": [
+      "Larger pump casing only, because volume prevents polymerization pressure, while LOTO details remain open.",
+      "Flush, drain, purge, temperature control, dead-leg minimization, and emergency clearing procedure.",
+      "Reduced motor size only, because lower energy prevents chemical reaction, leaving fire-code screening incomplete.",
+      "Suction throttling only, because lower flow keeps polymer out of the seal, before classification is verified."
+    ],
+    "correct": 1,
+    "explanation": "Reactive or polymerizing liquids can plug lines and create pressure, heat, or decomposition hazards. Stagnant zones must be managed."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A pump skid vendor provides no lockout points for electrical, pneumatic, hydraulic, and pressure energy. What is missing?",
+    "opts": [
+      "Assume that A spare-parts review, because LOTO is handled by maintenance inventory.",
+      "Use the assumption that A painting review, because lockout is controlled by colour coding alone.",
+      "Treat as acceptable: A hydraulic efficiency review, because lockout points are implied by pump curves.",
+      "A LOTO design review covering all energy sources and stored-pressure release."
+    ],
+    "correct": 3,
+    "explanation": "Pump maintenance can involve electrical, mechanical, hydraulic, pneumatic, thermal, chemical, and stored-pressure energy. Lockout points and procedures must cover all sources."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A transfer pump can be isolated by closing two manual valves, but trapped liquid can warm in the blocked section. What should be checked?",
+    "opts": [
+      "Assume that no issue if the pump is stopped because liquid cannot expand without flow.",
+      "Thermal expansion relief, safe venting/draining, pressure rating, and operating procedure.",
+      "Treat as acceptable: No issue if the line is short because thermal expansion applies only to tanks.",
+      "Rely on the idea that no issue if the valves are normally open during production."
+    ],
+    "correct": 1,
+    "explanation": "Blocked-in liquid can expand with temperature and overpressure piping or pump casing. Thermal relief may be needed."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A pump pad has a trench drain that connects to stormwater. What must be reviewed for chemical service?",
+    "opts": [
+      "Motor service factor, because drains affect electrical loading, leaving fire-code screening incomplete.",
+      "Pump head margin, because stormwater drains reduce discharge pressure, before classification is verified.",
+      "Spill routing, environmental release risk, compatibility, isolation, treatment, and emergency containment.",
+      "Impeller diameter, because larger impellers prevent environmental releases, without emergency response review."
+    ],
+    "correct": 2,
+    "explanation": "Drainage from chemical pump areas must not create uncontrolled environmental release or incompatible mixing. Stormwater connections need careful review."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A pump is part of a truck unloading station. What safety design items should be included?",
+    "opts": [
+      "Office alarm volume only, because field emergency stops are optional, with spill routing unresolved.",
+      "Pump colour, truck mirror angle, and warehouse dock schedule, while LOTO details remain open; without emergency response review.",
+      "Impeller trim only, because unloading safety is controlled by pump head, without emergency response review.",
+      "Hose management, breakaway or isolation, bonding/grounding, spill containment, traffic protection, emergency stop, and operator access."
+    ],
+    "correct": 3,
+    "explanation": "Unloading pumps interface with hoses, vehicles, static electricity, spills, emergency isolation, and operator movement. These are part of the safety design."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A pump handles caustic solution and the seal pot is located above face height with no safe access. What is the issue?",
+    "opts": [
+      "High seal pots are acceptable if the pump is not operated every day, before classification is verified.",
+      "Use the assumption that the seal pot elevation increases NPSHA and therefore improves safety.",
+      "Treat as acceptable: The issue is limited to aesthetics because seal pots are not process equipment.",
+      "Routine seal-system maintenance creates chemical exposure and working-at-height hazards."
+    ],
+    "correct": 3,
+    "explanation": "Seal systems need safe filling, draining, inspection, and isolation access, especially for corrosive or toxic services."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A final design review checks the pump curve but not the P&ID safeguards. What safety gap remains?",
+    "opts": [
+      "Assume that the remaining issue is paint specification, not operation, while LOTO details remain open; leaving fire-code screening incomplete.",
+      "No gap remains because a correct pump curve proves the design is safe, without emergency response review.",
+      "Treat as acceptable: The remaining issue is procurement schedule, not safety, with spill routing unresolved.",
+      "Trips, alarms, relief paths, minimum-flow protection, drain/vent routing, isolation, and emergency shutdown may be incomplete."
+    ],
+    "correct": 3,
+    "explanation": "Pump selection is only one part of safe design. The P&ID must include protective and operational safeguards."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A plant increases pump speed through a VFD parameter change to meet production. What review is needed?",
+    "opts": [
+      "Operator approval only, because VFD changes are normal operating adjustments, without environmental release controls.",
+      "Motor fan inspection only, because speed changes affect cooling but not hydraulics, leaving fire-code screening incomplete.",
+      "A new nameplate sticker only, because documentation is the main concern, before classification is verified.",
+      "MOC covering flow, head, power, NPSH, pressure limits, relief, vibration, controls, and downstream equipment capacity."
+    ],
+    "correct": 3,
+    "explanation": "Speed changes follow affinity laws and can significantly increase head, power, NPSHR, pressure, and flow. They require controlled engineering review."
+  },
+  {
+    "section": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "q": "A pump has repeated cavitation alarms during summer afternoons. What case study response is best?",
+    "opts": [
+      "Recalculate NPSHA using actual temperature, minimum level, suction losses, vapour pressure, and operating flow, then correct the design or limits.",
+      "Throttle the suction valve to quiet the pump and reduce inlet turbulence, leaving fire-code screening incomplete.",
+      "Disable the alarm during hot weather because cavitation is seasonal and expected, before classification is verified.",
+      "Increase pump speed so vapour bubbles pass through faster, without environmental release controls; without emergency response review."
+    ],
+    "correct": 0,
+    "explanation": "Seasonal heat can raise vapour pressure and reduce NPSH margin. The root cause should be verified and corrected through design or operating limits."
+  }
+];
+const SECTIONS  = [
+  {
+    "key": "Design Basis, Fluid Data & Canadian Code Interface",
+    "label": "I - Design Basis, Fluid Data & Canadian Code Interface",
+    "cls": "sec-conduction",
+    "range": "Questions 1-25"
+  },
+  {
+    "key": "Hydraulic Calculations, TDH, NPSH & System Curves",
+    "label": "II - Hydraulic Calculations, TDH, NPSH & System Curves",
+    "cls": "sec-convection",
+    "range": "Questions 26-50"
+  },
+  {
+    "key": "Pump Selection, Performance Curves, Efficiency & Drivers",
+    "label": "III - Pump Selection, Performance Curves, Efficiency & Drivers",
+    "cls": "sec-radiation",
+    "range": "Questions 51-75"
+  },
+  {
+    "key": "Mechanical Design, Installation, Piping & Sealing",
+    "label": "IV - Mechanical Design, Installation, Piping & Sealing",
+    "cls": "sec-hx",
+    "range": "Questions 76-100"
+  },
+  {
+    "key": "Controls, Testing, Commissioning & Reliability",
+    "label": "V - Controls, Testing, Commissioning & Reliability",
+    "cls": "sec-boiling",
+    "range": "Questions 101-125"
+  },
+  {
+    "key": "Canadian Safety, Hazardous Service & Case-Study Integration",
+    "label": "VI - Canadian Safety, Hazardous Service & Case Studies",
+    "cls": "sec-applications",
+    "range": "Questions 126-150"
+  }
+];
+const LETTERS = ['A','B','C','D'];
+const TOTAL_Q = QUESTIONS.length;
+
+let mode = 'guided', current=0, answers=new Array(QUESTIONS.length).fill(null), locked=new Array(QUESTIONS.length).fill(false), submitted=false;
+const EXAM_DURATION_MS = 4*60*60*1000;
+let examEndTime=null, timerInterval=null, timedOut=false;
+
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch])); }
+function sectionMeta(key){ return SECTIONS.find(s => s.key === key); }
+function fmtHMS(ms){ if(ms<0) ms=0; const t=Math.floor(ms/1000), h=Math.floor(t/3600), m=Math.floor((t%3600)/60), s=t%60, pad=n=>String(n).padStart(2,'0'); return pad(h)+':'+pad(m)+':'+pad(s); }
+function tickExamTimer(){
+  const ts=document.getElementById('timerStat'), tv=document.getElementById('timerVal');
+  if(!examEndTime||!ts||!tv) return;
+  const remain=examEndTime-Date.now(); tv.textContent=fmtHMS(remain);
+  ts.classList.toggle('crit',remain<=60000); ts.classList.toggle('warn',remain<=300000&&remain>60000);
+  if(remain<=0){ stopExamTimer(); if(mode==='exam'&&!submitted){ timedOut=true; submitExam(); } }
+}
+function startExamTimer(){
+  stopExamTimer(); examEndTime=Date.now()+EXAM_DURATION_MS;
+  const ts=document.getElementById('timerStat'); if(ts){ ts.style.display=''; ts.classList.remove('warn','crit'); }
+  tickExamTimer(); timerInterval=setInterval(tickExamTimer,1000);
+}
+function stopExamTimer(){ if(timerInterval){ clearInterval(timerInterval); timerInterval=null; } }
+function hideExamTimer(){
+  stopExamTimer(); examEndTime=null;
+  const ts=document.getElementById('timerStat');
+  if(ts){ ts.style.display='none'; ts.classList.remove('warn','crit'); const tv=document.getElementById('timerVal'); if(tv) tv.textContent='04:00:00'; }
+}
+
+function makeCard(idx, num, showAsGlobal){
+  const q=QUESTIONS[idx], sec=sectionMeta(q.section);
+  const isLocked=locked[idx], chosen=answers[idx];
+  let optsHtml='';
+  q.opts.forEach((o,i)=>{
+    let cls='opt';
+    if(isLocked){ if(i===q.correct) cls+=' correct'; else if(i===chosen) cls+=' wrong'; }
+    else if(chosen===i) cls+=' sel';
+    const mark=isLocked ? (i===q.correct?'\u2713':(i===chosen?'\u2717':'')) : '';
+    optsHtml += '<div class="'+cls+'" data-i="'+i+'" onclick="choose('+idx+','+i+')">'
+              + '<span class="letter">'+LETTERS[i]+'</span>'
+              + '<span class="otext">'+escapeHtml(o)+'</span>'
+              + '<span class="mark">'+mark+'</span></div>';
+  });
+  const expCls=isLocked?'explain show':'explain';
+  const sectTag=sec?'<span class="q-sect '+sec.cls+'">'+escapeHtml(sec.key)+'</span>':'';
+  const globalNum=showAsGlobal?(idx+1):num;
+  return '<div class="q-card '+(isLocked?'locked answered':(chosen!==null?'answered':''))+'" id="q'+idx+'">'
+       +   '<div class="q-top"><span class="q-num">Q'+globalNum+'</span>'+sectTag+'</div>'
+       +   '<div class="q-text">'+escapeHtml(q.q)+'</div>'
+       +   '<div class="opts">'+optsHtml+'</div>'
+       +   '<div class="'+expCls+'" id="exp'+idx+'">'
+       +     '<div class="elabel">Explanation</div>'
+       +     '<div class="ans-line">Correct Answer: '+LETTERS[q.correct]+' \u2014 '+escapeHtml(q.opts[q.correct])+'</div>'
+       +     '<p>'+escapeHtml(q.explanation)+'</p></div></div>';
+}
+
+function build(){
+  const exam=document.getElementById('exam');
+  if(mode==='instant'){
+    let html='', qi=0;
+    SECTIONS.forEach(sec=>{
+      html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+      QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+    });
+    exam.innerHTML=html;
+  } else {
+    const idx=current;
+    let html=makeCard(idx,idx+1,true);
+    const last=(idx===QUESTIONS.length-1);
+    const answered=answers[idx]!==null;
+    const allAnswered=answers.every(a=>a!==null);
+    let nextBtn='';
+    if(mode==='guided'){
+      nextBtn = last ? '<button class="btn btn-gold" onclick="showResultsFromGuided()" '+(answered?'':'disabled')+'>Show Results</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()" '+(answered?'':'disabled')+'>Continue</button>';
+    } else {
+      nextBtn = last ? '<button class="btn btn-gold" onclick="submitExam()" '+(allAnswered?'':'disabled')+'>Submit Exam</button>'
+                     : '<button class="btn btn-gold" onclick="nextQ()">Continue</button>';
+    }
+    const prevBtn='<button class="btn btn-ghost" onclick="prevQ()" '+(idx===0?'disabled':'')+'>Back</button>';
+    const resetBtn='<button class="btn btn-ghost" onclick="resetExam(false)">Reset</button>';
+    const note=mode==='exam'?'No feedback until final submission.':'Feedback appears after selection.';
+    html+='<div class="nav"><div class="left">'+prevBtn+resetBtn+'</div><div class="note">'+note+'</div><div class="right">'+nextBtn+'</div></div>';
+    exam.innerHTML=html;
+  }
+  document.getElementById('bottomActions').innerHTML='';
+  updateHud();
+}
+
+function choose(idx,i){
+  if(locked[idx]) return;
+  if(mode==='exam'&&submitted) return;
+  answers[idx]=i;
+  if(mode==='instant'){ locked[idx]=true; updateOptionUI(idx); }
+  else if(mode==='guided'){ locked[idx]=true; build(); }
+  else build();
+  updateHud();
+}
+
+function updateOptionUI(idx){
+  const q=QUESTIONS[idx], card=document.getElementById('q'+idx);
+  if(!card) return;
+  const chosen=answers[idx];
+  card.classList.add('answered');
+  if(locked[idx]) card.classList.add('locked');
+  card.querySelectorAll('.opt').forEach(o=>{
+    const oi=+o.dataset.i;
+    o.classList.remove('sel','correct','wrong');
+    const mark=o.querySelector('.mark'); if(mark) mark.textContent='';
+    if(locked[idx]){
+      if(oi===q.correct){ o.classList.add('correct'); if(mark) mark.textContent='\u2713'; }
+      else if(oi===chosen){ o.classList.add('wrong'); if(mark) mark.textContent='\u2717'; }
+    } else if(chosen===oi) o.classList.add('sel');
+  });
+  if(locked[idx]){
+    const exp=document.getElementById('exp'+idx);
+    if(exp) exp.classList.add('show');
+  }
+}
+
+function nextQ(){ if(current<QUESTIONS.length-1){ current++; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+function prevQ(){ if(current>0){ current--; build(); window.scrollTo({top:0,behavior:'smooth'}); } }
+
+function updateHud(){
+  const done=answers.filter(a=>a!==null).length;
+  if(mode==='instant') document.getElementById('progStat').innerHTML='Progress <b id="progCount">'+done+'</b>/'+TOTAL_Q;
+  else document.getElementById('progStat').innerHTML='Question <b id="progCount">'+(current+1)+'</b>/'+TOTAL_Q;
+  const pct=mode==='instant'?done/QUESTIONS.length:(current+1)/QUESTIONS.length;
+  document.getElementById('barFill').style.width=(pct*100)+'%';
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  document.getElementById('scoreNum').textContent=(mode==='exam'&&!submitted)?'\u2014':correct;
+}
+
+function submitExam(){ for(let i=0;i<QUESTIONS.length;i++) locked[i]=true; submitted=true; stopExamTimer(); showResults(); }
+function showResultsFromGuided(){ submitted=true; showResults(); }
+
+function showResults(){
+  const correct=answers.reduce((s,a,i)=>s+(a===QUESTIONS[i].correct?1:0),0);
+  const bySection={};
+  QUESTIONS.forEach((q,idx)=>{
+    bySection[q.section]=bySection[q.section]||{c:0,t:0};
+    bySection[q.section].t++;
+    if(answers[idx]===q.correct) bySection[q.section].c++;
+  });
+  document.getElementById('rScore').textContent=correct;
+  document.getElementById('scoreNum').textContent=correct;
+  const pct=correct/QUESTIONS.length;
+  let grade, blurb;
+  // Canadian BPV safety design readiness benchmarks
+  if(pct>=0.90){ grade='Pump Sizing & Design - Distinction'; blurb='Outstanding command of hydraulic basis, TDH, NPSH, system curves, pump selection, driver sizing, installation, controls, commissioning, Canadian safety interfaces, and hazardous-service design.'; }
+  else if(pct>=0.80){ grade='Pump Sizing & Design - Solid Pass'; blurb='Strong performance across most pump sizing and design domains. Review missed items to sharpen hydraulic calculations, NPSH margins, curve interpretation, seals, controls, and commissioning checks.'; }
+  else if(pct>=0.70){ grade='Pump Sizing & Design - Borderline'; blurb='Good foundation with targeted review needed, especially on TDH, NPSHA, operating envelope, pump-family selection, minimum flow, installation quality, and Canadian safety interfaces.'; }
+  else if(pct>=0.60){ grade='Approaching Pump Design Pass Threshold'; blurb='Below a typical pass range. Rework system curves, pressure-to-head conversion, affinity laws, NPSH, BEP selection, piping layout, seal support, testing, and emergency safeguards.'; }
+  else if(pct>=0.45){ grade='Developing Pump Design Practitioner'; blurb='Core ideas are forming, but important gaps remain. Rebuild from design basis, hydraulic calculations, pump curves, installation controls, commissioning, and reliability fundamentals.'; }
+  else { grade='Begin the Pump Sizing & Design Journey'; blurb='Start with fundamentals: flow cases, fluid properties, TDH, NPSH, system curves, pump type selection, power, suction piping, seals, controls, testing, and safe operation.'; }
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rBlurb').textContent=blurb;
+  document.getElementById('rTimeout').style.display=timedOut?'block':'none';
+  const bd=document.getElementById('rBreak'); bd.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    if(!bySection[sec.key]) return;
+    const d=document.createElement('div'); d.className='bd-item';
+    d.innerHTML='<div class="bd-t">'+escapeHtml(sec.key)+'</div><div class="bd-s">'+bySection[sec.key].c+'/'+bySection[sec.key].t+'</div>';
+    bd.appendChild(d);
+  });
+  const r=document.getElementById('results'); r.classList.add('show');
+  if(mode==='exam'||mode==='guided'){ renderReviewList(); } else build();
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth'}),200);
+}
+
+function renderReviewList(){
+  const exam=document.getElementById('exam');
+  let html='', qi=0;
+  SECTIONS.forEach(sec=>{
+    html+='<div class="section-head '+sec.cls+'"><span>'+escapeHtml(sec.label)+'</span><span class="tag">'+escapeHtml(sec.range)+'</span></div>';
+    QUESTIONS.forEach((q,idx)=>{ if(q.section!==sec.key) return; qi++; html+=makeCard(idx,qi,false); });
+  });
+  exam.innerHTML=html;
+}
+
+function reviewAnswers(){
+  const exam=document.getElementById('exam');
+  if(exam.firstElementChild) exam.firstElementChild.scrollIntoView({behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.getElementById('mode-guided').classList.toggle('active',m==='guided');
+  document.getElementById('mode-instant').classList.toggle('active',m==='instant');
+  document.getElementById('mode-exam').classList.toggle('active',m==='exam');
+  const hint=document.getElementById('modeHint');
+  if(m==='guided')  hint.textContent='Guided Path: one question at a time. Feedback appears after you answer; next is locked until then.';
+  if(m==='instant') hint.textContent='Instant Feedback: all 150 questions on one page. Each answer reveals the explanation immediately.';
+  if(m==='exam')    hint.textContent='Exam Mode: one question at a time. 4-hour countdown; feedback and score are hidden until final submission.';
+  resetExam(false);
+}
+
+function resetExam(jump){
+  current=0;
+  answers=new Array(QUESTIONS.length).fill(null);
+  locked=new Array(QUESTIONS.length).fill(false);
+  submitted=false; timedOut=false;
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('scoreNum').textContent='0';
+  if(mode==='exam') startExamTimer(); else hideExamTimer();
+  build();
+  if(jump) window.scrollTo({top:0,behavior:'smooth'});
+}
+
+build();
+updateHud();
+</script>
+
+
+<div id="chmlNameModal" class="chml-name-modal" onclick="if(event.target===this)chmlCancelNameModal()">
+  <div class="chml-name-card">
+    <h2>Begin Exam Mode</h2>
+    <p id="chmlNameModalSub">Enter the name to print on your Certificate of Completion.</p>
+    <label for="chmlExamNameInput">Learner name</label>
+    <input id="chmlExamNameInput" type="text" maxlength="80" placeholder="Enter learner name" autocomplete="off" onkeydown="if(event.key==='Enter')chmlConfirmNameAndStart(); if(event.key==='Escape')chmlCancelNameModal();">
+    <div class="chml-name-actions">
+      <button class="chml-cert-btn secondary" type="button" onclick="chmlCancelNameModal()">Cancel</button>
+      <button class="chml-cert-btn" type="button" onclick="chmlConfirmNameAndStart()">Start Exam</button>
+    </div>
+  </div>
+</div>
+
+<div id="chmlCertificate" class="chml-cert-wrap" aria-live="polite">
+  <div class="chml-cert-toolbar">
+    <label for="chmlCertNameInput">Certificate name</label>
+    <input id="chmlCertNameInput" type="text" maxlength="80" placeholder="Enter name for certificate" oninput="chmlUpdateCertificateName(this.value)">
+    <button class="chml-cert-btn" type="button" onclick="chmlPrintCertificate()">Print / Save as PDF</button>
+    <button class="chml-cert-btn secondary" type="button" onclick="chmlHideCertificate()">Hide Certificate</button>
+  </div>
+  <div class="chml-cert-paper">
+    <div class="chml-cert-border">
+      <div class="chml-cert-corner tl"></div><div class="chml-cert-corner tr"></div><div class="chml-cert-corner bl"></div><div class="chml-cert-corner br"></div>
+      <div class="chml-cert-kicker"><span id="chmlCertExamKicker">Knowledge Hub Examination</span></div>
+      <h1 class="chml-cert-h1">Certificate of Completion</h1>
+      <div class="chml-cert-rule"></div>
+      <p class="chml-cert-pre">This certifies that</p>
+      <p class="chml-cert-name" id="chmlCertName">Learner</p>
+      <p class="chml-cert-body">has successfully completed the <b id="chmlCertExamName">Knowledge Hub Exam</b>.</p>
+      <div class="chml-cert-stats">
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Score</div><div class="chml-cert-stat-v" id="chmlCertScore">0 / 0</div></div>
+        <div class="chml-cert-stat"><div class="chml-cert-stat-l">Date</div><div class="chml-cert-stat-v" id="chmlCertDate">-</div></div>
+      </div>
+      <div class="chml-cert-foot">
+        <div class="chml-cert-sig"><div class="chml-cert-sig-line">Quak Foo Lee</div><div class="chml-cert-sig-label">Chmltech Ltd.</div></div>
+        <div class="chml-cert-id">Certificate ID: <span id="chmlCertId">-</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script id="chml-cert-script">
+(function(){
+  if(window.__chmlCertificateInstalled) return;
+  window.__chmlCertificateInstalled = true;
+  function textOf(sel){var el=document.querySelector(sel);return el?el.textContent.trim():'';}
+  function examTitle(){return textOf('h1.title')||textOf('header h1')||textOf('h1')||document.title.replace(/\s+/g,' ').trim()||'Knowledge Hub Exam';}
+  function parseFirstNumber(txt){var m=String(txt||'').match(/\d+/);return m?parseInt(m[0],10):null;}
+  function parseScoreTotal(){
+    var correct=parseFirstNumber(textOf('#rScore'));
+    var total=null;
+    var rt=textOf('#rTotal');
+    if(rt) total=parseFirstNumber(rt);
+    if(!total){var sb=textOf('.score-big');var m=sb.match(/\/\s*(\d+)/);if(m) total=parseInt(m[1],10);}
+    if(!total) total=parseFirstNumber(textOf('#progTotal'));
+    if(!total){var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;if(cards) total=cards;}
+    if(!correct && correct!==0) correct=parseFirstNumber(textOf('#scoreNum'));
+    return {correct:correct||0,total:total||0};
+  }
+  function totalFromBreakdown(byType){
+    if(!byType || typeof byType!=='object') return null;
+    var total=0, found=false;
+    Object.keys(byType).forEach(function(k){var v=byType[k];if(v&&typeof v==='object'){var n=v.t||v.total||v.count;if(typeof n==='number'){total+=n;found=true;}}});
+    return found?total:null;
+  }
+  function hashCode(str){var h=0;for(var i=0;i<str.length;i++){h=((h<<5)-h+str.charCodeAt(i))|0;}return Math.abs(h).toString(36).toUpperCase().slice(0,8);}
+  window.chmlUpdateCertificateName=function(name){document.getElementById('chmlCertName').textContent=(name||'').trim()||'Learner';};
+  window.chmlHideCertificate=function(){var c=document.getElementById('chmlCertificate');if(c)c.classList.remove('show');};
+  window.chmlPrintCertificate=function(){window.print();};
+  window.chmlRenderCertificate=function(correct,total,grade){
+    var cert=document.getElementById('chmlCertificate');if(!cert)return;
+    var title=examTitle();
+    var nameInput=document.getElementById('chmlCertNameInput');
+    var learner=(window.chmlExamLearnerName||(nameInput&&nameInput.value.trim())||'Learner');
+    var date=new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'});
+    document.getElementById('chmlCertExamKicker').textContent=title+' - Examination';
+    document.getElementById('chmlCertExamName').textContent=title;
+    document.getElementById('chmlCertName').textContent=learner;
+    document.getElementById('chmlCertScore').textContent=String(correct)+' / '+String(total||0)+(total?(' ('+Math.round((correct/total)*100)+'%)'):'');
+    document.getElementById('chmlCertDate').textContent=date;
+    document.getElementById('chmlCertId').textContent='CHML-'+hashCode(title+'|'+learner+'|'+date+'|'+correct+'|'+total);
+    cert.classList.add('show');
+  };
+
+
+  function chmlFormatDuration(ms){
+    if(!ms || !isFinite(ms)) return '';
+    var mins=Math.round(ms/60000);
+    if(mins>=60 && mins%60===0){var h=mins/60;return h+' '+(h===1?'hour':'hours');}
+    if(mins>=60){var h=Math.floor(mins/60), m=mins%60;return h+' '+(h===1?'hour':'hours')+' '+m+' '+(m===1?'minute':'minutes');}
+    return mins+' '+(mins===1?'minute':'minutes');
+  }
+  function chmlQuestionCount(){
+    try{if(typeof QUESTIONS!=='undefined' && Array.isArray(QUESTIONS)) return QUESTIONS.length;}catch(e){}
+    try{if(typeof QUESTION_BANK!=='undefined' && Array.isArray(QUESTION_BANK)) return QUESTION_BANK.length;}catch(e){}
+    try{if(typeof POOL!=='undefined' && Array.isArray(POOL)) return POOL.length;}catch(e){}
+    try{if(typeof BANK!=='undefined' && Array.isArray(BANK)) return BANK.length;}catch(e){}
+    var t=textOf('#progTotal')||textOf('#rTotal')||document.title;
+    var m=String(t).match(/(\d+)\s*Q\b|\/(\d+)|\b(\d+)\s+questions?\b/i);
+    if(m) return parseInt(m[1]||m[2]||m[3],10);
+    var cards=document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+    return cards||0;
+  }
+  function chmlEstimatedDurationText(count){
+    count=parseInt(count||0,10);
+    if(count>=185) return '3 hours 50 minutes';
+    if(count>=150) return '4 hours';
+    if(count>=50) return count<=50 ? '1 hour' : '2 hours';
+    return '30 minutes';
+  }
+  function chmlDurationFromTimerText(txt){
+    txt=String(txt||'').trim();
+    var hms=txt.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\b/);
+    if(hms){
+      var h=parseInt(hms[1],10), m=parseInt(hms[2],10), s=parseInt(hms[3]||'0',10);
+      var mins=h*60+m+(s>0?1:0);
+      return chmlFormatDuration(mins*60000);
+    }
+    var hm=txt.match(/\b(\d+)\s*(?:h|hr|hrs|hour|hours)\b(?:\s*(\d+)\s*(?:m|min|mins|minute|minutes)\b)?/i);
+    if(hm){
+      var total=parseInt(hm[1],10)*60+(hm[2]?parseInt(hm[2],10):0);
+      return chmlFormatDuration(total*60000);
+    }
+    var mm=txt.match(/\b(\d+)\s*(?:m|min|mins|minute|minutes)\b/i);
+    if(mm) return chmlFormatDuration(parseInt(mm[1],10)*60000);
+    return '';
+  }
+  function chmlExamDurationText(){
+    try{if(typeof EXAM_DURATION_MS!=='undefined') return chmlFormatDuration(EXAM_DURATION_MS);}catch(e){}
+    var timerSelectors=['#timerVal','#timeVal','#timerValue','#timeRemaining','.timer'];
+    for(var i=0;i<timerSelectors.length;i++){
+      var el=document.querySelector(timerSelectors[i]);
+      var parsed=el?chmlDurationFromTimerText(el.textContent):'';
+      if(parsed) return parsed;
+    }
+    var all=document.body?document.body.textContent:'';
+    var parsedAll=chmlDurationFromTimerText(all);
+    if(parsedAll) return parsedAll;
+    var m=all.match(/(\d+)\s*-?\s*hour\s+countdown/i)||all.match(/(\d+)\s*hr\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'hour':'hours');
+    m=all.match(/(\d+)\s*-?\s*minute\s+countdown/i)||all.match(/(\d+)\s*min\b/i);
+    if(m) return parseInt(m[1],10)+' '+(parseInt(m[1],10)===1?'minute':'minutes');
+    return '';
+  }
+  function chmlUpdateNameModalText(){
+    var sub=document.getElementById('chmlNameModalSub');
+    if(!sub) return;
+    var count=chmlQuestionCount();
+    var duration=chmlExamDurationText();
+    var qText=count ? (count+' '+(count===1?'question':'questions')+' will be included.') : 'The exam questions will be included.';
+    var timeText='You have '+(duration||chmlEstimatedDurationText(count))+' once you click Start Exam.';
+    sub.textContent='Enter the name to print on your Certificate of Completion. '+qText+' '+timeText;
+  }
+
+  window.chmlExamLearnerName = '';
+  window.chmlPendingExamStart = null;
+  window.chmlOpenNameModal=function(startFn){
+    window.chmlPendingExamStart=startFn;
+    chmlUpdateNameModalText();
+    var modal=document.getElementById('chmlNameModal');
+    var input=document.getElementById('chmlExamNameInput');
+    if(input) input.value=window.chmlExamLearnerName||'';
+    if(modal) modal.classList.add('show');
+    setTimeout(function(){if(input) input.focus();},50);
+  };
+  window.chmlCancelNameModal=function(){
+    var modal=document.getElementById('chmlNameModal');
+    if(modal) modal.classList.remove('show');
+    window.chmlPendingExamStart=null;
+  };
+  window.chmlConfirmNameAndStart=function(){
+    var input=document.getElementById('chmlExamNameInput');
+    var name=(input&&input.value.trim())||'';
+    if(!name){if(input){input.focus();input.style.borderColor='#b08d3c';}return;}
+    window.chmlExamLearnerName=name;
+    var certInput=document.getElementById('chmlCertNameInput');
+    if(certInput) certInput.value=name;
+    window.chmlUpdateCertificateName(name);
+    var start=window.chmlPendingExamStart;
+    window.chmlCancelNameModal();
+    if(typeof start==='function') start();
+  };
+  if(typeof window.setMode==='function'){
+    var originalSetMode=window.setMode;
+    window.setMode=function(m){
+      if(m==='exam' && !window.chmlExamLearnerName){
+        window.chmlOpenNameModal(function(){originalSetMode.call(window,'exam');});
+        return;
+      }
+      return originalSetMode.apply(this,arguments);
+    };
+  }
+
+  function renderFromArgs(args){
+    var correct=(typeof args[0]==='number')?args[0]:null;
+    var total=totalFromBreakdown(args[1]);
+    setTimeout(function(){
+      var parsed=parseScoreTotal();
+      if(correct===null || isNaN(correct)) correct=parsed.correct;
+      if(!total) total=parsed.total;
+      if(total || correct || document.querySelector('#results.show,.results.show')) window.chmlRenderCertificate(correct||0,total||0);
+    },60);
+  }
+  if(typeof window.showResults==='function'){
+    var originalShowResults=window.showResults;
+    window.showResults=function(){var out=originalShowResults.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  if(typeof window.submitExam==='function'){
+    var originalSubmitExam=window.submitExam;
+    window.submitExam=function(){var out=originalSubmitExam.apply(this,arguments);renderFromArgs(arguments);return out;};
+  }
+  ['resetExam','newExam'].forEach(function(fn){
+    if(typeof window[fn]==='function'){
+      var original=window[fn];
+      window[fn]=function(){window.chmlHideCertificate();return original.apply(this,arguments);};
+    }
+  });
+})();
+</script>
+
+
+<script id="chml-question-position-script">
+(function(){
+  if(window.__chmlQuestionPositionInstalled) return;
+  window.__chmlQuestionPositionInstalled = true;
+  function isVisible(el){
+    if(!el) return false;
+    var style = window.getComputedStyle(el);
+    if(style.display === 'none' || style.visibility === 'hidden' || el.classList.contains('chml-oat-hidden')) return false;
+    var rect = el.getBoundingClientRect();
+    return rect.width > 0 && rect.height > 0;
+  }
+  function visibleQuestionCard(){
+    var selectors = ['.q-card','.question-card','.question','.q'];
+    for(var s=0;s<selectors.length;s++){
+      var list = document.querySelectorAll(selectors[s]);
+      for(var i=0;i<list.length;i++){
+        if(isVisible(list[i])) return list[i];
+      }
+    }
+    return null;
+  }
+  function isNavigationBlock(el){
+    if(!el || !el.classList) return false;
+    return el.classList.contains('chml-oat-nav') || /nav|control|action/i.test(String(el.className||''));
+  }
+  function anchorFor(card){
+    if(!card) return null;
+    var node = card.previousElementSibling;
+    while(node && (isNavigationBlock(node) || !isVisible(node))) node = node.previousElementSibling;
+    if(node){
+      var cls = String(node.className || '');
+      var text = String(node.textContent || '').replace(/\s+/g,' ').trim();
+      if(/set|section|title|banner|header|strip|bar/i.test(cls)) return node;
+      if(text && text.length <= 140 && !/back|continue|reset|submit/i.test(text)) return node;
+    }
+    return card;
+  }
+  function hudOffset(){
+    var hud = document.querySelector('.hud,#hud,.topbar,.exam-hud');
+    var offset = 24;
+    if(hud && isVisible(hud)){
+      var pos = window.getComputedStyle(hud).position;
+      if(pos === 'sticky' || pos === 'fixed') offset += hud.getBoundingClientRect().height;
+    }
+    return offset;
+  }
+  function parseTotal(){
+    var totalEl = document.getElementById('totalCount') || document.getElementById('progTotal') || document.getElementById('rTotal');
+    var total = totalEl ? parseInt(String(totalEl.textContent || '').replace(/[^0-9]/g,''),10) : NaN;
+    if(!total || !isFinite(total)){
+      var allCards = document.querySelectorAll('.q-card,.question-card,.question,.q').length;
+      total = allCards || NaN;
+    }
+    return total;
+  }
+  function parseQuestionNumber(card){
+    if(!card) return NaN;
+    var label = card.querySelector('.qnum,.q-no,.q-number,h2,h3') || card;
+    var text = String(label.textContent || '').replace(/\s+/g,' ').trim();
+    var match = text.match(/\bQ\s*0*(\d+)\b/i) || text.match(/\bQuestion\s*0*(\d+)\b/i);
+    return match ? parseInt(match[1],10) : NaN;
+  }
+  function syncVisibleProgress(card){
+    var current = parseQuestionNumber(card);
+    var total = parseTotal();
+    if(!current || !isFinite(current)) return;
+    var prog = document.getElementById('progCount');
+    if(prog) prog.textContent = String(current);
+    var totalCount = document.getElementById('totalCount');
+    if(totalCount && total && isFinite(total)) totalCount.textContent = String(total);
+    var progTotal = document.getElementById('progTotal');
+    if(progTotal && total && isFinite(total)) progTotal.textContent = String(total);
+    var fill = document.getElementById('barFill');
+    if(fill && total && isFinite(total)) fill.style.width = (Math.max(0, Math.min(1, current / total)) * 100) + '%';
+  }
+  function scrollCurrentQuestion(){
+    var card = visibleQuestionCard();
+    if(!card) return;
+    syncVisibleProgress(card);
+    var target = anchorFor(card) || card;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - hudOffset();
+    window.scrollTo({top: Math.max(0, y), behavior: 'smooth'});
+  }
+  function scheduleScroll(){
+    setTimeout(scrollCurrentQuestion, 60);
+    setTimeout(scrollCurrentQuestion, 180);
+  }
+  window.chmlScrollCurrentQuestion = scrollCurrentQuestion;
+  window.chmlScheduleQuestionScroll = scheduleScroll;
+  ['nextQ','prevQ','nextQuestion','prevQuestion'].forEach(function(name){
+    var fn = window[name];
+    if(typeof fn === 'function' && !fn.__chmlPositionWrapped){
+      window[name] = function(){
+        var result = fn.apply(this, arguments);
+        scheduleScroll();
+        return result;
+      };
+      window[name].__chmlPositionWrapped = true;
+    }
+  });
+  document.addEventListener('click', function(event){
+    var target = event.target;
+    if(!target || !target.closest) return;
+    var button = target.closest('.chml-oat-nav button, .pager button, .nav button, .controls button, .actions button, button');
+    if(!button) return;
+    var label = String(button.textContent || '').replace(/\s+/g,' ').trim();
+    if(/^(continue|back|previous|next)$/i.test(label)) scheduleScroll();
+  }, true);
+})();
+</script>
+</body>
+</html>

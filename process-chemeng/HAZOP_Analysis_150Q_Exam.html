@@ -1,0 +1,2943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HAZOP Analysis Exam · 150Q Mock Exam</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#171a23;
+      --muted:#5d5b52;
+      --paper:#efece4;
+      --paper2:#e3e0d3;
+      --paper3:#f7f3e9;
+      --gold:#8b6526;
+      --gold-deep:#684a0f;
+      --green:#2f6b4f;
+      --green-soft:#e1ece4;
+      --red:#a8412f;
+      --red-soft:#f3e3df;
+      --line:#cdc6b1;
+      --shadow:rgba(20,18,8,.14);
+      --sec1:#722F37;
+      --sec2:#0e6b6a;
+      --sec3:#a8590e;
+      --sec4:#1d3b7d;
+      --sec5:#5a2585;
+      --sec6:#226b2d;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at 20% 0%, rgba(139,101,38,.10), transparent 32rem),
+        radial-gradient(circle at 82% 10%, rgba(14,107,106,.08), transparent 30rem),
+        linear-gradient(135deg, #e8e2d0 0%, #f6f1e7 48%, #e6decb 100%);
+      font-family:Newsreader, Georgia, serif;
+      line-height:1.55;
+    }
+    body:before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.32;
+      background-image:
+        linear-gradient(rgba(90,75,42,.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(90,75,42,.04) 1px, transparent 1px);
+      background-size:24px 24px;
+      mix-blend-mode:multiply;
+    }
+    .wrap{
+      position:relative;
+      z-index:1;
+      max-width:1180px;
+      margin:0 auto;
+      padding:28px 18px 70px;
+    }
+    .masthead{
+      border:1px solid rgba(104,74,15,.28);
+      background:
+        linear-gradient(180deg, rgba(255,253,247,.82), rgba(239,236,228,.92)),
+        radial-gradient(circle at top left, rgba(139,101,38,.14), transparent 30rem);
+      box-shadow:0 18px 50px var(--shadow);
+      border-radius:28px;
+      padding:30px 32px;
+      overflow:hidden;
+      position:relative;
+    }
+    .masthead:after{
+      content:"HAZOP";
+      position:absolute;
+      right:20px;
+      bottom:-42px;
+      font-family:Fraunces, serif;
+      font-size:130px;
+      font-weight:900;
+      letter-spacing:-.06em;
+      color:rgba(104,74,15,.07);
+      pointer-events:none;
+    }
+    .kicker{
+      font-family:"JetBrains Mono", monospace;
+      text-transform:uppercase;
+      font-size:.78rem;
+      letter-spacing:.12em;
+      color:var(--gold-deep);
+      font-weight:700;
+    }
+    .title{
+      font-family:Fraunces, Georgia, serif;
+      font-size:clamp(2.2rem, 5.4vw, 5rem);
+      letter-spacing:-.055em;
+      line-height:.95;
+      margin:12px 0 12px;
+      max-width:920px;
+    }
+    .byline{
+      max-width:850px;
+      color:var(--muted);
+      font-size:1.12rem;
+    }
+    .exambar{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:22px;
+      position:relative;
+      z-index:1;
+    }
+    .exambar span{
+      font-family:"JetBrains Mono", monospace;
+      font-size:.78rem;
+      background:rgba(255,255,255,.52);
+      border:1px solid rgba(104,74,15,.20);
+      border-radius:999px;
+      padding:8px 10px;
+      color:#3b3326;
+    }
+    .modebar{
+      margin:22px 0 10px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    button{
+      font:inherit;
+    }
+    .modebar button,
+    .actions button,
+    .modal-card button,
+    .cert-actions button{
+      border:1px solid rgba(104,74,15,.25);
+      background:linear-gradient(180deg, #fffaf0, #e9dfc8);
+      color:#211b12;
+      border-radius:999px;
+      padding:11px 16px;
+      cursor:pointer;
+      box-shadow:0 6px 15px rgba(20,18,8,.08);
+      font-family:"JetBrains Mono", monospace;
+      font-size:.86rem;
+      font-weight:700;
+      transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .modebar button:hover,
+    .actions button:hover,
+    .modal-card button:hover,
+    .cert-actions button:hover{
+      transform:translateY(-1px);
+      box-shadow:0 10px 22px rgba(20,18,8,.12);
+    }
+    .modebar button.active,
+    .actions button.primary,
+    .modal-card button.primary,
+    .cert-actions button.primary{
+      color:#fff;
+      background:linear-gradient(180deg, var(--gold), var(--gold-deep));
+      border-color:rgba(104,74,15,.55);
+    }
+    .actions button:disabled,
+    .option:disabled{
+      cursor:not-allowed;
+      opacity:.65;
+      transform:none;
+      box-shadow:none;
+    }
+    .mode-hint{
+      margin:0 0 12px;
+      color:var(--muted);
+      font-style:italic;
+    }
+    .hud{
+      position:sticky;
+      top:0;
+      z-index:20;
+      display:grid;
+      grid-template-columns:auto minmax(120px,1fr) auto auto;
+      gap:10px;
+      align-items:center;
+      margin:14px 0 20px;
+      padding:12px;
+      border:1px solid rgba(104,74,15,.22);
+      border-radius:20px;
+      background:rgba(247,243,233,.88);
+      backdrop-filter:blur(10px);
+      box-shadow:0 12px 30px rgba(20,18,8,.10);
+    }
+    .stat{
+      font-family:"JetBrains Mono", monospace;
+      font-size:.84rem;
+      white-space:nowrap;
+      color:#332b1e;
+    }
+    .sc-correct{color:var(--green)}
+    .bar-track{
+      height:12px;
+      border-radius:999px;
+      background:#d7cfbc;
+      overflow:hidden;
+      border:1px solid rgba(104,74,15,.18);
+    }
+    .bar-fill{
+      width:0%;
+      height:100%;
+      border-radius:999px;
+      background:linear-gradient(90deg, var(--gold), #c49a4c);
+      transition:width .25s ease;
+    }
+    .timer b{font-variant-numeric:tabular-nums}
+    .timer.warn{color:#a8590e}
+    .timer.critical{color:var(--red); animation:pulse 1s infinite}
+    @keyframes pulse{50%{opacity:.45}}
+    .section-divider{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:14px;
+      margin:30px 0 14px;
+      padding:18px 18px;
+      color:#fff;
+      border-radius:22px;
+      box-shadow:0 12px 30px rgba(20,18,8,.16);
+    }
+    .section-divider h2{
+      margin:0;
+      font-family:Fraunces, serif;
+      letter-spacing:-.02em;
+      font-size:1.5rem;
+    }
+    .section-divider span{
+      font-family:"JetBrains Mono", monospace;
+      font-size:.78rem;
+      opacity:.9;
+    }
+    .sec-foundations .accent, .section-divider.sec-foundations{background:linear-gradient(135deg, var(--sec1), #a35361)}
+    .sec-materials .accent, .section-divider.sec-materials{background:linear-gradient(135deg, var(--sec2), #18a19f)}
+    .sec-utilities .accent, .section-divider.sec-utilities{background:linear-gradient(135deg, var(--sec3), #d07a20)}
+    .sec-labor .accent, .section-divider.sec-labor{background:linear-gradient(135deg, var(--sec4), #4268b8)}
+    .sec-waste .accent, .section-divider.sec-waste{background:linear-gradient(135deg, var(--sec5), #8741bd)}
+    .sec-finance .accent, .section-divider.sec-finance{background:linear-gradient(135deg, var(--sec6), #3b9950)}
+    .qcard{
+      border:1px solid rgba(104,74,15,.22);
+      background:
+        linear-gradient(180deg, rgba(255,252,244,.94), rgba(239,236,228,.95));
+      border-radius:24px;
+      box-shadow:0 14px 36px rgba(20,18,8,.11);
+      margin:16px 0;
+      overflow:hidden;
+    }
+    .qcard .accent{height:8px}
+    .qinner{padding:20px}
+    .qhead{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:12px;
+      color:var(--muted);
+      font-family:"JetBrains Mono", monospace;
+      font-size:.78rem;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      border:1px solid rgba(104,74,15,.18);
+      background:rgba(255,255,255,.54);
+      padding:6px 9px;
+      border-radius:999px;
+      text-transform:none;
+      letter-spacing:0;
+      font-size:.76rem;
+    }
+    .qtext{
+      margin:0 0 16px;
+      font-family:Fraunces, Georgia, serif;
+      line-height:1.22;
+      letter-spacing:-.015em;
+      font-size:1.27rem;
+      font-weight:650;
+    }
+    .options{
+      display:grid;
+      gap:10px;
+    }
+    .option{
+      width:100%;
+      display:grid;
+      grid-template-columns:38px 1fr;
+      align-items:flex-start;
+      gap:10px;
+      text-align:left;
+      padding:12px 14px;
+      border-radius:18px;
+      border:1px solid rgba(104,74,15,.20);
+      background:rgba(255,255,255,.55);
+      color:var(--ink);
+      cursor:pointer;
+      transition:background .15s ease, border-color .15s ease, transform .15s ease;
+    }
+    .option:hover:not(:disabled){
+      transform:translateY(-1px);
+      background:rgba(255,255,255,.82);
+      border-color:rgba(104,74,15,.38);
+    }
+    .letter{
+      display:inline-flex;
+      justify-content:center;
+      align-items:center;
+      width:28px;
+      height:28px;
+      border-radius:50%;
+      background:#ddd3bd;
+      color:#342616;
+      font-family:"JetBrains Mono", monospace;
+      font-weight:800;
+      font-size:.82rem;
+    }
+    .option.selected{
+      border-color:var(--gold);
+      background:#fff7df;
+    }
+    .option.correct{
+      border-color:rgba(47,107,79,.50);
+      background:var(--green-soft);
+    }
+    .option.correct .letter{
+      background:var(--green);
+      color:#fff;
+    }
+    .option.wrong{
+      border-color:rgba(168,65,47,.50);
+      background:var(--red-soft);
+    }
+    .option.wrong .letter{
+      background:var(--red);
+      color:#fff;
+    }
+    .feedback{
+      margin-top:14px;
+      padding:14px 16px;
+      border:1px solid rgba(139,101,38,.23);
+      border-left:6px solid var(--gold);
+      border-radius:18px;
+      background:rgba(255,248,228,.70);
+    }
+    .feedback strong{
+      font-family:"JetBrains Mono", monospace;
+      font-size:.84rem;
+      color:var(--gold-deep);
+    }
+    .feedback p{
+      margin:.45rem 0 0;
+    }
+    .actions{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      margin:22px 0;
+    }
+    .actions .note{
+      flex-basis:100%;
+      text-align:center;
+      color:var(--muted);
+      font-style:italic;
+    }
+    .results{
+      display:none;
+      border:1px solid rgba(104,74,15,.24);
+      border-radius:28px;
+      background:
+        linear-gradient(180deg, rgba(255,252,244,.95), rgba(236,231,217,.98));
+      box-shadow:0 18px 48px rgba(20,18,8,.16);
+      padding:24px;
+      margin-top:26px;
+    }
+    .results h2{
+      font-family:Fraunces, serif;
+      letter-spacing:-.035em;
+      font-size:2.25rem;
+      margin:0 0 8px;
+    }
+    .scoreline{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin:12px 0;
+    }
+    .pill{
+      font-family:"JetBrains Mono", monospace;
+      border:1px solid rgba(104,74,15,.20);
+      background:rgba(255,255,255,.60);
+      border-radius:999px;
+      padding:8px 12px;
+      font-size:.86rem;
+    }
+    .breakdown{
+      width:100%;
+      border-collapse:collapse;
+      margin:16px 0;
+      overflow:hidden;
+      border-radius:16px;
+    }
+    .breakdown th,
+    .breakdown td{
+      border-bottom:1px solid rgba(104,74,15,.16);
+      padding:10px 8px;
+      text-align:left;
+    }
+    .breakdown th{
+      font-family:"JetBrains Mono", monospace;
+      font-size:.78rem;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+      color:var(--gold-deep);
+      background:rgba(139,101,38,.08);
+    }
+    .timeout{
+      display:none;
+      margin:12px 0;
+      padding:12px 14px;
+      border-radius:16px;
+      background:var(--red-soft);
+      border:1px solid rgba(168,65,47,.35);
+      color:#682014;
+    }
+    footer{
+      margin-top:34px;
+      color:#6d675b;
+      text-align:center;
+      font-size:.92rem;
+    }
+    .modal-backdrop{
+      display:none;
+      position:fixed;
+      inset:0;
+      z-index:80;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      background:rgba(23,26,35,.54);
+      backdrop-filter:blur(6px);
+    }
+    .modal-card{
+      width:min(520px, 100%);
+      background:var(--paper3);
+      border:1px solid rgba(104,74,15,.30);
+      border-radius:26px;
+      padding:24px;
+      box-shadow:0 24px 70px rgba(0,0,0,.28);
+    }
+    .modal-card h2{
+      font-family:Fraunces, serif;
+      margin:0 0 8px;
+      font-size:2rem;
+      letter-spacing:-.03em;
+    }
+    .modal-card p{color:var(--muted)}
+    .modal-card input{
+      width:100%;
+      border:1px solid rgba(104,74,15,.26);
+      border-radius:16px;
+      padding:13px 14px;
+      font:1rem Newsreader, Georgia, serif;
+      background:#fffdf7;
+      color:var(--ink);
+      margin:8px 0 16px;
+    }
+    .modal-actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .certificate{
+      display:none;
+      margin-top:20px;
+      border:10px double rgba(104,74,15,.45);
+      border-radius:18px;
+      background:
+        linear-gradient(180deg, rgba(255,253,247,.95), rgba(240,232,211,.96));
+      padding:28px;
+      text-align:center;
+    }
+    .certificate .cert-title{
+      font-family:Fraunces, serif;
+      font-size:2.4rem;
+      margin:0;
+      letter-spacing:-.04em;
+    }
+    .certificate .cert-name{
+      font-family:Fraunces, serif;
+      font-size:2rem;
+      margin:18px 0 4px;
+      color:var(--gold-deep);
+    }
+    .certificate .cert-meta{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+      margin:20px 0;
+    }
+    .certificate .cert-meta div{
+      border:1px solid rgba(104,74,15,.18);
+      border-radius:14px;
+      padding:10px;
+      background:rgba(255,255,255,.44);
+    }
+    .certificate .cert-meta b{
+      display:block;
+      font-family:"JetBrains Mono", monospace;
+      font-size:.72rem;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.07em;
+    }
+    .signature{
+      margin-top:30px;
+      display:inline-block;
+      min-width:260px;
+      border-top:1px solid #6d5a36;
+      padding-top:8px;
+      color:#3c3322;
+    }
+    .cert-actions{
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:16px;
+    }
+    @media (max-width:780px){
+      .masthead{padding:24px 20px}
+      .hud{grid-template-columns:1fr; align-items:stretch}
+      .stat{white-space:normal}
+      .qhead{align-items:flex-start; flex-direction:column}
+      .certificate .cert-meta{grid-template-columns:1fr 1fr}
+    }
+    @media print{
+      body *{visibility:hidden}
+      #certificate, #certificate *{visibility:visible}
+      #certificate{
+        display:block!important;
+        position:absolute;
+        inset:0;
+        margin:0;
+        border-radius:0;
+        box-shadow:none;
+      }
+      .cert-actions{display:none!important}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="masthead">
+      <div class="kicker">HAZOP Analysis · 150-Question Mock</div>
+      <h1 class="title">HAZOP Analysis Exam</h1>
+      <div class="byline">A professional exam for process engineers, project engineers, plant engineers, operations leaders, and process safety teams applying HAZOP methods to commercial scaleup, batch and continuous operations, safeguards, documentation, and action closure.</div>
+      <div class="exambar">
+        <span><b>150</b> Questions</span>
+        <span><b>4</b> Options Each</span>
+        <span><b>1</b> Mark per Question</span>
+        <span>Total: <b>150</b> Marks</span>
+        <span>Exam Mode: <b>4-hour</b> timer</span>
+      </div>
+    </header>
+
+    <div class="modebar" role="tablist" aria-label="Exam modes">
+      <button id="mode-guided" onclick="setMode('guided')" class="active">Guided Path</button>
+      <button id="mode-instant" onclick="setMode('instant')">Instant Feedback</button>
+      <button id="mode-exam" onclick="setMode('exam')">Exam Mode</button>
+    </div>
+
+    <p class="mode-hint" id="modeHint"></p>
+
+    <div class="hud">
+      <span class="stat" id="progStat">Progress <b id="progCount">0</b>/150</span>
+      <div class="bar-track" aria-hidden="true"><div class="bar-fill" id="barFill"></div></div>
+      <span class="stat">Score <b class="sc-correct" id="scoreNum">0</b></span>
+      <span class="stat timer" id="timerStat" style="display:none">Time <b id="timerVal">04:00:00</b></span>
+    </div>
+
+    <main id="exam"></main>
+    <div class="actions" id="bottomActions"></div>
+
+    <section class="results" id="results">
+      <h2 id="resultTitle">Results</h2>
+      <p id="resultBlurb"></p>
+      <div class="timeout" id="timeoutNote">Time expired. The exam was auto-submitted using your saved answers.</div>
+      <div class="scoreline">
+        <span class="pill">Score: <b id="resultScore">0/150</b></span>
+        <span class="pill">Percentage: <b id="resultPct">0%</b></span>
+        <span class="pill">Grade: <b id="resultGrade">—</b></span>
+      </div>
+      <table class="breakdown" aria-label="Section breakdown">
+        <thead><tr><th>Section</th><th>Range</th><th>Score</th><th>Percent</th></tr></thead>
+        <tbody id="sectionBreakdown"></tbody>
+      </table>
+      <div class="actions">
+        <button class="primary" onclick="reviewAnswers()">Review Answers</button>
+        <button onclick="requestCertificate()">Create / Update Certificate</button>
+        <button onclick="retakeExam()">Retake Exam</button>
+      </div>
+      <div class="certificate" id="certificate">
+        <p class="cert-title">Certificate of Completion</p>
+        <p>This certifies that</p>
+        <p class="cert-name" id="certName">Learner</p>
+        <p>has completed the <b>HAZOP Analysis Exam</b>.</p>
+        <div class="cert-meta">
+          <div><b>Score</b><span id="certScore">0/150</span></div>
+          <div><b>Percentage</b><span id="certPct">0%</span></div>
+          <div><b>Date</b><span id="certDate">—</span></div>
+          <div><b>Certificate ID</b><span id="certId">—</span></div>
+        </div>
+        <div class="signature">
+          <strong>Quak Foo Lee</strong><br>
+          Chmltech Ltd.
+        </div>
+        <div class="cert-actions">
+          <button class="primary" onclick="window.print()">Print / Save as PDF</button>
+          <button onclick="document.getElementById('certificate').style.display='none'">Hide Certificate</button>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      HAZOP Analysis Exam · Educational mock exam for hazard and operability analysis practice. Validate study assumptions, safeguards, recommendations, and risk decisions against project-specific process safety requirements before business or design use.
+    </footer>
+  </div>
+
+  <div class="modal-backdrop" id="nameModal" role="dialog" aria-modal="true" aria-labelledby="nameModalTitle">
+    <div class="modal-card">
+      <h2 id="nameModalTitle">Learner name</h2>
+      <p id="nameModalText">Enter your name to start Exam Mode and generate a certificate after submission.</p>
+      <input id="learnerNameInput" type="text" placeholder="Your name" autocomplete="name" />
+      <div class="modal-actions">
+        <button onclick="cancelNameModal()">Cancel</button>
+        <button class="primary" onclick="submitNameModal()" id="modalPrimaryBtn">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const QUESTIONS = [
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "A pilot process is moving into a first commercial unit with larger inventories, continuous transfers, and new automation. What is the main purpose of performing a HAZOP before finalizing the design?",
+            "opts": [
+                  "To create an operating budget by listing utilities, consumables, and production labor.",
+                  "To systematically identify credible deviations from design intent and decide whether safeguards are adequate.",
+                  "To prove the design has zero risk once the review team signs the worksheet.",
+                  "To replace hydraulic sizing, relief calculations, and equipment mechanical design checks."
+            ],
+            "correct": 1,
+            "explanation": "HAZOP is a structured hazard-identification method. It examines deviations from design intent, their causes and consequences, and whether safeguards or actions are needed. It reduces risk, but it does not prove zero risk or replace design calculations."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "A facilitator opens a HAZOP meeting by asking the team to agree on the normal design intent for the feed transfer line. Why is this step important?",
+            "opts": [
+                  "The team must choose vendor names before any hazard discussion can begin.",
+                  "The team should remove all safeguards from the discussion until the end of the study.",
+                  "The team needs to calculate annual raw-material cost before reviewing safety.",
+                  "The team needs a reference condition before guidewords can be used to find deviations."
+            ],
+            "correct": 3,
+            "explanation": "A deviation is a departure from design intent. Without a clear design intent, terms such as no flow, more pressure, or reverse flow do not have a consistent meaning for the team."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "A project manager asks whether a HAZOP is the same as a checklist review. Which response is most accurate?",
+            "opts": [
+                  "A HAZOP is a purchasing audit focused on price, lead time, and delivery terms.",
+                  "A HAZOP is a maintenance work order that starts after the plant has operated for one year.",
+                  "A HAZOP is guideword-based and node-by-node; checklists can support it but are not a substitute for the structured examination.",
+                  "A HAZOP is only a checklist of equipment names with no discussion of process deviations."
+            ],
+            "correct": 2,
+            "explanation": "Checklists are useful, but HAZOP is built around design intent, process parameters, guidewords, causes, consequences, safeguards, and actions. It is more systematic than simply confirming that standard items were considered."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "For a commercial scaleup project, when is the most useful time to conduct the main design HAZOP?",
+            "opts": [
+                  "Only after two years of routine operation have confirmed the final production rate.",
+                  "After PFDs, P&IDs, equipment lists, and control philosophy are mature enough to review, but before changes become costly to implement.",
+                  "Only after the plant is mechanically complete and no design changes can be made.",
+                  "Before any process flow diagram or material balance has been drafted."
+            ],
+            "correct": 1,
+            "explanation": "The main design HAZOP works best when the design is developed enough for meaningful node review but still flexible enough for actions to be incorporated. Too early lacks detail; too late makes changes expensive."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "Which information package best supports a productive HAZOP of a process unit?",
+            "opts": [
+                  "Current P&IDs, design intent, operating ranges, equipment data, relief basis, control narrative, and material hazard information.",
+                  "A list of employee names, travel expenses, and office meeting-room bookings.",
+                  "Only the vendor quotation for the most expensive equipment item.",
+                  "A generic safety poster with no reference to the process being reviewed."
+            ],
+            "correct": 0,
+            "explanation": "HAZOP depends on accurate process information. P&IDs, operating envelopes, equipment data, controls, relief concepts, and material hazards allow the team to identify credible deviations and safeguards."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "A review team divides a process into feed storage, dosing, reactor, quench, filtration, and waste neutralization nodes. What is the purpose of these nodes?",
+            "opts": [
+                  "They set the accounting cost centers used for monthly production reporting.",
+                  "They identify which equipment must be painted the same color in the plot plan.",
+                  "They define manageable sections with a common design intent for systematic deviation review.",
+                  "They eliminate the need to review interfaces between process sections."
+            ],
+            "correct": 2,
+            "explanation": "Nodes break the system into logical parts that can be examined in detail. Interface issues still matter, but node boundaries help keep the discussion organized and complete."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "A HAZOP participant says, “The operator will notice the problem” and wants to record that as the only safeguard for a fast exothermic reaction. What is the strongest concern?",
+            "opts": [
+                  "Human observation may be too slow or unreliable unless detection, time to respond, training, and response effectiveness are demonstrated.",
+                  "Operator response can always be counted as an automatic independent protection layer.",
+                  "Any scenario with an operator in the area can be closed without further review.",
+                  "Manual response is unnecessary to discuss because HAZOP reviews only mechanical equipment."
+            ],
+            "correct": 0,
+            "explanation": "Operator action can be a safeguard only when there is reliable detection, enough response time, clear procedure, training, and practical ability to act. Fast-developing scenarios often need engineered safeguards."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "A team member asks why the HAZOP worksheet separates causes, consequences, safeguards, and recommendations. What is the best answer?",
+            "opts": [
+                  "The separation is only for page formatting and has no technical purpose.",
+                  "It allows the team to skip consequences when a cause seems unlikely.",
+                  "It ensures every cause automatically receives the same recommendation.",
+                  "Separating the fields keeps the scenario logic clear and helps verify whether safeguards address the stated consequence."
+            ],
+            "correct": 3,
+            "explanation": "Clear scenario logic is central to HAZOP quality. A recommendation should respond to a credible gap between consequences and existing safeguards, not just repeat a cause or list a generic fix."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "A process engineer says the HAZOP should cover startup, shutdown, cleaning, and maintenance bypasses, not only normal production. Why is this correct?",
+            "opts": [
+                  "Many significant deviations occur during non-routine modes where equipment lineups, inventories, and safeguards may differ from normal operation.",
+                  "Non-routine modes are covered by production accounting and therefore do not need safety review.",
+                  "Maintenance bypasses are automatically safe when written on a permit form.",
+                  "Startup and shutdown should be excluded because instruments are never active during those modes."
+            ],
+            "correct": 0,
+            "explanation": "HAZOP should consider the modes in which hazards can occur. Startup, shutdown, cleaning, and maintenance can create unusual flow paths, disabled safeguards, or human-error opportunities."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "During a HAZOP, the team realizes that the P&ID being reviewed does not match the latest equipment layout. What should happen?",
+            "opts": [
+                  "Continue without comment because HAZOP worksheets are independent of drawings.",
+                  "Replace the P&ID with the equipment purchase order for all remaining nodes.",
+                  "Delete the affected safeguards from the worksheet to save time.",
+                  "Record the discrepancy, pause or limit affected nodes if needed, and update the design documents before relying on conclusions."
+            ],
+            "correct": 3,
+            "explanation": "HAZOP conclusions are only as good as the information reviewed. Important document mismatches should be captured and corrected so actions are based on the actual design."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "Which statement best describes a HAZOP recommendation?",
+            "opts": [
+                  "A note that every future decision must be made by the facilitator.",
+                  "A clear action assigned to close a specific risk-control gap or verify a key assumption.",
+                  "A general opinion that the project should be careful during startup.",
+                  "A calculation result copied into the worksheet without owner or due date."
+            ],
+            "correct": 1,
+            "explanation": "Good recommendations are specific, actionable, traceable, and connected to a scenario. Vague advice is difficult to close and does not demonstrate risk reduction."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "A commercial plant uses a larger reactor than the pilot unit but the same chemistry. Why is a fresh HAZOP still needed?",
+            "opts": [
+                  "Pilot experience automatically proves all commercial deviations are impossible.",
+                  "Scaleup can change inventory, heat removal, mixing, response time, relief demand, and human factors even when chemistry is familiar.",
+                  "A larger reactor always reduces risk because batch frequency is lower.",
+                  "HAZOP is required only when the chemical formula changes completely."
+            ],
+            "correct": 1,
+            "explanation": "Commercial scaleup often changes hazard severity and dynamics. Larger inventory, slower heat removal, different transfer routes, and new automation can create scenarios not present at pilot scale."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "A team wants to use HAZOP results as proof that pressure relief sizing is correct. What is the proper correction?",
+            "opts": [
+                  "If the team agrees a relief valve exists, no relief-basis review is needed.",
+                  "A HAZOP worksheet automatically calculates certified relief area.",
+                  "Relief valves are not discussed in HAZOP because they are mechanical devices.",
+                  "HAZOP can identify relief scenarios, but relief sizing must be confirmed by appropriate engineering calculations and design standards."
+            ],
+            "correct": 3,
+            "explanation": "HAZOP helps identify causes and consequences that may require relief, but quantitative relief design is a separate engineering task. Existing relief devices should be verified against credible scenarios."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "Which situation most clearly indicates that a HAZOP should be revisited through management of change?",
+            "opts": [
+                  "The worksheet cover page is reformatted with a different font.",
+                  "The project name is shortened in the document-control system.",
+                  "The meeting room used for the previous HAZOP is no longer available.",
+                  "A new solvent is introduced and the reactor operating temperature range is increased."
+            ],
+            "correct": 3,
+            "explanation": "Material changes, operating-envelope changes, equipment modifications, or control-strategy changes can invalidate earlier HAZOP assumptions. Document formatting changes usually do not affect process risk."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "A batch recipe has charging, heating, hold, cooling, and discharge steps. How should the HAZOP approach account for this sequence?",
+            "opts": [
+                  "Review relevant deviations by step because design intent and hazards can change across the batch cycle.",
+                  "Review only the final discharge step because it contains product.",
+                  "Treat the whole batch as one steady-state node with no sequence considerations.",
+                  "Exclude manual additions because HAZOP can only review continuous flow systems."
+            ],
+            "correct": 0,
+            "explanation": "Batch HAZOP must account for time and sequence. A high temperature may be intended during a hold step but hazardous during charging, so deviations should be assessed against the correct operating step."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "A HAZOP action says, “Check this later.” What is the best quality improvement?",
+            "opts": [
+                  "Leave it unchanged because short actions are easier to close.",
+                  "Change it to a consequence so it no longer requires tracking.",
+                  "Delete it because verification actions are never valid HAZOP outputs.",
+                  "Rewrite it with the required verification, responsible owner, due date, and closure evidence."
+            ],
+            "correct": 3,
+            "explanation": "Action tracking is essential. The recommendation should state what must be checked or changed, who owns it, when it is due, and what evidence will close it."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "A team has limited time and proposes to skip low-pressure utility nodes because they are “not process equipment.” What is the best response?",
+            "opts": [
+                  "Utilities should be reviewed when their failure or maloperation can create process hazards or loss of safeguards.",
+                  "Utilities should be excluded because guidewords apply only to reactors.",
+                  "All utilities are automatically safe because they do not contain product.",
+                  "Utility nodes must always be reviewed before chemistry hazards, regardless of relevance."
+            ],
+            "correct": 0,
+            "explanation": "Utilities can be critical safeguards or hazard contributors. Loss of cooling, nitrogen, instrument air, vacuum, steam, or power can produce significant process deviations."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "What is the main risk of allowing one discipline to complete a HAZOP alone?",
+            "opts": [
+                  "The worksheet will have too many rows if more than one discipline attends.",
+                  "A single-discipline review automatically produces a higher-quality risk ranking.",
+                  "Important causes, consequences, operability issues, and safeguards may be missed without multidisciplinary challenge.",
+                  "Multidisciplinary attendance is needed only for financial approval, not hazard review."
+            ],
+            "correct": 2,
+            "explanation": "HAZOP relies on the combined knowledge of process, operations, controls, maintenance, safety, and project personnel. A single viewpoint can miss credible scenarios or overstate safeguards."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "A facilitator reminds the team that HAZOP is not just a design-defect search. Which broader objective is included?",
+            "opts": [
+                  "Determining the final tax treatment of capital equipment.",
+                  "Replacing all operating procedures with meeting minutes.",
+                  "Selecting the lowest equipment purchase price for every item.",
+                  "Improving operability by identifying deviations that could cause unsafe, unreliable, or unmanageable operation."
+            ],
+            "correct": 3,
+            "explanation": "HAZOP examines hazards and operability. Even when a deviation does not create a severe safety consequence, it may cause trips, quality failures, plugged lines, difficult recovery, or environmental releases."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "A team member suggests not recording assumptions because they will be remembered by project staff. What is the best response?",
+            "opts": [
+                  "Assumptions should be hidden because they make the worksheet longer.",
+                  "Key assumptions should be recorded so future design changes and action closures can be checked against the HAZOP basis.",
+                  "Assumptions are useful only for accounting estimates, not safety studies.",
+                  "Assumptions can replace safeguards if the team agrees verbally."
+            ],
+            "correct": 1,
+            "explanation": "Assumptions define the basis of the study. If staffing, controls, materials, relief design, or operating limits later change, the assumptions log helps determine whether the HAZOP remains valid."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "Which statement best describes the relationship between HAZOP and operating procedures?",
+            "opts": [
+                  "A HAZOP worksheet is automatically the final operating procedure.",
+                  "Procedures are not relevant because HAZOP considers only hardware failures.",
+                  "HAZOP findings may create procedure actions, but procedures must still be clear, trained, and practical for the intended mode.",
+                  "Any written procedure can be credited as a safeguard without reviewing usability or response time."
+            ],
+            "correct": 2,
+            "explanation": "Procedures can be important safeguards, but they must be specific, available, trained, and feasible. HAZOP may identify where procedures are missing or inadequate."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "A HAZOP node is closed with no recommendations. What should this mean?",
+            "opts": [
+                  "The equipment in the node has no possible failures under any conditions.",
+                  "The team found no further action needed based on documented deviations, existing safeguards, and risk criteria.",
+                  "The node was not actually reviewed and can be ignored in future audits.",
+                  "The operator is responsible for all remaining risks without further documentation."
+            ],
+            "correct": 1,
+            "explanation": "No recommendation does not mean no risk exists. It means the team judged the documented risk-control situation acceptable or already covered under the study criteria."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "A HAZOP leader asks for the design intent of a relief discharge line before applying guidewords. Which design-intent detail is most useful?",
+            "opts": [
+                  "The office location of the vendor salesperson.",
+                  "The color chosen for the final pipe labeling standard only.",
+                  "The annual depreciation method used for the relief valve purchase.",
+                  "Where the relief stream should go, expected flow direction, isolation status, pressure rating, and safe disposal destination."
+            ],
+            "correct": 3,
+            "explanation": "A relief discharge line has a safety function. The review needs to know the intended path, backpressure, isolation, destination, and conditions to identify deviations such as blockage, reverse flow, or discharge to an unsafe area."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "During preparation, the facilitator asks whether the HAZOP scope includes package skids supplied by vendors. Why is this important?",
+            "opts": [
+                  "Vendor packages can contain process hazards and interfaces that must be reviewed or clearly excluded with a separate review plan.",
+                  "Package skids are reviewed only by purchasing, not by engineering or operations.",
+                  "Vendor packages are always outside the process and never need hazard review.",
+                  "The HAZOP scope automatically includes only items drawn by the civil contractor."
+            ],
+            "correct": 0,
+            "explanation": "Package equipment may include vessels, heaters, pumps, controls, relief devices, and interlocks. The project must either include them in the HAZOP or ensure an equivalent vendor/package review covers them."
+      },
+      {
+            "section": "HAZOP Fundamentals & Preparation",
+            "q": "A first commercial plant adds automated dosing to reduce manual handling. What HAZOP perspective is still required?",
+            "opts": [
+                  "Automated equipment is reviewed only after three years of successful operation.",
+                  "Automation can reduce some exposures but introduces deviations such as wrong setpoint, instrument failure, valve misalignment, or software logic error.",
+                  "Automation should be excluded because HAZOP applies only to manual tasks.",
+                  "Automation removes the need for safeguards because human error is eliminated."
+            ],
+            "correct": 1,
+            "explanation": "Automation changes the hazard profile. HAZOP should examine the intended logic and credible failures, including sensors, valves, interlocks, alarms, permissives, and operator interface issues."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "In a feed-transfer node, the design intent is to pump solvent from Tank T-101 to Reactor R-201 at 2 m³/h. Which guideword-parameter combination best describes a plugged suction strainer causing zero transfer?",
+            "opts": [
+                  "Reverse composition in the reactor vent header.",
+                  "Other than destination in the product packaging line.",
+                  "No flow in the feed-transfer line.",
+                  "More temperature in the solvent storage tank."
+            ],
+            "correct": 2,
+            "explanation": "A plugged suction strainer can prevent the intended movement of material, so the direct deviation is no flow. Other parameters may become relevant later, but the first deviation is loss of transfer."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A dosing pump is intended to add acid at 50 kg/h. The control valve fails open and the pump delivers 110 kg/h. Which deviation is most directly being examined?",
+            "opts": [
+                  "No pressure in the vent system.",
+                  "Less level in the cooling tower basin.",
+                  "Reverse temperature in the reactor jacket.",
+                  "More flow of acid than intended."
+            ],
+            "correct": 3,
+            "explanation": "The guideword more applied to flow captures an overfeed condition. Consequences may include temperature rise, off-spec product, or overpressure, but the deviation is excess acid flow."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A reactor should remain below 40°C during reagent addition. Cooling-water fouling allows the batch temperature to reach 58°C. Which HAZOP deviation is most appropriate?",
+            "opts": [
+                  "No composition in the reactor contents.",
+                  "Less pressure drop across the product filter.",
+                  "More temperature in the reactor during addition.",
+                  "Reverse flow through the sampling connection."
+            ],
+            "correct": 2,
+            "explanation": "The deviation is higher-than-intended temperature during a defined operating step. The guideword more applied to temperature frames the discussion of causes, consequences, and safeguards."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A transfer line includes a check valve to prevent product returning to a raw-material tank. The team wants to examine check-valve leakage. Which deviation should be selected?",
+            "opts": [
+                  "Reverse flow from downstream equipment toward the raw-material tank.",
+                  "No agitation in the neutralization tank.",
+                  "More utility demand from the cooling-water system.",
+                  "Less temperature in the product receiver."
+            ],
+            "correct": 0,
+            "explanation": "Check-valve leakage can create flow opposite to design intent. Reverse flow is a standard deviation for transfer and isolation interfaces."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A batch instruction requires catalyst addition after the reactor reaches the hold temperature. The operator could add catalyst before the solvent charge is complete. Which guideword best fits the scenario?",
+            "opts": [
+                  "More pressure in the final product tote.",
+                  "Earlier than intended catalyst addition.",
+                  "Less viscosity in the discharge pump seal pot.",
+                  "No nitrogen flow in the warehouse header."
+            ],
+            "correct": 1,
+            "explanation": "Sequence deviations are often expressed as earlier than, later than, or out of sequence. The issue is not just flow rate; it is timing relative to the batch step."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "The design intent is to send filtrate to a neutralization tank. A hose connection could mistakenly route filtrate to a storm drain. Which deviation best captures this concern?",
+            "opts": [
+                  "Other than intended destination for filtrate discharge.",
+                  "More mixing speed in the filter cake dryer.",
+                  "Reverse heat transfer in the reactor jacket.",
+                  "Less vacuum in the instrument-air receiver."
+            ],
+            "correct": 0,
+            "explanation": "Misdirection to the wrong destination is commonly examined using other than. The consequence can be environmental release, but the deviation is the wrong flow path."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A nitrogen blanketing system is intended to maintain a low-oxygen headspace. Which deviation best represents loss of nitrogen supply?",
+            "opts": [
+                  "No inert gas flow to the vessel headspace.",
+                  "Part of the control panel display is dim.",
+                  "Reverse liquid flow through the condensate return.",
+                  "More product density in the packaging scale."
+            ],
+            "correct": 0,
+            "explanation": "Loss of blanketing is a no-flow deviation for the inert gas parameter. The downstream consequence may be flammable atmosphere, oxidation, or moisture ingress."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A reactor agitator is intended to provide uniform suspension. A broken coupling leaves the motor running but the impeller stationary. Which deviation should be considered first?",
+            "opts": [
+                  "More level in the feed tank.",
+                  "Other than product destination in the packaging skid.",
+                  "No mixing in the reactor contents.",
+                  "Reverse pressure across the relief valve outlet."
+            ],
+            "correct": 2,
+            "explanation": "The motor may appear active, but the process function is mixing. A broken coupling creates no mixing, which can affect heat removal, reaction rate, solids suspension, and product quality."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A pH probe is intended to measure reactor pH for automated caustic dosing. A coated probe reads falsely low. Which deviation is most useful for the instrument node?",
+            "opts": [
+                  "More cooling-water pressure at the utility battery limit.",
+                  "No solid discharge from the centrifuge chute.",
+                  "Other than true pH indication from the analyzer.",
+                  "Reverse flow in the steam condensate trap."
+            ],
+            "correct": 2,
+            "explanation": "Instrument deviations should include wrong or misleading measurement, not just loss of signal. A false pH reading can drive the wrong control action."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A cooling jacket is designed for water circulation through the reactor jacket. A closed manual valve prevents jacket circulation. Which deviation is most direct?",
+            "opts": [
+                  "Reverse vent flow into the scrubber fan inlet.",
+                  "As well as catalyst in the solvent tank.",
+                  "Less product packaging weight in a tote.",
+                  "No cooling-water flow through the jacket."
+            ],
+            "correct": 3,
+            "explanation": "The manual valve blocks the intended utility flow. The HAZOP can then explore high reactor temperature as a consequence of no cooling-water flow."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "The process intent is to wash a filter cake until conductivity is below a specified limit. A shortened wash leaves excessive soluble salts in the cake. Which deviation fits best?",
+            "opts": [
+                  "Other than destination for the agitator seal flush.",
+                  "More pressure in the nitrogen receiver.",
+                  "Less washing than required for the filter cake.",
+                  "Reverse rotation of the product label printer."
+            ],
+            "correct": 2,
+            "explanation": "For washing, the parameter may be wash volume, wash time, or removal of soluble contaminants. Less washing directly frames the off-spec and downstream compatibility concern."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A vent header is intended to remain open to a scrubber. A frozen condensate pocket blocks the header during winter operation. Which deviation best describes the situation?",
+            "opts": [
+                  "No vent flow to the intended scrubber path.",
+                  "Earlier than planned batch discharge.",
+                  "Reverse composition in the raw-material certificate.",
+                  "More product concentration in the storage silo."
+            ],
+            "correct": 0,
+            "explanation": "A blocked vent prevents the intended vapor flow path. Consequences may include overpressure, fugitive release, or unsafe discharge elsewhere."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A material-transfer step requires adding deionized water, but an operator could connect a cleaning solvent hose to the same nozzle. Which deviation applies most directly?",
+            "opts": [
+                  "No weight signal from the finished-goods pallet scale.",
+                  "Other than intended material added to the vessel.",
+                  "More vibration in the packaging conveyor gearbox.",
+                  "Less headspace pressure in the nitrogen cylinder."
+            ],
+            "correct": 1,
+            "explanation": "Wrong material addition is an other than composition or material deviation. It can create reaction, compatibility, quality, or waste-treatment issues."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A powder feeder should deliver 20 kg/h to a mixer. Bridging in the hopper causes intermittent surges followed by starvation. Which deviation pair is most relevant?",
+            "opts": [
+                  "Earlier pressure and later pressure in the warehouse area.",
+                  "No temperature and reverse temperature in the mixer shell.",
+                  "Other than utility and no product label in the shipping area.",
+                  "More flow and less flow of powder over time."
+            ],
+            "correct": 3,
+            "explanation": "Intermittent solids feeding can produce alternating high and low flow. HAZOP should capture both extremes because each may have different consequences."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A centrifuge feed is intended to contain slurry at 12 wt% solids. Upstream dilution error sends 3 wt% solids. Which deviation is most appropriate?",
+            "opts": [
+                  "Reverse level in the collection tote.",
+                  "No temperature in the storage tank.",
+                  "More voltage in the reactor relief header.",
+                  "Less solids concentration in the feed slurry."
+            ],
+            "correct": 3,
+            "explanation": "Composition deviations include concentration. Lower solids can overload liquid handling, affect separation performance, and change downstream rates."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A reactor normally operates at 1.5 barg. A blocked outlet and continued gas generation can push pressure above design intent. Which deviation starts the scenario discussion?",
+            "opts": [
+                  "Other than maintenance interval for the agitator gearbox.",
+                  "More pressure in the reactor.",
+                  "Less product color in the sample bottle.",
+                  "No accounting code assigned to the work order."
+            ],
+            "correct": 1,
+            "explanation": "The direct hazardous deviation is higher pressure than intended. Causes and consequences can then be developed, including blocked outlet, gas generation, relief demand, and vessel integrity."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A vacuum dryer is intended to operate under vacuum. Air leaks through a manway gasket. Which deviation is best framed for HAZOP?",
+            "opts": [
+                  "More product discharge to the packaging line.",
+                  "Later than planned label printing for finished product.",
+                  "Reverse cooling-water flow through the utility meter.",
+                  "Less vacuum or more oxygen ingress than intended."
+            ],
+            "correct": 3,
+            "explanation": "For vacuum systems, loss of vacuum and air ingress can both matter. The team should examine consequences such as flammability, oxidation, poor drying, or dust transport."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A cleaning-in-place step is intended to use warm water. Steam is mistakenly lined up, sending much hotter fluid through polymer-lined equipment. Which deviation is most direct?",
+            "opts": [
+                  "Reverse composition of the monthly production plan.",
+                  "Less documentation in the operator training matrix.",
+                  "No level in the raw-material tank farm.",
+                  "More temperature in the cleaning fluid than intended."
+            ],
+            "correct": 3,
+            "explanation": "The wrong utility lineup creates excessive cleaning-fluid temperature. Consequences may include liner damage, pressure increase, personnel exposure, or chemical compatibility problems."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A pump seal flush is intended to be continuous. A plugged rotameter stops the flush, increasing seal temperature. Which deviation should be reviewed?",
+            "opts": [
+                  "More batch sequence steps in the procedure index.",
+                  "No seal-flush flow to the pump seal.",
+                  "Reverse product concentration in the lab report.",
+                  "Other than customer destination in the shipping schedule."
+            ],
+            "correct": 1,
+            "explanation": "The seal flush has a protective function. Loss of flush can damage the seal, release hazardous material, or create ignition/overheating concerns."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "The intended operation is to close a bottom drain before charging solvent. The valve could be left open. Which deviation best describes the process condition?",
+            "opts": [
+                  "More outflow or unintended drainage during charging.",
+                  "Reverse heat transfer through the office wall.",
+                  "Less current in the control-room lighting circuit.",
+                  "Earlier than intended product label approval."
+            ],
+            "correct": 0,
+            "explanation": "An open drain creates an unintended flow path. HAZOP should examine where the material goes, whether containment is adequate, and how the open valve is detected."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A pressure filter is intended to discharge cake after pressure is vented. Opening the discharge before depressurization is complete is best examined as which deviation?",
+            "opts": [
+                  "No conductivity in the raw-material receiving document.",
+                  "Reverse solids concentration in the feed certificate.",
+                  "More annual operating expense than forecast.",
+                  "Earlier than intended opening of the discharge path while pressure remains."
+            ],
+            "correct": 3,
+            "explanation": "This is a sequence/timing deviation. The hazardous state is opening the discharge before the vessel is safe, which can cause ejection of material or personnel exposure."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A scrubber recirculation system is intended to maintain caustic strength. Spent liquid remains in service beyond the changeout limit. Which deviation best frames the issue?",
+            "opts": [
+                  "Less neutralizing capacity in the scrubber liquid.",
+                  "No product density in the shipping invoice.",
+                  "More pump color in the equipment list.",
+                  "Reverse utility billing through the power meter."
+            ],
+            "correct": 0,
+            "explanation": "The parameter is scrubbing capacity or reagent concentration. Less caustic strength can allow untreated acid gas or vapor to leave the system."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A line is intended to be steam-traced to keep a viscous product mobile. Steam supply failure allows the line to cool and plug. Which deviation applies first?",
+            "opts": [
+                  "Reverse destination from the customer to the warehouse.",
+                  "Other than operator name on the shift schedule.",
+                  "More nitrogen purity in the blanketing system.",
+                  "Less temperature in the traced product line."
+            ],
+            "correct": 3,
+            "explanation": "Loss of heat tracing creates lower temperature than intended. The consequence may be high viscosity, plugging, pump deadhead, or inability to drain."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A vessel is designed for a maximum working level of 80%. A failed level transmitter reads low while filling continues. Which deviation is most direct?",
+            "opts": [
+                  "More level in the vessel than intended.",
+                  "Less document control on the drawing title block.",
+                  "Reverse sequence in the certificate workflow.",
+                  "No vibration in the agitator support steel."
+            ],
+            "correct": 0,
+            "explanation": "The process condition of concern is high level or overfill. The false low reading is a cause that can defeat normal control."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A dual-filter system is intended to operate with one filter online and one isolated for cleaning. Both filters are accidentally isolated. Which deviation is most useful?",
+            "opts": [
+                  "More color in the filter housing paint specification.",
+                  "No forward flow through the filtration node.",
+                  "Reverse pH in the wastewater permit number.",
+                  "Earlier than intended vendor inspection report."
+            ],
+            "correct": 1,
+            "explanation": "Incorrect lineup isolating both filters prevents the intended process flow. The team should examine pump deadhead, upstream overflow, relief demand, and operating response."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A dryer off-gas is intended to pass through a dust collector before discharge. A bypass damper left open sends dusty gas around the collector. Which deviation best applies?",
+            "opts": [
+                  "Less batch temperature in the jacket water return.",
+                  "Reverse level in the raw-material purchase order.",
+                  "No annual depreciation in the cost model.",
+                  "As well as or other than intended path through the bypass damper."
+            ],
+            "correct": 3,
+            "explanation": "Bypass creates an additional or alternative flow path. It can defeat a safeguard and lead to emission, fire, dust explosion, or housekeeping hazards."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A reactor charge should contain reagent A then reagent B. If reagent B is charged first, which guideword category is being tested?",
+            "opts": [
+                  "More pressure rating in the flange class.",
+                  "No purchasing approval in the capital workflow.",
+                  "Less lighting level in the warehouse corridor.",
+                  "Out of sequence charging."
+            ],
+            "correct": 3,
+            "explanation": "Charging order is part of batch design intent. Out-of-sequence additions can cause uncontrolled reaction, poor mixing, or incompatible contact."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A heat exchanger is designed to cool product to 30°C. Fouling results in product leaving at 48°C. Which deviation best describes the outlet condition?",
+            "opts": [
+                  "More outlet temperature than intended.",
+                  "No product weight in the purchasing request.",
+                  "Reverse solids settling in the operator logbook.",
+                  "Less capital spending in the utility cost report."
+            ],
+            "correct": 0,
+            "explanation": "The product leaves warmer than intended, so the deviation is high outlet temperature. The HAZOP should then examine downstream pressure, vapor release, degradation, or off-spec storage."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A tanker unloading line has two possible connections. The intended connection is sodium hydroxide, but the hose could be connected to acid storage. Which deviation should the HAZOP capture?",
+            "opts": [
+                  "Other than intended receiving tank during unloading.",
+                  "No condensate flow from the office humidifier.",
+                  "More seal flush pressure in the product pump.",
+                  "Less documentation on the capital budget sheet."
+            ],
+            "correct": 0,
+            "explanation": "Wrong connection or wrong destination is a classic unloading deviation. It can create chemical reaction, tank damage, release, or contamination."
+      },
+      {
+            "section": "Nodes, Parameters, Deviations & Guidewords",
+            "q": "A buffer tank is intended to receive one upstream stream. A recycle line could introduce incompatible concentrate at the same time. Which deviation fits best?",
+            "opts": [
+                  "Less schedule float in the construction plan.",
+                  "No lighting in the main administration office.",
+                  "Reverse maintenance priority in the CMMS report.",
+                  "As well as intended feed, an additional incompatible stream enters the tank."
+            ],
+            "correct": 3,
+            "explanation": "The guideword as well as captures an extra material or action occurring in addition to the intended one. This is useful for contamination or unexpected reaction scenarios."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "For the deviation “more reactor temperature,” the worksheet lists “cooling-water valve fails closed” as the consequence. What is the best correction?",
+            "opts": [
+                  "Leave it as a consequence because equipment failures are always consequences.",
+                  "Move it to the section title so no cause field is needed.",
+                  "Delete it because valve failures are not credible HAZOP causes.",
+                  "Record valve failure as a cause and describe consequences such as runaway, overpressure, decomposition, or off-spec product."
+            ],
+            "correct": 3,
+            "explanation": "A failed cooling valve is a cause of high temperature, not the harm or process outcome. Consequences should describe what can happen if the deviation occurs."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "A high-level deviation in a solvent tank could lead to overflow into a diked area. Which item is an existing safeguard rather than a cause?",
+            "opts": [
+                  "Transfer pump running at a higher rate than specified.",
+                  "Independent high-high level switch that stops the transfer pump.",
+                  "Operator opening the wrong inlet valve.",
+                  "Level transmitter impulse line plugging low."
+            ],
+            "correct": 1,
+            "explanation": "A safeguard prevents, detects, controls, or mitigates the consequence. The other options are credible causes of high level."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "A worksheet credits a local pressure gauge as the only safeguard against rapid reactor overpressure in an unattended area. What is the best challenge?",
+            "opts": [
+                  "Pressure gauges should never be included in HAZOP worksheets.",
+                  "The gauge proves that overpressure cannot occur.",
+                  "A passive local gauge may not be effective unless someone can see it, recognize the hazard, and act in time.",
+                  "Any installed gauge is automatically an independent protection layer for every scenario."
+            ],
+            "correct": 2,
+            "explanation": "Safeguards need effectiveness. A local gauge may provide information, but it does not automatically prevent or mitigate a fast hazardous event."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "The team is ranking a scenario with severe consequence but very low expected frequency because it requires two independent failures. What should the team avoid?",
+            "opts": [
+                  "Increase the consequence severity because frequency is low.",
+                  "Avoid reducing consequence severity because the event is unlikely; frequency and consequence should be considered separately.",
+                  "Automatically delete the scenario because low frequency means no hazard exists.",
+                  "Rank the scenario only by the cost of equipment repair."
+            ],
+            "correct": 1,
+            "explanation": "Risk ranking usually considers both severity and likelihood. A low likelihood may reduce risk ranking, but it should not change the inherent severity of the consequence if the scenario occurs."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "A high-temperature alarm alerts the operator, but the operator has less than 30 seconds before relief lifting. Which safeguard concern is most important?",
+            "opts": [
+                  "The alarm should be counted as two safeguards because it makes sound and light.",
+                  "The alarm may not provide enough response time to be an effective safeguard for this scenario.",
+                  "Response time is irrelevant once an alarm appears on the HMI.",
+                  "The alarm eliminates the need to understand the cause of high temperature."
+            ],
+            "correct": 1,
+            "explanation": "For operator response to be effective, detection plus diagnosis plus action must fit within the available process safety time. A very short response window often requires automatic protection."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "Which consequence is most appropriate for the deviation “reverse flow from reactor to acid storage tank”?",
+            "opts": [
+                  "Incompatible material enters the storage tank, causing reaction, gas generation, tank overpressure, or contamination.",
+                  "The check valve may leak because its seat is damaged.",
+                  "The operator may have opened the wrong valve during transfer setup.",
+                  "The P&ID may not show the latest valve tag number."
+            ],
+            "correct": 0,
+            "explanation": "The consequence should describe the hazardous or operability outcome. Valve leakage, wrong operation, and document errors are causes or data-quality issues."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "A deviation has multiple causes leading to the same overfill consequence. How should the HAZOP normally handle them?",
+            "opts": [
+                  "Delete causes that do not match the facilitator's discipline background.",
+                  "List credible causes and ensure safeguards are appropriate for each cause or cause group.",
+                  "Combine all causes into the consequence field to reduce worksheet length.",
+                  "Record only the first cause mentioned and ignore all later causes."
+            ],
+            "correct": 1,
+            "explanation": "Different causes may defeat different safeguards. Grouping can be appropriate, but the worksheet should preserve enough logic to confirm protection against each credible path."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "A line rupture consequence is listed as “minor leak” even though the line contains hot caustic at high pressure near an operator walkway. What is the best review response?",
+            "opts": [
+                  "Accept the wording because all leaks should be ranked the same way.",
+                  "Rank only the replacement cost of the pipe spool.",
+                  "Reassess the credible consequence considering material properties, pressure, temperature, inventory, and exposure location.",
+                  "Remove the consequence because piping failures are maintenance issues only."
+            ],
+            "correct": 2,
+            "explanation": "Consequence severity depends on chemical hazard, conditions, release rate, inventory, exposure, and detection. Understating consequence leads to weak recommendations."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "A safeguard is described as “relief valve to safe location.” What follow-up question is most important for HAZOP quality?",
+            "opts": [
+                  "Has the relief device and discharge system been sized and routed for the credible scenario being discussed?",
+                  "Will the relief valve reduce annual raw-material consumption?",
+                  "Can the relief valve be used as the normal pressure control valve?",
+                  "Can the relief valve be painted to match the equipment color code?"
+            ],
+            "correct": 0,
+            "explanation": "Relief devices are safeguards only if suitable for the scenario. Capacity, set pressure, inlet/outlet losses, backpressure, two-phase flow, and discharge location may need verification."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "A team lists “operator training” as the only safeguard for wrong chemical unloading into a storage tank. What additional safeguard type should be considered?",
+            "opts": [
+                  "A higher plant production target for the same month.",
+                  "A lower depreciation rate for the unloading pump.",
+                  "Physical or procedural verification such as keyed connections, line labeling, independent check, barcode scan, or permissive interlock.",
+                  "An instruction to rank every unloading scenario as low risk."
+            ],
+            "correct": 2,
+            "explanation": "Training helps, but wrong-unloading events often need robust defenses such as incompatible fittings, independent verification, clear labeling, sampling, or interlocked transfer permission."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "For a dust collector, the deviation “more ignition energy” is discussed. Which safeguard is most directly preventive?",
+            "opts": [
+                  "A fire extinguisher stored in a distant office corridor.",
+                  "A purchase order showing the collector was delivered on time.",
+                  "A production schedule that avoids weekend shifts.",
+                  "Bonding and grounding with control of static-generating operations where applicable."
+            ],
+            "correct": 3,
+            "explanation": "Preventive safeguards reduce the chance of ignition or explosive atmosphere. Emergency response equipment may be mitigative, but it is not equivalent to preventing ignition."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "A HAZOP scenario credits both a basic process control loop and a high-high trip that uses the same transmitter. What independence concern should be raised?",
+            "opts": [
+                  "A shared transmitter automatically doubles the risk reduction available.",
+                  "Common-cause failure of the shared transmitter may defeat both the control function and the trip.",
+                  "Two functions using one transmitter are always fully independent because their alarms have different names.",
+                  "Independence matters only for financial controls, not process safeguards."
+            ],
+            "correct": 1,
+            "explanation": "When safeguards share sensing, logic, utilities, or final elements, a single failure may defeat multiple layers. Independence should be checked before crediting layers separately."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "A wastewater neutralization tank can generate heat and gas if acid and caustic are added too quickly. Which consequence is most complete?",
+            "opts": [
+                  "The pH controller might require calibration.",
+                  "The transfer pump could be the wrong size.",
+                  "The operations team might need a revised shift schedule.",
+                  "Rapid temperature rise and gas evolution may cause splashing, overpressure, vent loading, or personnel exposure."
+            ],
+            "correct": 3,
+            "explanation": "Consequences should describe process outcomes and harm mechanisms. Pump size or calibration may be causes or safeguards, but the hazardous result is heat, gas, pressure, and exposure potential."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "A risk matrix ranks likelihood after considering existing safeguards. What documentation is most important?",
+            "opts": [
+                  "Replace the consequence description with a risk score only.",
+                  "Use the lowest likelihood category for all scenarios with alarms.",
+                  "Clearly state which safeguards were credited and why they are considered effective for the scenario.",
+                  "Hide credited safeguards so the worksheet remains shorter."
+            ],
+            "correct": 2,
+            "explanation": "Risk rankings are defensible only when the credited safeguards and assumptions are visible. Otherwise future reviewers cannot understand or validate the ranking."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "A team identifies “loss of instrument air” as a cause for several final control valves moving to their fail position. What should be checked?",
+            "opts": [
+                  "Whether each valve's fail action puts the process in a safe state for the relevant scenario.",
+                  "Whether the valves are drawn on the same page of the procurement schedule.",
+                  "Whether instrument air is cheaper than nitrogen on an annual basis.",
+                  "Whether the valve tag number contains the letters AIR."
+            ],
+            "correct": 0,
+            "explanation": "Fail action matters during utility failure. Fail closed may be safe for one valve and hazardous for another, so each scenario needs process-specific review."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "A high-pressure trip closes an inlet valve but does not stop a positive-displacement pump upstream. What consequence or safeguard gap should the team consider?",
+            "opts": [
+                  "Pump deadheading or upstream overpressure if flow is blocked without a recycle, relief, or pump stop.",
+                  "A less detailed HAZOP worksheet for downstream nodes.",
+                  "Reduced need to review the pump because the valve closes automatically.",
+                  "Lower office energy usage due to reduced process flow."
+            ],
+            "correct": 0,
+            "explanation": "A shutdown action can create a new deviation if not designed as a system. Blocking a positive-displacement pump can create overpressure unless a proper protective path or pump shutdown exists."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "The team identifies a credible toxic vapor release in an enclosed room. Which safeguard is mitigative rather than preventive?",
+            "opts": [
+                  "A sealed transfer connection that prevents the release path.",
+                  "Gas detection that alarms and starts emergency ventilation after release begins.",
+                  "A pressure-rated hose that reduces rupture likelihood.",
+                  "A closed valve lineup that prevents misrouting."
+            ],
+            "correct": 1,
+            "explanation": "Mitigative safeguards reduce harm after an initiating event occurs. Gas detection and ventilation do not prevent the release, but they can reduce exposure if effective."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "A safeguard is recorded as “SOP.” What is the best follow-up before crediting it?",
+            "opts": [
+                  "Assume the SOP is unavailable and delete every procedural safeguard.",
+                  "Move the SOP to the consequence field because documents are consequences.",
+                  "Credit the entire procedure manual as one independent layer for every HAZOP row.",
+                  "Identify the specific procedure step, training, verification method, and whether it can be performed reliably under the scenario conditions."
+            ],
+            "correct": 3,
+            "explanation": "Procedural safeguards vary in strength. The worksheet should identify the exact step and confirm it is practical, trained, available, and timely."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "Which cause is most credible for the deviation “less cooling-water flow” in a reactor jacket?",
+            "opts": [
+                  "Warehouse floor markings being repainted.",
+                  "Cooling-water control valve stuck closed or strainer plugged.",
+                  "Product sales price increasing during the quarter.",
+                  "Operator entering the learner name for an exam certificate."
+            ],
+            "correct": 1,
+            "explanation": "A credible cause should be physically connected to the deviation. Valve failure, blockage, pump failure, or closed isolation valves are relevant to less cooling-water flow."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "A HAZOP consequence states “environmental incident” for a tank overflow. What improvement makes it more useful?",
+            "opts": [
+                  "Replace it with the name of the high-level alarm.",
+                  "Use only the word incident because detailed consequences slow the meeting.",
+                  "Specify the release material, approximate path, affected containment, and potential off-site or treatment-system impact.",
+                  "Move all environmental scenarios to a separate blank worksheet."
+            ],
+            "correct": 2,
+            "explanation": "Consequences should be specific enough to understand severity and safeguards. Generic labels make risk ranking and action closure weak."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "The HAZOP team wants to credit a normally open manual bypass valve as a safeguard for blocked flow. What question should be asked first?",
+            "opts": [
+                  "Can the bypass valve be listed as a safeguard simply because it exists on the drawing?",
+                  "Is the bypass available, correctly positioned, sized, controlled, and safe to use during the scenario?",
+                  "Does the bypass reduce the number of questions in the HAZOP?",
+                  "Should the bypass be ignored because manual valves cannot appear in worksheets?"
+            ],
+            "correct": 1,
+            "explanation": "A bypass can help or harm depending on its design and lineup. It should not be credited without confirming availability, capacity, safe destination, and operator expectations."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "A low-flow deviation to a furnace coil can cause overheating and tube damage. Which safeguard is most directly protective?",
+            "opts": [
+                  "A quarterly budget review by the finance department.",
+                  "An annual production-volume forecast.",
+                  "Low-flow trip that shuts down heat input before coil temperature becomes unsafe.",
+                  "A local nameplate on the pump motor only."
+            ],
+            "correct": 2,
+            "explanation": "The safeguard should interrupt the hazardous mechanism. If low flow makes heat input unsafe, a low-flow trip to reduce or stop heat is directly protective."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "A team ranks a scenario as low risk because “the plant has never had this incident before.” What is the limitation of that reasoning?",
+            "opts": [
+                  "Any scenario without past incidents must be assigned the highest possible consequence.",
+                  "Historical experience automatically replaces causes and safeguards in the worksheet.",
+                  "Lack of past incidents does not prove the scenario is not credible, especially for new scale, materials, or operating modes.",
+                  "Past operating history should always be ignored in every risk discussion."
+            ],
+            "correct": 2,
+            "explanation": "Operating history can inform likelihood, but absence of incidents is not proof of impossibility. New commercial conditions may introduce hazards not seen in pilot operation."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "A closed drain system is credited as a safeguard for small spills. What condition is most important to confirm?",
+            "opts": [
+                  "The drain cover has the same color as the surrounding floor.",
+                  "The drain can be used to dispose of any unknown chemical mixture without review.",
+                  "The drain is included in the accounting asset register.",
+                  "The drain is compatible, open to the intended collection system, has capacity, and does not route incompatible materials together."
+            ],
+            "correct": 3,
+            "explanation": "Containment and drainage are safeguards only if they send releases to a safe, compatible, and adequately sized destination. Incompatible mixing in drains can create secondary hazards."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "A HAZOP scenario involves loss of power to an agitator during a solids suspension step. Which consequence is most process-relevant?",
+            "opts": [
+                  "The meeting agenda becomes shorter for the next node.",
+                  "The power bill is lower for the duration of the outage.",
+                  "The equipment tag number will need a new font style.",
+                  "Solids settle, heat transfer changes, restart torque increases, and localized reaction or plugging may occur."
+            ],
+            "correct": 3,
+            "explanation": "Loss of agitation can create process and mechanical hazards, especially with solids or reactions. Consequences should reflect the physical changes in the vessel."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "A team records “secondary containment” as a safeguard for a large acid tank. What additional point should be checked?",
+            "opts": [
+                  "Whether the containment label is printed in a serif font.",
+                  "Containment volume, chemical compatibility, drainage isolation, rainfall/firewater allowance, and inspection condition.",
+                  "Whether containment should be counted as a cause of overfill.",
+                  "Whether containment eliminates the need to prevent tank overfill."
+            ],
+            "correct": 1,
+            "explanation": "Secondary containment is mitigative. It must be large enough, compatible, isolated, and maintained. It does not prevent overfill or replace overfill safeguards."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "A proposed safeguard depends on an operator walking to a remote valve during a toxic gas release. What should the HAZOP challenge?",
+            "opts": [
+                  "Whether the valve can be painted a brighter color after commissioning.",
+                  "Whether the action should be recorded as a cause instead of a safeguard because it is manual.",
+                  "Whether the operator's action can be assumed successful without training or PPE.",
+                  "Whether the action is safe and feasible under exposure conditions and within the available response time."
+            ],
+            "correct": 3,
+            "explanation": "Manual response must be feasible. If the action requires entering a hazardous area or cannot be completed in time, the safeguard may not be credible."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "A scenario involves heat tracing failure on a crystallizing line. Which consequence is most appropriate?",
+            "opts": [
+                  "Line plugging may cause pump deadhead, transfer interruption, pressure rise, or unsafe clearing activity.",
+                  "The HAZOP timer may pause during the discussion.",
+                  "The accounting code for steam may change.",
+                  "The drawing revision block may need a later issue date."
+            ],
+            "correct": 0,
+            "explanation": "Loss of heat tracing can cause physical plugging and operational hazards. Clearing plugged lines can introduce additional risks such as exposure or overpressure."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "The team identifies a potential runaway reaction. Which information best helps evaluate consequence severity?",
+            "opts": [
+                  "The spelling of the project nickname in the file folder.",
+                  "The vendor's marketing brochure cover design.",
+                  "Heat of reaction, gas generation, adiabatic temperature rise, inventory, pressure capacity, and relief/vent path.",
+                  "The number of chairs in the HAZOP meeting room."
+            ],
+            "correct": 2,
+            "explanation": "Runaway severity depends on reaction energetics, inventory, gas generation, heat removal, pressure limits, and mitigation paths. These data are central to meaningful risk assessment."
+      },
+      {
+            "section": "Causes, Consequences, Safeguards & Risk Ranking",
+            "q": "A HAZOP row lists a pressure alarm as a safeguard for vessel overpressure. The alarm setpoint is above the relief-valve set pressure. What is the issue?",
+            "opts": [
+                  "The alarm is stronger because higher setpoints always give more protection.",
+                  "The relief valve becomes unnecessary because an alarm exists.",
+                  "The alarm may not allow operator intervention before relief demand or unsafe pressure occurs.",
+                  "Setpoints are not relevant to HAZOP safeguard evaluation."
+            ],
+            "correct": 2,
+            "explanation": "Safeguards must act in the right sequence and time. An alarm above the relief set pressure may not help prevent relief opening or overpressure."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "In a HAZOP session, what is the primary responsibility of the facilitator or chair?",
+            "opts": [
+                  "Guide the team through the method, maintain scope and pace, encourage challenge, and ensure conclusions are clearly recorded.",
+                  "Personally approve every engineering design calculation without team input.",
+                  "Replace the project manager and procurement lead for all commercial decisions.",
+                  "Act as the only person allowed to identify causes and consequences."
+            ],
+            "correct": 0,
+            "explanation": "The facilitator manages the process, not the technical ownership of every answer. A good chair keeps the review systematic, balanced, and documented."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "What is the most important role of the scribe during HAZOP?",
+            "opts": [
+                  "Decide unilaterally which hazards are acceptable without team discussion.",
+                  "Capture clear, traceable scenario logic, safeguards, recommendations, owners, and assumptions in real time.",
+                  "Operate the plant while the team reviews the drawings.",
+                  "Prepare all equipment purchase orders during the meeting."
+            ],
+            "correct": 1,
+            "explanation": "The scribe makes the study usable after the meeting. Poor notes can undermine action tracking, auditability, and design follow-through."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "A strong operations representative is valuable in a HAZOP mainly because they can provide what input?",
+            "opts": [
+                  "Practical knowledge of startup, shutdown, lineups, alarms, sampling, cleaning, and abnormal response.",
+                  "A guarantee that no written procedures will be needed.",
+                  "A replacement for process safety and controls expertise.",
+                  "Final authority over all mechanical design codes."
+            ],
+            "correct": 0,
+            "explanation": "Operators understand how the plant will actually be run and recovered. Their input helps identify credible human factors and operability issues."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "The controls engineer is absent from a review of automated dosing interlocks. What is the best concern?",
+            "opts": [
+                  "The team cannot discuss chemical compatibility without a controls engineer.",
+                  "Controls input is needed only for purchasing spare parts, not hazards.",
+                  "The team may misunderstand instrument failure modes, logic, permissives, alarms, and final element behavior.",
+                  "The HAZOP must automatically be cancelled for every mechanical node."
+            ],
+            "correct": 2,
+            "explanation": "Automated safeguards and control responses are central to many scenarios. Controls expertise helps verify what the system actually detects and does."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "A HAZOP meeting is dominated by one participant who dismisses operator concerns. What should the facilitator do?",
+            "opts": [
+                  "Remove operator input because it creates too many actions.",
+                  "Rebalance the discussion, invite discipline-specific input, and ensure concerns are tested against evidence and design intent.",
+                  "Allow the dominant participant to close all rows to save time.",
+                  "Stop recording causes that come from outside the engineering team."
+            ],
+            "correct": 1,
+            "explanation": "HAZOP quality depends on multidisciplinary challenge. The facilitator should manage participation and prevent unsupported dismissal of credible concerns."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "Which worksheet entry is best written?",
+            "opts": [
+                  "Deviation: Pressure; Cause: problem; Consequence: bad; Safeguard: normal; Action: look at it sometime.",
+                  "Deviation: More pressure; Cause: blocked outlet with continued feed; Consequence: vessel overpressure and relief demand; Safeguard: high-pressure trip stops feed; Action: verify trip setpoint and relief basis.",
+                  "Deviation: Pump; Cause: safety; Consequence: valve; Safeguard: operator; Action: none because everyone agrees.",
+                  "Deviation: Overpressure; Cause: relief valve; Consequence: cause; Safeguard: consequence; Action: design intent."
+            ],
+            "correct": 1,
+            "explanation": "Good documentation preserves scenario logic and makes actions traceable. Vague words such as problem or bad do not support review, closure, or audit."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "A team is reviewing a P&ID node but repeatedly debates unrelated building layout details. What should the facilitator do?",
+            "opts": [
+                  "Let the discussion continue until the meeting time ends because all topics are equally relevant.",
+                  "Delete the current node from the worksheet to avoid disagreement.",
+                  "Capture relevant parking-lot issues separately if needed and bring the team back to the node and deviation under review.",
+                  "Rank every unrelated issue as high risk to close it faster."
+            ],
+            "correct": 2,
+            "explanation": "A facilitator should preserve valuable concerns without losing the systematic node-by-node review. Parking-lot lists or action logs help manage off-scope items."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "Why should HAZOP attendance include maintenance or reliability input for a commercial scaleup unit?",
+            "opts": [
+                  "Maintenance input is unnecessary until the first breakdown occurs.",
+                  "Maintenance knowledge helps identify isolation, access, bypass, cleaning, failure-mode, and maintainability hazards.",
+                  "Maintenance can replace all process design input for reaction chemistry.",
+                  "Maintenance attendance is needed only to estimate annual labor rates."
+            ],
+            "correct": 1,
+            "explanation": "Many incidents occur during maintenance, isolation, or return-to-service. Reliability and maintenance input improves discussion of failure modes and practical safeguards."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "A HAZOP action owner is assigned as “the project team.” What is the best improvement?",
+            "opts": [
+                  "Assign a named responsible role or person with a clear due date and required closure evidence.",
+                  "Keep the group owner because shared ownership always closes actions faster.",
+                  "Delete the owner field because technical actions do not need accountability.",
+                  "Assign all actions to the facilitator regardless of technical discipline."
+            ],
+            "correct": 0,
+            "explanation": "Action closure needs accountability. Group ownership often leads to unclear responsibility and delayed closure."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "When the team disagrees on whether a cause is credible, what should the facilitator encourage?",
+            "opts": [
+                  "Ignore the cause because disagreement means it cannot happen.",
+                  "Use design data, operating experience, failure modes, and assumptions to decide whether to record it or assign verification.",
+                  "Force immediate agreement by choosing the opinion of the most senior person only.",
+                  "Record the cause as a safeguard to avoid further debate."
+            ],
+            "correct": 1,
+            "explanation": "Credibility should be based on evidence and assumptions. If information is missing, a verification action may be appropriate."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "A HAZOP worksheet records “adequate safeguards” without listing them. What is the problem?",
+            "opts": [
+                  "Future reviewers cannot verify what was credited or whether the design later changed.",
+                  "Adequate safeguards should be recorded only in procurement documents.",
+                  "Listing safeguards is unnecessary once a risk ranking is assigned.",
+                  "The wording is ideal because it keeps confidential information out of the worksheet."
+            ],
+            "correct": 0,
+            "explanation": "A HAZOP must be traceable. Safeguards should be named clearly enough that their existence, function, and continued validity can be checked."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "What is the best way to handle a design issue discovered during HAZOP that requires a separate calculation?",
+            "opts": [
+                  "Perform a rough verbal estimate and delete the issue from the worksheet.",
+                  "Assume the calculation will be acceptable because the equipment is new.",
+                  "Record a recommendation to perform or verify the calculation, with owner, due date, and acceptance basis.",
+                  "Stop the entire HAZOP until every possible calculation in the plant is complete."
+            ],
+            "correct": 2,
+            "explanation": "HAZOP often identifies required follow-up analysis. The action should be specific and traceable rather than relying on undocumented assumptions."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "A team is reviewing a node and cannot identify the design intent. What is the best next step?",
+            "opts": [
+                  "Clarify or document the design intent before applying guidewords to that node.",
+                  "Skip all process parameters and review only cost codes.",
+                  "Use the previous node's design intent even if the equipment function differs.",
+                  "Proceed directly to recommendations without causes or consequences."
+            ],
+            "correct": 0,
+            "explanation": "Guidewords need a design-intent baseline. Without it, the team cannot consistently identify deviations."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "Which meeting practice improves HAZOP effectiveness for remote or hybrid teams?",
+            "opts": [
+                  "Mute all discipline experts except the facilitator.",
+                  "Display the current P&ID, node boundary, worksheet row, and action list visibly for all participants.",
+                  "Record only final risk scores and omit scenario discussion.",
+                  "Avoid showing drawings so participants rely only on memory."
+            ],
+            "correct": 1,
+            "explanation": "Shared visual context keeps everyone aligned on the node, deviation, and decision. This reduces misunderstanding and improves participation."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "Why should HAZOP recommendations avoid prescribing a detailed solution too early when root design data are missing?",
+            "opts": [
+                  "Missing data should be ignored if the meeting is behind schedule.",
+                  "Detailed solutions are always forbidden even when the team knows the correct fix.",
+                  "A verification or design action may be needed first so the final safeguard matches the actual risk and process constraints.",
+                  "HAZOP recommendations should never request engineering follow-up."
+            ],
+            "correct": 2,
+            "explanation": "Sometimes the team can define the fix; other times it should request analysis to determine the right safeguard. The action should close the risk gap without locking in an unsupported solution."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "A HAZOP team reviews a P&ID revision that will soon be replaced by a major redesign. What is the best documentation approach?",
+            "opts": [
+                  "Record the revision reviewed and note that affected nodes require revalidation after the redesign.",
+                  "Do not record the revision because document control is unrelated to safety.",
+                  "Assume all future revisions are automatically covered by the current HAZOP.",
+                  "Close every action as complete when the new drawing is issued."
+            ],
+            "correct": 0,
+            "explanation": "The study basis must be known. If design changes later, the team needs a method to decide whether re-HAZOP or action updates are required."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "A team member proposes using the same consequence phrase for every deviation to save time. What is the best response?",
+            "opts": [
+                  "A repeated consequence phrase automatically improves consistency and quality.",
+                  "Consequences should be scenario-specific enough to support risk ranking and safeguard evaluation.",
+                  "Generic consequences are preferred because they prevent disagreement.",
+                  "Consequences are optional when the team has many safeguards."
+            ],
+            "correct": 1,
+            "explanation": "Overly generic consequences hide differences in severity, exposure, environmental impact, and operability. They weaken the study."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "What is the best role of the process engineer in a HAZOP?",
+            "opts": [
+                  "Serve only as timekeeper and not participate technically.",
+                  "Explain process intent, chemistry, operating envelope, material balance, heat balance, and likely process responses to deviations.",
+                  "Replace operations input because design data are always enough.",
+                  "Approve all action closures even when outside process engineering expertise."
+            ],
+            "correct": 1,
+            "explanation": "The process engineer provides core process understanding, but HAZOP remains multidisciplinary. Other roles contribute controls, operations, maintenance, safety, and project execution knowledge."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "A project team wants to run HAZOP without a pre-read because participants are familiar with the pilot plant. What is the best concern?",
+            "opts": [
+                  "HAZOP should be performed without drawings to encourage creativity.",
+                  "Pilot familiarity automatically covers all commercial P&ID details.",
+                  "Pre-reads are needed only for finance meetings.",
+                  "Commercial design details may differ from pilot operation, and lack of preparation can reduce review quality and meeting efficiency."
+            ],
+            "correct": 3,
+            "explanation": "Pre-reading current design information helps participants identify issues and use meeting time effectively. Pilot familiarity is helpful but not a substitute for the commercial design basis."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "A facilitator asks whether a deviation is credible under startup even though it is not credible at steady state. Why is this valid?",
+            "opts": [
+                  "Startup scenarios always have the same risk as steady-state scenarios.",
+                  "Credibility is based only on equipment purchase price, not operating mode.",
+                  "Operating mode changes lineups, inventories, control states, and human tasks, so credibility can differ by mode.",
+                  "Startup should be excluded from HAZOP if steady state is safe."
+            ],
+            "correct": 2,
+            "explanation": "A scenario that is impossible during normal flow may be credible during startup, cleaning, regeneration, or maintenance. Mode-specific review is often necessary."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "What is a common documentation weakness in HAZOP action closure?",
+            "opts": [
+                  "Linking closure to an updated drawing or calculation number.",
+                  "Including the original recommendation text with the closure note.",
+                  "Identifying the owner who completed the action.",
+                  "Closing an action without evidence that the design change, calculation, procedure, or verification was completed and reviewed."
+            ],
+            "correct": 3,
+            "explanation": "Closure should be evidence-based. A statement such as completed is weak unless it references the actual design change or verification."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "During HAZOP, a participant repeatedly jumps to solutions before the team agrees on causes and consequences. What should the facilitator do?",
+            "opts": [
+                  "Move causes and consequences to an appendix after the meeting without team review.",
+                  "Ban all discussion of safeguards for the rest of the meeting.",
+                  "Record the first proposed solution as final and skip the risk discussion.",
+                  "Acknowledge possible solutions but first complete the scenario logic so the recommendation targets the real gap."
+            ],
+            "correct": 3,
+            "explanation": "Jumping to fixes can miss the real hazard pathway. Good facilitation keeps the team systematic while preserving useful ideas."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "Why is a HAZOP closeout meeting useful after all sessions are complete?",
+            "opts": [
+                  "It reviews open actions, high-risk themes, assumptions, revalidation needs, and responsibilities for closure.",
+                  "It allows the team to remove difficult recommendations from the record.",
+                  "It replaces the need for any action tracking system.",
+                  "It is mainly a social meeting with no technical value."
+            ],
+            "correct": 0,
+            "explanation": "Closeout helps ensure that findings are understood, prioritized, and transferred into design execution. It is not a substitute for action tracking."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "A HAZOP includes sensitive proprietary chemistry. How should confidentiality be handled without weakening the study?",
+            "opts": [
+                  "Avoid inviting process experts so confidential information is not discussed.",
+                  "Record only final scores and delete causes, safeguards, and actions.",
+                  "Use appropriate access control while still recording enough technical information for risk logic and action closure.",
+                  "Remove all chemistry references from the worksheet even if causes become unclear."
+            ],
+            "correct": 2,
+            "explanation": "Confidentiality can be managed through controls, but the study must retain technical traceability. Over-redaction can make the HAZOP unusable."
+      },
+      {
+            "section": "Facilitation, Documentation & Team Roles",
+            "q": "Which participant is especially important when reviewing emergency shutdown valves and permissive logic?",
+            "opts": [
+                  "Accounts payable clerk responsible for vendor invoices.",
+                  "Controls or automation engineer familiar with the logic solver, sensors, alarms, trips, and final elements.",
+                  "Warehouse coordinator responsible only for finished-goods labels.",
+                  "Marketing manager responsible for product naming."
+            ],
+            "correct": 1,
+            "explanation": "Shutdown logic requires expertise in instrumentation, control logic, cause-and-effect behavior, and testing. Operations and process input are also valuable."
+      },
+      {
+            "section": "Recommendations, Action Tracking & LOPA Interface",
+            "q": "A HAZOP identifies a high-consequence scenario with weak safeguards. What is the best form of recommendation?",
+            "opts": [
+                  "Define an action to add, verify, or improve a safeguard or complete analysis that determines the required safeguard.",
+                  "Move the issue to OpEx planning and ignore process safety implications.",
+                  "Write “be careful” because recommendations should avoid design changes.",
+                  "Close the row because HAZOP should not generate actions."
+            ],
+            "correct": 0,
+            "explanation": "Recommendations should address a specific risk-control gap. They can request a design change, interlock, procedure, study, relief verification, detection, or other suitable measure."
+      },
+      {
+            "section": "Recommendations, Action Tracking & LOPA Interface",
+            "q": "A recommendation says, “Install a high-high level trip if feasible.” What makes closure difficult?",
+            "opts": [
+                  "It should be converted into a consequence instead of an action.",
+                  "It is too specific because it mentions level.",
+                  "It does not define feasibility criteria, required function, owner, or evidence needed to close the action.",
+                  "It automatically closes because the word install appears."
+            ],
+            "correct": 2,
+            "explanation": "Ambiguous actions lead to weak closure. The required function, decision criteria, and closure evidence should be clear."
+      },
+      {
+            "section": "Recommendations, Action Tracking & LOPA Interface",
+            "q": "When should a HAZOP scenario be considered for LOPA or similar semi-quantitative analysis?",
+            "opts": [
+                  "When the team needs to test whether existing and proposed independent protection layers provide enough risk reduction for a significant scenario.",
+                  "Whenever the worksheet has more than ten rows, regardless of risk.",
+                  "Only when the scenario has no process equipment involved.",
+                  "Only after the plant has operated for several years without incidents."
+            ],
+            "correct": 0,
+            "explanation": "LOPA is often used after HAZOP for selected scenarios where consequence and safeguard adequacy require more rigorous risk-reduction evaluation."
+      },
+      {
+            "section": "Recommendations, Action Tracking & LOPA Interface",
+            "q": "A HAZOP action requires verifying that a high-pressure trip is independent of the normal pressure control loop. What is the main reason?",
+            "opts": [
+                  "Independence affects whether the trip can be credited as a separate protection layer.",
+                  "The trip can be ignored if both functions use the same transmitter.",
+                  "Independence is needed only for environmental permits, not safety functions.",
+                  "Independent trips always cost less than basic control loops."
+            ],
+            "correct": 0,
+            "explanation": "If the trip and control loop share components, common failures may defeat both. Independence is important for risk reduction and LOPA credit."
+      },
+      {
+            "section": "Recommendations, Action Tracking & LOPA Interface",
+            "q": "A team has 75 HAZOP actions after a week-long study. What is the best next management step?",
+            "opts": [
+                  "Delete low-cost actions because only expensive safeguards matter.",
+                  "Give all actions the same priority regardless of consequence.",
+                  "Close all actions at once because the study has already been completed.",
+                  "Prioritize actions by risk significance, assign owners and due dates, and track closure evidence to completion."
+            ],
+            "correct": 3,
+            "explanation": "HAZOP value depends on action closure. Prioritization helps focus resources, but all accepted actions need ownership and tracking."
+      },
+      {
+            "section": "Recommendations, Action Tracking & LOPA Interface",
+            "q": "A recommendation to add an alarm is proposed for a scenario that develops in seconds. What should be challenged?",
+            "opts": [
+                  "Whether the alarm text can include more words.",
+                  "Whether the alarm will reduce the equipment purchase price.",
+                  "Whether an alarm plus operator response can act quickly enough, or whether an automatic trip is required.",
+                  "Whether alarms are never allowed as HAZOP recommendations."
+            ],
+            "correct": 2,
+            "explanation": "Alarms are useful only when there is adequate response time and clear action. Fast scenarios may require automatic protection."
+      },
+      {
+            "section": "Recommendations, Action Tracking & LOPA Interface",
+            "q": "An action closure note says, “Discussed with vendor; okay.” What is the best improvement?",
+            "opts": [
+                  "Attach or reference vendor confirmation, design calculation, drawing update, or technical basis showing why the concern is resolved.",
+                  "Leave the note as is because short closure comments are best.",
+                  "Delete the action so no evidence is required.",
+                  "Change the recommendation to a low-risk scenario after the meeting."
+            ],
+            "correct": 0,
+            "explanation": "Closure evidence should be auditable. Informal statements are weak unless supported by a document or recorded technical decision."
+      },
+      {
+            "section": "Recommendations, Action Tracking & LOPA Interface",
+            "q": "A HAZOP identifies that relief-valve discharge may enter an occupied area. Which recommendation is strongest?",
+            "opts": [
+                  "Reduce production rate on days when visitors are present only.",
+                  "Paint the discharge pipe a warning color and close the action.",
+                  "Verify and modify relief discharge routing to a safe location based on credible relieving scenarios and occupancy exposure.",
+                  "Tell operators to stand farther away if the relief valve opens."
+            ],
+            "correct": 2,
+            "explanation": "Relief discharge must be routed safely. Warning paint or informal avoidance does not reliably protect against hazardous discharge."
+      },
+      {
+            "section": "Recommendations, Action Tracking & LOPA Interface",
+            "q": "In LOPA, why is a basic process control loop often not automatically credited as an independent protection layer against the same deviation it controls?",
+            "opts": [
+                  "It may be part of the initiating event or share failures with the scenario, so independence and effectiveness must be evaluated.",
+                  "All control loops automatically provide the same risk reduction as a safety instrumented function.",
+                  "Control loops are only financial controls and cannot affect process conditions.",
+                  "Control loops never reduce risk in any process context."
+            ],
+            "correct": 0,
+            "explanation": "Basic control can reduce risk, but it is not automatically an IPL. The function, failure mode, independence, auditability, and response must be examined."
+      },
+      {
+            "section": "Recommendations, Action Tracking & LOPA Interface",
+            "q": "A HAZOP action proposes installing a check valve to prevent reverse flow of incompatible material. What follow-up may still be required?",
+            "opts": [
+                  "Assume a check valve has zero failure probability once installed.",
+                  "Credit the check valve as two independent safeguards because it has a body and a disc.",
+                  "Evaluate whether check-valve leakage or failure is acceptable, and whether additional isolation or detection is needed.",
+                  "Remove reverse-flow scenarios from every future HAZOP."
+            ],
+            "correct": 2,
+            "explanation": "Check valves can leak, fail, or be installed incorrectly. For severe incompatible backflow, additional safeguards may be necessary."
+      },
+      {
+            "section": "Recommendations, Action Tracking & LOPA Interface",
+            "q": "A recommendation requests “review SOP for unloading.” Which wording is more actionable?",
+            "opts": [
+                  "Revise unloading SOP to require two-person verification of tank number, chemical identity, connection, and valve lineup before pump start.",
+                  "Review unloading things and make them safer sometime.",
+                  "Tell operators to remember the correct tank.",
+                  "Move unloading responsibility to the supplier without procedure changes."
+            ],
+            "correct": 0,
+            "explanation": "Specific procedural actions should describe what must change and what verification is expected. Vague review actions are difficult to close effectively."
+      },
+      {
+            "section": "Recommendations, Action Tracking & LOPA Interface",
+            "q": "A HAZOP generates an action to add a safety interlock. What lifecycle issue should be included in closure planning?",
+            "opts": [
+                  "Hide the interlock from procedures so operators do not depend on it.",
+                  "Define testing, proof-test interval, bypass control, maintenance responsibility, and management of change for future modifications.",
+                  "Assume the interlock will never need testing after installation.",
+                  "Remove all operator training because interlocks are automatic."
+            ],
+            "correct": 1,
+            "explanation": "Safeguards need lifecycle management. Interlocks must be designed, tested, maintained, controlled during bypass, and updated through MOC."
+      },
+      {
+            "section": "Recommendations, Action Tracking & LOPA Interface",
+            "q": "A low-risk HAZOP recommendation is expensive and does not reduce the stated hazard. What should the action review team do?",
+            "opts": [
+                  "Install it automatically because all HAZOP recommendations must be implemented exactly as written.",
+                  "Delete it without any record because cost is the only decision factor.",
+                  "Reassess whether the recommendation is justified, modify it, replace it with a better measure, or formally reject it with rationale.",
+                  "Increase the scenario risk score so the action appears justified."
+            ],
+            "correct": 2,
+            "explanation": "Action management should be disciplined. Recommendations may be accepted, modified, or rejected, but decisions should be technically justified and documented."
+      },
+      {
+            "section": "Recommendations, Action Tracking & LOPA Interface",
+            "q": "A scenario requires the operator to respond to a high-temperature alarm by stopping feed. Which action would improve safeguard reliability?",
+            "opts": [
+                  "Add a second alarm with the same setpoint and same unclear response.",
+                  "Remove the alarm from the HMI to prevent nuisance alarms.",
+                  "Confirm alarm setpoint, response time, procedure step, training, and whether automatic feed shutdown is required if response time is short.",
+                  "Rely on the operator's memory without procedure or training."
+            ],
+            "correct": 2,
+            "explanation": "Operator-response safeguards need clear detection, diagnosis, action, time, and training. If these are weak, an engineered trip may be needed."
+      },
+      {
+            "section": "Recommendations, Action Tracking & LOPA Interface",
+            "q": "What is the best reason to link HAZOP actions to drawing revisions or document numbers?",
+            "opts": [
+                  "It allows actions to be closed before engineering work is performed.",
+                  "It makes the action impossible to audit later.",
+                  "It replaces the need for responsible action owners.",
+                  "It provides traceability showing where the design basis changed and how the action was closed."
+            ],
+            "correct": 3,
+            "explanation": "Traceability connects findings to final design. Drawing, calculation, procedure, and control-narrative references are strong closure evidence."
+      },
+      {
+            "section": "Recommendations, Action Tracking & LOPA Interface",
+            "q": "A HAZOP action is overdue because the design contractor and owner disagree on responsibility. What is the best control practice?",
+            "opts": [
+                  "Close the action because disagreement means it is not important.",
+                  "Let the action remain open indefinitely until construction starts.",
+                  "Escalate through the action-tracking process and assign a single accountable owner for resolution.",
+                  "Assign it to every meeting participant and remove the due date."
+            ],
+            "correct": 2,
+            "explanation": "Overdue safety actions need management attention. Single-point accountability and escalation prevent unresolved risk gaps from drifting into startup."
+      },
+      {
+            "section": "Recommendations, Action Tracking & LOPA Interface",
+            "q": "A HAZOP scenario has no adequate safeguards and could cause fatal exposure. What is the most appropriate disposition?",
+            "opts": [
+                  "Close it if the team is behind schedule.",
+                  "Record it only in meeting minutes and omit it from the worksheet.",
+                  "Rank it low because fatal scenarios make the project look difficult.",
+                  "Do not accept the scenario without further risk reduction or documented risk-acceptance at the proper authority level."
+            ],
+            "correct": 3,
+            "explanation": "High-consequence scenarios with inadequate safeguards require action or formal risk decision. They should not be hidden or administratively closed."
+      },
+      {
+            "section": "Recommendations, Action Tracking & LOPA Interface",
+            "q": "A proposed safeguard requires a safety instrumented function. What is a key next step beyond the HAZOP recommendation?",
+            "opts": [
+                  "Use the normal control-loop alarm as a SIL-rated function without assessment.",
+                  "Define the safety requirement and evaluate required integrity, architecture, testing, and lifecycle management using the applicable SIS process.",
+                  "Treat the HAZOP worksheet as the complete SIS design package.",
+                  "Install any available switch and close the action without verification."
+            ],
+            "correct": 1,
+            "explanation": "HAZOP can identify the need for an SIF, but SIS design requires dedicated lifecycle work including risk reduction target, independence, hardware, software, testing, bypass control, and validation."
+      },
+      {
+            "section": "Recommendations, Action Tracking & LOPA Interface",
+            "q": "What should happen if a HAZOP action changes the process design in a way that creates new deviations?",
+            "opts": [
+                  "The affected design should be reviewed through MOC, action review, or revalidation HAZOP as appropriate.",
+                  "The original action should be hidden so the new deviation is not documented.",
+                  "The team should wait until after startup to see whether the new deviation occurs.",
+                  "No further review is needed because recommendations always reduce all risks."
+            ],
+            "correct": 0,
+            "explanation": "Risk-reduction changes can create new hazards. Significant design modifications should be reviewed before implementation or startup."
+      },
+      {
+            "section": "Recommendations, Action Tracking & LOPA Interface",
+            "q": "A HAZOP recommendation says to add a rupture disc upstream of a relief valve. What technical concern should be verified?",
+            "opts": [
+                  "Whether the rupture disc can replace all relief-basis calculations.",
+                  "Whether the disc reduces the need for process chemistry data.",
+                  "Compatibility, burst pressure, failure indication, relief capacity impact, pressure drop, and maintenance/testing requirements.",
+                  "Whether the disc can be ignored once purchased."
+            ],
+            "correct": 2,
+            "explanation": "Adding protective hardware requires engineering verification. A rupture disc can affect relief performance and must be integrated into the pressure-protection design."
+      },
+      {
+            "section": "Commercial Scaleup HAZOP Scenarios",
+            "q": "A pilot reaction was manually cooled in an ice bath. The commercial reactor uses a jacket, recirculation pump, and automated cooling valve. Which HAZOP scenario deserves special attention?",
+            "opts": [
+                  "Loss of jacket circulation during reagent addition causing rapid temperature rise and possible relief demand.",
+                  "The ice bath color no longer matching the plant paint standard.",
+                  "The commercial reactor being easier to include in the fixed-asset register.",
+                  "The operator having fewer manual stirring tasks during normal operation."
+            ],
+            "correct": 0,
+            "explanation": "Scaleup changes heat-removal systems and process dynamics. Loss of automated or pumped cooling can create a severe high-temperature scenario during addition."
+      },
+      {
+            "section": "Commercial Scaleup HAZOP Scenarios",
+            "q": "A first commercial line adds bulk acid unloading from tank trucks instead of laboratory drums. Which HAZOP deviation is most important to review?",
+            "opts": [
+                  "Lower number of drum labels printed by the warehouse.",
+                  "Wrong tank connection or overfill during unloading leading to incompatible mixing, release, or personnel exposure.",
+                  "Shorter walking distance from the lab bench to storage.",
+                  "Different font size on the delivery paperwork."
+            ],
+            "correct": 1,
+            "explanation": "Bulk unloading introduces larger inventories and transfer energy. Wrong connection, overfill, incompatible mixing, hose failure, and exposure scenarios become more significant."
+      },
+      {
+            "section": "Commercial Scaleup HAZOP Scenarios",
+            "q": "A commercial powder-handling step uses a larger bag dump station than the pilot plant. What HAZOP issue should be examined?",
+            "opts": [
+                  "The color of the bag dump station relative to office furniture.",
+                  "Dust generation, ignition sources, poor ventilation, operator exposure, and combustible dust accumulation.",
+                  "The annual depreciation method for the dust collector.",
+                  "The reduced use of small laboratory scoops as a purchasing issue only."
+            ],
+            "correct": 1,
+            "explanation": "Commercial solids handling can increase dust release and accumulation. HAZOP should consider exposure, ignition control, dust collection, housekeeping, and equipment protection."
+      },
+      {
+            "section": "Commercial Scaleup HAZOP Scenarios",
+            "q": "A scaleup design changes from batch filtration to a continuous centrifuge. Which deviation is most relevant for HAZOP?",
+            "opts": [
+                  "A longer asset tag number for the centrifuge skid.",
+                  "A different vendor name in the equipment list.",
+                  "Fewer manual filter cloth changes during steady production.",
+                  "More feed flow than the centrifuge can separate, causing liquid carryover, overflow, vibration, or downstream upset."
+            ],
+            "correct": 3,
+            "explanation": "Continuous equipment introduces flow-control, surge, vibration, and interface issues. Overfeeding a centrifuge can create containment, quality, and operability problems."
+      },
+      {
+            "section": "Commercial Scaleup HAZOP Scenarios",
+            "q": "A commercial dryer will process solvent-wet cake under nitrogen. What deviation is most safety-critical?",
+            "opts": [
+                  "Later accounting recognition of the dryer asset.",
+                  "Less paperwork during routine production planning.",
+                  "More oxygen ingress during drying, creating a flammable atmosphere with solvent vapor or dust.",
+                  "More convenient operator access to the control screen."
+            ],
+            "correct": 2,
+            "explanation": "Drying solvent-wet solids can create flammable vapor and dust risks. Oxygen ingress, inerting failure, static, hot surfaces, and off-gas handling are key HAZOP topics."
+      },
+      {
+            "section": "Commercial Scaleup HAZOP Scenarios",
+            "q": "A pilot step used open buckets for neutralization, while commercial scale uses a closed neutralization tank with vent scrubber. Which scenario must be considered?",
+            "opts": [
+                  "Reduced need to label buckets by hand.",
+                  "More consistent floor appearance around the tank.",
+                  "Rapid acid-caustic addition causing heat and gas generation that exceeds vent or scrubber capacity.",
+                  "Lower stationery cost for batch records."
+            ],
+            "correct": 2,
+            "explanation": "Closed commercial systems can contain pressure and send vapors to treatment, but fast neutralization can still overload vents, scrubbers, or temperature control."
+      },
+      {
+            "section": "Commercial Scaleup HAZOP Scenarios",
+            "q": "A commercial reactor has a larger batch mass but the same agitator tip speed target as the pilot. What HAZOP concern is most relevant?",
+            "opts": [
+                  "Poor mixing zones could create local reagent excess, hot spots, solids settling, or delayed reaction.",
+                  "The pilot impeller drawing may use a different title block.",
+                  "The agitator nameplate may be harder to read from the office.",
+                  "The capital estimate may include more line items."
+            ],
+            "correct": 0,
+            "explanation": "Scaleup can change mixing even when apparent speed criteria are matched. Local concentration and heat-transfer effects can drive safety and quality deviations."
+      },
+      {
+            "section": "Commercial Scaleup HAZOP Scenarios",
+            "q": "A commercial process uses automated recipe control for multiple feeds. Which scenario should be reviewed under “other than” or “more/less addition”?",
+            "opts": [
+                  "The operator no longer manually calculates every subtotal.",
+                  "Wrong recipe selection or setpoint error causing incorrect material, amount, or sequence of addition.",
+                  "Improved consistency of batch record formatting.",
+                  "The control room having a larger display monitor."
+            ],
+            "correct": 1,
+            "explanation": "Recipe automation reduces manual steps but introduces configuration, selection, setpoint, and logic-error scenarios. These can affect chemistry, heat release, and product quality."
+      },
+      {
+            "section": "Commercial Scaleup HAZOP Scenarios",
+            "q": "A new commercial storage tank holds several days of flammable solvent. What HAZOP topic is most important compared with pilot storage?",
+            "opts": [
+                  "The fact that solvent purchase orders are created less often.",
+                  "The reduced need for small bottle storage labels.",
+                  "The tank's presence in the depreciation schedule.",
+                  "Tank overfill, vapor control, ignition control, inerting, drainage, spill containment, and emergency response for larger inventory."
+            ],
+            "correct": 3,
+            "explanation": "Larger solvent inventory increases consequence severity. Storage HAZOP should examine overfill, venting, blanketing, compatibility, containment, fire protection, and transfer errors."
+      },
+      {
+            "section": "Commercial Scaleup HAZOP Scenarios",
+            "q": "A pilot-scale vent was routed to a fume hood, but the commercial unit uses a packed scrubber. Which deviation should be reviewed?",
+            "opts": [
+                  "No handwriting on the pilot notebook page.",
+                  "More office ventilation near the engineering cubicles.",
+                  "Less scrubbing capacity or no recirculation flow causing untreated vapor release.",
+                  "Reverse cost allocation in the accounting spreadsheet."
+            ],
+            "correct": 2,
+            "explanation": "Commercial vent treatment is an engineered safeguard. Loss of recirculation, wrong reagent strength, high inlet load, flooding, plugging, or fan failure can defeat it."
+      },
+      {
+            "section": "Commercial Scaleup HAZOP Scenarios",
+            "q": "A process line is scaled up from flexible tubing to hard-piped transfer with multiple manual valves. Which scenario is most appropriate?",
+            "opts": [
+                  "More pipe support labels in the asset register.",
+                  "The drawing using more page numbers than the pilot sketch.",
+                  "Wrong valve lineup causing deadheaded pump, misdirected transfer, or incompatible material contact.",
+                  "Less need to replace flexible tubing as a consumable."
+            ],
+            "correct": 2,
+            "explanation": "Hard piping reduces some hose risks but increases lineup complexity. HAZOP should examine misrouting, blocked flow, reverse flow, and isolation errors."
+      },
+      {
+            "section": "Commercial Scaleup HAZOP Scenarios",
+            "q": "A commercial unit introduces a clean-in-place cycle using caustic and hot water. What HAZOP issue is most relevant?",
+            "opts": [
+                  "More consistent formatting of the cleaning schedule.",
+                  "The CIP skid being listed under a different cost code.",
+                  "Reduced manual scrubbing time as a productivity benefit only.",
+                  "Wrong cleaning chemical, high temperature, trapped pressure, incompatible residue, or exposure during opening."
+            ],
+            "correct": 3,
+            "explanation": "CIP creates process conditions different from production. Chemical compatibility, temperature, pressure, drainage, isolation, and return-to-service must be reviewed."
+      },
+      {
+            "section": "Commercial Scaleup HAZOP Scenarios",
+            "q": "A larger commercial pump can empty a feed tank much faster than the pilot pump. Which HAZOP deviation should be evaluated?",
+            "opts": [
+                  "More flow leading to reactor overcharge, poor heat control, or downstream overflow if controls fail.",
+                  "Less time spent watching the transfer as an administrative benefit only.",
+                  "Different pump paint color from the pilot unit.",
+                  "Fewer small containers handled by operators."
+            ],
+            "correct": 0,
+            "explanation": "Scaleup often increases transfer rates. Excess flow can overwhelm reaction heat removal, level control, separation, or containment systems."
+      },
+      {
+            "section": "Commercial Scaleup HAZOP Scenarios",
+            "q": "A commercial plant adds a nitrogen purge before charging flammable solvent. Which deviation is most relevant?",
+            "opts": [
+                  "Less purge or no purge leaving oxygen above the safe limit before solvent addition.",
+                  "Reverse spelling of the tank tag on a drawing copy.",
+                  "More entries in the operator shift handover log.",
+                  "Later printing of the nitrogen supplier invoice."
+            ],
+            "correct": 0,
+            "explanation": "Purge effectiveness is critical before introducing flammable solvent. The HAZOP should examine no purge, insufficient purge time, wrong lineup, analyzer failure, and purge verification."
+      },
+      {
+            "section": "Commercial Scaleup HAZOP Scenarios",
+            "q": "A process generates acidic wastewater intermittently at pilot scale, but continuously at commercial scale. Which scenario should be included?",
+            "opts": [
+                  "A longer monthly report for wastewater costs only.",
+                  "The wastewater tank appearing larger on the plot plan.",
+                  "A lower number of laboratory carboys in storage.",
+                  "Neutralization system overload or pH excursion due to higher continuous flow and variable acid strength."
+            ],
+            "correct": 3,
+            "explanation": "Commercial wastewater systems can face continuous loading, surge, incompatibility, pH-control lag, heat generation, and permit-limit exceedance."
+      },
+      {
+            "section": "Commercial Scaleup HAZOP Scenarios",
+            "q": "A commercial scaleup stores oxidizer and organic material in the same production area with physical separation. What HAZOP concern remains?",
+            "opts": [
+                  "The storage area may require a longer equipment list.",
+                  "Misdirected transfer, spill migration, incompatible residue, or emergency drainage could still bring materials into contact.",
+                  "The materials may have different supplier payment terms.",
+                  "The room may need a larger wall clock for shift changes."
+            ],
+            "correct": 1,
+            "explanation": "Physical separation helps but does not eliminate interface scenarios. HAZOP should consider transfers, drains, spills, cleaning, ventilation, firewater, and emergency response."
+      },
+      {
+            "section": "Commercial Scaleup HAZOP Scenarios",
+            "q": "A commercial recipe uses a hold period to complete reaction before quench. What deviation is important compared with pilot trial-and-error operation?",
+            "opts": [
+                  "Different color of the batch ticket header.",
+                  "More formal naming of the batch step in the procedure.",
+                  "Reduced need for informal lab notes.",
+                  "Less hold time or early quench causing unreacted material, delayed heat release, or unsafe downstream reaction."
+            ],
+            "correct": 3,
+            "explanation": "Sequence and time deviations matter in batch scaleup. Incomplete reaction before quench or transfer can move hazards downstream."
+      },
+      {
+            "section": "Commercial Scaleup HAZOP Scenarios",
+            "q": "A plant adds a large intermediate tank between reaction and filtration to smooth production. Which HAZOP issue should be examined?",
+            "opts": [
+                  "More frequent asset depreciation calculations.",
+                  "Settling, gas evolution, heat retention, overfill, incompatible heel, or delayed reaction in the hold tank.",
+                  "A larger number of tank-level trend charts in the control system.",
+                  "The tank's position in the equipment numbering sequence."
+            ],
+            "correct": 1,
+            "explanation": "Intermediate storage changes residence time and inventory. Materials may continue reacting, settle, off-gas, heat up, cool down, or become incompatible with the previous batch heel."
+      },
+      {
+            "section": "Commercial Scaleup HAZOP Scenarios",
+            "q": "A pilot operation relied on an experienced chemist watching the batch color. The commercial design uses instruments and shift operators. What HAZOP issue is most important?",
+            "opts": [
+                  "The color observation being removed from the capital asset list.",
+                  "Loss of informal detection cues and need for defined alarms, limits, procedures, sampling, and training.",
+                  "The control room needing a different furniture layout.",
+                  "The chemist having fewer routine production shifts."
+            ],
+            "correct": 1,
+            "explanation": "Commercial operation should not rely on undocumented expert observation. Detection and response must be translated into measurable parameters, alarms, procedures, and training."
+      },
+      {
+            "section": "Commercial Scaleup HAZOP Scenarios",
+            "q": "A new commercial plant includes a recycle stream that was not present in pilot batches. Which deviation is especially important?",
+            "opts": [
+                  "More pages in the process flow diagram package.",
+                  "Less manual weighing of fresh feed containers.",
+                  "As well as fresh feed, recycle introduces accumulated impurity or reactive material that changes composition and heat release.",
+                  "Later warehouse staging for finished-goods pallets."
+            ],
+            "correct": 2,
+            "explanation": "Recycle can change composition, impurity buildup, residence time, and reaction behavior. HAZOP should consider accumulation and abnormal recycle lineups."
+      }
+];
+    const SECTIONS = [
+      {
+            "key": "HAZOP Fundamentals & Preparation",
+            "label": "I — HAZOP Fundamentals & Preparation",
+            "cls": "sec-foundations",
+            "range": "Questions 1–25"
+      },
+      {
+            "key": "Nodes, Parameters, Deviations & Guidewords",
+            "label": "II — Nodes, Parameters, Deviations & Guidewords",
+            "cls": "sec-materials",
+            "range": "Questions 26–55"
+      },
+      {
+            "key": "Causes, Consequences, Safeguards & Risk Ranking",
+            "label": "III — Causes, Consequences, Safeguards & Risk Ranking",
+            "cls": "sec-utilities",
+            "range": "Questions 56–85"
+      },
+      {
+            "key": "Facilitation, Documentation & Team Roles",
+            "label": "IV — Facilitation, Documentation & Team Roles",
+            "cls": "sec-labor",
+            "range": "Questions 86–110"
+      },
+      {
+            "key": "Recommendations, Action Tracking & LOPA Interface",
+            "label": "V — Recommendations, Action Tracking & LOPA Interface",
+            "cls": "sec-waste",
+            "range": "Questions 111–130"
+      },
+      {
+            "key": "Commercial Scaleup HAZOP Scenarios",
+            "label": "VI — Commercial Scaleup HAZOP Scenarios",
+            "cls": "sec-finance",
+            "range": "Questions 131–150"
+      }
+];
+    const TOTAL = QUESTIONS.length;
+    const LETTERS = ["A", "B", "C", "D"];
+    const EXAM_DURATION_MS = 4 * 60 * 60 * 1000;
+
+    let mode = "guided";
+    let answers = Array(TOTAL).fill(null);
+    let locked = Array(TOTAL).fill(false);
+    let guidedIndex = 0;
+    let examIndex = 0;
+    let examSubmitted = false;
+    let submittedDueToTimeout = false;
+    let timerInterval = null;
+    let timeLeft = EXAM_DURATION_MS;
+    let learnerName = "";
+    let modalPurpose = "exam";
+    let certificateId = "";
+
+    function esc(value){
+      return String(value).replace(/[&<>"']/g, function(ch){
+        return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[ch];
+      });
+    }
+
+    function getSectionInfo(key){
+      return SECTIONS.find(s => s.key === key) || SECTIONS[0];
+    }
+
+    function answeredCount(){
+      return answers.filter(v => v !== null).length;
+    }
+
+    function scoreCount(){
+      return QUESTIONS.reduce((sum, q, i) => sum + (answers[i] === q.correct ? 1 : 0), 0);
+    }
+
+    function allAnswered(){
+      return answeredCount() === TOTAL;
+    }
+
+    function resetState(){
+      answers = Array(TOTAL).fill(null);
+      locked = Array(TOTAL).fill(false);
+      guidedIndex = 0;
+      examIndex = 0;
+      examSubmitted = false;
+      submittedDueToTimeout = false;
+      timeLeft = EXAM_DURATION_MS;
+      stopTimer();
+      document.getElementById("results").style.display = "none";
+      document.getElementById("certificate").style.display = "none";
+      updateHUD();
+    }
+
+    function setActiveModeButton(){
+      ["guided","instant","exam"].forEach(m => {
+        const btn = document.getElementById("mode-" + m);
+        if(btn) btn.classList.toggle("active", mode === m);
+      });
+    }
+
+    function setMode(nextMode){
+      if(nextMode === "exam"){
+        modalPurpose = "exam";
+        document.getElementById("nameModalTitle").textContent = "Start Exam Mode";
+        document.getElementById("nameModalText").textContent = "Enter your name. The 4-hour timer starts after you continue.";
+        document.getElementById("modalPrimaryBtn").textContent = "Start Exam";
+        document.getElementById("learnerNameInput").value = learnerName || "";
+        showNameModal();
+        return;
+      }
+      mode = nextMode;
+      resetState();
+      setActiveModeButton();
+      document.getElementById("timerStat").style.display = "none";
+      if(mode === "guided"){
+        document.getElementById("modeHint").textContent = "Guided Path shows one question at a time with immediate feedback and teaching explanations.";
+        renderGuided();
+      }else{
+        document.getElementById("modeHint").textContent = "Instant Feedback shows all questions. Each answer locks as soon as you select it.";
+        renderInstant();
+      }
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+
+    function showNameModal(){
+      const modal = document.getElementById("nameModal");
+      modal.style.display = "flex";
+      setTimeout(() => document.getElementById("learnerNameInput").focus(), 50);
+    }
+
+    function cancelNameModal(){
+      document.getElementById("nameModal").style.display = "none";
+    }
+
+    function submitNameModal(){
+      const input = document.getElementById("learnerNameInput");
+      const name = input.value.trim();
+      if(!name){
+        input.focus();
+        input.style.borderColor = "rgba(168,65,47,.80)";
+        return;
+      }
+      input.style.borderColor = "rgba(104,74,15,.26)";
+      learnerName = name;
+      document.getElementById("nameModal").style.display = "none";
+      if(modalPurpose === "exam"){
+        beginExamMode();
+      }else{
+        renderCertificate();
+      }
+    }
+
+    function beginExamMode(){
+      mode = "exam";
+      resetState();
+      setActiveModeButton();
+      document.getElementById("modeHint").textContent = "Exam Mode hides score and explanations until submission. You may change answers before submitting.";
+      document.getElementById("timerStat").style.display = "";
+      startTimer();
+      renderExam();
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+
+    function startTimer(){
+      stopTimer();
+      timeLeft = EXAM_DURATION_MS;
+      updateTimerDisplay();
+      timerInterval = setInterval(() => {
+        timeLeft -= 1000;
+        if(timeLeft <= 0){
+          timeLeft = 0;
+          updateTimerDisplay();
+          stopTimer();
+          submitExam(true);
+        }else{
+          updateTimerDisplay();
+        }
+      }, 1000);
+    }
+
+    function stopTimer(){
+      if(timerInterval){
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    }
+
+    function formatTime(ms){
+      const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+      const h = String(Math.floor(totalSeconds / 3600)).padStart(2, "0");
+      const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, "0");
+      const s = String(totalSeconds % 60).padStart(2, "0");
+      return `${h}:${m}:${s}`;
+    }
+
+    function updateTimerDisplay(){
+      const timer = document.getElementById("timerStat");
+      document.getElementById("timerVal").textContent = formatTime(timeLeft);
+      timer.classList.toggle("warn", timeLeft <= 5 * 60 * 1000 && timeLeft > 60 * 1000);
+      timer.classList.toggle("critical", timeLeft <= 60 * 1000);
+    }
+
+    function updateHUD(){
+      const count = answeredCount();
+      document.getElementById("progCount").textContent = count;
+      document.getElementById("barFill").style.width = (count / TOTAL * 100).toFixed(1) + "%";
+      const scoreEl = document.getElementById("scoreNum");
+      if(mode === "exam" && !examSubmitted){
+        scoreEl.textContent = "—";
+      }else{
+        scoreEl.textContent = scoreCount();
+      }
+      updateTimerDisplay();
+    }
+
+    function renderSectionDivider(section){
+      return `<div class="section-divider ${section.cls}"><h2>${esc(section.label)}</h2><span>${esc(section.range)}</span></div>`;
+    }
+
+    function renderCard(i, forceReview){
+      const q = QUESTIONS[i];
+      const section = getSectionInfo(q.section);
+      const selected = answers[i];
+      const answered = selected !== null;
+      const showFeedback = forceReview || examSubmitted || ((mode === "guided" || mode === "instant") && answered);
+      const disabled = examSubmitted || forceReview || ((mode === "guided" || mode === "instant") && locked[i]);
+      const status = showFeedback && answered
+        ? (selected === q.correct ? "Correct" : "Incorrect")
+        : (answered ? "Answered" : "Not answered");
+      const optionHtml = q.opts.map((opt, idx) => {
+        const classes = ["option"];
+        if(selected === idx) classes.push("selected");
+        if(showFeedback && idx === q.correct) classes.push("correct");
+        if(showFeedback && selected === idx && idx !== q.correct) classes.push("wrong");
+        return `<button class="${classes.join(" ")}" onclick="selectOption(${i}, ${idx})" ${disabled ? "disabled" : ""}>
+          <span class="letter">${LETTERS[idx]}</span>
+          <span>${esc(opt)}</span>
+        </button>`;
+      }).join("");
+      const feedback = showFeedback ? `<div class="feedback">
+        <strong>${status}. Correct answer: ${LETTERS[q.correct]}</strong>
+        <p>${esc(q.explanation)}</p>
+      </div>` : "";
+      return `<article class="qcard ${section.cls}" id="q${i+1}">
+        <div class="accent"></div>
+        <div class="qinner">
+          <div class="qhead">
+            <span class="badge">${esc(section.label)}</span>
+            <span>Question ${i+1} of ${TOTAL} · ${status}</span>
+          </div>
+          <h3 class="qtext">${i+1}. ${esc(q.q)}</h3>
+          <div class="options">${optionHtml}</div>
+          ${feedback}
+        </div>
+      </article>`;
+    }
+
+    function renderGuided(){
+      mode = "guided";
+      setActiveModeButton();
+      const exam = document.getElementById("exam");
+      const q = QUESTIONS[guidedIndex];
+      const section = getSectionInfo(q.section);
+      exam.innerHTML = renderSectionDivider(section) + renderCard(guidedIndex, false);
+      const answered = answers[guidedIndex] !== null;
+      document.getElementById("bottomActions").innerHTML = `
+        <button onclick="prevGuided()" ${guidedIndex === 0 ? "disabled" : ""}>Previous</button>
+        <span class="pill">Question ${guidedIndex + 1} / ${TOTAL}</span>
+        <button class="primary" onclick="${guidedIndex === TOTAL - 1 ? "showResults(false)" : "nextGuided()"}" ${answered ? "" : "disabled"}>
+          ${guidedIndex === TOTAL - 1 ? "View Results" : "Continue"}
+        </button>
+        <div class="note">${answered ? "Feedback is shown above." : "Select an answer to unlock feedback and continue."}</div>`;
+      updateHUD();
+    }
+
+    function nextGuided(){
+      if(guidedIndex < TOTAL - 1){
+        guidedIndex += 1;
+        renderGuided();
+        window.scrollTo({top:document.getElementById("exam").offsetTop - 120, behavior:"smooth"});
+      }
+    }
+
+    function prevGuided(){
+      if(guidedIndex > 0){
+        guidedIndex -= 1;
+        renderGuided();
+        window.scrollTo({top:document.getElementById("exam").offsetTop - 120, behavior:"smooth"});
+      }
+    }
+
+    function renderInstant(){
+      mode = "instant";
+      setActiveModeButton();
+      let html = "";
+      QUESTIONS.forEach((q, i) => {
+        if(i === 0 || q.section !== QUESTIONS[i-1].section){
+          html += renderSectionDivider(getSectionInfo(q.section));
+        }
+        html += renderCard(i, false);
+      });
+      document.getElementById("exam").innerHTML = html;
+      document.getElementById("bottomActions").innerHTML = `
+        <button class="primary" onclick="showResults(false)" ${allAnswered() ? "" : "disabled"}>View Results</button>
+        <button onclick="retakeExam()">Reset Answers</button>
+        <div class="note">${allAnswered() ? "All questions are answered." : "Answer all 150 questions to generate a complete result."}</div>`;
+      updateHUD();
+    }
+
+    function renderExam(){
+      setActiveModeButton();
+      const exam = document.getElementById("exam");
+      const q = QUESTIONS[examIndex];
+      const section = getSectionInfo(q.section);
+      exam.innerHTML = renderSectionDivider(section) + renderCard(examIndex, false);
+      document.getElementById("bottomActions").innerHTML = `
+        <button onclick="prevExam()" ${examIndex === 0 ? "disabled" : ""}>Previous</button>
+        <span class="pill">Answered ${answeredCount()} / ${TOTAL}</span>
+        <button onclick="nextExam()" ${examIndex === TOTAL - 1 ? "disabled" : ""}>Next</button>
+        <button class="primary" onclick="submitExam(false)" ${allAnswered() ? "" : "disabled"}>Submit Exam</button>
+        <div class="note">Score and explanations are hidden until submission. The submit button unlocks after all questions are answered.</div>`;
+      updateHUD();
+    }
+
+    function prevExam(){
+      if(examIndex > 0){
+        examIndex -= 1;
+        renderExam();
+        window.scrollTo({top:document.getElementById("exam").offsetTop - 120, behavior:"smooth"});
+      }
+    }
+
+    function nextExam(){
+      if(examIndex < TOTAL - 1){
+        examIndex += 1;
+        renderExam();
+        window.scrollTo({top:document.getElementById("exam").offsetTop - 120, behavior:"smooth"});
+      }
+    }
+
+    function selectOption(i, idx){
+      if(examSubmitted) return;
+      if((mode === "guided" || mode === "instant") && locked[i]) return;
+      answers[i] = idx;
+      if(mode === "guided" || mode === "instant"){
+        locked[i] = true;
+      }
+      if(mode === "guided"){
+        renderGuided();
+      }else if(mode === "instant"){
+        renderInstant();
+      }else if(mode === "exam"){
+        renderExam();
+      }
+      updateHUD();
+    }
+
+    function submitExam(timeout){
+      if(examSubmitted) return;
+      submittedDueToTimeout = Boolean(timeout);
+      examSubmitted = true;
+      stopTimer();
+      updateHUD();
+      reviewAnswers();
+      showResults(submittedDueToTimeout);
+    }
+
+    function reviewAnswers(){
+      let html = "";
+      QUESTIONS.forEach((q, i) => {
+        if(i === 0 || q.section !== QUESTIONS[i-1].section){
+          html += renderSectionDivider(getSectionInfo(q.section));
+        }
+        html += renderCard(i, true);
+      });
+      document.getElementById("exam").innerHTML = html;
+      document.getElementById("bottomActions").innerHTML = `
+        <button class="primary" onclick="window.scrollTo({top:0, behavior:'smooth'})">Back to Top</button>
+        <button onclick="retakeExam()">Retake Exam</button>`;
+      updateHUD();
+    }
+
+    function getGrade(pct){
+      if(pct >= 0.90) return ["HAZOP Leader — Distinction", "Excellent command of HAZOP logic, deviation analysis, safeguards, facilitation, documentation, and risk-action closure."];
+      if(pct >= 0.80) return ["Process Safety Review — Solid Pass", "Strong HAZOP understanding. Review missed sections to sharpen guideword use, safeguard evaluation, scenario logic, and action quality."];
+      if(pct >= 0.70) return ["HAZOP Practitioner — Competent", "Good practical foundation. Focus on weaker HAZOP categories before leading or relying on study decisions."];
+      if(pct >= 0.60) return ["Approaching Scaleup Readiness", "You understand several core ideas, but need more practice on deviation logic, credible causes, safeguard quality, and action wording."];
+      if(pct >= 0.45) return ["Developing Capital Control", "The basics are forming. Revisit design intent, guidewords, causes, consequences, safeguards, and recommendation closure."];
+      return ["Rebuild HAZOP Foundations", "Begin with design intent, nodes, guidewords, causes, consequences, safeguards, and clear recommendation writing."];
+    }
+
+    function sectionScores(){
+      return SECTIONS.map(section => {
+        let total = 0, score = 0;
+        QUESTIONS.forEach((q, i) => {
+          if(q.section === section.key){
+            total += 1;
+            if(answers[i] === q.correct) score += 1;
+          }
+        });
+        return {...section, total, score, pct: total ? score / total : 0};
+      });
+    }
+
+    function showResults(timeout){
+      const score = scoreCount();
+      const pct = score / TOTAL;
+      const percentText = (pct * 100).toFixed(1) + "%";
+      const [grade, blurb] = getGrade(pct);
+      document.getElementById("resultScore").textContent = `${score}/${TOTAL}`;
+      document.getElementById("resultPct").textContent = percentText;
+      document.getElementById("resultGrade").textContent = grade;
+      document.getElementById("resultTitle").textContent = "Exam Results";
+      document.getElementById("resultBlurb").textContent = blurb;
+      document.getElementById("timeoutNote").style.display = timeout ? "block" : "none";
+      document.getElementById("sectionBreakdown").innerHTML = sectionScores().map(s => `
+        <tr>
+          <td>${esc(s.label)}</td>
+          <td>${esc(s.range)}</td>
+          <td>${s.score}/${s.total}</td>
+          <td>${(s.pct * 100).toFixed(1)}%</td>
+        </tr>`).join("");
+      document.getElementById("results").style.display = "block";
+      if(learnerName){
+        renderCertificate();
+      }
+      document.getElementById("results").scrollIntoView({behavior:"smooth", block:"start"});
+      updateHUD();
+    }
+
+    function requestCertificate(){
+      modalPurpose = "certificate";
+      document.getElementById("nameModalTitle").textContent = "Certificate name";
+      document.getElementById("nameModalText").textContent = "Enter the learner name to display on the certificate.";
+      document.getElementById("modalPrimaryBtn").textContent = "Create Certificate";
+      document.getElementById("learnerNameInput").value = learnerName || "";
+      showNameModal();
+    }
+
+    function renderCertificate(){
+      if(!learnerName) return;
+      if(!certificateId){
+        certificateId = "HAZOP-" + new Date().getFullYear() + "-" + Math.random().toString(36).slice(2,8).toUpperCase();
+      }
+      const score = scoreCount();
+      const pct = (score / TOTAL * 100).toFixed(1) + "%";
+      document.getElementById("certName").textContent = learnerName;
+      document.getElementById("certScore").textContent = `${score}/${TOTAL}`;
+      document.getElementById("certPct").textContent = pct;
+      document.getElementById("certDate").textContent = new Date().toLocaleDateString();
+      document.getElementById("certId").textContent = certificateId;
+      document.getElementById("certificate").style.display = "block";
+    }
+
+    function retakeExam(){
+      certificateId = "";
+      learnerName = "";
+      mode = "guided";
+      resetState();
+      setActiveModeButton();
+      document.getElementById("timerStat").style.display = "none";
+      document.getElementById("modeHint").textContent = "Guided Path shows one question at a time with immediate feedback and teaching explanations.";
+      renderGuided();
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+
+    document.addEventListener("keydown", function(e){
+      if(document.getElementById("nameModal").style.display === "flex" && e.key === "Enter"){
+        submitNameModal();
+      }
+    });
+
+    (function validateExam(){
+      const errors = [];
+      if(TOTAL !== 150) errors.push("Expected 150 questions, found " + TOTAL);
+      const sectionKeys = new Set(SECTIONS.map(s => s.key));
+      QUESTIONS.forEach((q, i) => {
+        if(!sectionKeys.has(q.section)) errors.push(`Question ${i+1} has unknown section`);
+        if(!Array.isArray(q.opts) || q.opts.length !== 4) errors.push(`Question ${i+1} does not have four options`);
+        if(![0,1,2,3].includes(q.correct)) errors.push(`Question ${i+1} has invalid correct index`);
+      });
+      if(errors.length){
+        document.getElementById("exam").innerHTML = `<div class="qcard"><div class="qinner"><h2>Exam validation error</h2><p>${errors.map(esc).join("<br>")}</p></div></div>`;
+        throw new Error(errors.join("; "));
+      }
+    })();
+
+    setMode("guided");
+  </script>
+</body>
+</html>
